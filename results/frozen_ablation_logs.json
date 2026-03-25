@@ -1,0 +1,8 @@
+{
+    "experiment": "Frozen-Backbone Ablation",
+    "dataset": "breastmnist",
+    "metrics": {
+        "classical_auc": 0.4799498746867168,
+        "quantum_auc": 0.7109440267335004
+    }
+}
