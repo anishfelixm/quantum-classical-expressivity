@@ -58,3 +58,15 @@ quantum-classical-expressivity/
     ├── 01_frozen_backbone_ablation.py  # Establishes zero-variance baselines
     ├── 02_end_to_end_finetuning.py     # Generates optimal weights and tests expressivity
     └── 03_robustness_evaluation.py     # Injects noise into the optimal weights
+```
+
+---
+
+## Citation
+
+@inproceedings{mathias2026expressivity,
+  title={Expressivity and Robustness of Hybrid Quantum-Classical Models in Medical Image Classification under Severe Information Constraints},
+  author={Mathias, Anish Felix and P S, Susham},
+  year={2026},
+  note={Code available at: [https://github.com/anishfelixm/quantum-classical-expressivity](https://github.com/anishfelixm/quantum-classical-expressivity)}
+}
