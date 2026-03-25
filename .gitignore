@@ -205,3 +205,11 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# --- Custom Project Ignores ---
+# Ignore PyTorch model weights
+*.pt
+*.pth
+
+# Ignore raw downloaded MedMNIST datasets
+data/*.npz
