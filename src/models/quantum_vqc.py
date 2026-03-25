@@ -59,8 +59,8 @@ class QuantumHybridResNet(nn.Module):
         # The total number of trainable quantum parameters is L * n * 3
         weight_shapes = {"weights": (n_layers, n_qubits, 3)}
         
-        # Initialize weights uniformly between 0 and 2*pi
-        init_method = {"weights": lambda shape: torch.rand(shape) * 2 * np.pi}
+        # Initialize weights uniformly between 0 and 2*pi (in-place Tensor modification)
+        init_method = {"weights": lambda tensor: torch.nn.init.uniform_(tensor, a=0.0, b=2 * np.pi)}
         
         return qml.qnn.TorchLayer(circuit, weight_shapes, init_method=init_method)
 
