@@ -1,113 +1,155 @@
 import os
 import json
 import matplotlib.pyplot as plt
-import numpy as np
 
 # --- CONFIGURATION ---
-DATASET = "pneumoniamnist" # Ensure this matches the dataset you ran the training on
-FINETUNE_LOG = f"results/end_to_end_logs_{DATASET}.json"
-ROBUSTNESS_LOG = f"results/robustness_logs_{DATASET}.json"
+ABLATION_LOG = "results/frozen_ablation_logs.json"
+FINETUNE_LOG = "results/end_to_end_logs.json"
+ROBUSTNESS_LOG = "results/robustness_logs.json"
 OUTPUT_DIR = "paper/figures"
 
 # IEEE Standard Formatting parameters
 plt.rcParams.update({
-    'font.size': 12,
-    'axes.labelsize': 14,
-    'axes.titlesize': 16,
-    'legend.fontsize': 12,
-    'lines.linewidth': 2.5,
-    'lines.markersize': 8
+    'font.size': 10,
+    'axes.labelsize': 12,
+    'axes.titlesize': 14,
+    'legend.fontsize': 10,
+    'lines.linewidth': 2.0,
+    'lines.markersize': 6
 })
 
 COLOR_CLASSICAL = '#1f77b4' # Deep Blue
 COLOR_QUANTUM = '#ff7f0e'   # Vibrant Orange
 
-def plot_finetune_dynamics():
-    """Generates Figure 1: Training convergence over epochs (100% Data)."""
-    if not os.path.exists(FINETUNE_LOG):
-        print(f"[Warning] Missing {FINETUNE_LOG}. Skipping Figure 1.")
+def plot_2x2_dynamics(log_file, output_filename, title_prefix, fraction_key=None):
+    """Generates a 2x2 grid: Top row = BreastMNIST (AUC/Acc), Bottom row = PneumoniaMNIST (AUC/Acc)"""
+    if not os.path.exists(log_file):
+        print(f"[Warning] Missing {log_file}. Skipping {output_filename}.")
         return
 
-    with open(FINETUNE_LOG, 'r') as f:
+    with open(log_file, 'r') as f:
         data = json.load(f)
 
-    # We plot the 100% data fraction to show the ultimate optimization plateau
-    if "1.0" not in data["fractions"]:
-        print("[Warning] 100% data fraction not found in logs. Skipping Figure 1.")
-        return
+    fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+    datasets = ["breastmnist", "pneumoniamnist"]
+    
+    for row, dataset in enumerate(datasets):
+        if dataset not in data["datasets"]:
+            continue
+            
+        # Extract data depending on whether it's the ablation log or finetune log
+        if fraction_key:
+            if fraction_key not in data["datasets"][dataset]["fractions"]:
+                continue
+            c_hist = data["datasets"][dataset]["fractions"][fraction_key]["classical"]["history"]
+            q_hist = data["datasets"][dataset]["fractions"][fraction_key]["quantum"]["history"]
+        else:
+            c_hist = data["datasets"][dataset]["classical"]["history"]
+            q_hist = data["datasets"][dataset]["quantum"]["history"]
 
-    c_history = data["fractions"]["1.0"]["classical"]["history"]["val_auc"]
-    q_history = data["fractions"]["1.0"]["quantum"]["history"]["val_auc"]
-    epochs = range(1, len(c_history) + 1)
+        epochs = range(1, len(c_hist["val_auc"]) + 1)
 
-    plt.figure(figsize=(8, 6))
-    plt.plot(epochs, c_history, label='Classical Hybrid', color=COLOR_CLASSICAL, linestyle='--')
-    plt.plot(epochs, q_history, label='Quantum Hybrid (VQC)', color=COLOR_QUANTUM, linestyle='-')
+        # Plot AUC (Left Column)
+        axs[row, 0].plot(epochs, c_hist["val_auc"], label='Classical', color=COLOR_CLASSICAL, linestyle='--')
+        axs[row, 0].plot(epochs, q_hist["val_auc"], label='Quantum (VQC)', color=COLOR_QUANTUM, linestyle='-')
+        axs[row, 0].set_title(f'{dataset.capitalize()} - AUC-ROC')
+        axs[row, 0].set_ylabel('Validation AUC')
+        axs[row, 0].grid(True, linestyle=':', alpha=0.7)
 
-    plt.title(f'Fine-Tuning Dynamics ({DATASET.capitalize()} 100%)')
-    plt.xlabel('Training Epochs')
-    plt.ylabel('Validation AUC-ROC')
-    plt.ylim(0.70, 1.0) # Scaled to highlight the plateau gap
-    plt.grid(True, linestyle=':', alpha=0.7)
-    plt.legend(loc='lower right')
+        # Plot Accuracy (Right Column)
+        axs[row, 1].plot(epochs, c_hist["val_acc"], label='Classical', color=COLOR_CLASSICAL, linestyle='--')
+        axs[row, 1].plot(epochs, q_hist["val_acc"], label='Quantum (VQC)', color=COLOR_QUANTUM, linestyle='-')
+        axs[row, 1].set_title(f'{dataset.capitalize()} - Accuracy')
+        axs[row, 1].set_ylabel('Validation Accuracy')
+        axs[row, 1].grid(True, linestyle=':', alpha=0.7)
+
+        # Bottom row gets X-axis labels
+        if row == 1:
+            axs[row, 0].set_xlabel('Training Epochs')
+            axs[row, 1].set_xlabel('Training Epochs')
+
+    # Single unified legend at the top
+    handles, labels = axs[0, 0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc='upper center', ncol=2, bbox_to_anchor=(0.5, 0.98))
+    
+    plt.suptitle(title_prefix, y=1.02, fontsize=16)
     plt.tight_layout()
-
-    out_path = os.path.join(OUTPUT_DIR, "finetune_dynamics.png")
-    plt.savefig(out_path, dpi=300) # 300 DPI is required for IEEE publications
-    print(f"Successfully generated: {out_path}")
+    plt.savefig(os.path.join(OUTPUT_DIR, output_filename), dpi=300, bbox_inches='tight') # 300 DPI is required for IEEE publications
     plt.close()
+    print(f"Generated: {output_filename}")
 
-def plot_robustness_glass_cannon():
-    """Generates Figure 2: The Precision Paradox under Gaussian Noise (10% Data)."""
+def plot_2x2_robustness():
+    """Generates a 2x2 grid showing the glass cannon effect for 10% and 100% data."""
     if not os.path.exists(ROBUSTNESS_LOG):
-        print(f"[Warning] Missing {ROBUSTNESS_LOG}. Skipping Figure 2.")
+        print(f"[Warning] Missing {ROBUSTNESS_LOG}. Skipping robustness plots.")
         return
 
     with open(ROBUSTNESS_LOG, 'r') as f:
         data = json.load(f)
 
-    # We plot the 10% data fraction as specified in Section VII of the paper
-    if "0.1" not in data["fractions"]:
-        print("[Warning] 10% data fraction not found in robustness logs. Skipping Figure 2.")
-        return
+    datasets = ["breastmnist", "pneumoniamnist"]
+    fractions = ["0.1", "1.0"]
+    titles = ["10% Data Regime", "100% Data Regime"]
 
-    c_curve = data["fractions"]["0.1"]["classical_curve"]
-    q_curve = data["fractions"]["0.1"]["quantum_curve"]
+    for dataset in datasets:
+        if dataset not in data["datasets"]:
+            continue
 
-    # Extract sorted noise levels (sigma)
-    sigmas = sorted([float(k) for k in c_curve.keys()])
-    
-    c_aucs = [c_curve[str(s)]["auc"] for s in sigmas]
-    q_aucs = [q_curve[str(s)]["auc"] for s in sigmas]
+        fig, axs = plt.subplots(2, 2, figsize=(12, 10))
 
-    plt.figure(figsize=(8, 6))
-    
-    # Using markers to clearly define the specific noise levels tested
-    plt.plot(sigmas, c_aucs, label='Classical Hybrid', color=COLOR_CLASSICAL, marker='s', linestyle='--')
-    plt.plot(sigmas, q_aucs, label='Quantum Hybrid (VQC)', color=COLOR_QUANTUM, marker='o', linestyle='-')
+        for row, frac in enumerate(fractions):
+            if frac not in data["datasets"][dataset]["fractions"]:
+                continue
+            c_curve = data["datasets"][dataset]["fractions"][frac]["classical_curve"]
+            q_curve = data["datasets"][dataset]["fractions"][frac]["quantum_curve"]
+            
+            # Extract sorted noise levels (sigma)
+            sigmas = sorted([float(k) for k in c_curve.keys()])
+            
+            c_aucs = [c_curve[str(s)]["auc"] for s in sigmas]
+            q_aucs = [q_curve[str(s)]["auc"] for s in sigmas]
+            c_accs = [c_curve[str(s)]["acc"] for s in sigmas]
+            q_accs = [q_curve[str(s)]["acc"] for s in sigmas]
 
-    # Highlight the crossover point mentioned in the paper
-    plt.axvline(x=0.02, color='gray', linestyle=':', alpha=0.6)
-    plt.text(0.022, 0.75, 'Crossover Point\n($\sigma \approx 0.02$)', color='gray', fontsize=10)
+            # Plot AUC
+            axs[row, 0].plot(sigmas, c_aucs, label='Classical', color=COLOR_CLASSICAL, marker='s', linestyle='--')
+            axs[row, 0].plot(sigmas, q_aucs, label='Quantum', color=COLOR_QUANTUM, marker='o', linestyle='-')
+            axs[row, 0].set_title(f'{titles[row]} - AUC-ROC')
+            axs[row, 0].set_ylabel('Test AUC')
+            axs[row, 0].axvline(x=0.02, color='gray', linestyle=':', alpha=0.6)
+            axs[row, 0].grid(True, linestyle=':', alpha=0.7)
 
-    plt.title(f'Robustness Decay (The Glass Cannon Effect)')
-    plt.xlabel('Gaussian Noise Std. Dev. ($\sigma$)')
-    plt.ylabel('Test Set AUC-ROC')
-    plt.ylim(0.45, 1.0) # 0.5 is random guessing
-    plt.grid(True, linestyle=':', alpha=0.7)
-    plt.legend(loc='upper right')
-    plt.tight_layout()
+            # Plot Accuracy
+            axs[row, 1].plot(sigmas, c_accs, label='Classical', color=COLOR_CLASSICAL, marker='s', linestyle='--')
+            axs[row, 1].plot(sigmas, q_accs, label='Quantum', color=COLOR_QUANTUM, marker='o', linestyle='-')
+            axs[row, 1].set_title(f'{titles[row]} - Accuracy')
+            axs[row, 1].set_ylabel('Test Accuracy')
+            axs[row, 1].axvline(x=0.02, color='gray', linestyle=':', alpha=0.6)
+            axs[row, 1].grid(True, linestyle=':', alpha=0.7)
 
-    out_path = os.path.join(OUTPUT_DIR, "robustness_glass_cannon.png")
-    plt.savefig(out_path, dpi=300)
-    print(f"Successfully generated: {out_path}")
-    plt.close()
+            if row == 1:
+                axs[row, 0].set_xlabel('Gaussian Noise Std. Dev. ($\sigma$)')
+                axs[row, 1].set_xlabel('Gaussian Noise Std. Dev. ($\sigma$)')
+
+        # Prevent legend duplication
+        handles, labels = axs[0, 0].get_legend_handles_labels()
+        fig.legend(handles, labels, loc='upper center', ncol=2, bbox_to_anchor=(0.5, 0.98))
+        
+        plt.suptitle(f"Robustness Decay Profiles ({dataset.capitalize()})", y=1.02, fontsize=16)
+        plt.tight_layout()
+        
+        # Save a unique grid for each dataset
+        out_name = f"robustness_grid_{dataset}.png"
+        plt.savefig(os.path.join(OUTPUT_DIR, out_name), dpi=300, bbox_inches='tight')
+        plt.close()
+        print(f"Generated: {out_name}")
 
 def main():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     print("--- Generating IEEE-Formatted Figures ---")
-    plot_finetune_dynamics()
-    plot_robustness_glass_cannon()
+    plot_2x2_dynamics(ABLATION_LOG, "ablation_dynamics_grid.png", "Frozen-Backbone Ablation Dynamics")
+    plot_2x2_dynamics(FINETUNE_LOG, "finetune_dynamics_grid.png", "End-to-End Fine-Tuning Dynamics (100% Data)", fraction_key="1.0")
+    plot_2x2_robustness()
     print("Plotting complete. Images are ready for LaTeX compilation.")
 
 if __name__ == "__main__":
