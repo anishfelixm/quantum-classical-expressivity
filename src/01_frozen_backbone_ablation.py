@@ -62,7 +62,17 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
         
     # Optimizer only updates parameters that require gradients (the bottleneck and head)
     optimizer = optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=LR_HEAD)
-    criterion = nn.BCEWithLogitsLoss()
+
+    # Calculate the ratio of negative to positive samples in the current training set
+    num_pos = sum(y.sum().item() for _, y in train_loader)
+    num_neg = len(train_loader.dataset) - num_pos
+    
+    # Calculate weight and add a tiny epsilon (1e-5) to prevent division by zero
+    pos_weight_val = num_neg / (num_pos + 1e-5)
+    pos_weight_tensor = torch.tensor([pos_weight_val]).to(device)
+    
+    # Initialize the loss function with the calculated weight
+    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
     
     # Scheduler to prevent oscillatory divergence in quantum parameters
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=5)

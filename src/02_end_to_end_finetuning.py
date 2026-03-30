@@ -59,6 +59,11 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
     # 1. layer4 gets the conservative 1e-4 LR
     # 2. Bottleneck and Heads get the standard 1e-3 LR
     
+    # 1. Explicitly freeze early ResNet layers (everything before layer 4)
+    for name, param in model.named_parameters():
+        if "backbone" in name and "backbone.7" not in name:
+            param.requires_grad = False
+    
     backbone_params = []
     head_params = []
     
@@ -74,8 +79,18 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
         {'params': backbone_params, 'lr': LR_BACKBONE},
         {'params': head_params, 'lr': LR_HEAD}
     ])
+
+    # Calculate the ratio of negative to positive samples in the current training set
+    num_pos = sum(y.sum().item() for _, y in train_loader)
+    num_neg = len(train_loader.dataset) - num_pos
     
-    criterion = nn.BCEWithLogitsLoss()
+    # Add a tiny epsilon (1e-5) to prevent division by zero in extreme edge cases
+    pos_weight_val = num_neg / (num_pos + 1e-5)
+    pos_weight_tensor = torch.tensor([pos_weight_val]).to(device)
+    
+    # print(f"[{model_name}] Imbalance factor calculated. Applying pos_weight: {pos_weight_val:.2f}")
+    
+    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=5)
     
     best_val_auc = 0.0
@@ -84,6 +99,13 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
     
     for epoch in range(EPOCHS):
         model.train()
+
+        # 3. CRITICAL for Severe Information Constraints: 
+        # Freeze BatchNorm statistics for the frozen early layers so tiny batches don't skew them
+        for name, module in model.named_modules():
+            if "backbone" in name and "7" not in name:
+                module.eval()
+        
         total_loss = 0.0
         for x, y in train_loader:
             x, y = x.to(device), y.float().to(device)
