@@ -27,12 +27,15 @@ def evaluate_epoch(model, dataloader, criterion, device):
     
     with torch.no_grad():
         for x, y in dataloader:
-            x, y = x.to(device), y.float().to(device)
+            # VULNERABILITY FIX 1: Enforce explicit shapes to prevent PyTorch broadcasting bugs
+            x, y = x.to(device), y.view(-1, 1).float().to(device)
+            
             logits = model(x)
             loss = criterion(logits, y)
             
             total_loss += loss.item() * x.size(0)
             probs = torch.sigmoid(logits)
+            
             all_probs.extend(probs.cpu().numpy())
             all_labels.extend(y.cpu().numpy())
             
@@ -56,22 +59,23 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
     """
     print(f"\n--- Training {model_name} (Frozen Backbone) ---")
     
-    # STRICT OVERRIDE: Ensure the ENTIRE backbone is frozen for this ablation study
+    # 1. STRICT OVERRIDE: Ensure the ENTIRE backbone is frozen for this ablation study
     for param in model.backbone.parameters():
         param.requires_grad = False
         
-    # Optimizer only updates parameters that require gradients (the bottleneck and head)
-    optimizer = optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=LR_HEAD)
+    # 2. OPTIMIZER: Apply L2 Regularization (Weight Decay) to prevent expressivity-induced overfitting
+    optimizer = optim.Adam(
+        filter(lambda p: p.requires_grad, model.parameters()), 
+        lr=LR_HEAD, 
+        weight_decay=1e-4 
+    )
 
-    # Calculate the ratio of negative to positive samples in the current training set
+    # 3. CLASS IMBALANCE: Dynamically calculate pos_weight for the BCE Loss
     num_pos = sum(y.sum().item() for _, y in train_loader)
     num_neg = len(train_loader.dataset) - num_pos
-    
-    # Calculate weight and add a tiny epsilon (1e-5) to prevent division by zero
     pos_weight_val = num_neg / (num_pos + 1e-5)
     pos_weight_tensor = torch.tensor([pos_weight_val]).to(device)
-    
-    # Initialize the loss function with the calculated weight
+
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
     
     # Scheduler to prevent oscillatory divergence in quantum parameters
@@ -79,8 +83,6 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
     
     best_val_auc = 0.0
     best_weights = None
-    
-    # Track epoch-by-epoch history for the new ablation plots
     history = {"train_loss": [], "val_auc": [], "val_acc": []}
     
     for epoch in range(EPOCHS):
@@ -88,11 +90,20 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
         total_loss = 0.0
         
         for x, y in train_loader:
-            x, y = x.to(device), y.float().to(device)
+            # VULNERABILITY FIX 1: Enforce explicit shapes
+            x, y = x.to(device), y.view(-1, 1).float().to(device)
+            
             optimizer.zero_grad()
             logits = model(x)
             loss = criterion(logits, y)
             loss.backward()
+            
+            # VULNERABILITY FIX 2: Gradient Clipping to prevent quantum phase inversion
+            torch.nn.utils.clip_grad_norm_(
+                filter(lambda p: p.requires_grad, model.parameters()), 
+                max_norm=1.0
+            )
+            
             optimizer.step()
             total_loss += loss.item() * x.size(0)
             
@@ -109,7 +120,7 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
         if val_auc > best_val_auc:
             best_val_auc = val_auc
             best_weights = copy.deepcopy(model.state_dict())
-            print(f"Epoch {epoch+1:02d} | Train Loss: {train_loss:.4f} | Val AUC: {val_auc:.4f} | Val Acc: {val_acc:.4f} **(New Best)**")
+            print(f"Epoch {epoch+1:02d} | Train Loss: {train_loss:.4f} | Val AUC: {val_auc:.4f} **(New Best)** | Val Acc: {val_acc:.4f}")
             
     # Load optimal weights for final pristine test evaluation
     print(f"\nLoading optimal weights (Best Val AUC: {best_val_auc:.4f}) for Test Set Evaluation...")
@@ -126,13 +137,8 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Hardware utilized: {device}")
     
-    # Initialize the master results dictionary
-    results = {
-        "experiment": "Frozen-Backbone Ablation",
-        "datasets": {}
-    }
+    results = {"experiment": "Frozen-Backbone Ablation", "datasets": {}}
     
-    # Loop through all datasets automatically
     for dataset in DATASETS:
         print(f"\n=====================================================")
         print(f"   STARTING ABLATION STUDY: {dataset.upper()}")
@@ -142,29 +148,17 @@ def main():
             dataset_name=dataset, batch_size=BATCH_SIZE, train_frac=DATA_FRACTION, seed=SEED
         )
         
-        # Initialize fresh models for each dataset
         classical_model = ClassicalResNetBottleneck(bottleneck_dim=4).to(device)
         quantum_model = QuantumHybridResNet(n_qubits=4, n_layers=2).to(device)
         
-        # Execute Training
         c_test_auc, c_test_acc, c_hist = train_ablation_model(classical_model, train_loader, val_loader, test_loader, device, "Classical Baseline")
         q_test_auc, q_test_acc, q_hist = train_ablation_model(quantum_model, train_loader, val_loader, test_loader, device, "Quantum VQC Hybrid")
         
-        # Log results for this specific dataset
         results["datasets"][dataset] = {
-            "classical": {
-                "test_auc": c_test_auc,
-                "test_acc": c_test_acc,
-                "history": c_hist
-            },
-            "quantum": {
-                "test_auc": q_test_auc,
-                "test_acc": q_test_acc,
-                "history": q_hist
-            }
+            "classical": {"test_auc": c_test_auc, "test_acc": c_test_acc, "history": c_hist},
+            "quantum": {"test_auc": q_test_auc, "test_acc": q_test_acc, "history": q_hist}
         }
     
-    # Save the consolidated JSON
     with open(RESULTS_FILE, "w") as f:
         json.dump(results, f, indent=4)
     print(f"\nExperiment complete. Consolidated results logged to {RESULTS_FILE}")

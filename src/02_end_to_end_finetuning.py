@@ -28,12 +28,15 @@ def evaluate_epoch(model, dataloader, criterion, device):
     
     with torch.no_grad():
         for x, y in dataloader:
-            x, y = x.to(device), y.float().to(device)
+            # VULNERABILITY FIX 1: Enforce explicit shapes
+            x, y = x.to(device), y.view(-1, 1).float().to(device)
+            
             logits = model(x)
             loss = criterion(logits, y)
             
             total_loss += loss.item() * x.size(0)
             probs = torch.sigmoid(logits)
+            
             all_probs.extend(probs.cpu().numpy())
             all_labels.extend(y.cpu().numpy())
             
@@ -55,11 +58,7 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
     """
     print(f"\n--- Training {model_name} on {dataset_name} ---")
 
-    # Differential Learning Rate setup (Section V.B)
-    # 1. layer4 gets the conservative 1e-4 LR
-    # 2. Bottleneck and Heads get the standard 1e-3 LR
-    
-    # 1. Explicitly freeze early ResNet layers (everything before layer 4)
+    # 1. FREEZING LOGIC: Explicitly freeze early ResNet layers (everything before layer 4)
     for name, param in model.named_parameters():
         if "backbone" in name and "backbone.7" not in name:
             param.requires_grad = False
@@ -70,25 +69,23 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
     for name, param in model.named_parameters():
         if not param.requires_grad:
             continue
-        if "backbone.7" in name: # "7" corresponds to layer4 in the ResNet sequential model
+        if "backbone.7" in name: 
             backbone_params.append(param)
         else:
             head_params.append(param)
             
+    # 2. OPTIMIZER: Differential LRs applied, WITH symmetric L2 Weight Decay added
+    # VULNERABILITY FIX 2: Added weight_decay to match ablation standards
     optimizer = optim.Adam([
-        {'params': backbone_params, 'lr': LR_BACKBONE},
-        {'params': head_params, 'lr': LR_HEAD}
+        {'params': backbone_params, 'lr': LR_BACKBONE, 'weight_decay': 1e-4},
+        {'params': head_params, 'lr': LR_HEAD, 'weight_decay': 1e-4}
     ])
 
-    # Calculate the ratio of negative to positive samples in the current training set
+    # 3. CLASS IMBALANCE: Dynamically calculate pos_weight
     num_pos = sum(y.sum().item() for _, y in train_loader)
     num_neg = len(train_loader.dataset) - num_pos
-    
-    # Add a tiny epsilon (1e-5) to prevent division by zero in extreme edge cases
     pos_weight_val = num_neg / (num_pos + 1e-5)
     pos_weight_tensor = torch.tensor([pos_weight_val]).to(device)
-    
-    # print(f"[{model_name}] Imbalance factor calculated. Applying pos_weight: {pos_weight_val:.2f}")
     
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=5)
@@ -100,19 +97,28 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
     for epoch in range(EPOCHS):
         model.train()
 
-        # 3. CRITICAL for Severe Information Constraints: 
-        # Freeze BatchNorm statistics for the frozen early layers so tiny batches don't skew them
+        # VULNERABILITY FIX 3: Robust BatchNorm Freezing for Scarcity Regimes
+        # Force BN layers in frozen blocks to maintain moving averages, ignoring batch noise
         for name, module in model.named_modules():
             if "backbone" in name and "7" not in name:
                 module.eval()
         
         total_loss = 0.0
         for x, y in train_loader:
-            x, y = x.to(device), y.float().to(device)
+            # VULNERABILITY FIX 1: Explicit shapes
+            x, y = x.to(device), y.view(-1, 1).float().to(device)
+            
             optimizer.zero_grad()
             logits = model(x)
             loss = criterion(logits, y)
             loss.backward()
+            
+            # VULNERABILITY FIX 2: Gradient Clipping for the unfrozen parameters
+            torch.nn.utils.clip_grad_norm_(
+                filter(lambda p: p.requires_grad, model.parameters()), 
+                max_norm=1.0
+            )
+            
             optimizer.step()
             total_loss += loss.item() * x.size(0)
             
@@ -129,13 +135,12 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
         if val_auc > best_val_auc:
             best_val_auc = val_auc
             best_weights = copy.deepcopy(model.state_dict())
-            print(f"Epoch {epoch+1:02d} | Val AUC: {val_auc:.4f} | Val Acc: {val_acc:.4f} **(New Best)**")
+            print(f"Epoch {epoch+1:02d} | Train Loss: {train_loss:.4f} | Val AUC: {val_auc:.4f} **(New Best)** | Val Acc: {val_acc:.4f}")
 
     # Load optimal weights for final test evaluation        
     print(f"\nLoading optimal weights for Test Set Evaluation...")
     if best_weights is not None:
         model.load_state_dict(best_weights)
-        # Save weights with dataset identifier
         safe_name = model_name.replace(' ', '_')
         torch.save(best_weights, f"results/best_{safe_name}_{dataset_name}.pt")
         
@@ -163,7 +168,6 @@ def main():
                 dataset_name=dataset, batch_size=BATCH_SIZE, train_frac=frac, seed=SEED
             )
             
-            # Re-initialize models fresh for each fraction
             classical_model = ClassicalResNetBottleneck(bottleneck_dim=4).to(device)
             quantum_model = QuantumHybridResNet(n_qubits=4, n_layers=2).to(device)
             
