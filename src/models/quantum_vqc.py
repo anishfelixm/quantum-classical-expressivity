@@ -11,7 +11,7 @@ class QuantumHybridResNet(nn.Module):
     Architecture:
     1. Pre-trained ResNet-18 Backbone (layer1 through layer3 strictly frozen).
     2. Information Bottleneck Layer (Linear projection from 512 -> 4).
-    3. Quantum Interface: tanh(z) * pi bounding.
+    3. Quantum Interface: tanh(z) * pi bounding to prevent phase aliasing.
     4. 4-Qubit Variational Quantum Circuit (AngleEmbedding + StronglyEntanglingLayers).
     5. Classical Post-Processing (Linear projection of 4 Pauli-Z expectations to 1 logit).
     """
@@ -56,7 +56,7 @@ class QuantumHybridResNet(nn.Module):
             # Eq 9: Expectation value of the Pauli-Z observable on all wires
             return [qml.expval(qml.PauliZ(i)) for i in range(n_qubits)]
             
-        # The total number of trainable quantum parameters is L * n * 3
+        # The total number of trainable quantum parameters is L * n_qubits * 3
         weight_shapes = {"weights": (n_layers, n_qubits, 3)}
         
         # Initialize weights uniformly between 0 and 2*pi (in-place Tensor modification)
