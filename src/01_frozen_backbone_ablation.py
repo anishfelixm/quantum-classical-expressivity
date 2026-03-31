@@ -7,45 +7,37 @@ import torch.optim as optim
 from sklearn.metrics import roc_auc_score, accuracy_score
 
 from data.medmnist_loader import get_medmnist_loaders
-from models.classical_resnet import ClassicalResNetBottleneck
+from models.classical_resnet import ClassicalLinearResNet, ClassicalMLPResNet
 from models.quantum_vqc import QuantumHybridResNet
 
 # --- CONFIGURATION ---
 DATASETS = ["breastmnist", "pneumoniamnist"]
-DATA_FRACTION = 1.0  # Ablation conducted on full data structure first
+DATA_FRACTION = 1.0  
 BATCH_SIZE = 32
-EPOCHS = 50          # Maximum epochs as defined in Section V.B
-LR_HEAD = 1e-3       # Classification head learning rate
+EPOCHS = 50          
+LR_HEAD = 1e-3       # Uniform LR for all classification heads (Fair comparison)
 SEED = 42
 RESULTS_FILE = "results/frozen_ablation_logs.json"
 
 def evaluate_epoch(model, dataloader, criterion, device):
-    """Evaluates the model and returns average loss, AUC-ROC, and Accuracy."""
     model.eval()
     total_loss = 0.0
     all_probs, all_labels = [], []
     
     with torch.no_grad():
         for x, y in dataloader:
-            # VULNERABILITY FIX 1: Enforce explicit shapes to prevent PyTorch broadcasting bugs
             x, y = x.to(device), y.view(-1, 1).float().to(device)
-            
             logits = model(x)
             loss = criterion(logits, y)
-            
             total_loss += loss.item() * x.size(0)
             probs = torch.sigmoid(logits)
-            
             all_probs.extend(probs.cpu().numpy())
             all_labels.extend(y.cpu().numpy())
             
     avg_loss = total_loss / len(dataloader.dataset)
-    
-    # Calculate Binary Predictions thresholded at 0.5
     preds = [1 if p > 0.5 else 0 for p in all_probs]
     acc = accuracy_score(all_labels, preds)
     
-    # Handle edge case where a batch might only have one class
     try:
         auc = roc_auc_score(all_labels, all_probs)
     except ValueError:
@@ -54,31 +46,26 @@ def evaluate_epoch(model, dataloader, criterion, device):
     return avg_loss, float(auc), float(acc)
 
 def train_ablation_model(model, train_loader, val_loader, test_loader, device, model_name="Model"):
-    """
-    Trains the model using the strict Frozen-Backbone regime and tracks full history.
-    """
     print(f"\n--- Training {model_name} (Frozen Backbone) ---")
     
-    # 1. STRICT OVERRIDE: Ensure the ENTIRE backbone is frozen for this ablation study
+    # 1. STRICT OVERRIDE: Ensure the ENTIRE backbone is frozen
     for param in model.backbone.parameters():
         param.requires_grad = False
         
-    # 2. OPTIMIZER: Apply L2 Regularization (Weight Decay) to prevent expressivity-induced overfitting
+    # 2. OPTIMIZER: Apply L2 Regularization uniformly
     optimizer = optim.Adam(
         filter(lambda p: p.requires_grad, model.parameters()), 
         lr=LR_HEAD, 
         weight_decay=1e-4 
     )
 
-    # 3. CLASS IMBALANCE: Dynamically calculate pos_weight for the BCE Loss
+    # 3. CLASS IMBALANCE: Dynamically calculate pos_weight
     num_pos = sum(y.sum().item() for _, y in train_loader)
     num_neg = len(train_loader.dataset) - num_pos
     pos_weight_val = num_neg / (num_pos + 1e-5)
     pos_weight_tensor = torch.tensor([pos_weight_val]).to(device)
 
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
-    
-    # Scheduler to prevent oscillatory divergence in quantum parameters
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=5)
     
     best_val_auc = 0.0
@@ -90,7 +77,6 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
         total_loss = 0.0
         
         for x, y in train_loader:
-            # VULNERABILITY FIX 1: Enforce explicit shapes
             x, y = x.to(device), y.view(-1, 1).float().to(device)
             
             optimizer.zero_grad()
@@ -98,7 +84,7 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
             loss = criterion(logits, y)
             loss.backward()
             
-            # VULNERABILITY FIX 2: Gradient Clipping to prevent quantum phase inversion
+            # Gradient Clipping (Protects all models equally)
             torch.nn.utils.clip_grad_norm_(
                 filter(lambda p: p.requires_grad, model.parameters()), 
                 max_norm=1.0
@@ -122,7 +108,6 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
             best_weights = copy.deepcopy(model.state_dict())
             print(f"Epoch {epoch+1:02d} | Train Loss: {train_loss:.4f} | Val AUC: {val_auc:.4f} **(New Best)** | Val Acc: {val_acc:.4f}")
             
-    # Load optimal weights for final pristine test evaluation
     print(f"\nLoading optimal weights (Best Val AUC: {best_val_auc:.4f}) for Test Set Evaluation...")
     if best_weights is not None:
         model.load_state_dict(best_weights)
@@ -148,14 +133,18 @@ def main():
             dataset_name=dataset, batch_size=BATCH_SIZE, train_frac=DATA_FRACTION, seed=SEED
         )
         
-        classical_model = ClassicalResNetBottleneck(bottleneck_dim=4).to(device)
+        # Instantiate all three models
+        linear_model = ClassicalLinearResNet(bottleneck_dim=4).to(device)
+        mlp_model = ClassicalMLPResNet(bottleneck_dim=4).to(device)
         quantum_model = QuantumHybridResNet(n_qubits=4, n_layers=2).to(device)
         
-        c_test_auc, c_test_acc, c_hist = train_ablation_model(classical_model, train_loader, val_loader, test_loader, device, "Classical Baseline")
+        lin_test_auc, lin_test_acc, lin_hist = train_ablation_model(linear_model, train_loader, val_loader, test_loader, device, "Classical Linear Probe")
+        mlp_test_auc, mlp_test_acc, mlp_hist = train_ablation_model(mlp_model, train_loader, val_loader, test_loader, device, "Classical MLP Head")
         q_test_auc, q_test_acc, q_hist = train_ablation_model(quantum_model, train_loader, val_loader, test_loader, device, "Quantum VQC Hybrid")
         
         results["datasets"][dataset] = {
-            "classical": {"test_auc": c_test_auc, "test_acc": c_test_acc, "history": c_hist},
+            "classical_linear": {"test_auc": lin_test_auc, "test_acc": lin_test_acc, "history": lin_hist},
+            "classical_mlp": {"test_auc": mlp_test_auc, "test_acc": mlp_test_acc, "history": mlp_hist},
             "quantum": {"test_auc": q_test_auc, "test_acc": q_test_acc, "history": q_hist}
         }
     
