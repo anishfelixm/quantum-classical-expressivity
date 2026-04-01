@@ -56,19 +56,23 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
     
     backbone_params = []
     head_params = []
+    quantum_params = []
     
     for name, param in model.named_parameters():
         if not param.requires_grad:
             continue
         if "backbone.7" in name: 
             backbone_params.append(param)
+        elif "q_layer" in name:
+            quantum_params.append(param)
         else:
             head_params.append(param)
             
     # 2. OPTIMIZER: Differential LRs applied fairly to all models
     optimizer = optim.Adam([
         {'params': backbone_params, 'lr': LR_BACKBONE, 'weight_decay': 1e-4},
-        {'params': head_params, 'lr': LR_HEAD, 'weight_decay': 1e-4}
+        {'params': head_params, 'lr': LR_HEAD, 'weight_decay': 1e-4},
+        {'params': quantum_params, 'lr': LR_HEAD, 'weight_decay': 0.0}
     ])
 
     num_pos = sum(y.sum().item() for _, y in train_loader)
@@ -77,7 +81,7 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
     pos_weight_tensor = torch.tensor([pos_weight_val]).to(device)
     
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
-    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=5)
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=5)
     
     best_val_auc = 0.0
     best_weights = None
@@ -112,7 +116,7 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
         train_loss = total_loss / len(train_loader.dataset)
         
         val_loss, val_auc, val_acc = evaluate_epoch(model, val_loader, criterion, device)
-        scheduler.step(val_auc)
+        scheduler.step(train_loss)
         
         history["train_loss"].append(train_loss)
         history["val_auc"].append(val_auc)
