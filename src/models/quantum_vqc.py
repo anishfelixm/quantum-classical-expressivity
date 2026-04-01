@@ -6,16 +6,9 @@ import numpy as np
 
 class QuantumHybridResNet(nn.Module):
     """
-    Hybrid Quantum-Classical Architecture as defined in Section IV.D.
-    
-    Architecture:
-    1. Pre-trained ResNet-18 Backbone (layer1 through layer3 strictly frozen).
-    2. Information Bottleneck Layer (Linear projection from 512 -> 4).
-    3. Quantum Interface: tanh(z) * pi bounding to prevent phase aliasing.
-    4. 4-Qubit Variational Quantum Circuit (AngleEmbedding + StronglyEntanglingLayers).
-    5. Classical Post-Processing (Linear projection of 4 Pauli-Z expectations to 1 logit).
+    Hybrid Quantum-Classical Architecture with Pure Quantum Readout.
     """
-    def __init__(self, n_qubits: int = 4, n_layers: int = 2):
+    def __init__(self, n_qubits=4, n_layers=2):
         super(QuantumHybridResNet, self).__init__()
         self.n_qubits = n_qubits
         
@@ -23,65 +16,54 @@ class QuantumHybridResNet(nn.Module):
         resnet = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1)
         self.backbone = nn.Sequential(*list(resnet.children())[:-1])
         
-        # Enforce strict freezing rules as defined in Section IV.A
         for name, param in self.backbone.named_parameters():
             if "layer4" in name:
-                param.requires_grad = True  # Allowed to learn domain-specific hierarchies
+                param.requires_grad = True 
             else:
-                param.requires_grad = False # Strictly frozen
+                param.requires_grad = False
                 
-        # 2. Information Bottleneck (Eq 5: z = W_comp * h + b_comp)
+        # 2. Information Bottleneck
         self.bottleneck = nn.Linear(512, self.n_qubits)
         
-        # 3 & 4. Setup the Variational Quantum Circuit (VQC)
+        # 3. Setup the Variational Quantum Circuit
         self.q_layer = self._build_quantum_circuit(n_qubits, n_layers)
         
-        # 5. Classical Post-Processing
-        self.post_process = nn.Linear(self.n_qubits, 1)
+        # 4. Pure Quantum Readout Scalar (Replaces nn.Linear post_process)
+        # Maps bounded expectation [-1, 1] to PyTorch logit space [-inf, inf]
+        self.logit_scale = nn.Parameter(torch.tensor(5.0))
+        self.logit_bias = nn.Parameter(torch.tensor(0.0))
 
-    def _build_quantum_circuit(self, n_qubits: int, n_layers: int) -> qml.qnn.TorchLayer:
-        """
-        Constructs the Continuous-Variable to Discrete-Qubit interface and VQC.
-        """
+    def _build_quantum_circuit(self, n_qubits, n_layers):
         dev = qml.device("default.qubit", wires=n_qubits)
         
         @qml.qnode(dev, interface="torch")
         def circuit(inputs, weights):
-            # Eq 8: Angle Embedding via independent single-qubit Pauli-X rotations
             qml.AngleEmbedding(inputs, wires=range(n_qubits), rotation='X')
-            
-            # Parameterized Ansatz: Strongly Entangling Layers
             qml.StronglyEntanglingLayers(weights, wires=range(n_qubits))
             
-            # Eq 9: Expectation value of the Pauli-Z observable on all wires
+            # FORCE QUANTUM DECISION: Readout from all 4 qubits
             return [qml.expval(qml.PauliZ(i)) for i in range(n_qubits)]
             
-        # The total number of trainable quantum parameters is L * n_qubits * 3
         weight_shapes = {"weights": (n_layers, n_qubits, 3)}
-        
-        # Initialize weights uniformly between 0 and 2*pi (in-place Tensor modification)
-        init_method = {"weights": lambda tensor: torch.nn.init.uniform_(tensor, a=0.0, b=2 * np.pi)}
+        init_method = {"weights": lambda tensor: torch.nn.init.normal_(tensor, mean=0.0, std=0.1)}
         
         return qml.qnn.TorchLayer(circuit, weight_shapes, init_method=init_method)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        """
-        Forward pass outputting the pre-sigmoid logit.
-        """
-        # Feature Extraction
         h = self.backbone(x)
-        h = torch.flatten(h, 1)          # Shape: (Batch, 512)
+        h = torch.flatten(h, 1)          
+        z = self.bottleneck(h)           
         
-        # Compression to Bottleneck
-        z = self.bottleneck(h)           # Shape: (Batch, 4)
+        # Monotonic Phase Mapping
+        z_scaled = torch.sigmoid(z) * np.pi 
         
-        # Eq 7: Data Scaling and Bounding (Prevent phase-wrapping)
-        z_scaled = torch.tanh(z) * np.pi # Shape: (Batch, 4), Range: [-pi, pi]
+        # Quantum State Evolution
+        v_q = self.q_layer(z_scaled)
+
+        # Aggregate the 4 qubit expectations into a single consensus prediction
+        v_q_consensus = torch.mean(v_q, dim=1, keepdim=True)     
         
-        # Quantum State Evolution and Measurement
-        v_q = self.q_layer(z_scaled)     # Shape: (Batch, 4), Range: [-1, 1]
-        
-        # Final Classical Post-Processing logit
-        y_hat = self.post_process(v_q)   # Shape: (Batch, 1)
+        # Pure Quantum Readout (Stretched to Logit Space)
+        y_hat = (v_q_consensus * self.logit_scale + self.logit_bias).view(-1, 1)
         
         return y_hat

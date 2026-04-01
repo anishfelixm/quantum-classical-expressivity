@@ -73,7 +73,7 @@ class ClassicalMLPResNet(nn.Module):
         self.bottleneck = nn.Linear(512, bottleneck_dim)
         
         # Non-Linear Classification
-        self.activation = nn.ReLU()
+        self.activation = nn.GELU()
         self.classifier = nn.Linear(bottleneck_dim, 1)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
