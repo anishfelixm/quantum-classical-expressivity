@@ -39,10 +39,10 @@ class QuantumHybridResNet(nn.Module):
         
         @qml.qnode(dev, interface="torch")
         def circuit(inputs, weights):
-            qml.AngleEmbedding(inputs, wires=range(n_qubits), rotation='X')
+            qml.AngleEmbedding(inputs, wires=range(n_qubits), rotation='Y')
             qml.StronglyEntanglingLayers(weights, wires=range(n_qubits))
             
-            return [qml.expval(qml.PauliZ(i)) for i in range(n_qubits)]
+            return [qml.expval(qml.PauliX(i)) for i in range(n_qubits)]
             
         weight_shapes = {"weights": (n_layers, n_qubits, 3)}
         init_method = {"weights": lambda tensor: torch.nn.init.normal_(tensor, mean=0.0, std=0.1)}
@@ -54,8 +54,9 @@ class QuantumHybridResNet(nn.Module):
         h = torch.flatten(h, 1)          
         z = self.bottleneck(h)           
         
-        # Monotonic Phase Mapping
-        z_scaled = torch.sigmoid(z) * np.pi 
+        # Monotonic Sine Phase Mapping 
+        # tanh maps to [-1, 1], multiplied by pi/2 maps strictly to [-pi/2, pi/2]
+        z_scaled = torch.tanh(z) * (np.pi / 2)
         
         # Quantum State Evolution
         v_q = self.q_layer(z_scaled) # Shape: (Batch, 4)
