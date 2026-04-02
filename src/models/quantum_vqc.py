@@ -6,9 +6,9 @@ import numpy as np
 
 class QuantumHybridResNet(nn.Module):
     """
-    Hybrid Quantum-Classical Architecture with Pure Quantum Readout.
+    Hybrid Quantum-Classical Architecture with Parameterized Hamiltonian Readout.
     """
-    def __init__(self, n_qubits=4, n_layers=2):
+    def __init__(self, n_qubits=4, n_layers=4):
         super(QuantumHybridResNet, self).__init__()
         self.n_qubits = n_qubits
         
@@ -28,9 +28,10 @@ class QuantumHybridResNet(nn.Module):
         # 3. Setup the Variational Quantum Circuit
         self.q_layer = self._build_quantum_circuit(n_qubits, n_layers)
         
-        # 4. Pure Quantum Readout Scalar (Replaces nn.Linear post_process)
-        # Maps bounded expectation [-1, 1] to PyTorch logit space [-inf, inf]
-        self.logit_scale = nn.Parameter(torch.tensor(5.0))
+        # 4. Parameterized Measurement Hamiltonian
+        # Allows weighted summation of Pauli-Z expectations to prevent destructive interference.
+        # Initialized to ones so the VQC must do the initial work, preventing classical bypass.
+        self.observable_weights = nn.Parameter(torch.ones(1, self.n_qubits)) 
         self.logit_bias = nn.Parameter(torch.tensor(0.0))
 
     def _build_quantum_circuit(self, n_qubits, n_layers):
@@ -41,7 +42,6 @@ class QuantumHybridResNet(nn.Module):
             qml.AngleEmbedding(inputs, wires=range(n_qubits), rotation='X')
             qml.StronglyEntanglingLayers(weights, wires=range(n_qubits))
             
-            # FORCE QUANTUM DECISION: Readout from all 4 qubits
             return [qml.expval(qml.PauliZ(i)) for i in range(n_qubits)]
             
         weight_shapes = {"weights": (n_layers, n_qubits, 3)}
@@ -58,12 +58,12 @@ class QuantumHybridResNet(nn.Module):
         z_scaled = torch.sigmoid(z) * np.pi 
         
         # Quantum State Evolution
-        v_q = self.q_layer(z_scaled)
+        v_q = self.q_layer(z_scaled) # Shape: (Batch, 4)
 
-        # Aggregate the 4 qubit expectations into a single consensus prediction
-        v_q_consensus = torch.mean(v_q, dim=1, keepdim=True)     
+        # Apply the Hamiltonian Weights (element-wise multiplication)
+        v_q_weighted = v_q * self.observable_weights 
         
-        # Pure Quantum Readout (Stretched to Logit Space)
-        y_hat = (v_q_consensus * self.logit_scale + self.logit_bias).view(-1, 1)
+        # Sum the weighted observables and apply bias
+        y_hat = torch.sum(v_q_weighted, dim=1, keepdim=True) + self.logit_bias
         
         return y_hat

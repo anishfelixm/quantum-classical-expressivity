@@ -161,7 +161,7 @@ def main():
             
             linear_model = ClassicalLinearResNet(bottleneck_dim=4).to(device)
             mlp_model = ClassicalMLPResNet(bottleneck_dim=4).to(device)
-            quantum_model = QuantumHybridResNet(n_qubits=4, n_layers=2).to(device)
+            quantum_model = QuantumHybridResNet(n_qubits=4, n_layers=4).to(device)
             
             lin_test_auc, lin_test_acc, lin_test_f1, lin_hist = train_finetune_model(linear_model, train_loader, val_loader, test_loader, device, dataset, f"Linear_{frac}")
             mlp_test_auc, mlp_test_acc, mlp_test_f1, mlp_hist = train_finetune_model(mlp_model, train_loader, val_loader, test_loader, device, dataset, f"MLP_{frac}")
