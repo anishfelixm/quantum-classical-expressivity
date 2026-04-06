@@ -101,8 +101,11 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
     ])
 
     # Dynamic Class Weighting for Scarcity Environments
-    num_pos = sum(y_batch.sum().item() for _, y_batch in train_loader)
-    num_neg = sum((len(y_batch) - y_batch.sum().item()) for _, y_batch in train_loader)
+    num_pos = 0
+    num_neg = 0
+    for _, y_batch in train_loader:
+        num_pos += y_batch.sum().item()
+        num_neg += (len(y_batch) - y_batch.sum().item())
     pos_weight_tensor = torch.tensor([num_neg / (num_pos + 1e-7)]).to(device)
 
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
