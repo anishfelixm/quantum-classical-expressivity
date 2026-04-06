@@ -1,3 +1,9 @@
+"""
+Hybrid Quantum-Classical ResNet Architecture.
+Integrates a PennyLane Variational Quantum Circuit (VQC) as the classification head 
+to evaluate quantum expressivity in severe information constraint scenarios.
+"""
+
 import torch
 import torch.nn as nn
 import torchvision.models as models
@@ -5,6 +11,11 @@ import pennylane as qml
 import numpy as np
 
 class QuantumHybridResNet(nn.Module):
+    """
+    End-to-End Hybrid Architecture.
+    Maps compressed classical features into a Hilbert space using angle embedding, 
+    entangles them, and generates decision logits via Pauli-X expectation values.
+    """
     def __init__(self, n_qubits=4, n_layers=4):
         super(QuantumHybridResNet, self).__init__()
         self.n_qubits = n_qubits
@@ -14,25 +25,30 @@ class QuantumHybridResNet(nn.Module):
         self.pool = nn.AdaptiveAvgPool2d((1, 1))
         
         for name, param in self.backbone.named_parameters():
-            if "layer3" in name:
-                param.requires_grad = True 
-            else:
-                param.requires_grad = False
+            param.requires_grad = "layer3" in name
                 
-        # Layer 3 outputs 256 channels
+        # Compress Layer 3 channels (256) down to the available qubit count
         self.bottleneck = nn.Linear(256, self.n_qubits)
         self.q_layer = self._build_quantum_circuit(n_qubits, n_layers)
         
+        # Learnable parameters for processing quantum measurements
         self.observable_weights = nn.Parameter(torch.ones(1, self.n_qubits)) 
         self.logit_bias = nn.Parameter(torch.tensor(0.0))
 
     def _build_quantum_circuit(self, n_qubits, n_layers):
+        """
+        Constructs the PennyLane QNode utilizing standard continuous-variable mapping
+        and strongly entangling topological layers.
+        """
         dev = qml.device("default.qubit", wires=n_qubits)
         
         @qml.qnode(dev, interface="torch")
         def circuit(inputs, weights):
+            # Encode classical data into quantum phase angles
             qml.AngleEmbedding(inputs, wires=range(n_qubits), rotation='Y')
+            # Variational sequence
             qml.StronglyEntanglingLayers(weights, wires=range(n_qubits))
+            # Measure expectation value along the X basis
             return [qml.expval(qml.PauliX(i)) for i in range(n_qubits)]
             
         weight_shapes = {"weights": (n_layers, n_qubits, 3)}
@@ -46,8 +62,11 @@ class QuantumHybridResNet(nn.Module):
         h = torch.flatten(h, 1)          
         z = self.bottleneck(h)           
         
+        # Scale continuous classical features to valid rotational angles [-pi/2, pi/2]
         z_scaled = torch.tanh(z) * (np.pi / 2)
         v_q = self.q_layer(z_scaled) 
+        
+        # Compute final logit via weighted sum of expectation values
         v_q_weighted = v_q * self.observable_weights 
         y_hat = torch.sum(v_q_weighted, dim=1, keepdim=True) + self.logit_bias
         
