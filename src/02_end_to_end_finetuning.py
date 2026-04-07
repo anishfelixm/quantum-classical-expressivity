@@ -1,3 +1,12 @@
+"""
+End-to-End Hybrid Quantum-Classical Fine-Tuning.
+
+This script unfreezes the final convolutional block (Layer 3) of the classical feature 
+extractor. It allows gradients from the Variational Quantum Circuit (VQC) to backpropagate, 
+actively reshaping the classical feature maps into a quantum-friendly geometry under 
+severe information constraints.
+"""
+
 import os
 import json
 import copy
@@ -8,24 +17,27 @@ import numpy as np
 from sklearn.metrics import roc_auc_score, accuracy_score, f1_score, precision_recall_curve
 
 from data.medmnist_loader import get_medmnist_loaders
-# Make sure these point to your newly defined Layer 3 models!
 from models.classical_resnet import ClassicalLinearResNet, ClassicalMLPResNet
 from models.quantum_vqc import QuantumHybridResNet
 
-# --- CONFIGURATION ---
+# --- EXPERIMENT CONFIGURATION ---
 DATASETS = ["breastmnist", "pneumoniamnist"]
-# Match the ablation study scarcity targets perfectly
 SCARCITY_TARGETS = {"breastmnist": 0.10, "pneumoniamnist": 0.01} 
 
 BATCH_SIZE = 32
 EPOCHS = 50                 
-LR_BACKBONE = 1e-4          # Microscopic LR for Layer 3 to prevent catastrophic overfitting
-LR_HEAD = 1e-3              # Standard LR for Bottleneck/Classifier
-LR_QUANTUM = 5e-3           # Match the VQC exploration rate from ablation
+LR_BACKBONE = 1e-4          # Conservative LR for Layer 3 to mitigate catastrophic overfitting
+LR_HEAD = 1e-3              # Standard LR for classical latent projection heads
+LR_QUANTUM = 5e-3           # VQC learning rate aligned with ablation study baseline
 SEEDS = [42, 123, 2026] 
 RESULTS_FILE = "results/end_to_end_logs.json"
 
-def evaluate_epoch(model, dataloader, criterion, device, threshold=None):
+def evaluate_epoch(model: nn.Module, dataloader: torch.utils.data.DataLoader, criterion: nn.Module, device: torch.device, threshold: float = None):
+    """
+    Evaluates model performance and computes standard classification metrics.
+    If no threshold is provided (validation phase), dynamically calculates the optimal 
+    decision boundary via the Precision-Recall curve to maximize F1 under class imbalance.
+    """
     model.eval()
     total_loss = 0.0
     all_probs, all_labels = [], []
@@ -36,6 +48,7 @@ def evaluate_epoch(model, dataloader, criterion, device, threshold=None):
             logits = model(x)
             loss = criterion(logits, y)
             total_loss += loss.item() * x.size(0)
+            
             probs = torch.sigmoid(logits)
             all_probs.extend(probs.cpu().numpy())
             all_labels.extend(y.cpu().numpy())
@@ -45,18 +58,14 @@ def evaluate_epoch(model, dataloader, criterion, device, threshold=None):
     try:
         auc = roc_auc_score(all_labels, all_probs)
     except ValueError:
-        auc = 0.5 
+        auc = 0.5 # Fallback for ill-defined AUC in extremely small, single-class batches
         
-    # --- DYNAMIC THRESHOLDING FOR POS_WEIGHT ---
+    # Phase-dependent dynamic thresholding
     if threshold is None:
         precisions, recalls, thresholds = precision_recall_curve(all_labels, all_probs)
         f1_scores = (2 * precisions * recalls) / (precisions + recalls + 1e-8)
         best_idx = np.argmax(f1_scores)
-        
-        if best_idx < len(thresholds):
-            best_thresh = thresholds[best_idx]
-        else:
-            best_thresh = 0.5
+        best_thresh = thresholds[best_idx] if best_idx < len(thresholds) else 0.5
     else:
         best_thresh = threshold
 
@@ -66,23 +75,25 @@ def evaluate_epoch(model, dataloader, criterion, device, threshold=None):
         
     return avg_loss, float(auc), float(acc), float(f1), float(best_thresh)
 
-def train_finetune_model(model, train_loader, val_loader, test_loader, device, dataset_name, model_name, seed):
+
+def train_finetune_model(model: nn.Module, train_loader: torch.utils.data.DataLoader, val_loader: torch.utils.data.DataLoader, test_loader: torch.utils.data.DataLoader, device: torch.device, dataset_name: str, model_name: str, seed: int):
+    """
+    Executes the End-to-End training protocol.
+    Enforces a strict parameter hierarchy: Layer 3 is unfrozen but throttled by a 
+    lower learning rate, while earlier layers remain permanently immobilized to preserve 
+    low-level feature extraction capabilities.
+    """
     print(f"\n      Training {model_name} (End-to-End)...")
 
-    # 1. STRICT TARGETED UNFREEZING: 
-    # In nn.Sequential[:-3], index 6 is Layer 3. Everything before 6 must be frozen.
+    # 1. Targeted Unfreezing of Layer 3
+    # In nn.Sequential[:-3], index 6 corresponds exactly to ResNet Layer 3.
     for name, param in model.named_parameters():
         if "backbone" in name:
-            if "backbone.6" in name:
-                param.requires_grad = True # UNFREEZE LAYER 3
-            else:
-                param.requires_grad = False # FREEZE EVERYTHING ELSE
+            param.requires_grad = "backbone.6" in name
     
-    backbone_params = []
-    head_params = []
-    quantum_params = []
+    backbone_params, head_params, quantum_params = [], [], []
     
-    # Sort parameters into groups for differential learning rates
+    # Parameter routing for differential optimization
     for name, param in model.named_parameters():
         if not param.requires_grad:
             continue
@@ -93,14 +104,15 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
         else:
             head_params.append(param)
             
-    # 2. OPTIMIZER: Strict isolation of parameter learning speeds
+    # 2. Differential Learning Rates
     optimizer = optim.Adam([
         {'params': backbone_params, 'lr': LR_BACKBONE, 'weight_decay': 1e-4},
         {'params': head_params, 'lr': LR_HEAD, 'weight_decay': 1e-4},
         {'params': quantum_params, 'lr': LR_QUANTUM, 'weight_decay': 0.0} 
     ])
 
-    # 3. ANTI-COLLAPSE: Calculate global pos_weight 
+    # 3. Class Imbalance Mitigation
+    # Calculate global positive weight for BCE Loss using a single loop to preserve RNG state.
     num_pos = 0
     num_neg = 0
     for _, y_batch in train_loader:
@@ -113,15 +125,14 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=5)
     
-    best_val_auc = 0.0
+    best_val_auc, best_locked_threshold = 0.0, 0.5
     best_weights = None
-    best_locked_threshold = 0.5
     history = {"train_loss": [], "val_loss": [], "val_auc": [], "val_acc": [], "val_f1": []}
     
     for epoch in range(EPOCHS):
         model.train()
 
-        # Robust BatchNorm Freezing: Only Layer 3 (index 6) gets to track running stats
+        # BatchNorm Protocol: Freeze statistics for immobilized layers; allow Layer 3 to update.
         for name, module in model.named_modules():
             if "backbone" in name and "backbone.6" not in name:
                 module.eval()
@@ -135,14 +146,13 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
             loss = criterion(logits, y)
             loss.backward()
             
-            # Gradient Clipping: Protect classical topology from exploding gradients
+            # Gradient Clipping: Mitigate gradient explosion in classical parameters
             torch.nn.utils.clip_grad_norm_(backbone_params + head_params, max_norm=1.0)
             
             optimizer.step()
             total_loss += loss.item() * x.size(0)
             
         train_loss = total_loss / len(train_loader.dataset)
-        
         val_loss, val_auc, val_acc, val_f1, current_thresh = evaluate_epoch(model, val_loader, criterion, device)
         scheduler.step(val_loss)
         
@@ -167,6 +177,7 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, d
     print(f"         -> Final Test AUC: {test_auc:.4f} | Acc: {test_acc:.4f} | F1: {test_f1:.4f} | Used Thresh: {best_locked_threshold:.2f}")
     
     return test_auc, test_acc, test_f1, history
+
 
 def main():
     os.makedirs("results", exist_ok=True)
@@ -221,11 +232,17 @@ def main():
                 frac_results["quantum"]["test_f1"].append(q_f1)
                 frac_results["quantum"]["history"].append(q_hist)
             
-            print(f"\n   [AVERAGE RESULTS ACROSS {len(SEEDS)} SEEDS]")
+            # DYNAMIC AVERAGING: Calculate final metrics
+            lin_avg_auc = np.mean(results["datasets"][dataset]["fractions"][str(frac)]["classical_linear"]["test_auc"])
+            mlp_avg_auc = np.mean(results["datasets"][dataset]["fractions"][str(frac)]["classical_mlp"]["test_auc"])
+            q_avg_auc = np.mean(results["datasets"][dataset]["fractions"][str(frac)]["quantum"]["test_auc"])
+            
             lin_avg_acc = np.mean(results["datasets"][dataset]["fractions"][str(frac)]["classical_linear"]["test_acc"])
             mlp_avg_acc = np.mean(results["datasets"][dataset]["fractions"][str(frac)]["classical_mlp"]["test_acc"])
             q_avg_acc = np.mean(results["datasets"][dataset]["fractions"][str(frac)]["quantum"]["test_acc"])
             
+            print(f"\n   [AVERAGE RESULTS ACROSS {len(SEEDS)} SEEDS]")
+            print(f"   Linear AUC: {lin_avg_auc:.4f} | MLP AUC: {mlp_avg_auc:.4f} | Quantum AUC: {q_avg_auc:.4f}")
             print(f"   Linear Acc: {lin_avg_acc:.4f} | MLP Acc: {mlp_avg_acc:.4f} | Quantum Acc: {q_avg_acc:.4f}")
     
     with open(RESULTS_FILE, "w") as f:
