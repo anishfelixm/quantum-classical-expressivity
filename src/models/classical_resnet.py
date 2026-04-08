@@ -24,7 +24,7 @@ class ClassicalLinearResNet(nn.Module):
         
         # Layer targeted freezing
         for name, param in self.backbone.named_parameters():
-            param.requires_grad = "layer3" in name
+            param.requires_grad = "6." in name
 
         # ResNet18 Layer 3 yields 256 channels
         self.bottleneck = nn.Linear(256, bottleneck_dim)
@@ -52,7 +52,7 @@ class ClassicalMLPResNet(nn.Module):
         self.pool = nn.AdaptiveAvgPool2d((1, 1))
         
         for name, param in self.backbone.named_parameters():
-            param.requires_grad = "layer3" in name
+            param.requires_grad = "6." in name
 
         self.bottleneck = nn.Linear(256, bottleneck_dim)
         self.activation = nn.GELU()

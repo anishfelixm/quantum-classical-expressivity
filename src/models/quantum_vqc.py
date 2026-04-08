@@ -25,7 +25,7 @@ class QuantumHybridResNet(nn.Module):
         self.pool = nn.AdaptiveAvgPool2d((1, 1))
         
         for name, param in self.backbone.named_parameters():
-            param.requires_grad = "layer3" in name
+            param.requires_grad = "6." in name
                 
         # Compress Layer 3 channels (256) down to the available qubit count
         self.bottleneck = nn.Linear(256, self.n_qubits)

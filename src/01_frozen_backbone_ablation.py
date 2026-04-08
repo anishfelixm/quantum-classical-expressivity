@@ -72,7 +72,7 @@ def evaluate_epoch(model, dataloader, criterion, device, threshold=None):
     return avg_loss, float(auc), float(acc), float(f1), float(best_thresh)
 
 
-def train_ablation_model(model, train_loader, val_loader, test_loader, device, model_name, dataset_name, seed):
+def train_ablation_model(model, train_loader, val_loader, test_loader, device, model_name, dataset_name, seed, frac):
     """
     Executes the training loop with a strictly frozen classical backbone.
     Isolates the expressivity of the latent projection head (Linear, MLP, or Quantum).
@@ -158,7 +158,7 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
     if best_weights is not None:
         model.load_state_dict(best_weights)
         safe_name = model_name.replace(' ', '_')
-        torch.save(best_weights, f"results/best_ablation_{safe_name}_{dataset_name}_seed{seed}.pt")
+        torch.save(best_weights, f"results/best_ablation_{safe_name}_{dataset_name}_frac{frac}_seed{seed}.pt")
         
     # Final Test Set Evaluation
     test_loss, test_auc, test_acc, test_f1, _ = evaluate_epoch(model, test_loader, criterion, device, threshold=best_locked_threshold)
@@ -201,9 +201,9 @@ def main():
                 mlp_model = ClassicalMLPResNet(bottleneck_dim=4).to(device)
                 quantum_model = QuantumHybridResNet(n_qubits=4, n_layers=2).to(device)
                 
-                lin_auc, lin_acc, lin_f1, lin_hist = train_ablation_model(linear_model, train_loader, val_loader, test_loader, device, "Classical Linear", dataset, seed)
-                mlp_auc, mlp_acc, mlp_f1, mlp_hist = train_ablation_model(mlp_model, train_loader, val_loader, test_loader, device, "Classical MLP", dataset, seed)
-                q_auc, q_acc, q_f1, q_hist = train_ablation_model(quantum_model, train_loader, val_loader, test_loader, device, "Quantum VQC", dataset, seed)
+                lin_auc, lin_acc, lin_f1, lin_hist = train_ablation_model(linear_model, train_loader, val_loader, test_loader, device, "Classical Linear", dataset, seed, frac)
+                mlp_auc, mlp_acc, mlp_f1, mlp_hist = train_ablation_model(mlp_model, train_loader, val_loader, test_loader, device, "Classical MLP", dataset, seed, frac)
+                q_auc, q_acc, q_f1, q_hist = train_ablation_model(quantum_model, train_loader, val_loader, test_loader, device, "Quantum VQC", dataset, seed, frac)
                 
                 # Metric Logging
                 frac_results = results["datasets"][dataset]["fractions"][str(frac)]

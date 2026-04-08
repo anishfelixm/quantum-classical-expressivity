@@ -76,7 +76,7 @@ def evaluate_epoch(model: nn.Module, dataloader: torch.utils.data.DataLoader, cr
     return avg_loss, float(auc), float(acc), float(f1), float(best_thresh)
 
 
-def train_finetune_model(model: nn.Module, train_loader: torch.utils.data.DataLoader, val_loader: torch.utils.data.DataLoader, test_loader: torch.utils.data.DataLoader, device: torch.device, dataset_name: str, model_name: str, seed: int):
+def train_finetune_model(model: nn.Module, train_loader: torch.utils.data.DataLoader, val_loader: torch.utils.data.DataLoader, test_loader: torch.utils.data.DataLoader, device: torch.device, dataset_name: str, model_name: str, seed: int, frac: float):
     """
     Executes the End-to-End training protocol.
     Enforces a strict parameter hierarchy: Layer 3 is unfrozen but throttled by a 
@@ -171,7 +171,7 @@ def train_finetune_model(model: nn.Module, train_loader: torch.utils.data.DataLo
     if best_weights is not None:
         model.load_state_dict(best_weights)
         safe_name = model_name.replace(' ', '_')
-        torch.save(best_weights, f"results/best_e2e_{safe_name}_{dataset_name}_seed{seed}.pt")
+        torch.save(best_weights, f"results/best_e2e_{safe_name}_{dataset_name}_frac{frac}_seed{seed}.pt")
         
     test_loss, test_auc, test_acc, test_f1, _ = evaluate_epoch(model, test_loader, criterion, device, threshold=best_locked_threshold)
     print(f"         -> Final Test AUC: {test_auc:.4f} | Acc: {test_acc:.4f} | F1: {test_f1:.4f} | Used Thresh: {best_locked_threshold:.2f}")
@@ -212,9 +212,9 @@ def main():
                 mlp_model = ClassicalMLPResNet(bottleneck_dim=4).to(device)
                 quantum_model = QuantumHybridResNet(n_qubits=4, n_layers=2).to(device)
                 
-                lin_auc, lin_acc, lin_f1, lin_hist = train_finetune_model(linear_model, train_loader, val_loader, test_loader, device, dataset, "Classical Linear", seed)
-                mlp_auc, mlp_acc, mlp_f1, mlp_hist = train_finetune_model(mlp_model, train_loader, val_loader, test_loader, device, dataset, "Classical MLP", seed)
-                q_auc, q_acc, q_f1, q_hist = train_finetune_model(quantum_model, train_loader, val_loader, test_loader, device, dataset, "Quantum VQC", seed)
+                lin_auc, lin_acc, lin_f1, lin_hist = train_finetune_model(linear_model, train_loader, val_loader, test_loader, device, dataset, "Classical Linear", seed, frac)
+                mlp_auc, mlp_acc, mlp_f1, mlp_hist = train_finetune_model(mlp_model, train_loader, val_loader, test_loader, device, dataset, "Classical MLP", seed, frac)
+                q_auc, q_acc, q_f1, q_hist = train_finetune_model(quantum_model, train_loader, val_loader, test_loader, device, dataset, "Quantum VQC", seed, frac)
                 
                 frac_results = results["datasets"][dataset]["fractions"][str(frac)]
                 frac_results["classical_linear"]["test_auc"].append(lin_auc)
