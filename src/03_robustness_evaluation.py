@@ -105,9 +105,9 @@ def load_and_test_seed(dataset, fraction, seed, device):
     if not os.path.exists(lin_path) or not os.path.exists(q_path) or not os.path.exists(mlp_path):
         raise FileNotFoundError(f"Missing weights for {dataset} frac {fraction} seed {seed}.")
     
-    lin_model.load_state_dict(torch.load(lin_path, map_location=device))
-    mlp_model.load_state_dict(torch.load(mlp_path, map_location=device))
-    q_model.load_state_dict(torch.load(q_path, map_location=device))
+    lin_model.load_state_dict(torch.load(lin_path, map_location=device, weights_only=True))
+    mlp_model.load_state_dict(torch.load(mlp_path, map_location=device, weights_only=True))
+    q_model.load_state_dict(torch.load(q_path, map_location=device, weights_only=True))
     
     print(f"\n   --- RUNNING SEED: {seed} ---")
     lin_curve = evaluate_robustness_curve(lin_model, test_loader, device, seed, "Classical Linear")
