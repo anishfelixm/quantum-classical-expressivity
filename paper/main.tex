@@ -75,7 +75,7 @@ In classical biological and artificial neural networks, moderate input noise can
 
 \section{Theoretical Framework}
 
-To formalize the mechanism underlying the ``Bottleneck Gap'' and subsequent Latent Reshaping, we mathematically define the representational capacities of both the classical and quantum classification heads under a severe, strict information bottleneck constraint.
+To formalize the mechanism underlying the ``Bottleneck Gap'' and subsequent Latent Reshaping, we mathematically define the representational capacities of both the classical and quantum classification heads under a severe information bottleneck constraint.
 
 \subsection{The Classical Information Bottleneck and Topological Collapse}
 Let the pre-trained, truncated ResNet-18 backbone act as a generalized feature extractor mapping an input image $x \in \mathbb{R}^{H \times W \times C}$ to a mid-level hierarchical latent representation $h \in \mathbb{R}^{d_{in}}$. By immobilizing the network prior to the terminal residual block (`layer4`), the global average pooling layer yields a feature vector where $d_{in} = 256$. 
@@ -85,13 +85,13 @@ To simulate the strict bandwidth and computational constraints of edge-device tr
     z = W_{comp} h + b_{comp} \quad, \quad z \in \mathbb{R}^{d_B}
 \end{equation}
 
-In our classical baselines, this ultra-compressed vector $z$ is fed either directly into a linear classification head or into a multi-layer perceptron (MLP) utilizing a Gaussian Error Linear Unit (GELU) activation to test classical non-linear expressivity:
+In our classical baselines, this ultra-compressed vector $z$ is fed either directly into a linear classification head or into a multi-layer perceptron (MLP) utilizing a Gaussian Error Linear Unit (GELU) \cite{hendrycks2016gelu} activation to test classical non-linear expressivity:
 \begin{align}
     \hat{y}_{lin} &= W_{clf} z + b_{clf} \\
     \hat{y}_{mlp} &= W_{clf}(\text{GELU}(z)) + b_{clf}
 \end{align}
 
-Because the compression matrix $W_{comp}$ is strictly linear, highly entangled and non-linear data manifolds residing in $\mathbb{R}^{256}$ undergo destructive interference when projected onto $\mathbb{R}^4$. The subsequent classical classifiers, fundamentally restricted by the ultra-low dimensionality of $z$, frequently suffer from ``topological collapse.'' They lack the spatial degrees of freedom—and consequently the topological capacity—to draw the complex, multi-dimensional hyperplanes necessary to separate overlapping clinical classes, resulting in early optimization plateaus and high loss ceilings.
+Because the compression matrix $W_{comp}$ is strictly linear, highly entangled and non-linear data manifolds residing in $\mathbb{R}^{256}$ undergo irreversible geometric overlap when projected onto $\mathbb{R}^4$. The subsequent classical classifiers, fundamentally restricted by the ultra-low dimensionality of $z$, frequently suffer from ``topological collapse.'' They lack the spatial degrees of freedom—and consequently the topological capacity—to draw the complex, multi-dimensional hyperplanes necessary to separate overlapping clinical classes, resulting in early optimization plateaus and high loss ceilings.
 
 \subsection{Quantum Hilbert Space Embedding and Expressivity}
 The Hybrid Quantum-Classical architecture (HQCNN) aims to resolve this topological entanglement by replacing the classical classification head with a Variational Quantum Circuit (VQC). The identical $4$-dimensional bottleneck vector $z$ is mapped into a quantum state. 
