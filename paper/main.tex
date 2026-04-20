@@ -108,7 +108,7 @@ We employ an angle embedding strategy, applying localized Pauli-$Y$ rotations to
 
 This operation constitutes the core geometric advantage: while the classical input $z$ contains only 4 variables mapped in a constrained Euclidean space $\mathbb{R}^4$, the resulting encoded quantum state $|\psi(\tilde{z})\rangle$ resides in a complex Hilbert space $\mathcal{H}$ of dimension $2^{n}$. For $n=4$ qubits, the data is geometrically expanded into a $16$-dimensional complex vector space ($\mathbb{C}^{16}$). 
 
-The state is subsequently evolved via a parameterized unitary $U(\theta)$, instantiated as sequences of Strongly Entangling Layers comprising arbitrary single-qubit rotations and cyclic CNOT entangling cascades. To extract classical predictions, we measure the expectation value of the Pauli-$X$ observable ($\sigma_x$) across all $n$ wires, producing a continuous quantum feature vector $v_q \in [-1, 1]^n$:
+The state is subsequently evolved via a parameterized unitary $U(\theta)$, instantiated as sequences of Strongly Entangling Layers comprising arbitrary single-qubit rotations and cyclic CNOT entangling cascades. To extract measurable classical features, we calculate the expectation value of the Pauli-$X$ observable ($\sigma_x$) across all $n$ wires, producing a continuous quantum feature vector $v_q \in [-1, 1]^n$:
 \begin{equation}
     v_q^{(i)} = \langle \psi(\tilde{z}) | U^\dagger(\theta) \sigma_x^{(i)} U(\theta) | \psi(\tilde{z}) \rangle \quad \forall i \in \{1, \dots, n\}
 \end{equation}
@@ -118,7 +118,7 @@ The final classification logit is obtained via a dynamically learned, weighted s
     \hat{y}_{q} = \sum_{i=1}^n w_i v_q^{(i)} + b_{logit}
 \end{equation}
 
-This framework establishes the mathematical foundation for the observed ``Bottleneck Gap.'' The classical models are restricted to linear or mildly non-linear hyperplanes in $\mathbb{R}^4$. In contrast, the VQC evaluates complex expectation values across entangled states in $\mathbb{C}^{16}$. This Fourier-accessible quantum feature space provides the necessary expressivity to resolve and separate decision boundaries that remain hopelessly entangled in the constrained classical latent space.
+This framework establishes the mathematical foundation for the observed ``Bottleneck Gap.'' The classical models are restricted to linear or mildly non-linear hyperplanes in $\mathbb{R}^4$. In contrast, the VQC evaluates complex expectation values across entangled states in $\mathbb{C}^{16}$. This Fourier-accessible quantum feature space provides the necessary expressivity to resolve and separate decision boundaries that remain topologically entangled in the constrained classical latent space.
 
 \section{Methodology}
 
