@@ -78,7 +78,7 @@ In classical biological and artificial neural networks, moderate input noise can
 To formalize the mechanism underlying the ``Bottleneck Gap'' and subsequent Latent Reshaping, we mathematically define the representational capacities of both the classical and quantum classification heads under a severe information bottleneck constraint.
 
 \subsection{The Classical Information Bottleneck and Topological Collapse}
-Let the pre-trained, truncated ResNet-18 backbone act as a generalized feature extractor mapping an input image $x \in \mathbb{R}^{H \times W \times C}$ to a mid-level hierarchical latent representation $h \in \mathbb{R}^{d_{in}}$. By immobilizing the network prior to the terminal residual block (`layer4`), the global average pooling layer yields a feature vector where $d_{in} = 256$. 
+Let the pre-trained, truncated ResNet-18 backbone act as a generalized feature extractor mapping an input image $x \in \mathbb{R}^{H \times W \times C}$ to a mid-level hierarchical latent representation $h \in \mathbb{R}^{d_{in}}$. By immobilizing the network prior to the terminal residual block (\texttt{layer4}), the global average pooling layer yields a feature vector where $d_{in} = 256$. 
 
 To simulate the strict bandwidth and computational constraints of edge-device transmission, we impose an extreme information bottleneck via a dense linear projection down to a dimension $d_B \ll d_{in}$, where $d_B = n = 4$:
 \begin{equation}
@@ -125,11 +125,11 @@ This framework establishes the mathematical foundation for the observed ``Bottle
 To rigorously test the geometric expressivity hypothesis, we designed a unified Hybrid Transfer Learning pipeline. The architecture is explicitly constructed to isolate the classification heads (Classical vs. Quantum) by forcing all spatial information through an identical, highly constrained latent bottleneck, guaranteeing strict structural parity.
 
 \subsection{Convolutional Feature Extraction and Targeted Unfreezing}
-We utilize the ResNet-18 architecture \cite{resnet} as the foundational feature extractor. Pre-trained on the ImageNet dataset, the network's early convolutional blocks act as robust generalized texture and edge detectors. To adapt the network to medical imaging modalities while adhering to our extreme dimensionality constraints, we truncated the network by discarding `layer4`, the global average pooling, and the fully connected layer. 
+We utilize the ResNet-18 architecture \cite{resnet} as the foundational feature extractor. Pre-trained on the ImageNet dataset, the network's early convolutional blocks act as robust generalized texture and edge detectors. To adapt the network to medical imaging modalities while adhering to our extreme dimensionality constraints, we truncated the network by discarding \texttt{layer4}, the global average pooling, and the fully connected layer. 
 
-The resulting truncated backbone processes input images up to `layer3`, outputting a mid-level hierarchical spatial tensor which is subsequently passed through an `AdaptiveAvgPool2d(1, 1)` to ensure spatial translation invariance, and flattened into a feature vector $h \in \mathbb{R}^{256}$.
+The resulting truncated backbone processes input images up to \texttt{layer3}, outputting a mid-level hierarchical spatial tensor which is subsequently passed through an \texttt{AdaptiveAvgPool2d(1, 1)} to ensure spatial translation invariance, and flattened into a feature vector $h \in \mathbb{R}^{256}$.
 
-To prevent catastrophic forgetting and mitigate severe overfitting in the $1\%$ and $10\%$ data-scarcity regimes, we employed a selective fine-tuning strategy. The early residual blocks (`layer1` and `layer2`) were permanently immobilized. During the end-to-end Latent Reshaping evaluation, only the terminal residual block of the truncated backbone (`layer3`) was unfrozen. This permits the network to dynamically update high-level, domain-specific spatial hierarchies (e.g., radiological opacities) while leveraging the stability of the pre-trained generalized filters.
+To prevent catastrophic forgetting and mitigate severe overfitting in the $1\%$ and $10\%$ data-scarcity regimes, we employed a selective fine-tuning strategy. The early residual blocks (\texttt{layer1} and \texttt{layer2}) were permanently immobilized. During the end-to-end Latent Reshaping evaluation, only the terminal residual block of the truncated backbone (\texttt{layer3}) was unfrozen. This permits the network to dynamically update high-level, domain-specific spatial hierarchies (e.g., radiological opacities) while leveraging the stability of the pre-trained generalized filters.
 
 \subsection{The Information Bottleneck Layer}
 The core constraint of our experiment is the Information Bottleneck. The $256$-dimensional feature vector $h$ is passed through a dense linear projection layer:
@@ -142,7 +142,7 @@ where $W_{comp} \in \mathbb{R}^{4 \times 256}$ and $b_{comp} \in \mathbb{R}^{4}$
 To ensure structural fairness, the classical classification heads were designed to match the $4$-dimensional constraint of the quantum circuit. We established two classical baselines:
 \begin{enumerate}
     \item \textbf{Classical Linear:} Projects the bottlenecked vector $z$ directly to a classification logit via a single dense layer ($W_{clf} \in \mathbb{R}^{1 \times 4}$), representing a strictly linear decision boundary.
-    \item \textbf{Classical MLP:} Introduces a Gaussian Error Linear Unit (GELU) \textbf{\cite{hendrycks2016gelu}} activation in the latent space before the final linear projection, serving as the benchmark for classical non-linear expressivity under severe dimensionality constraints.
+    \item \textbf{Classical MLP:} Introduces a Gaussian Error Linear Unit (GELU) \cite{hendrycks2016gelu} activation in the latent space before the final linear projection. GELU was deliberately selected over standard ReLU to prevent catastrophic dead-neuron information loss in the ultra-low $4$-dimensional space, serving as a rigorous benchmark for classical non-linear expressivity.
 \end{enumerate}
 
 \subsection{Quantum Classification Head (VQC)}
@@ -172,9 +172,9 @@ We measure the expectation value of the Pauli-$X$ observable ($\sigma_x$) on all
 This quantum measurement vector is dynamically processed through a final learned classical weight array ($W_{obs} \in \mathbb{R}^{1 \times 4}$) and bias to produce the final classification logit $\hat{y}_{q}$. 
 
 \subsection{Optimization and Differential Training Protocol}
-Due to the disparate gradients inherent to hybrid architectures, standard uniform optimization frequently results in barren plateaus or catastrophic classical forgetting. We implemented a differential learning rate strategy optimized via Adam \textbf{\cite{kingma2014adam}} : the unfrozen classical `layer3` parameters were updated conservatively ($\eta = 10^{-4}$), while the classical linear/MLP heads and the quantum parameters were optimized at $\eta = 10^{-3}$ and $\eta = 5 \times 10^{-3}$, respectively. 
+Due to the disparate gradients inherent to hybrid architectures, standard uniform optimization frequently results in barren plateaus or catastrophic classical forgetting. We implemented a differential learning rate strategy optimized via Adam \cite{kingma2014adam}: the unfrozen classical \texttt{layer3} parameters were updated conservatively ($\eta = 10^{-4}$), while the classical linear/MLP heads and the quantum parameters were optimized at $\eta = 10^{-3}$ and $\eta = 5 \times 10^{-3}$, respectively. 
 
-To mitigate the severe class imbalances present in clinical datasets, models were optimized using a Binary Cross-Entropy with Logits Loss (BCEWithLogitsLoss) dynamically weighted by the negative-to-positive class ratio of the subsampled training set. A `ReduceLROnPlateau` scheduler was employed to stabilize final convergence. All hybrid models were trained end-to-end by backpropagating classical gradients through the quantum circuit utilizing the parameter-shift rule \textbf{\cite{Mitarai2018, Schuld2019_gradients}}.
+To mitigate the severe class imbalances present in clinical datasets, models were optimized using a Binary Cross-Entropy with Logits Loss (BCEWithLogitsLoss) dynamically weighted by the negative-to-positive class ratio of the subsampled training set. A \texttt{ReduceLROnPlateau} scheduler was employed to stabilize final convergence. All hybrid models were trained end-to-end by backpropagating classical gradients through the quantum circuit utilizing the parameter-shift rule \cite{Mitarai2018, Schuld2019_gradients}.
 
 \section{Experimental Setup}
 
@@ -194,7 +194,7 @@ Integrating a randomly initialized quantum circuit with a pre-trained classical 
 
 \textbf{1. Frozen-Backbone Ablation:} To establish a baseline of inherent head expressivity with zero latent gradient variance, the entire ResNet-18 backbone was strictly immobilized. Only the dense bottleneck projection and classification heads were trained.
 
-\textbf{2. End-to-End Fine-Tuning:} To enable Latent Reshaping, the terminal residual block (`layer3`) was unfrozen. We implemented a strict Differential Learning Rate strategy: the backbone was updated at $\eta_{backbone} = 10^{-4}$ to carefully preserve ImageNet-derived spatial filters, the classical classification heads at $\eta_{clf} = 10^{-3}$, and the VQC parameters at $\eta_{q} = 5 \times 10^{-3}$ to ensure adequate traversal of the quantum phase space.
+\textbf{2. End-to-End Fine-Tuning:} To enable Latent Reshaping, the terminal residual block (\texttt{layer3}) was unfrozen. We implemented a strict Differential Learning Rate strategy: the backbone was updated at $\eta_{backbone} = 10^{-4}$ to carefully preserve ImageNet-derived spatial filters, the classical classification heads at $\eta_{clf} = 10^{-3}$, and the VQC parameters at $\eta_{q} = 5 \times 10^{-3}$ to ensure adequate traversal of the quantum phase space.
 
 Across both regimes, models were trained for exactly 50 epochs without early stopping to observe true saturation plateaus. To counteract severe clinical class imbalances, we utilized Binary Cross-Entropy with Logits Loss, dynamically scaling the positive class weight by the negative-to-positive sample ratio of the specific scarcity regime.
 
@@ -208,7 +208,7 @@ To evaluate the ``Precision Paradox'' and benchmark operational resilience, we s
 \begin{equation}
     \tilde{X}_{test} = \text{clamp}(X_{test} + \epsilon, \ 0.0, \ 1.0) \quad, \quad \epsilon \sim \mathcal{N}(0, \sigma^2)
 \end{equation}
-The noise standard deviation $\sigma$ was incrementally swept across $[0.0, 0.2]$. The `clamp` function ensures the spatial tensors respect strict biological and hardware sensor limits. 
+The noise standard deviation $\sigma$ was incrementally swept across $[0.0, 0.2]$. The \texttt{clamp} function ensures the spatial tensors respect strict biological and hardware sensor limits. 
 
 To guarantee absolute methodological parity, the random number generator was re-seeded as a deterministic function of $\sigma$. This ensures that the Classical Linear, Classical MLP, and Quantum VQC models faced the exact same spatial noise tensors per image. To accurately measure decision boundary decay rather than dynamic re-calibration, the optimal Precision-Recall threshold calculated on pristine data ($\sigma=0.0$) was strictly locked across all subsequent noise levels.
 
@@ -225,7 +225,7 @@ To establish a foundational baseline and isolate the classification heads from c
 On BreastMNIST under the severe 10\% scarcity regime, the classical linear head achieved a mean Test AUC of $0.7127$, slightly outperforming the Quantum VQC ($0.7022$) and the Classical MLP ($0.6721$). This dynamic is mathematically consistent with the geometry of the frozen latent space. Because pre-trained ImageNet filters are structurally misaligned with ultrasound textures, the $4$-dimensional bottleneck output acts as highly ambiguous spatial noise. The classical linear model optimally responds to this unstructured noise by drawing a blunt, static hyperplane. In contrast, the VQC utilizes a high-frequency trigonometric embedding strategy (Equation 3). When fed unoptimized spatial noise, the parameterized rotation angles struggle to find a stable, continuous manifold, resulting in minor phase misalignment and sub-optimal convergence.
 
 \subsection{The Bottleneck Gap and Latent Reshaping}
-To test whether the quantum circuit could overcome this initial misalignment, we transitioned to the end-to-end Latent Reshaping regime by unfreezing the terminal residual block (`layer3`). This permitted the quantum classification head to backpropagate gradients directly into the classical convolutional filters. The empirical results, summarized in Table \ref{tab:peak_auc}, reveal a profound reversal in architectural dominance.
+To test whether the quantum circuit could overcome this initial misalignment, we transitioned to the end-to-end Latent Reshaping regime by unfreezing the terminal residual block (\texttt{layer3}). This permitted the quantum classification head to backpropagate gradients directly into the classical convolutional filters. The empirical results, summarized in Table \ref{tab:peak_auc}, reveal a profound reversal in architectural dominance.
 
 On the BreastMNIST 10\% scarcity regime, unfreezing the backbone caused the VQC's performance to surge, achieving a mean AUC of $0.7770$ and decisively eclipsing both the Classical Linear ($0.7659$) and Classical MLP ($0.7635$) baselines. This statistically significant delta visually formalized in Figure \ref{fig:bottleneck_gap}, confirms the ``Latent Reshaping'' hypothesis. While the VQC struggles with static noise, its quantum gradients possess a geometrically superior capacity to drive classical convolutional layers toward a linearly separable, quantum-friendly topology, even with merely 54 training samples. 
 
