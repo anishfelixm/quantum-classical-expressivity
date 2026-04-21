@@ -188,33 +188,33 @@ We evaluated the architectures across two distinct imaging modalities from the M
     \item \textbf{PneumoniaMNIST:} Comprises pediatric chest X-ray images classified into normal and pneumonia-infected lungs, representing a more structurally distinct imaging modality.
 \end{itemize}
 
-To rigorously evaluate the parameter efficiency of the VQC against the classical baselines, we established two extreme training environments. First, models were trained on the full available datasets (100\%) to establish upper-bound performance baselines. Second, to simulate the severe data scarcity frequently encountered in novel or rare-disease clinical settings, we aggressively constrained the training sets via deterministic subsampling: \textbf{10\% for BreastMNIST} (yielding approximately 54 training samples) and \textbf{1\% for PneumoniaMNIST} (yielding approximately 58 samples). The validation and test sets remained at 100\% volume across all trials to guarantee strictly standardized comparative evaluation.
+To rigorously evaluate the parameter efficiency of the VQC against the classical baselines, we established two parallel extreme training environments. To establish upper-bound performance baselines, the architectures were evaluated on the full available datasets (100\%). Conversely, to simulate the severe data scarcity frequently encountered in novel or rare-disease clinical settings, we aggressively constrained the training sets via deterministic subsampling: \textbf{10\% for BreastMNIST} (yielding 54 training samples) and \textbf{1\% for PneumoniaMNIST} (yielding 47 training samples). The validation and test sets remained at 100\% volume across all trials to guarantee strictly standardized, statistically significant comparative evaluation.
 
 \subsection{Optimization Protocols and Class Mitigation}
 Integrating a randomly initialized quantum circuit with a pre-trained classical backbone introduces significant optimization instability, often leading to barren plateaus or catastrophic forgetting. We systematically mitigated this through the following protocols utilizing the Adam optimizer:
 
-\textbf{1. Frozen-Backbone Ablation:} To establish a baseline of inherent head expressivity with zero latent gradient variance, the entire ResNet-18 backbone was strictly immobilized. Only the dense bottleneck projection and classification heads were trained.
+\textbf{1. Frozen-Backbone Ablation:} To establish a baseline of inherent head expressivity with static latent feature representations, the entire ResNet-18 backbone was strictly immobilized. Only the dense bottleneck projection and classification heads were trained.
 
 \textbf{2. End-to-End Fine-Tuning:} To enable Latent Reshaping, the terminal residual block (\texttt{layer3}) was unfrozen. We implemented a strict Differential Learning Rate strategy: the backbone was updated at $\eta_{backbone} = 10^{-4}$ to carefully preserve ImageNet-derived spatial filters, the classical classification heads at $\eta_{clf} = 10^{-3}$, and the VQC parameters at $\eta_{q} = 5 \times 10^{-3}$ to ensure adequate traversal of the quantum phase space.
 
 Across both regimes, models were trained for exactly 50 epochs without early stopping to observe true saturation plateaus. To counteract severe clinical class imbalances, we utilized Binary Cross-Entropy with Logits Loss, dynamically scaling the positive class weight by the negative-to-positive sample ratio of the specific scarcity regime.
 
 \subsection{Evaluation Metrics and Threshold Locking}
-Because medical datasets exhibit skewed distributions, raw classification accuracy is a highly misleading metric. Models were primarily evaluated using the Area Under the Receiver Operating Characteristic Curve (AUC-ROC), providing a threshold-invariant measure of the classifier’s geometric separability.
+While standard loss and accuracy metrics were recorded, models were primarily evaluated using the Area Under the Receiver Operating Characteristic Curve (AUC-ROC). Because medical datasets exhibit skewed distributions, raw classification accuracy is a highly misleading metric; AUC-ROC provides a robust, threshold-invariant measure of the classifier’s geometric separability.
 
-However, to evaluate the practical deployment viability of the decision boundaries, we also calculated the F1 Score. Crucially, rather than utilizing a static $0.5$ logit boundary, the optimal classification threshold was dynamically calculated on the validation set by maximizing the Precision-Recall curve. This optimal threshold was subsequently ``locked'' and explicitly applied to the test set to ensure realistic clinical evaluation.
+However, to evaluate the practical deployment viability of the decision boundaries, we also calculated the F1 Score. Crucially, rather than utilizing a static $0.5$ logit boundary, the optimal classification threshold was dynamically calculated on the validation set by maximizing the Precision-Recall curve. This optimal threshold was subsequently ``locked'' and explicitly applied to the test set to ensure realistic, unbiased clinical evaluation.
 
 \subsection{Sensor Degradation and RNG Parity Protocol}
 To evaluate the ``Precision Paradox'' and benchmark operational resilience, we subjected the fully optimized models to a sensor degradation stress test. Pristine test images $X_{test}$ were corrupted with additive Gaussian noise:
 \begin{equation}
     \tilde{X}_{test} = \text{clamp}(X_{test} + \epsilon, \ 0.0, \ 1.0) \quad, \quad \epsilon \sim \mathcal{N}(0, \sigma^2)
 \end{equation}
-The noise standard deviation $\sigma$ was incrementally swept across $[0.0, 0.2]$. The \texttt{clamp} function ensures the spatial tensors respect strict biological and hardware sensor limits.
+The noise standard deviation $\sigma$ was incrementally swept across $[0.0, 0.2]$. The \texttt{clamp} function ensures the spatial tensors respect strict physical sensor and digital imaging limits.
 
 To guarantee absolute methodological parity, the random number generator was re-seeded as a deterministic function of $\sigma$. This ensures that the Classical Linear, Classical MLP, and Quantum VQC models faced the exact same spatial noise tensors per image. To accurately measure decision boundary decay rather than dynamic re-calibration, the optimal Precision-Recall threshold calculated on pristine data ($\sigma=0.0$) was strictly locked across all subsequent noise levels.
 
 \subsection{Software and Hardware Framework}
-Classical deep learning operations and gradient autograd engines were implemented in PyTorch. The quantum circuits were constructed and evaluated using PennyLane \cite{pennylane}, utilizing the \texttt{pennylane-lightning} plugin for high-performance state-vector simulation.
+Classical deep learning operations and gradient autograd engines were implemented in PyTorch. The quantum circuits were constructed and evaluated using PennyLane \cite{pennylane}, utilizing the \texttt{pennylane-lightning} plugin for high-performance state-vector simulation. All classical optimizations and quantum evaluations were executed on multi-core CPU infrastructure to guarantee strict computational determinism across all noise and seed initializations.
 
 \section{Results I: Expressivity and Latent Reshaping}
 
