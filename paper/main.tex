@@ -146,7 +146,7 @@ To ensure structural fairness, the classical classification heads were designed 
 \end{enumerate}
 
 \subsection{Quantum Classification Head (VQC)}
-In the quantum hybrid variant, the classical head is replaced by a Continuous-Variable to Discrete-Qubit interface, a Variational Quantum Circuit (VQC), and a classical post-processing layer. The quantum pipeline utilizes PennyLane \cite{pennylane} for state-vector simulation and executes in four distinct phases:
+In the quantum hybrid variant, the classical head is replaced by a Continuous-Variable to Discrete-Qubit interface, a Variational Quantum Circuit (VQC), and a classical post-processing layer. The quantum pipeline utilizes PennyLane \cite{pennylane} for state-vector simulation and executes in four distinct computational steps:
 
 \subsubsection{Data Scaling and Bounding}
 Because quantum rotation gates are periodic modulo $2\pi$, raw continuous features can trigger ``phase-wrapping'' anomalies (where vastly different classical values map to identical quantum states). To prevent this, the classical bottleneck vector $z$ is scaled non-linearly into a strictly bounded phase-space using a hyperbolic tangent function:
@@ -156,25 +156,25 @@ Because quantum rotation gates are periodic modulo $2\pi$, raw continuous featur
 This bounds the rotational angles to a continuous manifold without periodic overlap.
 
 \subsubsection{Quantum State Preparation}
-The bounded classical vector $\tilde{z}$ is embedded into a 4-qubit quantum subsystem initially in the ground state $|0\rangle^{\otimes 4}$. We utilize Angle Embedding via independent single-qubit Pauli-$Y$ rotations:
+The bounded classical vector $\tilde{z}$ is embedded into a 4-qubit quantum subsystem initially in the ground state $|0\rangle^{\,\otimes 4}$. We utilize Angle Embedding via independent single-qubit Pauli-$Y$ rotations to ensure strictly real-valued probability amplitudes:
 \begin{equation}
-    |\psi_{in}\rangle = \bigotimes_{i=1}^{4} R_y(\tilde{z}_{i}) |0\rangle
+    |\psi_{in}\rangle = \bigotimes_{i=1}^{4} \left( R_y(\tilde{z}_{i}) |0\rangle \right)
 \end{equation}
 
 \subsubsection{Parameterized Ansatz}
-The core of the quantum expressivity lies in the parameterized unitary operation $U(\theta)$. We employ $L=2$ repetitions of Strongly Entangling Layers. Each layer applies arbitrary single-qubit rotations $R(\alpha, \beta, \gamma)$ to every qubit, followed by a cyclic cascade of controlled-NOT (CNOT) gates to generate deep, multi-qubit entanglement. The total number of trainable quantum parameters is $\theta \in \mathbb{R}^{L \times n \times 3} = \mathbb{R}^{24}$, where $n=4$.
+The core of the quantum expressivity lies in the parameterized unitary operation $U(\theta)$. We employ $L=2$ repetitions of Strongly Entangling Layers. Each layer applies arbitrary single-qubit rotations $R(\alpha, \beta, \gamma)$ to every qubit, followed by a cyclic cascade of controlled-NOT (CNOT) gates to generate deep, multi-qubit entanglement. The total number of trainable quantum parameters is highly constrained to $\theta \in \mathbb{R}^{L \times n \times 3} = \mathbb{R}^{24}$, where $n=4$, ensuring the quantum circuit relies on geometric expressivity rather than raw parameter volume.
 
 \subsubsection{Measurement and Post-Processing}
 We measure the expectation value of the Pauli-$X$ observable ($\sigma_x$) on all four wires, yielding a continuous classical measurement vector $v_q \in [-1, 1]^4$:
 \begin{equation}
     v_{q, i} = \langle \psi_{in} | U^\dagger(\theta) \sigma_{x}^{(i)} U(\theta) | \psi_{in} \rangle \quad \forall i \in \{1, 2, 3, 4\}
 \end{equation}
-This quantum measurement vector is dynamically processed through a final learned classical weight array ($W_{obs} \in \mathbb{R}^{1 \times 4}$) and bias to produce the final classification logit $\hat{y}_{q}$. 
+This quantum measurement vector is dynamically processed through a final learned classical weight array ($W_{obs} \in \mathbb{R}^{1 \times 4}$) and bias to produce the final classification logit $\hat{y}_{q}$. This minimal classical post-processing adds only 5 trainable parameters, preserving the strict structural fairness of the hybrid architecture.
 
 \subsection{Optimization and Differential Training Protocol}
 Due to the disparate gradients inherent to hybrid architectures, standard uniform optimization frequently results in barren plateaus or catastrophic classical forgetting. We implemented a differential learning rate strategy optimized via Adam \cite{kingma2014adam}: the unfrozen classical \texttt{layer3} parameters were updated conservatively ($\eta = 10^{-4}$), while the classical linear/MLP heads and the quantum parameters were optimized at $\eta = 10^{-3}$ and $\eta = 5 \times 10^{-3}$, respectively. 
 
-To mitigate the severe class imbalances present in clinical datasets, models were optimized using a Binary Cross-Entropy with Logits Loss (BCEWithLogitsLoss) dynamically weighted by the negative-to-positive class ratio of the subsampled training set. A \texttt{ReduceLROnPlateau} scheduler was employed to stabilize final convergence. All hybrid models were trained end-to-end by backpropagating classical gradients through the quantum circuit utilizing the parameter-shift rule \cite{Mitarai2018, Schuld2019_gradients}.
+To mitigate the severe class imbalances present in clinical datasets, models were optimized using a Binary Cross-Entropy with Logits Loss (BCEWithLogitsLoss) dynamically weighted by the negative-to-positive class ratio of the subsampled training set. A \texttt{ReduceLROnPlateau} scheduler was employed to stabilize final convergence. All hybrid models were trained end-to-end by calculating analytical quantum gradients via the parameter-shift rule \cite{Mitarai2018, Schuld2019_gradients}, enabling the seamless backpropagation of the loss across the discrete quantum interface into the classical feature extractor.
 
 \section{Experimental Setup}
 
