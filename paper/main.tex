@@ -133,11 +133,7 @@ The resulting truncated backbone processes input images up to \texttt{layer3}, o
 To prevent catastrophic forgetting and mitigate severe overfitting in the $1\%$ and $10\%$ data-scarcity regimes, we employed a selective fine-tuning strategy. The early residual blocks (\texttt{layer1} and \texttt{layer2}) were permanently immobilized. During the end-to-end Latent Reshaping evaluation, only the terminal residual block of the truncated backbone (\texttt{layer3}) was unfrozen. This permits the network to dynamically update high-level, domain-specific spatial hierarchies (e.g., radiological opacities) while leveraging the stability of the pre-trained generalized filters.
 
 \subsection{The Information Bottleneck Layer}
-The core constraint of our experiment is the Information Bottleneck. The $256$-dimensional feature vector $h$ is passed through a dense linear projection layer:
-\begin{equation}
-    z = W_{comp} h + b_{comp} \quad, \quad z \in \mathbb{R}^{4}
-\end{equation}
-where $W_{comp} \in \mathbb{R}^{4 \times 256}$ and $b_{comp} \in \mathbb{R}^{4}$. This severe compression ratio ($64:1$) forces the neural network to encode the entirety of the medical image's diagnostic variance into just four continuous variables.
+The core constraint of our experiment is the Information Bottleneck. The $256$-dimensional feature vector $h$ is passed through a dense linear projection layer as formally defined in Equation 1, where $W_{comp} \in \mathbb{R}^{4 \times 256}$ and $b_{comp} \in \mathbb{R}^{4}$. This severe compression ratio ($64:1$) forces the neural network to encode the entirety of the medical image's diagnostic variance into just four continuous variables.
 
 \subsection{Classical Classification Baselines}
 To ensure structural fairness, the classical classification heads were designed to match the $4$-dimensional constraint of the quantum circuit. We established two classical baselines:
@@ -150,27 +146,16 @@ To ensure structural fairness, the classical classification heads were designed 
 In the quantum hybrid variant, the classical head is replaced by a Continuous-Variable to Discrete-Qubit interface, a Variational Quantum Circuit (VQC), and a classical post-processing layer. The quantum pipeline utilizes PennyLane \cite{pennylane} for state-vector simulation and executes in four distinct computational steps:
 
 \subsubsection{Data Scaling and Bounding}
-Because quantum rotation gates are periodic modulo $2\pi$, raw continuous features can trigger ``phase-wrapping'' anomalies (where vastly different classical values map to identical quantum states). To prevent this, the classical bottleneck vector $z$ is scaled non-linearly into a strictly bounded phase-space using a hyperbolic tangent function:
-\begin{equation}
-    \tilde{z} = \tanh(z) \cdot \left(\frac{\pi}{2}\right) \quad, \quad \tilde{z} \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right]^{4}
-\end{equation}
-This bounds the rotational angles to a continuous manifold without periodic overlap.
+Because quantum rotation gates are periodic modulo $2\pi$, raw continuous features can trigger ``phase-wrapping'' anomalies (where vastly different classical values map to identical quantum states). To prevent this, the classical bottleneck vector $z$ is scaled non-linearly into a strictly bounded phase-space using the hyperbolic tangent function defined in Equation 4. This bounds the rotational angles to a continuous manifold without periodic overlap.
 
 \subsubsection{Quantum State Preparation}
-The bounded classical vector $\tilde{z}$ is embedded into a 4-qubit quantum subsystem initially in the ground state $|0\rangle^{\,\otimes 4}$. We utilize Angle Embedding via independent single-qubit Pauli-$Y$ rotations to ensure strictly real-valued probability amplitudes:
-\begin{equation}
-    |\psi_{in}\rangle = \bigotimes_{i=1}^{4} \left( R_y(\tilde{z}_{i}) |0\rangle \right)
-\end{equation}
+The bounded classical vector $\tilde{z}$ is embedded into a 4-qubit quantum subsystem initially in the ground state $|0\rangle^{\,\otimes 4}$. We utilize Angle Embedding via independent single-qubit Pauli-$Y$ rotations, as specified in Equation 5, to ensure strictly real-valued probability amplitudes.
 
 \subsubsection{Parameterized Ansatz}
 The core of the quantum expressivity lies in the parameterized unitary operation $U(\theta)$. We employ $L=2$ repetitions of Strongly Entangling Layers. Each layer applies arbitrary single-qubit rotations $R(\alpha, \beta, \gamma)$ to every qubit, followed by a cyclic cascade of controlled-NOT (CNOT) gates to generate deep, multi-qubit entanglement. The total number of trainable quantum parameters is highly constrained to $\theta \in \mathbb{R}^{L \times n \times 3} = \mathbb{R}^{24}$, where $n=4$, ensuring the quantum circuit relies on geometric expressivity rather than raw parameter volume.
 
 \subsubsection{Measurement and Post-Processing}
-We measure the expectation value of the Pauli-$X$ observable ($\sigma_x$) on all four wires, yielding a continuous classical measurement vector $v_q \in [-1, 1]^4$:
-\begin{equation}
-    v_{q, i} = \langle \psi_{in} | U^\dagger(\theta) \sigma_{x}^{(i)} U(\theta) | \psi_{in} \rangle \quad \forall i \in \{1, 2, 3, 4\}
-\end{equation}
-This quantum measurement vector is dynamically processed through a final learned classical weight array ($W_{obs} \in \mathbb{R}^{1 \times 4}$) and bias to produce the final classification logit $\hat{y}_{q}$. This minimal classical post-processing adds only 5 trainable parameters, preserving the strict structural fairness of the hybrid architecture.
+We measure the expectation value of the Pauli-$X$ observable ($\sigma_x$) on all four wires (Equation 6), yielding a continuous classical measurement vector $v_q \in [-1, 1]^4$. This quantum measurement vector is dynamically processed through a final learned classical weight array ($W_{obs} \in \mathbb{R}^{1 \times 4}$) and bias to produce the final classification logit $\hat{y}_{q}$. This minimal classical post-processing adds only 5 trainable parameters, preserving the strict structural fairness of the hybrid architecture.
 
 \subsection{Optimization and Differential Training Protocol}
 Due to the disparate gradients inherent to hybrid architectures, standard uniform optimization frequently results in barren plateaus or catastrophic classical forgetting. We implemented a differential learning rate strategy optimized via Adam \cite{kingma2014adam}: the unfrozen classical \texttt{layer3} parameters were updated conservatively ($\eta = 10^{-4}$), while the classical linear/MLP heads and the quantum parameters were optimized at $\eta = 10^{-3}$ and $\eta = 5 \times 10^{-3}$, respectively.
@@ -221,9 +206,9 @@ Classical deep learning operations and gradient autograd engines were implemente
 The primary objective of these initial evaluations was to isolate the information-retention capacity of the competing classification heads under the strict $d=4$ bottleneck constraint, and to observe how classical feature manifolds adapt to quantum gradients.
 
 \subsection{Ablation Study: The Frozen Bottleneck Baseline}
-To establish a foundational baseline and isolate the classification heads from classical gradient variance, we first evaluated the architectures under the frozen-backbone regime. By immobilizing the entire ResNet-18 backbone, the classification heads were forced to map raw, unoptimized ImageNet features directly to clinical classes.
+To establish a foundational baseline and isolate the classification heads using static latent feature representations, we first evaluated the architectures under the frozen-backbone regime. By immobilizing the entire ResNet-18 backbone, the classification heads were forced to map raw, unoptimized ImageNet features directly to clinical classes.
 
-On BreastMNIST under the severe 10\% scarcity regime, the classical linear head achieved a mean Test AUC of $0.7127$, slightly outperforming the Quantum VQC ($0.7022$) and the Classical MLP ($0.6721$). This dynamic is mathematically consistent with the geometry of the frozen latent space. Because pre-trained ImageNet filters are structurally misaligned with ultrasound textures, the $4$-dimensional bottleneck output acts as highly ambiguous spatial noise. The classical linear model optimally responds to this unstructured noise by drawing a blunt, static hyperplane. In contrast, the VQC utilizes a high-frequency trigonometric embedding strategy (Equation 3). When fed unoptimized spatial noise, the parameterized rotation angles struggle to find a stable, continuous manifold, resulting in minor phase misalignment and sub-optimal convergence.
+On BreastMNIST under the severe 10\% scarcity regime, the classical linear head achieved a mean Test AUC of 0.7127, establishing the performance ceiling for this frozen latent space and outperforming both the Quantum VQC (0.7022) and the Classical MLP (0.6721). This dynamic is mathematically consistent with the geometry of the architecture. Because pre-trained ImageNet filters are structurally misaligned with ultrasound textures, the $4$-dimensional bottleneck output acts as highly ambiguous spatial noise. The classical linear model optimally responds to this unstructured noise by drawing a blunt, static hyperplane to avoid overfitting. In contrast, the VQC utilizes a high-frequency trigonometric embedding strategy (Equation 5). When fed unoptimized spatial noise, the parameterized rotation angles struggle to find a stable, continuous manifold, resulting in minor phase misalignment.
 
 \subsection{The Bottleneck Gap and Latent Reshaping}
 To test whether the quantum circuit could overcome this initial misalignment, we transitioned to the end-to-end Latent Reshaping regime by unfreezing the terminal residual block (\texttt{layer3}). This permitted the quantum classification head to backpropagate gradients directly into the classical convolutional filters. The empirical results, summarized in Table \ref{tab:peak_auc}, reveal a profound reversal in architectural dominance.
