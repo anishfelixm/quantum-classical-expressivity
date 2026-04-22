@@ -83,7 +83,7 @@ Let the pre-trained, truncated ResNet-18 backbone act as a generalized feature e
 
 To simulate the strict bandwidth and computational constraints of edge-device transmission, we impose an extreme information bottleneck via a dense linear projection down to a dimension $d_B \ll d_{in}$, where $d_B = n = 4$:
 \begin{equation} \label{eq:projection_definition}
-    z = W_{comp} h + b_{comp}, \quad z \in \mathbb{R}^{d_B}
+    z = W_{comp} h + b_{comp}\quad, \quad z \in \mathbb{R}^{d_B}
 \end{equation}
 
 In our classical baselines, this ultra-compressed vector $z$ is fed either directly into a linear classification head or into a multi-layer perceptron (MLP) utilizing a Gaussian Error Linear Unit (GELU)~\cite{hendrycks2016gelu} activation to test classical non-linear expressivity:
@@ -99,7 +99,7 @@ The Hybrid Quantum-Classical architecture (HQCNN) aims to resolve this topologic
 
 To prevent anomalous periodic phase-wrapping during embedding, the continuous classical vector is first scaled into a strictly bounded rotational phase-space:
 \begin{equation} \label{eq:tanh_scaling}
-    \tilde{z} = \tanh(z) \cdot \left(\frac{\pi}{2}\right), \quad \tilde{z} \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right]^{d_B}
+    \tilde{z} = \tanh(z) \cdot \left(\frac{\pi}{2}\right)\quad, \quad \tilde{z} \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right]^{d_B}
 \end{equation}
 
 We employ an angle embedding strategy, applying localized Pauli-$Y$ rotations to initialize the quantum subsystem from the ground state $|0\rangle^{\otimes n}$:
@@ -192,7 +192,7 @@ However, to evaluate the practical deployment viability of the decision boundari
 \subsection{Sensor Degradation and RNG Parity Protocol}
 To evaluate the ``Precision Paradox'' and benchmark operational resilience, we subjected the fully optimized models to a sensor degradation stress test. Pristine test images $X_{test}$ were corrupted with additive Gaussian noise:
 \begin{equation} \label{eq:gaussian_noise}
-    \tilde{X}_{test} = \text{clamp}(X_{test} + \epsilon, 0.0, 1.0), \quad \epsilon \sim \mathcal{N}(0, \sigma^2)
+    \tilde{X}_{test} = \text{clamp}(X_{test} + \epsilon, 0.0, 1.0)\quad, \quad \epsilon \sim \mathcal{N}(0, \sigma^2)
 \end{equation}
 The noise standard deviation $\sigma$ was incrementally swept across $[0.0, 0.2]$. The \texttt{clamp} function ensures the spatial tensors respect strict physical sensor and digital imaging limits.
 
