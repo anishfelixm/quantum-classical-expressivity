@@ -213,13 +213,15 @@ On BreastMNIST under the severe 10\% scarcity regime, the classical linear head 
 \subsection{The Bottleneck Gap and Latent Reshaping}
 To test whether the quantum circuit could overcome this initial misalignment, we transitioned to the end-to-end Latent Reshaping regime by unfreezing the terminal residual block (\texttt{layer3}). This permitted the quantum classification head to backpropagate gradients directly into the classical convolutional filters. The empirical results, summarized in Table~\ref{tab:peak_auc}, reveal a profound reversal in architectural dominance.
 
-On the BreastMNIST 10\% scarcity regime, unfreezing the backbone caused the VQC's performance to surge, achieving a mean AUC of $0.7770$ and decisively eclipsing both the Classical Linear ($0.7659$) and Classical MLP ($0.7635$) baselines. This statistically significant delta visually formalized in Fig.~\ref{fig:bottleneck_gap}, confirms the ``Latent Reshaping'' hypothesis. While the VQC struggles with static noise, its quantum gradients possess a geometrically superior capacity to drive classical convolutional layers toward a linearly separable, quantum-friendly topology, even with merely 54 training samples.
+On the BreastMNIST 10\% scarcity regime, unfreezing the backbone caused the VQC's performance to surge, achieving a mean AUC of $0.7770$ and decisively eclipsing both the Classical Linear ($0.7659$) and Classical MLP ($0.7635$) baselines. This statistically significant delta, visually formalized in Fig.~\ref{fig:bottleneck_gap}, confirms the ``Latent Reshaping'' hypothesis. While the VQC struggles with static noise, its quantum gradients possess a geometrically superior capacity to drive classical convolutional layers toward a linearly separable, quantum-friendly topology, even with merely 54 training samples.
 
 This quantum dominance in severe scarcity was identically replicated on the PneumoniaMNIST 1\% regime (approx. 58 images), where the VQC achieved a superior mean AUC of $0.9271$, breaking the optimization plateau established by the classical baselines ($0.9228$).
 
 \begin{table}[htbp]
 \caption{Mean Test AUC-ROC Across Data Regimes (End-to-End Fine-Tuned)}
-\begin{center}
+\label{tab:peak_auc}
+\centering
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{|l|c|c|c|c|}
 \hline
 \textbf{Dataset} & \textbf{Fraction} & \textbf{Linear AUC} & \textbf{MLP AUC} & \textbf{Quantum AUC} \\
@@ -229,9 +231,8 @@ BreastMNIST & 10\% & 0.7659 & 0.7635 & \textbf{0.7770} \\
 Pneumonia & 100\% & 0.9772 & 0.9767 & \textbf{0.9787} \\
 Pneumonia & 1\% & 0.9228 & 0.9220 & \textbf{0.9271} \\
 \hline
-\end{tabular}
-\label{tab:peak_auc}
-\end{center}
+\end{tabular}%
+}
 \end{table}
 
 \begin{figure}[htbp]
