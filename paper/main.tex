@@ -213,9 +213,11 @@ On BreastMNIST under the severe 10\% scarcity regime, the classical linear head 
 \subsection{The Bottleneck Gap and Latent Reshaping}
 To test whether the quantum circuit could overcome this initial misalignment, we transitioned to the end-to-end Latent Reshaping regime by unfreezing the terminal residual block (\texttt{layer3}). This permitted the quantum classification head to backpropagate gradients directly into the classical convolutional filters. The empirical results, summarized in Table~\ref{tab:peak_auc}, reveal a profound reversal in architectural dominance.
 
-On the BreastMNIST 10\% scarcity regime, unfreezing the backbone caused the VQC's performance to surge, achieving a mean AUC of $0.7770$ and decisively eclipsing both the Classical Linear ($0.7659$) and Classical MLP ($0.7635$) baselines. This statistically significant delta, visually formalized in Fig.~\ref{fig:bottleneck_gap}, confirms the ``Latent Reshaping'' hypothesis. While the VQC struggles with static noise, its quantum gradients possess a geometrically superior capacity to drive classical convolutional layers toward a linearly separable, quantum-friendly topology, even with merely 54 training samples.
+On the BreastMNIST 10\% scarcity regime, unfreezing the backbone caused the VQC's performance to surge, achieving a mean AUC of $0.7770$ and decisively eclipsing both the Classical Linear ($0.7659$) and Classical MLP ($0.7634$) baselines. This statistically significant delta, visually formalized in Fig.~\ref{fig:bottleneck_gap}, confirms the ``Latent Reshaping'' hypothesis. While the VQC struggles with static noise, its quantum gradients possess a geometrically superior capacity to drive classical convolutional layers toward a highly separable, quantum-friendly topology, even with merely 54 training samples.
 
-This quantum dominance in severe scarcity was identically replicated on the PneumoniaMNIST 1\% regime (approx. 58 images), where the VQC achieved a superior mean AUC of $0.9271$, breaking the optimization plateau established by the classical baselines ($0.9228$).
+This quantum dominance in severe scarcity was identically replicated on the PneumoniaMNIST 1\% regime (47 images), where the VQC achieved a superior mean AUC of $0.9270$, breaking the performance ceiling established by the classical baselines ($0.9229$).
+
+Crucially, the empirical data reveals that this quantum advantage is highly dependent on resource constraint. As observed in the 100\% data regimes (Table~\ref{tab:peak_auc}), when the classical linear model is provided with abundant training variance, it successfully maps the 4-dimensional bottleneck on its own, effectively erasing the Bottleneck Gap. In this data-rich environment, the classical models achieve statistical parity with the quantum architecture on PneumoniaMNIST ($0.9772$ vs. $0.9787$) and even marginally outperform it on the highly ambiguous BreastMNIST manifold ($0.9046$ vs. $0.8936$). This confirms that the VQC's primary utility lies not in absolute performance ceilings under ideal conditions, but in its unparalleled parameter efficiency and topological expressivity when forced to operate under severe edge-computing and data-scarcity constraints.
 
 \begin{table}[htbp]
 \caption{Mean Test AUC-ROC Across Data Regimes (End-to-End Fine-Tuned)}
@@ -227,9 +229,9 @@ This quantum dominance in severe scarcity was identically replicated on the Pneu
 \textbf{Dataset} & \textbf{Fraction} & \textbf{Linear AUC} & \textbf{MLP AUC} & \textbf{Quantum AUC} \\
 \hline
 BreastMNIST & 100\% & \textbf{0.9046} & 0.8794 & 0.8936 \\
-BreastMNIST & 10\% & 0.7659 & 0.7635 & \textbf{0.7770} \\
+BreastMNIST & 10\% & 0.7659 & 0.7634 & \textbf{0.7770} \\
 Pneumonia & 100\% & 0.9772 & 0.9767 & \textbf{0.9787} \\
-Pneumonia & 1\% & 0.9228 & 0.9220 & \textbf{0.9271} \\
+Pneumonia & 1\% & 0.9229 & 0.9220 & \textbf{0.9270} \\
 \hline
 \end{tabular}%
 }
