@@ -92,12 +92,12 @@ In our classical baselines, this ultra-compressed vector $z$ is fed either direc
     \hat{y}_{mlp} &= W_{clf}(\text{GELU}(z)) + b_{clf} \label{eq:classical_mlp}
 \end{align}
 
-Because the compression matrix $W_{comp}$ is strictly linear, highly entangled and non-linear data manifolds residing in $\mathbb{R}^{256}$ undergo irreversible geometric overlap when projected onto $\mathbb{R}^4$. The subsequent classical classifiers, fundamentally restricted by the ultra-low dimensionality of $z$, frequently suffer from ``topological collapse.'' They lack the spatial degrees of freedom—and consequently the topological capacity—to draw the complex, multi-dimensional hyperplanes necessary to separate overlapping clinical classes, resulting in early optimization plateaus and high loss ceilings.
+Because the compression matrix $W_{comp}$ is strictly linear, highly entangled and non-linear data manifolds residing in $\mathbb{R}^{256}$ undergo irreversible geometric overlap when projected onto $\mathbb{R}^4$. The subsequent classical classifiers, fundamentally restricted by the ultra-low dimensionality of $z$, frequently suffer from ``topological collapse.'' They lack the spatial degrees of freedom---and consequently the topological capacity---to draw the complex, multi-dimensional hyperplanes necessary to separate overlapping clinical classes, resulting in early optimization plateaus and high loss ceilings.
 
 \subsection{Quantum Hilbert Space Embedding and Expressivity}
 The Hybrid Quantum-Classical architecture (HQCNN) aims to resolve this topological entanglement by replacing the classical classification head with a Variational Quantum Circuit (VQC). The identical $4$-dimensional bottleneck vector $z$ is mapped into a quantum state.
 
-To prevent anomalous periodic phase-wrapping during embedding, the continuous classical vector is first scaled into a strictly bounded rotational phase-space:
+To prevent anomalous periodic phase-wrapping during embedding and to operate within the injective region of the rotation gates, the continuous classical vector is first scaled into a strictly bounded rotational phase-space:
 \begin{equation} \label{eq:tanh_scaling}
     \tilde{z} = \tanh(z) \cdot \left(\frac{\pi}{2}\right)\quad, \quad \tilde{z} \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right]^{d_B}
 \end{equation}
