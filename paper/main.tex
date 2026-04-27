@@ -199,7 +199,7 @@ The noise standard deviation $\sigma$ was incrementally swept across $[0.0, 0.2]
 To guarantee absolute methodological parity, the random number generator was re-seeded as a deterministic function of $\sigma$. This ensures that the Classical Linear, Classical MLP, and Quantum VQC models faced the exact same spatial noise tensors per image. To accurately measure decision boundary decay rather than dynamic re-calibration, the optimal Precision-Recall threshold calculated on pristine data ($\sigma=0.0$) was strictly locked across all subsequent noise levels.
 
 \subsection{Software and Hardware Framework}
-Classical deep learning operations and gradient autograd engines were implemented in PyTorch. The quantum circuits were constructed and evaluated using PennyLane~\cite{pennylane}, utilizing the \texttt{pennylane-lightning} plugin for high-performance state-vector simulation. All classical optimizations and quantum evaluations were executed on multi-core CPU infrastructure to guarantee strict computational determinism across all noise and seed initializations.
+Classical deep learning operations and gradient autograd engines were implemented in PyTorch. The quantum circuits were constructed and evaluated using PennyLane~\cite{pennylane}, utilizing its native state-vector simulator to calculate exact analytical expectation values. All classical optimizations and quantum evaluations were executed on multi-core CPU infrastructure to guarantee strict computational determinism across all noise and seed initializations.
 
 \section{Results I: Expressivity and Latent Reshaping}
 

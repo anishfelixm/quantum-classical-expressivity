@@ -67,14 +67,17 @@ def plot_bottleneck_gap():
         
         for i, model in enumerate(models):
             means = []
+            stds = []
             for ds, frac, _ in targets:
                 try:
                     auc_list = data_source["datasets"][ds]["fractions"][frac][model]["test_auc"]
                     means.append(np.mean(auc_list))
+                    stds.append(np.std(auc_list, ddof=0))
                 except KeyError:
                     means.append(0)
+                    stds.append(0)
             
-            axs[ax_idx].bar(x + i*width, means, width, label=labels[i], color=colors[i], edgecolor='black')
+            axs[ax_idx].bar(x + i*width, means, width, yerr=stds, capsize=4, label=labels[i], color=colors[i], edgecolor='black')
 
         axs[ax_idx].set_title(title)
         axs[ax_idx].set_ylabel('Mean Test AUC')
@@ -179,7 +182,7 @@ def plot_robustness_grid():
 
         axs[row, col].set_title(title)
         axs[row, col].set_ylabel('Test F1 Score')
-        axs[row, col].axvline(x=0.03, color='gray', linestyle=':', alpha=0.6, label='Phase Decoherence Threshold' if row==0 and col==0 else "")
+        axs[row, col].axvline(x=0.03, color='gray', linestyle=':', alpha=0.6, label='Phase Misalignment Threshold' if row==0 and col==0 else "")
         axs[row, col].grid(True, linestyle=':', alpha=0.7)
         axs[row, col].set_ylim(0.0, 1.0) 
 
@@ -190,7 +193,7 @@ def plot_robustness_grid():
     by_label = dict(zip(labels, handles))
     fig.legend(by_label.values(), by_label.keys(), loc='upper center', ncol=4, bbox_to_anchor=(0.5, 0.98))
     
-    plt.suptitle("The Precision Paradox: Phase Decoherence vs. Data Abundance", y=1.03, fontsize=16)
+    plt.suptitle("The Precision Paradox: Phase Misalignment vs. Data Abundance", y=1.03, fontsize=16)
     plt.tight_layout()
     out_path = os.path.join(OUTPUT_DIR, "fig03_precision_paradox.pdf")
     plt.savefig(out_path, dpi=300, bbox_inches='tight')
