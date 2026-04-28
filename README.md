@@ -23,14 +23,14 @@ We forced both models to classify high-resolution medical images using only **4 
 * **Classical Collapse:** The ultra-low Euclidean projection causes the classical linear and MLP models to suffer from topological collapse, hitting a hard optimization ceiling.
 * **Quantum Advantage:** By evaluating complex expectation values across entangled states in a 16-dimensional complex Hilbert space ($\mathbb{C}^{16}$), the VQC actively reshapes the classical convolutional filters into a quantum-friendly geometry, bypassing classical plateaus in severe data-scarcity regimes.
 
-![Expressivity Dynamics](paper/figures/fig02_expressivity_dynamics.png)
+![Expressivity Dynamics](assets/fig02_expressivity_dynamics.png)
 
 ### 2. The Precision Paradox & Topological Regularization
 We stress-tested the fully optimized models by injecting simulated analog sensor degradation (Additive Gaussian Noise).
 * **The Glass Cannon:** Under data scarcity, the precise high-frequency phase angles required for the VQC's superior accuracy render it highly fragile. It suffers catastrophic **Phase Misalignment** at $\sigma > 0.03$, while the classical linear model acts as a stabilizing low-pass filter.
 * **Data Abundance as a Regularizer:** Optimizing the VQC on a complete data regime neutralizes this fragility. The abundance of data forces the quantum gradients into flatter minima, allowing the VQC to maintain robust decision boundaries that outlast classical architectures under extreme noise.
 
-![Precision Paradox](paper/figures/fig03_precision_paradox.png)
+![Precision Paradox](assets/fig03_precision_paradox.png)
 
 ---
 
@@ -40,10 +40,17 @@ This repository is designed for strict academic reproducibility. All experiments
 
 ```text
 quantum-classical-expressivity/
+├── assets/
+│   ├── fig01_bottleneck_gap.png   # For the GitHub README
+│   ├── fig02_expressivity_dynamics.png
+│   └── fig03_precision_paradox.png
 ├── data/
 │   └── README.md                  # Data loading instructions (MedMNIST v2)
 ├── paper/
 │   ├── figures/                   # Publication-ready plots
+│   │   ├── fig01_bottleneck_gap.pdf   
+│   │   ├── fig02_expressivity_dynamics.pdf
+│   │   └── fig03_precision_paradox.pdf
 │   └── main.tex                   # Final LaTeX source code
 ├── results/                       # Verified multi-seed JSON logs and .pt weights
 └── src/
@@ -70,6 +77,6 @@ If you find this code or research helpful in your own work, please cite our pape
   author={Mathias, Anish Felix and P S, Susham},
   year={2026},
   journal={arXiv preprint},
-  note={Code available at: \url{[https://github.com/anishfelixm/quantum-classical-expressivity](https://github.com/anishfelixm/quantum-classical-expressivity)}}
+  note={Code available at: \url{https://github.com/anishfelixm/quantum-classical-expressivity}}
 }
 ```
