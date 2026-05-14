@@ -6,6 +6,8 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{multirow}
 
 \begin{document}
 
@@ -32,7 +34,7 @@ sushamps2@gmail.com}
 \makeatother
 
 \begin{abstract}
-Deploying deep learning models in edge environments frequently mandates severe dimensionality reduction. However, compressing spatial feature maps into ultra-low-dimensional latent vectors causes classical classifiers to suffer from topological collapse, severely degrading performance. In this study, we investigate whether Hybrid Quantum-Classical Neural Networks (HQCNNs) can overcome this limitation by mapping highly compressed vectors into a complex quantum Hilbert space. We enforce a strict 4-dimensional information bottleneck on a ResNet-18 backbone and evaluate a 4-qubit Variational Quantum Circuit (VQC) against equivalent classical linear and multi-layer perceptron baselines. Through end-to-end optimization on medical imaging benchmarks (BreastMNIST and PneumoniaMNIST), we identify a ``Latent Reshaping'' effect: backpropagated quantum gradients actively adapt classical convolutional filters to output complex, quantum-friendly geometries. The VQC consistently bypassed classical optimization plateaus, achieving superior AUC-ROC in severe data-scarcity regimes (1\% and 10\%) while maintaining statistical parity under data abundance. However, robustness evaluations under additive Gaussian noise reveal a fundamental ``Precision Paradox.'' In data-scarce regimes, the high-frequency phase interference granting the VQC its expressivity renders it exceptionally fragile, inducing catastrophic phase misalignment ($\sigma > 0.03$) while classical models degrade gracefully. Crucially, we empirically demonstrate that data abundance acts as a topological regularizer; VQCs optimized on complete datasets neutralize this fragility, maintaining robust decision boundaries that outperform classical architectures under extreme sensor noise. These findings define the critical expressivity-robustness trade-offs governing empirical quantum advantage in constrained neural architectures.
+Deploying deep learning models in edge environments frequently mandates severe dimensionality reduction. However, compressing spatial feature maps into ultra-low-dimensional latent vectors causes classical classifiers to suffer from topological collapse, severely degrading performance. In this study, we investigate whether Hybrid Quantum-Classical Neural Networks (HQCNNs) can overcome this limitation by mapping highly compressed vectors into a complex quantum Hilbert space. We enforce a strict 4-dimensional information bottleneck on a ResNet-18 backbone and evaluate a 4-qubit Variational Quantum Circuit (VQC) against equivalent classical linear and multi-layer perceptron baselines. Through end-to-end optimization on medical imaging benchmarks (BreastMNIST and PneumoniaMNIST), we identify a ``Latent Reshaping'' effect: backpropagated quantum gradients actively adapt classical convolutional filters to output complex, quantum-friendly geometries. The VQC consistently bypassed classical optimization plateaus, achieving superior AUC-ROC in severe data-scarcity regimes (1\% and 10\%) while maintaining statistical parity under data abundance. However, robustness evaluations under additive Gaussian noise reveal a fundamental ``Precision Paradox.'' In data-scarce regimes, the high-frequency phase interference granting the VQC its expressivity renders it exceptionally fragile, inducing catastrophic phase misalignment ($\sigma > 0.03$) while classical models degrade gracefully. Crucially, we empirically demonstrate that data abundance acts as a topological regularizer; VQCs optimized on complete datasets neutralize this fragility, maintaining robust decision boundaries that outperform classical architectures under extreme sensor noise. These findings define the critical expressivity-robustness trade-offs governing empirical quantum utility in constrained neural architectures.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -42,7 +44,7 @@ Quantum Machine Learning, Hybrid Quantum-Classical Neural Networks, Information 
 \section{Introduction}
 The intersection of quantum mechanics and deep learning has generated significant theoretical interest, primarily driven by the prospect that quantum circuits can represent highly complex data distributions with exponentially fewer parameters than classical frameworks~\cite{Schuld2018}. In the Noisy Intermediate-Scale Quantum (NISQ) era, where fault-tolerant algorithms remain inaccessible, Parameterized Quantum Circuits (PQCs) and Variational Quantum Algorithms (VQAs) have emerged as the standard heuristic models for Quantum Machine Learning (QML)~\cite{Benedetti2019}. Theoretical literature suggests that embedding low-dimensional classical data into a high-dimensional quantum Hilbert space allows these circuits to approximate non-linear continuous functions with superior parameter efficiency~\cite{Jerbi2023}. However, demonstrating a practical, empirical ``quantum advantage'' in standard, unconstrained computer vision tasks has proven notoriously elusive.
 
-A highly viable, yet underexplored, domain for empirical quantum advantage lies in edge computing under severe information constraints. Modern clinical pipelines increasingly demand the deployment of sophisticated diagnostic models---such as deep Convolutional Neural Networks (CNNs)---to portable, low-power medical devices. These edge deployments are strictly bottlenecked by computational, thermal, and bandwidth limitations~\cite{edge_medical}. To satisfy these constraints, high-resolution spatial feature maps are often aggressively compressed into ultra-low-dimensional latent vectors prior to classification or remote transmission.
+A highly viable, yet underexplored, domain for empirical quantum utility lies in edge computing under severe information constraints. Modern clinical pipelines increasingly demand the deployment of sophisticated diagnostic models---such as deep Convolutional Neural Networks (CNNs)---to portable, low-power medical devices. These edge deployments are strictly bottlenecked by computational, thermal, and bandwidth limitations~\cite{edge_medical}. To satisfy these constraints, high-resolution spatial feature maps are often aggressively compressed into ultra-low-dimensional latent vectors prior to classification or remote transmission.
 
 Standard classical dimensionality reduction techniques inevitably falter under severe compression ratios. When rich, non-linear manifolds---such as those representing ambiguous tumor opacities or pneumonic infiltrates---are forced into restricted Euclidean spaces ($\mathbb{R}^d$), critical topological features become irreversibly entangled. Consequently, classical linear or multi-layer perceptron (MLP) classification heads applied to these bottlenecks suffer from ``topological collapse.'' The network simply lacks the spatial degrees of freedom required to draw separating hyperplanes, causing diagnostic performance to abruptly hit a premature optimization plateau~\cite{pca_limit}.
 
@@ -50,7 +52,7 @@ Hybrid Quantum-Classical Neural Networks (HQCNNs) present a mathematically elega
 
 In this study, we benchmark fundamental quantum versus classical behaviors under strict architectural constraints. We isolate the expressivity of the classification heads by imposing a severe 4-dimensional information bottleneck ($d=4$) on a pre-trained ResNet-18 backbone. Utilizing standard medical imaging datasets (BreastMNIST and PneumoniaMNIST), we conduct a rigorous comparative analysis of classical linear layers, classical MLPs, and a 4-qubit VQC.
 
-Our core contributions empirically establish critical boundaries for practical quantum advantage in constrained neural architectures:
+Our core contributions empirically establish critical boundaries for practical quantum utility in constrained neural architectures:
 \begin{enumerate}
     \item \textbf{Latent Reshaping and the Bottleneck Gap:} We empirically demonstrate that forcing classical classifiers through a $4$-dimensional bottleneck causes immediate topological collapse. In contrast, through end-to-end optimization, quantum gradients backpropagate into the classical feature extractor, actively reshaping the classical manifold into a quantum-friendly geometry. The quantum hybrid consistently bypassed classical plateaus, achieving superior mean AUC-ROC in severe data-scarcity regimes (10\% BreastMNIST and 1\% PneumoniaMNIST) while maintaining statistical parity with classical models under data abundance.
     \item \textbf{The Precision Paradox:} Through rigorous Gaussian noise-injection stress tests, we uncover a fundamental operational vulnerability. The high-frequency phase interference patterns responsible for the VQC's superior expressivity render it exceptionally fragile in data-scarce environments. At moderate sensor noise ($\sigma = 0.10$), the data-starved quantum model suffers catastrophic phase misalignment (F1 score collapsing to $0.1452$), while the classical linear model acts as a stabilizing low-pass filter (maintaining an F1 of $0.3581$), establishing a direct trade-off between geometric expressivity and analog robustness.
@@ -139,7 +141,7 @@ The core constraint of our experiment is the Information Bottleneck. The $256$-d
 To ensure structural fairness, the classical classification heads were designed to match the $4$-dimensional constraint of the quantum circuit. We established two classical baselines:
 \begin{enumerate}
     \item \textbf{Classical Linear:} Projects the bottlenecked vector $z$ directly to a classification logit via a single dense layer ($W_{clf} \in \mathbb{R}^{1 \times 4}$), representing a strictly linear decision boundary.
-    \item \textbf{Classical MLP:} Introduces a Gaussian Error Linear Unit (GELU)~\cite{hendrycks2016gelu} activation in the latent space before the final linear projection. GELU was deliberately selected over standard ReLU to prevent catastrophic dead-neuron information loss in the ultra-low $4$-dimensional space, serving as a rigorous benchmark for classical non-linear expressivity.
+    \item \textbf{Classical MLP:} Introduces a Gaussian Error Linear Unit (GELU)~\cite{hendrycks2016gelu} activation in the latent space before the final linear projection. GELU was deliberately selected over standard ReLU to prevent catastrophic dead-neuron information loss in the ultra-low $4$-dimensional space, and over bounded activations (e.g., $\tanh$) to avoid vanishing gradients during classical spatial extraction, serving as a rigorous benchmark for classical non-linear expressivity.
 \end{enumerate}
 
 \subsection{Quantum Classification Head (VQC)}
@@ -206,21 +208,36 @@ Classical deep learning operations and gradient autograd engines were implemente
 The primary objective of these initial evaluations was to isolate the information-retention capacity of the competing classification heads under the strict $d=4$ bottleneck constraint, and to observe how classical feature manifolds adapt to quantum gradients.
 
 \subsection{Ablation Study: The Frozen Bottleneck Baseline}
-To establish a foundational baseline and isolate the classification heads using static latent feature representations, we first evaluated the architectures under the frozen-backbone regime. By immobilizing the entire ResNet-18 backbone, the classification heads were forced to map raw, unoptimized ImageNet features directly to clinical classes.
+To establish a foundational baseline and isolate the classification heads using static latent feature representations, we first evaluated the architectures under the frozen-backbone regime. By immobilizing the entire ResNet-18 backbone, the classification heads were forced to map raw, unoptimized ImageNet features directly to clinical classes. The numerical results of this ablation study are formalized in Table~\ref{tab:ablation}.
+
+\begin{table}[htbp]
+\caption{Frozen Backbone Ablation Results (Mean $\pm$ Std. Dev., $N=3$). Under strict immobilization, the Classical Linear baseline dictates the Euclidean performance ceiling.}
+\label{tab:ablation}
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Dataset} & \textbf{Model} & \textbf{Test AUC} & \textbf{Test F1} \\
+\hline
+\multirow{3}{*}{\shortstack{BreastMNIST\\(10\% Scarcity)}} & Linear & 0.7127 $\pm$ 0.0284 & 0.8414 $\pm$ 0.0113 \\
+& MLP & 0.6721 $\pm$ 0.0159 & 0.8305 $\pm$ 0.0089 \\
+& \textbf{Quantum} & 0.7022 $\pm$ 0.0678 & 0.8445 $\pm$ 0.0060 \\
+\hline
+\multirow{3}{*}{\shortstack{PneumoniaMNIST\\(1\% Scarcity)}} & Linear & 0.9188 $\pm$ 0.0063 & 0.8763 $\pm$ 0.0062 \\
+& MLP & 0.9178 $\pm$ 0.0006 & 0.8750 $\pm$ 0.0071 \\
+& \textbf{Quantum} & \textbf{0.9250 $\pm$ 0.0022} & \textbf{0.8802 $\pm$ 0.0009} \\
+\hline
+\end{tabular}%
+}
+\end{table}
 
 On BreastMNIST under the severe 10\% scarcity regime, the classical linear head achieved a mean Test AUC of $0.7127$, establishing the AUC performance ceiling for this frozen latent space. However, while the linear baseline achieved the highest threshold-invariant metric on ultrasound textures, the Quantum VQC demonstrated comparable precision-recall resilience, marginally exceeding the classical linear mean F1 score ($0.8445$ vs. $0.8414$). Furthermore, the VQC ($0.7022$ AUC) substantially outperformed the Classical MLP ($0.6721$). This dynamic is mathematically consistent with the geometry of the architecture. Because pre-trained ImageNet filters are structurally misaligned with ultrasound textures, the $4$-dimensional bottleneck output acts as a highly ambiguous spatial projection. The classical linear model optimally responds to this ambiguity by drawing a blunt, static hyperplane. In contrast, both non-linear heads attempt to map this projection to complex geometries; however, the VQC utilizes a high-frequency trigonometric embedding strategy (as defined in \eqref{eq:angle_embedding}). When fed unoptimized spatial noise, the parameterized rotation angles struggle to find a stable continuous manifold, resulting in minor phase misalignment but still retaining superior expressivity over classical GELU activations. Interestingly, on the structurally clearer PneumoniaMNIST 1\% frozen baseline, this native expressivity was already sufficient for the VQC to directly outperform the classical linear model ($0.9250$ vs. $0.9188$ AUC) without backbone optimization.
 
 \subsection{The Bottleneck Gap and Latent Reshaping}
 To test whether the quantum circuit could overcome the initial spatial misalignment observed on BreastMNIST, we transitioned to the end-to-end Latent Reshaping regime by unfreezing the terminal residual block (\texttt{layer3}). This permitted the quantum classification head to backpropagate gradients directly into the classical convolutional filters. The empirical results, summarized in Table~\ref{tab:peak_auc}, reveal a profound reversal in architectural dominance.
 
-On the BreastMNIST 10\% scarcity regime, unfreezing the backbone caused the VQC's performance to surge, achieving a mean AUC of $0.7770$ and decisively eclipsing both the Classical Linear ($0.7659$) and Classical MLP ($0.7634$) baselines. This substantial empirical delta, visually formalized in Fig.~\ref{fig:bottleneck_gap}, confirms the ``Latent Reshaping'' hypothesis. Furthermore, this topological advantage translated directly to rigid decision boundaries. The VQC achieved the highest mean F1 score of the cohort ($0.8507$), substantially outperforming the Linear ($0.8386$) and MLP ($0.8441$) baselines, an advantage that similarly extended to raw classification accuracy ($0.7564$ vs. Linear's $0.7393$). Crucially, while the VQC's precision-recall boundaries improved upon unfreezing ($0.8445 \rightarrow 0.8507$), permitting classical linear gradients to update the backbone actively degraded its F1 score ($0.8414 \rightarrow 0.8386$). This empirically proves that while the VQC drives classical convolutional layers toward a highly separable, quantum-friendly topology, standard Euclidean projections force the backbone to memorize ranking at the cost of pathological spatial overfitting.
-
-This quantum dominance under severe scarcity was consistently observed on the PneumoniaMNIST 1\% regime (47 images). Here, the VQC achieved a superior mean AUC of $0.9270$, breaking the performance ceiling established by the classical baselines ($0.9229$). Notably, because pre-trained ImageNet filters already possess strong structural alignment with macroscopic X-ray manifolds, the act of unfreezing the backbone on merely 47 samples introduced minor optimization instability. This resulted in a slight cohort-wide degradation in precision-recall boundaries compared to the frozen baselines. Nevertheless, the VQC's native expressivity provided the most resilient geometric boundary, allowing it to maintain the highest final mean F1 score of the cohort ($0.8686$, compared to the MLP's $0.8671$ and Linear's $0.8651$).
-
-Crucially, the empirical data reveals that this quantum advantage is highly dependent on resource constraint. As observed in the 100\% data regimes (Table~\ref{tab:peak_auc}), when the classical linear model is provided with abundant training variance, it successfully maps the 4-dimensional bottleneck on its own, effectively erasing the Bottleneck Gap. In this data-rich environment, the classical models achieve statistical parity with the quantum architecture on PneumoniaMNIST ($0.9772$ vs. $0.9787$) and marginally outperform it on the highly ambiguous BreastMNIST manifold ($0.9046$ vs. $0.8936$). This confirms that the VQC's primary utility lies not in absolute performance ceilings under ideal conditions, but in its unparalleled parameter efficiency and topological expressivity when forced to operate under severe edge-computing and data-scarcity constraints.
-
 \begin{table}[htbp]
-\caption{Mean Test AUC-ROC Across Data Regimes (End-to-End Fine-Tuned). Bold values indicate the highest mean metric across architectures.}
+\caption{Mean Test AUC-ROC Across Data Regimes (End-to-End Fine-Tuned). Bold values indicate the highest mean metric across architectures (Mean $\pm$ Std. Dev., $N=3$).}
 \label{tab:peak_auc}
 \centering
 \resizebox{\columnwidth}{!}{%
@@ -228,14 +245,20 @@ Crucially, the empirical data reveals that this quantum advantage is highly depe
 \hline
 \textbf{Dataset} & \textbf{Fraction} & \textbf{Linear AUC} & \textbf{MLP AUC} & \textbf{Quantum AUC} \\
 \hline
-BreastMNIST    & 100\% & \textbf{0.9046 $\pm$ 0.0073} & 0.8794 $\pm$ 0.0225 & 0.8936 $\pm$ 0.0086 \\
-BreastMNIST    & 10\%  & 0.7659 $\pm$ 0.0030 & 0.7634 $\pm$ 0.0284 & \textbf{0.7770 $\pm$ 0.0038} \\
-PneumoniaMNIST & 100\% & 0.9772 $\pm$ 0.0005 & 0.9767 $\pm$ 0.0012 & \textbf{0.9787 $\pm$ 0.0013} \\
-PneumoniaMNIST & 1\%   & 0.9229 $\pm$ 0.0046 & 0.9220 $\pm$ 0.0048 & \textbf{0.9270 $\pm$ 0.0066} \\
+BreastMNIST    & 100\% & \textbf{0.9046 $\pm$ 0.0089} & 0.8794 $\pm$ 0.0276 & 0.8936 $\pm$ 0.0105 \\
+BreastMNIST    & 10\%  & 0.7659 $\pm$ 0.0037 & 0.7634 $\pm$ 0.0348 & \textbf{0.7770 $\pm$ 0.0047} \\
+PneumoniaMNIST & 100\% & 0.9772 $\pm$ 0.0006 & 0.9767 $\pm$ 0.0015 & \textbf{0.9787 $\pm$ 0.0016} \\
+PneumoniaMNIST & 1\%   & 0.9229 $\pm$ 0.0056 & 0.9220 $\pm$ 0.0059 & \textbf{0.9270 $\pm$ 0.0080} \\
 \hline
 \end{tabular}%
 }
 \end{table}
+
+On the BreastMNIST 10\% scarcity regime, unfreezing the backbone caused the VQC's performance to surge, achieving a mean AUC of $0.7770$ and decisively eclipsing both the Classical Linear ($0.7659$) and Classical MLP ($0.7634$) baselines. This substantial empirical delta, visually formalized in Fig.~\ref{fig:bottleneck_gap}, confirms the ``Latent Reshaping'' hypothesis. Furthermore, this topological advantage translated directly to rigid decision boundaries. The VQC achieved the highest mean F1 score of the cohort ($0.8507$), substantially outperforming the Linear ($0.8386$) and MLP ($0.8441$) baselines, an advantage that similarly extended to raw classification accuracy ($0.7564$ vs. Linear's $0.7393$). Crucially, while the VQC's precision-recall boundaries improved upon unfreezing ($0.8445 \rightarrow 0.8507$), permitting classical linear gradients to update the backbone actively degraded its F1 score ($0.8414 \rightarrow 0.8386$). This empirically proves that while the VQC drives classical convolutional layers toward a highly separable, quantum-friendly topology, standard Euclidean projections force the backbone to memorize ranking at the cost of pathological spatial overfitting.
+
+This quantum dominance under severe scarcity was consistently observed on the PneumoniaMNIST 1\% regime (47 images). Here, the VQC achieved a superior mean AUC of $0.9270$, breaking the performance ceiling established by the classical baselines ($0.9229$). Notably, because pre-trained ImageNet filters already possess strong structural alignment with macroscopic X-ray manifolds, the act of unfreezing the backbone on merely 47 samples introduced minor optimization instability. This resulted in a slight cohort-wide degradation in precision-recall boundaries compared to the frozen baselines. Nevertheless, the VQC's native expressivity provided the most resilient geometric boundary, allowing it to maintain the highest final mean F1 score of the cohort ($0.8686$, compared to the MLP's $0.8671$ and Linear's $0.8651$).
+
+Crucially, the empirical data reveals that this quantum advantage is highly dependent on resource constraint. As observed in the 100\% data regimes (Table~\ref{tab:peak_auc}), when the classical linear model is provided with abundant training variance, it successfully maps the 4-dimensional bottleneck on its own, effectively erasing the Bottleneck Gap. In this data-rich environment, the classical models achieve statistical parity with the quantum architecture on PneumoniaMNIST ($0.9772$ vs. $0.9787$) and marginally outperform it on the highly ambiguous BreastMNIST manifold ($0.9046$ vs. $0.8936$). This confirms that the VQC's primary utility lies not in absolute performance ceilings under ideal conditions, but in its unparalleled parameter efficiency and topological expressivity when forced to operate under severe edge-computing and data-scarcity constraints.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=3.5in]{figures/fig01_bottleneck_gap.pdf}}
@@ -260,7 +283,28 @@ By embedding the identical $4$-variable bottleneck into a $16$-dimensional compl
 
 While the Hybrid Quantum-Classical model demonstrated superior expressivity in pristine environments, clinical edge deployment demands strict resilience against analog sensor degradation. To systematically evaluate this resilience, we subjected the models to additive Gaussian noise $\mathcal{N}(0, \sigma^2)$ across the normalized test sets, utilizing strict RNG parity to ensure identical noise tensor distribution across architectures. Crucially, optimal Precision-Recall thresholds were calculated strictly at $\sigma=0.0$ and locked for all subsequent noise evaluations, isolating the true decay of the learned decision boundaries.
 
-The resulting degradation curves (Fig.~\ref{fig:precision_paradox}) reveal a fundamental conflict between mathematical expressivity and geometric stability, a phenomenon we term the ``Precision Paradox.''
+The resulting degradation curves (Fig.~\ref{fig:precision_paradox}) reveal a fundamental conflict between mathematical expressivity and geometric stability, a phenomenon we term the ``Precision Paradox,'' the numerical progression of which is detailed in Table~\ref{tab:robustness}.
+
+\begin{table}[htbp]
+\caption{Robustness Decay (Test F1) Under Additive Gaussian Noise. Data scarcity induces catastrophic quantum phase misalignment, which is neutralized under data abundance.}
+\label{tab:robustness}
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Regime} & \textbf{Model} & $\boldsymbol{\sigma=0.00}$ & $\boldsymbol{\sigma=0.03}$ & $\boldsymbol{\sigma=0.10}$ & $\boldsymbol{\sigma=0.20}$ \\
+\hline
+\multirow{3}{*}{\shortstack{BreastMNIST\\10\% Scarcity}} & Linear & 0.8630 & \textbf{0.4683} & \textbf{0.3581} & 0.2425 \\
+& MLP & 0.8603 & 0.4033 & 0.3095 & \textbf{0.2815} \\
+& Quantum & \textbf{0.8665} & 0.3522 & 0.1452 & 0.1129 \\
+\hline
+\multirow{3}{*}{\shortstack{BreastMNIST\\100\% Abundance}} & Linear & 0.9254 & 0.8275 & 0.8186 & \textbf{0.8175} \\
+& MLP & 0.9244 & 0.8261 & 0.8141 & 0.7764 \\
+& Quantum & \textbf{0.9263} & \textbf{0.8338} & \textbf{0.8214} & 0.8146 \\
+\hline
+\end{tabular}%
+}
+\end{table}
 
 \subsection{The Glass Cannon Effect under Data Scarcity}
 In severe data scarcity regimes, the quantum architecture operates as a highly expressive but catastrophically fragile instrument.
@@ -274,7 +318,7 @@ This fragility is mathematically inherent to the VQC's expressivity mechanism wh
 \subsection{Data Abundance as a Topological Regularizer}
 The most profound finding of our robustness analysis occurred when testing the VQC optimized on the full 100\% training regimes.
 
-When the BreastMNIST 100\% models were subjected to the exact same noise sweep, the Glass Cannon effect completely vanished. At the previously fatal noise threshold of $\sigma=0.10$, the fully-trained VQC maintained a highly robust F1 score of $0.8214$, successfully outperforming both the Classical Linear ($0.8186$) and MLP ($0.8141$) baselines. This resilience was maintained even at extreme degradation ($\sigma=0.20$), where the Quantum F1 score stabilized at $0.8146$.
+When the BreastMNIST 100\% models were subjected to the exact same noise sweep (Table~\ref{tab:robustness}), the Glass Cannon effect completely vanished. At the previously fatal noise threshold of $\sigma=0.10$, the fully-trained VQC maintained a highly robust F1 score of $0.8214$, successfully outperforming both the Classical Linear ($0.8186$) and MLP ($0.8141$) baselines. This resilience was maintained even at extreme degradation ($\sigma=0.20$), where the Quantum F1 score stabilized at $0.8146$.
 
 This empirically demonstrates that data abundance acts as a powerful topological regularizer for quantum classification heads. The massive increase in training variance forces the quantum gradients to construct broader, flatter minima in the phase space. This prevents the rotation angles from locking onto highly specific, high-frequency spatial artifacts, neutralizing the fragility of the Precision Paradox and allowing the VQC's geometric advantage to survive in noisy environments.
 
@@ -289,7 +333,7 @@ At extreme noise levels ($\sigma = 0.20$), we observed a unique mathematical fai
 
 In the classical network, extreme spatial noise simply overwhelms the latent signal, flattening the output distributions toward random guessing. However, the quantum model's inputs are rigidly constrained by $\tilde{z} = \tanh(z) \cdot (\pi/2)$ (as defined in \eqref{eq:tanh_scaling}). High-variance classical noise frequently pushes the latent features deep into the asymptotic tails of the hyperbolic tangent function, saturating the output at exactly $\pm \pi/2$.
 
-Consequently, the quantum rotation gates are forced to evaluate fixed, absolute boundary angles. The VQC ceases to evaluate a continuous phase space; instead, the saturated inputs collapse the quantum circuit into a quasi-discrete topological state. This ``Zombie State'' frequently yields static measurement artifacts---such as the VQC artificially maintaining an AUC of $0.6118$ with an impossibly low probability standard deviation of $0.0057$ on the noisy Breast 10\% test set. This confirms that the non-linear boundaries required to prevent quantum phase-wrapping introduce unique saturation-based failure modes under high-noise conditions, functionally distinct from standard classical degradation.
+Consequently, the quantum rotation gates are forced to evaluate fixed, absolute boundary angles. The VQC ceases to evaluate a continuous phase space; instead, the saturated inputs collapse the quantum circuit into a quasi-discrete topological state. This ``Zombie State'' frequently yields static measurement artifacts---such as the VQC artificially maintaining an AUC of $0.6118$ with an impossibly low probability standard deviation of exactly $0.0057$ on the noisy Breast 10\% test set. This confirms that the non-linear boundaries required to prevent quantum phase-wrapping introduce unique saturation-based failure modes under high-noise conditions, functionally distinct from standard classical degradation.
 
 \section{Discussion}
 The empirical findings of this study illuminate and characterize the complex operational realities of Hybrid Quantum-Classical Neural Networks. By isolating the classification heads behind a severe $d=4$ information bottleneck, we successfully demonstrated that Variational Quantum Circuits possess a fundamental geometric advantage over equivalent classical classifiers.
@@ -307,12 +351,12 @@ First, the $d=4$ information bottleneck was an extreme constraint explicitly des
 
 Second, given that data abundance successfully mitigates catastrophic phase misalignment, future algorithmic research should explore replicating this regularizing effect in data-scarce environments. Investigating quantum-native noise-injection protocols during the training loop (e.g., perturbing the Pauli rotation angles within the Strongly Entangling Layers) may allow VQCs to achieve robust, flat minima without requiring vast datasets.
 
-Finally, our quantum circuits were evaluated exclusively using high-performance state-vector simulations, which calculate exact analytical expectation values. Deploying this hybrid architecture on physical Quantum Processing Units (QPUs) will introduce not only intrinsic hardware decoherence (e.g., thermal relaxation, crosstalk, and CNOT gate errors) but also statistical variance due to finite measurement sampling (shot noise). How this physical quantum hardware noise interacts with---and potentially compounds---the classical input-driven phase misalignment observed in our sensor degradation tests remains a complex open question. Bridging the gap between classical input noise and physical quantum noise via error-mitigated data embedding strategies represents a primary hurdle for deploying highly expressive VQCs in analog clinical environments.
+Finally, our quantum circuits were evaluated exclusively using high-performance state-vector simulations, which calculate exact analytical expectation values. Deploying this hybrid architecture on physical Quantum Processing Units (QPUs) will introduce not only intrinsic hardware decoherence (e.g., depolarizing channels, thermal relaxation, crosstalk, and CNOT gate errors) but also statistical variance due to finite measurement sampling (shot noise). How this physical quantum hardware noise interacts with---and potentially compounds---the classical input-driven phase misalignment observed in our sensor degradation tests remains a complex open question. Bridging the gap between classical input noise and physical quantum noise via error-mitigated data embedding strategies represents a primary hurdle for deploying highly expressive VQCs in analog clinical environments.
 
 \section{Conclusion}
 In this paper, we investigated the viability of Hybrid Quantum-Classical Neural Networks (HQCNNs) for medical image classification under severe edge-computing constraints. We empirically establish that while extreme linear dimensionality reduction forces a hard topological performance ceiling on classical models, Variational Quantum Circuits (VQCs) offer a highly expressive mathematical mechanism to bypass this limitation. Through end-to-end optimization, we demonstrated the ``Latent Reshaping'' effect: backpropagated quantum gradients actively drive classical convolutional filters to reorganize ambiguous medical textures into complex, quantum-friendly geometries. This phenomenon allows the VQC to consistently outperform classical baselines in severe data-scarcity regimes, while maintaining statistical parity under data abundance.
 
-However, our robustness analysis under additive sensor noise defines a critical boundary condition for empirical quantum advantage, which we term the ``Precision Paradox.'' In data-scarce environments, the high-frequency trigonometric phase interference that grants VQCs their superior expressivity simultaneously renders them catastrophically fragile to spatial perturbations. In these regimes, the VQC suffers rapid phase misalignment while the classical linear model acts as a rugged, low-pass filter.
+However, our robustness analysis under additive sensor noise defines a critical boundary condition for empirical quantum utility, which we term the ``Precision Paradox.'' In data-scarce environments, the high-frequency trigonometric phase interference that grants VQCs their superior expressivity simultaneously renders them catastrophically fragile to spatial perturbations. In these regimes, the VQC suffers rapid phase misalignment while the classical linear model acts as a rugged, low-pass filter.
 
 Crucially, we empirically demonstrate that this fragility is not an absolute quantum limitation, but a regularizable topological artifact. By optimizing the VQC under data abundance, the quantum circuit achieves geometric stability, effectively neutralizing the Glass Cannon effect and maintaining highly robust decision boundaries against extreme analog noise.
 
