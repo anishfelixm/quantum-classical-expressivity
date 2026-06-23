@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 **Authors:** Anish Felix Mathias, Susham P S  
-**Code Repository for the associated peer-reviewed submission.**
+**Code Repository for the associated peer-reviewed submission**
 
 ---
 
