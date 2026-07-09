@@ -1,7 +1,7 @@
 """
 Hybrid Quantum-Classical ResNet Architecture.
 Integrates a PennyLane Variational Quantum Circuit (VQC) as the classification head 
-to evaluate quantum expressivity in severe information constraint scenarios.
+to evaluate quantum expressivity in severe multi-class information constraint scenarios.
 """
 
 import torch
@@ -14,9 +14,9 @@ class QuantumHybridResNet(nn.Module):
     """
     End-to-End Hybrid Architecture.
     Maps compressed classical features into a Hilbert space using angle embedding, 
-    entangles them, and generates decision logits via Pauli-X expectation values.
+    entangles them, and generates multi-class decision logits via a projection head.
     """
-    def __init__(self, n_qubits=4, n_layers=4):
+    def __init__(self, num_classes: int, n_qubits: int = 4, n_layers: int = 4):
         super(QuantumHybridResNet, self).__init__()
         self.n_qubits = n_qubits
         
@@ -24,20 +24,20 @@ class QuantumHybridResNet(nn.Module):
         self.backbone = nn.Sequential(*list(resnet.children())[:-3])
         self.pool = nn.AdaptiveAvgPool2d((1, 1))
         
+        # Layer targeted freezing (Latent Reshaping tracking)
         for name, param in self.backbone.named_parameters():
             param.requires_grad = "6." in name
                 
-        # Compress Layer 3 channels (256) down to the available qubit count
+        # Compress Layer 3 channels (256) down to the available qubit count (Information Bottleneck)
         self.bottleneck = nn.Linear(256, self.n_qubits)
         self.q_layer = self._build_quantum_circuit(n_qubits, n_layers)
         
-        # Learnable parameters for processing quantum measurements
-        self.observable_weights = nn.Parameter(torch.ones(1, self.n_qubits)) 
-        self.logit_bias = nn.Parameter(torch.tensor(0.0))
+        # Multi-class classification head mapping Pauli expectation values to target dimensions
+        self.classifier = nn.Linear(self.n_qubits, num_classes)
 
     def _build_quantum_circuit(self, n_qubits, n_layers):
         """
-        Constructs the PennyLane QNode utilizing standard continuous-variable mapping
+        Constructs the PennyLane QNode utilizing Y-axis angle embedding 
         and strongly entangling topological layers.
         """
         dev = qml.device("default.qubit", wires=n_qubits)
@@ -48,7 +48,7 @@ class QuantumHybridResNet(nn.Module):
             qml.AngleEmbedding(inputs, wires=range(n_qubits), rotation='Y')
             # Variational sequence
             qml.StronglyEntanglingLayers(weights, wires=range(n_qubits))
-            # Measure expectation value along the X basis
+            # Measure expectation value along the X basis for all qubits
             return [qml.expval(qml.PauliX(i)) for i in range(n_qubits)]
             
         weight_shapes = {"weights": (n_layers, n_qubits, 3)}
@@ -64,10 +64,11 @@ class QuantumHybridResNet(nn.Module):
         
         # Scale continuous classical features to valid rotational angles [-pi/2, pi/2]
         z_scaled = torch.tanh(z) * (np.pi / 2)
+        
+        # Execute VQC -> returns tensor of shape (batch_size, n_qubits)
         v_q = self.q_layer(z_scaled) 
         
-        # Compute final logit via weighted sum of expectation values
-        v_q_weighted = v_q * self.observable_weights 
-        y_hat = torch.sum(v_q_weighted, dim=1, keepdim=True) + self.logit_bias
+        # Compute final multi-class logits via linear mapping
+        y_hat = self.classifier(v_q)
         
         return y_hat
