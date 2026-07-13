@@ -1,6 +1,8 @@
 """
-Ablation Study for Hybrid Quantum-Classical Transfer Learning.
-Evaluates model performance under severe information constraints (data scarcity regimes).
+Phase 1: Frozen Backbone Ablation Study.
+Evaluates model expressivity under severe information constraints.
+The classical backbone is permanently immobilized to isolate the representation
+power of the bottlenecks (Linear, MLP, Deep Autoencoder, Quantum VQC).
 """
 
 import os
@@ -10,83 +12,67 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
-from sklearn.metrics import roc_auc_score, accuracy_score, f1_score, precision_recall_curve
+from sklearn.metrics import accuracy_score, f1_score, balanced_accuracy_score
+from tqdm import tqdm
+import sys
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 from data.medmnist_loader import get_medmnist_loaders
-from models.classical_resnet import ClassicalLinearResNet, ClassicalMLPResNet
+from models.classical_resnet import ClassicalLinearResNet, ClassicalMLPResNet, ClassicalDeepBottleneckResNet
 from models.quantum_vqc import QuantumHybridResNet
 
 # --- EXPERIMENT CONFIGURATION ---
-DATASETS = ["breastmnist", "pneumoniamnist"]
-SCARCITY_TARGETS = {"breastmnist": 0.10, "pneumoniamnist": 0.01} 
+#DATASETS = ["breastmnist", "pneumoniamnist", "bloodmnist", "pathmnist"]
+#FRACTIONS = [0.01, 0.05, 0.10, 0.25, 0.50, 1.0]
+#SEEDS = [42, 123, 2026, 777, 888]
+DATASETS = ["breastmnist"]
+FRACTIONS = [0.01]
+SEEDS = [42]
 
 BATCH_SIZE = 32
-EPOCHS = 50          
+EPOCHS = 30           
 LR_HEAD = 1e-3       
-LR_QUANTUM = 5e-3    # Reduced learning rate to mitigate barren plateaus in the VQC
-SEEDS = [42, 123, 2026] 
-RESULTS_FILE = "results/frozen_ablation_logs.json"
+LR_QUANTUM = 5e-3    
+RESULTS_FILE = "results/01_frozen_ablation_logs.json"
 
-def evaluate_epoch(model, dataloader, criterion, device, threshold=None):
+
+def evaluate_epoch(model, dataloader, criterion, device):
     """
-    Evaluates the model over a given dataloader.
-    Applies dynamic thresholding based on Precision-Recall to maximize F1 under class imbalance.
+    Evaluates model performance using strictly Argmax Multi-Class Metrics.
+    No threshold shifting is permitted.
     """
     model.eval()
     total_loss = 0.0
-    all_probs, all_labels = [], []
+    all_preds, all_labels = [], []
     
     with torch.no_grad():
         for x, y in dataloader:
-            x, y = x.to(device), y.view(-1, 1).float().to(device)
+            x, y = x.to(device), y.squeeze().long().to(device)
             logits = model(x)
             loss = criterion(logits, y)
             total_loss += loss.item() * x.size(0)
             
-            probs = torch.sigmoid(logits)
-            all_probs.extend(probs.cpu().numpy())
+            preds = torch.argmax(logits, dim=1)
+            all_preds.extend(preds.cpu().numpy())
             all_labels.extend(y.cpu().numpy())
             
     avg_loss = total_loss / len(dataloader.dataset)
-    
-    try:
-        auc = roc_auc_score(all_labels, all_probs)
-    except ValueError:
-        auc = 0.5 # Fallback for ill-defined AUC in extremely small batches
+    acc = accuracy_score(all_labels, all_preds)
+    bal_acc = balanced_accuracy_score(all_labels, all_preds)
+    macro_f1 = f1_score(all_labels, all_preds, average='macro', zero_division=0)
         
-    # Phase-dependent thresholding
-    if threshold is None:
-        # Validation Phase: Find optimal threshold maximizing F1 score
-        precisions, recalls, thresholds = precision_recall_curve(all_labels, all_probs)
-        f1_scores = (2 * precisions * recalls) / (precisions + recalls + 1e-8)
-        best_idx = np.argmax(f1_scores)
-        best_thresh = thresholds[best_idx] if best_idx < len(thresholds) else 0.5
-    else:
-        # Test Phase: Utilize locked validation threshold
-        best_thresh = threshold
-
-    preds = [1 if p >= best_thresh else 0 for p in all_probs]
-    acc = accuracy_score(all_labels, preds)
-    f1 = f1_score(all_labels, preds, zero_division=0)
-        
-    return avg_loss, float(auc), float(acc), float(f1), float(best_thresh)
+    return avg_loss, float(acc), float(bal_acc), float(macro_f1)
 
 
-def train_ablation_model(model, train_loader, val_loader, test_loader, device, model_name, dataset_name, seed, frac):
-    """
-    Executes the training loop with a strictly frozen classical backbone.
-    Isolates the expressivity of the latent projection head (Linear, MLP, or Quantum).
-    """
+def train_ablation_model(model, train_loader, val_loader, test_loader, device, model_name, dataset_name, seed, frac, num_classes):
     print(f"\n      Training {model_name}...")
     
-    # STRICT OVERRIDE: Guarantee complete immobilization of the feature extractor
+    # 1. STRICT OVERRIDE: Completely immobilize the feature extractor
     for name, param in model.named_parameters():
         if "backbone" in name:
             param.requires_grad = False
             
     head_params, quantum_params = [], []
-    
-    # Parameter routing for differential learning rates
     for name, param in model.named_parameters():
         if not param.requires_grad:
             continue
@@ -100,20 +86,22 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
         {'params': quantum_params, 'lr': LR_QUANTUM, 'weight_decay': 0.0}
     ])
 
-    # Dynamic Class Weighting for Scarcity Environments
-    num_pos = 0
-    num_neg = 0
+    # 2. Dynamic Class Weighting for Multi-Class Imbalance
+    all_train_labels = []
     for _, y_batch in train_loader:
-        num_pos += y_batch.sum().item()
-        num_neg += (len(y_batch) - y_batch.sum().item())
-    pos_weight_tensor = torch.tensor([num_neg / (num_pos + 1e-7)]).to(device)
+        all_train_labels.extend(y_batch.squeeze().tolist())
+    class_counts = np.bincount(all_train_labels, minlength=num_classes)
+    total_samples = len(all_train_labels)
+    # Inverse frequency weighting
+    class_weights = total_samples / (num_classes * (class_counts + 1e-5))
+    class_weights_tensor = torch.FloatTensor(class_weights).to(device)
 
-    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
-    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=5)
+    criterion = nn.CrossEntropyLoss(weight=class_weights_tensor)
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.5, patience=5)
     
-    best_val_auc, best_locked_threshold = 0.0, 0.5
+    best_val_f1 = 0.0
     best_weights = None
-    history = {"train_loss": [], "val_loss": [], "val_auc": [], "val_acc": [], "val_f1": []}
+    history = {"train_loss": [], "val_loss": [], "val_acc": [], "val_bal_acc": [], "val_f1": []}
     
     for epoch in range(EPOCHS):
         model.train()
@@ -126,7 +114,7 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
         total_loss = 0.0
         
         for x, y in train_loader:
-            x, y = x.to(device), y.view(-1, 1).float().to(device)
+            x, y = x.to(device), y.squeeze().long().to(device)
             
             optimizer.zero_grad()
             logits = model(x)
@@ -135,36 +123,34 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
             
             # Prevent exploding gradients in classical heads
             torch.nn.utils.clip_grad_norm_(head_params, max_norm=1.0)
-            
             optimizer.step()
             total_loss += loss.item() * x.size(0)
             
         train_loss = total_loss / len(train_loader.dataset)
-        val_loss, val_auc, val_acc, val_f1, current_thresh = evaluate_epoch(model, val_loader, criterion, device)
-        scheduler.step(val_loss)
+        val_loss, val_acc, val_bal_acc, val_f1 = evaluate_epoch(model, val_loader, criterion, device)
+        scheduler.step(val_f1)
 
         history["train_loss"].append(train_loss)
         history["val_loss"].append(val_loss)
-        history["val_auc"].append(val_auc)
         history["val_acc"].append(val_acc)
+        history["val_bal_acc"].append(val_bal_acc)
         history["val_f1"].append(val_f1)
         
-        if val_auc > best_val_auc:
-            best_val_auc = val_auc
-            best_locked_threshold = current_thresh 
+        if val_f1 >= best_val_f1:
+            best_val_f1 = val_f1
             best_weights = copy.deepcopy(model.state_dict())
-            print(f"         Epoch {epoch+1:02d} | Val Loss: {val_loss:.4f} | Val AUC: {val_auc:.4f} **(Best)** | Acc: {val_acc:.4f} | F1: {val_f1:.4f} | Thresh: {current_thresh:.2f}")
+            print(f"         Epoch {epoch+1:02d} | Val Loss: {val_loss:.4f} | Acc: {val_acc:.4f} | Bal Acc: {val_bal_acc:.4f} | Macro-F1: {val_f1:.4f} **(Best)**")
 
     if best_weights is not None:
         model.load_state_dict(best_weights)
         safe_name = model_name.replace(' ', '_')
         torch.save(best_weights, f"results/best_ablation_{safe_name}_{dataset_name}_frac{frac}_seed{seed}.pt")
         
-    # Final Test Set Evaluation
-    test_loss, test_auc, test_acc, test_f1, _ = evaluate_epoch(model, test_loader, criterion, device, threshold=best_locked_threshold)
-    print(f"         -> Final Test AUC: {test_auc:.4f} | Acc: {test_acc:.4f} | F1: {test_f1:.4f} | Used Thresh: {best_locked_threshold:.2f}")
+    # Final Test Set Evaluation using the model state that maximized Validation Macro-F1
+    test_loss, test_acc, test_bal_acc, test_f1 = evaluate_epoch(model, test_loader, criterion, device)
+    print(f"         -> Final Test | Acc: {test_acc:.4f} | Bal Acc: {test_bal_acc:.4f} | Macro-F1: {test_f1:.4f}")
     
-    return test_auc, test_acc, test_f1, history
+    return test_acc, test_bal_acc, test_f1, history
 
 
 def main():
@@ -172,17 +158,17 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Hardware utilized: {device}")
     
-    results = {"experiment": "Frozen-Backbone Ablation (Layer 3)", "datasets": {}}
+    results = {"experiment": "Frozen-Backbone Ablation (Control Group)", "datasets": {}}
     
     for dataset in DATASETS:
         results["datasets"][dataset] = {"fractions": {}}
-        fractions_to_test = [SCARCITY_TARGETS[dataset], 1.0]
         
-        for frac in fractions_to_test:
+        for frac in FRACTIONS:
             results["datasets"][dataset]["fractions"][str(frac)] = {
-                "classical_linear": {"test_auc": [], "test_acc": [], "test_f1": [], "history": []},
-                "classical_mlp": {"test_auc": [], "test_acc": [], "test_f1": [], "history": []},
-                "quantum": {"test_auc": [], "test_acc": [], "test_f1": [], "history": []}
+                "classical_linear": {"test_acc": [], "test_bal_acc": [], "test_f1": [], "history": []},
+                "classical_mlp": {"test_acc": [], "test_bal_acc": [], "test_f1": [], "history": []},
+                "classical_deep_ae": {"test_acc": [], "test_bal_acc": [], "test_f1": [], "history": []},
+                "quantum_vqc_4q": {"test_acc": [], "test_bal_acc": [], "test_f1": [], "history": []}
             }
             
             print(f"\n=====================================================")
@@ -193,42 +179,54 @@ def main():
                 print(f"\n   --- RUNNING SEED: {seed} ---")
                 
                 train_loader, val_loader, test_loader = get_medmnist_loaders(
-                    dataset_name=dataset, batch_size=BATCH_SIZE, train_frac=frac, seed=seed
+                    dataset_name=dataset, batch_size=BATCH_SIZE, train_frac=frac, seed=seed, data_root="/home/jovyan/qml_exp_2026/data_cache"
                 )
                 
-                # Model Instantiation
-                linear_model = ClassicalLinearResNet(bottleneck_dim=4).to(device)
-                mlp_model = ClassicalMLPResNet(bottleneck_dim=4).to(device)
-                quantum_model = QuantumHybridResNet(n_qubits=4, n_layers=2).to(device)
+                # Dynamically calculate num_classes from the dataset
+                num_classes = len(torch.unique(torch.tensor([y for _, y in train_loader.dataset])))
                 
-                lin_auc, lin_acc, lin_f1, lin_hist = train_ablation_model(linear_model, train_loader, val_loader, test_loader, device, "Classical Linear", dataset, seed, frac)
-                mlp_auc, mlp_acc, mlp_f1, mlp_hist = train_ablation_model(mlp_model, train_loader, val_loader, test_loader, device, "Classical MLP", dataset, seed, frac)
-                q_auc, q_acc, q_f1, q_hist = train_ablation_model(quantum_model, train_loader, val_loader, test_loader, device, "Quantum VQC", dataset, seed, frac)
+                # Model Instantiation
+                lin_model = ClassicalLinearResNet(num_classes=num_classes, bottleneck_dim=4).to(device)
+                mlp_model = ClassicalMLPResNet(num_classes=num_classes, bottleneck_dim=4).to(device)
+                ae_model = ClassicalDeepBottleneckResNet(num_classes=num_classes, bottleneck_dim=4).to(device)
+                q_model = QuantumHybridResNet(num_classes=num_classes, n_qubits=4, n_layers=2).to(device)
+                
+                # Train & Evaluate
+                lin_acc, lin_bal, lin_f1, lin_hist = train_ablation_model(lin_model, train_loader, val_loader, test_loader, device, "Classical Linear", dataset, seed, frac, num_classes)
+                mlp_acc, mlp_bal, mlp_f1, mlp_hist = train_ablation_model(mlp_model, train_loader, val_loader, test_loader, device, "Classical MLP", dataset, seed, frac, num_classes)
+                ae_acc, ae_bal, ae_f1, ae_hist = train_ablation_model(ae_model, train_loader, val_loader, test_loader, device, "Classical Deep AE", dataset, seed, frac, num_classes)
+                q_acc, q_bal, q_f1, q_hist = train_ablation_model(q_model, train_loader, val_loader, test_loader, device, "Quantum VQC 4Q", dataset, seed, frac, num_classes)
                 
                 # Metric Logging
-                frac_results = results["datasets"][dataset]["fractions"][str(frac)]
+                frac_res = results["datasets"][dataset]["fractions"][str(frac)]
                 
-                frac_results["classical_linear"]["test_auc"].append(lin_auc)
-                frac_results["classical_linear"]["test_acc"].append(lin_acc)
-                frac_results["classical_linear"]["test_f1"].append(lin_f1)
-                frac_results["classical_linear"]["history"].append(lin_hist)
+                frac_res["classical_linear"]["test_acc"].append(lin_acc)
+                frac_res["classical_linear"]["test_bal_acc"].append(lin_bal)
+                frac_res["classical_linear"]["test_f1"].append(lin_f1)
+                frac_res["classical_linear"]["history"].append(lin_hist)
                 
-                frac_results["classical_mlp"]["test_auc"].append(mlp_auc)
-                frac_results["classical_mlp"]["test_acc"].append(mlp_acc)
-                frac_results["classical_mlp"]["test_f1"].append(mlp_f1)
-                frac_results["classical_mlp"]["history"].append(mlp_hist)
+                frac_res["classical_mlp"]["test_acc"].append(mlp_acc)
+                frac_res["classical_mlp"]["test_bal_acc"].append(mlp_bal)
+                frac_res["classical_mlp"]["test_f1"].append(mlp_f1)
+                frac_res["classical_mlp"]["history"].append(mlp_hist)
+
+                frac_res["classical_deep_ae"]["test_acc"].append(ae_acc)
+                frac_res["classical_deep_ae"]["test_bal_acc"].append(ae_bal)
+                frac_res["classical_deep_ae"]["test_f1"].append(ae_f1)
+                frac_res["classical_deep_ae"]["history"].append(ae_hist)
                 
-                frac_results["quantum"]["test_auc"].append(q_auc)
-                frac_results["quantum"]["test_acc"].append(q_acc)
-                frac_results["quantum"]["test_f1"].append(q_f1)
-                frac_results["quantum"]["history"].append(q_hist)
+                frac_res["quantum_vqc_4q"]["test_acc"].append(q_acc)
+                frac_res["quantum_vqc_4q"]["test_bal_acc"].append(q_bal)
+                frac_res["quantum_vqc_4q"]["test_f1"].append(q_f1)
+                frac_res["quantum_vqc_4q"]["history"].append(q_hist)
             
-            print(f"\n   [AVERAGE RESULTS ACROSS {len(SEEDS)} SEEDS]")
-            lin_avg_acc = np.mean(results["datasets"][dataset]["fractions"][str(frac)]["classical_linear"]["test_acc"])
-            mlp_avg_acc = np.mean(results["datasets"][dataset]["fractions"][str(frac)]["classical_mlp"]["test_acc"])
-            q_avg_acc = np.mean(results["datasets"][dataset]["fractions"][str(frac)]["quantum"]["test_acc"])
+            print(f"\n   [AVERAGE MACRO-F1 RESULTS ACROSS {len(SEEDS)} SEEDS]")
+            lin_avg_f1 = np.mean(frac_res["classical_linear"]["test_f1"])
+            mlp_avg_f1 = np.mean(frac_res["classical_mlp"]["test_f1"])
+            ae_avg_f1 = np.mean(frac_res["classical_deep_ae"]["test_f1"])
+            q_avg_f1 = np.mean(frac_res["quantum_vqc_4q"]["test_f1"])
             
-            print(f"   Linear Acc: {lin_avg_acc:.4f} | MLP Acc: {mlp_avg_acc:.4f} | Quantum Acc: {q_avg_acc:.4f}")
+            print(f"   Linear F1: {lin_avg_f1:.4f} | MLP F1: {mlp_avg_f1:.4f} | Deep AE F1: {ae_avg_f1:.4f} | Quantum F1: {q_avg_f1:.4f}")
     
     with open(RESULTS_FILE, "w") as f:
         json.dump(results, f, indent=4)
