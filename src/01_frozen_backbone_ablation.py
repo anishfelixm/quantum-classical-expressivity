@@ -31,7 +31,8 @@ SEEDS = [42]
 
 BATCH_SIZE = 32
 EPOCHS = 30           
-LR_HEAD = 1e-3       
+# LR_HEAD = 1e-3
+LR_HEAD = 5e-3       
 LR_QUANTUM = 5e-3    
 RESULTS_FILE = "results/01_frozen_ablation_logs.json"
 
