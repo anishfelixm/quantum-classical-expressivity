@@ -103,7 +103,9 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
     best_weights = None
     history = {"train_loss": [], "val_loss": [], "val_acc": [], "val_bal_acc": [], "val_f1": []}
     
-    for epoch in range(EPOCHS):
+    batches_per_epoch = len(train_loader)
+    dynamic_epochs = max(30, 200 // batches_per_epoch)
+    for epoch in range(dynamic_epochs):
         model.train()
         
         # Immobilize BatchNorm statistics for the frozen backbone
@@ -183,7 +185,9 @@ def main():
                 )
                 
                 # Dynamically calculate num_classes from the dataset
-                num_classes = len(torch.unique(torch.tensor([y for _, y in train_loader.dataset])))
+                # num_classes = len(torch.unique(torch.tensor([y for _, y in train_loader.dataset])))
+                all_labels_np = np.array([y.numpy() for _, y in train_loader.dataset])
+                num_classes = len(np.unique(all_labels_np))
                 
                 # Model Instantiation
                 lin_model = ClassicalLinearResNet(num_classes=num_classes, bottleneck_dim=4).to(device)
