@@ -13,7 +13,6 @@ import torch.nn as nn
 import torch.optim as optim
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, balanced_accuracy_score
-from tqdm import tqdm
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
@@ -22,17 +21,21 @@ from models.classical_resnet import ClassicalLinearResNet, ClassicalMLPResNet, C
 from models.quantum_vqc import QuantumHybridResNet
 
 # --- EXPERIMENT CONFIGURATION ---
-#DATASETS = ["breastmnist", "pneumoniamnist", "bloodmnist", "pathmnist"]
-#FRACTIONS = [0.01, 0.05, 0.10, 0.25, 0.50, 1.0]
-#SEEDS = [42, 123, 2026, 777, 888]
+# Note: For your dry run, uncomment the small config. 
+# For the full A100 GPU run, use the full lists below.
+
+# DATASETS = ["breastmnist", "pneumoniamnist", "bloodmnist", "pathmnist"]
+# FRACTIONS = [0.01, 0.05, 0.10, 0.25, 0.50, 1.0]
+# SEEDS = [42, 123, 2026, 777, 888]
+
+# --- DRY RUN CONFIG (Uncomment to test) ---
 DATASETS = ["breastmnist"]
 FRACTIONS = [0.01]
 SEEDS = [42]
+# ------------------------------------------
 
 BATCH_SIZE = 32
-EPOCHS = 30           
-# LR_HEAD = 1e-3
-LR_HEAD = 5e-3       
+LR_HEAD = 5e-3       # Matched for a fair classical vs quantum fight
 LR_QUANTUM = 5e-3    
 RESULTS_FILE = "results/01_frozen_ablation_logs.json"
 
@@ -90,9 +93,12 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
     # 2. Dynamic Class Weighting for Multi-Class Imbalance
     all_train_labels = []
     for _, y_batch in train_loader:
-        all_train_labels.extend(y_batch.squeeze().tolist())
+        # Handles batches safely ensuring 1D list extraction
+        all_train_labels.extend(y_batch.squeeze(1).tolist() if y_batch.dim() > 1 else y_batch.tolist())
+        
     class_counts = np.bincount(all_train_labels, minlength=num_classes)
     total_samples = len(all_train_labels)
+    
     # Inverse frequency weighting
     class_weights = total_samples / (num_classes * (class_counts + 1e-5))
     class_weights_tensor = torch.FloatTensor(class_weights).to(device)
@@ -104,8 +110,10 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
     best_weights = None
     history = {"train_loss": [], "val_loss": [], "val_acc": [], "val_bal_acc": [], "val_f1": []}
     
+    # DYNAMIC EPOCH SCALING: Give tiny datasets enough steps to actually learn
     batches_per_epoch = len(train_loader)
     dynamic_epochs = max(30, 200 // batches_per_epoch)
+    
     for epoch in range(dynamic_epochs):
         model.train()
         
@@ -142,7 +150,9 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
         if val_f1 >= best_val_f1:
             best_val_f1 = val_f1
             best_weights = copy.deepcopy(model.state_dict())
-            print(f"         Epoch {epoch+1:02d} | Val Loss: {val_loss:.4f} | Acc: {val_acc:.4f} | Bal Acc: {val_bal_acc:.4f} | Macro-F1: {val_f1:.4f} **(Best)**")
+            # Only print every 5th epoch to keep terminal logs clean, unless it's a tiny dataset
+            if dynamic_epochs < 50 or (epoch + 1) % 5 == 0:
+                print(f"         Epoch {epoch+1:03d}/{dynamic_epochs} | Val Loss: {val_loss:.4f} | Acc: {val_acc:.4f} | Bal Acc: {val_bal_acc:.4f} | Macro-F1: {val_f1:.4f} **(Best)**")
 
     if best_weights is not None:
         model.load_state_dict(best_weights)
@@ -185,10 +195,9 @@ def main():
                     dataset_name=dataset, batch_size=BATCH_SIZE, train_frac=frac, seed=seed, data_root="/home/jovyan/qml_exp_2026/data_cache"
                 )
                 
-                # Dynamically calculate num_classes from the dataset
-                # num_classes = len(torch.unique(torch.tensor([y for _, y in train_loader.dataset])))
-                all_labels_np = np.array([y.numpy() for _, y in train_loader.dataset])
-                num_classes = len(np.unique(all_labels_np))
+                # BUG FIX: Safely extract unique classes by converting list of (1,) numpy arrays directly
+                all_raw_labels = [int(y[0]) for _, y in train_loader.dataset]
+                num_classes = len(np.unique(all_raw_labels))
                 
                 # Model Instantiation
                 lin_model = ClassicalLinearResNet(num_classes=num_classes, bottleneck_dim=4).to(device)
