@@ -112,9 +112,11 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
     
     # DYNAMIC EPOCH SCALING: Give tiny datasets enough steps to actually learn
     batches_per_epoch = len(train_loader)
-    dynamic_epochs = max(30, 200 // batches_per_epoch)
+    max_epochs = 100
+    patience = 10
+    epochs_no_improve = 0
     
-    for epoch in range(dynamic_epochs):
+    for epoch in range(max_epochs):
         model.train()
         
         # Immobilize BatchNorm statistics for the frozen backbone
@@ -150,9 +152,15 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
         if val_f1 >= best_val_f1:
             best_val_f1 = val_f1
             best_weights = copy.deepcopy(model.state_dict())
-            # Only print every 5th epoch to keep terminal logs clean, unless it's a tiny dataset
-            if dynamic_epochs < 50 or (epoch + 1) % 5 == 0:
-                print(f"         Epoch {epoch+1:03d}/{dynamic_epochs} | Val Loss: {val_loss:.4f} | Acc: {val_acc:.4f} | Bal Acc: {val_bal_acc:.4f} | Macro-F1: {val_f1:.4f} **(Best)**")
+            epochs_no_improve = 0  # Reset patience
+            print(f"         Epoch {epoch+1:03d}/{max_epochs} | Val Loss: {val_loss:.4f} | Acc: {val_acc:.4f} | Bal Acc: {val_bal_acc:.4f} | Macro-F1: {val_f1:.4f} **(Best)**")
+        else:
+            epochs_no_improve += 1
+            
+        # Trigger Early Stopping
+        if epochs_no_improve >= patience:
+            print(f"         -> Early Stopping triggered! No improvement for {patience} epochs.")
+            break
 
     if best_weights is not None:
         model.load_state_dict(best_weights)

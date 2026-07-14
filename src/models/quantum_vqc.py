@@ -42,13 +42,10 @@ class QuantumHybridResNet(nn.Module):
         """
         dev = qml.device("default.qubit", wires=n_qubits)
         
-        @qml.qnode(dev, interface="torch")
+        @qml.qnode(dev, interface="torch", diff_method="adjoint")
         def circuit(inputs, weights):
-            # Encode classical data into quantum phase angles
             qml.AngleEmbedding(inputs, wires=range(n_qubits), rotation='Y')
-            # Variational sequence
             qml.StronglyEntanglingLayers(weights, wires=range(n_qubits))
-            # Measure expectation value along the X basis for all qubits
             return [qml.expval(qml.PauliX(i)) for i in range(n_qubits)]
             
         weight_shapes = {"weights": (n_layers, n_qubits, 3)}
