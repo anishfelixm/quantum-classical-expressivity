@@ -24,16 +24,16 @@ from models.quantum_vqc import QuantumHybridResNet
 
 # --- EXPERIMENT CONFIGURATION ---
 # FULL A100 GPU CONFIGURATION
-DATASETS = ["breastmnist", "pneumoniamnist", "bloodmnist", "pathmnist"]
-FRACTIONS = [0.01, 0.05, 0.10, 0.25, 0.50, 1.0]
-SEEDS = [42, 123, 2026, 777, 888]
-BOTTLENECKS = [4, 8, 16]
+# DATASETS = ["breastmnist", "pneumoniamnist", "bloodmnist", "pathmnist"]
+# FRACTIONS = [0.01, 0.05, 0.10, 0.25, 0.50, 1.0]
+# SEEDS = [42, 123, 2026, 777, 888]
+# BOTTLENECKS = [4, 8, 16]
 
 # --- DRY RUN CONFIG (Uncomment to test safely on CPU) ---
-# DATASETS = ["breastmnist"]
-# FRACTIONS = [0.01]
-# SEEDS = [42]
-# BOTTLENECKS = [4]
+DATASETS = ["breastmnist"]
+FRACTIONS = [0.01]
+SEEDS = [42]
+BOTTLENECKS = [4]
 # ------------------------------------------
 
 BATCH_SIZE = 32
