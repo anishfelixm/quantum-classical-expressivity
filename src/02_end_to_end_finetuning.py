@@ -17,7 +17,8 @@ import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, balanced_accuracy_score
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+RESULTS_DIR = os.path.join(BASE_DIR, "results")
 from data.medmnist_loader import get_medmnist_loaders
 from models.classical_resnet import ClassicalLinearResNet, ClassicalMLPResNet, ClassicalDeepBottleneckResNet
 from models.quantum_vqc import QuantumHybridResNet
@@ -40,7 +41,7 @@ BATCH_SIZE = 32
 LR_BACKBONE = 1e-4       # Conservative LR for Layer 3 to mitigate catastrophic overfitting
 LR_HEAD = 1e-3           # Standard LR for classical latent projection heads
 LR_QUANTUM = 5e-3        # VQC learning rate aligned with ablation study baseline
-RESULTS_FILE = "results/02_end_to_end_logs.json"
+RESULTS_FILE_NAME = "02_end_to_end_logs.json"
 
 
 def evaluate_epoch(model, dataloader, criterion, device):
@@ -121,6 +122,7 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, m
     max_epochs = 100
     patience = 10
     epochs_no_improve = 0
+    min_epochs = max(20, 200 // len(train_loader))
     
     for epoch in range(max_epochs):
         model.train()
@@ -163,7 +165,7 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, m
         else:
             epochs_no_improve += 1
             
-        if epochs_no_improve >= patience:
+        if epochs_no_improve >= patience and epoch >= min_epochs:
             print(f"         -> Early Stopping triggered! No improvement for {patience} epochs.")
             break
 
@@ -179,7 +181,8 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, m
 
 
 def main():
-    os.makedirs("results", exist_ok=True)
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+    RESULTS_FILE = os.path.join(RESULTS_DIR, RESULTS_FILE_NAME)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Hardware utilized: {device}")
     
@@ -223,7 +226,7 @@ def main():
                     
                     lin_acc, lin_bal, lin_f1, lin_hist = train_finetune_model(lin_model, train_loader, val_loader, test_loader, device, "Classical Linear", dataset, seed, frac, num_classes, b)
                     mlp_acc, mlp_bal, mlp_f1, mlp_hist = train_finetune_model(mlp_model, train_loader, val_loader, test_loader, device, "Classical MLP", dataset, seed, frac, num_classes, b)
-                    ae_acc, ae_bal, ae_f1, ae_hist = train_finetune_model(ae_model, train_loader, val_loader, test_loader, device, "Classical Deep AE", dataset, seed, frac, num_classes, b)
+                    ae_acc, ae_bal, ae_f1, ae_hist = train_finetune_model(ae_model, train_loader, val_loader, test_loader, device, "Classical Deep Bottleneck", dataset, seed, frac, num_classes, b)
                     q_acc, q_bal, q_f1, q_hist = train_finetune_model(q_model, train_loader, val_loader, test_loader, device, "Quantum VQC", dataset, seed, frac, num_classes, b)
                     
                     b_res = results["datasets"][dataset]["fractions"][str(frac)]["bottlenecks"][str(b)]
