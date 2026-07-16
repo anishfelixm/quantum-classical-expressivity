@@ -39,7 +39,7 @@ BOTTLENECKS = [4, 8, 16]
 BATCH_SIZE = 32
 LR_HEAD = 5e-3       
 LR_QUANTUM = 5e-3    
-RESULTS_FILE_NAME = "01_frozen_ablation_logs.json"
+RESULTS_FILE_NAME = "frozen_ablation_logs.json"
 
 
 def evaluate_epoch(model, dataloader, criterion, device):
