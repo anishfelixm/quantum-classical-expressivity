@@ -15,6 +15,7 @@ import torch.optim as optim
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, balanced_accuracy_score
 import sys
+import time
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
@@ -112,6 +113,7 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
     
     for epoch in range(max_epochs):
         model.train()
+        epoch_start_time = time.time()
         
         for name, module in model.named_modules():
             if "backbone" in name:
@@ -140,6 +142,8 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
         history["val_acc"].append(val_acc)
         history["val_bal_acc"].append(val_bal_acc)
         history["val_f1"].append(val_f1)
+        epoch_duration = time.time() - epoch_start_time
+        history["epoch_times"].append(epoch_duration)
         
         if val_f1 >= best_val_f1:
             best_val_f1 = val_f1

@@ -16,6 +16,7 @@ import torch.optim as optim
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, balanced_accuracy_score
 import sys
+import time
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
@@ -40,7 +41,7 @@ BOTTLENECKS = [4, 8, 16]
 BATCH_SIZE = 32
 LR_BACKBONE = 1e-4       # Conservative LR for Layer 3 to mitigate catastrophic overfitting
 LR_HEAD = 1e-3           # Standard LR for classical latent projection heads
-LR_QUANTUM = 5e-3        # VQC learning rate aligned with ablation study baseline
+LR_QUANTUM = 1e-3        # VQC learning rate aligned with ablation study baseline
 RESULTS_FILE_NAME = "end_to_end_logs.json"
 
 
@@ -126,6 +127,7 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, m
     
     for epoch in range(max_epochs):
         model.train()
+        epoch_start_time = time.time()
         
         # BatchNorm Protocol: Freeze statistics for immobilized layers; allow Layer 3 to update.
         for name, module in model.named_modules():
@@ -156,6 +158,8 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, m
         history["val_acc"].append(val_acc)
         history["val_bal_acc"].append(val_bal_acc)
         history["val_f1"].append(val_f1)
+        epoch_duration = time.time() - epoch_start_time
+        history["epoch_times"].append(epoch_duration)
         
         if val_f1 >= best_val_f1:
             best_val_f1 = val_f1
