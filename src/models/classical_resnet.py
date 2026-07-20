@@ -8,6 +8,16 @@ import torch
 import torch.nn as nn
 import torchvision.models as models
 
+def init_weights(m):
+    """
+    Kaiming initialization for better gradient flow in deep bottlenecks.
+    Strictly applied only to custom heads to preserve pre-trained backbone weights.
+    """
+    if isinstance(m, nn.Linear):
+        nn.init.kaiming_normal_(m.weight, mode='fan_in', nonlinearity='relu')
+        if m.bias is not None:
+            nn.init.constant_(m.bias, 0)
+
 class ClassicalLinearResNet(nn.Module):
     """
     Linear Baseline Model.
@@ -18,17 +28,20 @@ class ClassicalLinearResNet(nn.Module):
         super(ClassicalLinearResNet, self).__init__()
         
         resnet = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1)
-        # Slice off layer4, avgpool, and fc to retain mid-level hierarchical features (256 channels)
+        # ResNet18 Layer 3 (layer3) is index 6 in the children list
         self.backbone = nn.Sequential(*list(resnet.children())[:-3])
         self.pool = nn.AdaptiveAvgPool2d((1, 1))
         
-        # Layer targeted freezing for Latent Reshaping analysis
-        for name, param in self.backbone.named_parameters():
-            param.requires_grad = "6." in name
+        # Robust Freezing: Unfreeze only layer3
+        for i, child in enumerate(self.backbone):
+            for param in child.parameters():
+                param.requires_grad = (i == 6)
 
-        # ResNet18 Layer 3 yields 256 channels
         self.bottleneck = nn.Linear(256, bottleneck_dim)
         self.classifier = nn.Linear(bottleneck_dim, num_classes)
+        
+        self.bottleneck.apply(init_weights)
+        self.classifier.apply(init_weights)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         h = self.backbone(x)
@@ -51,20 +64,23 @@ class ClassicalMLPResNet(nn.Module):
         self.backbone = nn.Sequential(*list(resnet.children())[:-3])
         self.pool = nn.AdaptiveAvgPool2d((1, 1))
         
-        for name, param in self.backbone.named_parameters():
-            param.requires_grad = "6." in name
+        for i, child in enumerate(self.backbone):
+            for param in child.parameters():
+                param.requires_grad = (i == 6)
 
         self.bottleneck = nn.Linear(256, bottleneck_dim)
         self.activation = nn.GELU()
         self.classifier = nn.Linear(bottleneck_dim, num_classes)
+        
+        self.bottleneck.apply(init_weights)
+        self.classifier.apply(init_weights)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         h = self.backbone(x)
         h = self.pool(h)
         h = torch.flatten(h, 1)  
         z = self.bottleneck(h)   
-        activated_z = self.activation(z)
-        return self.classifier(activated_z)
+        return self.classifier(self.activation(z))
 
 
 class ClassicalDeepBottleneckResNet(nn.Module):
@@ -81,10 +97,11 @@ class ClassicalDeepBottleneckResNet(nn.Module):
         self.backbone = nn.Sequential(*list(resnet.children())[:-3])
         self.pool = nn.AdaptiveAvgPool2d((1, 1))
         
-        for name, param in self.backbone.named_parameters():
-            param.requires_grad = "6." in name
+        for i, child in enumerate(self.backbone):
+            for param in child.parameters():
+                param.requires_grad = (i == 6)
 
-        # The Deep Non-Linear Funnel
+        # Deep Non-Linear Funnel
         self.encoder = nn.Sequential(
             nn.Linear(256, 64),
             nn.GELU(),
@@ -96,10 +113,15 @@ class ClassicalDeepBottleneckResNet(nn.Module):
         )
         
         self.classifier = nn.Linear(bottleneck_dim, num_classes)
+        
+        self.encoder.apply(init_weights)
+        self.classifier.apply(init_weights)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         h = self.backbone(x)
         h = self.pool(h)
-        h = torch.flatten(h, 1)  
-        z = self.encoder(h)   
+        h = torch.flatten(h, 1)
+        
+        z = self.encoder(h) 
+        
         return self.classifier(z)

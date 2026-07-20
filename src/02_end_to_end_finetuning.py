@@ -118,7 +118,7 @@ def train_finetune_model(model, train_loader, val_loader, test_loader, device, m
     
     best_val_f1 = 0.0
     best_weights = None
-    history = {"train_loss": [], "val_loss": [], "val_acc": [], "val_bal_acc": [], "val_f1": []}
+    history = {"train_loss": [], "val_loss": [], "val_acc": [], "val_bal_acc": [], "val_f1": [], "epoch_times": []}
     
     max_epochs = 100
     patience = 10
