@@ -161,7 +161,7 @@ def train_ablation_model(model, train_loader, val_loader, test_loader, device, m
     
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.5, patience=15)
     
-    best_val_f1 = 0.0
+    best_val_f1 = -1.0
     best_weights = None
     
     history = {
