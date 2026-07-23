@@ -1,5 +1,6 @@
 """
-Phase 1: Frozen Backbone Ablation Study.
+Frozen Backbone Ablation Study.
+
 Evaluates model expressivity under severe information constraints.
 Sweeps across data scarcity regimes and bottleneck dimensions (4, 8, 16).
 The classical backbone is permanently immobilized to isolate the representation

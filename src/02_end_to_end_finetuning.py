@@ -1,5 +1,5 @@
 """
-Phase 2: End-to-End Hybrid Quantum-Classical Fine-Tuning.
+End-to-End Hybrid Quantum-Classical Fine-Tuning.
 
 This script unfreezes the final convolutional block (Layer 3) of the classical feature 
 extractor. It allows gradients from the bottlenecks (Linear, MLP, Deep Funnel, VQC) to 
