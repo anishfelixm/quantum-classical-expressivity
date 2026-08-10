@@ -141,6 +141,24 @@ def git_sha() -> str:
     except Exception:
         return "unknown"
 
+def set_determinism(seed: int):
+    """
+    Seed every RNG the pipeline touches, and pin cuDNN to deterministic kernels.
+
+    Called once at the top of every run cell. Without this the seeds are
+    decorative: DataLoader shuffling, augmentation, weight init, and the VQC's
+    parameter init would all draw from an unseeded global stream, so 10 seeds
+    would not be 10 controlled repetitions.
+    """
+    import random
+    import numpy as np
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
 
 def seeds_for(bottleneck_dim: int):
     return SEEDS_BY_DIM[bottleneck_dim]
