@@ -95,6 +95,17 @@ WEIGHT_DECAY_VARIANTS = [0.0, 1e-4]   # pilot runs both as a sensitivity check
 GRAD_CLIP_NORM = 1.0
 CLASS_WEIGHT_CLIP = (0.1, 10.0)
 
+def min_epochs_for(n_batches: int) -> int:
+    """
+    Floor on epochs before early stopping may fire, clamped to stay reachable.
+
+    The old code used max(20, 200 // len(train_loader)). At n_per_class=5 the
+    loader has a single batch, giving min_epochs=200 against max_epochs=100 --
+    so the early-stop branch was unreachable and every scarce run silently
+    trained the full 100 epochs. The clamp to MAX_EPOCHS // 2 fixes that.
+    """
+    return min(max(20, 200 // max(n_batches, 1)), MAX_EPOCHS // 2)
+
 AUGMENT_E2E = True             # identical across arms
 AUGMENT_FROZEN = False         # must be off: caching requires deterministic features
 
