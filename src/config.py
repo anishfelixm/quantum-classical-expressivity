@@ -92,7 +92,9 @@ LR_HEAD = 1e-3
 LR_QUANTUM = 1e-3
 WEIGHT_DECAY = 1e-4            # applied to EVERY arm, or to none - never split
 WEIGHT_DECAY_VARIANTS = [0.0, 1e-4]   # pilot runs both as a sensitivity check
-GRAD_CLIP_NORM = 1.0
+GRAD_CLIP_NORM = 20.0   # 2x the largest observed p95 (9.62, deep_funnel/bloodmnist);
+                        # max observed 15.87. Clipping is a safety net against
+                        # explosions, never a per-arm learning-rate multiplier.
 CLASS_WEIGHT_CLIP = (0.1, 10.0)
 
 def min_epochs_for(n_batches: int) -> int:
