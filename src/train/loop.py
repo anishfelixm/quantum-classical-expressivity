@@ -45,8 +45,8 @@ def evaluate(model, loader, criterion, num_classes, device, use_features=False):
     preds, labels, probs = [], [], []
 
     for x, y in loader:
-        x = x.to(device)
-        y = y.view(-1).long().to(device)
+        x = x.to(device, non_blocking=True)
+        y = y.view(-1).long().to(device, non_blocking=True)
         logits = _forward(model, x, use_features)
         total_loss += criterion(logits, y).item() * x.size(0)
         n += x.size(0)
@@ -108,8 +108,8 @@ def train_model(model, train_loader, val_loader, test_loader, *,
         preds, labels, probs, gnorms, qvars = [], [], [], [], []
 
         for x, y in train_loader:
-            x = x.to(device)
-            y = y.view(-1).long().to(device)
+            x = x.to(device, non_blocking=True)
+            y = y.view(-1).long().to(device, non_blocking=True)
 
             optimizer.zero_grad()
             logits = _forward(model, x, use_features)
