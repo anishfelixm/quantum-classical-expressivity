@@ -213,3 +213,12 @@ __marimo__/
 
 # Ignore raw downloaded MedMNIST datasets
 data/*.npz
+# --- Journal expansion ---
+artifacts
+artifacts/
+data_cache/
+shards/
+latents/
+*.npy
+*.npz
+results/checkpoints*/
