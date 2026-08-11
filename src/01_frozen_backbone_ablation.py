@@ -1,359 +1,393 @@
 """
-Frozen Backbone Ablation Study.
+EXPERIMENT 1 - FROZEN-BACKBONE ABLATION.
 
-Evaluates model expressivity under severe information constraints.
-Sweeps across data scarcity regimes and bottleneck dimensions (4, 8, 16).
-The classical backbone is permanently immobilized to isolate the representation
-power of the bottlenecks (Linear, MLP, Deep Funnel, Quantum VQC).
+WHAT IT ISOLATES
+----------------
+The entire ResNet is immobilised, so every arm sees identical, static ImageNet
+features. Whatever separates the arms here is a property of the head's function
+class alone - no confound from the backbone adapting differently to different
+gradients. This is the control for Experiment 2.
+
+WHY IT IS FAST
+--------------
+A frozen backbone in eval mode is a deterministic function: the same image
+always produces the same 256-d vector. The previous version pushed every image
+through ResNet-18 on every epoch of every run - the identical computation
+repeated millions of times across the sweep.
+
+Here the backbone runs ONCE per (dataset, regime, seed); the resulting 256-d
+vectors are cached, and all arms train on those. Mathematically identical,
+orders of magnitude cheaper.
+
+This is also why augmentation is OFF here (config.AUGMENT_FROZEN = False):
+augmentation would make features non-deterministic and caching invalid. Stated
+in the methodology rather than left as an apparent inconsistency.
+
+PCA + SVM
+---------
+Runs off the same cached features. It is a REFERENCE POINT, reported in one
+table and explicitly excluded from the primary test family - it is not a
+comparison arm, and including it in the family would inflate the
+multiple-comparison burden for no scientific gain.
+
+USAGE
+    python src/01_frozen_backbone_ablation.py
+    python src/01_frozen_backbone_ablation.py --datasets breastmnist --dims 4 --seeds 42
+    python src/01_frozen_backbone_ablation.py --summary-only
 """
-
+import argparse
 import os
-import json
-import copy
-import time
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torchvision.models as models
-import numpy as np
-import medmnist
-from sklearn.metrics import accuracy_score, f1_score, balanced_accuracy_score, roc_auc_score
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
-from sklearn.svm import SVC
 import sys
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-RESULTS_DIR = os.path.join(BASE_DIR, "results")
-CHECKPOINT_DIR = os.path.join(RESULTS_DIR, "checkpoints_exp1")
-CACHE_DIR = os.path.join(BASE_DIR, "data_cache")
+import numpy as np
+import torch
 
-sys.path.append(os.path.join(BASE_DIR, 'src'))
-from data.medmnist_loader import get_medmnist_loaders
-from models.classical_resnet import ClassicalLinearResNet, ClassicalMLPResNet, ClassicalDeepBottleneckResNet
-from models.quantum_vqc import QuantumHybridResNet
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# --- EXPERIMENT CONFIGURATION ---
-DATASETS = ["breastmnist", "pneumoniamnist", "bloodmnist", "pathmnist"]
-FRACTIONS = [0.01, 0.10, 0.20, 0.30, 0.50, 0.75, 1.0] 
-SEEDS = [42, 123, 2026, 777, 888]
-BOTTLENECKS = [4, 8, 16]
+import config                                                    # noqa: E402
+import shards                                                    # noqa: E402
+from data.medmnist_loader import get_loaders, num_classes_of     # noqa: E402
+from models.backbone import TruncatedResNet18                    # noqa: E402
+from models.registry import build_arm                            # noqa: E402
+from train.loop import train_model                               # noqa: E402
+from train.metrics import compute_metrics                        # noqa: E402
 
-BATCH_SIZE = 32
-BASE_LR = 1e-3 
-RESULTS_FILE_NAME = "frozen_ablation_logs.json"
+EXPERIMENT = "01_frozen"
 
+# Verified values (there is no 'frozen'):
+#   'all'         -> backbone fully frozen, 1,038 trainable params
+#   'layer3_only' -> 2,100,750 trainable params
+FROZEN = "all"
+ADAPTIVE = "layer3_only"
 
-def extract_static_features(loader, backbone, device):
-    """Extracts static 256-D features from the frozen ResNet backbone."""
-    features, labels = [], []
-    with torch.no_grad():
-        for x, y in loader:
-            out = torch.flatten(backbone(x.to(device)), 1)
-            features.append(out.cpu().numpy())
-            labels.append(y.view(-1).numpy())
-            
-    return np.vstack(features), np.concatenate(labels)
+# The diagnostic contrast: capacity floor, function-class control, treatment.
+DIAGNOSTIC_ARMS = ["linear", "fourier_rff", "quantum_vqc"]
 
 
-def train_pca_svm(X_train, y_train, X_test, y_test, b_dim):
-    """Trains the PCA + SVM baseline with extreme-scarcity safeguards."""
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-    
-    actual_b = min(b_dim, X_train_scaled.shape[0])
-    
-    pca = PCA(n_components=actual_b)
-    X_train_pca = pca.fit_transform(X_train_scaled)
-    X_test_pca = pca.transform(X_test_scaled)
-    
-    var_ret = float(np.sum(pca.explained_variance_ratio_))
-    
-    if len(np.unique(y_train)) < 2:
-        print("         -> [WARNING] Only 1 class present in scarce subset. Skipping SVM fit.")
-        return np.nan, np.nan, np.nan, np.nan, var_ret
-        
-    svm = SVC(kernel='rbf', class_weight='balanced', probability=True)
-    svm.fit(X_train_pca, y_train)
-    
-    preds = svm.predict(X_test_pca)
-    probs = svm.predict_proba(X_test_pca)
-    
-    acc = accuracy_score(y_test, preds)
-    bal_acc = balanced_accuracy_score(y_test, preds)
-    macro_f1 = f1_score(y_test, preds, average='macro', zero_division=0)
-    
-    num_classes = len(np.unique(y_train))
-    try:
-        if num_classes == 2:
-            auc = roc_auc_score(y_test, probs[:, 1])
-        else:
-            auc = roc_auc_score(y_test, probs, multi_class='ovr')
-    except ValueError:
-        auc = np.nan
-    
-    return float(acc), float(bal_acc), float(macro_f1), float(auc), var_ret
+# ------------------------------------------------------------------ features
+class FeatureBatches:
+    """Mirrors the GPUBatches interface, but yields cached 256-d vectors."""
+
+    def __init__(self, feats, labels, batch_size, shuffle, seed):
+        self.feats, self.labels = feats, labels
+        self.batch_size, self.shuffle, self._seed = batch_size, shuffle, seed
+        self.epoch = 0
+
+    def __len__(self):
+        return (len(self.labels) + self.batch_size - 1) // self.batch_size
+
+    def __iter__(self):
+        g = torch.Generator().manual_seed(self._seed * 100_003 + self.epoch)
+        n = len(self.labels)
+        order = (torch.randperm(n, generator=g).to(self.feats.device)
+                 if self.shuffle else torch.arange(n, device=self.feats.device))
+        for i in range(0, n, self.batch_size):
+            sel = order[i:i + self.batch_size]
+            yield self.feats[sel], self.labels[sel]
+        self.epoch += 1
 
 
-def calculate_metrics(labels, preds, probs, num_classes):
-    """Helper to calculate metrics safely."""
-    acc = accuracy_score(labels, preds)
-    bal_acc = balanced_accuracy_score(labels, preds)
-    macro_f1 = f1_score(labels, preds, average='macro', zero_division=0)
-    
-    try:
-        if num_classes == 2:
-            auc = roc_auc_score(labels, np.array(probs)[:, 1])
-        else:
-            auc = roc_auc_score(labels, probs, multi_class='ovr')
-    except ValueError:
-        auc = np.nan
-        
-    return float(acc), float(bal_acc), float(macro_f1), float(auc)
+@torch.no_grad()
+def _extract(backbone, loader):
+    feats, labels = [], []
+    for x, y in loader:
+        feats.append(backbone(x))
+        labels.append(y)
+    return torch.cat(feats), torch.cat(labels)
 
 
-def evaluate_epoch(model, dataloader, criterion, device, num_classes):
-    model.eval()
-    total_loss = 0.0
-    all_preds, all_labels, all_probs = [], [], []
-    
-    with torch.no_grad():
-        for x, y in dataloader:
-            x, y = x.to(device), y.view(-1).long().to(device)
-            
-            logits = model(x)
-            loss = criterion(logits, y)
-            total_loss += loss.item() * x.size(0)
-            
-            probs = torch.softmax(logits, dim=1)
-            preds = torch.argmax(logits, dim=1)
-            
-            all_probs.extend(probs.cpu().numpy())
-            all_preds.extend(preds.cpu().numpy())
-            all_labels.extend(y.cpu().numpy())
-            
-    avg_loss = total_loss / len(dataloader.dataset)
-    acc, bal_acc, macro_f1, auc = calculate_metrics(all_labels, all_preds, all_probs, num_classes)
-        
-    return avg_loss, acc, bal_acc, macro_f1, auc
+def get_cached_features(dataset, regime, seed, force=False):
+    """Run the frozen backbone once; reuse for every arm and dimension."""
+    tag = f"{dataset}__r{regime}__s{seed}.pt"
+    path = os.path.join(config.FEATURE_CACHE, tag)
+
+    if os.path.exists(path) and not force:
+        blob = torch.load(path, map_location=config.DEVICE, weights_only=True)
+    else:
+        full = (regime == "full")
+        train, val, test, meta = get_loaders(
+            dataset,
+            n_per_class=None if full else int(regime),
+            seed=seed,
+            augment=config.AUGMENT_FROZEN,      # must be False for caching
+            full_data=full)
+
+        backbone = TruncatedResNet18(freeze_policy=FROZEN).to(config.DEVICE)
+        backbone.eval()
+
+        blob = {"meta": meta}
+        for name, ld in (("train", train), ("val", val), ("test", test)):
+            f, y = _extract(backbone, ld)
+            blob[f"{name}_x"], blob[f"{name}_y"] = f.cpu(), y.cpu()
+        torch.save(blob, path)
+        del backbone
+        torch.cuda.empty_cache()
+
+    dev = config.DEVICE
+    loaders = {}
+    for name, shuffle in (("train", True), ("val", False), ("test", False)):
+        loaders[name] = FeatureBatches(
+            blob[f"{name}_x"].to(dev), blob[f"{name}_y"].to(dev),
+            config.BATCH_SIZE, shuffle, seed)
+    return loaders, blob["meta"]
 
 
-def train_ablation_model(model, train_loader, val_loader, test_loader, device, model_name, dataset_name, seed, frac, num_classes, b_dim):
-    print(f"\n      Training {model_name} (d={b_dim})...")
-    
-    for name, param in model.named_parameters():
-        if "backbone" in name:
-            param.requires_grad = False
-            
-    active_params = [p for p in model.parameters() if p.requires_grad]
-    optimizer = optim.Adam(active_params, lr=BASE_LR, weight_decay=1e-4)
+# ------------------------------------------------------------------ pca+svm
+def run_pca_svm(blob_loaders, num_classes, dim, seed):
+    """Non-neural reference. Same cached features, so essentially free."""
+    from sklearn.decomposition import PCA
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.svm import SVC
 
-    all_train_labels = []
-    for _, y_batch in train_loader:
-        all_train_labels.extend(y_batch.view(-1).tolist())
-        
-    class_counts = np.bincount(all_train_labels, minlength=num_classes)
-    total_samples = len(all_train_labels)
-    class_weights = total_samples / (num_classes * (class_counts + 1e-5))
-    class_weights_tensor = torch.FloatTensor(class_weights).to(device)
+    tr, te = blob_loaders["train"], blob_loaders["test"]
+    Xtr, ytr = tr.feats.cpu().numpy(), tr.labels.cpu().numpy()
+    Xte, yte = te.feats.cpu().numpy(), te.labels.cpu().numpy()
 
-    criterion = nn.CrossEntropyLoss(weight=class_weights_tensor)
-    
-    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.5, patience=15)
-    
-    best_val_f1 = -1.0
-    best_weights = None
-    
-    history = {
-        "train_loss": [], "train_f1": [], "train_auc": [],
-        "val_loss": [], "val_acc": [], "val_bal_acc": [], "val_f1": [], "val_auc": [], 
-        "epoch_times": []
-    }
-    
-    max_epochs = 100
-    patience = 30
-    epochs_no_improve = 0
-    min_epochs = max(20, 200 // len(train_loader)) 
-    
-    for epoch in range(max_epochs):
-        model.train()
-        epoch_start_time = time.time()
-        
-        for name, module in model.named_modules():
-            if "backbone" in name:
-                module.eval()
-                
-        total_loss = 0.0
-        train_preds, train_probs, train_labels = [], [], []
-        
-        for x, y in train_loader:
-            x, y = x.to(device), y.view(-1).long().to(device)
-                
-            optimizer.zero_grad()
-            logits = model(x)
-            loss = criterion(logits, y)
-            loss.backward()
-            
-            torch.nn.utils.clip_grad_norm_(active_params, max_norm=1.0)
-            optimizer.step()
-            total_loss += loss.item() * x.size(0)
-            
-            with torch.no_grad():
-                probs = torch.softmax(logits, dim=1)
-                preds = torch.argmax(logits, dim=1)
-                train_probs.extend(probs.cpu().numpy())
-                train_preds.extend(preds.cpu().numpy())
-                train_labels.extend(y.cpu().numpy())
-            
-        train_loss = total_loss / len(train_loader.dataset)
-        _, _, train_f1, train_auc = calculate_metrics(train_labels, train_preds, train_probs, num_classes)
-        
-        val_loss, val_acc, val_bal_acc, val_f1, val_auc = evaluate_epoch(model, val_loader, criterion, device, num_classes)
-        scheduler.step(val_f1)
+    sc = StandardScaler().fit(Xtr)
+    n_comp = min(dim, Xtr.shape[0], Xtr.shape[1])
+    pca = PCA(n_components=n_comp, random_state=seed).fit(sc.transform(Xtr))
 
-        history["train_loss"].append(train_loss)
-        history["train_f1"].append(train_f1)
-        history["train_auc"].append(train_auc)
-        
-        history["val_loss"].append(val_loss)
-        history["val_acc"].append(val_acc)
-        history["val_bal_acc"].append(val_bal_acc)
-        history["val_f1"].append(val_f1)
-        history["val_auc"].append(val_auc)
-        history["epoch_times"].append(time.time() - epoch_start_time)
-        
-        if val_f1 >= best_val_f1:
-            best_val_f1 = val_f1
-            best_weights = copy.deepcopy(model.state_dict())
-            epochs_no_improve = 0  
-            print(f"         Epoch {epoch+1:03d}/{max_epochs} | Val Loss: {val_loss:.4f} | AUC: {val_auc:.4f} | Macro-F1: {val_f1:.4f} **(Best)**")
-        else:
-            epochs_no_improve += 1
-            
-        if epochs_no_improve >= patience and epoch >= min_epochs:
-            print(f"         -> Early Stopping triggered! No improvement for {patience} epochs.")
-            break
+    if len(np.unique(ytr)) < 2:
+        return None
+    svm = SVC(kernel="rbf", class_weight="balanced", probability=True,
+              random_state=seed).fit(pca.transform(sc.transform(Xtr)), ytr)
 
-    if best_weights is not None:
-        model.load_state_dict(best_weights)
-        safe_name = model_name.replace(' ', '_')
-        save_path = os.path.join(CHECKPOINT_DIR, f"best_ablation_{safe_name}_{dataset_name}_frac{frac}_b{b_dim}_seed{seed}.pt")
-        torch.save(best_weights, save_path)
-        
-    test_loss, test_acc, test_bal_acc, test_f1, test_auc = evaluate_epoch(model, test_loader, criterion, device, num_classes)
-    avg_epoch_time = np.mean(history["epoch_times"])
-    
-    print(f"         -> Final Test | AUC: {test_auc:.4f} | Bal Acc: {test_bal_acc:.4f} | Macro-F1: {test_f1:.4f} | Avg Epoch Time: {avg_epoch_time:.2f}s")
-    
-    return test_acc, test_bal_acc, test_f1, test_auc, avg_epoch_time, history
+    P = svm.predict_proba(pca.transform(sc.transform(Xte)))
+    m = compute_metrics(yte, P.argmax(1), P, num_classes)
+    m["variance_retained"] = float(pca.explained_variance_ratio_.sum())
+    m["n_components"] = int(n_comp)
+    return m
+
+
+# ------------------------------------------------------------------ cell
+def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
+             augment=False, force=False):
+    """
+    freeze_policy=FROZEN   -> cached features, no backbone constructed at all
+    freeze_policy=ADAPTIVE -> full end-to-end training through layer3
+
+    augment defaults to False on BOTH sides. Feature caching requires
+    deterministic features, so the frozen arm cannot augment; if the adaptive
+    arm did, freezing and augmentation would vary together and the H2 result
+    would be uninterpretable. Augmentation is studied as its own variable.
+    """
+    keys = dict(dataset=dataset, regime=regime, dim=dim, seed=seed, arm=arm,
+                fp=freeze_policy, aug=int(augment))
+    if not force and shards.exists(EXPERIMENT, **keys):
+        return None
+
+    config.set_determinism(seed)
+    C = num_classes_of(dataset)
+    cached = (freeze_policy == FROZEN and not augment)
+
+    if cached:
+        loaders, meta = get_cached_features(dataset, regime, seed)
+        train, val, test = loaders["train"], loaders["val"], loaders["test"]
+
+        if arm == "pca_svm":
+            metrics = run_pca_svm(loaders, C, dim, seed)
+            if metrics is None:
+                return None
+            shards.write(EXPERIMENT, {"metrics": metrics, "meta": meta}, **keys)
+            return metrics
+
+        # build_backbone=False: the head trains on cached features, so no
+        # ResNet is constructed at all.
+        model = build_arm(arm, d=dim, num_classes=C, n_layers=config.VQC_LAYERS,
+                          seed=seed, build_backbone=False)
+    else:
+        if arm == "pca_svm":
+            return None          # only defined on static frozen features
+        full = (regime == "full")
+        train, val, test, meta = get_loaders(
+            dataset, n_per_class=None if full else int(regime),
+            seed=seed, augment=augment, full_data=full)
+        model = build_arm(arm, d=dim, num_classes=C, n_layers=config.VQC_LAYERS,
+                          seed=seed, freeze_policy=freeze_policy)
+
+    metrics, history, _ = train_model(
+        model, train, val, test,
+        num_classes=C, use_features=cached,
+        is_quantum=(arm == "quantum_vqc"), verbose=False)
+
+    shards.write(EXPERIMENT,
+                 {"metrics": metrics, "meta": meta,
+                  "history": {k: history[k] for k in
+                              ("train_f1", "val_f1", "val_auc", "val_ece",
+                               "pre_clip_grad_norm", "quantum_grad_var")}},
+                 **keys)
+    del model
+    torch.cuda.empty_cache()
+    return metrics
+
+
+# ------------------------------------------------------------------ summary
+def _paired_delta(a_by_seed, b_by_seed):
+    """
+    Mean paired difference over seeds present in BOTH arms, with a 95% CI.
+
+    Pairing on seed matters: both arms saw identical splits and identical
+    initialisation seeds, so seed-level variance largely cancels. An unpaired
+    comparison is far less sensitive to a small but consistent difference -
+    which is exactly the size of effect at stake here.
+    """
+    common = sorted(set(a_by_seed) & set(b_by_seed))
+    d = np.array([a_by_seed[s] - b_by_seed[s] for s in common
+                  if a_by_seed[s] is not None and b_by_seed[s] is not None])
+    if len(d) < 2:
+        return float("nan"), float("nan"), float("nan"), len(d)
+    mean = float(d.mean())
+    half = 1.96 * float(d.std(ddof=1) / np.sqrt(len(d)))
+    return mean, mean - half, mean + half, len(d)
+
+
+def summarise(metric="auc"):
+    rows = shards.load_all(EXPERIMENT)
+    if not rows:
+        print("No shards found.")
+        return
+
+    tbl = {}
+    for r in rows:
+        k = r["keys"]
+        cell = (k["dataset"], str(k["regime"]), k["dim"], k.get("fp", FROZEN))
+        tbl.setdefault(cell, {}).setdefault(k["arm"], {})[k["seed"]] = \
+            r["metrics"].get(metric)
+
+    present = [a for a in (["pca_svm"] + config.ARMS)
+               if any(a in v for v in tbl.values())]
+
+    print(f"\n=== {metric.upper()} by cell (mean +- sd over seeds) ===")
+    print(f"{'dataset':15s} {'reg':>5s} {'d':>3s} {'encoder':>9s} " +
+          " ".join(f"{a[:12]:>14s}" for a in present))
+    print("-" * (36 + 15 * len(present)))
+    for (ds, reg, d, fp) in sorted(tbl):
+        cells = []
+        for a in present:
+            v = [x for x in tbl[(ds, reg, d, fp)].get(a, {}).values() if x is not None]
+            cells.append(f"{np.mean(v):.4f}+-{np.std(v):.3f}" if v else "       -      ")
+        enc = "frozen" if fp == FROZEN else "adaptive"
+        print(f"{ds:15s} {reg:>5s} {d:>3d} {enc:>9s} " +
+              " ".join(f"{c:>14s}" for c in cells))
+
+    # ---- H1: the pre-registered primary contrast
+    print(f"\n=== H1: quantum_vqc - fourier_rff, paired over seeds ({metric}) ===")
+    print("Basis-matched comparison. If these tie, the VQC is one implementation")
+    print("of a trigonometric feature map rather than something more.")
+    print(f"{'dataset':15s} {'reg':>5s} {'d':>3s} {'encoder':>9s} {'delta':>9s} "
+          f"{'95% CI':>21s} {'n':>4s}  verdict")
+    print("-" * 100)
+    for cell in sorted(tbl):
+        q = tbl[cell].get("quantum_vqc", {})
+        f = tbl[cell].get("fourier_rff", {})
+        if not q or not f:
+            continue
+        m, lo, hi, n = _paired_delta(q, f)
+        if np.isnan(m):
+            continue
+        verdict = ("VQC better" if lo > 0 else
+                   "Fourier better" if hi < 0 else "no difference")
+        enc = "frozen" if cell[3] == FROZEN else "adaptive"
+        print(f"{cell[0]:15s} {cell[1]:>5s} {cell[2]:>3d} {enc:>9s} {m:+9.4f} "
+              f"[{lo:+.4f},{hi:+.4f}] {n:>4d}  {verdict}")
+
+    # ---- H2: does the encoder absorb the bottleneck?
+    print(f"\n=== H2: frozen - adaptive, per arm ({metric}) ===")
+    print("The premise check showed compression is nearly free WITH an adaptive")
+    print("encoder. A large negative delta here means the encoder was absorbing")
+    print("the constraint - which is the reframed 'Latent Reshaping' claim.")
+    print(f"{'dataset':15s} {'reg':>5s} {'d':>3s} {'arm':>14s} {'delta':>9s} {'n':>4s}")
+    print("-" * 62)
+    for (ds, reg, d, fp) in sorted(tbl):
+        if fp != FROZEN or (ds, reg, d, ADAPTIVE) not in tbl:
+            continue
+        for a in present:
+            fz = tbl[(ds, reg, d, FROZEN)].get(a, {})
+            ad = tbl[(ds, reg, d, ADAPTIVE)].get(a, {})
+            if not fz or not ad:
+                continue
+            m, _, _, n = _paired_delta(fz, ad)
+            if not np.isnan(m):
+                print(f"{ds:15s} {reg:>5s} {d:>3d} {a:>14s} {m:+9.4f} {n:>4d}")
+
+    print("\nDIAGNOSTIC OUTPUT - treat every comparison as exploratory.")
+    print("The confirmatory sweep is pre-registered separately, with FDR correction.")
 
 
 def main():
-    os.makedirs(RESULTS_DIR, exist_ok=True)
-    os.makedirs(CHECKPOINT_DIR, exist_ok=True)
-    RESULTS_FILE = os.path.join(RESULTS_DIR, RESULTS_FILE_NAME)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Hardware utilized: {device}")
-    
-    print("Loading static ResNet for PCA Extraction...")
-    static_resnet = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1)
-    static_backbone = nn.Sequential(*list(static_resnet.children())[:-3], nn.AdaptiveAvgPool2d((1, 1))).to(device)
-    static_backbone.eval()
-    
-    results = {"experiment": "Frozen-Backbone Ablation (Control Group)", "datasets": {}}
-    
-    for dataset in DATASETS:
-        results["datasets"][dataset] = {"fractions": {}}
-        
-        info = medmnist.INFO[dataset]
-        global_num_classes = len(info['label'])
-        
-        for frac in FRACTIONS:
-            results["datasets"][dataset]["fractions"][str(frac)] = {"bottlenecks": {}}
-            
-            print(f"\n=====================================================")
-            print(f"   {dataset.upper()} | DATA FRACTION: {frac*100}% | CLASSES: {global_num_classes}")
-            print(f"=====================================================")
-            
-            for b in BOTTLENECKS:
-                results["datasets"][dataset]["fractions"][str(frac)]["bottlenecks"][str(b)] = {
-                    "pca_svm": {"test_acc": [], "test_bal_acc": [], "test_f1": [], "test_auc": [], "variance_retained": []},
-                    "classical_linear": {"test_acc": [], "test_bal_acc": [], "test_f1": [], "test_auc": [], "avg_epoch_time": [], "history": []},
-                    "classical_mlp": {"test_acc": [], "test_bal_acc": [], "test_f1": [], "test_auc": [], "avg_epoch_time": [], "history": []},
-                    "classical_deep_funnel": {"test_acc": [], "test_bal_acc": [], "test_f1": [], "test_auc": [], "avg_epoch_time": [], "history": []},
-                    "quantum_vqc": {"test_acc": [], "test_bal_acc": [], "test_f1": [], "test_auc": [], "avg_epoch_time": [], "history": []}
-                }
-            
-            for seed in SEEDS:
-                print(f"\n   --- RUNNING SEED: {seed} ---")
-                
-                train_loader, val_loader, test_loader = get_medmnist_loaders(
-                    dataset_name=dataset, batch_size=BATCH_SIZE, train_frac=frac, seed=seed, data_root=CACHE_DIR
-                )
-                
-                print("      Extracting static ResNet features for PCA baseline...")
-                X_train_static, y_train_static = extract_static_features(train_loader, static_backbone, device)
-                X_test_static, y_test_static = extract_static_features(test_loader, static_backbone, device)
-                
-                for b in BOTTLENECKS:
-                    print(f"\n   >>> Evaluating Bottleneck Dimension / Qubits: {b} <<<")
-                    b_res = results["datasets"][dataset]["fractions"][str(frac)]["bottlenecks"][str(b)]
-                    
-                    # 1. PCA + SVM Baseline
-                    print(f"\n      Training PCA + SVM (d={b})...")
-                    pca_acc, pca_bal, pca_f1, pca_auc, var_ret = train_pca_svm(X_train_static, y_train_static, X_test_static, y_test_static, b)
-                    print(f"         -> Final Test | AUC: {pca_auc:.4f} | Bal Acc: {pca_bal:.4f} | Macro-F1: {pca_f1:.4f} | Variance Retained: {var_ret*100:.2f}%")
-                    
-                    b_res["pca_svm"]["test_acc"].append(pca_acc)
-                    b_res["pca_svm"]["test_bal_acc"].append(pca_bal)
-                    b_res["pca_svm"]["test_f1"].append(pca_f1)
-                    b_res["pca_svm"]["test_auc"].append(pca_auc)
-                    b_res["pca_svm"]["variance_retained"].append(var_ret)
-                    
-                    # 2. Neural Baselines (Using global_num_classes)
-                    lin_model = ClassicalLinearResNet(num_classes=global_num_classes, bottleneck_dim=b).to(device)
-                    mlp_model = ClassicalMLPResNet(num_classes=global_num_classes, bottleneck_dim=b).to(device)
-                    deep_model = ClassicalDeepBottleneckResNet(num_classes=global_num_classes, bottleneck_dim=b).to(device)
-                    q_model = QuantumHybridResNet(num_classes=global_num_classes, n_qubits=b, n_layers=2).to(device)
-                    
-                    l_acc, l_bal, l_f1, l_auc, l_time, l_hist = train_ablation_model(lin_model, train_loader, val_loader, test_loader, device, "Classical Linear", dataset, seed, frac, global_num_classes, b)
-                    m_acc, m_bal, m_f1, m_auc, m_time, m_hist = train_ablation_model(mlp_model, train_loader, val_loader, test_loader, device, "Classical MLP", dataset, seed, frac, global_num_classes, b)
-                    d_acc, d_bal, d_f1, d_auc, d_time, d_hist = train_ablation_model(deep_model, train_loader, val_loader, test_loader, device, "Classical Deep Funnel", dataset, seed, frac, global_num_classes, b)
-                    q_acc, q_bal, q_f1, q_auc, q_time, q_hist = train_ablation_model(q_model, train_loader, val_loader, test_loader, device, "Quantum VQC", dataset, seed, frac, global_num_classes, b)
-                    
-                    # Log Results
-                    models_data = [
-                        ("classical_linear", l_acc, l_bal, l_f1, l_auc, l_time, l_hist),
-                        ("classical_mlp", m_acc, m_bal, m_f1, m_auc, m_time, m_hist),
-                        ("classical_deep_funnel", d_acc, d_bal, d_f1, d_auc, d_time, d_hist),
-                        ("quantum_vqc", q_acc, q_bal, q_f1, q_auc, q_time, q_hist)
-                    ]
-                    
-                    for m_name, acc, bal, f1, auc, t_time, hist in models_data:
-                        b_res[m_name]["test_acc"].append(acc)
-                        b_res[m_name]["test_bal_acc"].append(bal)
-                        b_res[m_name]["test_f1"].append(f1)
-                        b_res[m_name]["test_auc"].append(auc)
-                        b_res[m_name]["avg_epoch_time"].append(t_time)
-                        b_res[m_name]["history"].append(hist)
-                        
-                    del lin_model, mlp_model, deep_model, q_model
-                    torch.cuda.empty_cache()
-            
-            with open(RESULTS_FILE, "w") as f:
-                json.dump(results, f, indent=4)
-                
-            for b in BOTTLENECKS:
-                b_res = results["datasets"][dataset]["fractions"][str(frac)]["bottlenecks"][str(b)]
-                print(f"\n   [AVERAGE AUC RESULTS ACROSS {len(SEEDS)} SEEDS | DIMENSION: {b}]")
-                print(f"   PCA+SVM: {np.nanmean(b_res['pca_svm']['test_auc']):.4f} ({np.mean(b_res['pca_svm']['variance_retained'])*100:.2f}% var)")
-                print(f"   Linear: {np.nanmean(b_res['classical_linear']['test_auc']):.4f} | "
-                      f"MLP: {np.nanmean(b_res['classical_mlp']['test_auc']):.4f} | "
-                      f"Deep Funnel: {np.nanmean(b_res['classical_deep_funnel']['test_auc']):.4f} | "
-                      f"Quantum VQC: {np.nanmean(b_res['quantum_vqc']['test_auc']):.4f}")
-    
-    print(f"\nExperiment complete. Multi-seed results safely logged to {RESULTS_FILE}")
+    import time
+    p = argparse.ArgumentParser()
+    p.add_argument("--diagnostic", action="store_true",
+                   help="4 datasets x n{5,10,20,50,100} x d=4 x "
+                        "{frozen,adaptive} x 3 arms x 20 seeds")
+    p.add_argument("--datasets", nargs="+", default=config.DATASETS)
+    p.add_argument("--regimes", nargs="+",
+                   default=[str(n) for n in config.N_PER_CLASS])
+    p.add_argument("--dims", nargs="+", type=int, default=config.BOTTLENECKS)
+    p.add_argument("--seeds", nargs="+", type=int, default=None)
+    p.add_argument("--arms", nargs="+", default=None)
+    p.add_argument("--freeze-policies", nargs="+", default=[FROZEN])
+    p.add_argument("--augment", action="store_true",
+                   help="off by default so freezing is the only difference (H2)")
+    p.add_argument("--force", action="store_true")
+    p.add_argument("--summary-only", action="store_true")
+    p.add_argument("--metric", default="auc")
+    args = p.parse_args()
+
+    if args.summary_only:
+        summarise(args.metric)
+        return
+
+    if args.diagnostic:
+        args.datasets = config.DATASETS
+        args.regimes = [str(n) for n in config.N_PER_CLASS]
+        args.dims = [4]
+        args.arms = DIAGNOSTIC_ARMS
+        args.freeze_policies = [FROZEN, ADAPTIVE]
+        args.augment = False
+        args.seeds = args.seeds or config.ALL_SEEDS[:20]
+
+    # Preflight: construct one model of every kind now rather than discovering
+    # a broken combination 900 runs in.
+    for arm in (args.arms or DIAGNOSTIC_ARMS):
+        if arm == "pca_svm":
+            continue
+        build_arm(arm, d=args.dims[0], num_classes=2, seed=42, build_backbone=False)
+        if ADAPTIVE in args.freeze_policies:
+            build_arm(arm, d=args.dims[0], num_classes=2, seed=42,
+                      freeze_policy=ADAPTIVE)
+
+    total = sum(len(args.seeds or config.seeds_for(dim)) *
+                len(args.arms or (["pca_svm"] + config.arms_for(dim)))
+                for _ in args.datasets for _ in args.regimes
+                for dim in args.dims for _ in args.freeze_policies)
+
+    print(f"Experiment 1 | {total} cells | device={config.DEVICE} | "
+          f"sha={config.git_sha()[:8]} | augment={args.augment}")
+
+    done, t0 = 0, time.time()
+    for ds in args.datasets:
+        for regime in args.regimes:
+            for fp in args.freeze_policies:
+                for dim in args.dims:
+                    seeds = args.seeds or config.seeds_for(dim)
+                    arms = args.arms or (["pca_svm"] + config.arms_for(dim))
+                    for seed in seeds:
+                        for arm in arms:
+                            done += 1
+                            m = run_cell(ds, regime, dim, seed, arm,
+                                         freeze_policy=fp, augment=args.augment,
+                                         force=args.force)
+                            if m is None:
+                                continue
+                            eta = (time.time() - t0) / done * (total - done) / 3600
+                            print(f"[{done}/{total}] {ds} r={regime} d={dim} "
+                                  f"{'froz' if fp == FROZEN else 'adap'} s={seed} "
+                                  f"{arm:13s} auc={m['auc']:.4f} "
+                                  f"f1={m['macro_f1']:.4f} ETA {eta:.1f}h",
+                                  flush=True)
+    summarise(args.metric)
+
 
 if __name__ == "__main__":
     main()
