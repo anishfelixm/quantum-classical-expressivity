@@ -1,82 +1,197 @@
-# Expressivity and Robustness of Hybrid Quantum Neural Networks for Constrained Medical Image Classification
+# Quantum–Classical Expressivity Under Extreme Latent Compression
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-red)](https://pytorch.org/)
-[![PennyLane](https://img.shields.io/badge/PennyLane-0.35%2B-yellow)](https://pennylane.ai/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+Controlled comparison of variational quantum and classical classification heads operating
+on a severely compressed latent vector, under data scarcity and analog sensor noise.
 
-**Authors:** Anish Felix Mathias, Susham P S  
-**Code Repository for the associated peer-reviewed submission**
-
----
-
-## 📝 Abstract
-
-Deploying deep learning models in edge environments frequently mandates severe dimensionality reduction. However, compressing spatial feature maps into ultra-low-dimensional latent vectors causes classical classifiers to suffer from topological collapse, severely degrading performance. In this study, we investigate whether Hybrid Quantum-Classical Neural Networks (HQCNNs) can overcome this limitation by mapping highly compressed vectors into a complex quantum Hilbert space. We enforce a strict 4-dimensional information bottleneck on a ResNet-18 backbone and evaluate a 4-qubit Variational Quantum Circuit (VQC) against equivalent classical linear and multi-layer perceptron baselines. Through end-to-end optimization on medical imaging benchmarks (BreastMNIST and PneumoniaMNIST), we identify a "Latent Reshaping" effect: backpropagated quantum gradients actively adapt classical convolutional filters to output complex, quantum-friendly geometries. The VQC consistently bypassed classical optimization plateaus, achieving superior AUC-ROC in severe data-scarcity regimes (1% and 10%) while maintaining statistical parity under data abundance. However, robustness evaluations under additive Gaussian noise reveal a fundamental "Precision Paradox." In data-scarce regimes, the high-frequency phase interference granting the VQC its expressivity renders it exceptionally fragile, inducing catastrophic phase misalignment (σ > 0.03) while classical models degrade gracefully. Crucially, we empirically demonstrate that data abundance acts as a topological regularizer; VQCs optimized on complete datasets neutralize this fragility, maintaining robust decision boundaries that outperform classical architectures under extreme sensor noise. These findings define the critical expressivity-robustness trade-offs governing empirical quantum advantage in constrained neural architectures.
+> **Scope.** At 4–16 qubits on a state-vector simulator this work cannot demonstrate
+> quantum advantage — the model is classically simulable by construction, which is how it
+> is run. The question asked is narrower and answerable: *at a fixed parameter budget, is a
+> quantum-derived inductive bias useful?*
 
 ---
 
-## 📊 Core Discoveries
+## The setup
 
-### 1. Latent Reshaping and the Bottleneck Gap
-We forced both models to classify high-resolution medical images using only **4 latent dimensions** ($d=4$). 
-* **Classical Collapse:** The ultra-low Euclidean projection causes the classical linear and MLP models to suffer from topological collapse, hitting a hard optimization ceiling.
-* **Quantum Advantage:** By evaluating complex expectation values across entangled states in a 16-dimensional complex Hilbert space ($\mathbb{C}^{16}$), the VQC actively reshapes the classical convolutional filters into a quantum-friendly geometry, bypassing classical plateaus in severe data-scarcity regimes.
+A ResNet-18 truncated after `layer3` produces a 256-d pooled feature vector, compressed by
+a single dense projection to `d ∈ {4, 8, 16}` and bounded by `z̃ = tanh(z)·(π/2)`.
+Interchangeable classification heads then consume the identical `z̃`.
 
-![Expressivity Dynamics](assets/fig02_expressivity_dynamics.png)
+```
+image → ResNet-18 (→layer3) → pool → 256-d → bottleneck → z → tanh·(π/2) → z̃ → HEAD → logits
+```
 
-### 2. The Precision Paradox & Topological Regularization
-We stress-tested the fully optimized models by injecting simulated analog sensor degradation (Additive Gaussian Noise).
-* **The Glass Cannon:** Under data scarcity, the precise high-frequency phase angles required for the VQC's superior accuracy render it highly fragile. It suffers catastrophic **Phase Misalignment** at $\sigma > 0.03$, while the classical linear model acts as a stabilizing low-pass filter.
-* **Data Abundance as a Regularizer:** Optimizing the VQC on a complete data regime neutralizes this fragility. The abundance of data forces the quantum gradients into flatter minima, allowing the VQC to maintain robust decision boundaries that outlast classical architectures under extreme noise.
-
-![Precision Paradox](assets/fig03_precision_paradox.png)
+Holding everything before the head fixed is what makes the comparison a comparison.
 
 ---
 
-## 📂 Repository Architecture
+## Arms
 
-This repository is designed for strict academic reproducibility. All experiments use locked deterministic seeds to guarantee parity across classical and quantum evaluations.
+| Arm | Role | Head params (d=4, C=2) |
+|---|---|---|
+| `linear` | minimum-capacity floor | 0 |
+| `mlp` | non-linearity at zero extra parameters | 0 |
+| `deep_funnel` | shows failure is not a depth problem | — |
+| `matched_param` | **capacity control** — parameter-matched to the VQC | 24 |
+| `fourier_rff` | **function-class control** — dequantization baseline | 324 |
+| `fourier_exact` | function-class ceiling (`d ≤ 8` only) | 328 |
+| `quantum_vqc` | treatment | 24 |
+| `pca_svm` | non-neural reference, excluded from the test family | — |
 
-```text
-quantum-classical-expressivity/
-├── assets/
-│   ├── fig01_bottleneck_gap.png   # For the GitHub README
-│   ├── fig02_expressivity_dynamics.png
-│   └── fig03_precision_paradox.png
-├── data/
-│   └── README.md                  # Data loading instructions (MedMNIST v2)
-├── paper/
-│   ├── figures/                   # Publication-ready plots
-│   │   ├── fig01_bottleneck_gap.pdf   
-│   │   ├── fig02_expressivity_dynamics.pdf
-│   │   └── fig03_precision_paradox.pdf
-│   └── main.tex                   # Final LaTeX source code
-├── results/                       # Verified multi-seed JSON logs and .pt weights
-└── src/
-    ├── models/
-    │   ├── classical_resnet.py    # Classical Baselines (Linear & MLP Heads)
-    │   └── quantum_vqc.py         # Quantum Hybrid (4-Qubit VQC via PennyLane)
-    ├── eval/
-    │   └── generate_paper_plots.py # Reproduces all paper figures from JSON logs
-    │
-    ├── 01_frozen_backbone_ablation.py  # Establishes static-latent expressivity limits
-    ├── 02_end_to_end_finetuning.py     # Unfreezes Layer 3 for Latent Reshaping
-    └── 03_robustness_evaluation.py     # Injects locked-seed sensor degradation
+Two distinct parity axes, deliberately:
+
+- `matched_param` matches **parameter count** → answers *is the quantum head more
+  efficient per parameter?*
+- `fourier_rff` matches **basis dimension** → answers *is any advantage quantum, or just
+  trigonometric?*
+
+Matching the Fourier arm on parameters instead would allow only ~2 frequencies, which
+would rig the comparison. See `docs/MATH_VERIFICATION.md` §6.
+
+---
+
+## The central mathematical result
+
+With `AngleEmbedding(rotation='Y')` and no data re-uploading, every measured expectation
+value is exactly
+
+```
+v_i(z̃) = Σ_{s ∈ {0,c,s}^n} c_s(Θ) ∏_j f_{s_j}(z̃_j),    f_0 = 1, f_c = cos, f_s = sin
+```
+
+— a `3^n`-dimensional classical trigonometric span, matching the frequency spectrum
+predicted by Schuld, Sweke & Meyer (2021) from the eigenvalue differences of the encoding
+generator.
+
+The VQC does **not** span this space. With `3Ln` parameters it reaches a low-dimensional
+manifold inside it: 24 dimensions within 81 at `n=4, L=2`. Whether that constraint is a
+useful inductive bias is the paper's question.
+
+Verified numerically at machine precision:
+
+```bash
+python -m pytest tests/test_fourier_equivalence.py -v -s
+# residuals 6e-16 to 2e-15 across six (d,L) configurations
+# wrong-frequency negative control fails at 0.908, as required
+```
+
+Full derivation and theory alignment: [`docs/MATH_VERIFICATION.md`](docs/MATH_VERIFICATION.md).
+
+---
+
+## Experiments
+
+| Script | Purpose |
+|---|---|
+| `src/01_frozen_backbone_ablation.py` | Head expressivity, frozen vs adaptive encoder. Feature-cached. |
+| `src/02_end_to_end_finetuning.py` | End-to-end fine-tuning through `layer3` |
+| `src/03_robustness_evaluation.py` | AWGN sensor-noise sweep, `σ ∈ [0, 0.20]` |
+| `src/04_statistical_analysis.py` | Nested paired bootstrap, BH-FDR, effect sizes |
+| `src/05_latent_analysis.py` | Latent probe — linear separability, Fisher ratio |
+| `src/06_premise_check.py` | Does the bottleneck actually cost anything? |
+| `src/07_shot_noise.py` | Finite-shot re-evaluation |
+
+Every script takes a single configuration and writes one result **shard**, so an
+interrupted sweep resumes by re-running the same command. Each shard records the git commit
+that produced it.
+
+```bash
+python src/06_premise_check.py                       # gates the framing
+python src/01_frozen_backbone_ablation.py --diagnostic
+python src/01_frozen_backbone_ablation.py --summary-only
 ```
 
 ---
 
-## Citation
+## Design decisions that matter
 
-If you find this code or research helpful in your own work, please cite our paper:
+**Scarcity is absolute, not fractional.** `n_per_class ∈ {5,10,20,50,100}`. Percentages are
+non-comparable across datasets — 1% is 5 images on BreastMNIST and ~900 on PathMNIST, so a
+single row of a scaling curve would mix unrelated experiments.
 
-```bibtex
-@article{mathias2026expressivity,
-  title={Expressivity and Robustness of Hybrid Quantum Neural Networks for Constrained Medical Image Classification},
-  author={Mathias, Anish Felix and P S, Susham},
-  year={2026},
-  journal={arXiv preprint},
-  note={Code available at: \url{https://github.com/anishfelixm/quantum-classical-expressivity}}
-}
+**Validation is subsampled to match.** Selecting the best of 100 epochs on a full
+validation split while training on 54 images means model selection consumed more labels
+than training did. Val is capped at `min(2·n_per_class, available)` per class, and the
+val/train ratio is logged.
+
+**Sampling is stratified.** Random subsets can drop entire classes on 8- and 9-class
+datasets, varying by seed.
+
+**Noise is injected in physical pixel space.** Inverse-normalize → inject → clamp to
+`[0,1]` → re-normalize. Clamping in *normalized* coordinates, where `[0,1]` is not a
+physical bound, destroys signal instead of modelling a sensor.
+
+**Regularization parity is absolute.** Weight decay, learning rate and gradient clipping
+are identical across arms, or the run does not happen. `GRAD_CLIP_NORM = 20.0` was chosen
+as 2× the largest observed p95 gradient norm so that clipping never binds during normal
+training — at the previous value of 1.0 it bound on classical arms while never touching the
+quantum arm, a per-arm learning-rate multiplier disguised as a safety net.
+
+**Augmentation is off for the frozen/adaptive comparison.** Feature caching requires
+deterministic features; if only the adaptive side augmented, freezing and augmentation
+would vary together and the result would be uninterpretable.
+
+---
+
+## Setup
+
+Verified configuration — host driver 470.199.02 caps CUDA at 11.4, so CUDA 12 builds will
+not run.
+
+```bash
+conda create -n qml_v2 python=3.10 -y && conda activate qml_v2
+pip install torch==2.4.1+cu118 torchvision==0.19.1+cu118 \
+  --index-url https://download.pytorch.org/whl/cu118 \
+  --extra-index-url https://pypi.org/simple
+pip install -r requirements.txt
+python -m pytest tests/ -q      # 21 tests
 ```
+
+Simulator: `default.qubit` with `diff_method="backprop"` at every dimension —
+0.026 s/step at d=4, 0.357 s/step at d=16 (batch 32, A100 MIG 3g.20gb), 260× faster than
+adjoint at d=16.
+
+Artifacts (datasets, checkpoints, shards, latents) live outside the repository via the
+`artifacts/` symlink and are never committed.
+
+---
+
+## Repository layout
+
+```
+src/
+  config.py                  single source of truth for every constant
+  data/                      GPU-resident loader, AWGN noise model
+  models/                    backbone, heads, Fourier arms, VQC, registry
+  train/                     shared training loop, metrics + calibration
+  0*.py                      experiments
+  shards.py                  resumable result I/O with provenance
+tests/                       gradient flow, Fourier equivalence, data pipeline
+docs/
+  MATH_VERIFICATION.md       derivations and theory alignment
+  HYPOTHESES.md              every hypothesis, its test, and its status
+  analysis_plan.md           pre-registration (committed before confirmatory runs)
+```
+
+---
+
+## Reproducibility
+
+Exact-pinned dependencies; per-run seeding of Python, NumPy and torch RNGs with cuDNN
+deterministic kernels; explicit DataLoader generators; and a git SHA recorded in every
+result shard.
+
+---
+
+## References
+
+- Schuld, Sweke & Meyer (2021). *Effect of data encoding on the expressive power of
+  variational quantum machine learning models.* Phys. Rev. A **103**, 032430.
+- Pérez-Salinas et al. (2020). *Data re-uploading for a universal quantum classifier.*
+  Quantum **4**, 226.
+- McClean et al. (2018). *Barren plateaus in quantum neural network training landscapes.*
+  Nat. Commun. **9**, 4812.
+- Yang et al. (2023). *MedMNIST v2.* Scientific Data **10**, 41.
+
+## License
+
+See `LICENSE`.
