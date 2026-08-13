@@ -15,7 +15,10 @@ ANY circuit parameters Theta, the measured expectation value is exactly
     <X_i>(z) = sum_{s in {0,c,s}^d}  c_s(Theta) * prod_j f_{s_j}(z_j)
 
 with f_0 = 1, f_c = cos, f_s = sin. The basis has exactly 3^d elements, and the
-Fourier frequency support is {-1, 0, +1}^d.
+Fourier frequency support is {-1, 0, +1}^d. This reproduces, for this specific
+architecture, the spectrum theorem of Schuld, Sweke & Meyer (2021): accessible
+frequencies are the eigenvalue differences of the encoding generator, here Y/2
+with eigenvalues +-1/2 giving differences {-1, 0, +1}.
 
 WHAT THIS MEANS
 ---------------
@@ -34,8 +37,7 @@ VQC exhaust its own class, or does a direct fit over the identical basis beat
 the variational optimizer?"
 
 FourierRFFHead - m frequency vectors sampled from {-1,0,1}^d, fixed at init.
-This is the random-Fourier-features dequantization baseline and it is the arm
-the pre-registered decision rule is evaluated against.
+This is the random-Fourier-features dequantization baseline.
 
 WHY THESE ARE MATCHED ON BASIS DIMENSION, NOT PARAMETER COUNT
 -------------------------------------------------------------
@@ -44,10 +46,35 @@ two or three frequencies. That would be a rigged comparison: the VQC's 81-
 function basis is FREE, obtained from the embedding, with parameters spent only
 on steering within it. The RFF basis is equally free. Matching on parameters
 would hand the VQC an 81-dimensional basis and cap its competitor at 5.
+
 So: Fourier arms match basis dimension; MatchedParamHead matches parameter
-count. Different arms, different parity axes, both stated explicitly.
+count. Different arms, different parity axes, both stated explicitly. The
+parameter-efficiency question is answered by matched_param, NOT by these arms.
+
+FIX (2026-08-12): CANONICAL FREQUENCY SAMPLING
+----------------------------------------------
+The previous sampler drew uniformly from all 3^d frequency vectors, so it could
+select both omega and -omega. Because
+
+    cos(-omega . z) =  cos(omega . z)          (identical column)
+    sin(-omega . z) = -sin(omega . z)          (linearly dependent column)
+
+each such pair contributed two redundant features. Measured at d=4, seed 42:
+12 of 40 sampled rows had their negation also present, so the head spanned 68
+effective dimensions rather than the intended 80 - understating the control arm
+that the dequantization claim rests on.
+
+The fix samples from CANONICAL representatives: one per +-pair, defined as those
+whose first non-zero entry is positive. The zero vector is excluded entirely,
+since cos(0)=1 duplicates the classifier bias and sin(0)=0 is a dead feature.
+At d=4 there are (3^4 - 1)/2 = 40 canonical frequencies, giving exactly 80
+independent features.
+
+NOTE: this changes fourier_rff behaviour. Results produced before this fix used
+the 68-effective-dimension basis and must be regenerated before publication.
 """
 import itertools
+
 import torch
 import torch.nn as nn
 
@@ -57,8 +84,8 @@ from .heads import init_weights
 def exact_basis(z: torch.Tensor) -> torch.Tensor:
     """
     Full 3^d trigonometric basis: tensor_j [1, cos z_j, sin z_j].
-
     z: [B, d]  ->  [B, 3^d]
+
     Built by iterated Kronecker product, which is exact and avoids materialising
     the index set.
     """
@@ -71,6 +98,49 @@ def exact_basis(z: torch.Tensor) -> torch.Tensor:
         )                                          # [B, 3]
         phi = (phi.unsqueeze(2) * block.unsqueeze(1)).reshape(B, -1)
     return phi
+
+
+def _is_canonical(omega) -> bool:
+    """
+    One representative per +-pair: the first non-zero entry must be positive.
+    The all-zero vector is not canonical - it is excluded (see module docstring).
+    """
+    for x in omega:
+        if x > 0:
+            return True
+        if x < 0:
+            return False
+    return False
+
+
+def canonical_frequencies(d: int) -> torch.Tensor:
+    """All (3^d - 1)/2 canonical frequency vectors. Feasible for d <= 8."""
+    return torch.tensor(
+        [w for w in itertools.product([-1, 0, 1], repeat=d) if _is_canonical(w)],
+        dtype=torch.float32,
+    )
+
+
+def _sample_canonical_random(d: int, m: int, generator) -> torch.Tensor:
+    """
+    Rejection sampling for large d, where enumeration is infeasible
+    (3^16 = 43M). Draws canonical vectors and rejects duplicates.
+    """
+    seen, out = set(), []
+    while len(out) < m:
+        batch = torch.randint(-1, 2, (4 * m, d), generator=generator)
+        for row in batch:
+            if len(out) >= m:
+                break
+            w = tuple(int(x) for x in row)
+            if not _is_canonical(w):
+                w = tuple(-x for x in w)           # flip into the canonical half
+                if not _is_canonical(w):
+                    continue                        # was the zero vector
+            if w not in seen:
+                seen.add(w)
+                out.append(w)
+    return torch.tensor(out, dtype=torch.float32)
 
 
 class FourierExactHead(nn.Module):
@@ -99,36 +169,32 @@ class FourierRFFHead(nn.Module):
 
     Frequencies are sampled once at construction from the given seed and stored
     as a non-trainable buffer, so they persist in checkpoints and are exactly
-    reproducible. Uniform sampling (rather than a low-Hamming-weight bias) is
-    used for the primary arm because a reviewer can regenerate it from the seed
-    without argument.
+    reproducible. Uniform sampling over CANONICAL representatives (rather than a
+    low-Hamming-weight bias) is used for the primary arm because a reviewer can
+    regenerate it from the seed without argument.
 
-    At d=16 the 2m budget samples a vanishing fraction of the 3^16 = 43M
-    available frequencies. That is the honest RFF setting - RFF is by definition
-    a Monte-Carlo kernel approximation - and it is stated in the manuscript.
+    At d=16 the budget samples a vanishing fraction of the 43M available
+    frequencies. That is the honest RFF setting - RFF is by definition a
+    Monte-Carlo kernel approximation - and it is stated in the manuscript.
     """
 
     def __init__(self, d: int, seed: int, max_features: int = 2048):
         super().__init__()
         self.d = d
-        total = 3 ** d
-        m = min(total, max_features) // 2
-        m = max(m, 1)
+        n_canonical = (3 ** d - 1) // 2
+        m = max(1, min(n_canonical, max_features // 2))
 
         g = torch.Generator().manual_seed(seed)
-        if total <= 4096:
-            # small enough to enumerate: sample WITHOUT replacement
-            all_freqs = torch.tensor(
-                list(itertools.product([-1, 0, 1], repeat=d)), dtype=torch.float32
-            )
+        if d <= 8:
+            all_freqs = canonical_frequencies(d)   # sample WITHOUT replacement
             idx = torch.randperm(all_freqs.shape[0], generator=g)[:m]
             omega = all_freqs[idx]
         else:
-            omega = torch.randint(-1, 2, (m, d), generator=g).float()
+            omega = _sample_canonical_random(d, m, g)
 
         self.register_buffer("omega", omega)        # [m, d], non-trainable
         self.m = omega.shape[0]
-        self.n_features = 2 * self.m
+        self.n_features = 2 * self.m                # every column independent
         self.proj = nn.Linear(self.n_features, d)
         self.out_dim = d
         self.apply(init_weights)

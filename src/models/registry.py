@@ -15,8 +15,20 @@ from .heads import (IdentityHead, GELUHead, MatchedParamHead,
 from .classical_fourier import FourierExactHead, FourierRFFHead
 from .quantum_vqc import VQCHead
 
+# The angle scale was previously hardcoded to pi/2. It is a free hyperparameter
+# that has never been tuned and it bounds absolute VQC performance, so it now
+# lives in config and is swept. Fallback keeps this module importable standalone.
+try:
+    import config as _cfg
+    DEFAULT_ANGLE_SCALE = float(getattr(_cfg, "ANGLE_SCALE", torch.pi / 2.0))
+    DEFAULT_UPLOADS = int(getattr(_cfg, "VQC_UPLOADS_REUPLOAD", 2))
+except Exception:
+    DEFAULT_ANGLE_SCALE = torch.pi / 2.0
+    DEFAULT_UPLOADS = 2
+
 ARM_NAMES = ["linear", "mlp", "deep_funnel", "matched_param",
-             "fourier_rff", "fourier_exact", "quantum_vqc"]
+             "fourier_rff", "fourier_exact",
+             "quantum_vqc", "quantum_reupload"]
 
 
 class BottleneckModel(nn.Module):
@@ -24,7 +36,7 @@ class BottleneckModel(nn.Module):
     Shared pipeline:
 
         x -> backbone -> h (256) -> bottleneck -> z (d)
-          -> z_tilde = tanh(z) * pi/2
+          -> z_tilde = tanh(z) * angle_scale
           -> head -> r (d)
           -> classifier -> logits (C)
 
@@ -32,12 +44,26 @@ class BottleneckModel(nn.Module):
     exists to keep rotation angles inside the injective region of RY, but
     applying it to only one arm would confound the head with the input
     transform - so all arms receive identical inputs.
+
+    ON angle_scale
+    --------------
+    RY(theta)|0> = cos(theta/2)|0> + sin(theta/2)|1> is injective for
+    theta in [-pi, pi], since theta/2 in [-pi/2, pi/2] keeps cos(theta/2) >= 0
+    while sin(theta/2) sweeps [-1, 1] monotonically.
+
+    pi/2 (the original choice) is therefore CONSERVATIVE: it uses only half the
+    injective range, compressing angular separation between inputs and bounding
+    what the quantum arm can resolve. pi is equally injective and doubles that
+    separation. Leaving an untuned free parameter at a value that plausibly
+    handicaps one arm is exactly what a reviewer calls an unfair comparison, so
+    it is swept as a hyperparameter and the sweep is reported.
     """
 
     def __init__(self, head, d, num_classes, freeze_policy="layer3_only",
-                 deep_encoder=None, build_backbone=True):
+                 deep_encoder=None, build_backbone=True, angle_scale=None):
         super().__init__()
         self.d = d
+        self.angle_scale = DEFAULT_ANGLE_SCALE if angle_scale is None else float(angle_scale)
         self.backbone = TruncatedResNet18(freeze_policy) if build_backbone else None
 
         if deep_encoder is not None:
@@ -53,7 +79,7 @@ class BottleneckModel(nn.Module):
     def latent(self, h):
         """h (256) -> z_tilde (d). Used by the latent-probe experiment."""
         z = self.bottleneck(h)
-        return torch.tanh(z) * (torch.pi / 2.0)
+        return torch.tanh(z) * self.angle_scale
 
     def forward_from_features(self, h, return_latent=False):
         """Entry point for Experiment 1, which trains on cached frozen features."""
@@ -113,11 +139,13 @@ class BottleneckModel(nn.Module):
 
 def build_arm(arm, d, num_classes, n_layers=2, seed=42,
               freeze_policy="layer3_only", build_backbone=True,
-              device_name="default.qubit", diff_method="backprop"):
+              device_name="default.qubit", diff_method="backprop",
+              angle_scale=None, n_uploads=None):
     if arm not in ARM_NAMES:
         raise ValueError(f"unknown arm '{arm}'; expected one of {ARM_NAMES}")
 
     deep_encoder = None
+
     if arm == "linear":
         head = IdentityHead(d)
     elif arm == "mlp":
@@ -132,13 +160,21 @@ def build_arm(arm, d, num_classes, n_layers=2, seed=42,
     elif arm == "fourier_exact":
         head = FourierExactHead(d)
     elif arm == "quantum_vqc":
-        head = VQCHead(d, n_layers=n_layers,
+        # R=1: spectrum {-1,0,1}^d, 3^d basis functions
+        head = VQCHead(d, n_layers=n_layers, n_uploads=1,
+                       device_name=device_name, diff_method=diff_method)
+    elif arm == "quantum_reupload":
+        # R=2 by default: spectrum {-2..2}^d, 5^d basis functions, SAME parameter
+        # count as quantum_vqc. Isolates spectral richness from quantum-ness.
+        R = DEFAULT_UPLOADS if n_uploads is None else int(n_uploads)
+        head = VQCHead(d, n_layers=n_layers, n_uploads=R,
                        device_name=device_name, diff_method=diff_method)
 
     return BottleneckModel(head, d, num_classes,
                            freeze_policy=freeze_policy,
                            deep_encoder=deep_encoder,
-                           build_backbone=build_backbone)
+                           build_backbone=build_backbone,
+                           angle_scale=angle_scale)
 
 
 def count_head_params(model):

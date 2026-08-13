@@ -76,8 +76,10 @@ ARMS = [
     "fourier_rff",       # FUNCTION-CLASS control - the primary comparison
     "fourier_exact",     # function-class ceiling (d <= 8 only)
     "quantum_vqc",       # treatment
+    "quantum_reupload",  # Q4: same 24 params, spectrum {-2..2}^d instead of {-1,0,1}^d
 ]
-PRIMARY_COMPARISON = ("quantum_vqc", "fourier_rff")
+PRIMARY_COMPARISON = ("quantum_vqc", "matched_param")   # Q1: efficiency at equal params
+SECONDARY_COMPARISON = ("quantum_vqc", "fourier_rff")   # Q2: dequantization over shared basis
 PCA_SVM_REFERENCE = True       # reported, excluded from the test family
 
 FOURIER_EXACT_MAX_DIM = 8      # 3^16 = 43M features is infeasible
@@ -124,6 +126,16 @@ FDR_METHOD = "benjamini-hochberg"
 QUANTUM_DEVICE = "default.qubit"
 QUANTUM_DIFF_METHOD = "backprop"   # verified: propagates input gradients; 260x
                                    # faster than adjoint at d=16 on GPU
+
+# z_tilde = tanh(z) * ANGLE_SCALE. RY is injective on [-pi, pi], so pi/2 uses only
+# half the available range and bounds what the quantum arm can resolve. An untuned
+# free parameter that handicaps one arm is a fairness objection, so it is swept.
+ANGLE_SCALE = torch.pi / 2.0
+ANGLE_SCALE_SWEEP = [torch.pi / 2.0, torch.pi]
+
+# Q4 re-uploading. R=2 with n_layers=2 gives 1 layer per encoding block:
+# identical 24 parameters to quantum_vqc, spectrum 5^d = 625 vs 3^d = 81 at d=4.
+VQC_UPLOADS_REUPLOAD = 2
 
 # ---------------------------------------------------------------- runtime
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
