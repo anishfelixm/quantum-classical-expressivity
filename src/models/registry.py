@@ -11,7 +11,7 @@ import torch.nn as nn
 
 from .backbone import TruncatedResNet18, FEATURE_DIM
 from .heads import (IdentityHead, GELUHead, MatchedParamHead,
-                    DeepFunnelEncoder, init_weights)
+                    MatchedParamFullRankHead, DeepFunnelEncoder, init_weights)
 from .classical_fourier import FourierExactHead, FourierRFFHead
 from .quantum_vqc import VQCHead
 
@@ -22,13 +22,17 @@ try:
     import config as _cfg
     DEFAULT_ANGLE_SCALE = float(getattr(_cfg, "ANGLE_SCALE", torch.pi / 2.0))
     DEFAULT_UPLOADS = int(getattr(_cfg, "VQC_UPLOADS_REUPLOAD", 2))
+    DEFAULT_USE_TANH = bool(getattr(_cfg, "USE_TANH", True))
 except Exception:
     DEFAULT_ANGLE_SCALE = torch.pi / 2.0
     DEFAULT_UPLOADS = 2
+    DEFAULT_USE_TANH = True
 
 ARM_NAMES = ["linear", "mlp", "deep_funnel", "matched_param",
-             "fourier_rff", "fourier_exact",
+             "matched_param_fullrank", "fourier_rff", "fourier_exact",
              "quantum_vqc", "quantum_reupload"]
+
+QUANTUM_ARMS = ("quantum_vqc", "quantum_reupload")
 
 
 class BottleneckModel(nn.Module):
@@ -36,7 +40,7 @@ class BottleneckModel(nn.Module):
     Shared pipeline:
 
         x -> backbone -> h (256) -> bottleneck -> z (d)
-          -> z_tilde = tanh(z) * angle_scale
+          -> z_tilde = tanh(z) * angle_scale        [if use_tanh]
           -> head -> r (d)
           -> classifier -> logits (C)
 
@@ -44,6 +48,10 @@ class BottleneckModel(nn.Module):
     exists to keep rotation angles inside the injective region of RY, but
     applying it to only one arm would confound the head with the input
     transform - so all arms receive identical inputs.
+
+    NOTE FOR THE MANUSCRIPT: because of this, the arm named "linear" is really
+    tanh-then-linear. Describe it as an "identity head" and state the shared
+    rescaling once, rather than calling it a linear model.
 
     ON angle_scale
     --------------
@@ -57,13 +65,23 @@ class BottleneckModel(nn.Module):
     separation. Leaving an untuned free parameter at a value that plausibly
     handicaps one arm is exactly what a reviewer calls an unfair comparison, so
     it is swept as a hyperparameter and the sweep is reported.
+
+    ON use_tanh
+    -----------
+    Setting use_tanh=False feeds raw z to the head. This is an ABLATION FOR
+    CLASSICAL ARMS ONLY, to check whether they were handicapped by a bounded
+    squashing they do not need. It is mathematically invalid for quantum arms:
+    RY is 2*pi-periodic, so an unbounded z maps distinct latents onto identical
+    quantum states, destroying injectivity. build_arm() refuses the combination.
     """
 
     def __init__(self, head, d, num_classes, freeze_policy="layer3_only",
-                 deep_encoder=None, build_backbone=True, angle_scale=None):
+                 deep_encoder=None, build_backbone=True, angle_scale=None,
+                 use_tanh=None):
         super().__init__()
         self.d = d
         self.angle_scale = DEFAULT_ANGLE_SCALE if angle_scale is None else float(angle_scale)
+        self.use_tanh = DEFAULT_USE_TANH if use_tanh is None else bool(use_tanh)
         self.backbone = TruncatedResNet18(freeze_policy) if build_backbone else None
 
         if deep_encoder is not None:
@@ -79,7 +97,7 @@ class BottleneckModel(nn.Module):
     def latent(self, h):
         """h (256) -> z_tilde (d). Used by the latent-probe experiment."""
         z = self.bottleneck(h)
-        return torch.tanh(z) * self.angle_scale
+        return torch.tanh(z) * self.angle_scale if self.use_tanh else z
 
     def forward_from_features(self, h, return_latent=False):
         """Entry point for Experiment 1, which trains on cached frozen features."""
@@ -130,7 +148,8 @@ class BottleneckModel(nn.Module):
     def trainable_state_dict(self):
         """
         Checkpoint only what actually changed. Saving full state dicts across
-        ~4800 runs would be ~40 GB of mostly-identical frozen ImageNet weights.
+        thousands of runs would be tens of GB of identical frozen ImageNet
+        weights.
         """
         return {k: v for k, v in self.state_dict().items()
                 if k in {n for n, p in self.named_parameters() if p.requires_grad}
@@ -140,9 +159,17 @@ class BottleneckModel(nn.Module):
 def build_arm(arm, d, num_classes, n_layers=2, seed=42,
               freeze_policy="layer3_only", build_backbone=True,
               device_name="default.qubit", diff_method="backprop",
-              angle_scale=None, n_uploads=None):
+              angle_scale=None, n_uploads=None, use_tanh=None):
     if arm not in ARM_NAMES:
         raise ValueError(f"unknown arm '{arm}'; expected one of {ARM_NAMES}")
+
+    # Checked BEFORE constructing anything: building a VQC only to reject it
+    # wastes a device allocation, and the error should name the real problem.
+    if use_tanh is False and arm in QUANTUM_ARMS:
+        raise ValueError(
+            f"use_tanh=False is invalid for '{arm}': RY encoding is 2*pi-periodic, "
+            "so unbounded z collapses distinct latents onto identical quantum "
+            "states. The no-tanh ablation is for classical arms only.")
 
     deep_encoder = None
 
@@ -152,6 +179,8 @@ def build_arm(arm, d, num_classes, n_layers=2, seed=42,
         head = GELUHead(d)
     elif arm == "matched_param":
         head = MatchedParamHead(d, n_layers=n_layers)
+    elif arm == "matched_param_fullrank":
+        head = MatchedParamFullRankHead(d, n_layers=n_layers)
     elif arm == "deep_funnel":
         head = IdentityHead(d)
         deep_encoder = DeepFunnelEncoder(FEATURE_DIM, d)
@@ -174,7 +203,8 @@ def build_arm(arm, d, num_classes, n_layers=2, seed=42,
                            freeze_policy=freeze_policy,
                            deep_encoder=deep_encoder,
                            build_backbone=build_backbone,
-                           angle_scale=angle_scale)
+                           angle_scale=angle_scale,
+                           use_tanh=use_tanh)
 
 
 def count_head_params(model):

@@ -6,6 +6,7 @@ manuscript, it is traceable to a line in this file.
 """
 import os
 import subprocess
+
 import torch
 
 # ---------------------------------------------------------------- paths
@@ -18,8 +19,10 @@ CHECKPOINT_DIR = os.path.join(ARTIFACT_ROOT, "checkpoints")
 SHARD_DIR = os.path.join(ARTIFACT_ROOT, "shards")
 LATENT_DIR = os.path.join(ARTIFACT_ROOT, "latents")
 FEATURE_CACHE = os.path.join(ARTIFACT_ROOT, "feature_cache")
+PREDICTION_DIR = os.path.join(ARTIFACT_ROOT, "predictions")
 
-for _d in (DATA_CACHE, CHECKPOINT_DIR, SHARD_DIR, LATENT_DIR, FEATURE_CACHE):
+for _d in (DATA_CACHE, CHECKPOINT_DIR, SHARD_DIR, LATENT_DIR,
+           FEATURE_CACHE, PREDICTION_DIR):
     os.makedirs(_d, exist_ok=True)
 
 # ---------------------------------------------------------------- datasets
@@ -60,28 +63,58 @@ FULL_DATA_DIMS = [4]
 BOTTLENECKS = [4, 8, 16]
 ALL_SEEDS = [42, 123, 2026, 777, 888, 31337, 8, 271828, 161803, 1414]
 
+# 40 seeds for the pre-registered confirmatory comparison only. Verified: no
+# overlap with ALL_SEEDS beyond the first ten, which are intentionally shared so
+# diagnostic and confirmatory runs are paired where they overlap.
+CONFIRMATORY_SEEDS = ALL_SEEDS + [
+    99, 1729, 6174, 2718281, 40, 1000003, 65537, 4321, 987654, 13,
+    2027, 555, 9001, 314159, 11235, 77777, 60221, 33, 8191, 121393,
+    17, 496, 8128, 28657, 1597, 46341, 5040, 720720, 2520, 10007,
+]
+
 # d=16 is the trainability showcase, not the headline; d=4 and d=8 carry the
 # statistical weight.
 SEEDS_BY_DIM = {4: ALL_SEEDS, 8: ALL_SEEDS, 16: ALL_SEEDS[:5]}
 
-VQC_LAYERS = 2                 # pilot sweeps [1, 2, 4]; best is carried forward
-VQC_LAYERS_PILOT = [1, 2, 4]
+VQC_LAYERS = 2                 # default depth
+VQC_LAYERS_PILOT = [1, 2, 4]   # depth sweep: manifold dim 3*L*d = 12/24/48
+VQC_LAYERS_SWEEP = [1, 2, 4, 8]  # 8 gives 96 params > the 81-dim span at d=4
 
 # ---------------------------------------------------------------- arms
 ARMS = [
     "linear",            # minimum-capacity floor
     "mlp",               # non-linearity at zero extra parameters
     "deep_funnel",       # proves failure is not a depth problem
-    "matched_param",     # capacity control (parameter-matched to VQC)
-    "fourier_rff",       # FUNCTION-CLASS control - the primary comparison
+    "matched_param",     # rank-limited capacity control (diagnostic only)
+    "matched_param_fullrank",   # full-rank capacity control; primary comparison
+    "fourier_rff",       # Q2 function-class control
     "fourier_exact",     # function-class ceiling (d <= 8 only)
     "quantum_vqc",       # treatment
     "quantum_reupload",  # Q4: same 24 params, spectrum {-2..2}^d instead of {-1,0,1}^d
 ]
-PRIMARY_COMPARISON = ("quantum_vqc", "matched_param")   # Q1: efficiency at equal params
-SECONDARY_COMPARISON = ("quantum_vqc", "fourier_rff")   # Q2: dequantization over shared basis
-PCA_SVM_REFERENCE = True       # reported, excluded from the test family
+QUANTUM_ARMS = ["quantum_vqc", "quantum_reupload"]
 
+# Manuscript labels. The code names are frozen because ~2,000 shards are keyed
+# on them, but several are inaccurate as prose: with USE_TANH the "linear" arm is
+# tanh -> Linear(d,C), which is not a linear model. Tables and figures use these.
+ARM_DISPLAY_NAMES = {
+    "linear":                 "Identity head",
+    "mlp":                    "GELU head",
+    "deep_funnel":            "Deep funnel encoder",
+    "matched_param":          "Matched-parameter (rank-limited)",
+    "matched_param_fullrank": "Matched-parameter (full-rank)",
+    "fourier_rff":            "Random Fourier features",
+    "fourier_exact":          "Exact Fourier basis",
+    "quantum_vqc":            "VQC (single encoding)",
+    "quantum_reupload":       "VQC (data re-uploading)",
+    "pca_svm":                "PCA + SVM",
+}
+
+PRIMARY_COMPARISON = ("quantum_vqc", "matched_param_fullrank")  # Q1, H-P
+DIAGNOSTIC_COMPARISON = ("quantum_vqc", "matched_param")        # rank-limited
+SECONDARY_COMPARISON = ("quantum_vqc", "fourier_rff")           # Q2
+
+PCA_SVM_REFERENCE = True       # reported, excluded from the test family
 FOURIER_EXACT_MAX_DIM = 8      # 3^16 = 43M features is infeasible
 FOURIER_RFF_MAX_FEATURES = 2048
 
@@ -89,15 +122,25 @@ FOURIER_RFF_MAX_FEATURES = 2048
 BATCH_SIZE = 32
 MAX_EPOCHS = 100
 PATIENCE = 30
+
 LR_BACKBONE = 1e-4
 LR_HEAD = 1e-3
 LR_QUANTUM = 1e-3
+
 WEIGHT_DECAY = 1e-4            # applied to EVERY arm, or to none - never split
 WEIGHT_DECAY_VARIANTS = [0.0, 1e-4]   # pilot runs both as a sensitivity check
+
 GRAD_CLIP_NORM = 20.0   # 2x the largest observed p95 (9.62, deep_funnel/bloodmnist);
                         # max observed 15.87. Clipping is a safety net against
                         # explosions, never a per-arm learning-rate multiplier.
 CLASS_WEIGHT_CLIP = (0.1, 10.0)
+
+# Checkpoints are selected on validation AUC (the primary endpoint) and, as a
+# stated sensitivity check, also on Macro-F1. Selecting on F1 alone while
+# reporting AUC let the selection criterion interact with the VQC's calibration
+# failure - a confound, not a preference.
+SELECTION_METRIC = "auc"
+
 
 def min_epochs_for(n_batches: int) -> int:
     """
@@ -109,6 +152,7 @@ def min_epochs_for(n_batches: int) -> int:
     trained the full 100 epochs. The clamp to MAX_EPOCHS // 2 fixes that.
     """
     return min(max(20, 200 // max(n_batches, 1)), MAX_EPOCHS // 2)
+
 
 AUGMENT_E2E = True             # identical across arms
 AUGMENT_FROZEN = False         # must be off: caching requires deterministic features
@@ -133,6 +177,11 @@ QUANTUM_DIFF_METHOD = "backprop"   # verified: propagates input gradients; 260x
 ANGLE_SCALE = torch.pi / 2.0
 ANGLE_SCALE_SWEEP = [torch.pi / 2.0, torch.pi]
 
+# Ablation only. False feeds raw z to the head, removing the bounded squashing.
+# CLASSICAL ARMS ONLY: RY encoding is 2*pi-periodic, so unbounded z makes the
+# quantum encoding non-injective. build_arm raises if this is violated.
+USE_TANH = True
+
 # Q4 re-uploading. R=2 with n_layers=2 gives 1 layer per encoding block:
 # identical 24 parameters to quantum_vqc, spectrum 5^d = 625 vs 3^d = 81 at d=4.
 VQC_UPLOADS_REUPLOAD = 2
@@ -153,14 +202,15 @@ def git_sha() -> str:
     except Exception:
         return "unknown"
 
+
 def set_determinism(seed: int):
     """
     Seed every RNG the pipeline touches, and pin cuDNN to deterministic kernels.
 
     Called once at the top of every run cell. Without this the seeds are
-    decorative: DataLoader shuffling, augmentation, weight init, and the VQC's
-    parameter init would all draw from an unseeded global stream, so 10 seeds
-    would not be 10 controlled repetitions.
+    decorative: shuffling, augmentation, weight init, and the VQC's parameter
+    init would all draw from an unseeded global stream, so 10 seeds would not be
+    10 controlled repetitions.
     """
     import random
     import numpy as np
@@ -179,3 +229,8 @@ def seeds_for(bottleneck_dim: int):
 def arms_for(bottleneck_dim: int):
     return [a for a in ARMS
             if not (a == "fourier_exact" and bottleneck_dim > FOURIER_EXACT_MAX_DIM)]
+
+
+def display_name(arm: str) -> str:
+    """Manuscript label for an arm. Falls back to the code name."""
+    return ARM_DISPLAY_NAMES.get(arm, arm)

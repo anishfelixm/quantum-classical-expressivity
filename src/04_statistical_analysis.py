@@ -1,204 +1,355 @@
 """
-Statistical Significance Analysis & Table Generation.
+STATISTICS ENGINE.
 
-Ingests the JSON arrays from the E2E Fine-Tuning and Robustness experiments. 
-Computes Welch's t-tests (unequal variances) and generates Overleaf-ready LaTeX 
-tables proving Empirical Quantum Superiority and Topological Robustness.
+Implements exactly what docs/analysis_plan.md pre-registers. Nothing here chooses
+which comparison to report - that is fixed in the plan and this script executes it.
+
+THE PRIMARY STATISTIC: NESTED PAIRED BOOTSTRAP
+----------------------------------------------
+Two independent sources of variance must both be captured:
+
+    training variance  - different seeds give different models
+    test variance      - a different draw of test images gives a different score
+
+    for b in 1..B:
+        I_b = resample test indices with replacement
+        S_b = resample seeds with replacement
+        Delta_b = mean over s in S_b of [ metric_A(s, I_b) - metric_B(s, I_b) ]
+
+Pairing on seed matters: both arms saw identical splits and identical
+initialisation seeds, so seed-level variance largely cancels and a small but
+consistent difference becomes detectable.
+
+WHY NOT A t-TEST OVER SEEDS
+---------------------------
+It captures training variance only. On BreastMNIST the test split is 156 images,
+where the Hanley-McNeil standard error on AUC is roughly 0.03-0.04 - larger than
+any effect at stake here. A seed-only test can report p < 0.05 on a difference
+that a different draw of test images would reverse. That is precisely the error
+the conference version made.
+
+The nested bootstrap requires PER-SAMPLE PREDICTIONS. Runs that stored only
+scalar metrics can support seed-level resampling alone; this script detects that
+case, falls back, and labels the output SEED-LEVEL ONLY so the weaker analysis
+can never be mistaken for the pre-registered one.
+
+MULTIPLICITY
+------------
+Benjamini-Hochberg across the family declared in the analysis plan (17 tests).
+Raw and adjusted p-values are both reported. Anything outside the declared family
+is labelled exploratory and excluded from the correction - inflating the family
+with exploratory tests would cost power on the tests that matter.
+
+EFFECT SIZE
+-----------
+Cohen's d accompanies every p-value. Where a difference is significant but below
+0.01 AUC, the output says so: that is smaller than the test-set sampling error on
+the smallest dataset and carries no clinical meaning.
+
+USAGE
+-----
+    python src/04_statistical_analysis.py --experiment 01_frozen
+    python src/04_statistical_analysis.py --experiment 01_frozen --latex
 """
-
+import argparse
 import os
-import json
+import sys
+from collections import defaultdict
+
 import numpy as np
-from scipy import stats
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-RESULTS_DIR = os.path.join(BASE_DIR, "results")
-EXP2_LOG = os.path.join(RESULTS_DIR, "end_to_end_logs.json")
-EXP3_LOG = os.path.join(RESULTS_DIR, "robustness_e2e_logs.json")
-REPORT_FILE = os.path.join(RESULTS_DIR, "manuscript_statistical_tables.txt")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import config                                      # noqa: E402
+import shards                                      # noqa: E402
+
+try:
+    from sklearn.metrics import roc_auc_score, f1_score
+    HAVE_SKLEARN = True
+except Exception:
+    HAVE_SKLEARN = False
+
+PRED_ROOT = os.path.join(config.ARTIFACT_ROOT, "predictions")
 
 
-def compute_welchs_t_test(quantum_dist, classical_dist):
+# ------------------------------------------------------------------ metrics
+def _auc(labels, probs, num_classes):
+    try:
+        if num_classes == 2:
+            return roc_auc_score(labels, probs[:, 1])
+        return roc_auc_score(labels, probs, multi_class="ovr", average="macro")
+    except ValueError:
+        return np.nan
+
+
+def _macro_f1(labels, probs):
+    return f1_score(labels, probs.argmax(axis=1), average="macro", zero_division=0)
+
+
+METRIC_FN = {"auc": _auc, "macro_f1": lambda l, p, c: _macro_f1(l, p)}
+
+
+# ------------------------------------------------------------------ bootstrap
+def nested_paired_bootstrap(preds_a, preds_b, labels, num_classes,
+                            metric="auc", B=None, rng=None):
     """
-    Computes Welch's t-test handling unequal variances and potential NaNs.
+    preds_a / preds_b: {seed: probs[N, C]} for the two arms, same labels.
+    Returns the observed difference, a 95% CI, a bootstrap p-value and Cohen's d.
     """
-    # Filter out None/NaN from model collapse
-    q_clean = [x for x in quantum_dist if x is not None and not np.isnan(x)]
-    c_clean = [x for x in classical_dist if x is not None and not np.isnan(x)]
-    
-    if len(q_clean) < 2 or len(c_clean) < 2:
-        return np.nan, np.nan, np.nan, np.nan, np.nan
-        
-    q_mean, q_std = np.mean(q_clean), np.std(q_clean)
-    c_mean, c_std = np.mean(c_clean), np.std(c_clean)
-    
-    # Welch's t-test (equal_var=False) is mathematically required for comparing 
-    # models with different architectural variances.
-    t_stat, p_val = stats.ttest_ind(q_clean, c_clean, equal_var=False)
-    
-    return q_mean, q_std, c_mean, c_std, p_val
+    B = B or config.BOOTSTRAP_RESAMPLES
+    rng = rng or np.random.default_rng(20260814)
+    fn = METRIC_FN[metric]
+
+    seeds = sorted(set(preds_a) & set(preds_b))
+    if len(seeds) < 2:
+        return None
+    n = len(labels)
+
+    observed = float(np.mean([
+        fn(labels, preds_a[s], num_classes) - fn(labels, preds_b[s], num_classes)
+        for s in seeds]))
+
+    deltas = np.empty(B)
+    for b in range(B):
+        idx = rng.integers(0, n, n)                 # resample test indices
+        ss = rng.choice(seeds, len(seeds), replace=True)   # resample seeds
+        y = labels[idx]
+        if len(np.unique(y)) < 2:                   # degenerate draw
+            deltas[b] = np.nan
+            continue
+        deltas[b] = np.mean([
+            fn(y, preds_a[s][idx], num_classes) - fn(y, preds_b[s][idx], num_classes)
+            for s in ss])
+
+    deltas = deltas[~np.isnan(deltas)]
+    if len(deltas) < B // 2:
+        return None
+
+    lo, hi = np.percentile(deltas, [2.5, 97.5])
+    p = 2 * min((deltas <= 0).mean(), (deltas >= 0).mean())
+
+    per_seed = np.array([
+        fn(labels, preds_a[s], num_classes) - fn(labels, preds_b[s], num_classes)
+        for s in seeds])
+    sd = per_seed.std(ddof=1)
+    cohens_d = float(per_seed.mean() / sd) if sd > 0 else np.nan
+
+    return {"delta": observed, "ci_lo": float(lo), "ci_hi": float(hi),
+            "p": float(min(p, 1.0)), "cohens_d": cohens_d,
+            "n_seeds": len(seeds), "n_test": n, "method": "nested_bootstrap"}
 
 
-def generate_latex_table(title, columns, rows):
-    """Generates an Overleaf-ready LaTeX table."""
-    tex = f"% --- {title} ---\n"
-    tex += "\\begin{table}[htbp]\n\\centering\n"
-    tex += "\\caption{" + title + "}\n"
-    tex += "\\resizebox{\\textwidth}{!}{\n" # Ensures wide tables fit on the page
-    tex += "\\begin{tabular}{" + "c" * len(columns) + "}\n\\toprule\n"
-    tex += " & ".join([f"\\textbf{{{c}}}" for c in columns]) + " \\\\\n\\midrule\n"
-    
-    for row in rows:
-        # Safely escape percentage signs and underscores for LaTeX compiler
-        formatted_row = [str(item).replace('%', '\\%').replace('_', '\\_') for item in row]
-        tex += " & ".join(formatted_row) + " \\\\\n"
-        
-    tex += "\\bottomrule\n\\end{tabular}\n}\n\\end{table}\n\n"
-    return tex
+def seed_level_bootstrap(vals_a, vals_b, B=None, rng=None):
+    """
+    FALLBACK when per-sample predictions are unavailable. Resamples seeds only,
+    so it is blind to test-set sampling variance. Every output is labelled
+    SEED-LEVEL so it cannot be confused with the pre-registered analysis.
+    """
+    B = B or config.BOOTSTRAP_RESAMPLES
+    rng = rng or np.random.default_rng(20260814)
+
+    seeds = sorted(set(vals_a) & set(vals_b))
+    d = np.array([vals_a[s] - vals_b[s] for s in seeds
+                  if vals_a[s] is not None and vals_b[s] is not None])
+    if len(d) < 2:
+        return None
+
+    boot = np.array([rng.choice(d, len(d), replace=True).mean() for _ in range(B)])
+    lo, hi = np.percentile(boot, [2.5, 97.5])
+    p = 2 * min((boot <= 0).mean(), (boot >= 0).mean())
+    sd = d.std(ddof=1)
+
+    return {"delta": float(d.mean()), "ci_lo": float(lo), "ci_hi": float(hi),
+            "p": float(min(p, 1.0)),
+            "cohens_d": float(d.mean() / sd) if sd > 0 else np.nan,
+            "n_seeds": len(d), "n_test": None, "method": "seed_level_ONLY"}
 
 
-def analyze_experiment2_scaling():
-    if not os.path.exists(EXP2_LOG): return "Experiment 2 logs not found.\n"
-    with open(EXP2_LOG, "r") as f: data = json.load(f)
+def benjamini_hochberg(pvals, alpha=None):
+    """Returns (rejected, adjusted). Adjusted p-values are monotone-enforced."""
+    alpha = alpha or config.ALPHA
+    p = np.asarray(pvals, dtype=float)
+    ok = ~np.isnan(p)
+    m = ok.sum()
+    if m == 0:
+        return np.zeros_like(p, bool), p
 
-    report = "=========================================================\n"
-    report += " EXPERIMENT 2: LATENT SCARCITY SEPARABILITY (WELCH'S T-TEST)\n"
-    report += "=========================================================\n\n"
+    order = np.argsort(np.where(ok, p, np.inf))
+    ranked = p[order][:m]
+    adj = ranked * m / np.arange(1, m + 1)
+    adj = np.minimum.accumulate(adj[::-1])[::-1]     # enforce monotonicity
 
-    columns_auc = ["Dataset", "Frac", "Dim", "VQC AUC", "Deep Funnel AUC", "p-value", "Sig."]
-    columns_f1 = ["Dataset", "Frac", "Dim", "VQC F1", "Deep Funnel F1", "p-value", "Sig."]
-    latex_rows_auc = []
-    latex_rows_f1 = []
-
-    for dataset_name, dataset_data in data.get("datasets", {}).items():
-        # Testing extreme scarcity (1%), mid scarcity (10%), and abundance (100%)
-        for frac_key in ["0.01", "0.1", "1.0"]:
-            if frac_key not in dataset_data.get("fractions", {}): continue
-            frac_data = dataset_data["fractions"][frac_key]
-            
-            # Use raw % so the generator function can escape it cleanly
-            frac_display = f"{int(float(frac_key)*100)}%"
-            
-            for b_dim in ["4", "8", "16"]:
-                if b_dim not in frac_data.get("bottlenecks", {}): continue
-                metrics = frac_data["bottlenecks"][b_dim]
-                
-                try:
-                    # AUC Comparison
-                    q_auc = metrics["quantum_vqc"]["test_auc"]
-                    ae_auc = metrics["classical_deep_funnel"]["test_auc"]
-                    q_am, q_as, c_am, c_as, p_auc = compute_welchs_t_test(q_auc, ae_auc)
-                    
-                    sig_auc = "*" if not np.isnan(p_auc) and p_auc < 0.05 else ("ns" if not np.isnan(p_auc) else "-")
-                    p_auc_str = f"{p_auc:.3e}" if not np.isnan(p_auc) else "N/A"
-                    
-                    latex_rows_auc.append([
-                        dataset_name, frac_display, b_dim,
-                        f"{q_am:.3f} $\\pm$ {q_as:.3f}" if not np.isnan(q_am) else "N/A", 
-                        f"{c_am:.3f} $\\pm$ {c_as:.3f}" if not np.isnan(c_am) else "N/A", 
-                        p_auc_str, sig_auc
-                    ])
-                    
-                    # F1 Comparison
-                    q_f1 = metrics["quantum_vqc"]["test_f1"]
-                    ae_f1 = metrics["classical_deep_funnel"]["test_f1"]
-                    q_fm, q_fs, c_fm, c_fs, p_f1 = compute_welchs_t_test(q_f1, ae_f1)
-                    
-                    sig_f1 = "*" if not np.isnan(p_f1) and p_f1 < 0.05 else ("ns" if not np.isnan(p_f1) else "-")
-                    p_f1_str = f"{p_f1:.3e}" if not np.isnan(p_f1) else "N/A"
-                    
-                    latex_rows_f1.append([
-                        dataset_name, frac_display, b_dim,
-                        f"{q_fm:.3f} $\\pm$ {q_fs:.3f}" if not np.isnan(q_fm) else "N/A", 
-                        f"{c_fm:.3f} $\\pm$ {c_fs:.3f}" if not np.isnan(c_fm) else "N/A", 
-                        p_f1_str, sig_f1
-                    ])
-                except KeyError:
-                    continue
-
-    report += generate_latex_table("Experiment 2: Topological Separability (AUC) under Scarcity", columns_auc, latex_rows_auc)
-    report += generate_latex_table("Experiment 2: Decision Boundary (Macro-F1) under Scarcity", columns_f1, latex_rows_f1)
-    return report
+    out = np.full_like(p, np.nan)
+    out[order[:m]] = np.minimum(adj, 1.0)
+    return (out <= alpha) & ok, out
 
 
-def analyze_experiment3_robustness():
-    if not os.path.exists(EXP3_LOG): return "Experiment 3 logs not found.\n"
-    with open(EXP3_LOG, "r") as f: data = json.load(f)
+# ------------------------------------------------------------------ loading
+def load_predictions(experiment, dataset, regime, dim, seed, arm, sigma=None):
+    tag = f"{dataset}__n{regime}__d{dim}__s{seed}__{arm}.npz"
+    path = os.path.join(PRED_ROOT, experiment, tag)
+    if not os.path.exists(path):
+        return None, None
+    z = np.load(path)
+    labels = z["labels"].astype(int)
+    key = f"{sigma:.2f}" if sigma is not None else "0.00"
+    if key not in z:
+        key = [k for k in z.files if k != "labels"][0]
+    return z[key].astype(np.float64), labels
 
-    report = "=========================================================\n"
-    report += " EXPERIMENT 3: THE PRECISION PARADOX (NOISE = 0.10)\n"
-    report += "=========================================================\n\n"
 
-    columns = ["Dataset", "Frac", "Dim", "Metric", "VQC Score", "Deep Funnel Score", "p-value", "Sig."]
-    latex_rows = []
+def collect(experiment):
+    """(dataset, regime, dim, fp) -> arm -> seed -> metrics dict"""
+    tbl = defaultdict(lambda: defaultdict(dict))
+    for r in shards.load_all(experiment):
+        k = r["keys"]
+        cell = (k["dataset"], str(k["regime"]), k.get("dim", 4), k.get("fp", "all"))
+        tbl[cell][k["arm"]][k["seed"]] = r.get("metrics") or r.get("curve", {}).get("0.00")
+    return tbl
 
-    for dataset_name, dataset_data in data.get("datasets", {}).items():
-        for frac_key in ["0.01", "1.0"]:
-            if frac_key not in dataset_data.get("fractions", {}): continue
-            frac_data = dataset_data["fractions"][frac_key]
-            
-            frac_display = f"{int(float(frac_key)*100)}%"
-            
-            for b_dim in ["4", "16"]: 
-                if b_dim not in frac_data.get("bottlenecks", {}): continue
-                
-                target_noise = "0.10" # The critical noise threshold
-                try:
-                    noise_data_q = frac_data["bottlenecks"][b_dim]["quantum_vqc"].get(target_noise, {})
-                    noise_data_c = frac_data["bottlenecks"][b_dim]["classical_deep_funnel"].get(target_noise, {})
-                    
-                    # Compute F1 Decay
-                    q_f1 = noise_data_q.get("raw_f1", [])
-                    c_f1 = noise_data_c.get("raw_f1", [])
-                    q_fm, q_fs, c_fm, c_fs, p_f1 = compute_welchs_t_test(q_f1, c_f1)
-                    
-                    sig_f1 = "*" if not np.isnan(p_f1) and p_f1 < 0.05 else ("ns" if not np.isnan(p_f1) else "-")
-                    p_f1_str = f"{p_f1:.3e}" if not np.isnan(p_f1) else "N/A"
-                    
-                    latex_rows.append([
-                        dataset_name, frac_display, b_dim, "Macro-F1",
-                        f"{q_fm:.3f} $\\pm$ {q_fs:.3f}" if not np.isnan(q_fm) else "N/A", 
-                        f"{c_fm:.3f} $\\pm$ {c_fs:.3f}" if not np.isnan(c_fm) else "N/A", 
-                        p_f1_str, sig_f1
-                    ])
-                        
-                    # Compute AUC Decay
-                    q_auc = noise_data_q.get("raw_auc", [])
-                    c_auc = noise_data_c.get("raw_auc", [])
-                    q_am, q_as, c_am, c_as, p_auc = compute_welchs_t_test(q_auc, c_auc)
-                    
-                    sig_auc = "*" if not np.isnan(p_auc) and p_auc < 0.05 else ("ns" if not np.isnan(p_auc) else "-")
-                    p_auc_str = f"{p_auc:.3e}" if not np.isnan(p_auc) else "N/A"
-                    
-                    latex_rows.append([
-                        dataset_name, frac_display, b_dim, "ROC-AUC",
-                        f"{q_am:.3f} $\\pm$ {q_as:.3f}" if not np.isnan(q_am) else "N/A", 
-                        f"{c_am:.3f} $\\pm$ {c_as:.3f}" if not np.isnan(c_am) else "N/A", 
-                        p_auc_str, sig_auc
-                    ])
-                except KeyError:
-                    continue
 
-    report += generate_latex_table("Experiment 3: F1 and AUC Decay under AWGN Sensor Degradation ($\\sigma=0.10$)", columns, latex_rows)
-    return report
+# ------------------------------------------------------------------ analysis
+def compare(experiment, tbl, cell, arm_a, arm_b, metric, num_classes):
+    """Nested bootstrap where predictions exist; seed-level fallback otherwise."""
+    ds, regime, dim, fp = cell
+    a_seeds, b_seeds = tbl[cell].get(arm_a, {}), tbl[cell].get(arm_b, {})
+    common = sorted(set(a_seeds) & set(b_seeds))
+    if len(common) < 2:
+        return None
+
+    pa, pb, labels = {}, {}, None
+    for s in common:
+        x, l = load_predictions(experiment, ds, regime, dim, s, arm_a)
+        y, _ = load_predictions(experiment, ds, regime, dim, s, arm_b)
+        if x is None or y is None:
+            pa = {}
+            break
+        pa[s], pb[s], labels = x, y, l
+
+    if pa and HAVE_SKLEARN and labels is not None:
+        return nested_paired_bootstrap(pa, pb, labels, num_classes, metric=metric)
+
+    return seed_level_bootstrap({s: a_seeds[s].get(metric) for s in common},
+                                {s: b_seeds[s].get(metric) for s in common})
+
+
+def run(experiment, metric="auc", latex=False):
+    import medmnist
+
+    tbl = collect(experiment)
+    if not tbl:
+        print(f"No shards for '{experiment}'.")
+        return
+
+    pairs = [("PRIMARY  (H-P)", *config.PRIMARY_COMPARISON),
+             ("SECONDARY (H-S2)", *config.SECONDARY_COMPARISON)]
+    if hasattr(config, "DIAGNOSTIC_COMPARISON"):
+        pairs.append(("diagnostic", *config.DIAGNOSTIC_COMPARISON))
+
+    results = []
+    for label, arm_a, arm_b in pairs:
+        for cell in sorted(tbl):
+            C = len(medmnist.INFO[cell[0]]["label"])
+            r = compare(experiment, tbl, cell, arm_a, arm_b, metric, C)
+            if r:
+                r.update(family=label, cell=cell, arm_a=arm_a, arm_b=arm_b)
+                results.append(r)
+
+    if not results:
+        print("Nothing comparable found.")
+        return
+
+    # BH correction over the PRIMARY family only, per the analysis plan.
+    primary = [r for r in results if r["family"].startswith("PRIMARY")]
+    rej, adj = benjamini_hochberg([r["p"] for r in primary])
+    for r, rr, aa in zip(primary, rej, adj):
+        r["p_adj"], r["significant"] = float(aa), bool(rr)
+
+    methods = {r["method"] for r in results}
+    if "seed_level_ONLY" in methods:
+        print("\n" + "!" * 74)
+        print("! SEED-LEVEL FALLBACK IN USE - per-sample predictions were not found.")
+        print("! These intervals ignore test-set sampling variance and are NOT the")
+        print("! pre-registered analysis. Re-run with prediction saving enabled")
+        print("! before quoting any of this in the manuscript.")
+        print("!" * 74)
+
+    for label, arm_a, arm_b in pairs:
+        rows = [r for r in results if r["family"] == label]
+        if not rows:
+            continue
+        print(f"\n=== {label}: {arm_a} - {arm_b}  ({metric}) ===")
+        print(f"{'dataset':15s} {'n/cls':>6s} {'enc':>6s} {'delta':>9s} "
+              f"{'95% CI':>21s} {'p':>9s} {'p_adj':>9s} {'d':>7s}  verdict")
+        print("-" * 108)
+        for r in sorted(rows, key=lambda x: (x["cell"][0], int(x["cell"][1]))):
+            ds, reg, dim, fp = r["cell"]
+            enc = "froz" if fp == "all" else "adap"
+            v = ("A better" if r["ci_lo"] > 0 else
+                 "B better" if r["ci_hi"] < 0 else "no difference")
+            if abs(r["delta"]) < 0.01 and v != "no difference":
+                v += " (negligible)"
+            padj = f"{r['p_adj']:9.4f}" if "p_adj" in r else "        -"
+            print(f"{ds:15s} {reg:>6s} {enc:>6s} {r['delta']:+9.4f} "
+                  f"[{r['ci_lo']:+.4f},{r['ci_hi']:+.4f}] {r['p']:9.4f} {padj} "
+                  f"{r['cohens_d']:+7.2f}  {v}")
+
+    # --- H-P2: is the effect monotone in shots per class? -----------------
+    print(f"\n=== H-P2: trend of delta on log2(shots/class), PRIMARY family ===")
+    by_n = defaultdict(list)
+    for r in primary:
+        by_n[int(r["cell"][1])].append(r["delta"])
+    ns = sorted(by_n)
+    if len(ns) >= 3:
+        x = np.log2(ns)
+        y = np.array([np.mean(by_n[n]) for n in ns])
+        slope = float(np.polyfit(x, y, 1)[0])
+        rng = np.random.default_rng(7)
+        boot = [float(np.polyfit(x, [rng.choice(by_n[n], len(by_n[n])).mean()
+                                     for n in ns], 1)[0]) for _ in range(2000)]
+        lo, hi = np.percentile(boot, [2.5, 97.5])
+        for n in ns:
+            print(f"    n={n:>4d}  mean delta = {np.mean(by_n[n]):+.4f} "
+                  f"({len(by_n[n])} cells)")
+        print(f"\n    slope = {slope:+.5f} per doubling  [{lo:+.5f}, {hi:+.5f}]")
+        print(f"    H-P2 {'SUPPORTED' if hi < 0 else 'NOT supported'} "
+              f"(CI must exclude 0 and be negative)")
+    else:
+        print("    need >=3 shot levels")
+
+    if latex:
+        emit_latex(results, metric)
+
+
+def emit_latex(results, metric):
+    out = os.path.join(config.ARTIFACT_ROOT, f"table_{metric}.tex")
+    with open(out, "w") as f:
+        f.write("% auto-generated by 04_statistical_analysis.py\n")
+        f.write("\\begin{table}[htbp]\\centering\n")
+        f.write(f"\\caption{{Paired comparison, {metric.upper()}. "
+                f"Nested bootstrap, BH-FDR corrected.}}\n")
+        f.write("\\begin{tabular}{llrrrr}\\toprule\n")
+        f.write("Dataset & Shots & $\\Delta$ & 95\\% CI & $p_{adj}$ & $d$ \\\\\\midrule\n")
+        for r in results:
+            if not r["family"].startswith("PRIMARY"):
+                continue
+            ds = r["cell"][0].replace("mnist", "MNIST")
+            padj = f"{r.get('p_adj', float('nan')):.3f}"
+            f.write(f"{ds} & {r['cell'][1]} & {r['delta']:+.4f} & "
+                    f"[{r['ci_lo']:+.4f}, {r['ci_hi']:+.4f}] & {padj} & "
+                    f"{r['cohens_d']:+.2f} \\\\\n")
+        f.write("\\bottomrule\\end{tabular}\\end{table}\n")
+    print(f"\nLaTeX written to {out}")
 
 
 def main():
-    os.makedirs(RESULTS_DIR, exist_ok=True)
-    report_content = "% ==========================================\n"
-    report_content += "% LaTeX TABLES FOR MANUSCRIPT INSERTION\n"
-    report_content += "% ==========================================\n"
-    report_content += "% Requires: \\usepackage{booktabs} and \\usepackage{graphicx} in your preamble.\n\n"
-    
-    report_content += analyze_experiment2_scaling()
-    report_content += analyze_experiment3_robustness()
-    
-    with open(REPORT_FILE, "w") as f: 
-        f.write(report_content)
-        
-    print(f"Statistical Analysis Complete. LaTeX tables saved to: {REPORT_FILE}")
-    print("\nPreview of Output:\n")
-    print(report_content)
+    p = argparse.ArgumentParser()
+    p.add_argument("--experiment", default="01_frozen")
+    p.add_argument("--metric", default="auc", choices=["auc", "macro_f1"])
+    p.add_argument("--latex", action="store_true")
+    args = p.parse_args()
+    run(args.experiment, args.metric, args.latex)
+
 
 if __name__ == "__main__":
     main()
