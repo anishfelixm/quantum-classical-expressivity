@@ -1,11 +1,11 @@
 """
 EXPERIMENT 3 (Q5) - ROBUSTNESS UNDER ANALOG SENSOR NOISE.
 
-This is the SECOND pillar of the original hypothesis, and until now it had zero
-runs. The first pillar - "a quantum circuit accesses more states, so it should
-be more expressive" - is closed: the measured output lies in an explicitly
-constructible 3^d classical trigonometric span, and with 3Ld parameters the
-circuit reaches only a small manifold inside it.
+This is the SECOND pillar of the original hypothesis. The first pillar - "a
+quantum circuit accesses more states, so it should be more expressive" - is
+closed: the measured output lies in an explicitly constructible 3^d classical
+trigonometric span, and with 3Ld parameters the circuit reaches only a small
+manifold inside it.
 
 The noise pillar is different, and it has real mathematics behind it:
 
@@ -15,26 +15,21 @@ U is unitary, so norms are preserved and the output is bounded in [-1, 1] for
 every input and every parameter setting. The map is Lipschitz-bounded BY
 CONSTRUCTION. A classical MLP is not: its weights can grow without bound.
 
-So there is a principled reason to expect the quantum head to degrade more
-gracefully - and this script tests it.
-
 WHY IT RETRAINS RATHER THAN LOADING CHECKPOINTS
 ------------------------------------------------
-Experiment 1 discards `best_state` after training, so no checkpoints exist on
-disk. Rather than re-run Experiment 1 to produce them, this script trains the
-head itself. That is cheap in the frozen regime, because training uses CACHED
-256-d features (seconds for classical arms, ~2.5 min for quantum).
+Experiment 1 does not persist weights to disk, so this script trains the head
+itself. That is cheap in the frozen regime: training uses CACHED 256-d features.
 
 Noise, however, must be injected on IMAGES, before the backbone - corrupting
 cached features would model a different and physically meaningless process. So
 after training on cached features the head is transplanted into a full model
 with the backbone attached, and the noise sweep runs end to end. The backbone is
-frozen and bit-exactly deterministic (verified), so the transplant is exact, not
-an approximation.
+frozen and bit-exactly deterministic (verified), so the transplant is exact.
 
 WHAT IS REPORTED AT EVERY NOISE LEVEL
 -------------------------------------
-AUC, Macro-F1, balanced accuracy, ECE and predicted-probability spread.
+AUC, Macro-F1, balanced accuracy, average precision, sensitivity, specificity,
+ECE and predicted-probability spread.
 
 Reporting all of them is the point. The conference paper's "Zombie State" - AUC
 0.6118 with probability standard deviation 0.0057 - is the signature of a
@@ -43,15 +38,22 @@ collapses, the model still ranks cases correctly and only the threshold has
 drifted. That is a narrower and much more accurate claim than "the quantum model
 shatters", and it is invisible if you only plot F1.
 
-Per-sample probabilities are saved as .npy so the confirmatory analysis can run
-the nested bootstrap the pre-registration specifies. Bootstrapping over test
-indices is impossible from scalar metrics alone.
+PREDICTION FILES
+----------------
+Written through shards.save_predictions() and read back by 04 through
+shards.load_predictions(), keyed identically. This script previously built its
+own filename convention that 04's reader did not match, so the nested bootstrap
+silently fell back to seed-level resampling. One writer, one reader, one naming
+function.
+
+Multi-sigma runs store one array per noise level under the `condition` argument,
+so 04 can bootstrap at any sigma.
 
 RNG PARITY
 ----------
-The seed is a deterministic function of sigma, so every architecture faces
-bit-identical corrupted tensors. Without this, arm differences would be confounded
-with noise draws.
+The noise seed is a deterministic function of sigma, so every architecture faces
+bit-identical corrupted tensors. Without this, arm differences would be
+confounded with noise draws.
 
 USAGE
 -----
@@ -73,7 +75,7 @@ import config                                                   # noqa: E402
 import shards                                                   # noqa: E402
 from data.medmnist_loader import get_loaders, num_classes_of    # noqa: E402
 from data.noise import add_gaussian_noise, seed_for_sigma       # noqa: E402
-from models.registry import build_arm                           # noqa: E402
+from models.registry import build_arm, QUANTUM_ARMS             # noqa: E402
 from train.loop import train_model                              # noqa: E402
 from train.metrics import compute_metrics                       # noqa: E402
 
@@ -85,8 +87,6 @@ FROZEN = _exp1.FROZEN
 EXPERIMENT = "03_robustness"
 
 ARMS = ["linear", "matched_param_fullrank", "fourier_rff", "quantum_vqc"]
-PRED_DIR = os.path.join(config.ARTIFACT_ROOT, "predictions", EXPERIMENT)
-os.makedirs(PRED_DIR, exist_ok=True)
 
 
 @torch.no_grad()
@@ -107,16 +107,13 @@ def lipschitz_of_trained(head, d, angle_scale, device, n_points=256,
 
 @torch.no_grad()
 def sweep_noise(model, test_batches, num_classes, seed, device):
-    """
-    Evaluate across NOISE_LEVELS. Returns per-sigma metrics plus the per-sample
-    probabilities at every sigma (needed for the nested bootstrap).
-    """
+    """Evaluate across NOISE_LEVELS. Returns metrics and per-sigma probabilities."""
     model.eval()
-    curve, preds_by_sigma = {}, {}
+    curve, probs_by_sigma, labels = {}, {}, None
 
     for sigma in config.NOISE_LEVELS:
         torch.manual_seed(seed_for_sigma(seed, sigma))
-        probs, preds, labels = [], [], []
+        probs, preds, ys = [], [], []
 
         for x, y in test_batches:
             x = x.to(device, non_blocking=True)
@@ -124,20 +121,26 @@ def sweep_noise(model, test_batches, num_classes, seed, device):
             p = torch.softmax(model(add_gaussian_noise(x, sigma)), dim=1)
             probs.append(p.cpu().numpy())
             preds.append(p.argmax(dim=1).cpu().numpy())
-            labels.append(y.cpu().numpy())
+            ys.append(y.cpu().numpy())
 
         probs = np.concatenate(probs)
         preds = np.concatenate(preds)
-        labels = np.concatenate(labels)
+        labels = np.concatenate(ys)
 
         curve[f"{sigma:.2f}"] = compute_metrics(labels, preds, probs, num_classes)
-        preds_by_sigma[f"{sigma:.2f}"] = probs.astype(np.float16)   # half is plenty
+        probs_by_sigma[f"{sigma:.2f}"] = probs
 
-    return curve, preds_by_sigma, labels
+    return curve, probs_by_sigma, labels
 
 
-def run_cell(dataset, n_per_class, seed, arm, dim=4, force=False):
+def run_cell(dataset, n_per_class, seed, arm, dim=4, force=False,
+             lr_head=None, lr_quantum=None):
     keys = dict(dataset=dataset, regime=n_per_class, dim=dim, seed=seed, arm=arm)
+    if lr_head is not None:
+        keys["lrh"] = f"{float(lr_head):.0e}"
+    if lr_quantum is not None and arm in QUANTUM_ARMS:
+        keys["lrq"] = f"{float(lr_quantum):.0e}"
+
     if not force and shards.exists(EXPERIMENT, **keys):
         return None
 
@@ -153,7 +156,8 @@ def run_cell(dataset, n_per_class, seed, arm, dim=4, force=False):
     _, _, best_state = train_model(
         head_model, loaders["train"], loaders["val"], loaders["test"],
         num_classes=C, use_features=True,
-        is_quantum=arm.startswith("quantum"), verbose=False)
+        is_quantum=(arm in QUANTUM_ARMS), verbose=False,
+        lr_head=lr_head, lr_quantum=lr_quantum)
     if best_state is not None:
         head_model.load_state_dict(best_state, strict=False)
 
@@ -166,50 +170,40 @@ def run_cell(dataset, n_per_class, seed, arm, dim=4, force=False):
 
     _, _, test_batches, meta = get_loaders(dataset, n_per_class=n_per_class,
                                            seed=seed, augment=False)
-    curve, preds_by_sigma, labels = sweep_noise(full, test_batches, C, seed, device)
+    curve, probs_by_sigma, labels = sweep_noise(full, test_batches, C, seed, device)
 
-    tag = f"{dataset}__n{n_per_class}__d{dim}__s{seed}__{arm}"
-    np.savez_compressed(os.path.join(PRED_DIR, tag + ".npz"),
-                        labels=labels.astype(np.int16), **preds_by_sigma)
+    # One array per sigma, under the shared naming function so 04 can find them.
+    pred_file = shards.save_predictions(EXPERIMENT, labels, probs_by_sigma, **keys)
 
-    clean = curve["0.00"]
     payload = {
         "curve": curve,
         "lipschitz_trained": lip,
         "meta": {k: meta[k] for k in ("n_train", "n_val", "n_test", "regime")},
-        "predictions_file": tag + ".npz",
+        "predictions_file": pred_file,
+        "lr": {"head": lr_head, "quantum": lr_quantum},
         "wall_time": time.time() - t0,
     }
     shards.write(EXPERIMENT, payload, **keys)
 
     del head_model, full
     torch.cuda.empty_cache()
-    return clean, curve, lip
+    return curve["0.00"], curve, lip
 
 
 # ------------------------------------------------------------------ summary
-def _paired(a, b):
-    common = sorted(set(a) & set(b))
-    d = np.array([a[s] - b[s] for s in common
-                  if a[s] is not None and b[s] is not None])
-    if len(d) < 2:
-        return None
-    m, se = float(d.mean()), float(d.std(ddof=1) / np.sqrt(len(d)))
-    return m, m - 1.96 * se, m + 1.96 * se, len(d)
-
-
 def summarise(metric="auc"):
     rows = shards.load_all(EXPERIMENT)
     if not rows:
         print("No shards found.")
         return
 
-    tbl, lip = {}, {}
+    tbl, f1_tbl, lip = {}, {}, {}
     for r in rows:
         k = r["keys"]
         cell = (k["dataset"], str(k["regime"]))
         for s, m in r["curve"].items():
             tbl.setdefault((cell, s), {}).setdefault(k["arm"], {})[k["seed"]] = m.get(metric)
+            f1_tbl.setdefault((cell, s), {}).setdefault(k["arm"], {})[k["seed"]] = m.get("macro_f1")
         lip.setdefault(k["arm"], []).append(r["lipschitz_trained"]["lipschitz_max"])
 
     sigmas = [f"{s:.2f}" for s in config.NOISE_LEVELS]
@@ -244,12 +238,6 @@ def summarise(metric="auc"):
     print(f"\n=== Is F1 collapse a CALIBRATION failure? ===")
     print("relative loss = 1 - metric(0.20)/metric(0.00). If F1 loss >> AUC loss,")
     print("ranking survives and only the decision threshold drifted.")
-    f1_tbl = {}
-    for r in rows:
-        k = r["keys"]
-        for s, m in r["curve"].items():
-            f1_tbl.setdefault(((k["dataset"], str(k["regime"])), s), {}) \
-                  .setdefault(k["arm"], {})[k["seed"]] = m.get("macro_f1")
     for cell in cells:
         for arm in ARMS:
             a0 = [v for v in tbl.get((cell, "0.00"), {}).get(arm, {}).values() if v]
@@ -264,14 +252,17 @@ def summarise(metric="auc"):
             print(f"  {cell[0]:16s} n={cell[1]:>4s} {arm:24s} "
                   f"AUC loss {la:6.3f} | F1 loss {lf:6.3f}{flag}")
 
-    print(f"\n=== Trained Lipschitz constants (max over runs) ===")
+    print(f"\n=== Trained Lipschitz constants ===")
+    print("Pairs with 08_lipschitz.py, which measures the same quantity at init.")
     for arm in ARMS:
         if arm in lip:
             print(f"  {arm:24s} L_max mean={np.mean(lip[arm]):8.3f} "
                   f"max={np.max(lip[arm]):8.3f}")
 
-    print("\nEXPLORATORY. Confirmatory statistics come from 04_statistical_analysis.py")
-    print("using the saved per-sample predictions.")
+    n_pred = sum(1 for r in rows if r.get("predictions_file"))
+    print(f"\n{n_pred}/{len(rows)} runs recorded per-sample predictions.")
+    print("EXPLORATORY. Confirmatory statistics come from 04_statistical_analysis.py")
+    print("using those predictions.")
 
 
 def main():
@@ -281,6 +272,8 @@ def main():
     p.add_argument("--arms", nargs="+", default=ARMS)
     p.add_argument("--seeds", nargs="+", type=int, default=config.ALL_SEEDS)
     p.add_argument("--dim", type=int, default=4)
+    p.add_argument("--use-tuned-lr", action="store_true",
+                   help="load per-arm LRs selected by 09_lr_selection.py")
     p.add_argument("--quick", action="store_true",
                    help="2 datasets x n in {5,100} x 5 seeds")
     p.add_argument("--force", action="store_true")
@@ -297,6 +290,17 @@ def main():
         args.regimes = [5, 100]
         args.seeds = config.ALL_SEEDS[:5]
 
+    tuned = {}
+    if args.use_tuned_lr:
+        import json
+        path = os.path.join(config.ARTIFACT_ROOT, "lr_selection.json")
+        if not os.path.exists(path):
+            print(f"--use-tuned-lr: {path} not found; run 09_lr_selection.py first")
+            return
+        with open(path) as f:
+            tuned = json.load(f)["selected"]
+        print(f"using tuned LRs: {tuned}")
+
     total = (len(args.datasets) * len(args.regimes)
              * len(args.arms) * len(args.seeds))
     print(f"Q5 robustness | {total} cells | {len(config.NOISE_LEVELS)} noise levels "
@@ -308,7 +312,9 @@ def main():
             for seed in args.seeds:
                 for arm in args.arms:
                     done += 1
-                    out = run_cell(ds, n, seed, arm, dim=args.dim, force=args.force)
+                    lr = tuned.get(arm)
+                    out = run_cell(ds, n, seed, arm, dim=args.dim,
+                                   force=args.force, lr_head=lr, lr_quantum=lr)
                     if out is None:
                         continue
                     clean, curve, lip = out

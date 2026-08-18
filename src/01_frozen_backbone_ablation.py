@@ -29,31 +29,44 @@ sides, or freezing and augmentation would vary together.
 
 PER-SAMPLE PREDICTIONS
 ----------------------
-Every run now writes its test-set probabilities to artifacts/predictions/.
-The pre-registered statistic is a NESTED bootstrap that resamples test indices
-as well as seeds, and resampling test indices is impossible from scalar metrics
-alone. Without these files 04_statistical_analysis.py silently falls back to
-seed-level resampling, which ignores test-set sampling variance - the exact
-error the conference version made.
+Every run writes its test-set probabilities through shards.save_predictions(),
+which derives the filename from the SAME keys that name the shard. 04 reads them
+back through shards.load_predictions() using the keys stored in the shard, so
+writer and reader cannot disagree.
 
-Cost is ~250 KB per run.
+They previously did disagree: 01 wrote one naming convention, 03 another, and 04
+expected 03's - so 04 never found 01's files, silently fell back to seed-level
+resampling, and printed results that looked fine. That fallback is exactly the
+analysis the pre-registration forbids.
 
 OPTIONAL AXES
 -------------
---n-layers    circuit depth L (Q4 depth sweep: manifold dimension 3*L*d)
+--n-layers    circuit depth L (depth sweep: manifold dimension 3*L*d)
 --no-tanh     feed raw z to the head; CLASSICAL ARMS ONLY (see registry.py)
 --angle-scale the tanh scale; swept because it was never tuned
+--lr-head     LR for non-quantum trainable parameters
+--lr-quantum  LR for the VQC rotation angles
 
-Shard keys only include these when they differ from the config default, so
-existing results stay addressable and are not silently re-run.
+An axis enters the shard key when it is EXPLICITLY SET, not when it differs from
+the current config value. Keying against a mutable constant was a latent bug: the
+moment config.LR_HEAD changed to a tuned value, every old shard trained at the
+old default (which carries no lr key) would have become a valid cache hit for the
+new default and been silently reused as if it were tuned.
+
+--experiment writes to a different shard namespace. 09_lr_selection.py uses it so
+hyperparameter search never mixes with the results it informs; the confirmatory
+sweep should use its own namespace too.
 
 USAGE
     python src/01_frozen_backbone_ablation.py --summary-only
     python src/01_frozen_backbone_ablation.py --datasets breastmnist --dims 4 --seeds 42
     python src/01_frozen_backbone_ablation.py --n-layers 4 --arms quantum_vqc
     python src/01_frozen_backbone_ablation.py --no-tanh --arms linear mlp matched_param_fullrank
+    python src/01_frozen_backbone_ablation.py --confirmatory --use-tuned-lr \
+        --experiment 01_frozen_tuned
 """
 import argparse
+import json
 import os
 import sys
 import time
@@ -82,8 +95,7 @@ ADAPTIVE = "layer3_only"
 # The diagnostic contrast: capacity floor, function-class control, treatment.
 DIAGNOSTIC_ARMS = ["linear", "fourier_rff", "quantum_vqc"]
 
-PRED_DIR = os.path.join(config.ARTIFACT_ROOT, "predictions", EXPERIMENT)
-os.makedirs(PRED_DIR, exist_ok=True)
+LR_SELECTION_FILE = os.path.join(config.ARTIFACT_ROOT, "lr_selection.json")
 
 
 # ------------------------------------------------------------------ features
@@ -133,7 +145,6 @@ def get_cached_features(dataset, regime, seed, force=False):
             seed=seed,
             augment=config.AUGMENT_FROZEN,      # must be False for caching
             full_data=full)
-
         backbone = TruncatedResNet18(freeze_policy=FROZEN).to(config.DEVICE)
         backbone.eval()
         blob = {"meta": meta}
@@ -164,15 +175,15 @@ def run_pca_svm(blob_loaders, num_classes, dim, seed):
     Xtr, ytr = tr.feats.cpu().numpy(), tr.labels.cpu().numpy()
     Xte, yte = te.feats.cpu().numpy(), te.labels.cpu().numpy()
 
-    sc = StandardScaler().fit(Xtr)
-    n_comp = min(dim, Xtr.shape[0], Xtr.shape[1])
-    pca = PCA(n_components=n_comp, random_state=seed).fit(sc.transform(Xtr))
-
     if len(np.unique(ytr)) < 2:
         return None, None, None
 
+    sc = StandardScaler().fit(Xtr)
+    n_comp = min(dim, Xtr.shape[0], Xtr.shape[1])
+    pca = PCA(n_components=n_comp, random_state=seed).fit(sc.transform(Xtr))
     svm = SVC(kernel="rbf", class_weight="balanced", probability=True,
               random_state=seed).fit(pca.transform(sc.transform(Xtr)), ytr)
+
     P = svm.predict_proba(pca.transform(sc.transform(Xte)))
     m = compute_metrics(yte, P.argmax(1), P, num_classes)
     m["variance_retained"] = float(pca.explained_variance_ratio_.sum())
@@ -182,46 +193,52 @@ def run_pca_svm(blob_loaders, num_classes, dim, seed):
 
 # ------------------------------------------------------------------ keys
 def _shard_keys(dataset, regime, dim, seed, arm, freeze_policy, augment,
-                n_layers, use_tanh, angle_scale):
+                n_layers, use_tanh, angle_scale, lr_head, lr_quantum):
     """
-    Optional axes enter the key ONLY when they differ from the config default,
-    so shards produced before those axes existed remain addressable and are not
-    re-run needlessly.
+    Optional axes enter the key when EXPLICITLY SET (not None / not default
+    behaviour), so shards produced before those axes existed remain addressable,
+    and no later change to a config constant can turn an old shard into a false
+    cache hit for a new setting.
+
+    lr_quantum is keyed only for quantum arms - classical arms have no quantum
+    parameter group, so keying it there would fabricate distinct names for runs
+    that are byte-identical.
     """
     keys = dict(dataset=dataset, regime=regime, dim=dim, seed=seed, arm=arm,
                 fp=freeze_policy, aug=int(augment))
-    if n_layers != config.VQC_LAYERS:
+    if n_layers is not None and n_layers != config.VQC_LAYERS:
         keys["L"] = n_layers
     if not use_tanh:
         keys["notanh"] = 1
-    if angle_scale is not None and abs(angle_scale - float(config.ANGLE_SCALE)) > 1e-9:
-        keys["as"] = f"{angle_scale:.4f}"
+    if angle_scale is not None:
+        keys["as"] = f"{float(angle_scale):.4f}"
+    if lr_head is not None:
+        keys["lrh"] = f"{float(lr_head):.0e}"
+    if lr_quantum is not None and arm in QUANTUM_ARMS:
+        keys["lrq"] = f"{float(lr_quantum):.0e}"
     return keys
-
-
-def _pred_tag(keys):
-    return "__".join(f"{k}{v}" for k, v in sorted(keys.items())) + ".npz"
 
 
 # ------------------------------------------------------------------ cell
 def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
              augment=False, force=False, n_layers=None, use_tanh=True,
-             angle_scale=None, save_predictions=True):
+             angle_scale=None, save_predictions=True,
+             lr_head=None, lr_quantum=None, experiment=EXPERIMENT):
     """
     freeze_policy=FROZEN   -> cached features, no backbone constructed at all
     freeze_policy=ADAPTIVE -> full end-to-end training through layer3
 
     augment defaults to False on BOTH sides. Feature caching requires
-    deterministic features, so the frozen arm cannot augment; if the adaptive
-    arm did, freezing and augmentation would vary together and the
-    encoder-adaptation result would be uninterpretable.
+    deterministic features, so the frozen arm cannot augment; if the adaptive arm
+    did, freezing and augmentation would vary together and the encoder-adaptation
+    result would be uninterpretable.
     """
-    n_layers = config.VQC_LAYERS if n_layers is None else n_layers
     keys = _shard_keys(dataset, regime, dim, seed, arm, freeze_policy, augment,
-                       n_layers, use_tanh, angle_scale)
-    if not force and shards.exists(EXPERIMENT, **keys):
+                       n_layers, use_tanh, angle_scale, lr_head, lr_quantum)
+    if not force and shards.exists(experiment, **keys):
         return None
 
+    effective_layers = config.VQC_LAYERS if n_layers is None else n_layers
     config.set_determinism(seed)
     C = num_classes_of(dataset)
     cached = (freeze_policy == FROZEN and not augment)
@@ -235,18 +252,15 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
             if metrics is None:
                 return None
             payload = {"metrics": metrics, "meta": meta}
-            if save_predictions and probs is not None:
-                tag = _pred_tag(keys)
-                np.savez_compressed(os.path.join(PRED_DIR, tag),
-                                    labels=np.asarray(labels).astype(np.int16),
-                                    probs=probs.astype(np.float16))
-                payload["predictions_file"] = tag
-            shards.write(EXPERIMENT, payload, **keys)
+            if save_predictions:
+                payload["predictions_file"] = shards.save_predictions(
+                    experiment, labels, probs, **keys)
+            shards.write(experiment, payload, **keys)
             return metrics
 
-        # build_backbone=False: the head trains on cached features, so no
-        # ResNet is constructed at all.
-        model = build_arm(arm, d=dim, num_classes=C, n_layers=n_layers,
+        # build_backbone=False: the head trains on cached features, so no ResNet
+        # is constructed at all.
+        model = build_arm(arm, d=dim, num_classes=C, n_layers=effective_layers,
                           seed=seed, build_backbone=False,
                           use_tanh=use_tanh, angle_scale=angle_scale)
     else:
@@ -256,7 +270,7 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
         train, val, test, meta = get_loaders(
             dataset, n_per_class=None if full else int(regime),
             seed=seed, augment=augment, full_data=full)
-        model = build_arm(arm, d=dim, num_classes=C, n_layers=n_layers,
+        model = build_arm(arm, d=dim, num_classes=C, n_layers=effective_layers,
                           seed=seed, freeze_policy=freeze_policy,
                           use_tanh=use_tanh, angle_scale=angle_scale)
 
@@ -264,7 +278,8 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
         model, train, val, test,
         num_classes=C, use_features=cached,
         is_quantum=(arm in QUANTUM_ARMS), verbose=False,
-        return_probs=save_predictions)
+        return_probs=save_predictions,
+        lr_head=lr_head, lr_quantum=lr_quantum)
 
     if save_predictions:
         metrics, history, _, probs, labels = out
@@ -275,22 +290,22 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
     payload = {
         "metrics": metrics,
         "meta": meta,
-        "config": {"n_layers": n_layers, "use_tanh": bool(use_tanh),
-                   "angle_scale": float(model.angle_scale)},
+        # The REALISED configuration, recorded regardless of whether it entered
+        # the key. This is what the manuscript's settings table is built from.
+        "config": {"n_layers": effective_layers,
+                   "use_tanh": bool(use_tanh),
+                   "angle_scale": float(model.angle_scale),
+                   "lr_head": metrics.get("lr_head"),
+                   "lr_quantum": metrics.get("lr_quantum")},
         "history": {k: history[k] for k in
                     ("train_f1", "val_f1", "val_auc", "val_ece", "val_prob_std",
                      "pre_clip_grad_norm", "quantum_grad_var")},
     }
-
     if save_predictions and probs is not None:
-        tag = _pred_tag(keys)
-        np.savez_compressed(os.path.join(PRED_DIR, tag),
-                            labels=np.asarray(labels).astype(np.int16),
-                            probs=probs.astype(np.float16))
-        payload["predictions_file"] = tag
+        payload["predictions_file"] = shards.save_predictions(
+            experiment, labels, probs, **keys)
 
-    shards.write(EXPERIMENT, payload, **keys)
-
+    shards.write(experiment, payload, **keys)
     del model
     torch.cuda.empty_cache()
     return metrics
@@ -305,9 +320,8 @@ def _paired_delta(a_by_seed, b_by_seed):
     Pairing on seed matters: both arms saw identical splits and identical
     initialisation seeds, so seed-level variance largely cancels.
 
-    This is the DIAGNOSTIC interval only. It ignores test-set sampling variance.
-    The confirmatory intervals come from the nested bootstrap in
-    04_statistical_analysis.py, using the saved per-sample predictions.
+    DIAGNOSTIC ONLY. It ignores test-set sampling variance. Confirmatory
+    intervals come from the nested bootstrap in 04_statistical_analysis.py.
     """
     common = sorted(set(a_by_seed) & set(b_by_seed))
     d = np.array([a_by_seed[s] - b_by_seed[s] for s in common
@@ -344,13 +358,13 @@ def _contrast_table(tbl, arm_a, arm_b, title, note, metric):
         print("  (no cells with both arms present)")
 
 
-def summarise(metric="auc"):
-    rows = shards.load_all(EXPERIMENT)
+def summarise(metric="auc", experiment=EXPERIMENT):
+    rows = shards.load_all(experiment)
     if not rows:
-        print("No shards found.")
+        print(f"No shards found for '{experiment}'.")
         return
 
-    tbl, n_preds = {}, 0
+    tbl, n_preds, n_found = {}, 0, 0
     for r in rows:
         k = r["keys"]
         cell = (k["dataset"], str(k["regime"]), k["dim"], k.get("fp", FROZEN))
@@ -358,6 +372,10 @@ def summarise(metric="auc"):
             r["metrics"].get(metric)
         if r.get("predictions_file"):
             n_preds += 1
+            # Verify the file is actually retrievable under the shard's own keys,
+            # rather than trusting that a name was recorded.
+            if shards.pred_exists(experiment, **k):
+                n_found += 1
 
     present = [a for a in (["pca_svm"] + config.ARMS)
                if any(a in v for v in tbl.values())]
@@ -381,13 +399,11 @@ def summarise(metric="auc"):
                     "PRIMARY (Q1, efficiency at equal parameters)",
                     "Both arms have 24 head parameters and full rank at d=4.",
                     metric)
-
     _contrast_table(tbl, *config.SECONDARY_COMPARISON,
                     "SECONDARY (Q2, dequantization)",
                     "Basis-matched, NOT parameter-matched (324 vs 24). Asks whether\n"
                     "the VQC exploits its own function class as well as a direct fit.",
                     metric)
-
     if hasattr(config, "DIAGNOSTIC_COMPARISON"):
         _contrast_table(tbl, *config.DIAGNOSTIC_COMPARISON,
                         "DIAGNOSTIC (rank-limited control)",
@@ -414,10 +430,11 @@ def summarise(metric="auc"):
             if not np.isnan(m):
                 print(f"{ds:15s} {reg:>5s} {d:>3d} {a:>24s} {m:+9.4f} {n:>4d}")
 
-    print(f"\n{n_preds}/{len(rows)} runs have saved per-sample predictions.")
-    if n_preds < len(rows):
-        print("Runs without them can only support seed-level resampling, not the")
-        print("pre-registered nested bootstrap. Re-run those cells with --force.")
+    print(f"\n{n_preds}/{len(rows)} runs recorded predictions; "
+          f"{n_found} are retrievable on disk.")
+    if n_found < len(rows):
+        print("Runs without retrievable predictions can only support seed-level")
+        print("resampling, NOT the pre-registered nested bootstrap.")
     print("\nDIAGNOSTIC OUTPUT - every interval above is a normal approximation")
     print("over seeds. Confirmatory statistics come from 04_statistical_analysis.py.")
 
@@ -445,6 +462,14 @@ def main():
                    help="feed raw z to the head; CLASSICAL ARMS ONLY")
     p.add_argument("--angle-scale", type=float, default=None,
                    help="tanh scale; default config.ANGLE_SCALE")
+    p.add_argument("--lr-head", type=float, default=None,
+                   help="LR for non-quantum trainable parameters")
+    p.add_argument("--lr-quantum", type=float, default=None,
+                   help="LR for the VQC rotation angles")
+    p.add_argument("--use-tuned-lr", action="store_true",
+                   help="load per-arm LRs written by 09_lr_selection.py")
+    p.add_argument("--experiment", default=EXPERIMENT,
+                   help="shard namespace; use a fresh one for tuned runs")
     p.add_argument("--no-predictions", action="store_true",
                    help="skip saving per-sample probabilities (not recommended)")
     p.add_argument("--force", action="store_true")
@@ -453,7 +478,7 @@ def main():
     args = p.parse_args()
 
     if args.summary_only:
-        summarise(args.metric)
+        summarise(args.metric, experiment=args.experiment)
         return
 
     if args.diagnostic:
@@ -475,14 +500,28 @@ def main():
         args.seeds = args.seeds or config.CONFIRMATORY_SEEDS
 
     use_tanh = not args.no_tanh
-    n_layers = args.n_layers if args.n_layers is not None else config.VQC_LAYERS
     save_preds = not args.no_predictions
-
     arms = args.arms or (["pca_svm"] + config.arms_for(args.dims[0]))
 
+    # Per-arm tuned learning rates. Loaded from disk rather than hardcoded so the
+    # selection stays auditable and reversible.
+    tuned = {}
+    if args.use_tuned_lr:
+        if not os.path.exists(LR_SELECTION_FILE):
+            print(f"--use-tuned-lr: {LR_SELECTION_FILE} not found. "
+                  f"Run 09_lr_selection.py first (it writes this file).")
+            return
+        with open(LR_SELECTION_FILE) as f:
+            blob = json.load(f)
+        tuned = {a: float(v) for a, v in blob["selected"].items()}
+        print(f"using tuned LRs from {blob.get('timestamp', '?')}: {tuned}")
+        if args.experiment == EXPERIMENT:
+            print("WARNING: writing tuned runs into the default namespace. Use "
+                  "--experiment 01_frozen_tuned to keep them separate.")
+
     # The no-tanh ablation is mathematically invalid for quantum arms: RY is
-    # 2*pi-periodic, so unbounded z destroys injectivity. Drop them loudly
-    # rather than letting build_arm raise 900 runs in.
+    # 2*pi-periodic, so unbounded z destroys injectivity. Drop them loudly rather
+    # than letting build_arm raise 900 runs in.
     if not use_tanh:
         dropped = [a for a in arms if a in QUANTUM_ARMS]
         if dropped:
@@ -493,26 +532,27 @@ def main():
             print("nothing left to run")
             return
 
-    # Preflight: construct one model of every kind now rather than discovering
-    # a broken combination 900 runs in.
+    # Preflight: construct one model of every kind now rather than discovering a
+    # broken combination 900 runs in.
+    preflight_layers = config.VQC_LAYERS if args.n_layers is None else args.n_layers
     for arm in arms:
         if arm == "pca_svm":
             continue
         build_arm(arm, d=args.dims[0], num_classes=2, seed=42,
-                  build_backbone=False, n_layers=n_layers,
+                  build_backbone=False, n_layers=preflight_layers,
                   use_tanh=use_tanh, angle_scale=args.angle_scale)
         if ADAPTIVE in args.freeze_policies:
             build_arm(arm, d=args.dims[0], num_classes=2, seed=42,
-                      freeze_policy=ADAPTIVE, n_layers=n_layers,
+                      freeze_policy=ADAPTIVE, n_layers=preflight_layers,
                       use_tanh=use_tanh, angle_scale=args.angle_scale)
 
     total = sum(len(args.seeds or config.seeds_for(dim)) * len(arms)
                 for _ in args.datasets for _ in args.regimes
                 for dim in args.dims for _ in args.freeze_policies)
 
-    print(f"Experiment 1 | {total} cells | device={config.DEVICE} | "
-          f"sha={config.git_sha()[:8]}")
-    print(f"  augment={args.augment} L={n_layers} use_tanh={use_tanh} "
+    print(f"Experiment 1 | {total} cells | ns={args.experiment} | "
+          f"device={config.DEVICE} | sha={config.git_sha()[:8]}")
+    print(f"  augment={args.augment} L={preflight_layers} use_tanh={use_tanh} "
           f"angle_scale={args.angle_scale or float(config.ANGLE_SCALE):.4f} "
           f"save_predictions={save_preds}")
 
@@ -525,12 +565,16 @@ def main():
                     for seed in seeds:
                         for arm in arms:
                             done += 1
+                            lrh = tuned.get(arm, args.lr_head)
+                            lrq = tuned.get(arm, args.lr_quantum)
                             m = run_cell(ds, regime, dim, seed, arm,
                                          freeze_policy=fp, augment=args.augment,
-                                         force=args.force, n_layers=n_layers,
+                                         force=args.force, n_layers=args.n_layers,
                                          use_tanh=use_tanh,
                                          angle_scale=args.angle_scale,
-                                         save_predictions=save_preds)
+                                         save_predictions=save_preds,
+                                         lr_head=lrh, lr_quantum=lrq,
+                                         experiment=args.experiment)
                             if m is None:
                                 continue
                             eta = (time.time() - t0) / done * (total - done) / 3600
@@ -540,7 +584,7 @@ def main():
                                   f"f1={m['macro_f1']:.4f} ETA {eta:.1f}h",
                                   flush=True)
 
-    summarise(args.metric)
+    summarise(args.metric, experiment=args.experiment)
 
 
 if __name__ == "__main__":

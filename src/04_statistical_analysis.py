@@ -1,8 +1,8 @@
 """
 STATISTICS ENGINE.
 
-Implements exactly what docs/analysis_plan.md pre-registers. Nothing here chooses
-which comparison to report - that is fixed in the plan and this script executes it.
+Implements what docs/analysis_plan.md pre-registers. Nothing here chooses which
+comparison to report - that is fixed in the plan and this script executes it.
 
 THE PRIMARY STATISTIC: NESTED PAIRED BOOTSTRAP
 ----------------------------------------------
@@ -25,31 +25,38 @@ WHY NOT A t-TEST OVER SEEDS
 It captures training variance only. On BreastMNIST the test split is 156 images,
 where the Hanley-McNeil standard error on AUC is roughly 0.03-0.04 - larger than
 any effect at stake here. A seed-only test can report p < 0.05 on a difference
-that a different draw of test images would reverse. That is precisely the error
-the conference version made.
+that a different draw of test images would reverse.
 
-The nested bootstrap requires PER-SAMPLE PREDICTIONS. Runs that stored only
-scalar metrics can support seed-level resampling alone; this script detects that
-case, falls back, and labels the output SEED-LEVEL ONLY so the weaker analysis
-can never be mistaken for the pre-registered one.
+HOW PREDICTIONS ARE FOUND
+-------------------------
+Through shards.load_predictions(), using the keys recorded in each shard.
+
+This previously reconstructed filenames from a hardcoded pattern that matched
+what 03 wrote but NOT what 01 wrote, so the primary comparison silently fell
+back to seed-level resampling while printing a table that looked correct. The
+reader now uses the same naming function as the writer, and the fallback is
+loudly labelled wherever it is still used.
 
 MULTIPLICITY
 ------------
-Benjamini-Hochberg across the family declared in the analysis plan (17 tests).
-Raw and adjusted p-values are both reported. Anything outside the declared family
-is labelled exploratory and excluded from the correction - inflating the family
-with exploratory tests would cost power on the tests that matter.
+Benjamini-Hochberg across the family declared in the analysis plan. The plan
+declares 17 tests spanning several experiments, so a single invocation of this
+script usually cannot compute all of them. --family-size lets you correct
+against the full declared family even when running a subset; without it the
+script corrects over what it computed AND prints a warning, because correcting
+over a smaller family than declared is anti-conservative.
 
 EFFECT SIZE
 -----------
 Cohen's d accompanies every p-value. Where a difference is significant but below
-0.01 AUC, the output says so: that is smaller than the test-set sampling error on
+0.01 AUC the output says so: that is smaller than the test-set sampling error on
 the smallest dataset and carries no clinical meaning.
 
 USAGE
 -----
     python src/04_statistical_analysis.py --experiment 01_frozen
-    python src/04_statistical_analysis.py --experiment 01_frozen --latex
+    python src/04_statistical_analysis.py --experiment 01_frozen --family-size 17
+    python src/04_statistical_analysis.py --experiment 03_robustness --condition 0.20
 """
 import argparse
 import os
@@ -63,13 +70,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import config                                      # noqa: E402
 import shards                                      # noqa: E402
 
-try:
-    from sklearn.metrics import roc_auc_score, f1_score
-    HAVE_SKLEARN = True
-except Exception:
-    HAVE_SKLEARN = False
-
-PRED_ROOT = os.path.join(config.ARTIFACT_ROOT, "predictions")
+from sklearn.metrics import roc_auc_score, f1_score   # noqa: E402
 
 
 # ------------------------------------------------------------------ metrics
@@ -82,11 +83,11 @@ def _auc(labels, probs, num_classes):
         return np.nan
 
 
-def _macro_f1(labels, probs):
+def _macro_f1(labels, probs, num_classes=None):
     return f1_score(labels, probs.argmax(axis=1), average="macro", zero_division=0)
 
 
-METRIC_FN = {"auc": _auc, "macro_f1": lambda l, p, c: _macro_f1(l, p)}
+METRIC_FN = {"auc": _auc, "macro_f1": _macro_f1}
 
 
 # ------------------------------------------------------------------ bootstrap
@@ -105,16 +106,17 @@ def nested_paired_bootstrap(preds_a, preds_b, labels, num_classes,
         return None
     n = len(labels)
 
-    observed = float(np.mean([
+    per_seed = np.array([
         fn(labels, preds_a[s], num_classes) - fn(labels, preds_b[s], num_classes)
-        for s in seeds]))
+        for s in seeds])
+    observed = float(np.nanmean(per_seed))
 
     deltas = np.empty(B)
     for b in range(B):
-        idx = rng.integers(0, n, n)                 # resample test indices
+        idx = rng.integers(0, n, n)                        # resample test indices
         ss = rng.choice(seeds, len(seeds), replace=True)   # resample seeds
         y = labels[idx]
-        if len(np.unique(y)) < 2:                   # degenerate draw
+        if len(np.unique(y)) < 2:                          # degenerate draw
             deltas[b] = np.nan
             continue
         deltas[b] = np.mean([
@@ -127,15 +129,11 @@ def nested_paired_bootstrap(preds_a, preds_b, labels, num_classes,
 
     lo, hi = np.percentile(deltas, [2.5, 97.5])
     p = 2 * min((deltas <= 0).mean(), (deltas >= 0).mean())
-
-    per_seed = np.array([
-        fn(labels, preds_a[s], num_classes) - fn(labels, preds_b[s], num_classes)
-        for s in seeds])
-    sd = per_seed.std(ddof=1)
-    cohens_d = float(per_seed.mean() / sd) if sd > 0 else np.nan
+    sd = np.nanstd(per_seed, ddof=1)
 
     return {"delta": observed, "ci_lo": float(lo), "ci_hi": float(hi),
-            "p": float(min(p, 1.0)), "cohens_d": cohens_d,
+            "p": float(min(p, 1.0)),
+            "cohens_d": float(observed / sd) if sd > 0 else np.nan,
             "n_seeds": len(seeds), "n_test": n, "method": "nested_bootstrap"}
 
 
@@ -165,75 +163,85 @@ def seed_level_bootstrap(vals_a, vals_b, B=None, rng=None):
             "n_seeds": len(d), "n_test": None, "method": "seed_level_ONLY"}
 
 
-def benjamini_hochberg(pvals, alpha=None):
-    """Returns (rejected, adjusted). Adjusted p-values are monotone-enforced."""
+def benjamini_hochberg(pvals, alpha=None, family_size=None):
+    """
+    Returns (rejected, adjusted). Adjusted p-values are monotone-enforced.
+
+    family_size overrides the number of tests, so a subset of the declared
+    family can still be corrected against the full declared m. Correcting over a
+    smaller family than was declared is anti-conservative.
+    """
     alpha = alpha or config.ALPHA
     p = np.asarray(pvals, dtype=float)
     ok = ~np.isnan(p)
-    m = ok.sum()
-    if m == 0:
+    n_ok = int(ok.sum())
+    if n_ok == 0:
         return np.zeros_like(p, bool), p
 
+    m = int(family_size) if family_size else n_ok
+
     order = np.argsort(np.where(ok, p, np.inf))
-    ranked = p[order][:m]
-    adj = ranked * m / np.arange(1, m + 1)
+    ranked = p[order][:n_ok]
+    adj = ranked * m / np.arange(1, n_ok + 1)
     adj = np.minimum.accumulate(adj[::-1])[::-1]     # enforce monotonicity
 
     out = np.full_like(p, np.nan)
-    out[order[:m]] = np.minimum(adj, 1.0)
+    out[order[:n_ok]] = np.minimum(adj, 1.0)
     return (out <= alpha) & ok, out
 
 
 # ------------------------------------------------------------------ loading
-def load_predictions(experiment, dataset, regime, dim, seed, arm, sigma=None):
-    tag = f"{dataset}__n{regime}__d{dim}__s{seed}__{arm}.npz"
-    path = os.path.join(PRED_ROOT, experiment, tag)
-    if not os.path.exists(path):
-        return None, None
-    z = np.load(path)
-    labels = z["labels"].astype(int)
-    key = f"{sigma:.2f}" if sigma is not None else "0.00"
-    if key not in z:
-        key = [k for k in z.files if k != "labels"][0]
-    return z[key].astype(np.float64), labels
-
-
 def collect(experiment):
-    """(dataset, regime, dim, fp) -> arm -> seed -> metrics dict"""
+    """(dataset, regime, dim, fp) -> arm -> seed -> full shard record."""
     tbl = defaultdict(lambda: defaultdict(dict))
     for r in shards.load_all(experiment):
         k = r["keys"]
         cell = (k["dataset"], str(k["regime"]), k.get("dim", 4), k.get("fp", "all"))
-        tbl[cell][k["arm"]][k["seed"]] = r.get("metrics") or r.get("curve", {}).get("0.00")
+        tbl[cell][k["arm"]][k["seed"]] = r
     return tbl
 
 
-# ------------------------------------------------------------------ analysis
-def compare(experiment, tbl, cell, arm_a, arm_b, metric, num_classes):
+def _metric_of(record, metric, condition=None):
+    """Scalar metric from a shard, for the seed-level fallback path."""
+    if "metrics" in record:
+        return record["metrics"].get(metric)
+    curve = record.get("curve", {})
+    return curve.get(condition or "0.00", {}).get(metric)
+
+
+def compare(experiment, tbl, cell, arm_a, arm_b, metric, num_classes,
+            condition=None):
     """Nested bootstrap where predictions exist; seed-level fallback otherwise."""
-    ds, regime, dim, fp = cell
-    a_seeds, b_seeds = tbl[cell].get(arm_a, {}), tbl[cell].get(arm_b, {})
-    common = sorted(set(a_seeds) & set(b_seeds))
+    rec_a, rec_b = tbl[cell].get(arm_a, {}), tbl[cell].get(arm_b, {})
+    common = sorted(set(rec_a) & set(rec_b))
     if len(common) < 2:
         return None
 
     pa, pb, labels = {}, {}, None
     for s in common:
-        x, l = load_predictions(experiment, ds, regime, dim, s, arm_a)
-        y, _ = load_predictions(experiment, ds, regime, dim, s, arm_b)
-        if x is None or y is None:
+        xa = shards.load_predictions(experiment, condition=condition,
+                                     **rec_a[s]["keys"])
+        xb = shards.load_predictions(experiment, condition=condition,
+                                     **rec_b[s]["keys"])
+        if xa is None or xb is None:
             pa = {}
             break
-        pa[s], pb[s], labels = x, y, l
+        pa[s], la = xa
+        pb[s], _ = xb
+        labels = la
 
-    if pa and HAVE_SKLEARN and labels is not None:
-        return nested_paired_bootstrap(pa, pb, labels, num_classes, metric=metric)
+    if pa and labels is not None:
+        out = nested_paired_bootstrap(pa, pb, labels, num_classes, metric=metric)
+        if out:
+            return out
 
-    return seed_level_bootstrap({s: a_seeds[s].get(metric) for s in common},
-                                {s: b_seeds[s].get(metric) for s in common})
+    return seed_level_bootstrap(
+        {s: _metric_of(rec_a[s], metric, condition) for s in common},
+        {s: _metric_of(rec_b[s], metric, condition) for s in common})
 
 
-def run(experiment, metric="auc", latex=False):
+# ------------------------------------------------------------------ analysis
+def run(experiment, metric="auc", latex=False, family_size=None, condition=None):
     import medmnist
 
     tbl = collect(experiment)
@@ -241,52 +249,64 @@ def run(experiment, metric="auc", latex=False):
         print(f"No shards for '{experiment}'.")
         return
 
-    pairs = [("PRIMARY  (H-P)", *config.PRIMARY_COMPARISON),
-             ("SECONDARY (H-S2)", *config.SECONDARY_COMPARISON)]
-    if hasattr(config, "DIAGNOSTIC_COMPARISON"):
-        pairs.append(("diagnostic", *config.DIAGNOSTIC_COMPARISON))
+    # Declared family members, in the order the analysis plan lists them.
+    pairs = [("PRIMARY", *config.PRIMARY_COMPARISON),
+             ("SECONDARY", *config.SECONDARY_COMPARISON)]
+    exploratory = [("diagnostic", *config.DIAGNOSTIC_COMPARISON)] \
+        if hasattr(config, "DIAGNOSTIC_COMPARISON") else []
 
-    results = []
-    for label, arm_a, arm_b in pairs:
+    results, expl_results = [], []
+    for label, arm_a, arm_b in pairs + exploratory:
+        bucket = results if label in ("PRIMARY", "SECONDARY") else expl_results
         for cell in sorted(tbl):
             C = len(medmnist.INFO[cell[0]]["label"])
-            r = compare(experiment, tbl, cell, arm_a, arm_b, metric, C)
+            r = compare(experiment, tbl, cell, arm_a, arm_b, metric, C, condition)
             if r:
                 r.update(family=label, cell=cell, arm_a=arm_a, arm_b=arm_b)
-                results.append(r)
+                bucket.append(r)
 
-    if not results:
+    if not results and not expl_results:
         print("Nothing comparable found.")
         return
 
-    # BH correction over the PRIMARY family only, per the analysis plan.
-    primary = [r for r in results if r["family"].startswith("PRIMARY")]
-    rej, adj = benjamini_hochberg([r["p"] for r in primary])
-    for r, rr, aa in zip(primary, rej, adj):
-        r["p_adj"], r["significant"] = float(aa), bool(rr)
+    # BH across the DECLARED family (primary + secondary), not primary alone.
+    if results:
+        rej, adj = benjamini_hochberg([r["p"] for r in results],
+                                      family_size=family_size)
+        for r, rr, aa in zip(results, rej, adj):
+            r["p_adj"], r["significant"] = float(aa), bool(rr)
 
-    methods = {r["method"] for r in results}
-    if "seed_level_ONLY" in methods:
+    if "seed_level_ONLY" in {r["method"] for r in results + expl_results}:
         print("\n" + "!" * 74)
-        print("! SEED-LEVEL FALLBACK IN USE - per-sample predictions were not found.")
-        print("! These intervals ignore test-set sampling variance and are NOT the")
-        print("! pre-registered analysis. Re-run with prediction saving enabled")
-        print("! before quoting any of this in the manuscript.")
+        print("! SEED-LEVEL FALLBACK IN USE - per-sample predictions were not found")
+        print("! for some cells. Those intervals ignore test-set sampling variance")
+        print("! and are NOT the pre-registered analysis. Re-run those cells with")
+        print("! prediction saving enabled before quoting them.")
         print("!" * 74)
 
-    for label, arm_a, arm_b in pairs:
-        rows = [r for r in results if r["family"] == label]
+    m_used = family_size or len(results)
+    print(f"\nBH-FDR family size m = {m_used}"
+          + (f"  (declared; {len(results)} computed here)" if family_size
+             else "  (computed here)"))
+    if not family_size:
+        print("WARNING: docs/analysis_plan.md declares 17 tests across several")
+        print("experiments. Correcting over fewer than the declared family is")
+        print("anti-conservative - pass --family-size 17 for the reported table.")
+
+    for label, arm_a, arm_b in pairs + exploratory:
+        rows = [r for r in (results + expl_results) if r["family"] == label]
         if not rows:
             continue
-        print(f"\n=== {label}: {arm_a} - {arm_b}  ({metric}) ===")
+        tag = "" if label in ("PRIMARY", "SECONDARY") else "  [EXPLORATORY, uncorrected]"
+        print(f"\n=== {label}: {arm_a} - {arm_b}  ({metric}){tag} ===")
         print(f"{'dataset':15s} {'n/cls':>6s} {'enc':>6s} {'delta':>9s} "
               f"{'95% CI':>21s} {'p':>9s} {'p_adj':>9s} {'d':>7s}  verdict")
-        print("-" * 108)
+        print("-" * 110)
         for r in sorted(rows, key=lambda x: (x["cell"][0], int(x["cell"][1]))):
             ds, reg, dim, fp = r["cell"]
             enc = "froz" if fp == "all" else "adap"
-            v = ("A better" if r["ci_lo"] > 0 else
-                 "B better" if r["ci_hi"] < 0 else "no difference")
+            v = (f"{r['arm_a']} better" if r["ci_lo"] > 0 else
+                 f"{r['arm_b']} better" if r["ci_hi"] < 0 else "no difference")
             if abs(r["delta"]) < 0.01 and v != "no difference":
                 v += " (negligible)"
             padj = f"{r['p_adj']:9.4f}" if "p_adj" in r else "        -"
@@ -295,6 +315,7 @@ def run(experiment, metric="auc", latex=False):
                   f"{r['cohens_d']:+7.2f}  {v}")
 
     # --- H-P2: is the effect monotone in shots per class? -----------------
+    primary = [r for r in results if r["family"] == "PRIMARY"]
     print(f"\n=== H-P2: trend of delta on log2(shots/class), PRIMARY family ===")
     by_n = defaultdict(list)
     for r in primary:
@@ -302,8 +323,7 @@ def run(experiment, metric="auc", latex=False):
     ns = sorted(by_n)
     if len(ns) >= 3:
         x = np.log2(ns)
-        y = np.array([np.mean(by_n[n]) for n in ns])
-        slope = float(np.polyfit(x, y, 1)[0])
+        slope = float(np.polyfit(x, [np.mean(by_n[n]) for n in ns], 1)[0])
         rng = np.random.default_rng(7)
         boot = [float(np.polyfit(x, [rng.choice(by_n[n], len(by_n[n])).mean()
                                      for n in ns], 1)[0]) for _ in range(2000)]
@@ -331,7 +351,7 @@ def emit_latex(results, metric):
         f.write("\\begin{tabular}{llrrrr}\\toprule\n")
         f.write("Dataset & Shots & $\\Delta$ & 95\\% CI & $p_{adj}$ & $d$ \\\\\\midrule\n")
         for r in results:
-            if not r["family"].startswith("PRIMARY"):
+            if r["family"] != "PRIMARY":
                 continue
             ds = r["cell"][0].replace("mnist", "MNIST")
             padj = f"{r.get('p_adj', float('nan')):.3f}"
@@ -346,9 +366,14 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--experiment", default="01_frozen")
     p.add_argument("--metric", default="auc", choices=["auc", "macro_f1"])
+    p.add_argument("--family-size", type=int, default=None,
+                   help="declared BH family size; 17 per docs/analysis_plan.md")
+    p.add_argument("--condition", default=None,
+                   help="sub-condition for multi-condition runs, e.g. 0.20 for noise")
     p.add_argument("--latex", action="store_true")
     args = p.parse_args()
-    run(args.experiment, args.metric, args.latex)
+    run(args.experiment, args.metric, args.latex,
+        family_size=args.family_size, condition=args.condition)
 
 
 if __name__ == "__main__":
