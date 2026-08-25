@@ -15,6 +15,26 @@ U is unitary, so norms are preserved and the output is bounded in [-1, 1] for
 every input and every parameter setting. The map is Lipschitz-bounded BY
 CONSTRUCTION. A classical MLP is not: its weights can grow without bound.
 
+SOFTWARE NOISE, NOT HARDWARE NOISE
+-----------------------------------
+This script models ANALOG SENSOR noise on the images: what a cheaper detector,
+a shorter exposure or a lower dose would do. Both arms see bit-identical
+corrupted tensors, so it is a fair head-to-head and it belongs in the main
+results.
+
+Hardware noise - finite measurement shots and depolarizing decoherence - has no
+classical counterpart and lives in 07_hardware_noise.py, reported separately as
+a feasibility section. Mixing the two would be presenting a quantum-only
+degradation as though a classical arm had been subjected to it.
+
+REGIMES: ALL FIVE
+-----------------
+The noise sweep runs across the SAME scarcity grid as every other experiment,
+because the interesting question is whether robustness interacts with scarcity -
+whether the quantum head degrades more gracefully specifically where data is
+scarce. Sampling three of the five regimes would leave that trend
+under-resolved.
+
 WHY IT RETRAINS RATHER THAN LOADING CHECKPOINTS
 ------------------------------------------------
 Experiment 1 does not persist weights to disk, so this script trains the head
@@ -58,10 +78,11 @@ confounded with noise draws.
 USAGE
 -----
     python src/03_robustness_evaluation.py --quick     # 2 datasets, n in {5,100}
-    python src/03_robustness_evaluation.py             # full
+    python src/03_robustness_evaluation.py             # full, all five regimes
     python src/03_robustness_evaluation.py --summary-only
 """
 import argparse
+import json
 import os
 import sys
 import time
@@ -87,6 +108,8 @@ FROZEN = _exp1.FROZEN
 EXPERIMENT = "03_robustness"
 
 ARMS = ["linear", "matched_param_fullrank", "fourier_rff", "quantum_vqc"]
+
+LR_SELECTION_FILE = os.path.join(config.ARTIFACT_ROOT, "lr_selection.json")
 
 
 @torch.no_grad()
@@ -234,6 +257,31 @@ def summarise(metric="auc"):
             line.append(f"{arm}={np.mean(r):.3f}" if r else f"{arm}=-")
         print(f"  {cell[0]:16s} n={cell[1]:>4s}  " + "  ".join(line))
 
+    # --- does robustness interact with scarcity? --------------------------
+    print(f"\n=== Retention by scarcity (quantum_vqc - matched_param_fullrank) ===")
+    print("The hypothesis worth testing: the quantum head degrades more")
+    print("gracefully SPECIFICALLY where data is scarce.")
+    regimes = sorted({int(c[1]) for c in cells})
+    for reg in regimes:
+        vals = {}
+        for arm in ("quantum_vqc", "matched_param_fullrank"):
+            rs = []
+            for cell in cells:
+                if int(cell[1]) != reg:
+                    continue
+                c0 = tbl.get((cell, "0.00"), {}).get(arm, {})
+                c2 = tbl.get((cell, "0.20"), {}).get(arm, {})
+                common = sorted(set(c0) & set(c2))
+                rs += [c2[s] / c0[s] for s in common
+                       if c0.get(s) and c2.get(s) and c0[s] > 0]
+            if rs:
+                vals[arm] = float(np.mean(rs))
+        if len(vals) == 2:
+            d = vals["quantum_vqc"] - vals["matched_param_fullrank"]
+            print(f"  n={reg:<4d} quantum={vals['quantum_vqc']:.3f}  "
+                  f"classical={vals['matched_param_fullrank']:.3f}  "
+                  f"delta={d:+.3f}")
+
     # --- calibration vs boundary failure ----------------------------------
     print(f"\n=== Is F1 collapse a CALIBRATION failure? ===")
     print("relative loss = 1 - metric(0.20)/metric(0.00). If F1 loss >> AUC loss,")
@@ -262,13 +310,15 @@ def summarise(metric="auc"):
     n_pred = sum(1 for r in rows if r.get("predictions_file"))
     print(f"\n{n_pred}/{len(rows)} runs recorded per-sample predictions.")
     print("EXPLORATORY. Confirmatory statistics come from 04_statistical_analysis.py")
-    print("using those predictions.")
+    print("using those predictions, e.g. --experiment 03_robustness --condition 0.20")
 
 
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--datasets", nargs="+", default=config.DATASETS)
-    p.add_argument("--regimes", nargs="+", type=int, default=[5, 20, 100])
+    # All five regimes: the question is whether robustness interacts with
+    # scarcity, and three points under-resolve that trend.
+    p.add_argument("--regimes", nargs="+", type=int, default=config.N_PER_CLASS)
     p.add_argument("--arms", nargs="+", default=ARMS)
     p.add_argument("--seeds", nargs="+", type=int, default=config.ALL_SEEDS)
     p.add_argument("--dim", type=int, default=4)
@@ -292,13 +342,13 @@ def main():
 
     tuned = {}
     if args.use_tuned_lr:
-        import json
-        path = os.path.join(config.ARTIFACT_ROOT, "lr_selection.json")
-        if not os.path.exists(path):
-            print(f"--use-tuned-lr: {path} not found; run 09_lr_selection.py first")
+        if not os.path.exists(LR_SELECTION_FILE):
+            print(f"--use-tuned-lr: {LR_SELECTION_FILE} not found; "
+                  f"run 09_lr_selection.py first")
             return
-        with open(path) as f:
-            tuned = json.load(f)["selected"]
+        with open(LR_SELECTION_FILE) as f:
+            blob = json.load(f)
+        tuned = {a: float(v) for a, v in blob["selected"].items()}
         print(f"using tuned LRs: {tuned}")
 
     total = (len(args.datasets) * len(args.regimes)

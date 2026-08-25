@@ -15,17 +15,46 @@ With freeze_policy="layer3_only" the encoder can adapt, which is the end-to-end
 setting. Running both from ONE script guarantees the two regimes cannot drift
 apart, which is what happened when they lived in separate files.
 
-WHY THE FROZEN PATH IS FAST
----------------------------
-A frozen backbone in eval mode is a deterministic function: the same image
-always produces the same 256-d vector (verified bit-exact). The backbone runs
-ONCE per (dataset, regime, seed); the resulting vectors are cached and all arms
-train on those. Mathematically identical, orders of magnitude cheaper.
+THE BOTTLENECK IS ALSO A LEARNER - AND THAT NEEDED CONTROLLING
+---------------------------------------------------------------
+Freezing the backbone is not the same as isolating the head. At d=4 with 2
+classes the trainable budget of the "frozen" experiment is:
 
-This is also why augmentation is OFF here (config.AUGMENT_FROZEN = False):
-augmentation would make features non-deterministic and caching invalid. It also
-means the frozen-vs-adaptive comparison must run with augmentation off on BOTH
-sides, or freezing and augmentation would vary together.
+    bottleneck Linear(256, 4)   1,028      97%
+    head                           24       2%
+    classifier Linear(4, 2)        10       1%
+
+The head is the smallest thing in the model by a factor of forty, and a
+1,028-parameter learned projection can reshape the latent space to suit whatever
+head follows - the same absorption effect measured at the encoder in Q3, one
+layer down.
+
+--bottleneck {learned,pca,random} closes that gap:
+
+    learned   trainable projection. Default; every result before this flag.
+    pca       top-d principal directions of the TRAINING features, frozen.
+              Optimal linear compression, so "the projection was badly
+              initialised" is not available as an objection.
+    random    fixed Gaussian projection, frozen (Johnson-Lindenstrauss).
+              Approximately distance-preserving and arm-agnostic.
+
+Under either frozen policy the head holds 24 of 34 trainable parameters (~70%)
+and is the dominant learner. Agreement between pca and random is what makes the
+head ordering a property of the heads rather than of one particular projection.
+
+pca requires the training features, so it is supported only on the cached
+(frozen-backbone) path.
+
+GRADIENT FLOW IS RECORDED PER RUN
+----------------------------------
+train_model returns per-module gradient norms. Two claims that were previously
+asserted are now measured:
+
+    freeze_policy="all"          grad_norm_backbone must be null
+    freeze_policy="layer3_only"  grad_norm_backbone must be non-zero FOR EVERY
+                                 ARM, including the quantum ones
+
+--summary-only prints both as a table.
 
 PER-SAMPLE PREDICTIONS
 ----------------------
@@ -42,6 +71,8 @@ analysis the pre-registration forbids.
 OPTIONAL AXES
 -------------
 --n-layers    circuit depth L (depth sweep: manifold dimension 3*L*d)
+--head-rank   rank of the low_rank head (capacity axis; rank=2 == VQC params)
+--bottleneck  learned | pca | random
 --no-tanh     feed raw z to the head; CLASSICAL ARMS ONLY (see registry.py)
 --angle-scale the tanh scale; swept because it was never tuned
 --lr-head     LR for non-quantum trainable parameters
@@ -61,7 +92,8 @@ USAGE
     python src/01_frozen_backbone_ablation.py --summary-only
     python src/01_frozen_backbone_ablation.py --datasets breastmnist --dims 4 --seeds 42
     python src/01_frozen_backbone_ablation.py --n-layers 4 --arms quantum_vqc
-    python src/01_frozen_backbone_ablation.py --no-tanh --arms linear mlp matched_param_fullrank
+    python src/01_frozen_backbone_ablation.py --bottleneck pca \
+        --arms quantum_vqc matched_param_fullrank --experiment 01_bnpca
     python src/01_frozen_backbone_ablation.py --confirmatory --use-tuned-lr \
         --experiment 01_frozen_tuned
 """
@@ -174,7 +206,6 @@ def run_pca_svm(blob_loaders, num_classes, dim, seed):
     tr, te = blob_loaders["train"], blob_loaders["test"]
     Xtr, ytr = tr.feats.cpu().numpy(), tr.labels.cpu().numpy()
     Xte, yte = te.feats.cpu().numpy(), te.labels.cpu().numpy()
-
     if len(np.unique(ytr)) < 2:
         return None, None, None
 
@@ -183,8 +214,8 @@ def run_pca_svm(blob_loaders, num_classes, dim, seed):
     pca = PCA(n_components=n_comp, random_state=seed).fit(sc.transform(Xtr))
     svm = SVC(kernel="rbf", class_weight="balanced", probability=True,
               random_state=seed).fit(pca.transform(sc.transform(Xtr)), ytr)
-
     P = svm.predict_proba(pca.transform(sc.transform(Xte)))
+
     m = compute_metrics(yte, P.argmax(1), P, num_classes)
     m["variance_retained"] = float(pca.explained_variance_ratio_.sum())
     m["n_components"] = int(n_comp)
@@ -193,7 +224,8 @@ def run_pca_svm(blob_loaders, num_classes, dim, seed):
 
 # ------------------------------------------------------------------ keys
 def _shard_keys(dataset, regime, dim, seed, arm, freeze_policy, augment,
-                n_layers, use_tanh, angle_scale, lr_head, lr_quantum):
+                n_layers, use_tanh, angle_scale, lr_head, lr_quantum,
+                bottleneck, head_rank):
     """
     Optional axes enter the key when EXPLICITLY SET (not None / not default
     behaviour), so shards produced before those axes existed remain addressable,
@@ -202,7 +234,7 @@ def _shard_keys(dataset, regime, dim, seed, arm, freeze_policy, augment,
 
     lr_quantum is keyed only for quantum arms - classical arms have no quantum
     parameter group, so keying it there would fabricate distinct names for runs
-    that are byte-identical.
+    that are byte-identical. head_rank likewise only for the low_rank arm.
     """
     keys = dict(dataset=dataset, regime=regime, dim=dim, seed=seed, arm=arm,
                 fp=freeze_policy, aug=int(augment))
@@ -216,6 +248,10 @@ def _shard_keys(dataset, regime, dim, seed, arm, freeze_policy, augment,
         keys["lrh"] = f"{float(lr_head):.0e}"
     if lr_quantum is not None and arm in QUANTUM_ARMS:
         keys["lrq"] = f"{float(lr_quantum):.0e}"
+    if bottleneck is not None and bottleneck != "learned":
+        keys["bn"] = bottleneck
+    if head_rank is not None and arm == "low_rank":
+        keys["rank"] = head_rank
     return keys
 
 
@@ -223,7 +259,8 @@ def _shard_keys(dataset, regime, dim, seed, arm, freeze_policy, augment,
 def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
              augment=False, force=False, n_layers=None, use_tanh=True,
              angle_scale=None, save_predictions=True,
-             lr_head=None, lr_quantum=None, experiment=EXPERIMENT):
+             lr_head=None, lr_quantum=None, experiment=EXPERIMENT,
+             bottleneck=None, head_rank=None):
     """
     freeze_policy=FROZEN   -> cached features, no backbone constructed at all
     freeze_policy=ADAPTIVE -> full end-to-end training through layer3
@@ -234,14 +271,22 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
     result would be uninterpretable.
     """
     keys = _shard_keys(dataset, regime, dim, seed, arm, freeze_policy, augment,
-                       n_layers, use_tanh, angle_scale, lr_head, lr_quantum)
+                       n_layers, use_tanh, angle_scale, lr_head, lr_quantum,
+                       bottleneck, head_rank)
     if not force and shards.exists(experiment, **keys):
         return None
 
     effective_layers = config.VQC_LAYERS if n_layers is None else n_layers
+    bn_policy = "learned" if bottleneck is None else bottleneck
+
     config.set_determinism(seed)
     C = num_classes_of(dataset)
     cached = (freeze_policy == FROZEN and not augment)
+
+    if bn_policy == "pca" and not cached:
+        raise ValueError(
+            "bottleneck='pca' needs the training features, so it is only "
+            "supported on the cached frozen-backbone path.")
 
     if cached:
         loaders, meta = get_cached_features(dataset, regime, seed)
@@ -262,7 +307,11 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
         # is constructed at all.
         model = build_arm(arm, d=dim, num_classes=C, n_layers=effective_layers,
                           seed=seed, build_backbone=False,
-                          use_tanh=use_tanh, angle_scale=angle_scale)
+                          use_tanh=use_tanh, angle_scale=angle_scale,
+                          bottleneck_policy=bn_policy, head_rank=head_rank)
+        if bn_policy == "pca":
+            # TRAINING features only. Fitting on val or test would leak.
+            model.fit_bottleneck(train.feats)
     else:
         if arm == "pca_svm":
             return None          # only defined on static frozen features
@@ -272,7 +321,10 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
             seed=seed, augment=augment, full_data=full)
         model = build_arm(arm, d=dim, num_classes=C, n_layers=effective_layers,
                           seed=seed, freeze_policy=freeze_policy,
-                          use_tanh=use_tanh, angle_scale=angle_scale)
+                          use_tanh=use_tanh, angle_scale=angle_scale,
+                          bottleneck_policy=bn_policy, head_rank=head_rank)
+
+    capacity = model.capacity_report()
 
     out = train_model(
         model, train, val, test,
@@ -295,11 +347,21 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
         "config": {"n_layers": effective_layers,
                    "use_tanh": bool(use_tanh),
                    "angle_scale": float(model.angle_scale),
+                   "bottleneck_policy": model.bottleneck_policy,
+                   "pca_variance_retained": model.pca_variance_retained,
+                   "head_rank": head_rank,
                    "lr_head": metrics.get("lr_head"),
                    "lr_quantum": metrics.get("lr_quantum")},
+        # Trainable parameters per component and the head's share of them. The
+        # number that shows whether the head or the bottleneck is doing the work.
+        "capacity": capacity,
+        # The flow proof: null backbone norm when frozen, non-null when adaptive.
+        "grad_flow": metrics.get("grad_flow"),
         "history": {k: history[k] for k in
                     ("train_f1", "val_f1", "val_auc", "val_ece", "val_prob_std",
-                     "pre_clip_grad_norm", "quantum_grad_var")},
+                     "pre_clip_grad_norm", "quantum_grad_var",
+                     "grad_norm_backbone", "grad_norm_bottleneck",
+                     "grad_norm_head", "grad_norm_classifier")},
     }
     if save_predictions and probs is not None:
         payload["predictions_file"] = shards.save_predictions(
@@ -356,6 +418,70 @@ def _contrast_table(tbl, arm_a, arm_b, title, note, metric):
               f"[{lo:+.4f},{hi:+.4f}] {n:>4d}  {verdict}")
     if not any_row:
         print("  (no cells with both arms present)")
+
+
+def _flow_table(rows):
+    """
+    The empirical freezing / gradient-flow evidence, per arm and encoder regime.
+
+    frozen   -> backbone must show NO gradient at all
+    adaptive -> backbone must show non-zero gradient, FOR EVERY ARM
+    """
+    agg = {}
+    for r in rows:
+        k = r["keys"]
+        gf = r.get("grad_flow") or {}
+        key = (k["arm"], k.get("fp", FROZEN))
+        slot = agg.setdefault(key, {"n": 0, "bb": [], "bn": [], "hd": []})
+        slot["n"] += 1
+        for src, dst in (("backbone", "bb"), ("bottleneck", "bn"), ("head", "hd")):
+            v = gf.get(src)
+            if v:
+                slot[dst].append(v["mean"])
+
+    if not agg:
+        return
+    print(f"\n=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===")
+    print("frozen: backbone must be '-' (no gradient reaches it).")
+    print("adaptive: backbone must be non-zero for EVERY arm, quantum included.")
+    print(f"\n{'arm':24s} {'encoder':>9s} {'runs':>5s} {'backbone':>11s} "
+          f"{'bottleneck':>11s} {'head':>11s}  verdict")
+    print("-" * 92)
+    for (arm, fp) in sorted(agg):
+        s = agg[(arm, fp)]
+        enc = "frozen" if fp == FROZEN else "adaptive"
+        bb = f"{np.mean(s['bb']):11.4f}" if s["bb"] else "          -"
+        bn = f"{np.mean(s['bn']):11.4f}" if s["bn"] else "          -"
+        hd = f"{np.mean(s['hd']):11.4f}" if s["hd"] else "          -"
+        if fp == FROZEN:
+            ok = "OK" if not s["bb"] else "VIOLATION: backbone received gradient"
+        else:
+            ok = "OK" if s["bb"] else "VIOLATION: backbone got NO gradient"
+        print(f"{arm:24s} {enc:>9s} {s['n']:>5d} {bb} {bn} {hd}  {ok}")
+
+
+def _capacity_table(rows):
+    """Where the trainable parameters actually live."""
+    agg = {}
+    for r in rows:
+        cap = r.get("capacity")
+        if not cap:
+            continue
+        key = (r["keys"]["arm"], r["keys"]["dim"],
+               cap.get("bottleneck_policy", "learned"))
+        agg[key] = cap
+    if not agg:
+        return
+    print(f"\n=== Trainable capacity by component ===")
+    print("If the head's share is small, the experiment is not isolating the head.")
+    print(f"\n{'arm':24s} {'d':>3s} {'bottleneck':>10s} {'bneck':>7s} "
+          f"{'head':>6s} {'clf':>5s} {'total':>7s} {'head %':>7s}")
+    print("-" * 78)
+    for (arm, dim, pol) in sorted(agg):
+        c = agg[(arm, dim, pol)]
+        print(f"{arm:24s} {dim:>3d} {pol:>10s} {c['bottleneck']:>7d} "
+              f"{c['head']:>6d} {c['classifier']:>5d} {c['total']:>7d} "
+              f"{100 * c['head_share']:>6.1f}%")
 
 
 def summarise(metric="auc", experiment=EXPERIMENT):
@@ -430,6 +556,9 @@ def summarise(metric="auc", experiment=EXPERIMENT):
             if not np.isnan(m):
                 print(f"{ds:15s} {reg:>5s} {d:>3d} {a:>24s} {m:+9.4f} {n:>4d}")
 
+    _capacity_table(rows)
+    _flow_table(rows)
+
     print(f"\n{n_preds}/{len(rows)} runs recorded predictions; "
           f"{n_found} are retrievable on disk.")
     if n_found < len(rows):
@@ -458,6 +587,11 @@ def main():
                    help="off by default so freezing is the only difference (Q3)")
     p.add_argument("--n-layers", type=int, default=None,
                    help="VQC depth L; manifold dimension is 3*L*d (depth sweep)")
+    p.add_argument("--head-rank", type=int, default=None,
+                   help="rank of the low_rank head; rank=2 matches VQC params")
+    p.add_argument("--bottleneck", default=None,
+                   choices=["learned", "pca", "random"],
+                   help="256->d projection: trainable, frozen PCA, or frozen random")
     p.add_argument("--no-tanh", action="store_true",
                    help="feed raw z to the head; CLASSICAL ARMS ONLY")
     p.add_argument("--angle-scale", type=float, default=None,
@@ -502,6 +636,12 @@ def main():
     use_tanh = not args.no_tanh
     save_preds = not args.no_predictions
     arms = args.arms or (["pca_svm"] + config.arms_for(args.dims[0]))
+    bn_policy = args.bottleneck or "learned"
+
+    if bn_policy == "pca" and ADAPTIVE in args.freeze_policies:
+        print("--bottleneck pca is only supported with the frozen backbone "
+              "(it needs cached training features to fit the projection).")
+        return
 
     # Per-arm tuned learning rates. Loaded from disk rather than hardcoded so the
     # selection stays auditable and reversible.
@@ -532,27 +672,40 @@ def main():
             print("nothing left to run")
             return
 
+    # deep_funnel replaces the bottleneck, so it cannot take a frozen projection.
+    if bn_policy != "learned" and "deep_funnel" in arms:
+        print(f"--bottleneck {bn_policy}: dropping deep_funnel "
+              f"(it replaces the bottleneck it would have to freeze)")
+        arms = [a for a in arms if a != "deep_funnel"]
+
     # Preflight: construct one model of every kind now rather than discovering a
-    # broken combination 900 runs in.
+    # broken combination 900 runs in. Also prints where capacity actually lives.
     preflight_layers = config.VQC_LAYERS if args.n_layers is None else args.n_layers
+    print(f"\nTrainable capacity at d={args.dims[0]}, bottleneck={bn_policy}:")
     for arm in arms:
         if arm == "pca_svm":
             continue
-        build_arm(arm, d=args.dims[0], num_classes=2, seed=42,
-                  build_backbone=False, n_layers=preflight_layers,
-                  use_tanh=use_tanh, angle_scale=args.angle_scale)
+        m = build_arm(arm, d=args.dims[0], num_classes=2, seed=42,
+                      build_backbone=False, n_layers=preflight_layers,
+                      use_tanh=use_tanh, angle_scale=args.angle_scale,
+                      bottleneck_policy=bn_policy, head_rank=args.head_rank)
+        c = m.capacity_report()
+        print(f"  {arm:24s} bottleneck={c['bottleneck']:>5d} head={c['head']:>4d} "
+              f"clf={c['classifier']:>3d} total={c['total']:>5d} "
+              f"head={100 * c['head_share']:.1f}%")
         if ADAPTIVE in args.freeze_policies:
             build_arm(arm, d=args.dims[0], num_classes=2, seed=42,
                       freeze_policy=ADAPTIVE, n_layers=preflight_layers,
-                      use_tanh=use_tanh, angle_scale=args.angle_scale)
+                      use_tanh=use_tanh, angle_scale=args.angle_scale,
+                      bottleneck_policy=bn_policy, head_rank=args.head_rank)
 
     total = sum(len(args.seeds or config.seeds_for(dim)) * len(arms)
                 for _ in args.datasets for _ in args.regimes
                 for dim in args.dims for _ in args.freeze_policies)
-
-    print(f"Experiment 1 | {total} cells | ns={args.experiment} | "
+    print(f"\nExperiment 1 | {total} cells | ns={args.experiment} | "
           f"device={config.DEVICE} | sha={config.git_sha()[:8]}")
     print(f"  augment={args.augment} L={preflight_layers} use_tanh={use_tanh} "
+          f"bottleneck={bn_policy} "
           f"angle_scale={args.angle_scale or float(config.ANGLE_SCALE):.4f} "
           f"save_predictions={save_preds}")
 
@@ -574,7 +727,9 @@ def main():
                                          angle_scale=args.angle_scale,
                                          save_predictions=save_preds,
                                          lr_head=lrh, lr_quantum=lrq,
-                                         experiment=args.experiment)
+                                         experiment=args.experiment,
+                                         bottleneck=args.bottleneck,
+                                         head_rank=args.head_rank)
                             if m is None:
                                 continue
                             eta = (time.time() - t0) / done * (total - done) / 3600

@@ -77,7 +77,8 @@ class MatchedParamHead(nn.Module):
       - Comparisons at d>4 against this arm are NOT valid.
 
     Retained (not deleted) so the diagnostic remains reproducible. For the
-    confirmatory analysis use MatchedParamFullRankHead.
+    confirmatory analysis use MatchedParamFullRankHead (d=4) or
+    LowRankHead(rank=2) (any d).
     """
 
     def __init__(self, d: int, n_layers: int = 2):
@@ -97,28 +98,36 @@ class MatchedParamHead(nn.Module):
     def forward(self, z):
         return self.fc2(self.act(self.fc1(z)))
 
+    def describe(self):
+        return {"d": self.out_dim, "hidden_width": self.hidden_width,
+                "params": self.actual_params,
+                "target_params": self.target_params,
+                "exact_match": self.actual_params == self.target_params,
+                "rank_limited": self.rank_limited}
+
 
 class MatchedParamFullRankHead(nn.Module):
     """
-    Capacity control, FULL-RANK VARIANT. Use this one for the primary comparison.
+    Capacity control, FULL-RANK VARIANT at d=4.
 
         Linear(d, d, bias=True) -> GELU -> elementwise scale
 
     Parameter count:  d^2 (weights) + d (bias) + d (scale)  =  d^2 + 2d
     VQC parameter count:                                       3*L*d
 
-    These are equal exactly when d^2 + 2d = 3*L*d. At L=2 that is d^2 = 4d,
-    i.e. d = 4, giving 24 = 24. Exact parity AND full rank simultaneously.
+    Equal exactly when d^2 + 2d = 3*L*d. At L=2 that is d = 4, giving 24 = 24.
 
-    The identity holds only at d=4. That is sufficient: the primary comparison
-    and the confirmatory sweep are both d=4. At other dimensions the head is
-    still constructed, the realised parameter count is exposed via
-    `actual_params`, and any mismatch MUST be reported rather than glossed.
+    THE IDENTITY HOLDS ONLY AT d=4:
 
-    Why an elementwise scale rather than a second full matrix: a second
-    Linear(d,d) would cost another d^2 and overshoot the budget by a wide
-    margin. The diagonal scale spends the remaining d parameters while keeping
-    the map full-rank (it is invertible wherever no scale entry is zero).
+        d=4   ->  24 vs 24    exact
+        d=8   ->  80 vs 48    classical has 67% more
+        d=16  -> 288 vs 96    classical has 3x more
+
+    Worse, at d=8 a dense d x d matrix (64 parameters) already exceeds the
+    48-parameter budget, so exact parity and full rank are not simultaneously
+    achievable in this form above d=4 at all.
+
+    Use LowRankHead(rank=2) for any comparison at d > 4.
     """
 
     def __init__(self, d: int, n_layers: int = 2):
@@ -139,6 +148,104 @@ class MatchedParamFullRankHead(nn.Module):
     def forward(self, z):
         return self.act(self.fc(z)) * self.scale
 
+    def describe(self):
+        return {"d": self.d, "params": self.actual_params,
+                "target_params": self.target_params,
+                "exact_match": self.exact_match, "rank_limited": False}
+
+
+class LowRankHead(nn.Module):
+    """
+    CAPACITY-CONTROLLED, FULL-RANK, EXACT PARITY AT EVERY d.
+
+        r = GELU( ((I + U V^T) z) * scale + bias ),    U, V in R^{d x rank}
+
+    Parameter count:  2*d*rank + 2*d
+
+    WHY THIS HEAD EXISTS - TWO REASONS
+    ----------------------------------
+    1. EXACT PARITY AT ANY BOTTLENECK DIMENSION.
+
+           2*d*rank + 2*d = 3*L*d = 6d   (at L=2)
+       =>  2*d*rank = 4*d
+       =>  rank = 2,  INDEPENDENT OF d
+
+       d=4 -> 24 params, d=8 -> 48, d=16 -> 96, matching the VQC exactly in
+       every case. MatchedParamFullRankHead manages this only at d=4, which
+       confined the primary comparison to a single bottleneck dimension and
+       invited the obvious "is this a d=4 artifact?" objection.
+
+    2. A CLEAN CAPACITY AXIS THAT DOES NOT CONFOUND RANK.
+
+       The paper's central claim is that the quantum head's advantage under
+       extreme scarcity is a REGULARIZATION effect of its restricted function
+       class - 24 parameters reaching a 24-dimensional manifold inside an
+       81-dimensional trigonometric span - rather than anything quantum.
+
+       That claim had no dedicated control. Every other arm varies capacity AND
+       something else: MatchedParamHead loses rank as it shrinks, and a width-w
+       MLP cannot go below 2*d*d parameters while staying full rank - so it
+       cannot even reach the VQC's 24 at d=4, let alone the restricted end where
+       the interesting behaviour is.
+
+       Here `rank` varies capacity alone. I + U V^T is generically invertible at
+       every rank including 0, so the map stays full-rank throughout:
+
+           rank=0 ->  8 params (diagonal affine)   most restricted
+           rank=1 -> 16
+           rank=2 -> 24 params                     == VQC exactly
+           rank=4 -> 40
+           rank=8 -> 72                            least restricted
+
+       If small-rank heads reproduce the quantum crossover - helping at
+       n=5/class and hurting at n=100 - then restriction is the mechanism and it
+       is classically reproducible. If they do not, the regularization
+       explanation is wrong. Either outcome is informative; without this arm the
+       mechanism is asserted rather than tested.
+
+    INITIALISATION
+    --------------
+    U and V start small so I + U V^T begins near the identity: the head starts
+    close to a diagonal affine map and grows its low-rank correction during
+    training, rather than starting from a random near-singular matrix.
+    """
+
+    def __init__(self, d: int, rank: int = 2, n_layers: int = 2):
+        super().__init__()
+        if rank < 0:
+            raise ValueError(f"rank must be >= 0, got {rank}")
+
+        self.d = d
+        self.rank = rank
+        self.out_dim = d
+        self.act = nn.GELU()
+
+        if rank > 0:
+            std = 0.1 / math.sqrt(d)
+            self.U = nn.Parameter(torch.randn(d, rank) * std)
+            self.V = nn.Parameter(torch.randn(d, rank) * std)
+        else:
+            self.register_parameter("U", None)
+            self.register_parameter("V", None)
+
+        self.scale = nn.Parameter(torch.ones(d))
+        self.bias = nn.Parameter(torch.zeros(d))
+
+        self.target_params = 3 * n_layers * d
+        self.actual_params = 2 * d * rank + 2 * d
+        self.exact_match = (self.actual_params == self.target_params)
+        self.rank_limited = False          # I + U V^T is generically invertible
+
+    def forward(self, z):
+        h = z if self.U is None else z + (z @ self.V) @ self.U.t()
+        return self.act(h * self.scale + self.bias)
+
+    def describe(self):
+        return {"d": self.d, "rank": self.rank,
+                "params": self.actual_params,
+                "target_params": self.target_params,
+                "exact_match": self.exact_match, "rank_limited": False}
+
 
 class DeepFunnelEncoder(nn.Module):
     """
@@ -150,6 +257,10 @@ class DeepFunnelEncoder(nn.Module):
     normalisation altogether would cripple the deep stack that this arm exists
     to make strong - i.e. it would bias the comparison toward the VQC, which is
     the opposite of what this arm is for. LayerNorm is batch-size independent.
+
+    NOTE: this arm replaces the bottleneck, so it is incompatible with the
+    frozen-bottleneck policies ("pca", "random"). build_arm() refuses that
+    combination.
     """
 
     def __init__(self, in_dim: int, d: int):

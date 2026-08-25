@@ -37,6 +37,14 @@ back to seed-level resampling while printing a table that looked correct. The
 reader now uses the same naming function as the writer, and the fallback is
 loudly labelled wherever it is still used.
 
+load_predictions returns a TUPLE (probs, labels), and (None, None) when the file
+is absent - so the missing-file guard must test `xa[0] is None`, not `xa is None`.
+A two-tuple is never None, so the old guard never fired: a run whose predictions
+were missing had `None` written into the probability dict, and whether that
+crashed inside roc_auc_score or silently fell through to the seed-level path
+depended on which seed happened to be missing. Partial prediction directories -
+the normal state of an interrupted sweep - hit exactly that case.
+
 MULTIPLICITY
 ------------
 Benjamini-Hochberg across the family declared in the analysis plan. The plan
@@ -223,8 +231,12 @@ def compare(experiment, tbl, cell, arm_a, arm_b, metric, num_classes,
                                      **rec_a[s]["keys"])
         xb = shards.load_predictions(experiment, condition=condition,
                                      **rec_b[s]["keys"])
-        if xa is None or xb is None:
-            pa = {}
+        # load_predictions returns (probs, labels), or (None, None) when the file
+        # is missing. A 2-tuple is never None, so the array itself must be tested
+        # - otherwise a missing file puts None into the dict and the failure
+        # surfaces later, inside the bootstrap, as an opaque crash.
+        if xa[0] is None or xb[0] is None:
+            pa, pb, labels = {}, {}, None
             break
         pa[s], la = xa
         pb[s], _ = xb
@@ -289,9 +301,10 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None)
           + (f"  (declared; {len(results)} computed here)" if family_size
              else "  (computed here)"))
     if not family_size:
-        print("WARNING: docs/analysis_plan.md declares 17 tests across several")
+        print(f"WARNING: docs/analysis_plan.md declares "
+              f"{getattr(config, 'DECLARED_FAMILY_SIZE', 17)} tests across several")
         print("experiments. Correcting over fewer than the declared family is")
-        print("anti-conservative - pass --family-size 17 for the reported table.")
+        print("anti-conservative - pass --family-size for the reported table.")
 
     for label, arm_a, arm_b in pairs + exploratory:
         rows = [r for r in (results + expl_results) if r["family"] == label]
@@ -367,7 +380,7 @@ def main():
     p.add_argument("--experiment", default="01_frozen")
     p.add_argument("--metric", default="auc", choices=["auc", "macro_f1"])
     p.add_argument("--family-size", type=int, default=None,
-                   help="declared BH family size; 17 per docs/analysis_plan.md")
+                   help="declared BH family size; see docs/analysis_plan.md")
     p.add_argument("--condition", default=None,
                    help="sub-condition for multi-condition runs, e.g. 0.20 for noise")
     p.add_argument("--latex", action="store_true")

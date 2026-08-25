@@ -86,7 +86,8 @@ ARMS = [
     "mlp",               # non-linearity at zero extra parameters
     "deep_funnel",       # proves failure is not a depth problem
     "matched_param",     # rank-limited capacity control (diagnostic only)
-    "matched_param_fullrank",   # full-rank capacity control; primary comparison
+    "matched_param_fullrank",   # full-rank capacity control; EXACT ONLY AT d=4
+    "low_rank",          # full-rank capacity control at ANY d; capacity axis
     "fourier_rff",       # Q2 function-class control
     "fourier_exact",     # function-class ceiling (d <= 8 only)
     "quantum_vqc",       # treatment
@@ -103,6 +104,7 @@ ARM_DISPLAY_NAMES = {
     "deep_funnel":            "Deep funnel encoder",
     "matched_param":          "Matched-parameter (rank-limited)",
     "matched_param_fullrank": "Matched-parameter (full-rank)",
+    "low_rank":               "Low-rank head",
     "fourier_rff":            "Random Fourier features",
     "fourier_exact":          "Exact Fourier basis",
     "quantum_vqc":            "VQC (single encoding)",
@@ -117,6 +119,51 @@ SECONDARY_COMPARISON = ("quantum_vqc", "fourier_rff")           # Q2
 PCA_SVM_REFERENCE = True       # reported, excluded from the test family
 FOURIER_EXACT_MAX_DIM = 8      # 3^16 = 43M features is infeasible
 FOURIER_RFF_MAX_FEATURES = 2048
+
+# ---------------------------------------------------------------- low-rank head
+# LowRankHead:  r = GELU( ((I + U V^T) z) * scale + bias ),  U,V in R^{d x rank}
+#     params = 2*d*rank + 2*d
+#
+# Parity with the VQC's 3*L*d = 6d parameters (at L=2):
+#     2*d*rank + 2*d = 6d   =>   rank = 2,   INDEPENDENT OF d
+#
+#     d=4  -> 24 params      d=8  -> 48 params      d=16 -> 96 params
+#
+# MatchedParamFullRankHead achieves parity only at d=4 (d^2 + 2d = 6d), and at
+# d=8 a dense d x d matrix already costs 64 against a 48-parameter budget - so
+# exact parity and full rank are not simultaneously reachable in dense form
+# above d=4. rank=2 is what unblocks d=8 and d=16.
+LOW_RANK_DEFAULT = 2
+LOW_RANK_SWEEP = [0, 1, 2, 4, 8]   # 8, 16, 24, 40, 72 params at d=4
+
+# ---------------------------------------------------------------- bottleneck
+# HOW THE 256-d FEATURE VECTOR BECOMES d DIMENSIONS.
+#
+# "learned"  a trainable Linear(256, d). The default, and what every result so
+#            far used.
+# "pca"      the top-d principal directions of the TRAINING features, frozen.
+#            Optimal linear compression in the mean-squared sense.
+# "random"   a fixed Gaussian projection, frozen. Johnson-Lindenstrauss:
+#            approximately distance-preserving and completely arm-agnostic.
+#
+# WHY THIS AXIS EXISTS. At d=4 with 2 classes the trainable parameter budget of
+# the "frozen backbone" experiment is:
+#
+#     bottleneck Linear(256, 4)  1,028      97%
+#     head                          24       2%
+#     classifier Linear(4, 2)       10       1%
+#
+# So the experiment designed to isolate the HEAD's function class is dominated
+# by a 1,028-parameter learned projection that can reshape the latent space to
+# suit whichever head follows - the same absorption effect measured at the
+# encoder level in Q3, one layer further down. Freezing the bottleneck is the
+# only configuration in which the head is the dominant learner (24 of 34
+# trainable parameters, ~70%).
+#
+# Both frozen variants are run: if the head ordering is the same under an
+# optimal projection and a random one, the result is a property of the heads.
+BOTTLENECK_POLICIES = ["learned", "pca", "random"]
+BOTTLENECK_POLICY = "learned"
 
 # ---------------------------------------------------------------- training
 BATCH_SIZE = 32
@@ -165,6 +212,7 @@ SHOT_NOISE_SHOTS = 1024
 BOOTSTRAP_RESAMPLES = 2000
 ALPHA = 0.05
 FDR_METHOD = "benjamini-hochberg"
+DECLARED_FAMILY_SIZE = 17      # docs/analysis_plan.md; pass to 04 --family-size
 
 # ---------------------------------------------------------------- quantum
 QUANTUM_DEVICE = "default.qubit"
