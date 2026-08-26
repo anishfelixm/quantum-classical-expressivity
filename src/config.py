@@ -28,6 +28,9 @@ for _d in (DATA_CACHE, CHECKPOINT_DIR, SHARD_DIR, LATENT_DIR,
 # ---------------------------------------------------------------- datasets
 DATASETS = ["breastmnist", "pneumoniamnist", "bloodmnist", "pathmnist"]
 BINARY_DATASETS = ["breastmnist", "pneumoniamnist"]
+# Mirroring a chest radiograph moves the heart to the right side - situs
+# inversus, not a benign second view. Rotation stays on everywhere.
+NO_HFLIP_DATASETS = ["pneumoniamnist"]
 
 # Verified train-split per-class counts (2026-08-09). The minimum determines
 # the largest feasible n_per_class.
@@ -92,8 +95,24 @@ ARMS = [
     "fourier_exact",     # function-class ceiling (d <= 8 only)
     "quantum_vqc",       # treatment
     "quantum_reupload",  # Q4: same 24 params, spectrum {-2..2}^d instead of {-1,0,1}^d
+    "quantum_rich",      # same circuit, 2-local readout: 10 observables not 4
+    "quantum_rich_padded",  # control: same width, same information as 4
 ]
-QUANTUM_ARMS = ["quantum_vqc", "quantum_reupload"]
+QUANTUM_ARMS = ["quantum_vqc", "quantum_reupload",
+                "quantum_rich", "quantum_rich_padded"]
+
+# READOUT COMPARISON (H-S7). The founding hypothesis was that superposition
+# gives access to a 2^d state; the default readout extracts only d numbers from
+# it. quantum_rich measures every 2-local <X_i X_j> as well - 10 observables at
+# d=4 instead of 4 - from an IDENTICAL circuit with IDENTICAL parameters.
+#
+# Widening the readout widens the shared classifier (Linear(4,C) -> Linear(10,C),
+# 10 -> 22 parameters at C=2), so quantum_rich_padded repeats the same 4 values
+# to the same width: same classifier, no new information.
+#
+#     rich - padded  ->  isolates information at matched parameter count
+#     rich - vqc     ->  headline, with the classifier delta disclosed
+READOUT_COMPARISON = ("quantum_rich", "quantum_rich_padded")
 
 # Manuscript labels. The code names are frozen because ~2,000 shards are keyed
 # on them, but several are inaccurate as prose: with USE_TANH the "linear" arm is
@@ -109,6 +128,8 @@ ARM_DISPLAY_NAMES = {
     "fourier_exact":          "Exact Fourier basis",
     "quantum_vqc":            "VQC (single encoding)",
     "quantum_reupload":       "VQC (data re-uploading)",
+    "quantum_rich":           "VQC (2-local readout)",
+    "quantum_rich_padded":    "VQC (2-local readout, padded control)",
     "pca_svm":                "PCA + SVM",
 }
 

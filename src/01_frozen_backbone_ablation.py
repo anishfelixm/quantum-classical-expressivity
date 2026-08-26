@@ -196,6 +196,42 @@ def get_cached_features(dataset, regime, seed, force=False):
     return loaders, blob["meta"]
 
 
+# ------------------------------------------------------------------ pca pool
+# Seed for the unlabelled feature pool. FIXED, so the projection is one
+# preprocessing step estimated once per dataset rather than a per-run quantity.
+POOL_SEED = 0
+
+
+def get_pool_features(dataset, force=False):
+    """
+    Features of the FULL training split, for fitting an unsupervised projection.
+
+    WHY NOT THE n-SHOT SUBSET. Fitting PCA on the training subset means that at
+    n=5 the projection is estimated from 10 images for 4 components. Measured
+    variance retained on PneumoniaMNIST:
+
+        n=5    10 samples   0.8281      <- inflated: 4 components, 10 points
+        n=20   40 samples   0.6065
+        n=100  200 samples  0.6020      <- the honest value
+
+    The 0.83 is an artifact of fitting four directions to ten points, so the
+    n=5 frozen-bottleneck condition would confound "frozen projection" with
+    "projection estimated from almost nothing" - and n=5 is exactly where the
+    effect under test lives.
+
+    NO LABELS ARE USED. Only the feature matrix is read, so this is unsupervised
+    preprocessing, not leakage. It also matches practice: unlabelled medical
+    images are cheap and labels are expensive, so an institution deploying this
+    would fit its projection on everything it has and spend its annotation
+    budget elsewhere.
+
+    Cached once per dataset at POOL_SEED, so every arm, seed and regime shares
+    bit-identical projections.
+    """
+    loaders, _ = get_cached_features(dataset, "full", POOL_SEED, force=force)
+    return loaders["train"].feats
+
+
 # ------------------------------------------------------------------ pca+svm
 def run_pca_svm(blob_loaders, num_classes, dim, seed):
     """Non-neural reference. Same cached features, so essentially free."""
@@ -310,8 +346,10 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
                           use_tanh=use_tanh, angle_scale=angle_scale,
                           bottleneck_policy=bn_policy, head_rank=head_rank)
         if bn_policy == "pca":
-            # TRAINING features only. Fitting on val or test would leak.
-            model.fit_bottleneck(train.feats)
+            # Unlabelled training POOL, not the n-shot subset. See
+            # get_pool_features() for why, and for the measured artifact this
+            # avoids. No labels are read.
+            model.fit_bottleneck(get_pool_features(dataset))
     else:
         if arm == "pca_svm":
             return None          # only defined on static frozen features

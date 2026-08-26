@@ -38,9 +38,11 @@ except Exception:
 ARM_NAMES = ["linear", "mlp", "deep_funnel", "matched_param",
              "matched_param_fullrank", "low_rank",
              "fourier_rff", "fourier_exact",
-             "quantum_vqc", "quantum_reupload"]
+             "quantum_vqc", "quantum_reupload",
+             "quantum_rich", "quantum_rich_padded"]
 
-QUANTUM_ARMS = ("quantum_vqc", "quantum_reupload")
+QUANTUM_ARMS = ("quantum_vqc", "quantum_reupload",
+                "quantum_rich", "quantum_rich_padded")
 BOTTLENECK_POLICIES = ("learned", "pca", "random")
 
 
@@ -329,6 +331,22 @@ def build_arm(arm, d, num_classes, n_layers=2, seed=42,
         # R=1: spectrum {-1,0,1}^d, 3^d basis functions
         head = VQCHead(d, n_layers=n_layers, n_uploads=1,
                        device_name=device_name, diff_method=diff_method)
+    elif arm == "quantum_rich":
+        # SAME circuit and SAME 24 parameters as quantum_vqc. The only change is
+        # that all 2-local <X_i X_j> terms are measured as well, so 10 numbers
+        # are read out of the state instead of 4. Does not escape dequantization
+        # - those terms live in the same 3^d span - but it reaches more of it.
+        head = VQCHead(d, n_layers=n_layers, n_uploads=1,
+                       device_name=device_name, diff_method=diff_method,
+                       readout="pairs")
+    elif arm == "quantum_rich_padded":
+        # The control for quantum_rich. Identical width, so an identical shared
+        # classifier, but the extra columns are repeats of the SAME d
+        # expectations and carry no new information. rich - padded isolates
+        # measurement richness from classifier capacity.
+        head = VQCHead(d, n_layers=n_layers, n_uploads=1,
+                       device_name=device_name, diff_method=diff_method,
+                       readout="padded")
     elif arm == "quantum_reupload":
         # R=2 by default: spectrum {-2..2}^d, 5^d basis functions, SAME parameter
         # count as quantum_vqc. Isolates spectral richness from quantum-ness.

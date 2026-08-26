@@ -32,6 +32,45 @@ Same trainable parameters, same readout width, same everything else. The only
 difference is spectral richness. That is what makes this a clean control rather
 than another confounded comparison.
 
+WHY THE READOUT IS ITS OWN CONTROLLED AXIS
+-------------------------------------------
+The original hypothesis behind this project was that a quantum circuit helps
+because superposition gives access to a 2^d-dimensional state. At d=4 that state
+has 16 complex amplitudes - but the default readout extracts only d = 4 numbers
+from it, one single-qubit expectation per wire. Twelve dimensions are simply
+never measured.
+
+That is arguably the deepest reason the hypothesis failed, and it is a different
+statement from "the output is classically simulable". A reviewer will ask
+whether the state was actually used, and "we measured four numbers out of
+sixteen" is not a satisfying answer unless the alternative was tried.
+
+    readout="single"   d expectations          <X_i>            d = 4 outputs
+    readout="pairs"    + all 2-local terms     <X_i X_j>, i<j   d + d(d-1)/2 = 10
+    readout="padded"   d expectations, tiled to the width of "pairs"
+
+CRITICALLY, THIS DOES NOT ESCAPE DEQUANTIZATION. <X_i X_j> is, like <X_i>, a
+quadratic form in the amplitudes, so it lies in the same 3^d trigonometric span.
+The circuit's function class is unchanged. What changes is how much of that span
+the measurement can reach: 10 independent projections instead of 4, from an
+identical circuit with identical parameters.
+
+WHAT "padded" IS FOR. Widening the readout also widens the shared classifier,
+from Linear(d, C) to Linear(d + d(d-1)/2, C) - at d=4 with two classes, 10
+parameters become 22. So a naive "pairs beats single" result is confounded: the
+gain could be the extra classifier capacity rather than the extra information.
+
+"padded" repeats the SAME d expectations until it is as wide as "pairs". It
+therefore carries exactly the same information and exactly the same classifier
+size. The clean contrast is:
+
+    pairs vs padded   ->  isolates INFORMATION  (identical parameter counts)
+    pairs vs single   ->  the headline number, with the classifier delta stated
+
+If pairs beats padded, richer measurement genuinely helps. If pairs beats single
+but ties padded, the gain was twelve classifier parameters and should be
+reported as such.
+
 DIFF METHOD
 -----------
 diff_method="backprop" on default.qubit. Measured on the project hardware
@@ -75,8 +114,11 @@ class VQCHead(nn.Module):
     def __init__(self, d: int, n_layers: int = 2, n_uploads: int = 1,
                  device_name: str = "default.qubit",
                  diff_method: str = "backprop",
-                 init_std: float = 0.1):
+                 init_std: float = 0.1, readout: str = "single"):
         super().__init__()
+        if readout not in ("single", "pairs", "padded"):
+            raise ValueError(
+                f"readout must be 'single', 'pairs' or 'padded', got '{readout}'")
         if n_layers % n_uploads != 0:
             raise ValueError(
                 f"n_layers ({n_layers}) must be divisible by n_uploads "
@@ -86,7 +128,12 @@ class VQCHead(nn.Module):
         self.d = d
         self.n_layers = n_layers
         self.n_uploads = n_uploads
-        self.out_dim = d
+        self.readout = readout
+        # Number of DISTINCT measured quantities, and the width handed to the
+        # shared classifier. They differ only for "padded", which is the point.
+        self.n_observables = d if readout == "single" else d + d * (d - 1) // 2
+        self.out_dim = d if readout == "single" else d + d * (d - 1) // 2
+        self.n_distinct = d if readout in ("single", "padded") else self.n_observables
         self.n_quantum_params = 3 * n_layers * d
         # Accessible frequency spectrum: {-R..R}^d, i.e. (2R+1)^d basis functions.
         self.spectrum_size = (2 * n_uploads + 1) ** d
@@ -101,7 +148,14 @@ class VQCHead(nn.Module):
                 lo = r * layers_per_block
                 qml.StronglyEntanglingLayers(weights[lo:lo + layers_per_block],
                                              wires=range(d))
-            return [qml.expval(qml.PauliX(i)) for i in range(d)]
+            singles = [qml.expval(qml.PauliX(i)) for i in range(d)]
+            if readout != "pairs":
+                # "padded" is widened in forward(), not here: the extra columns
+                # must carry no new information, so no new observable is measured.
+                return singles
+            pairs = [qml.expval(qml.PauliX(i) @ qml.PauliX(j))
+                     for i in range(d) for j in range(i + 1, d)]
+            return singles + pairs
 
         self.q_layer = qml.qnn.TorchLayer(
             circuit,
@@ -110,7 +164,14 @@ class VQCHead(nn.Module):
         )
 
     def forward(self, z):
-        return self.q_layer(z)
+        v = self.q_layer(z)
+        if self.readout == "padded":
+            # Tile the d measured values up to the width of "pairs". Same
+            # information, same classifier size - the control that separates
+            # "more measurement" from "more classifier parameters".
+            reps = -(-self.out_dim // self.d)          # ceil
+            v = v.repeat(1, reps)[:, :self.out_dim]
+        return v
 
     def quantum_parameters(self):
         return list(self.q_layer.parameters())
@@ -122,6 +183,10 @@ class VQCHead(nn.Module):
             "layers": self.n_layers,
             "uploads": self.n_uploads,
             "quantum_params": self.n_quantum_params,
+            "readout": self.readout,
+            "n_observables": self.n_observables,
+            "n_distinct_measurements": self.n_distinct,
+            "out_dim": self.out_dim,
             "max_frequency": self.n_uploads,
             "spectrum_size": self.spectrum_size,
         }

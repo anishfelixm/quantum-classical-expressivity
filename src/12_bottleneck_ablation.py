@@ -123,7 +123,7 @@ def run_cell(dataset, n_per_class, seed, arm, policy, dim=4, force=False):
 
     if policy == "pca":
         # TRAINING features only. Fitting on val or test would leak.
-        model.fit_bottleneck(loaders["train"].feats)
+        model.fit_bottleneck(_exp1.get_pool_features(dataset))
 
     capacity = model.capacity_report()
 

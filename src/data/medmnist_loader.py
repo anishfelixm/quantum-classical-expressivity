@@ -89,7 +89,7 @@ class GPUBatches:
     """
 
     def __init__(self, images_u8, labels, batch_size, shuffle, augment,
-                 device, seed, n_channels):
+                 device, seed, n_channels, allow_hflip=True):
         self.images = images_u8.to(device, non_blocking=True)
         self.labels = labels.to(device, non_blocking=True)
         self.batch_size = batch_size
@@ -97,6 +97,7 @@ class GPUBatches:
         self.augment = augment
         self.device = device
         self.n_channels = n_channels
+        self.allow_hflip = allow_hflip
         self.epoch = 0
         self._seed = seed
         self._mean = torch.tensor(config.NORM_MEAN, device=device).view(1, 3, 1, 1)
@@ -110,10 +111,24 @@ class GPUBatches:
         return len(self.labels)
 
     def _augment(self, x, g):
-        """Random horizontal flip + rotation, applied at native resolution."""
+        """
+        Random rotation, plus horizontal flip WHERE ANATOMICALLY VALID.
+
+        Horizontal flip is standard for natural images and wrong for chest
+        radiographs. Mirroring a chest X-ray moves the heart to the right side,
+        which is situs inversus - a rare congenital condition, not a benign
+        view of the same patient. Training on mirrored chests teaches the model
+        that laterality carries no information, and medical-imaging reviewers
+        raise this specifically.
+
+        Flip is therefore disabled for the datasets listed in
+        config.NO_HFLIP_DATASETS. Rotation is kept everywhere: +/-10 degrees is
+        within normal patient-positioning variation for every modality here.
+        """
         b = x.size(0)
-        flip = torch.rand(b, generator=g).to(self.device) < 0.5
-        x = torch.where(flip.view(-1, 1, 1, 1), x.flip(-1), x)
+        if self.allow_hflip:
+            flip = torch.rand(b, generator=g).to(self.device) < 0.5
+            x = torch.where(flip.view(-1, 1, 1, 1), x.flip(-1), x)
 
         deg = (torch.rand(b, generator=g) * 2 - 1) * 10.0     # +/- 10 degrees
         th = (deg * torch.pi / 180.0).to(self.device)
@@ -187,10 +202,14 @@ def get_loaders(dataset_name: str,
 
     tr_idx = _drop_singleton(tr_idx, batch_size)
 
+    # Laterality matters for radiographs; see GPUBatches._augment.
+    allow_hflip = dataset_name not in getattr(config, "NO_HFLIP_DATASETS", ())
+
     def make(split, idx, shuffle, aug):
         return GPUBatches(x[split][idx],
                           torch.from_numpy(y[split][idx]).long(),
-                          batch_size, shuffle, aug, device, seed, n_channels)
+                          batch_size, shuffle, aug, device, seed, n_channels,
+                          allow_hflip=allow_hflip)
 
     train = make("train", tr_idx, True, augment)
     val = make("val", va_idx, False, False)
@@ -202,6 +221,7 @@ def get_loaders(dataset_name: str,
         "regime": regime,
         "seed": seed,
         "augment": augment,
+        "hflip_allowed": bool(allow_hflip),
         "n_train": int(len(tr_idx)),
         "n_val": int(len(va_idx)),
         "n_test": int(len(y["test"])),
