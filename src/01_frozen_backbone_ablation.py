@@ -426,11 +426,29 @@ def _flow_table(rows):
 
     frozen   -> backbone must show NO gradient at all
     adaptive -> backbone must show non-zero gradient, FOR EVERY ARM
+
+    ONLY shards that actually recorded gradient norms are considered. Per-module
+    norms were added to train/loop.py on 26 Aug 2026; every earlier shard has no
+    `grad_flow` key at all.
+
+    Without this filter the table cannot distinguish "no gradient was recorded"
+    from "the gradient was zero", so it reported VIOLATION for ~1,800 older
+    diagnostic shards whose gradients were never in question. A summary that
+    cries wolf is worse than one that stays silent: the reader stops believing
+    the ones that matter.
+
+    Note that a NEW frozen run legitimately carries grad_flow["backbone"] = None -
+    that is what a correctly frozen backbone looks like, and it is kept.
     """
     agg = {}
+    n_instrumented, n_legacy = 0, 0
     for r in rows:
+        if r.get("grad_flow") is None:      # written before instrumentation
+            n_legacy += 1
+            continue
+        n_instrumented += 1
         k = r["keys"]
-        gf = r.get("grad_flow") or {}
+        gf = r["grad_flow"]
         key = (k["arm"], k.get("fp", FROZEN))
         slot = agg.setdefault(key, {"n": 0, "bb": [], "bn": [], "hd": []})
         slot["n"] += 1
@@ -439,9 +457,16 @@ def _flow_table(rows):
             if v:
                 slot[dst].append(v["mean"])
 
-    if not agg:
-        return
     print(f"\n=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===")
+    if n_legacy:
+        print(f"{n_legacy} of {len(rows)} shards predate the per-module gradient")
+        print("instrumentation and are excluded - their gradients were never")
+        print("recorded, which is not the same as their being zero.")
+    if not agg:
+        print(f"\nNo instrumented runs yet. The authoritative check is")
+        print("11_flow_verification.py, which measures this directly.")
+        return
+
     print("frozen: backbone must be '-' (no gradient reaches it).")
     print("adaptive: backbone must be non-zero for EVERY arm, quantum included.")
     print(f"\n{'arm':24s} {'encoder':>9s} {'runs':>5s} {'backbone':>11s} "
@@ -559,11 +584,20 @@ def summarise(metric="auc", experiment=EXPERIMENT):
     _capacity_table(rows)
     _flow_table(rows)
 
-    print(f"\n{n_preds}/{len(rows)} runs recorded predictions; "
-          f"{n_found} are retrievable on disk.")
-    if n_found < len(rows):
-        print("Runs without retrievable predictions can only support seed-level")
-        print("resampling, NOT the pre-registered nested bootstrap.")
+    # A shard that never claimed to have predictions predates prediction saving;
+    # a shard that claims one but cannot produce it is a real problem. Counting
+    # them together made ~1,800 legacy diagnostic runs look like a broken
+    # pipeline, which buries the case that actually matters.
+    n_legacy = len(rows) - n_preds
+    print(f"\nPredictions: {n_found}/{n_preds} claimed files are retrievable "
+          f"on disk; {n_legacy} shards predate prediction saving.")
+    if n_found < n_preds:
+        print(f"WARNING: {n_preds - n_found} shards name a prediction file that "
+              f"is MISSING. Those cells cannot enter the nested bootstrap.")
+    if n_legacy:
+        print("Legacy shards are diagnostic-only and were never intended to")
+        print("support the pre-registered statistic. The confirmatory sweep")
+        print("writes to its own namespace and must show 0 legacy.")
     print("\nDIAGNOSTIC OUTPUT - every interval above is a normal approximation")
     print("over seeds. Confirmatory statistics come from 04_statistical_analysis.py.")
 
