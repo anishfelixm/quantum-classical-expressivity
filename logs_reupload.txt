@@ -1,0 +1,669 @@
+nohup: ignoring input
+Experiment 1 | 400 cells | device=cpu | sha=97786d46 | augment=False
+[1/400] breastmnist r=5 d=4 froz s=42 quantum_reupload auc=0.6944 f1=0.6428 ETA 5.0h
+[2/400] breastmnist r=5 d=4 froz s=123 quantum_reupload auc=0.6205 f1=0.5530 ETA 5.0h
+[3/400] breastmnist r=5 d=4 froz s=2026 quantum_reupload auc=0.4576 f1=0.4600 ETA 4.9h
+[4/400] breastmnist r=5 d=4 froz s=777 quantum_reupload auc=0.4555 f1=0.4275 ETA 5.1h
+[5/400] breastmnist r=5 d=4 froz s=888 quantum_reupload auc=0.7191 f1=0.6349 ETA 5.3h
+[6/400] breastmnist r=5 d=4 froz s=31337 quantum_reupload auc=0.6606 f1=0.5524 ETA 5.2h
+[7/400] breastmnist r=5 d=4 froz s=8 quantum_reupload auc=0.6330 f1=0.3513 ETA 5.1h
+[8/400] breastmnist r=5 d=4 froz s=271828 quantum_reupload auc=0.5378 f1=0.5298 ETA 5.2h
+[9/400] breastmnist r=5 d=4 froz s=161803 quantum_reupload auc=0.6535 f1=0.5487 ETA 5.1h
+[10/400] breastmnist r=5 d=4 froz s=1414 quantum_reupload auc=0.5963 f1=0.5207 ETA 5.5h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[11/400] breastmnist r=5 d=4 adap s=42 quantum_reupload auc=0.5624 f1=0.2121 ETA 8.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[12/400] breastmnist r=5 d=4 adap s=123 quantum_reupload auc=0.7504 f1=0.6629 ETA 10.3h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[13/400] breastmnist r=5 d=4 adap s=2026 quantum_reupload auc=0.6644 f1=0.5726 ETA 12.5h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[14/400] breastmnist r=5 d=4 adap s=777 quantum_reupload auc=0.4208 f1=0.4222 ETA 13.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[15/400] breastmnist r=5 d=4 adap s=888 quantum_reupload auc=0.7492 f1=0.6565 ETA 15.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[16/400] breastmnist r=5 d=4 adap s=31337 quantum_reupload auc=0.7410 f1=0.5341 ETA 16.5h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[17/400] breastmnist r=5 d=4 adap s=8 quantum_reupload auc=0.5858 f1=0.4615 ETA 17.4h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[18/400] breastmnist r=5 d=4 adap s=271828 quantum_reupload auc=0.6621 f1=0.6638 ETA 18.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[19/400] breastmnist r=5 d=4 adap s=161803 quantum_reupload auc=0.7291 f1=0.5610 ETA 19.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[20/400] breastmnist r=5 d=4 adap s=1414 quantum_reupload auc=0.6495 f1=0.6410 ETA 19.8h
+[21/400] breastmnist r=10 d=4 froz s=42 quantum_reupload auc=0.6890 f1=0.3590 ETA 19.2h
+[22/400] breastmnist r=10 d=4 froz s=123 quantum_reupload auc=0.6293 f1=0.4678 ETA 18.8h
+[23/400] breastmnist r=10 d=4 froz s=2026 quantum_reupload auc=0.4626 f1=0.4408 ETA 18.3h
+[24/400] breastmnist r=10 d=4 froz s=777 quantum_reupload auc=0.7053 f1=0.6468 ETA 18.0h
+[25/400] breastmnist r=10 d=4 froz s=888 quantum_reupload auc=0.7093 f1=0.6067 ETA 17.6h
+[26/400] breastmnist r=10 d=4 froz s=31337 quantum_reupload auc=0.6255 f1=0.5558 ETA 17.2h
+[27/400] breastmnist r=10 d=4 froz s=8 quantum_reupload auc=0.7289 f1=0.6974 ETA 17.0h
+[28/400] breastmnist r=10 d=4 froz s=271828 quantum_reupload auc=0.6253 f1=0.5571 ETA 16.7h
+[29/400] breastmnist r=10 d=4 froz s=161803 quantum_reupload auc=0.6658 f1=0.6254 ETA 16.4h
+[30/400] breastmnist r=10 d=4 froz s=1414 quantum_reupload auc=0.6830 f1=0.5928 ETA 16.2h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[31/400] breastmnist r=10 d=4 adap s=42 quantum_reupload auc=0.7249 f1=0.5628 ETA 17.3h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[32/400] breastmnist r=10 d=4 adap s=123 quantum_reupload auc=0.7780 f1=0.7332 ETA 19.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[33/400] breastmnist r=10 d=4 adap s=2026 quantum_reupload auc=0.7145 f1=0.6176 ETA 19.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[34/400] breastmnist r=10 d=4 adap s=777 quantum_reupload auc=0.7352 f1=0.6268 ETA 20.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[35/400] breastmnist r=10 d=4 adap s=888 quantum_reupload auc=0.6850 f1=0.5893 ETA 22.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[36/400] breastmnist r=10 d=4 adap s=31337 quantum_reupload auc=0.7736 f1=0.3376 ETA 23.4h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[37/400] breastmnist r=10 d=4 adap s=8 quantum_reupload auc=0.8319 f1=0.7049 ETA 24.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[38/400] breastmnist r=10 d=4 adap s=271828 quantum_reupload auc=0.8093 f1=0.6764 ETA 24.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[39/400] breastmnist r=10 d=4 adap s=161803 quantum_reupload auc=0.7538 f1=0.6406 ETA 26.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[40/400] breastmnist r=10 d=4 adap s=1414 quantum_reupload auc=0.6291 f1=0.5776 ETA 26.6h
+[41/400] breastmnist r=20 d=4 froz s=42 quantum_reupload auc=0.6846 f1=0.6100 ETA 26.2h
+[42/400] breastmnist r=20 d=4 froz s=123 quantum_reupload auc=0.7026 f1=0.6147 ETA 25.8h
+[43/400] breastmnist r=20 d=4 froz s=2026 quantum_reupload auc=0.6857 f1=0.5893 ETA 25.6h
+[44/400] breastmnist r=20 d=4 froz s=777 quantum_reupload auc=0.5892 f1=0.5348 ETA 25.4h
+[45/400] breastmnist r=20 d=4 froz s=888 quantum_reupload auc=0.6834 f1=0.5978 ETA 25.0h
+[46/400] breastmnist r=20 d=4 froz s=31337 quantum_reupload auc=0.7790 f1=0.6763 ETA 24.8h
+[47/400] breastmnist r=20 d=4 froz s=8 quantum_reupload auc=0.6990 f1=0.6285 ETA 24.4h
+[48/400] breastmnist r=20 d=4 froz s=271828 quantum_reupload auc=0.6228 f1=0.5600 ETA 24.2h
+[49/400] breastmnist r=20 d=4 froz s=161803 quantum_reupload auc=0.7396 f1=0.6860 ETA 24.0h
+[50/400] breastmnist r=20 d=4 froz s=1414 quantum_reupload auc=0.6913 f1=0.6302 ETA 23.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[51/400] breastmnist r=20 d=4 adap s=42 quantum_reupload auc=0.8127 f1=0.6683 ETA 25.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[52/400] breastmnist r=20 d=4 adap s=123 quantum_reupload auc=0.8114 f1=0.7565 ETA 27.3h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[53/400] breastmnist r=20 d=4 adap s=2026 quantum_reupload auc=0.8076 f1=0.7087 ETA 28.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[54/400] breastmnist r=20 d=4 adap s=777 quantum_reupload auc=0.7675 f1=0.5108 ETA 29.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[55/400] breastmnist r=20 d=4 adap s=888 quantum_reupload auc=0.6915 f1=0.6402 ETA 30.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[56/400] breastmnist r=20 d=4 adap s=31337 quantum_reupload auc=0.8008 f1=0.7519 ETA 31.5h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[57/400] breastmnist r=20 d=4 adap s=8 quantum_reupload auc=0.8446 f1=0.6134 ETA 32.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[58/400] breastmnist r=20 d=4 adap s=271828 quantum_reupload auc=0.7569 f1=0.6484 ETA 32.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[59/400] breastmnist r=20 d=4 adap s=161803 quantum_reupload auc=0.8279 f1=0.7279 ETA 33.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[60/400] breastmnist r=20 d=4 adap s=1414 quantum_reupload auc=0.8106 f1=0.7351 ETA 34.2h
+[61/400] breastmnist r=50 d=4 froz s=42 quantum_reupload auc=0.7337 f1=0.6362 ETA 33.9h
+[62/400] breastmnist r=50 d=4 froz s=123 quantum_reupload auc=0.7393 f1=0.6414 ETA 33.9h
+[63/400] breastmnist r=50 d=4 froz s=2026 quantum_reupload auc=0.7049 f1=0.6068 ETA 33.7h
+[64/400] breastmnist r=50 d=4 froz s=777 quantum_reupload auc=0.7066 f1=0.6582 ETA 33.6h
+[65/400] breastmnist r=50 d=4 froz s=888 quantum_reupload auc=0.7293 f1=0.6414 ETA 33.3h
+[66/400] breastmnist r=50 d=4 froz s=31337 quantum_reupload auc=0.6853 f1=0.6318 ETA 33.3h
+[67/400] breastmnist r=50 d=4 froz s=8 quantum_reupload auc=0.7337 f1=0.6819 ETA 33.1h
+[68/400] breastmnist r=50 d=4 froz s=271828 quantum_reupload auc=0.7304 f1=0.6306 ETA 33.1h
+[69/400] breastmnist r=50 d=4 froz s=161803 quantum_reupload auc=0.7435 f1=0.6819 ETA 33.0h
+[70/400] breastmnist r=50 d=4 froz s=1414 quantum_reupload auc=0.7103 f1=0.6471 ETA 32.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[71/400] breastmnist r=50 d=4 adap s=42 quantum_reupload auc=0.8381 f1=0.7393 ETA 34.5h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[72/400] breastmnist r=50 d=4 adap s=123 quantum_reupload auc=0.8020 f1=0.6400 ETA 35.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[73/400] breastmnist r=50 d=4 adap s=2026 quantum_reupload auc=0.8087 f1=0.6456 ETA 37.3h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[74/400] breastmnist r=50 d=4 adap s=777 quantum_reupload auc=0.8225 f1=0.7378 ETA 39.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[75/400] breastmnist r=50 d=4 adap s=888 quantum_reupload auc=0.8016 f1=0.4900 ETA 40.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[76/400] breastmnist r=50 d=4 adap s=31337 quantum_reupload auc=0.8574 f1=0.7379 ETA 41.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[77/400] breastmnist r=50 d=4 adap s=8 quantum_reupload auc=0.7901 f1=0.7630 ETA 43.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[78/400] breastmnist r=50 d=4 adap s=271828 quantum_reupload auc=0.8028 f1=0.6864 ETA 44.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[79/400] breastmnist r=50 d=4 adap s=161803 quantum_reupload auc=0.8586 f1=0.7051 ETA 45.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[80/400] breastmnist r=50 d=4 adap s=1414 quantum_reupload auc=0.8329 f1=0.6673 ETA 46.7h
+[81/400] breastmnist r=100 d=4 froz s=42 quantum_reupload auc=0.7431 f1=0.6727 ETA 46.4h
+[82/400] breastmnist r=100 d=4 froz s=123 quantum_reupload auc=0.7863 f1=0.7071 ETA 46.3h
+[83/400] breastmnist r=100 d=4 froz s=2026 quantum_reupload auc=0.7609 f1=0.6746 ETA 46.3h
+[84/400] breastmnist r=100 d=4 froz s=777 quantum_reupload auc=0.7621 f1=0.6784 ETA 46.1h
+[85/400] breastmnist r=100 d=4 froz s=888 quantum_reupload auc=0.7416 f1=0.6558 ETA 45.7h
+[86/400] breastmnist r=100 d=4 froz s=31337 quantum_reupload auc=0.7581 f1=0.6860 ETA 45.5h
+[87/400] breastmnist r=100 d=4 froz s=8 quantum_reupload auc=0.7540 f1=0.6955 ETA 45.1h
+[88/400] breastmnist r=100 d=4 froz s=271828 quantum_reupload auc=0.7519 f1=0.6638 ETA 45.1h
+[89/400] breastmnist r=100 d=4 froz s=161803 quantum_reupload auc=0.7607 f1=0.7071 ETA 45.0h
+[90/400] breastmnist r=100 d=4 froz s=1414 quantum_reupload auc=0.7640 f1=0.7127 ETA 44.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[91/400] breastmnist r=100 d=4 adap s=42 quantum_reupload auc=0.8260 f1=0.7179 ETA 46.2h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[92/400] breastmnist r=100 d=4 adap s=123 quantum_reupload auc=0.8254 f1=0.7141 ETA 47.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[93/400] breastmnist r=100 d=4 adap s=2026 quantum_reupload auc=0.7657 f1=0.5898 ETA 49.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[94/400] breastmnist r=100 d=4 adap s=777 quantum_reupload auc=0.8565 f1=0.7942 ETA 50.2h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[95/400] breastmnist r=100 d=4 adap s=888 quantum_reupload auc=0.8991 f1=0.8260 ETA 51.4h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[96/400] breastmnist r=100 d=4 adap s=31337 quantum_reupload auc=0.8670 f1=0.7948 ETA 52.3h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[97/400] breastmnist r=100 d=4 adap s=8 quantum_reupload auc=0.8814 f1=0.8151 ETA 53.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[98/400] breastmnist r=100 d=4 adap s=271828 quantum_reupload auc=0.8914 f1=0.8157 ETA 55.2h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[99/400] breastmnist r=100 d=4 adap s=161803 quantum_reupload auc=0.8795 f1=0.7584 ETA 57.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[100/400] breastmnist r=100 d=4 adap s=1414 quantum_reupload auc=0.8310 f1=0.7981 ETA 58.7h
+[101/400] pneumoniamnist r=5 d=4 froz s=42 quantum_reupload auc=0.8867 f1=0.7444 ETA 58.0h
+[102/400] pneumoniamnist r=5 d=4 froz s=123 quantum_reupload auc=0.9113 f1=0.8193 ETA 57.3h
+[103/400] pneumoniamnist r=5 d=4 froz s=2026 quantum_reupload auc=0.9045 f1=0.7999 ETA 56.6h
+[104/400] pneumoniamnist r=5 d=4 froz s=777 quantum_reupload auc=0.8121 f1=0.7161 ETA 55.9h
+[105/400] pneumoniamnist r=5 d=4 froz s=888 quantum_reupload auc=0.8049 f1=0.7159 ETA 55.2h
+[106/400] pneumoniamnist r=5 d=4 froz s=31337 quantum_reupload auc=0.8042 f1=0.7018 ETA 54.6h
+[107/400] pneumoniamnist r=5 d=4 froz s=8 quantum_reupload auc=0.9003 f1=0.8185 ETA 53.9h
+[108/400] pneumoniamnist r=5 d=4 froz s=271828 quantum_reupload auc=0.9102 f1=0.8346 ETA 53.3h
+[109/400] pneumoniamnist r=5 d=4 froz s=161803 quantum_reupload auc=0.8898 f1=0.7877 ETA 52.6h
+[110/400] pneumoniamnist r=5 d=4 froz s=1414 quantum_reupload auc=0.8318 f1=0.7379 ETA 52.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[111/400] pneumoniamnist r=5 d=4 adap s=42 quantum_reupload auc=0.9208 f1=0.7955 ETA 51.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[112/400] pneumoniamnist r=5 d=4 adap s=123 quantum_reupload auc=0.8908 f1=0.7917 ETA 51.2h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[113/400] pneumoniamnist r=5 d=4 adap s=2026 quantum_reupload auc=0.9329 f1=0.8410 ETA 50.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[114/400] pneumoniamnist r=5 d=4 adap s=777 quantum_reupload auc=0.9058 f1=0.8241 ETA 50.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[115/400] pneumoniamnist r=5 d=4 adap s=888 quantum_reupload auc=0.9086 f1=0.8323 ETA 50.2h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[116/400] pneumoniamnist r=5 d=4 adap s=31337 quantum_reupload auc=0.9194 f1=0.8470 ETA 49.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[117/400] pneumoniamnist r=5 d=4 adap s=8 quantum_reupload auc=0.9232 f1=0.8149 ETA 49.5h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[118/400] pneumoniamnist r=5 d=4 adap s=271828 quantum_reupload auc=0.8659 f1=0.3846 ETA 49.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[119/400] pneumoniamnist r=5 d=4 adap s=161803 quantum_reupload auc=0.8976 f1=0.7818 ETA 48.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[120/400] pneumoniamnist r=5 d=4 adap s=1414 quantum_reupload auc=0.8910 f1=0.7981 ETA 48.5h
+[121/400] pneumoniamnist r=10 d=4 froz s=42 quantum_reupload auc=0.8983 f1=0.7621 ETA 48.0h
+[122/400] pneumoniamnist r=10 d=4 froz s=123 quantum_reupload auc=0.9180 f1=0.7998 ETA 47.5h
+[123/400] pneumoniamnist r=10 d=4 froz s=2026 quantum_reupload auc=0.9019 f1=0.8158 ETA 47.1h
+[124/400] pneumoniamnist r=10 d=4 froz s=777 quantum_reupload auc=0.7073 f1=0.5910 ETA 46.6h
+[125/400] pneumoniamnist r=10 d=4 froz s=888 quantum_reupload auc=0.8927 f1=0.7971 ETA 46.1h
+[126/400] pneumoniamnist r=10 d=4 froz s=31337 quantum_reupload auc=0.9198 f1=0.8303 ETA 45.6h
+[127/400] pneumoniamnist r=10 d=4 froz s=8 quantum_reupload auc=0.8941 f1=0.8004 ETA 45.1h
+[128/400] pneumoniamnist r=10 d=4 froz s=271828 quantum_reupload auc=0.9170 f1=0.8287 ETA 44.7h
+[129/400] pneumoniamnist r=10 d=4 froz s=161803 quantum_reupload auc=0.8703 f1=0.7719 ETA 44.2h
+[130/400] pneumoniamnist r=10 d=4 froz s=1414 quantum_reupload auc=0.9191 f1=0.8312 ETA 43.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[131/400] pneumoniamnist r=10 d=4 adap s=42 quantum_reupload auc=0.9403 f1=0.8681 ETA 43.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[132/400] pneumoniamnist r=10 d=4 adap s=123 quantum_reupload auc=0.9314 f1=0.8290 ETA 43.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[133/400] pneumoniamnist r=10 d=4 adap s=2026 quantum_reupload auc=0.9227 f1=0.8087 ETA 43.4h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[134/400] pneumoniamnist r=10 d=4 adap s=777 quantum_reupload auc=0.8870 f1=0.7526 ETA 43.2h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[135/400] pneumoniamnist r=10 d=4 adap s=888 quantum_reupload auc=0.9156 f1=0.7688 ETA 43.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[136/400] pneumoniamnist r=10 d=4 adap s=31337 quantum_reupload auc=0.9291 f1=0.8506 ETA 42.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[137/400] pneumoniamnist r=10 d=4 adap s=8 quantum_reupload auc=0.9397 f1=0.8297 ETA 42.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[138/400] pneumoniamnist r=10 d=4 adap s=271828 quantum_reupload auc=0.9270 f1=0.8213 ETA 42.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[139/400] pneumoniamnist r=10 d=4 adap s=161803 quantum_reupload auc=0.9267 f1=0.8272 ETA 42.5h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[140/400] pneumoniamnist r=10 d=4 adap s=1414 quantum_reupload auc=0.9310 f1=0.8293 ETA 42.5h
+[141/400] pneumoniamnist r=20 d=4 froz s=42 quantum_reupload auc=0.8933 f1=0.8038 ETA 42.1h
+[142/400] pneumoniamnist r=20 d=4 froz s=123 quantum_reupload auc=0.9306 f1=0.8535 ETA 41.7h
+[143/400] pneumoniamnist r=20 d=4 froz s=2026 quantum_reupload auc=0.9109 f1=0.8209 ETA 41.4h
+[144/400] pneumoniamnist r=20 d=4 froz s=777 quantum_reupload auc=0.9094 f1=0.8275 ETA 41.0h
+[145/400] pneumoniamnist r=20 d=4 froz s=888 quantum_reupload auc=0.9171 f1=0.8388 ETA 40.7h
+[146/400] pneumoniamnist r=20 d=4 froz s=31337 quantum_reupload auc=0.8993 f1=0.8179 ETA 40.4h
+[147/400] pneumoniamnist r=20 d=4 froz s=8 quantum_reupload auc=0.9138 f1=0.8322 ETA 40.0h
+[148/400] pneumoniamnist r=20 d=4 froz s=271828 quantum_reupload auc=0.9216 f1=0.8461 ETA 39.7h
+[149/400] pneumoniamnist r=20 d=4 froz s=161803 quantum_reupload auc=0.9072 f1=0.8325 ETA 39.4h
+[150/400] pneumoniamnist r=20 d=4 froz s=1414 quantum_reupload auc=0.9155 f1=0.8210 ETA 39.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[151/400] pneumoniamnist r=20 d=4 adap s=42 quantum_reupload auc=0.9324 f1=0.8316 ETA 39.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[152/400] pneumoniamnist r=20 d=4 adap s=123 quantum_reupload auc=0.9382 f1=0.8465 ETA 39.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[153/400] pneumoniamnist r=20 d=4 adap s=2026 quantum_reupload auc=0.9465 f1=0.8765 ETA 39.4h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[154/400] pneumoniamnist r=20 d=4 adap s=777 quantum_reupload auc=0.9259 f1=0.8080 ETA 39.4h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[155/400] pneumoniamnist r=20 d=4 adap s=888 quantum_reupload auc=0.9468 f1=0.8703 ETA 39.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[156/400] pneumoniamnist r=20 d=4 adap s=31337 quantum_reupload auc=0.9469 f1=0.8644 ETA 39.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[157/400] pneumoniamnist r=20 d=4 adap s=8 quantum_reupload auc=0.9450 f1=0.8577 ETA 39.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[158/400] pneumoniamnist r=20 d=4 adap s=271828 quantum_reupload auc=0.9331 f1=0.8672 ETA 39.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[159/400] pneumoniamnist r=20 d=4 adap s=161803 quantum_reupload auc=0.9180 f1=0.7917 ETA 39.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[160/400] pneumoniamnist r=20 d=4 adap s=1414 quantum_reupload auc=0.9282 f1=0.8310 ETA 39.8h
+[161/400] pneumoniamnist r=50 d=4 froz s=42 quantum_reupload auc=0.8982 f1=0.8185 ETA 39.6h
+[162/400] pneumoniamnist r=50 d=4 froz s=123 quantum_reupload auc=0.9344 f1=0.8565 ETA 39.4h
+[163/400] pneumoniamnist r=50 d=4 froz s=2026 quantum_reupload auc=0.9192 f1=0.8329 ETA 39.2h
+[164/400] pneumoniamnist r=50 d=4 froz s=777 quantum_reupload auc=0.9042 f1=0.8263 ETA 39.0h
+[165/400] pneumoniamnist r=50 d=4 froz s=888 quantum_reupload auc=0.9175 f1=0.8426 ETA 38.7h
+[166/400] pneumoniamnist r=50 d=4 froz s=31337 quantum_reupload auc=0.9147 f1=0.8398 ETA 38.6h
+[167/400] pneumoniamnist r=50 d=4 froz s=8 quantum_reupload auc=0.9235 f1=0.8420 ETA 38.3h
+[168/400] pneumoniamnist r=50 d=4 froz s=271828 quantum_reupload auc=0.9228 f1=0.8535 ETA 38.1h
+[169/400] pneumoniamnist r=50 d=4 froz s=161803 quantum_reupload auc=0.9218 f1=0.8392 ETA 37.9h
+[170/400] pneumoniamnist r=50 d=4 froz s=1414 quantum_reupload auc=0.9231 f1=0.8343 ETA 37.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[171/400] pneumoniamnist r=50 d=4 adap s=42 quantum_reupload auc=0.8806 f1=0.7324 ETA 38.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[172/400] pneumoniamnist r=50 d=4 adap s=123 quantum_reupload auc=0.9444 f1=0.8636 ETA 38.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[173/400] pneumoniamnist r=50 d=4 adap s=2026 quantum_reupload auc=0.9032 f1=0.7388 ETA 39.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[174/400] pneumoniamnist r=50 d=4 adap s=777 quantum_reupload auc=0.9336 f1=0.8340 ETA 39.3h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[175/400] pneumoniamnist r=50 d=4 adap s=888 quantum_reupload auc=0.9544 f1=0.8759 ETA 40.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[176/400] pneumoniamnist r=50 d=4 adap s=31337 quantum_reupload auc=0.9444 f1=0.8278 ETA 40.3h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[177/400] pneumoniamnist r=50 d=4 adap s=8 quantum_reupload auc=0.9585 f1=0.8900 ETA 40.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[178/400] pneumoniamnist r=50 d=4 adap s=271828 quantum_reupload auc=0.9509 f1=0.8735 ETA 41.5h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[179/400] pneumoniamnist r=50 d=4 adap s=161803 quantum_reupload auc=0.9327 f1=0.6648 ETA 42.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[180/400] pneumoniamnist r=50 d=4 adap s=1414 quantum_reupload auc=0.9507 f1=0.8588 ETA 42.7h
+[181/400] pneumoniamnist r=100 d=4 froz s=42 quantum_reupload auc=0.9315 f1=0.8411 ETA 42.6h
+[182/400] pneumoniamnist r=100 d=4 froz s=123 quantum_reupload auc=0.9306 f1=0.8363 ETA 42.5h
+[183/400] pneumoniamnist r=100 d=4 froz s=2026 quantum_reupload auc=0.9243 f1=0.8344 ETA 42.3h
+[184/400] pneumoniamnist r=100 d=4 froz s=777 quantum_reupload auc=0.9176 f1=0.8348 ETA 42.2h
+[185/400] pneumoniamnist r=100 d=4 froz s=888 quantum_reupload auc=0.9250 f1=0.8589 ETA 42.0h
+[186/400] pneumoniamnist r=100 d=4 froz s=31337 quantum_reupload auc=0.9226 f1=0.8322 ETA 41.9h
+[187/400] pneumoniamnist r=100 d=4 froz s=8 quantum_reupload auc=0.9219 f1=0.8432 ETA 41.8h
+[188/400] pneumoniamnist r=100 d=4 froz s=271828 quantum_reupload auc=0.9285 f1=0.8464 ETA 41.6h
+[189/400] pneumoniamnist r=100 d=4 froz s=161803 quantum_reupload auc=0.9220 f1=0.8407 ETA 41.5h
+[190/400] pneumoniamnist r=100 d=4 froz s=1414 quantum_reupload auc=0.9391 f1=0.8484 ETA 41.4h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[191/400] pneumoniamnist r=100 d=4 adap s=42 quantum_reupload auc=0.9695 f1=0.8920 ETA 42.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[192/400] pneumoniamnist r=100 d=4 adap s=123 quantum_reupload auc=0.9439 f1=0.8059 ETA 42.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[193/400] pneumoniamnist r=100 d=4 adap s=2026 quantum_reupload auc=0.9419 f1=0.8635 ETA 43.4h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[194/400] pneumoniamnist r=100 d=4 adap s=777 quantum_reupload auc=0.9425 f1=0.8570 ETA 44.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[195/400] pneumoniamnist r=100 d=4 adap s=888 quantum_reupload auc=0.9556 f1=0.8845 ETA 45.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[196/400] pneumoniamnist r=100 d=4 adap s=31337 quantum_reupload auc=0.9618 f1=0.8997 ETA 45.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[197/400] pneumoniamnist r=100 d=4 adap s=8 quantum_reupload auc=0.9465 f1=0.8620 ETA 46.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[198/400] pneumoniamnist r=100 d=4 adap s=271828 quantum_reupload auc=0.9691 f1=0.9040 ETA 47.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[199/400] pneumoniamnist r=100 d=4 adap s=161803 quantum_reupload auc=0.9505 f1=0.8679 ETA 48.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[200/400] pneumoniamnist r=100 d=4 adap s=1414 quantum_reupload auc=0.9640 f1=0.8936 ETA 49.0h
+[201/400] bloodmnist r=5 d=4 froz s=42 quantum_reupload auc=0.6608 f1=0.1861 ETA 48.6h
+[202/400] bloodmnist r=5 d=4 froz s=123 quantum_reupload auc=0.6286 f1=0.2021 ETA 48.2h
+[203/400] bloodmnist r=5 d=4 froz s=2026 quantum_reupload auc=0.5830 f1=0.1213 ETA 47.8h
+[204/400] bloodmnist r=5 d=4 froz s=777 quantum_reupload auc=0.6930 f1=0.0503 ETA 47.4h
+[205/400] bloodmnist r=5 d=4 froz s=888 quantum_reupload auc=0.7065 f1=0.1669 ETA 46.9h
+[206/400] bloodmnist r=5 d=4 froz s=31337 quantum_reupload auc=0.6164 f1=0.1298 ETA 46.5h
+[207/400] bloodmnist r=5 d=4 froz s=8 quantum_reupload auc=0.6068 f1=0.1754 ETA 46.1h
+[208/400] bloodmnist r=5 d=4 froz s=271828 quantum_reupload auc=0.6218 f1=0.1334 ETA 45.7h
+[209/400] bloodmnist r=5 d=4 froz s=161803 quantum_reupload auc=0.6226 f1=0.1665 ETA 45.3h
+[210/400] bloodmnist r=5 d=4 froz s=1414 quantum_reupload auc=0.6605 f1=0.0646 ETA 44.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[211/400] bloodmnist r=5 d=4 adap s=42 quantum_reupload auc=0.6664 f1=0.2180 ETA 44.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[212/400] bloodmnist r=5 d=4 adap s=123 quantum_reupload auc=0.6848 f1=0.2219 ETA 44.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[213/400] bloodmnist r=5 d=4 adap s=2026 quantum_reupload auc=0.7660 f1=0.1262 ETA 44.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[214/400] bloodmnist r=5 d=4 adap s=777 quantum_reupload auc=0.7500 f1=0.2185 ETA 44.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[215/400] bloodmnist r=5 d=4 adap s=888 quantum_reupload auc=0.7040 f1=0.2669 ETA 44.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[216/400] bloodmnist r=5 d=4 adap s=31337 quantum_reupload auc=0.7633 f1=0.1927 ETA 44.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[217/400] bloodmnist r=5 d=4 adap s=8 quantum_reupload auc=0.6759 f1=0.1907 ETA 44.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[218/400] bloodmnist r=5 d=4 adap s=271828 quantum_reupload auc=0.6960 f1=0.1510 ETA 44.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[219/400] bloodmnist r=5 d=4 adap s=161803 quantum_reupload auc=0.7279 f1=0.3142 ETA 44.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[220/400] bloodmnist r=5 d=4 adap s=1414 quantum_reupload auc=0.7285 f1=0.1491 ETA 44.8h
+[221/400] bloodmnist r=10 d=4 froz s=42 quantum_reupload auc=0.6891 f1=0.2215 ETA 44.4h
+[222/400] bloodmnist r=10 d=4 froz s=123 quantum_reupload auc=0.6239 f1=0.1908 ETA 44.0h
+[223/400] bloodmnist r=10 d=4 froz s=2026 quantum_reupload auc=0.7542 f1=0.1440 ETA 43.7h
+[224/400] bloodmnist r=10 d=4 froz s=777 quantum_reupload auc=0.5448 f1=0.1202 ETA 43.3h
+[225/400] bloodmnist r=10 d=4 froz s=888 quantum_reupload auc=0.5697 f1=0.0880 ETA 42.9h
+[226/400] bloodmnist r=10 d=4 froz s=31337 quantum_reupload auc=0.5990 f1=0.1537 ETA 42.5h
+[227/400] bloodmnist r=10 d=4 froz s=8 quantum_reupload auc=0.7829 f1=0.2848 ETA 42.2h
+[228/400] bloodmnist r=10 d=4 froz s=271828 quantum_reupload auc=0.6449 f1=0.1744 ETA 41.9h
+[229/400] bloodmnist r=10 d=4 froz s=161803 quantum_reupload auc=0.6951 f1=0.1605 ETA 41.5h
+[230/400] bloodmnist r=10 d=4 froz s=1414 quantum_reupload auc=0.7583 f1=0.1421 ETA 41.2h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[231/400] bloodmnist r=10 d=4 adap s=42 quantum_reupload auc=0.7611 f1=0.3180 ETA 41.5h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[232/400] bloodmnist r=10 d=4 adap s=123 quantum_reupload auc=0.7785 f1=0.3765 ETA 41.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[233/400] bloodmnist r=10 d=4 adap s=2026 quantum_reupload auc=0.7986 f1=0.3842 ETA 41.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[234/400] bloodmnist r=10 d=4 adap s=777 quantum_reupload auc=0.7486 f1=0.2612 ETA 42.2h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[235/400] bloodmnist r=10 d=4 adap s=888 quantum_reupload auc=0.7395 f1=0.3030 ETA 42.2h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[236/400] bloodmnist r=10 d=4 adap s=31337 quantum_reupload auc=0.8276 f1=0.3257 ETA 42.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[237/400] bloodmnist r=10 d=4 adap s=8 quantum_reupload auc=0.6960 f1=0.2132 ETA 42.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[238/400] bloodmnist r=10 d=4 adap s=271828 quantum_reupload auc=0.8110 f1=0.3814 ETA 42.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[239/400] bloodmnist r=10 d=4 adap s=161803 quantum_reupload auc=0.8152 f1=0.4069 ETA 43.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[240/400] bloodmnist r=10 d=4 adap s=1414 quantum_reupload auc=0.7641 f1=0.0807 ETA 43.0h
+[241/400] bloodmnist r=20 d=4 froz s=42 quantum_reupload auc=0.6702 f1=0.1872 ETA 42.6h
+[242/400] bloodmnist r=20 d=4 froz s=123 quantum_reupload auc=0.6507 f1=0.2087 ETA 42.3h
+[243/400] bloodmnist r=20 d=4 froz s=2026 quantum_reupload auc=0.8365 f1=0.2763 ETA 42.0h
+[244/400] bloodmnist r=20 d=4 froz s=777 quantum_reupload auc=0.7352 f1=0.1144 ETA 41.6h
+[245/400] bloodmnist r=20 d=4 froz s=888 quantum_reupload auc=0.6892 f1=0.1483 ETA 41.2h
+[246/400] bloodmnist r=20 d=4 froz s=31337 quantum_reupload auc=0.6810 f1=0.1522 ETA 41.0h
+[247/400] bloodmnist r=20 d=4 froz s=8 quantum_reupload auc=0.7331 f1=0.2610 ETA 40.7h
+[248/400] bloodmnist r=20 d=4 froz s=271828 quantum_reupload auc=0.6598 f1=0.1744 ETA 40.3h
+[249/400] bloodmnist r=20 d=4 froz s=161803 quantum_reupload auc=0.7938 f1=0.2064 ETA 40.0h
+[250/400] bloodmnist r=20 d=4 froz s=1414 quantum_reupload auc=0.7037 f1=0.1430 ETA 39.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[251/400] bloodmnist r=20 d=4 adap s=42 quantum_reupload auc=0.8479 f1=0.4317 ETA 40.4h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[252/400] bloodmnist r=20 d=4 adap s=123 quantum_reupload auc=0.8389 f1=0.4832 ETA 41.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[253/400] bloodmnist r=20 d=4 adap s=2026 quantum_reupload auc=0.8067 f1=0.2601 ETA 41.3h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[254/400] bloodmnist r=20 d=4 adap s=777 quantum_reupload auc=0.8474 f1=0.4423 ETA 42.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[255/400] bloodmnist r=20 d=4 adap s=888 quantum_reupload auc=0.8011 f1=0.3690 ETA 42.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[256/400] bloodmnist r=20 d=4 adap s=31337 quantum_reupload auc=0.8749 f1=0.4581 ETA 42.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[257/400] bloodmnist r=20 d=4 adap s=8 quantum_reupload auc=0.8584 f1=0.4170 ETA 43.4h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[258/400] bloodmnist r=20 d=4 adap s=271828 quantum_reupload auc=0.8536 f1=0.3971 ETA 43.5h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[259/400] bloodmnist r=20 d=4 adap s=161803 quantum_reupload auc=0.8685 f1=0.5462 ETA 44.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[260/400] bloodmnist r=20 d=4 adap s=1414 quantum_reupload auc=0.8422 f1=0.4358 ETA 44.6h
+[261/400] bloodmnist r=50 d=4 froz s=42 quantum_reupload auc=0.8900 f1=0.4111 ETA 44.4h
+[262/400] bloodmnist r=50 d=4 froz s=123 quantum_reupload auc=0.8093 f1=0.3096 ETA 44.3h
+[263/400] bloodmnist r=50 d=4 froz s=2026 quantum_reupload auc=0.8600 f1=0.3999 ETA 44.1h
+[264/400] bloodmnist r=50 d=4 froz s=777 quantum_reupload auc=0.8664 f1=0.4378 ETA 43.9h
+[265/400] bloodmnist r=50 d=4 froz s=888 quantum_reupload auc=0.7085 f1=0.1382 ETA 43.5h
+[266/400] bloodmnist r=50 d=4 froz s=31337 quantum_reupload auc=0.8563 f1=0.3458 ETA 43.3h
+[267/400] bloodmnist r=50 d=4 froz s=8 quantum_reupload auc=0.8015 f1=0.3037 ETA 43.0h
+[268/400] bloodmnist r=50 d=4 froz s=271828 quantum_reupload auc=0.8518 f1=0.3471 ETA 42.8h
+[269/400] bloodmnist r=50 d=4 froz s=161803 quantum_reupload auc=0.8786 f1=0.4718 ETA 42.6h
+[270/400] bloodmnist r=50 d=4 froz s=1414 quantum_reupload auc=0.7953 f1=0.2342 ETA 42.3h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[271/400] bloodmnist r=50 d=4 adap s=42 quantum_reupload auc=0.9188 f1=0.6806 ETA 44.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
