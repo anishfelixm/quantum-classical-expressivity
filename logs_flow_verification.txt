@@ -1,0 +1,94 @@
+Flow verification | 13 runs | breastmnist n=20 d=4 epochs=3
+  device=cuda sha=3642eda0
+
+[1/13] linear / frozen ...
+[2/13] matched_param_fullrank / frozen ...
+[3/13] low_rank / frozen ...
+[4/13] fourier_rff / frozen ...
+[5/13] quantum_vqc / frozen ...
+[6/13] quantum_reupload / frozen ...
+[7/13] linear / adaptive ...
+[8/13] matched_param_fullrank / adaptive ...
+[9/13] low_rank / adaptive ...
+[10/13] fourier_rff / adaptive ...
+[11/13] quantum_vqc / adaptive ...
+[12/13] quantum_reupload / adaptive ...
+[13/13] negative control (no set_bn_eval) ...
+
+==============================================================================
+PROOF A - IS THE FROZEN BACKBONE ACTUALLY FROZEN?
+==============================================================================
+Bit-exact comparison of every backbone parameter AND buffer before
+and after training. Buffers are the fragile part: BatchNorm running
+statistics update on the FORWARD pass, so requires_grad=False does
+not protect them - only eval() mode does.
+
+arm                        encoder  bb train  par chg  buf chg   max delta  verdict
+--------------------------------------------------------------------------------------------
+fourier_rff                 frozen         0        0        0    0.00e+00  UNCHANGED
+linear                      frozen         0        0        0    0.00e+00  UNCHANGED
+low_rank                    frozen         0        0        0    0.00e+00  UNCHANGED
+matched_param_fullrank      frozen         0        0        0    0.00e+00  UNCHANGED
+quantum_reupload            frozen         0        0        0    0.00e+00  UNCHANGED
+quantum_vqc                 frozen         0        0        0    0.00e+00  UNCHANGED
+fourier_rff               adaptive   2099712       15       15    6.00e+00  changed (expected)
+linear                    adaptive   2099712       15       15    6.00e+00  changed (expected)
+low_rank                  adaptive   2099712       15       15    6.00e+00  changed (expected)
+matched_param_fullrank    adaptive   2099712       15       15    6.00e+00  changed (expected)
+quantum_reupload          adaptive   2099712       15       15    6.00e+00  changed (expected)
+quantum_vqc               adaptive   2099712       15       15    6.00e+00  changed (expected)
+
+--- Negative control: same runs WITHOUT set_bn_eval() ---
+BatchNorm buffers MUST drift here. If they do not, the check above
+is vacuous - it would pass even on a broken pipeline.
+  linear                   buffers changed= 45 max delta=6.00e+00  OK (test is discriminative)
+
+==============================================================================
+PROOF B - DO GRADIENTS REACH THE ENCODER, FROM EVERY HEAD?
+==============================================================================
+Three independent signals. All three must hold for the adaptive
+regime, and the first must be ABSENT for the frozen regime.
+
+arm                        encoder    bb grad    l3 move  d(loss)/dz  verdict
+--------------------------------------------------------------------------------------------
+fourier_rff                 frozen          -     0.0000  1.0192e+00  no gradient (correct)
+linear                      frozen          -     0.0000  2.2528e-01  no gradient (correct)
+low_rank                    frozen          -     0.0000  3.0167e-01  no gradient (correct)
+matched_param_fullrank      frozen          -     0.0000  9.0059e-01  no gradient (correct)
+quantum_reupload            frozen          -     0.0000  2.8669e-01  no gradient (correct)
+quantum_vqc                 frozen          -     0.0000  9.5691e-01  no gradient (correct)
+fourier_rff               adaptive     0.3342     0.5724  1.0192e+00  flows + encoder moves
+linear                    adaptive     0.7513     0.5644  2.2528e-01  flows + encoder moves
+low_rank                  adaptive     0.6684     0.5710  3.0167e-01  flows + encoder moves
+matched_param_fullrank    adaptive     0.5015     0.5655  9.0059e-01  flows + encoder moves
+quantum_reupload          adaptive     0.3543     0.5538  2.8669e-01  flows + encoder moves
+quantum_vqc               adaptive     0.2008     0.5259  9.5691e-01  flows + encoder moves
+
+==============================================================================
+WHERE THE TRAINABLE PARAMETERS LIVE
+==============================================================================
+Relevant to how much of the 'frozen backbone' result is the head at all.
+
+arm                        encoder  backbone   bneck   head     total  head %
+------------------------------------------------------------------------------
+fourier_rff                 frozen         0    1028    324      1362   23.8%
+fourier_rff               adaptive   2099712    1028    324   2101074    0.0%
+linear                      frozen         0    1028      0      1038    0.0%
+linear                    adaptive   2099712    1028      0   2100750    0.0%
+low_rank                    frozen         0    1028     24      1062    2.3%
+low_rank                  adaptive   2099712    1028     24   2100774    0.0%
+matched_param_fullrank      frozen         0    1028     24      1062    2.3%
+matched_param_fullrank    adaptive   2099712    1028     24   2100774    0.0%
+quantum_reupload            frozen         0    1028     24      1062    2.3%
+quantum_reupload          adaptive   2099712    1028     24   2100774    0.0%
+quantum_vqc                 frozen         0    1028     24      1062    2.3%
+quantum_vqc               adaptive   2099712    1028     24   2100774    0.0%
+
+==============================================================================
+PROOF A (freezing)          PASS
+  negative control          PASS
+PROOF B (gradient flow)     PASS
+==============================================================================
+Both structural claims are now measured, not asserted. These tables
+belong in the methods section - they answer 'how do you know the
+backbone was frozen?' and 'does the VQC actually train the encoder?'
