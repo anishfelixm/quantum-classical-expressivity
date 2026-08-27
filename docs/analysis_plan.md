@@ -1,7 +1,7 @@
 # Pre-Registration / Analysis Plan
 
 **Written:** 14 August 2026
-**Amended:** 17, 19, 26 August 2026 — see §9. Every amendment is dated, gives a
+**Amended:** 17, 19, 26, 27 August 2026 — see §9. Every amendment is dated, gives a
 reason, and is disclosed in the manuscript.
 **Status:** must be committed BEFORE the confirmatory sweep produces any result.
 **Binding on:** every number that appears in the manuscript.
@@ -168,6 +168,26 @@ of Δ survives both an optimal projection and a random one, the result is a
 property of the heads and not of a 1,028-parameter learned compressor adapting to
 whichever head follows it.
 
+**H-S7 (readout richness — was the state ever used?).** *Added 27 Aug, Amendment 6.*
+The project's founding hypothesis was that superposition gives access to a
+2^d-dimensional state. The default readout extracts only d numbers from it —
+4 out of 16 at d=4. `quantum_rich` measures every 2-local ⟨X_i X_j⟩ as well,
+giving 10 observables from an **identical circuit with identical 24 parameters**.
+
+- **H-S7a:** AUC(`quantum_rich`) − AUC(`quantum_rich_padded`) > 0, pooled
+- **H-S7b:** AUC(`quantum_rich`) − AUC(`quantum_vqc`) > 0, pooled
+
+`quantum_rich_padded` is the control. Widening the readout also widens the
+shared classifier (`Linear(4,C)` → `Linear(10,C)`, 10 → 22 parameters at C=2), so
+a bare rich-versus-vqc gain could be classifier capacity rather than information.
+`padded` repeats the same 4 expectations to the same width: identical classifier,
+zero new information. **H-S7a is therefore the informative test** and H-S7b is
+reported with the parameter delta disclosed.
+
+This does **not** escape dequantization: ⟨X_i X_j⟩ is quadratic in the amplitudes
+and lies in the same 3^d span. What changes is how much of that span the
+measurement reaches. Prediction recorded before the run.
+
 ---
 
 ## 4. Correction
@@ -183,12 +203,13 @@ Benjamini–Hochberg FDR at α = 0.05 across the declared family:
 | H-S4 | 1 |
 | H-S5a, H-S5b *(Amendment 4)* | 2 |
 | H-S6, 2 bottleneck policies *(Amendment 5)* | 2 |
+| H-S7a, H-S7b *(Amendment 6)* | 2 |
 
-**Family size = 21** (was 17 before Amendments 4 and 5).
+**Family size = 23** (17 originally; +2 each from Amendments 4, 5 and 6).
 
 Enlarging the family costs power on the primary test, and that cost is accepted
 deliberately: an under-declared family is anti-conservative, which is the worse
-error. `04_statistical_analysis.py --family-size 21` is the invocation used for
+error. `04_statistical_analysis.py --family-size 23` is the invocation used for
 every reported table.
 
 Anything outside this list — per-dataset breakdowns, d=8/16, adaptive-encoder
@@ -225,6 +246,10 @@ on the smallest dataset and carries no clinical meaning.
 | **Backbone not actually frozen** | **Now proven** — `11_flow_verification.py` compares every parameter and buffer bit-exactly, with a negative control |
 | **Gradients may not reach the encoder from the quantum head** | **Now proven** — per-module gradient norms and layer3 weight displacement, per arm |
 | **The bottleneck, not the head, doing the work** | **Now controlled** — H-S6, frozen PCA and random projections |
+| **Optimization steps confounded with scarcity** | **Measured and benign** — at n=5 one epoch is one step, so n=100 gets ~4-7x more steps. Re-running n=5 with a 1000-epoch budget left AUC unchanged (best epochs 13-65, well inside the original cap). Reported with the data. |
+| **Readout discards most of the state** | **Now tested** — H-S7, with a padded control at matched parameters |
+| **Anatomically invalid augmentation** | **Fixed** — horizontal flip disabled for chest radiographs (Amendment 8) |
+| **Frozen projection estimated from 10 images** | **Fixed** — PCA fitted on the unlabelled training pool (Amendment 7) |
 | Noise injected in wrong coordinates | Injected in physical pixel space; round-trip tested |
 | Test-set sampling variance ignored | Nested bootstrap resamples test indices |
 | Prediction files unreadable by the analysis | **Fixed** — one naming function shared by writer and reader; fallback loudly labelled |
@@ -397,3 +422,94 @@ is what makes the head ordering a property of the heads.
 the primary result is reported as contingent on a learned bottleneck — which
 would itself be the paper's most interesting finding, and would be stated as
 such rather than buried.
+
+### Amendment 6 — 27 August 2026. H-S7 added: readout richness.
+
+**Change.** Two arms added, `quantum_rich` (all 2-local ⟨X_i X_j⟩ measured
+alongside the singles) and `quantum_rich_padded` (the same 4 values tiled to the
+same width). Family size 21 → 23.
+
+**Reason.** The project's founding hypothesis was that superposition gives access
+to a larger state. The dequantization result explains why the *function class*
+is classical, but it does not address a separate and more basic point: the
+default readout extracts 4 numbers from a 16-dimensional state. Twelve
+dimensions are never measured at all. "We measured four numbers out of sixteen"
+is not an adequate answer to a reviewer asking whether the state was used, and
+the alternative costs nothing in circuit parameters.
+
+**Why the padded control is required.** Widening the readout widens the shared
+classifier from `Linear(4,C)` to `Linear(10,C)` — 10 to 22 parameters at C=2, a
+35% increase in total trainable parameters under a frozen bottleneck. Without a
+control, a positive result is uninterpretable. `padded` holds classifier size and
+information content fixed while varying nothing, so **H-S7a (rich − padded)** is
+the test that isolates measurement richness.
+
+**Scope.** This does not escape dequantization. ⟨X_i X_j⟩ is quadratic in the
+amplitudes and lies in the same 3^d span. The claim under test is about
+*measurement*, not about function class, and the manuscript states that
+explicitly.
+
+### Amendment 7 — 27 August 2026. PCA fitted on the unlabelled training pool.
+
+**Change.** For `bottleneck="pca"`, the projection is fitted on the **full
+training split** at a fixed pool seed, not on the n-shot subset.
+
+**Reason.** Measured variance retained on PneumoniaMNIST at d=4:
+
+| regime | samples | variance retained |
+|---|---|---|
+| n=5 | 10 | **0.8281** |
+| n=20 | 40 | 0.6065 |
+| n=100 | 200 | 0.6020 |
+
+The 0.83 is an artifact of fitting four components to ten points, not a better
+projection. Fitting on the subset would therefore confound "frozen projection"
+with "projection estimated from almost nothing" — precisely at n=5, which is
+where the effect under test lives.
+
+**No leakage.** Only the feature matrix is read; labels are never touched. It
+also matches practice, since unlabelled medical images are cheap and labels are
+not: an institution deploying this would fit its projection on everything it has
+and spend its annotation budget on the classifier.
+
+**Effect on claims.** H-S6 is now a statement about a projection fitted on
+unlabelled data. Stated as such.
+
+### Amendment 8 — 27 August 2026. Horizontal flip disabled for chest radiographs.
+
+**Change.** `config.NO_HFLIP_DATASETS = ["pneumoniamnist"]`. Random rotation
+(±10°) is retained for every dataset.
+
+**Reason.** Mirroring a chest radiograph moves the heart to the right side. That
+is situs inversus — a rare congenital condition, not a benign second view of the
+same patient. Training on mirrored chests teaches the model that laterality
+carries no information, and it is a standard objection from medical-imaging
+reviewers.
+
+**Scope.** Augmentation is off in `01` and `03`; it is enabled only in
+`06_premise_check.py`. The affected numbers are therefore the premise-check
+compression curve, which is reported as a diagnostic. BreastMNIST (ultrasound),
+BloodMNIST (cell microscopy) and PathMNIST (histology) have no comparable
+laterality constraint and are unchanged.
+
+### Validity finding — 27 August 2026. Step budget is not a confound.
+
+Not an amendment; no hypothesis or family changes. Recorded because it closes a
+threat that would otherwise be an unanswered reviewer question.
+
+At n=5 with two classes the training set is 10 images, one batch, so **one epoch
+is one gradient step**. At n=100 it is seven. Models across the scarcity axis
+therefore receive 4–7× different amounts of optimization, and "performance
+improves with n" could partly mean "performance improves with more steps."
+
+Re-running PneumoniaMNIST n=5 with `MAX_EPOCHS=1000`, `PATIENCE=200`:
+
+| arm | AUC (3 seeds) | best epoch |
+|---|---|---|
+| quantum_vqc | 0.8817, 0.9006, 0.9153 | 43, 49, 38 |
+| matched_param_fullrank | 0.8878, 0.9141, 0.9183 | 13, 15, 65 |
+| linear | 0.9025, 0.8813, 0.8998 | 8, 108, 34 |
+
+Best epochs sit well inside the original 100-epoch cap and the AUCs match the
+capped runs. The extra budget changes nothing, so the confound is benign — and
+now evidenced rather than assumed. Reported in Limitations with this table.
