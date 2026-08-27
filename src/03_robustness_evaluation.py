@@ -107,7 +107,14 @@ FROZEN = _exp1.FROZEN
 
 EXPERIMENT = "03_robustness"
 
-ARMS = ["linear", "matched_param_fullrank", "fourier_rff", "quantum_vqc"]
+# Every arm that appears in a declared hypothesis must appear here, or the
+# noise section silently tests a different family than the plan declares.
+# low_rank(rank=2) is the parity control that works at any d; the rich-readout
+# pair is H-S7 and has a specific reason to behave differently under noise -
+# unitarity bounds each observable in [-1,1], so reading ten of them instead of
+# four changes how perturbation propagates to the logits.
+ARMS = ["linear", "matched_param_fullrank", "low_rank", "fourier_rff",
+        "quantum_vqc", "quantum_rich", "quantum_rich_padded"]
 
 LR_SELECTION_FILE = os.path.join(config.ARTIFACT_ROOT, "lr_selection.json")
 

@@ -93,7 +93,12 @@ FROZEN = _exp1.FROZEN
 EXPERIMENT = "09_lr_selection"
 SELECTION_FILE = os.path.join(config.ARTIFACT_ROOT, "lr_selection.json")
 
-LR_GRID = [3e-4, 1e-3, 3e-3, 1e-2]
+# Extended 27 Aug 2026 (Amendment 3a): the first four points returned a
+# monotone curve whose maximum sat on the boundary, which is the signature of a
+# search range that is too narrow. Adding 3e-2 and 1e-1 moved the optimum
+# INTERIOR for every arm, so the selection is now a real optimum rather than a
+# grid artifact. Shards are keyed on LR, so the original 960 runs were reused.
+LR_GRID = [3e-4, 1e-3, 3e-3, 1e-2, 3e-2, 1e-1]
 TUNING_REGIMES = [5, 20, 100]          # scarce, middle, abundant
 ARMS = ["linear", "matched_param_fullrank", "fourier_rff", "quantum_vqc"]
 
@@ -197,11 +202,22 @@ def summarise(write=True):
         return
 
     chosen, table = choose_lr()
-    grid = [f"{lr:.0e}" for lr in LR_GRID]
+
+    # Columns come from the shards actually on disk, NOT from LR_GRID. Deriving
+    # them from the constant meant that extending the grid at the command line
+    # silently dropped the new points from the table - so the printed sweep
+    # omitted the very learning rates that decided the selection, while the
+    # "chosen" column named one of them. The appendix table is built from this
+    # output, so a partial table is a misreported experiment.
+    present = sorted({float(r["keys"]["lr"]) for r in rows})
+    grid = [f"{lr:.0e}" for lr in present]
+    missing = [f"{lr:.0e}" for lr in LR_GRID if f"{lr:.0e}" not in grid]
 
     print("\n=== Validation AUC by learning rate (mean over all tuning cells) ===")
     print("Selection is on VALIDATION only, with seeds disjoint from the")
     print("confirmatory set. The full sweep is reported, not just the winners.")
+    if missing:
+        print(f"NOTE: {missing} are in LR_GRID but have no runs on disk.")
     print(f"\n{'arm':26s} " + " ".join(f"{g:>9s}" for g in grid) + "   chosen")
     print("-" * (26 + 10 * len(grid) + 10))
     for arm in ARMS:
@@ -246,6 +262,17 @@ def summarise(write=True):
              and r.get("mean_grad_norm") is not None]
         if g:
             print(f"  {arm:26s} {np.mean(g):8.3f}")
+
+    # A maximum at either end of the range means the true optimum is probably
+    # outside it, and the tuning has not done its job.
+    edge = [a for a in chosen
+            if f"{chosen[a]:.0e}" in (grid[0], grid[-1])]
+    if edge:
+        print(f"\nWARNING: {edge} selected a learning rate at the EDGE of the")
+        print("searched range. Extend the grid and re-run - a boundary optimum")
+        print("means the search was too narrow, not that the boundary is best.")
+    else:
+        print("\nAll selections are interior to the searched range.")
 
     print("\n=== Selected learning rates ===")
     for arm, lr in sorted(chosen.items()):

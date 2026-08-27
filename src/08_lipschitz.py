@@ -64,7 +64,8 @@ from models.registry import build_arm              # noqa: E402
 EXPERIMENT = "08_lipschitz"
 
 ARMS = ["linear", "mlp", "matched_param", "matched_param_fullrank",
-        "fourier_rff", "quantum_vqc", "quantum_reupload"]
+        "low_rank", "fourier_rff",
+        "quantum_vqc", "quantum_reupload", "quantum_rich", "quantum_rich_padded"]
 
 
 @torch.no_grad()
@@ -96,10 +97,23 @@ def lipschitz_estimate(head, d, angle_scale, n_points=512, n_directions=32,
         ratio = (head(z + eps * u) - f0).norm(dim=1) / eps
         worst = torch.maximum(worst, ratio)
 
+    # NORMALISED BY OUTPUT WIDTH. ||f(z+eu) - f(z)|| is an L2 norm over out_dim
+    # components, so a head that emits 10 numbers has a mechanically larger
+    # constant than one emitting 4 even when every component is equally
+    # sensitive. quantum_rich emits 10 and quantum_vqc emits 4, so the raw
+    # constants are not comparable between them; dividing by sqrt(out_dim)
+    # gives per-component sensitivity, which is.
+    #
+    # Both are reported: the raw value governs how much the LOGITS move (the
+    # classifier sees the full vector), the normalised value is the fair
+    # architecture-level comparison.
+    root_dim = float(out_dim) ** 0.5
     return {
         "lipschitz_max": float(worst.max()),
         "lipschitz_mean": float(worst.mean()),
         "lipschitz_p95": float(worst.quantile(0.95)),
+        "lipschitz_max_per_dim": float(worst.max()) / root_dim,
+        "lipschitz_mean_per_dim": float(worst.mean()) / root_dim,
         "output_min": float(f0.min()),
         "output_max": float(f0.max()),
         "output_absmax": float(f0.abs().max()),
@@ -156,13 +170,17 @@ def summarise():
 
     print(f"\n=== Empirical Lipschitz constants (architecture-level) ===")
     print("Bounded output + small L => graceful degradation under input noise.")
-    print(f"\n{'d':>3s} {'arm':24s} {'L_max':>10s} {'L_p95':>10s} {'L_mean':>10s} "
-          f"{'|out|max':>9s}")
-    print("-" * 72)
+    print("L/sqrt(out_dim) is the comparable column: heads emit different")
+    print("numbers of observables, and an L2 norm over more components is")
+    print("mechanically larger even at equal per-component sensitivity.")
+    print(f"\n{'d':>3s} {'arm':24s} {'out':>4s} {'L_max':>10s} {'L/sqrt(dim)':>12s} "
+          f"{'L_mean':>10s} {'|out|max':>9s}")
+    print("-" * 86)
     for (d, arm) in sorted(tbl):
         m = tbl[(d, arm)]
-        print(f"{d:3d} {arm:24s} {m['lipschitz_max']:10.3f} {m['lipschitz_p95']:10.3f} "
-              f"{m['lipschitz_mean']:10.3f} {m['output_absmax']:9.3f}")
+        per = m.get("lipschitz_max_per_dim", float("nan"))
+        print(f"{d:3d} {arm:24s} {m.get('out_dim', 0):>4d} {m['lipschitz_max']:10.3f} "
+              f"{per:12.3f} {m['lipschitz_mean']:10.3f} {m['output_absmax']:9.3f}")
 
     # The comparison the paper actually makes
     print(f"\n=== Ratio to quantum_vqc (>1 means the arm is more sensitive) ===")
@@ -175,7 +193,10 @@ def summarise():
             m = tbl.get((d, arm))
             if not m or arm == "quantum_vqc":
                 continue
-            print(f"    {arm:24s} {m['lipschitz_max'] / base['lipschitz_max']:6.2f}x")
+            raw = m["lipschitz_max"] / base["lipschitz_max"]
+            pd = (m.get("lipschitz_max_per_dim", float("nan"))
+                  / base.get("lipschitz_max_per_dim", float("nan")))
+            print(f"    {arm:24s} raw {raw:6.2f}x   per-dim {pd:6.2f}x")
 
     print("\nNOTE: measured at initialisation - this is a claim about the")
     print("ARCHITECTURE, not about any trained model. Trained constants are")
