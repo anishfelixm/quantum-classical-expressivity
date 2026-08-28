@@ -1,0 +1,944 @@
+nohup: ignoring input
+Trainable capacity at d=4:
+   learned quantum_vqc              bneck= 1028 head=  24 total= 1062 head=2.3%
+   learned matched_param_fullrank   bneck= 1028 head=  24 total= 1062 head=2.3%
+   learned linear                   bneck= 1028 head=   0 total= 1038 head=0.0%
+       pca quantum_vqc              bneck=    0 head=  24 total=   34 head=70.6%
+       pca matched_param_fullrank   bneck=    0 head=  24 total=   34 head=70.6%
+       pca linear                   bneck=    0 head=   0 total=   10 head=0.0%
+    random quantum_vqc              bneck=    0 head=  24 total=   34 head=70.6%
+    random matched_param_fullrank   bneck=    0 head=  24 total=   34 head=70.6%
+    random linear                   bneck=    0 head=   0 total=   10 head=0.0%
+
+Bottleneck ablation | 900 cells (300 quantum, ~2.5 min each) | device=cuda sha=87d9a85b
+[28/900] breastmnist n=5 s=777 bn=learned  quantum_vqc              auc=0.4766 ETA 0.0h
+[29/900] breastmnist n=5 s=777 bn=learned  matched_param_fullrank   auc=0.6289 ETA 0.0h
+[30/900] breastmnist n=5 s=777 bn=learned  linear                   auc=0.3525 ETA 0.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[31/900] breastmnist n=5 s=777 bn=pca      quantum_vqc              auc=0.6117 ETA 0.1h
+[32/900] breastmnist n=5 s=777 bn=pca      matched_param_fullrank   auc=0.3613 ETA 0.1h
+[33/900] breastmnist n=5 s=777 bn=pca      linear                   auc=0.4958 ETA 0.1h
+[34/900] breastmnist n=5 s=777 bn=random   quantum_vqc              auc=0.5871 ETA 0.1h
+[35/900] breastmnist n=5 s=777 bn=random   matched_param_fullrank   auc=0.5856 ETA 0.1h
+[36/900] breastmnist n=5 s=777 bn=random   linear                   auc=0.5365 ETA 0.1h
+[37/900] breastmnist n=5 s=888 bn=learned  quantum_vqc              auc=0.6779 ETA 0.1h
+[38/900] breastmnist n=5 s=888 bn=learned  matched_param_fullrank   auc=0.6030 ETA 0.1h
+[39/900] breastmnist n=5 s=888 bn=learned  linear                   auc=0.7782 ETA 0.1h
+[40/900] breastmnist n=5 s=888 bn=pca      quantum_vqc              auc=0.4731 ETA 0.2h
+[41/900] breastmnist n=5 s=888 bn=pca      matched_param_fullrank   auc=0.4451 ETA 0.2h
+[42/900] breastmnist n=5 s=888 bn=pca      linear                   auc=0.3590 ETA 0.2h
+[43/900] breastmnist n=5 s=888 bn=random   quantum_vqc              auc=0.4620 ETA 0.2h
+[44/900] breastmnist n=5 s=888 bn=random   matched_param_fullrank   auc=0.6278 ETA 0.2h
+[45/900] breastmnist n=5 s=888 bn=random   linear                   auc=0.3876 ETA 0.2h
+[46/900] breastmnist n=10 s=42 bn=learned  quantum_vqc              auc=0.7481 ETA 0.2h
+[47/900] breastmnist n=10 s=42 bn=learned  matched_param_fullrank   auc=0.6861 ETA 0.2h
+[48/900] breastmnist n=10 s=42 bn=learned  linear                   auc=0.7272 ETA 0.2h
+[49/900] breastmnist n=10 s=42 bn=pca      quantum_vqc              auc=0.5731 ETA 0.2h
+[50/900] breastmnist n=10 s=42 bn=pca      matched_param_fullrank   auc=0.5758 ETA 0.3h
+[51/900] breastmnist n=10 s=42 bn=pca      linear                   auc=0.3899 ETA 0.3h
+[52/900] breastmnist n=10 s=42 bn=random   quantum_vqc              auc=0.4810 ETA 0.3h
+[53/900] breastmnist n=10 s=42 bn=random   matched_param_fullrank   auc=0.6408 ETA 0.3h
+[54/900] breastmnist n=10 s=42 bn=random   linear                   auc=0.6556 ETA 0.3h
+[55/900] breastmnist n=10 s=123 bn=learned  quantum_vqc              auc=0.7197 ETA 0.3h
+[56/900] breastmnist n=10 s=123 bn=learned  matched_param_fullrank   auc=0.7145 ETA 0.3h
+[57/900] breastmnist n=10 s=123 bn=learned  linear                   auc=0.6986 ETA 0.3h
+[58/900] breastmnist n=10 s=123 bn=pca      quantum_vqc              auc=0.5497 ETA 0.3h
+[59/900] breastmnist n=10 s=123 bn=pca      matched_param_fullrank   auc=0.6159 ETA 0.3h
+[60/900] breastmnist n=10 s=123 bn=pca      linear                   auc=0.3975 ETA 0.3h
+[61/900] breastmnist n=10 s=123 bn=random   quantum_vqc              auc=0.6429 ETA 0.3h
+[62/900] breastmnist n=10 s=123 bn=random   matched_param_fullrank   auc=0.6094 ETA 0.3h
+[63/900] breastmnist n=10 s=123 bn=random   linear                   auc=0.4896 ETA 0.3h
+[64/900] breastmnist n=10 s=2026 bn=learned  quantum_vqc              auc=0.6555 ETA 0.3h
+[65/900] breastmnist n=10 s=2026 bn=learned  matched_param_fullrank   auc=0.6711 ETA 0.3h
+[66/900] breastmnist n=10 s=2026 bn=learned  linear                   auc=0.6604 ETA 0.3h
+[67/900] breastmnist n=10 s=2026 bn=pca      quantum_vqc              auc=0.5482 ETA 0.3h
+[68/900] breastmnist n=10 s=2026 bn=pca      matched_param_fullrank   auc=0.4553 ETA 0.3h
+[69/900] breastmnist n=10 s=2026 bn=pca      linear                   auc=0.4052 ETA 0.3h
+[70/900] breastmnist n=10 s=2026 bn=random   quantum_vqc              auc=0.4893 ETA 0.4h
+[71/900] breastmnist n=10 s=2026 bn=random   matched_param_fullrank   auc=0.4678 ETA 0.3h
+[72/900] breastmnist n=10 s=2026 bn=random   linear                   auc=0.6168 ETA 0.3h
+[73/900] breastmnist n=10 s=777 bn=learned  quantum_vqc              auc=0.7068 ETA 0.4h
+[74/900] breastmnist n=10 s=777 bn=learned  matched_param_fullrank   auc=0.7393 ETA 0.4h
+[75/900] breastmnist n=10 s=777 bn=learned  linear                   auc=0.6947 ETA 0.4h
+[76/900] breastmnist n=10 s=777 bn=pca      quantum_vqc              auc=0.6596 ETA 0.4h
+[77/900] breastmnist n=10 s=777 bn=pca      matched_param_fullrank   auc=0.5109 ETA 0.4h
+[78/900] breastmnist n=10 s=777 bn=pca      linear                   auc=0.5376 ETA 0.4h
+[79/900] breastmnist n=10 s=777 bn=random   quantum_vqc              auc=0.5808 ETA 0.4h
+[80/900] breastmnist n=10 s=777 bn=random   matched_param_fullrank   auc=0.6648 ETA 0.4h
+[81/900] breastmnist n=10 s=777 bn=random   linear                   auc=0.5410 ETA 0.4h
+[82/900] breastmnist n=10 s=888 bn=learned  quantum_vqc              auc=0.7091 ETA 0.4h
+[83/900] breastmnist n=10 s=888 bn=learned  matched_param_fullrank   auc=0.5877 ETA 0.4h
+[84/900] breastmnist n=10 s=888 bn=learned  linear                   auc=0.7738 ETA 0.4h
+[85/900] breastmnist n=10 s=888 bn=pca      quantum_vqc              auc=0.5305 ETA 0.4h
+[86/900] breastmnist n=10 s=888 bn=pca      matched_param_fullrank   auc=0.3972 ETA 0.4h
+[87/900] breastmnist n=10 s=888 bn=pca      linear                   auc=0.3588 ETA 0.4h
+[88/900] breastmnist n=10 s=888 bn=random   quantum_vqc              auc=0.3318 ETA 0.4h
+[89/900] breastmnist n=10 s=888 bn=random   matched_param_fullrank   auc=0.6439 ETA 0.4h
+[90/900] breastmnist n=10 s=888 bn=random   linear                   auc=0.3872 ETA 0.4h
+[91/900] breastmnist n=20 s=42 bn=learned  quantum_vqc              auc=0.7274 ETA 0.4h
+[92/900] breastmnist n=20 s=42 bn=learned  matched_param_fullrank   auc=0.7460 ETA 0.4h
+[93/900] breastmnist n=20 s=42 bn=learned  linear                   auc=0.7508 ETA 0.4h
+[94/900] breastmnist n=20 s=42 bn=pca      quantum_vqc              auc=0.6184 ETA 0.4h
+[95/900] breastmnist n=20 s=42 bn=pca      matched_param_fullrank   auc=0.6675 ETA 0.4h
+[96/900] breastmnist n=20 s=42 bn=pca      linear                   auc=0.4382 ETA 0.4h
+[97/900] breastmnist n=20 s=42 bn=random   quantum_vqc              auc=0.4927 ETA 0.4h
+[98/900] breastmnist n=20 s=42 bn=random   matched_param_fullrank   auc=0.6320 ETA 0.4h
+[99/900] breastmnist n=20 s=42 bn=random   linear                   auc=0.6462 ETA 0.4h
+[100/900] breastmnist n=20 s=123 bn=learned  quantum_vqc              auc=0.7327 ETA 0.5h
+[101/900] breastmnist n=20 s=123 bn=learned  matched_param_fullrank   auc=0.7316 ETA 0.5h
+[102/900] breastmnist n=20 s=123 bn=learned  linear                   auc=0.7531 ETA 0.4h
+[103/900] breastmnist n=20 s=123 bn=pca      quantum_vqc              auc=0.5418 ETA 0.5h
+[104/900] breastmnist n=20 s=123 bn=pca      matched_param_fullrank   auc=0.5865 ETA 0.5h
+[105/900] breastmnist n=20 s=123 bn=pca      linear                   auc=0.4079 ETA 0.5h
+[106/900] breastmnist n=20 s=123 bn=random   quantum_vqc              auc=0.6429 ETA 0.5h
+[107/900] breastmnist n=20 s=123 bn=random   matched_param_fullrank   auc=0.6126 ETA 0.5h
+[108/900] breastmnist n=20 s=123 bn=random   linear                   auc=0.4900 ETA 0.5h
+[109/900] breastmnist n=20 s=2026 bn=learned  quantum_vqc              auc=0.7141 ETA 0.5h
+[110/900] breastmnist n=20 s=2026 bn=learned  matched_param_fullrank   auc=0.7195 ETA 0.5h
+[111/900] breastmnist n=20 s=2026 bn=learned  linear                   auc=0.7214 ETA 0.5h
+[112/900] breastmnist n=20 s=2026 bn=pca      quantum_vqc              auc=0.6541 ETA 0.5h
+[113/900] breastmnist n=20 s=2026 bn=pca      matched_param_fullrank   auc=0.5792 ETA 0.5h
+[114/900] breastmnist n=20 s=2026 bn=pca      linear                   auc=0.4348 ETA 0.5h
+[115/900] breastmnist n=20 s=2026 bn=random   quantum_vqc              auc=0.4697 ETA 0.5h
+[116/900] breastmnist n=20 s=2026 bn=random   matched_param_fullrank   auc=0.4672 ETA 0.5h
+[117/900] breastmnist n=20 s=2026 bn=random   linear                   auc=0.6174 ETA 0.5h
+[118/900] breastmnist n=20 s=777 bn=learned  quantum_vqc              auc=0.6698 ETA 0.5h
+[119/900] breastmnist n=20 s=777 bn=learned  matched_param_fullrank   auc=0.7214 ETA 0.5h
+[120/900] breastmnist n=20 s=777 bn=learned  linear                   auc=0.6577 ETA 0.5h
+[121/900] breastmnist n=20 s=777 bn=pca      quantum_vqc              auc=0.6293 ETA 0.5h
+[122/900] breastmnist n=20 s=777 bn=pca      matched_param_fullrank   auc=0.4923 ETA 0.5h
+[123/900] breastmnist n=20 s=777 bn=pca      linear                   auc=0.5159 ETA 0.5h
+[124/900] breastmnist n=20 s=777 bn=random   quantum_vqc              auc=0.5890 ETA 0.5h
+[125/900] breastmnist n=20 s=777 bn=random   matched_param_fullrank   auc=0.5973 ETA 0.5h
+[126/900] breastmnist n=20 s=777 bn=random   linear                   auc=0.5420 ETA 0.5h
+[127/900] breastmnist n=20 s=888 bn=learned  quantum_vqc              auc=0.6648 ETA 0.5h
+[128/900] breastmnist n=20 s=888 bn=learned  matched_param_fullrank   auc=0.6472 ETA 0.5h
+[129/900] breastmnist n=20 s=888 bn=learned  linear                   auc=0.7116 ETA 0.5h
+[130/900] breastmnist n=20 s=888 bn=pca      quantum_vqc              auc=0.4964 ETA 0.5h
+[131/900] breastmnist n=20 s=888 bn=pca      matched_param_fullrank   auc=0.3949 ETA 0.5h
+[132/900] breastmnist n=20 s=888 bn=pca      linear                   auc=0.3582 ETA 0.5h
+[133/900] breastmnist n=20 s=888 bn=random   quantum_vqc              auc=0.3425 ETA 0.5h
+[134/900] breastmnist n=20 s=888 bn=random   matched_param_fullrank   auc=0.6412 ETA 0.5h
+[135/900] breastmnist n=20 s=888 bn=random   linear                   auc=0.3874 ETA 0.5h
+[136/900] breastmnist n=50 s=42 bn=learned  quantum_vqc              auc=0.7623 ETA 0.5h
+[137/900] breastmnist n=50 s=42 bn=learned  matched_param_fullrank   auc=0.7834 ETA 0.5h
+[138/900] breastmnist n=50 s=42 bn=learned  linear                   auc=0.7811 ETA 0.5h
+[139/900] breastmnist n=50 s=42 bn=pca      quantum_vqc              auc=0.6195 ETA 0.5h
+[140/900] breastmnist n=50 s=42 bn=pca      matched_param_fullrank   auc=0.7084 ETA 0.5h
+[141/900] breastmnist n=50 s=42 bn=pca      linear                   auc=0.4893 ETA 0.5h
+[142/900] breastmnist n=50 s=42 bn=random   quantum_vqc              auc=0.4445 ETA 0.6h
+[143/900] breastmnist n=50 s=42 bn=random   matched_param_fullrank   auc=0.6383 ETA 0.6h
+[144/900] breastmnist n=50 s=42 bn=random   linear                   auc=0.6600 ETA 0.6h
+[145/900] breastmnist n=50 s=123 bn=learned  quantum_vqc              auc=0.7544 ETA 0.6h
+[146/900] breastmnist n=50 s=123 bn=learned  matched_param_fullrank   auc=0.7673 ETA 0.6h
+[147/900] breastmnist n=50 s=123 bn=learned  linear                   auc=0.7533 ETA 0.6h
+[148/900] breastmnist n=50 s=123 bn=pca      quantum_vqc              auc=0.6752 ETA 0.6h
+[149/900] breastmnist n=50 s=123 bn=pca      matched_param_fullrank   auc=0.6600 ETA 0.6h
+[150/900] breastmnist n=50 s=123 bn=pca      linear                   auc=0.5384 ETA 0.6h
+[151/900] breastmnist n=50 s=123 bn=random   quantum_vqc              auc=0.6443 ETA 0.6h
+[152/900] breastmnist n=50 s=123 bn=random   matched_param_fullrank   auc=0.6518 ETA 0.6h
+[153/900] breastmnist n=50 s=123 bn=random   linear                   auc=0.5526 ETA 0.6h
+[154/900] breastmnist n=50 s=2026 bn=learned  quantum_vqc              auc=0.7245 ETA 0.6h
+[155/900] breastmnist n=50 s=2026 bn=learned  matched_param_fullrank   auc=0.7398 ETA 0.6h
+[156/900] breastmnist n=50 s=2026 bn=learned  linear                   auc=0.7358 ETA 0.6h
+[157/900] breastmnist n=50 s=2026 bn=pca      quantum_vqc              auc=0.7130 ETA 0.6h
+[158/900] breastmnist n=50 s=2026 bn=pca      matched_param_fullrank   auc=0.6395 ETA 0.6h
+[159/900] breastmnist n=50 s=2026 bn=pca      linear                   auc=0.4699 ETA 0.6h
+[160/900] breastmnist n=50 s=2026 bn=random   quantum_vqc              auc=0.4758 ETA 0.6h
+[161/900] breastmnist n=50 s=2026 bn=random   matched_param_fullrank   auc=0.4666 ETA 0.6h
+[162/900] breastmnist n=50 s=2026 bn=random   linear                   auc=0.6168 ETA 0.6h
+[163/900] breastmnist n=50 s=777 bn=learned  quantum_vqc              auc=0.7128 ETA 0.6h
+[164/900] breastmnist n=50 s=777 bn=learned  matched_param_fullrank   auc=0.7521 ETA 0.6h
+[165/900] breastmnist n=50 s=777 bn=learned  linear                   auc=0.7070 ETA 0.6h
+[166/900] breastmnist n=50 s=777 bn=pca      quantum_vqc              auc=0.6527 ETA 0.6h
+[167/900] breastmnist n=50 s=777 bn=pca      matched_param_fullrank   auc=0.6660 ETA 0.6h
+[168/900] breastmnist n=50 s=777 bn=pca      linear                   auc=0.5808 ETA 0.6h
+[169/900] breastmnist n=50 s=777 bn=random   quantum_vqc              auc=0.5858 ETA 0.7h
+[170/900] breastmnist n=50 s=777 bn=random   matched_param_fullrank   auc=0.6048 ETA 0.7h
+[171/900] breastmnist n=50 s=777 bn=random   linear                   auc=0.5432 ETA 0.6h
+[172/900] breastmnist n=50 s=888 bn=learned  quantum_vqc              auc=0.7341 ETA 0.7h
+[173/900] breastmnist n=50 s=888 bn=learned  matched_param_fullrank   auc=0.7348 ETA 0.7h
+[174/900] breastmnist n=50 s=888 bn=learned  linear                   auc=0.7726 ETA 0.7h
+[175/900] breastmnist n=50 s=888 bn=pca      quantum_vqc              auc=0.5065 ETA 0.7h
+[176/900] breastmnist n=50 s=888 bn=pca      matched_param_fullrank   auc=0.6809 ETA 0.7h
+[177/900] breastmnist n=50 s=888 bn=pca      linear                   auc=0.4405 ETA 0.7h
+[178/900] breastmnist n=50 s=888 bn=random   quantum_vqc              auc=0.6888 ETA 0.7h
+[179/900] breastmnist n=50 s=888 bn=random   matched_param_fullrank   auc=0.6500 ETA 0.7h
+[180/900] breastmnist n=50 s=888 bn=random   linear                   auc=0.4252 ETA 0.7h
+[208/900] breastmnist n=100 s=777 bn=learned  quantum_vqc              auc=0.8045 ETA 0.6h
+[209/900] breastmnist n=100 s=777 bn=learned  matched_param_fullrank   auc=0.8087 ETA 0.6h
+[210/900] breastmnist n=100 s=777 bn=learned  linear                   auc=0.7794 ETA 0.6h
+[211/900] breastmnist n=100 s=777 bn=pca      quantum_vqc              auc=0.6587 ETA 0.6h
+[212/900] breastmnist n=100 s=777 bn=pca      matched_param_fullrank   auc=0.7201 ETA 0.6h
+[213/900] breastmnist n=100 s=777 bn=pca      linear                   auc=0.6577 ETA 0.6h
+[214/900] breastmnist n=100 s=777 bn=random   quantum_vqc              auc=0.5942 ETA 0.6h
+[215/900] breastmnist n=100 s=777 bn=random   matched_param_fullrank   auc=0.6019 ETA 0.6h
+[216/900] breastmnist n=100 s=777 bn=random   linear                   auc=0.5403 ETA 0.6h
+[217/900] breastmnist n=100 s=888 bn=learned  quantum_vqc              auc=0.7893 ETA 0.6h
+[218/900] breastmnist n=100 s=888 bn=learned  matched_param_fullrank   auc=0.7939 ETA 0.6h
+[219/900] breastmnist n=100 s=888 bn=learned  linear                   auc=0.8229 ETA 0.6h
+[220/900] breastmnist n=100 s=888 bn=pca      quantum_vqc              auc=0.5040 ETA 0.6h
+[221/900] breastmnist n=100 s=888 bn=pca      matched_param_fullrank   auc=0.7247 ETA 0.6h
+[222/900] breastmnist n=100 s=888 bn=pca      linear                   auc=0.5238 ETA 0.6h
+[223/900] breastmnist n=100 s=888 bn=random   quantum_vqc              auc=0.6913 ETA 0.6h
+[224/900] breastmnist n=100 s=888 bn=random   matched_param_fullrank   auc=0.6552 ETA 0.6h
+[225/900] breastmnist n=100 s=888 bn=random   linear                   auc=0.4601 ETA 0.6h
+[253/900] pneumoniamnist n=5 s=777 bn=learned  quantum_vqc              auc=0.9167 ETA 0.5h
+[254/900] pneumoniamnist n=5 s=777 bn=learned  matched_param_fullrank   auc=0.9150 ETA 0.5h
+[255/900] pneumoniamnist n=5 s=777 bn=learned  linear                   auc=0.8663 ETA 0.5h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[256/900] pneumoniamnist n=5 s=777 bn=pca      quantum_vqc              auc=0.8199 ETA 0.5h
+[257/900] pneumoniamnist n=5 s=777 bn=pca      matched_param_fullrank   auc=0.5044 ETA 0.5h
+[258/900] pneumoniamnist n=5 s=777 bn=pca      linear                   auc=0.7621 ETA 0.5h
+[259/900] pneumoniamnist n=5 s=777 bn=random   quantum_vqc              auc=0.8339 ETA 0.5h
+[260/900] pneumoniamnist n=5 s=777 bn=random   matched_param_fullrank   auc=0.4888 ETA 0.5h
+[261/900] pneumoniamnist n=5 s=777 bn=random   linear                   auc=0.5916 ETA 0.5h
+[262/900] pneumoniamnist n=5 s=888 bn=learned  quantum_vqc              auc=0.9016 ETA 0.5h
+[263/900] pneumoniamnist n=5 s=888 bn=learned  matched_param_fullrank   auc=0.5661 ETA 0.5h
+[264/900] pneumoniamnist n=5 s=888 bn=learned  linear                   auc=0.9008 ETA 0.5h
+[265/900] pneumoniamnist n=5 s=888 bn=pca      quantum_vqc              auc=0.4763 ETA 0.5h
+[266/900] pneumoniamnist n=5 s=888 bn=pca      matched_param_fullrank   auc=0.2496 ETA 0.5h
+[267/900] pneumoniamnist n=5 s=888 bn=pca      linear                   auc=0.0935 ETA 0.5h
+[268/900] pneumoniamnist n=5 s=888 bn=random   quantum_vqc              auc=0.8076 ETA 0.5h
+[269/900] pneumoniamnist n=5 s=888 bn=random   matched_param_fullrank   auc=0.8146 ETA 0.5h
+[270/900] pneumoniamnist n=5 s=888 bn=random   linear                   auc=0.8833 ETA 0.5h
+[271/900] pneumoniamnist n=10 s=42 bn=learned  quantum_vqc              auc=0.9172 ETA 0.5h
+[272/900] pneumoniamnist n=10 s=42 bn=learned  matched_param_fullrank   auc=0.9204 ETA 0.5h
+[273/900] pneumoniamnist n=10 s=42 bn=learned  linear                   auc=0.9156 ETA 0.5h
+[274/900] pneumoniamnist n=10 s=42 bn=pca      quantum_vqc              auc=0.3999 ETA 0.5h
+[275/900] pneumoniamnist n=10 s=42 bn=pca      matched_param_fullrank   auc=0.8548 ETA 0.5h
+[276/900] pneumoniamnist n=10 s=42 bn=pca      linear                   auc=0.7493 ETA 0.5h
+[277/900] pneumoniamnist n=10 s=42 bn=random   quantum_vqc              auc=0.2566 ETA 0.5h
+[278/900] pneumoniamnist n=10 s=42 bn=random   matched_param_fullrank   auc=0.4229 ETA 0.5h
+[279/900] pneumoniamnist n=10 s=42 bn=random   linear                   auc=0.6901 ETA 0.5h
+[280/900] pneumoniamnist n=10 s=123 bn=learned  quantum_vqc              auc=0.8959 ETA 0.5h
+[281/900] pneumoniamnist n=10 s=123 bn=learned  matched_param_fullrank   auc=0.9211 ETA 0.5h
+[282/900] pneumoniamnist n=10 s=123 bn=learned  linear                   auc=0.8852 ETA 0.5h
+[283/900] pneumoniamnist n=10 s=123 bn=pca      quantum_vqc              auc=0.5238 ETA 0.5h
+[284/900] pneumoniamnist n=10 s=123 bn=pca      matched_param_fullrank   auc=0.8711 ETA 0.5h
+[285/900] pneumoniamnist n=10 s=123 bn=pca      linear                   auc=0.1511 ETA 0.5h
+[286/900] pneumoniamnist n=10 s=123 bn=random   quantum_vqc              auc=0.3068 ETA 0.5h
+[287/900] pneumoniamnist n=10 s=123 bn=random   matched_param_fullrank   auc=0.5272 ETA 0.5h
+[288/900] pneumoniamnist n=10 s=123 bn=random   linear                   auc=0.8377 ETA 0.5h
+[289/900] pneumoniamnist n=10 s=2026 bn=learned  quantum_vqc              auc=0.9090 ETA 0.5h
+[290/900] pneumoniamnist n=10 s=2026 bn=learned  matched_param_fullrank   auc=0.8596 ETA 0.5h
+[291/900] pneumoniamnist n=10 s=2026 bn=learned  linear                   auc=0.8492 ETA 0.5h
+[292/900] pneumoniamnist n=10 s=2026 bn=pca      quantum_vqc              auc=0.7762 ETA 0.5h
+[293/900] pneumoniamnist n=10 s=2026 bn=pca      matched_param_fullrank   auc=0.8409 ETA 0.5h
+[294/900] pneumoniamnist n=10 s=2026 bn=pca      linear                   auc=0.1912 ETA 0.5h
+[295/900] pneumoniamnist n=10 s=2026 bn=random   quantum_vqc              auc=0.3863 ETA 0.5h
+[296/900] pneumoniamnist n=10 s=2026 bn=random   matched_param_fullrank   auc=0.8262 ETA 0.5h
+[297/900] pneumoniamnist n=10 s=2026 bn=random   linear                   auc=0.4843 ETA 0.5h
+[298/900] pneumoniamnist n=10 s=777 bn=learned  quantum_vqc              auc=0.9030 ETA 0.5h
+[299/900] pneumoniamnist n=10 s=777 bn=learned  matched_param_fullrank   auc=0.8972 ETA 0.5h
+[300/900] pneumoniamnist n=10 s=777 bn=learned  linear                   auc=0.8683 ETA 0.5h
+[301/900] pneumoniamnist n=10 s=777 bn=pca      quantum_vqc              auc=0.7277 ETA 0.5h
+[302/900] pneumoniamnist n=10 s=777 bn=pca      matched_param_fullrank   auc=0.4597 ETA 0.5h
+[303/900] pneumoniamnist n=10 s=777 bn=pca      linear                   auc=0.7612 ETA 0.5h
+[304/900] pneumoniamnist n=10 s=777 bn=random   quantum_vqc              auc=0.8324 ETA 0.5h
+[305/900] pneumoniamnist n=10 s=777 bn=random   matched_param_fullrank   auc=0.7440 ETA 0.5h
+[306/900] pneumoniamnist n=10 s=777 bn=random   linear                   auc=0.5901 ETA 0.5h
+[307/900] pneumoniamnist n=10 s=888 bn=learned  quantum_vqc              auc=0.9023 ETA 0.5h
+[308/900] pneumoniamnist n=10 s=888 bn=learned  matched_param_fullrank   auc=0.5661 ETA 0.5h
+[309/900] pneumoniamnist n=10 s=888 bn=learned  linear                   auc=0.8946 ETA 0.5h
+[310/900] pneumoniamnist n=10 s=888 bn=pca      quantum_vqc              auc=0.5506 ETA 0.5h
+[311/900] pneumoniamnist n=10 s=888 bn=pca      matched_param_fullrank   auc=0.3582 ETA 0.5h
+[312/900] pneumoniamnist n=10 s=888 bn=pca      linear                   auc=0.0923 ETA 0.5h
+[313/900] pneumoniamnist n=10 s=888 bn=random   quantum_vqc              auc=0.7663 ETA 0.5h
+[314/900] pneumoniamnist n=10 s=888 bn=random   matched_param_fullrank   auc=0.8147 ETA 0.5h
+[315/900] pneumoniamnist n=10 s=888 bn=random   linear                   auc=0.8832 ETA 0.5h
+[316/900] pneumoniamnist n=20 s=42 bn=learned  quantum_vqc              auc=0.9181 ETA 0.5h
+[317/900] pneumoniamnist n=20 s=42 bn=learned  matched_param_fullrank   auc=0.9332 ETA 0.5h
+[318/900] pneumoniamnist n=20 s=42 bn=learned  linear                   auc=0.9342 ETA 0.5h
+[319/900] pneumoniamnist n=20 s=42 bn=pca      quantum_vqc              auc=0.5105 ETA 0.5h
+[320/900] pneumoniamnist n=20 s=42 bn=pca      matched_param_fullrank   auc=0.8902 ETA 0.5h
+[321/900] pneumoniamnist n=20 s=42 bn=pca      linear                   auc=0.7826 ETA 0.5h
+[322/900] pneumoniamnist n=20 s=42 bn=random   quantum_vqc              auc=0.7568 ETA 0.5h
+[323/900] pneumoniamnist n=20 s=42 bn=random   matched_param_fullrank   auc=0.3977 ETA 0.5h
+[324/900] pneumoniamnist n=20 s=42 bn=random   linear                   auc=0.6992 ETA 0.5h
+[325/900] pneumoniamnist n=20 s=123 bn=learned  quantum_vqc              auc=0.9198 ETA 0.5h
+[326/900] pneumoniamnist n=20 s=123 bn=learned  matched_param_fullrank   auc=0.9376 ETA 0.5h
+[327/900] pneumoniamnist n=20 s=123 bn=learned  linear                   auc=0.9214 ETA 0.5h
+[328/900] pneumoniamnist n=20 s=123 bn=pca      quantum_vqc              auc=0.7479 ETA 0.5h
+[329/900] pneumoniamnist n=20 s=123 bn=pca      matched_param_fullrank   auc=0.8849 ETA 0.5h
+[330/900] pneumoniamnist n=20 s=123 bn=pca      linear                   auc=0.2924 ETA 0.5h
+[331/900] pneumoniamnist n=20 s=123 bn=random   quantum_vqc              auc=0.3130 ETA 0.5h
+[332/900] pneumoniamnist n=20 s=123 bn=random   matched_param_fullrank   auc=0.7498 ETA 0.5h
+[333/900] pneumoniamnist n=20 s=123 bn=random   linear                   auc=0.8441 ETA 0.5h
+[334/900] pneumoniamnist n=20 s=2026 bn=learned  quantum_vqc              auc=0.9218 ETA 0.5h
+[335/900] pneumoniamnist n=20 s=2026 bn=learned  matched_param_fullrank   auc=0.9234 ETA 0.5h
+[336/900] pneumoniamnist n=20 s=2026 bn=learned  linear                   auc=0.9225 ETA 0.5h
+[337/900] pneumoniamnist n=20 s=2026 bn=pca      quantum_vqc              auc=0.8691 ETA 0.5h
+[338/900] pneumoniamnist n=20 s=2026 bn=pca      matched_param_fullrank   auc=0.8904 ETA 0.5h
+[339/900] pneumoniamnist n=20 s=2026 bn=pca      linear                   auc=0.2363 ETA 0.5h
+[340/900] pneumoniamnist n=20 s=2026 bn=random   quantum_vqc              auc=0.3953 ETA 0.5h
+[341/900] pneumoniamnist n=20 s=2026 bn=random   matched_param_fullrank   auc=0.8263 ETA 0.5h
+[342/900] pneumoniamnist n=20 s=2026 bn=random   linear                   auc=0.4837 ETA 0.5h
+[343/900] pneumoniamnist n=20 s=777 bn=learned  quantum_vqc              auc=0.9337 ETA 0.5h
+[344/900] pneumoniamnist n=20 s=777 bn=learned  matched_param_fullrank   auc=0.9307 ETA 0.5h
+[345/900] pneumoniamnist n=20 s=777 bn=learned  linear                   auc=0.9243 ETA 0.5h
+[346/900] pneumoniamnist n=20 s=777 bn=pca      quantum_vqc              auc=0.8869 ETA 0.5h
+[347/900] pneumoniamnist n=20 s=777 bn=pca      matched_param_fullrank   auc=0.8038 ETA 0.5h
+[348/900] pneumoniamnist n=20 s=777 bn=pca      linear                   auc=0.8507 ETA 0.5h
+[349/900] pneumoniamnist n=20 s=777 bn=random   quantum_vqc              auc=0.8338 ETA 0.5h
+[350/900] pneumoniamnist n=20 s=777 bn=random   matched_param_fullrank   auc=0.5805 ETA 0.5h
+[351/900] pneumoniamnist n=20 s=777 bn=random   linear                   auc=0.5946 ETA 0.5h
+[352/900] pneumoniamnist n=20 s=888 bn=learned  quantum_vqc              auc=0.9151 ETA 0.5h
+[353/900] pneumoniamnist n=20 s=888 bn=learned  matched_param_fullrank   auc=0.8943 ETA 0.5h
+[354/900] pneumoniamnist n=20 s=888 bn=learned  linear                   auc=0.9153 ETA 0.5h
+[355/900] pneumoniamnist n=20 s=888 bn=pca      quantum_vqc              auc=0.6718 ETA 0.5h
+[356/900] pneumoniamnist n=20 s=888 bn=pca      matched_param_fullrank   auc=0.5555 ETA 0.5h
+[357/900] pneumoniamnist n=20 s=888 bn=pca      linear                   auc=0.1174 ETA 0.5h
+[358/900] pneumoniamnist n=20 s=888 bn=random   quantum_vqc              auc=0.8224 ETA 0.5h
+[359/900] pneumoniamnist n=20 s=888 bn=random   matched_param_fullrank   auc=0.8150 ETA 0.5h
+[360/900] pneumoniamnist n=20 s=888 bn=random   linear                   auc=0.8831 ETA 0.5h
+[361/900] pneumoniamnist n=50 s=42 bn=learned  quantum_vqc              auc=0.9138 ETA 0.5h
+[362/900] pneumoniamnist n=50 s=42 bn=learned  matched_param_fullrank   auc=0.9199 ETA 0.5h
+[363/900] pneumoniamnist n=50 s=42 bn=learned  linear                   auc=0.9277 ETA 0.5h
+[364/900] pneumoniamnist n=50 s=42 bn=pca      quantum_vqc              auc=0.7799 ETA 0.5h
+[365/900] pneumoniamnist n=50 s=42 bn=pca      matched_param_fullrank   auc=0.9194 ETA 0.5h
+[366/900] pneumoniamnist n=50 s=42 bn=pca      linear                   auc=0.8588 ETA 0.5h
+[367/900] pneumoniamnist n=50 s=42 bn=random   quantum_vqc              auc=0.7331 ETA 0.5h
+[368/900] pneumoniamnist n=50 s=42 bn=random   matched_param_fullrank   auc=0.5028 ETA 0.5h
+[369/900] pneumoniamnist n=50 s=42 bn=random   linear                   auc=0.7372 ETA 0.5h
+[370/900] pneumoniamnist n=50 s=123 bn=learned  quantum_vqc              auc=0.9293 ETA 0.5h
+[371/900] pneumoniamnist n=50 s=123 bn=learned  matched_param_fullrank   auc=0.9369 ETA 0.5h
+[372/900] pneumoniamnist n=50 s=123 bn=learned  linear                   auc=0.9237 ETA 0.5h
+[373/900] pneumoniamnist n=50 s=123 bn=pca      quantum_vqc              auc=0.8917 ETA 0.5h
+[374/900] pneumoniamnist n=50 s=123 bn=pca      matched_param_fullrank   auc=0.9214 ETA 0.5h
+[375/900] pneumoniamnist n=50 s=123 bn=pca      linear                   auc=0.3840 ETA 0.5h
+[376/900] pneumoniamnist n=50 s=123 bn=random   quantum_vqc              auc=0.3127 ETA 0.5h
+[377/900] pneumoniamnist n=50 s=123 bn=random   matched_param_fullrank   auc=0.8114 ETA 0.5h
+[378/900] pneumoniamnist n=50 s=123 bn=random   linear                   auc=0.8580 ETA 0.5h
+[379/900] pneumoniamnist n=50 s=2026 bn=learned  quantum_vqc              auc=0.9220 ETA 0.5h
+[380/900] pneumoniamnist n=50 s=2026 bn=learned  matched_param_fullrank   auc=0.9227 ETA 0.5h
+[381/900] pneumoniamnist n=50 s=2026 bn=learned  linear                   auc=0.9225 ETA 0.5h
+[382/900] pneumoniamnist n=50 s=2026 bn=pca      quantum_vqc              auc=0.9002 ETA 0.5h
+[383/900] pneumoniamnist n=50 s=2026 bn=pca      matched_param_fullrank   auc=0.9231 ETA 0.5h
+[384/900] pneumoniamnist n=50 s=2026 bn=pca      linear                   auc=0.2769 ETA 0.5h
+[385/900] pneumoniamnist n=50 s=2026 bn=random   quantum_vqc              auc=0.4734 ETA 0.5h
+[386/900] pneumoniamnist n=50 s=2026 bn=random   matched_param_fullrank   auc=0.8262 ETA 0.5h
+[387/900] pneumoniamnist n=50 s=2026 bn=random   linear                   auc=0.4826 ETA 0.5h
+[388/900] pneumoniamnist n=50 s=777 bn=learned  quantum_vqc              auc=0.9210 ETA 0.5h
+[389/900] pneumoniamnist n=50 s=777 bn=learned  matched_param_fullrank   auc=0.9206 ETA 0.5h
+[390/900] pneumoniamnist n=50 s=777 bn=learned  linear                   auc=0.9149 ETA 0.5h
+[391/900] pneumoniamnist n=50 s=777 bn=pca      quantum_vqc              auc=0.9111 ETA 0.5h
+[392/900] pneumoniamnist n=50 s=777 bn=pca      matched_param_fullrank   auc=0.9009 ETA 0.5h
+[393/900] pneumoniamnist n=50 s=777 bn=pca      linear                   auc=0.8582 ETA 0.5h
+[394/900] pneumoniamnist n=50 s=777 bn=random   quantum_vqc              auc=0.8336 ETA 0.5h
+[395/900] pneumoniamnist n=50 s=777 bn=random   matched_param_fullrank   auc=0.6991 ETA 0.5h
+[396/900] pneumoniamnist n=50 s=777 bn=random   linear                   auc=0.5948 ETA 0.5h
+[397/900] pneumoniamnist n=50 s=888 bn=learned  quantum_vqc              auc=0.9123 ETA 0.5h
+[398/900] pneumoniamnist n=50 s=888 bn=learned  matched_param_fullrank   auc=0.9017 ETA 0.5h
+[399/900] pneumoniamnist n=50 s=888 bn=learned  linear                   auc=0.9174 ETA 0.5h
+[400/900] pneumoniamnist n=50 s=888 bn=pca      quantum_vqc              auc=0.8754 ETA 0.5h
+[401/900] pneumoniamnist n=50 s=888 bn=pca      matched_param_fullrank   auc=0.8142 ETA 0.5h
+[402/900] pneumoniamnist n=50 s=888 bn=pca      linear                   auc=0.1250 ETA 0.5h
+[403/900] pneumoniamnist n=50 s=888 bn=random   quantum_vqc              auc=0.8127 ETA 0.5h
+[404/900] pneumoniamnist n=50 s=888 bn=random   matched_param_fullrank   auc=0.8147 ETA 0.5h
+[405/900] pneumoniamnist n=50 s=888 bn=random   linear                   auc=0.8830 ETA 0.5h
+[433/900] pneumoniamnist n=100 s=777 bn=learned  quantum_vqc              auc=0.9286 ETA 0.5h
+[434/900] pneumoniamnist n=100 s=777 bn=learned  matched_param_fullrank   auc=0.9295 ETA 0.5h
+[435/900] pneumoniamnist n=100 s=777 bn=learned  linear                   auc=0.9271 ETA 0.5h
+[436/900] pneumoniamnist n=100 s=777 bn=pca      quantum_vqc              auc=0.9185 ETA 0.5h
+[437/900] pneumoniamnist n=100 s=777 bn=pca      matched_param_fullrank   auc=0.9198 ETA 0.5h
+[438/900] pneumoniamnist n=100 s=777 bn=pca      linear                   auc=0.9132 ETA 0.5h
+[439/900] pneumoniamnist n=100 s=777 bn=random   quantum_vqc              auc=0.8335 ETA 0.5h
+[440/900] pneumoniamnist n=100 s=777 bn=random   matched_param_fullrank   auc=0.8713 ETA 0.5h
+[441/900] pneumoniamnist n=100 s=777 bn=random   linear                   auc=0.5946 ETA 0.5h
+[442/900] pneumoniamnist n=100 s=888 bn=learned  quantum_vqc              auc=0.9280 ETA 0.5h
+[443/900] pneumoniamnist n=100 s=888 bn=learned  matched_param_fullrank   auc=0.9157 ETA 0.5h
+[444/900] pneumoniamnist n=100 s=888 bn=learned  linear                   auc=0.9290 ETA 0.5h
+[445/900] pneumoniamnist n=100 s=888 bn=pca      quantum_vqc              auc=0.9139 ETA 0.5h
+[446/900] pneumoniamnist n=100 s=888 bn=pca      matched_param_fullrank   auc=0.9235 ETA 0.5h
+[447/900] pneumoniamnist n=100 s=888 bn=pca      linear                   auc=0.3555 ETA 0.5h
+[448/900] pneumoniamnist n=100 s=888 bn=random   quantum_vqc              auc=0.8249 ETA 0.5h
+[449/900] pneumoniamnist n=100 s=888 bn=random   matched_param_fullrank   auc=0.8181 ETA 0.5h
+[450/900] pneumoniamnist n=100 s=888 bn=random   linear                   auc=0.8823 ETA 0.5h
+[451/900] bloodmnist n=5 s=42 bn=learned  quantum_vqc              auc=0.7586 ETA 0.5h
+[452/900] bloodmnist n=5 s=42 bn=learned  matched_param_fullrank   auc=0.6873 ETA 0.5h
+[453/900] bloodmnist n=5 s=42 bn=learned  linear                   auc=0.7397 ETA 0.5h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[454/900] bloodmnist n=5 s=42 bn=pca      quantum_vqc              auc=0.5871 ETA 0.5h
+[455/900] bloodmnist n=5 s=42 bn=pca      matched_param_fullrank   auc=0.5874 ETA 0.5h
+[456/900] bloodmnist n=5 s=42 bn=pca      linear                   auc=0.6909 ETA 0.5h
+[457/900] bloodmnist n=5 s=42 bn=random   quantum_vqc              auc=0.5127 ETA 0.5h
+[458/900] bloodmnist n=5 s=42 bn=random   matched_param_fullrank   auc=0.6098 ETA 0.5h
+[459/900] bloodmnist n=5 s=42 bn=random   linear                   auc=0.4126 ETA 0.5h
+[460/900] bloodmnist n=5 s=123 bn=learned  quantum_vqc              auc=0.5691 ETA 0.5h
+[461/900] bloodmnist n=5 s=123 bn=learned  matched_param_fullrank   auc=0.6643 ETA 0.5h
+[462/900] bloodmnist n=5 s=123 bn=learned  linear                   auc=0.7795 ETA 0.5h
+[463/900] bloodmnist n=5 s=123 bn=pca      quantum_vqc              auc=0.5309 ETA 0.5h
+[464/900] bloodmnist n=5 s=123 bn=pca      matched_param_fullrank   auc=0.6547 ETA 0.5h
+[465/900] bloodmnist n=5 s=123 bn=pca      linear                   auc=0.6386 ETA 0.5h
+[466/900] bloodmnist n=5 s=123 bn=random   quantum_vqc              auc=0.5073 ETA 0.5h
+[467/900] bloodmnist n=5 s=123 bn=random   matched_param_fullrank   auc=0.5652 ETA 0.5h
+[468/900] bloodmnist n=5 s=123 bn=random   linear                   auc=0.5826 ETA 0.5h
+[469/900] bloodmnist n=5 s=2026 bn=learned  quantum_vqc              auc=0.7646 ETA 0.5h
+[470/900] bloodmnist n=5 s=2026 bn=learned  matched_param_fullrank   auc=0.6587 ETA 0.5h
+[471/900] bloodmnist n=5 s=2026 bn=learned  linear                   auc=0.7382 ETA 0.5h
+[472/900] bloodmnist n=5 s=2026 bn=pca      quantum_vqc              auc=0.6016 ETA 0.5h
+[473/900] bloodmnist n=5 s=2026 bn=pca      matched_param_fullrank   auc=0.6781 ETA 0.5h
+[474/900] bloodmnist n=5 s=2026 bn=pca      linear                   auc=0.5965 ETA 0.5h
+[475/900] bloodmnist n=5 s=2026 bn=random   quantum_vqc              auc=0.4682 ETA 0.5h
+[476/900] bloodmnist n=5 s=2026 bn=random   matched_param_fullrank   auc=0.5491 ETA 0.5h
+[477/900] bloodmnist n=5 s=2026 bn=random   linear                   auc=0.5951 ETA 0.5h
+[478/900] bloodmnist n=5 s=777 bn=learned  quantum_vqc              auc=0.6268 ETA 0.5h
+[479/900] bloodmnist n=5 s=777 bn=learned  matched_param_fullrank   auc=0.6612 ETA 0.5h
+[480/900] bloodmnist n=5 s=777 bn=learned  linear                   auc=0.7486 ETA 0.5h
+[481/900] bloodmnist n=5 s=777 bn=pca      quantum_vqc              auc=0.5655 ETA 0.5h
+[482/900] bloodmnist n=5 s=777 bn=pca      matched_param_fullrank   auc=0.5392 ETA 0.5h
+[483/900] bloodmnist n=5 s=777 bn=pca      linear                   auc=0.5136 ETA 0.5h
+[484/900] bloodmnist n=5 s=777 bn=random   quantum_vqc              auc=0.5203 ETA 0.5h
+[485/900] bloodmnist n=5 s=777 bn=random   matched_param_fullrank   auc=0.5330 ETA 0.5h
+[486/900] bloodmnist n=5 s=777 bn=random   linear                   auc=0.4518 ETA 0.5h
+[487/900] bloodmnist n=5 s=888 bn=learned  quantum_vqc              auc=0.7933 ETA 0.5h
+[488/900] bloodmnist n=5 s=888 bn=learned  matched_param_fullrank   auc=0.5122 ETA 0.5h
+[489/900] bloodmnist n=5 s=888 bn=learned  linear                   auc=0.7470 ETA 0.5h
+[490/900] bloodmnist n=5 s=888 bn=pca      quantum_vqc              auc=0.6152 ETA 0.5h
+[491/900] bloodmnist n=5 s=888 bn=pca      matched_param_fullrank   auc=0.5555 ETA 0.5h
+[492/900] bloodmnist n=5 s=888 bn=pca      linear                   auc=0.5505 ETA 0.5h
+[493/900] bloodmnist n=5 s=888 bn=random   quantum_vqc              auc=0.5508 ETA 0.5h
+[494/900] bloodmnist n=5 s=888 bn=random   matched_param_fullrank   auc=0.5286 ETA 0.5h
+[495/900] bloodmnist n=5 s=888 bn=random   linear                   auc=0.4432 ETA 0.5h
+[496/900] bloodmnist n=10 s=42 bn=learned  quantum_vqc              auc=0.7766 ETA 0.5h
+[497/900] bloodmnist n=10 s=42 bn=learned  matched_param_fullrank   auc=0.7645 ETA 0.5h
+[498/900] bloodmnist n=10 s=42 bn=learned  linear                   auc=0.7658 ETA 0.5h
+[499/900] bloodmnist n=10 s=42 bn=pca      quantum_vqc              auc=0.6738 ETA 0.5h
+[500/900] bloodmnist n=10 s=42 bn=pca      matched_param_fullrank   auc=0.6680 ETA 0.5h
+[501/900] bloodmnist n=10 s=42 bn=pca      linear                   auc=0.7184 ETA 0.5h
+[502/900] bloodmnist n=10 s=42 bn=random   quantum_vqc              auc=0.5143 ETA 0.5h
+[503/900] bloodmnist n=10 s=42 bn=random   matched_param_fullrank   auc=0.6253 ETA 0.5h
+[504/900] bloodmnist n=10 s=42 bn=random   linear                   auc=0.4438 ETA 0.5h
+[505/900] bloodmnist n=10 s=123 bn=learned  quantum_vqc              auc=0.7096 ETA 0.5h
+[506/900] bloodmnist n=10 s=123 bn=learned  matched_param_fullrank   auc=0.7310 ETA 0.5h
+[507/900] bloodmnist n=10 s=123 bn=learned  linear                   auc=0.8257 ETA 0.4h
+[508/900] bloodmnist n=10 s=123 bn=pca      quantum_vqc              auc=0.5784 ETA 0.5h
+[509/900] bloodmnist n=10 s=123 bn=pca      matched_param_fullrank   auc=0.7025 ETA 0.5h
+[510/900] bloodmnist n=10 s=123 bn=pca      linear                   auc=0.6650 ETA 0.5h
+[511/900] bloodmnist n=10 s=123 bn=random   quantum_vqc              auc=0.5199 ETA 0.5h
+[512/900] bloodmnist n=10 s=123 bn=random   matched_param_fullrank   auc=0.5934 ETA 0.5h
+[513/900] bloodmnist n=10 s=123 bn=random   linear                   auc=0.5905 ETA 0.4h
+[514/900] bloodmnist n=10 s=2026 bn=learned  quantum_vqc              auc=0.8008 ETA 0.5h
+[515/900] bloodmnist n=10 s=2026 bn=learned  matched_param_fullrank   auc=0.8200 ETA 0.4h
+[516/900] bloodmnist n=10 s=2026 bn=learned  linear                   auc=0.7909 ETA 0.4h
+[517/900] bloodmnist n=10 s=2026 bn=pca      quantum_vqc              auc=0.6817 ETA 0.5h
+[518/900] bloodmnist n=10 s=2026 bn=pca      matched_param_fullrank   auc=0.7227 ETA 0.4h
+[519/900] bloodmnist n=10 s=2026 bn=pca      linear                   auc=0.6233 ETA 0.4h
+[520/900] bloodmnist n=10 s=2026 bn=random   quantum_vqc              auc=0.4652 ETA 0.4h
+[521/900] bloodmnist n=10 s=2026 bn=random   matched_param_fullrank   auc=0.5493 ETA 0.4h
+[522/900] bloodmnist n=10 s=2026 bn=random   linear                   auc=0.6126 ETA 0.4h
+[523/900] bloodmnist n=10 s=777 bn=learned  quantum_vqc              auc=0.7368 ETA 0.4h
+[524/900] bloodmnist n=10 s=777 bn=learned  matched_param_fullrank   auc=0.7098 ETA 0.4h
+[525/900] bloodmnist n=10 s=777 bn=learned  linear                   auc=0.7891 ETA 0.4h
+[526/900] bloodmnist n=10 s=777 bn=pca      quantum_vqc              auc=0.6579 ETA 0.4h
+[527/900] bloodmnist n=10 s=777 bn=pca      matched_param_fullrank   auc=0.6450 ETA 0.4h
+[528/900] bloodmnist n=10 s=777 bn=pca      linear                   auc=0.5563 ETA 0.4h
+[529/900] bloodmnist n=10 s=777 bn=random   quantum_vqc              auc=0.5204 ETA 0.4h
+[530/900] bloodmnist n=10 s=777 bn=random   matched_param_fullrank   auc=0.5330 ETA 0.4h
+[531/900] bloodmnist n=10 s=777 bn=random   linear                   auc=0.4547 ETA 0.4h
+[532/900] bloodmnist n=10 s=888 bn=learned  quantum_vqc              auc=0.8384 ETA 0.4h
+[533/900] bloodmnist n=10 s=888 bn=learned  matched_param_fullrank   auc=0.5019 ETA 0.4h
+[534/900] bloodmnist n=10 s=888 bn=learned  linear                   auc=0.8237 ETA 0.4h
+[535/900] bloodmnist n=10 s=888 bn=pca      quantum_vqc              auc=0.6325 ETA 0.4h
+[536/900] bloodmnist n=10 s=888 bn=pca      matched_param_fullrank   auc=0.6035 ETA 0.4h
+[537/900] bloodmnist n=10 s=888 bn=pca      linear                   auc=0.5770 ETA 0.4h
+[538/900] bloodmnist n=10 s=888 bn=random   quantum_vqc              auc=0.5623 ETA 0.4h
+[539/900] bloodmnist n=10 s=888 bn=random   matched_param_fullrank   auc=0.5370 ETA 0.4h
+[540/900] bloodmnist n=10 s=888 bn=random   linear                   auc=0.4536 ETA 0.4h
+[541/900] bloodmnist n=20 s=42 bn=learned  quantum_vqc              auc=0.8454 ETA 0.4h
+[542/900] bloodmnist n=20 s=42 bn=learned  matched_param_fullrank   auc=0.8394 ETA 0.4h
+[543/900] bloodmnist n=20 s=42 bn=learned  linear                   auc=0.8543 ETA 0.4h
+[544/900] bloodmnist n=20 s=42 bn=pca      quantum_vqc              auc=0.6964 ETA 0.4h
+[545/900] bloodmnist n=20 s=42 bn=pca      matched_param_fullrank   auc=0.7844 ETA 0.4h
+[546/900] bloodmnist n=20 s=42 bn=pca      linear                   auc=0.7498 ETA 0.4h
+[547/900] bloodmnist n=20 s=42 bn=random   quantum_vqc              auc=0.5714 ETA 0.4h
+[548/900] bloodmnist n=20 s=42 bn=random   matched_param_fullrank   auc=0.6307 ETA 0.4h
+[549/900] bloodmnist n=20 s=42 bn=random   linear                   auc=0.4651 ETA 0.4h
+[550/900] bloodmnist n=20 s=123 bn=learned  quantum_vqc              auc=0.7231 ETA 0.4h
+[551/900] bloodmnist n=20 s=123 bn=learned  matched_param_fullrank   auc=0.7935 ETA 0.4h
+[552/900] bloodmnist n=20 s=123 bn=learned  linear                   auc=0.8529 ETA 0.4h
+[553/900] bloodmnist n=20 s=123 bn=pca      quantum_vqc              auc=0.5922 ETA 0.4h
+[554/900] bloodmnist n=20 s=123 bn=pca      matched_param_fullrank   auc=0.7460 ETA 0.4h
+[555/900] bloodmnist n=20 s=123 bn=pca      linear                   auc=0.7071 ETA 0.4h
+[556/900] bloodmnist n=20 s=123 bn=random   quantum_vqc              auc=0.5725 ETA 0.4h
+[557/900] bloodmnist n=20 s=123 bn=random   matched_param_fullrank   auc=0.6161 ETA 0.4h
+[558/900] bloodmnist n=20 s=123 bn=random   linear                   auc=0.6015 ETA 0.4h
+[559/900] bloodmnist n=20 s=2026 bn=learned  quantum_vqc              auc=0.8130 ETA 0.4h
+[560/900] bloodmnist n=20 s=2026 bn=learned  matched_param_fullrank   auc=0.8776 ETA 0.4h
+[561/900] bloodmnist n=20 s=2026 bn=learned  linear                   auc=0.8417 ETA 0.4h
+[562/900] bloodmnist n=20 s=2026 bn=pca      quantum_vqc              auc=0.7551 ETA 0.4h
+[563/900] bloodmnist n=20 s=2026 bn=pca      matched_param_fullrank   auc=0.7706 ETA 0.4h
+[564/900] bloodmnist n=20 s=2026 bn=pca      linear                   auc=0.6714 ETA 0.4h
+[565/900] bloodmnist n=20 s=2026 bn=random   quantum_vqc              auc=0.5191 ETA 0.4h
+[566/900] bloodmnist n=20 s=2026 bn=random   matched_param_fullrank   auc=0.5882 ETA 0.4h
+[567/900] bloodmnist n=20 s=2026 bn=random   linear                   auc=0.6323 ETA 0.4h
+[568/900] bloodmnist n=20 s=777 bn=learned  quantum_vqc              auc=0.7927 ETA 0.4h
+[569/900] bloodmnist n=20 s=777 bn=learned  matched_param_fullrank   auc=0.8063 ETA 0.4h
+[570/900] bloodmnist n=20 s=777 bn=learned  linear                   auc=0.8196 ETA 0.4h
+[571/900] bloodmnist n=20 s=777 bn=pca      quantum_vqc              auc=0.7221 ETA 0.4h
+[572/900] bloodmnist n=20 s=777 bn=pca      matched_param_fullrank   auc=0.7029 ETA 0.4h
+[573/900] bloodmnist n=20 s=777 bn=pca      linear                   auc=0.6062 ETA 0.4h
+[574/900] bloodmnist n=20 s=777 bn=random   quantum_vqc              auc=0.5281 ETA 0.4h
+[575/900] bloodmnist n=20 s=777 bn=random   matched_param_fullrank   auc=0.5327 ETA 0.4h
+[576/900] bloodmnist n=20 s=777 bn=random   linear                   auc=0.4652 ETA 0.4h
+[577/900] bloodmnist n=20 s=888 bn=learned  quantum_vqc              auc=0.8409 ETA 0.4h
+[578/900] bloodmnist n=20 s=888 bn=learned  matched_param_fullrank   auc=0.7329 ETA 0.4h
+[579/900] bloodmnist n=20 s=888 bn=learned  linear                   auc=0.8561 ETA 0.4h
+[580/900] bloodmnist n=20 s=888 bn=pca      quantum_vqc              auc=0.7359 ETA 0.4h
+[581/900] bloodmnist n=20 s=888 bn=pca      matched_param_fullrank   auc=0.6439 ETA 0.4h
+[582/900] bloodmnist n=20 s=888 bn=pca      linear                   auc=0.6330 ETA 0.4h
+[583/900] bloodmnist n=20 s=888 bn=random   quantum_vqc              auc=0.5914 ETA 0.4h
+[584/900] bloodmnist n=20 s=888 bn=random   matched_param_fullrank   auc=0.5760 ETA 0.4h
+[585/900] bloodmnist n=20 s=888 bn=random   linear                   auc=0.4740 ETA 0.4h
+[586/900] bloodmnist n=50 s=42 bn=learned  quantum_vqc              auc=0.8861 ETA 0.4h
+[587/900] bloodmnist n=50 s=42 bn=learned  matched_param_fullrank   auc=0.8820 ETA 0.4h
+[588/900] bloodmnist n=50 s=42 bn=learned  linear                   auc=0.9051 ETA 0.4h
+[589/900] bloodmnist n=50 s=42 bn=pca      quantum_vqc              auc=0.8055 ETA 0.5h
+[590/900] bloodmnist n=50 s=42 bn=pca      matched_param_fullrank   auc=0.8533 ETA 0.5h
+[591/900] bloodmnist n=50 s=42 bn=pca      linear                   auc=0.8003 ETA 0.5h
+[592/900] bloodmnist n=50 s=42 bn=random   quantum_vqc              auc=0.6677 ETA 0.5h
+[593/900] bloodmnist n=50 s=42 bn=random   matched_param_fullrank   auc=0.6782 ETA 0.5h
+[594/900] bloodmnist n=50 s=42 bn=random   linear                   auc=0.5552 ETA 0.5h
+[595/900] bloodmnist n=50 s=123 bn=learned  quantum_vqc              auc=0.8273 ETA 0.5h
+[596/900] bloodmnist n=50 s=123 bn=learned  matched_param_fullrank   auc=0.8527 ETA 0.5h
+[597/900] bloodmnist n=50 s=123 bn=learned  linear                   auc=0.8903 ETA 0.5h
+[598/900] bloodmnist n=50 s=123 bn=pca      quantum_vqc              auc=0.8008 ETA 0.5h
+[599/900] bloodmnist n=50 s=123 bn=pca      matched_param_fullrank   auc=0.8351 ETA 0.5h
+[600/900] bloodmnist n=50 s=123 bn=pca      linear                   auc=0.8152 ETA 0.5h
+[601/900] bloodmnist n=50 s=123 bn=random   quantum_vqc              auc=0.5898 ETA 0.5h
+[602/900] bloodmnist n=50 s=123 bn=random   matched_param_fullrank   auc=0.6553 ETA 0.5h
+[603/900] bloodmnist n=50 s=123 bn=random   linear                   auc=0.6241 ETA 0.5h
+[604/900] bloodmnist n=50 s=2026 bn=learned  quantum_vqc              auc=0.8800 ETA 0.5h
+[605/900] bloodmnist n=50 s=2026 bn=learned  matched_param_fullrank   auc=0.9291 ETA 0.5h
+[606/900] bloodmnist n=50 s=2026 bn=learned  linear                   auc=0.9021 ETA 0.5h
+[607/900] bloodmnist n=50 s=2026 bn=pca      quantum_vqc              auc=0.7967 ETA 0.5h
+[608/900] bloodmnist n=50 s=2026 bn=pca      matched_param_fullrank   auc=0.8452 ETA 0.5h
+[609/900] bloodmnist n=50 s=2026 bn=pca      linear                   auc=0.8130 ETA 0.5h
+[610/900] bloodmnist n=50 s=2026 bn=random   quantum_vqc              auc=0.6225 ETA 0.5h
+[611/900] bloodmnist n=50 s=2026 bn=random   matched_param_fullrank   auc=0.6321 ETA 0.5h
+[612/900] bloodmnist n=50 s=2026 bn=random   linear                   auc=0.6632 ETA 0.5h
+[613/900] bloodmnist n=50 s=777 bn=learned  quantum_vqc              auc=0.8389 ETA 0.5h
+[614/900] bloodmnist n=50 s=777 bn=learned  matched_param_fullrank   auc=0.9128 ETA 0.5h
+[615/900] bloodmnist n=50 s=777 bn=learned  linear                   auc=0.9040 ETA 0.5h
+[616/900] bloodmnist n=50 s=777 bn=pca      quantum_vqc              auc=0.7853 ETA 0.5h
+[617/900] bloodmnist n=50 s=777 bn=pca      matched_param_fullrank   auc=0.8081 ETA 0.5h
+[618/900] bloodmnist n=50 s=777 bn=pca      linear                   auc=0.7669 ETA 0.5h
+[619/900] bloodmnist n=50 s=777 bn=random   quantum_vqc              auc=0.5545 ETA 0.5h
+[620/900] bloodmnist n=50 s=777 bn=random   matched_param_fullrank   auc=0.5299 ETA 0.5h
+[621/900] bloodmnist n=50 s=777 bn=random   linear                   auc=0.4969 ETA 0.5h
+[622/900] bloodmnist n=50 s=888 bn=learned  quantum_vqc              auc=0.8904 ETA 0.5h
+[623/900] bloodmnist n=50 s=888 bn=learned  matched_param_fullrank   auc=0.8588 ETA 0.5h
+[624/900] bloodmnist n=50 s=888 bn=learned  linear                   auc=0.9056 ETA 0.5h
+[625/900] bloodmnist n=50 s=888 bn=pca      quantum_vqc              auc=0.8087 ETA 0.5h
+[626/900] bloodmnist n=50 s=888 bn=pca      matched_param_fullrank   auc=0.8225 ETA 0.5h
+[627/900] bloodmnist n=50 s=888 bn=pca      linear                   auc=0.7532 ETA 0.5h
+[628/900] bloodmnist n=50 s=888 bn=random   quantum_vqc              auc=0.6842 ETA 0.5h
+[629/900] bloodmnist n=50 s=888 bn=random   matched_param_fullrank   auc=0.6882 ETA 0.5h
+[630/900] bloodmnist n=50 s=888 bn=random   linear                   auc=0.6032 ETA 0.5h
+[631/900] bloodmnist n=100 s=42 bn=learned  quantum_vqc              auc=0.8597 ETA 0.5h
+[632/900] bloodmnist n=100 s=42 bn=learned  matched_param_fullrank   auc=0.9164 ETA 0.5h
+[633/900] bloodmnist n=100 s=42 bn=learned  linear                   auc=0.9277 ETA 0.5h
+[634/900] bloodmnist n=100 s=42 bn=pca      quantum_vqc              auc=0.8213 ETA 0.5h
+[635/900] bloodmnist n=100 s=42 bn=pca      matched_param_fullrank   auc=0.8651 ETA 0.5h
+[636/900] bloodmnist n=100 s=42 bn=pca      linear                   auc=0.8336 ETA 0.5h
+[637/900] bloodmnist n=100 s=42 bn=random   quantum_vqc              auc=0.6742 ETA 0.5h
+[638/900] bloodmnist n=100 s=42 bn=random   matched_param_fullrank   auc=0.6947 ETA 0.5h
+[639/900] bloodmnist n=100 s=42 bn=random   linear                   auc=0.6386 ETA 0.5h
+[640/900] bloodmnist n=100 s=123 bn=learned  quantum_vqc              auc=0.9118 ETA 0.5h
+[641/900] bloodmnist n=100 s=123 bn=learned  matched_param_fullrank   auc=0.9088 ETA 0.5h
+[642/900] bloodmnist n=100 s=123 bn=learned  linear                   auc=0.9139 ETA 0.5h
+[643/900] bloodmnist n=100 s=123 bn=pca      quantum_vqc              auc=0.8110 ETA 0.5h
+[644/900] bloodmnist n=100 s=123 bn=pca      matched_param_fullrank   auc=0.8638 ETA 0.5h
+[645/900] bloodmnist n=100 s=123 bn=pca      linear                   auc=0.8395 ETA 0.5h
+[646/900] bloodmnist n=100 s=123 bn=random   quantum_vqc              auc=0.6101 ETA 0.6h
+[647/900] bloodmnist n=100 s=123 bn=random   matched_param_fullrank   auc=0.6630 ETA 0.6h
+[648/900] bloodmnist n=100 s=123 bn=random   linear                   auc=0.6524 ETA 0.6h
+[649/900] bloodmnist n=100 s=2026 bn=learned  quantum_vqc              auc=0.8915 ETA 0.6h
+[650/900] bloodmnist n=100 s=2026 bn=learned  matched_param_fullrank   auc=0.9404 ETA 0.6h
+[651/900] bloodmnist n=100 s=2026 bn=learned  linear                   auc=0.9356 ETA 0.6h
+[652/900] bloodmnist n=100 s=2026 bn=pca      quantum_vqc              auc=0.8210 ETA 0.6h
+[653/900] bloodmnist n=100 s=2026 bn=pca      matched_param_fullrank   auc=0.8555 ETA 0.6h
+[654/900] bloodmnist n=100 s=2026 bn=pca      linear                   auc=0.8331 ETA 0.6h
+[655/900] bloodmnist n=100 s=2026 bn=random   quantum_vqc              auc=0.6669 ETA 0.6h
+[656/900] bloodmnist n=100 s=2026 bn=random   matched_param_fullrank   auc=0.6709 ETA 0.6h
+[657/900] bloodmnist n=100 s=2026 bn=random   linear                   auc=0.6782 ETA 0.6h
+[658/900] bloodmnist n=100 s=777 bn=learned  quantum_vqc              auc=0.8801 ETA 0.6h
+[659/900] bloodmnist n=100 s=777 bn=learned  matched_param_fullrank   auc=0.9422 ETA 0.6h
+[660/900] bloodmnist n=100 s=777 bn=learned  linear                   auc=0.9388 ETA 0.6h
+[661/900] bloodmnist n=100 s=777 bn=pca      quantum_vqc              auc=0.8185 ETA 0.6h
+[662/900] bloodmnist n=100 s=777 bn=pca      matched_param_fullrank   auc=0.8465 ETA 0.6h
+[663/900] bloodmnist n=100 s=777 bn=pca      linear                   auc=0.8260 ETA 0.6h
+[664/900] bloodmnist n=100 s=777 bn=random   quantum_vqc              auc=0.6349 ETA 0.6h
+[665/900] bloodmnist n=100 s=777 bn=random   matched_param_fullrank   auc=0.6220 ETA 0.6h
+[666/900] bloodmnist n=100 s=777 bn=random   linear                   auc=0.5403 ETA 0.6h
+[667/900] bloodmnist n=100 s=888 bn=learned  quantum_vqc              auc=0.9101 ETA 0.6h
+[668/900] bloodmnist n=100 s=888 bn=learned  matched_param_fullrank   auc=0.9115 ETA 0.6h
+[669/900] bloodmnist n=100 s=888 bn=learned  linear                   auc=0.9307 ETA 0.6h
+[670/900] bloodmnist n=100 s=888 bn=pca      quantum_vqc              auc=0.8175 ETA 0.6h
+[671/900] bloodmnist n=100 s=888 bn=pca      matched_param_fullrank   auc=0.8567 ETA 0.6h
+[672/900] bloodmnist n=100 s=888 bn=pca      linear                   auc=0.8274 ETA 0.6h
+[673/900] bloodmnist n=100 s=888 bn=random   quantum_vqc              auc=0.7045 ETA 0.6h
+[674/900] bloodmnist n=100 s=888 bn=random   matched_param_fullrank   auc=0.7169 ETA 0.6h
+[675/900] bloodmnist n=100 s=888 bn=random   linear                   auc=0.6932 ETA 0.6h
+[676/900] pathmnist n=5 s=42 bn=learned  quantum_vqc              auc=0.7749 ETA 0.6h
+[677/900] pathmnist n=5 s=42 bn=learned  matched_param_fullrank   auc=0.8317 ETA 0.6h
+[678/900] pathmnist n=5 s=42 bn=learned  linear                   auc=0.8418 ETA 0.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+[679/900] pathmnist n=5 s=42 bn=pca      quantum_vqc              auc=0.5750 ETA 0.6h
+[680/900] pathmnist n=5 s=42 bn=pca      matched_param_fullrank   auc=0.7831 ETA 0.6h
+[681/900] pathmnist n=5 s=42 bn=pca      linear                   auc=0.6283 ETA 0.6h
+[682/900] pathmnist n=5 s=42 bn=random   quantum_vqc              auc=0.6410 ETA 0.6h
+[683/900] pathmnist n=5 s=42 bn=random   matched_param_fullrank   auc=0.6067 ETA 0.6h
+[684/900] pathmnist n=5 s=42 bn=random   linear                   auc=0.6444 ETA 0.6h
+[685/900] pathmnist n=5 s=123 bn=learned  quantum_vqc              auc=0.8059 ETA 0.6h
+[686/900] pathmnist n=5 s=123 bn=learned  matched_param_fullrank   auc=0.8146 ETA 0.6h
+[687/900] pathmnist n=5 s=123 bn=learned  linear                   auc=0.8096 ETA 0.6h
+[688/900] pathmnist n=5 s=123 bn=pca      quantum_vqc              auc=0.5655 ETA 0.6h
+[689/900] pathmnist n=5 s=123 bn=pca      matched_param_fullrank   auc=0.6226 ETA 0.6h
+[690/900] pathmnist n=5 s=123 bn=pca      linear                   auc=0.6762 ETA 0.6h
+[691/900] pathmnist n=5 s=123 bn=random   quantum_vqc              auc=0.6628 ETA 0.6h
+[692/900] pathmnist n=5 s=123 bn=random   matched_param_fullrank   auc=0.6391 ETA 0.5h
+[693/900] pathmnist n=5 s=123 bn=random   linear                   auc=0.5559 ETA 0.5h
+[694/900] pathmnist n=5 s=2026 bn=learned  quantum_vqc              auc=0.6974 ETA 0.5h
+[695/900] pathmnist n=5 s=2026 bn=learned  matched_param_fullrank   auc=0.8368 ETA 0.5h
+[696/900] pathmnist n=5 s=2026 bn=learned  linear                   auc=0.7429 ETA 0.5h
+[697/900] pathmnist n=5 s=2026 bn=pca      quantum_vqc              auc=0.6663 ETA 0.5h
+[698/900] pathmnist n=5 s=2026 bn=pca      matched_param_fullrank   auc=0.7930 ETA 0.5h
+[699/900] pathmnist n=5 s=2026 bn=pca      linear                   auc=0.6606 ETA 0.5h
+[700/900] pathmnist n=5 s=2026 bn=random   quantum_vqc              auc=0.5622 ETA 0.5h
+[701/900] pathmnist n=5 s=2026 bn=random   matched_param_fullrank   auc=0.4906 ETA 0.5h
+[702/900] pathmnist n=5 s=2026 bn=random   linear                   auc=0.5367 ETA 0.5h
+[703/900] pathmnist n=5 s=777 bn=learned  quantum_vqc              auc=0.7185 ETA 0.5h
+[704/900] pathmnist n=5 s=777 bn=learned  matched_param_fullrank   auc=0.7978 ETA 0.5h
+[705/900] pathmnist n=5 s=777 bn=learned  linear                   auc=0.8417 ETA 0.5h
+[706/900] pathmnist n=5 s=777 bn=pca      quantum_vqc              auc=0.6259 ETA 0.5h
+[707/900] pathmnist n=5 s=777 bn=pca      matched_param_fullrank   auc=0.6718 ETA 0.5h
+[708/900] pathmnist n=5 s=777 bn=pca      linear                   auc=0.4290 ETA 0.5h
+[709/900] pathmnist n=5 s=777 bn=random   quantum_vqc              auc=0.5971 ETA 0.5h
+[710/900] pathmnist n=5 s=777 bn=random   matched_param_fullrank   auc=0.6872 ETA 0.5h
+[711/900] pathmnist n=5 s=777 bn=random   linear                   auc=0.3711 ETA 0.5h
+[712/900] pathmnist n=5 s=888 bn=learned  quantum_vqc              auc=0.7249 ETA 0.5h
+[713/900] pathmnist n=5 s=888 bn=learned  matched_param_fullrank   auc=0.5209 ETA 0.5h
+[714/900] pathmnist n=5 s=888 bn=learned  linear                   auc=0.8394 ETA 0.5h
+[715/900] pathmnist n=5 s=888 bn=pca      quantum_vqc              auc=0.6222 ETA 0.5h
+[716/900] pathmnist n=5 s=888 bn=pca      matched_param_fullrank   auc=0.6416 ETA 0.5h
+[717/900] pathmnist n=5 s=888 bn=pca      linear                   auc=0.5923 ETA 0.5h
+[718/900] pathmnist n=5 s=888 bn=random   quantum_vqc              auc=0.5984 ETA 0.5h
+[719/900] pathmnist n=5 s=888 bn=random   matched_param_fullrank   auc=0.5929 ETA 0.5h
+[720/900] pathmnist n=5 s=888 bn=random   linear                   auc=0.5567 ETA 0.5h
+[721/900] pathmnist n=10 s=42 bn=learned  quantum_vqc              auc=0.8257 ETA 0.5h
+[722/900] pathmnist n=10 s=42 bn=learned  matched_param_fullrank   auc=0.8790 ETA 0.5h
+[723/900] pathmnist n=10 s=42 bn=learned  linear                   auc=0.8920 ETA 0.5h
+[724/900] pathmnist n=10 s=42 bn=pca      quantum_vqc              auc=0.6261 ETA 0.5h
+[725/900] pathmnist n=10 s=42 bn=pca      matched_param_fullrank   auc=0.8137 ETA 0.5h
+[726/900] pathmnist n=10 s=42 bn=pca      linear                   auc=0.6488 ETA 0.5h
+[727/900] pathmnist n=10 s=42 bn=random   quantum_vqc              auc=0.6346 ETA 0.5h
+[728/900] pathmnist n=10 s=42 bn=random   matched_param_fullrank   auc=0.6196 ETA 0.5h
+[729/900] pathmnist n=10 s=42 bn=random   linear                   auc=0.6577 ETA 0.4h
+[730/900] pathmnist n=10 s=123 bn=learned  quantum_vqc              auc=0.8550 ETA 0.4h
+[731/900] pathmnist n=10 s=123 bn=learned  matched_param_fullrank   auc=0.8431 ETA 0.4h
+[732/900] pathmnist n=10 s=123 bn=learned  linear                   auc=0.8525 ETA 0.4h
+[733/900] pathmnist n=10 s=123 bn=pca      quantum_vqc              auc=0.7305 ETA 0.4h
+[734/900] pathmnist n=10 s=123 bn=pca      matched_param_fullrank   auc=0.6660 ETA 0.4h
+[735/900] pathmnist n=10 s=123 bn=pca      linear                   auc=0.7058 ETA 0.4h
+[736/900] pathmnist n=10 s=123 bn=random   quantum_vqc              auc=0.6519 ETA 0.4h
+[737/900] pathmnist n=10 s=123 bn=random   matched_param_fullrank   auc=0.6570 ETA 0.4h
+[738/900] pathmnist n=10 s=123 bn=random   linear                   auc=0.5554 ETA 0.4h
+[739/900] pathmnist n=10 s=2026 bn=learned  quantum_vqc              auc=0.7732 ETA 0.4h
+[740/900] pathmnist n=10 s=2026 bn=learned  matched_param_fullrank   auc=0.8710 ETA 0.4h
+[741/900] pathmnist n=10 s=2026 bn=learned  linear                   auc=0.8257 ETA 0.4h
+[742/900] pathmnist n=10 s=2026 bn=pca      quantum_vqc              auc=0.6959 ETA 0.4h
+[743/900] pathmnist n=10 s=2026 bn=pca      matched_param_fullrank   auc=0.8253 ETA 0.4h
+[744/900] pathmnist n=10 s=2026 bn=pca      linear                   auc=0.7093 ETA 0.4h
+[745/900] pathmnist n=10 s=2026 bn=random   quantum_vqc              auc=0.5686 ETA 0.4h
+[746/900] pathmnist n=10 s=2026 bn=random   matched_param_fullrank   auc=0.4941 ETA 0.4h
+[747/900] pathmnist n=10 s=2026 bn=random   linear                   auc=0.5462 ETA 0.4h
+[748/900] pathmnist n=10 s=777 bn=learned  quantum_vqc              auc=0.7502 ETA 0.4h
+[749/900] pathmnist n=10 s=777 bn=learned  matched_param_fullrank   auc=0.8136 ETA 0.4h
+[750/900] pathmnist n=10 s=777 bn=learned  linear                   auc=0.9060 ETA 0.4h
+[751/900] pathmnist n=10 s=777 bn=pca      quantum_vqc              auc=0.6958 ETA 0.4h
+[752/900] pathmnist n=10 s=777 bn=pca      matched_param_fullrank   auc=0.7141 ETA 0.4h
+[753/900] pathmnist n=10 s=777 bn=pca      linear                   auc=0.4571 ETA 0.4h
+[754/900] pathmnist n=10 s=777 bn=random   quantum_vqc              auc=0.6280 ETA 0.4h
+[755/900] pathmnist n=10 s=777 bn=random   matched_param_fullrank   auc=0.6903 ETA 0.4h
+[756/900] pathmnist n=10 s=777 bn=random   linear                   auc=0.3842 ETA 0.4h
+[757/900] pathmnist n=10 s=888 bn=learned  quantum_vqc              auc=0.7641 ETA 0.4h
+[758/900] pathmnist n=10 s=888 bn=learned  matched_param_fullrank   auc=0.6765 ETA 0.4h
+[759/900] pathmnist n=10 s=888 bn=learned  linear                   auc=0.8609 ETA 0.4h
+[760/900] pathmnist n=10 s=888 bn=pca      quantum_vqc              auc=0.6511 ETA 0.4h
+[761/900] pathmnist n=10 s=888 bn=pca      matched_param_fullrank   auc=0.6640 ETA 0.4h
+[762/900] pathmnist n=10 s=888 bn=pca      linear                   auc=0.6629 ETA 0.4h
+[763/900] pathmnist n=10 s=888 bn=random   quantum_vqc              auc=0.6464 ETA 0.4h
+[764/900] pathmnist n=10 s=888 bn=random   matched_param_fullrank   auc=0.6302 ETA 0.4h
+[765/900] pathmnist n=10 s=888 bn=random   linear                   auc=0.6209 ETA 0.4h
+[766/900] pathmnist n=20 s=42 bn=learned  quantum_vqc              auc=0.8737 ETA 0.4h
+[767/900] pathmnist n=20 s=42 bn=learned  matched_param_fullrank   auc=0.9102 ETA 0.4h
+[768/900] pathmnist n=20 s=42 bn=learned  linear                   auc=0.9305 ETA 0.3h
+[769/900] pathmnist n=20 s=42 bn=pca      quantum_vqc              auc=0.6729 ETA 0.3h
+[770/900] pathmnist n=20 s=42 bn=pca      matched_param_fullrank   auc=0.8610 ETA 0.3h
+[771/900] pathmnist n=20 s=42 bn=pca      linear                   auc=0.7493 ETA 0.3h
+[772/900] pathmnist n=20 s=42 bn=random   quantum_vqc              auc=0.7120 ETA 0.3h
+[773/900] pathmnist n=20 s=42 bn=random   matched_param_fullrank   auc=0.6883 ETA 0.3h
+[774/900] pathmnist n=20 s=42 bn=random   linear                   auc=0.6847 ETA 0.3h
+[775/900] pathmnist n=20 s=123 bn=learned  quantum_vqc              auc=0.8821 ETA 0.3h
+[776/900] pathmnist n=20 s=123 bn=learned  matched_param_fullrank   auc=0.8466 ETA 0.3h
+[777/900] pathmnist n=20 s=123 bn=learned  linear                   auc=0.9210 ETA 0.3h
+[778/900] pathmnist n=20 s=123 bn=pca      quantum_vqc              auc=0.7401 ETA 0.3h
+[779/900] pathmnist n=20 s=123 bn=pca      matched_param_fullrank   auc=0.8114 ETA 0.3h
+[780/900] pathmnist n=20 s=123 bn=pca      linear                   auc=0.7725 ETA 0.3h
+[781/900] pathmnist n=20 s=123 bn=random   quantum_vqc              auc=0.6812 ETA 0.3h
+[782/900] pathmnist n=20 s=123 bn=random   matched_param_fullrank   auc=0.7221 ETA 0.3h
+[783/900] pathmnist n=20 s=123 bn=random   linear                   auc=0.6016 ETA 0.3h
+[784/900] pathmnist n=20 s=2026 bn=learned  quantum_vqc              auc=0.8535 ETA 0.3h
+[785/900] pathmnist n=20 s=2026 bn=learned  matched_param_fullrank   auc=0.9342 ETA 0.3h
+[786/900] pathmnist n=20 s=2026 bn=learned  linear                   auc=0.8794 ETA 0.3h
+[787/900] pathmnist n=20 s=2026 bn=pca      quantum_vqc              auc=0.6902 ETA 0.3h
+[788/900] pathmnist n=20 s=2026 bn=pca      matched_param_fullrank   auc=0.8866 ETA 0.3h
+[789/900] pathmnist n=20 s=2026 bn=pca      linear                   auc=0.8192 ETA 0.3h
+[790/900] pathmnist n=20 s=2026 bn=random   quantum_vqc              auc=0.5939 ETA 0.3h
+[791/900] pathmnist n=20 s=2026 bn=random   matched_param_fullrank   auc=0.6334 ETA 0.3h
+[792/900] pathmnist n=20 s=2026 bn=random   linear                   auc=0.5940 ETA 0.3h
+[793/900] pathmnist n=20 s=777 bn=learned  quantum_vqc              auc=0.8457 ETA 0.3h
+[794/900] pathmnist n=20 s=777 bn=learned  matched_param_fullrank   auc=0.9114 ETA 0.3h
+[795/900] pathmnist n=20 s=777 bn=learned  linear                   auc=0.9185 ETA 0.3h
+[796/900] pathmnist n=20 s=777 bn=pca      quantum_vqc              auc=0.7564 ETA 0.3h
+[797/900] pathmnist n=20 s=777 bn=pca      matched_param_fullrank   auc=0.8290 ETA 0.3h
+[798/900] pathmnist n=20 s=777 bn=pca      linear                   auc=0.5865 ETA 0.3h
+[799/900] pathmnist n=20 s=777 bn=random   quantum_vqc              auc=0.6580 ETA 0.3h
+[800/900] pathmnist n=20 s=777 bn=random   matched_param_fullrank   auc=0.7114 ETA 0.3h
+[801/900] pathmnist n=20 s=777 bn=random   linear                   auc=0.4169 ETA 0.3h
+[802/900] pathmnist n=20 s=888 bn=learned  quantum_vqc              auc=0.8209 ETA 0.3h
+[803/900] pathmnist n=20 s=888 bn=learned  matched_param_fullrank   auc=0.8584 ETA 0.3h
+[804/900] pathmnist n=20 s=888 bn=learned  linear                   auc=0.8813 ETA 0.3h
+[805/900] pathmnist n=20 s=888 bn=pca      quantum_vqc              auc=0.7303 ETA 0.3h
+[806/900] pathmnist n=20 s=888 bn=pca      matched_param_fullrank   auc=0.7047 ETA 0.3h
+[807/900] pathmnist n=20 s=888 bn=pca      linear                   auc=0.7376 ETA 0.3h
+[808/900] pathmnist n=20 s=888 bn=random   quantum_vqc              auc=0.7296 ETA 0.3h
+[809/900] pathmnist n=20 s=888 bn=random   matched_param_fullrank   auc=0.6813 ETA 0.2h
+[810/900] pathmnist n=20 s=888 bn=random   linear                   auc=0.6797 ETA 0.2h
+[811/900] pathmnist n=50 s=42 bn=learned  quantum_vqc              auc=0.8921 ETA 0.2h
+[812/900] pathmnist n=50 s=42 bn=learned  matched_param_fullrank   auc=0.9378 ETA 0.2h
+[813/900] pathmnist n=50 s=42 bn=learned  linear                   auc=0.9431 ETA 0.2h
+[814/900] pathmnist n=50 s=42 bn=pca      quantum_vqc              auc=0.8168 ETA 0.2h
+[815/900] pathmnist n=50 s=42 bn=pca      matched_param_fullrank   auc=0.8772 ETA 0.2h
+[816/900] pathmnist n=50 s=42 bn=pca      linear                   auc=0.8650 ETA 0.2h
+[817/900] pathmnist n=50 s=42 bn=random   quantum_vqc              auc=0.7054 ETA 0.2h
+[818/900] pathmnist n=50 s=42 bn=random   matched_param_fullrank   auc=0.7681 ETA 0.2h
+[819/900] pathmnist n=50 s=42 bn=random   linear                   auc=0.7239 ETA 0.2h
+[820/900] pathmnist n=50 s=123 bn=learned  quantum_vqc              auc=0.8859 ETA 0.2h
+[821/900] pathmnist n=50 s=123 bn=learned  matched_param_fullrank   auc=0.9199 ETA 0.2h
+[822/900] pathmnist n=50 s=123 bn=learned  linear                   auc=0.9336 ETA 0.2h
+[823/900] pathmnist n=50 s=123 bn=pca      quantum_vqc              auc=0.8293 ETA 0.2h
+[824/900] pathmnist n=50 s=123 bn=pca      matched_param_fullrank   auc=0.8960 ETA 0.2h
+[825/900] pathmnist n=50 s=123 bn=pca      linear                   auc=0.8712 ETA 0.2h
+[826/900] pathmnist n=50 s=123 bn=random   quantum_vqc              auc=0.6807 ETA 0.2h
+[827/900] pathmnist n=50 s=123 bn=random   matched_param_fullrank   auc=0.7670 ETA 0.2h
+[828/900] pathmnist n=50 s=123 bn=random   linear                   auc=0.6484 ETA 0.2h
+[829/900] pathmnist n=50 s=2026 bn=learned  quantum_vqc              auc=0.8915 ETA 0.2h
+[830/900] pathmnist n=50 s=2026 bn=learned  matched_param_fullrank   auc=0.9546 ETA 0.2h
+[831/900] pathmnist n=50 s=2026 bn=learned  linear                   auc=0.9302 ETA 0.2h
+[832/900] pathmnist n=50 s=2026 bn=pca      quantum_vqc              auc=0.6877 ETA 0.2h
+[833/900] pathmnist n=50 s=2026 bn=pca      matched_param_fullrank   auc=0.9091 ETA 0.2h
+[834/900] pathmnist n=50 s=2026 bn=pca      linear                   auc=0.8895 ETA 0.2h
+[835/900] pathmnist n=50 s=2026 bn=random   quantum_vqc              auc=0.6122 ETA 0.2h
+[836/900] pathmnist n=50 s=2026 bn=random   matched_param_fullrank   auc=0.7428 ETA 0.2h
+[837/900] pathmnist n=50 s=2026 bn=random   linear                   auc=0.6596 ETA 0.2h
+[838/900] pathmnist n=50 s=777 bn=learned  quantum_vqc              auc=0.8841 ETA 0.2h
+[839/900] pathmnist n=50 s=777 bn=learned  matched_param_fullrank   auc=0.9440 ETA 0.2h
+[840/900] pathmnist n=50 s=777 bn=learned  linear                   auc=0.9287 ETA 0.2h
+[841/900] pathmnist n=50 s=777 bn=pca      quantum_vqc              auc=0.8070 ETA 0.2h
+[842/900] pathmnist n=50 s=777 bn=pca      matched_param_fullrank   auc=0.8814 ETA 0.2h
+[843/900] pathmnist n=50 s=777 bn=pca      linear                   auc=0.7955 ETA 0.2h
+[844/900] pathmnist n=50 s=777 bn=random   quantum_vqc              auc=0.7178 ETA 0.2h
+[845/900] pathmnist n=50 s=777 bn=random   matched_param_fullrank   auc=0.7515 ETA 0.2h
+[846/900] pathmnist n=50 s=777 bn=random   linear                   auc=0.5024 ETA 0.2h
+[847/900] pathmnist n=50 s=888 bn=learned  quantum_vqc              auc=0.8645 ETA 0.2h
+[848/900] pathmnist n=50 s=888 bn=learned  matched_param_fullrank   auc=0.9057 ETA 0.2h
+[849/900] pathmnist n=50 s=888 bn=learned  linear                   auc=0.9211 ETA 0.2h
+[850/900] pathmnist n=50 s=888 bn=pca      quantum_vqc              auc=0.8867 ETA 0.2h
+[851/900] pathmnist n=50 s=888 bn=pca      matched_param_fullrank   auc=0.8536 ETA 0.1h
+[852/900] pathmnist n=50 s=888 bn=pca      linear                   auc=0.8808 ETA 0.1h
+[853/900] pathmnist n=50 s=888 bn=random   quantum_vqc              auc=0.7548 ETA 0.1h
+[854/900] pathmnist n=50 s=888 bn=random   matched_param_fullrank   auc=0.7441 ETA 0.1h
+[855/900] pathmnist n=50 s=888 bn=random   linear                   auc=0.7619 ETA 0.1h
+[856/900] pathmnist n=100 s=42 bn=learned  quantum_vqc              auc=0.9129 ETA 0.1h
+[857/900] pathmnist n=100 s=42 bn=learned  matched_param_fullrank   auc=0.9658 ETA 0.1h
+[858/900] pathmnist n=100 s=42 bn=learned  linear                   auc=0.9617 ETA 0.1h
+[859/900] pathmnist n=100 s=42 bn=pca      quantum_vqc              auc=0.8883 ETA 0.1h
+[860/900] pathmnist n=100 s=42 bn=pca      matched_param_fullrank   auc=0.9152 ETA 0.1h
+[861/900] pathmnist n=100 s=42 bn=pca      linear                   auc=0.8992 ETA 0.1h
+[862/900] pathmnist n=100 s=42 bn=random   quantum_vqc              auc=0.7384 ETA 0.1h
+[863/900] pathmnist n=100 s=42 bn=random   matched_param_fullrank   auc=0.7837 ETA 0.1h
+[864/900] pathmnist n=100 s=42 bn=random   linear                   auc=0.7811 ETA 0.1h
+[865/900] pathmnist n=100 s=123 bn=learned  quantum_vqc              auc=0.9184 ETA 0.1h
+[866/900] pathmnist n=100 s=123 bn=learned  matched_param_fullrank   auc=0.9699 ETA 0.1h
+[867/900] pathmnist n=100 s=123 bn=learned  linear                   auc=0.9684 ETA 0.1h
+[868/900] pathmnist n=100 s=123 bn=pca      quantum_vqc              auc=0.8845 ETA 0.1h
+[869/900] pathmnist n=100 s=123 bn=pca      matched_param_fullrank   auc=0.9239 ETA 0.1h
+[870/900] pathmnist n=100 s=123 bn=pca      linear                   auc=0.9105 ETA 0.1h
+[871/900] pathmnist n=100 s=123 bn=random   quantum_vqc              auc=0.6887 ETA 0.1h
+[872/900] pathmnist n=100 s=123 bn=random   matched_param_fullrank   auc=0.7833 ETA 0.1h
+[873/900] pathmnist n=100 s=123 bn=random   linear                   auc=0.7427 ETA 0.1h
+[874/900] pathmnist n=100 s=2026 bn=learned  quantum_vqc              auc=0.9352 ETA 0.1h
+[875/900] pathmnist n=100 s=2026 bn=learned  matched_param_fullrank   auc=0.9602 ETA 0.1h
+[876/900] pathmnist n=100 s=2026 bn=learned  linear                   auc=0.9507 ETA 0.1h
+[877/900] pathmnist n=100 s=2026 bn=pca      quantum_vqc              auc=0.8769 ETA 0.1h
+[878/900] pathmnist n=100 s=2026 bn=pca      matched_param_fullrank   auc=0.9098 ETA 0.1h
+[879/900] pathmnist n=100 s=2026 bn=pca      linear                   auc=0.9044 ETA 0.1h
+[880/900] pathmnist n=100 s=2026 bn=random   quantum_vqc              auc=0.7236 ETA 0.1h
+[881/900] pathmnist n=100 s=2026 bn=random   matched_param_fullrank   auc=0.7643 ETA 0.1h
+[882/900] pathmnist n=100 s=2026 bn=random   linear                   auc=0.7337 ETA 0.1h
+[883/900] pathmnist n=100 s=777 bn=learned  quantum_vqc              auc=0.9144 ETA 0.1h
+[884/900] pathmnist n=100 s=777 bn=learned  matched_param_fullrank   auc=0.9559 ETA 0.1h
+[885/900] pathmnist n=100 s=777 bn=learned  linear                   auc=0.9571 ETA 0.1h
+[886/900] pathmnist n=100 s=777 bn=pca      quantum_vqc              auc=0.8703 ETA 0.0h
+[887/900] pathmnist n=100 s=777 bn=pca      matched_param_fullrank   auc=0.9184 ETA 0.0h
+[888/900] pathmnist n=100 s=777 bn=pca      linear                   auc=0.8839 ETA 0.0h
+[889/900] pathmnist n=100 s=777 bn=random   quantum_vqc              auc=0.7585 ETA 0.0h
+[890/900] pathmnist n=100 s=777 bn=random   matched_param_fullrank   auc=0.8094 ETA 0.0h
+[891/900] pathmnist n=100 s=777 bn=random   linear                   auc=0.6488 ETA 0.0h
+[892/900] pathmnist n=100 s=888 bn=learned  quantum_vqc              auc=0.9345 ETA 0.0h
+[893/900] pathmnist n=100 s=888 bn=learned  matched_param_fullrank   auc=0.9489 ETA 0.0h
+[894/900] pathmnist n=100 s=888 bn=learned  linear                   auc=0.9615 ETA 0.0h
+[895/900] pathmnist n=100 s=888 bn=pca      quantum_vqc              auc=0.9067 ETA 0.0h
+[896/900] pathmnist n=100 s=888 bn=pca      matched_param_fullrank   auc=0.9043 ETA 0.0h
+[897/900] pathmnist n=100 s=888 bn=pca      linear                   auc=0.8955 ETA 0.0h
+[898/900] pathmnist n=100 s=888 bn=random   quantum_vqc              auc=0.7593 ETA 0.0h
+[899/900] pathmnist n=100 s=888 bn=random   matched_param_fullrank   auc=0.7903 ETA 0.0h
+[900/900] pathmnist n=100 s=888 bn=random   linear                   auc=0.8094 ETA 0.0h
+==============================================================================
+WHERE THE TRAINABLE PARAMETERS LIVE
+==============================================================================
+The point of the whole experiment: with a learned projection the head
+holds ~2% of the trainable budget, so 'the head's function class' is
+not what the frozen-backbone comparison was mainly measuring.
+
+arm                      bottleneck   bneck   head   clf   total  head %
+----------------------------------------------------------------------
+linear                      learned    1028      0    10    1038    0.0%
+linear                          pca       0      0    10      10    0.0%
+linear                       random       0      0    10      10    0.0%
+matched_param_fullrank      learned    1028     24    10    1062    2.3%
+matched_param_fullrank          pca       0     24    10      34   70.6%
+matched_param_fullrank       random       0     24    10      34   70.6%
+quantum_vqc                 learned    1028     24    10    1062    2.3%
+quantum_vqc                     pca       0     24    10      34   70.6%
+quantum_vqc                  random       0     24    10      34   70.6%
+
+PCA variance retained at d=4:
+  bloodmnist       0.4918
+  breastmnist      0.5117
+  pathmnist        0.5976
+  pneumoniamnist   0.6116
+
+==============================================================================
+AUC BY BOTTLENECK POLICY
+==============================================================================
+Absolute loss from freezing measures how much work the learned
+projection was doing. Large loss is itself a reportable finding.
+
+dataset           n/cls                      arm    learned        pca     random
+-----------------------------------------------------------------------------------
+bloodmnist            5                   linear     0.7506     0.5980     0.4971
+bloodmnist            5   matched_param_fullrank     0.6367     0.6030     0.5572
+bloodmnist            5              quantum_vqc     0.7025     0.5801     0.5119
+bloodmnist           10                   linear     0.7990     0.6280     0.5110
+bloodmnist           10   matched_param_fullrank     0.7054     0.6683     0.5676
+bloodmnist           10              quantum_vqc     0.7724     0.6449     0.5164
+bloodmnist           20                   linear     0.8449     0.6735     0.5276
+bloodmnist           20   matched_param_fullrank     0.8099     0.7296     0.5888
+bloodmnist           20              quantum_vqc     0.8030     0.7003     0.5565
+bloodmnist           50                   linear     0.9014     0.7897     0.5885
+bloodmnist           50   matched_param_fullrank     0.8871     0.8328     0.6368
+bloodmnist           50              quantum_vqc     0.8645     0.7994     0.6237
+bloodmnist          100                   linear     0.9294     0.8319     0.6405
+bloodmnist          100   matched_param_fullrank     0.9239     0.8575     0.6735
+bloodmnist          100              quantum_vqc     0.8906     0.8179     0.6581
+breastmnist           5                   linear     0.6198     0.4401     0.5352
+breastmnist           5   matched_param_fullrank     0.6357     0.5228     0.5843
+breastmnist           5              quantum_vqc     0.6417     0.5375     0.5207
+breastmnist          10                   linear     0.7109     0.4178     0.5380
+breastmnist          10   matched_param_fullrank     0.6797     0.5110     0.6053
+breastmnist          10              quantum_vqc     0.7078     0.5722     0.5052
+breastmnist          20                   linear     0.7189     0.4310     0.5366
+breastmnist          20   matched_param_fullrank     0.7132     0.5441     0.5901
+breastmnist          20              quantum_vqc     0.7018     0.5880     0.5074
+breastmnist          50                   linear     0.7500     0.5038     0.5596
+breastmnist          50   matched_param_fullrank     0.7555     0.6710     0.6023
+breastmnist          50              quantum_vqc     0.7376     0.6334     0.5679
+breastmnist         100                   linear     0.7860     0.6421     0.5907
+breastmnist         100   matched_param_fullrank     0.7904     0.7142     0.6093
+breastmnist         100              quantum_vqc     0.7780     0.6097     0.6039
+pathmnist             5                   linear     0.8151     0.5973     0.5330
+pathmnist             5   matched_param_fullrank     0.7604     0.7024     0.6033
+pathmnist             5              quantum_vqc     0.7443     0.6110     0.6123
+pathmnist            10                   linear     0.8674     0.6368     0.5529
+pathmnist            10   matched_param_fullrank     0.8166     0.7366     0.6182
+pathmnist            10              quantum_vqc     0.7937     0.6799     0.6259
+pathmnist            20                   linear     0.9061     0.7330     0.5954
+pathmnist            20   matched_param_fullrank     0.8922     0.8185     0.6873
+pathmnist            20              quantum_vqc     0.8552     0.7180     0.6749
+pathmnist            50                   linear     0.9313     0.8604     0.6593
+pathmnist            50   matched_param_fullrank     0.9324     0.8835     0.7547
+pathmnist            50              quantum_vqc     0.8836     0.8055     0.6942
+pathmnist           100                   linear     0.9599     0.8987     0.7431
+pathmnist           100   matched_param_fullrank     0.9601     0.9143     0.7862
+pathmnist           100              quantum_vqc     0.9231     0.8853     0.7337
+pneumoniamnist        5                   linear     0.8888     0.4862     0.6946
+pneumoniamnist        5   matched_param_fullrank     0.8403     0.4890     0.6240
+pneumoniamnist        5              quantum_vqc     0.9032     0.6296     0.5058
+pneumoniamnist       10                   linear     0.8826     0.3890     0.6971
+pneumoniamnist       10   matched_param_fullrank     0.8329     0.6769     0.6670
+pneumoniamnist       10              quantum_vqc     0.9055     0.5956     0.5097
+pneumoniamnist       20                   linear     0.9235     0.4559     0.7010
+pneumoniamnist       20   matched_param_fullrank     0.9238     0.8050     0.6739
+pneumoniamnist       20              quantum_vqc     0.9217     0.7372     0.6243
+pneumoniamnist       50                   linear     0.9213     0.5006     0.7111
+pneumoniamnist       50   matched_param_fullrank     0.9203     0.8958     0.7308
+pneumoniamnist       50              quantum_vqc     0.9197     0.8717     0.6331
+pneumoniamnist      100                   linear     0.9277     0.7089     0.7143
+pneumoniamnist      100   matched_param_fullrank     0.9275     0.9158     0.8135
+pneumoniamnist      100              quantum_vqc     0.9270     0.9004     0.7286
+
+==============================================================================
+PRIMARY CONTRAST: quantum_vqc - matched_param_fullrank, BY POLICY
+==============================================================================
+Does the sign survive freezing the projection? If it flips, the
+original result was about the bottleneck, not the head.
+
+ n/cls      learned          pca       random
+-----------------------------------------------
+     5      +0.0297      +0.0103      -0.0545
+    10      +0.0362      -0.0251      -0.0753
+    20      -0.0144      -0.0384      -0.0442
+    50      -0.0225      -0.0433      -0.0514
+   100      -0.0208      -0.0471      -0.0395
+
+==============================================================================
+DOES THE SCARCITY CROSSOVER SURVIVE?
+==============================================================================
+Prediction recorded before the run: absolute AUC falls under both
+frozen policies. The question is whether the ORDERING is preserved.
+
+    policy     scarce   abundant       slope  verdict
+--------------------------------------------------------------
+   learned    +0.0329    -0.0216    -0.01448  crossover present
+       pca    -0.0074    -0.0452    -0.01191  no crossover
+    random    -0.0649    -0.0455    +0.00487  no crossover
+
+  The crossover does NOT survive freezing the projection. It was
+  an artifact of a learned bottleneck adapting differently to
+  different heads. Report this as the finding - it supersedes the
+  earlier reading rather than qualifying it.
+
+900/900 runs recorded per-sample predictions.
+Confirmatory intervals: 04_statistical_analysis.py --experiment 12_bottleneck
