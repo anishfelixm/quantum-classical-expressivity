@@ -199,12 +199,61 @@ def benjamini_hochberg(pvals, alpha=None, family_size=None):
 
 
 # ------------------------------------------------------------------ loading
+# Keys that identify WHICH MODEL is being compared, not which experimental
+# condition it sits in. Everything else defines the cell.
+_COMPARISON_KEYS = ("arm", "seed")
+
+
+def cell_of(keys):
+    """
+    The experimental condition a shard belongs to: every key except the two
+    that a comparison varies over.
+
+    THIS USED TO BE HARDCODED to (dataset, regime, dim, fp), which silently
+    discarded every optional axis. The consequence was severe and invisible:
+
+        12_bottleneck_ablation writes three shards per (dataset, regime, dim,
+        seed, arm) - bn=learned, bn=pca, bn=random. All three mapped to the
+        same cell, so two were OVERWRITTEN and whichever file sorted last
+        became "the" result. The experiment that tests whether the head or the
+        bottleneck does the work would have been analysed as though the
+        bottleneck policy did not exist.
+
+        10_capacity_sweep is the same: five ranks collapsed into one.
+
+    Deriving the cell from the keys means a new axis is handled correctly the
+    moment it is added, rather than requiring this function to be remembered.
+    """
+    return tuple(sorted((k, str(v)) for k, v in keys.items()
+                        if k not in _COMPARISON_KEYS))
+
+
+def cell_label(cell):
+    """Readable one-line description of a cell, for tables."""
+    d = dict(cell)
+    head = f"{d.get('dataset','?')} n={d.get('regime','?')} d={d.get('dim','4')}"
+    extra = [f"{k}={v}" for k, v in cell
+             if k not in ("dataset", "regime", "dim", "fp", "aug")]
+    return head + ("  " + " ".join(extra) if extra else "")
+
+
 def collect(experiment):
-    """(dataset, regime, dim, fp) -> arm -> seed -> full shard record."""
+    """cell -> arm -> seed -> full shard record."""
     tbl = defaultdict(lambda: defaultdict(dict))
+    seen = {}
     for r in shards.load_all(experiment):
         k = r["keys"]
-        cell = (k["dataset"], str(k["regime"]), k.get("dim", 4), k.get("fp", "all"))
+        cell = cell_of(k)
+        slot = (cell, k["arm"], k["seed"])
+        if slot in seen:
+            # Two shards claiming the same condition, arm and seed. Impossible
+            # if the keys are complete, so it means an axis is missing from the
+            # shard key itself - a silent overwrite, and worth stopping for.
+            raise RuntimeError(
+                f"duplicate shard for cell={cell} arm={k['arm']} seed={k['seed']}\n"
+                f"  {seen[slot]}\n  {k}\n"
+                f"An experimental axis is missing from the shard key.")
+        seen[slot] = k
         tbl[cell][k["arm"]][k["seed"]] = r
     return tbl
 
@@ -271,7 +320,7 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None)
     for label, arm_a, arm_b in pairs + exploratory:
         bucket = results if label in ("PRIMARY", "SECONDARY") else expl_results
         for cell in sorted(tbl):
-            C = len(medmnist.INFO[cell[0]]["label"])
+            C = len(medmnist.INFO[dict(cell)["dataset"]]["label"])
             r = compare(experiment, tbl, cell, arm_a, arm_b, metric, C, condition)
             if r:
                 r.update(family=label, cell=cell, arm_a=arm_a, arm_b=arm_b)
@@ -312,18 +361,19 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None)
             continue
         tag = "" if label in ("PRIMARY", "SECONDARY") else "  [EXPLORATORY, uncorrected]"
         print(f"\n=== {label}: {arm_a} - {arm_b}  ({metric}){tag} ===")
-        print(f"{'dataset':15s} {'n/cls':>6s} {'enc':>6s} {'delta':>9s} "
+        print(f"{'condition':38s} {'enc':>6s} {'delta':>9s} "
               f"{'95% CI':>21s} {'p':>9s} {'p_adj':>9s} {'d':>7s}  verdict")
-        print("-" * 110)
-        for r in sorted(rows, key=lambda x: (x["cell"][0], int(x["cell"][1]))):
-            ds, reg, dim, fp = r["cell"]
-            enc = "froz" if fp == "all" else "adap"
+        print("-" * 128)
+        for r in sorted(rows, key=lambda x: (dict(x["cell"]).get("dataset", ""),
+                                             int(dict(x["cell"]).get("regime", 0)))):
+            cd = dict(r["cell"])
+            enc = "froz" if cd.get("fp", "all") == "all" else "adap"
             v = (f"{r['arm_a']} better" if r["ci_lo"] > 0 else
                  f"{r['arm_b']} better" if r["ci_hi"] < 0 else "no difference")
             if abs(r["delta"]) < 0.01 and v != "no difference":
                 v += " (negligible)"
             padj = f"{r['p_adj']:9.4f}" if "p_adj" in r else "        -"
-            print(f"{ds:15s} {reg:>6s} {enc:>6s} {r['delta']:+9.4f} "
+            print(f"{cell_label(r['cell']):38s} {enc:>6s} {r['delta']:+9.4f} "
                   f"[{r['ci_lo']:+.4f},{r['ci_hi']:+.4f}] {r['p']:9.4f} {padj} "
                   f"{r['cohens_d']:+7.2f}  {v}")
 
@@ -332,7 +382,7 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None)
     print(f"\n=== H-P2: trend of delta on log2(shots/class), PRIMARY family ===")
     by_n = defaultdict(list)
     for r in primary:
-        by_n[int(r["cell"][1])].append(r["delta"])
+        by_n[int(dict(r["cell"])["regime"])].append(r["delta"])
     ns = sorted(by_n)
     if len(ns) >= 3:
         x = np.log2(ns)
@@ -366,9 +416,10 @@ def emit_latex(results, metric):
         for r in results:
             if r["family"] != "PRIMARY":
                 continue
-            ds = r["cell"][0].replace("mnist", "MNIST")
+            cd = dict(r["cell"])
+            ds = cd["dataset"].replace("mnist", "MNIST")
             padj = f"{r.get('p_adj', float('nan')):.3f}"
-            f.write(f"{ds} & {r['cell'][1]} & {r['delta']:+.4f} & "
+            f.write(f"{ds} & {cd['regime']} & {r['delta']:+.4f} & "
                     f"[{r['ci_lo']:+.4f}, {r['ci_hi']:+.4f}] & {padj} & "
                     f"{r['cohens_d']:+.2f} \\\\\n")
         f.write("\\bottomrule\\end{tabular}\\end{table}\n")
