@@ -92,13 +92,33 @@ def save_predictions(experiment, labels, probs, **keys) -> str:
         ndarray [N, C]                  -> stored under PROBS_KEY
         dict {condition: ndarray[N,C]}  -> one array per condition (03's noise sweep)
 
-    float16 is deliberate: probabilities need ~3 decimal places for AUC and F1 to
-    be identical to float64, and it halves ~250 KB per run across thousands of runs.
+    STORED AS float32, NOT float16.
+
+    float16 was chosen to halve the file size, on the reasoning that AUC needs
+    only ~3 decimal places. Both halves of that reasoning were wrong.
+
+    1. It broke multi-class AUC outright. float16 rounding makes rows sum to
+       0.999647-1.000352 instead of 1.0, and sklearn's roc_auc_score rejects
+       multi-class scores that do not sum to one (tolerance ~1e-5). Every
+       multi-class cell raised ValueError, _auc returned NaN, and
+       04_statistical_analysis.py fell back to seed-level resampling - the
+       weaker analysis the pre-registration forbids - while printing a table
+       that looked correct.
+
+    2. AUC depends on RANKING, not on absolute probability. float16 spacing near
+       0.9 is ~5e-4, so on a 3,421-image test set many samples collapse onto
+       identical stored values. Those artificial ties are broken by averaged
+       ranks, biasing the recomputed AUC away from the value computed at
+       training time from float32 - so a shard's own metric and the bootstrap's
+       recomputation would disagree.
+
+    float32 costs ~110 KB per run before compression. That is not worth trading
+    against the integrity of the headline statistic.
     """
     labels = np.asarray(labels).astype(np.int16)
-    arrays = ({PROBS_KEY: np.asarray(probs, dtype=np.float16)}
+    arrays = ({PROBS_KEY: np.asarray(probs, dtype=np.float32)}
               if not isinstance(probs, dict)
-              else {str(k): np.asarray(v, dtype=np.float16) for k, v in probs.items()})
+              else {str(k): np.asarray(v, dtype=np.float32) for k, v in probs.items()})
 
     path = pred_path(experiment, **keys)
     tmp = path + ".tmp.npz"
@@ -115,6 +135,12 @@ def load_predictions(experiment, condition=None, **keys):
     noise level). None takes PROBS_KEY when present, otherwise the single
     non-label array - so single-condition files load without the caller needing
     to know how they were written.
+
+    ROWS ARE RENORMALISED TO SUM TO ONE. Reduced-precision storage perturbs the
+    sum by ~3e-4, which is inside sklearn's multi-class tolerance of ~1e-5, so
+    roc_auc_score would reject the scores outright. Renormalising here fixes
+    every reader at once and keeps files written under the old float16 format
+    usable. It is a no-op on rows that already sum to one.
     """
     path = pred_path(experiment, **keys)
     if not os.path.exists(path):
@@ -133,7 +159,12 @@ def load_predictions(experiment, condition=None, **keys):
             name = others[0]
         if name not in z.files:
             return None, None
-        return z[name].astype(np.float64), labels
+
+        probs = z[name].astype(np.float64)
+        row = probs.sum(axis=1, keepdims=True)
+        # Guard against a degenerate all-zero row rather than dividing by zero.
+        row[row <= 0] = 1.0
+        return probs / row, labels
 
 
 # ------------------------------------------------------------------ shards
