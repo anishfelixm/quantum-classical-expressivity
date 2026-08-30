@@ -1,0 +1,82 @@
+nohup: ignoring input
+
+Integrity: 900 runs re-scored from stored predictions; max |recomputed - recorded| = 4.70e-03
+WARNING: 14 runs differ by more than 0.001. The stored
+predictions are not a faithful record of the run - do not quote
+bootstrap intervals until this is explained.
+
+BH-FDR family size m = 23  (declared; 60 computed here)
+
+=== PRIMARY: quantum_vqc - matched_param_fullrank  (auc) ===
+condition                                 enc     delta                95% CI         p     p_adj       d  verdict
+--------------------------------------------------------------------------------------------------------------------------------
+bloodmnist n=5 d=4  bn=learned           froz   +0.0657 [-0.0451,+0.1824]    0.2830    0.2262   +0.45  no difference
+bloodmnist n=5 d=4  bn=pca               froz   -0.0229 [-0.0854,+0.0338]    0.4820    0.2520   -0.30  no difference
+bloodmnist n=5 d=4  bn=random            froz   -0.0450 [-0.0834,-0.0053]    0.0230    0.0394   -0.92  matched_param_fullrank better
+bloodmnist n=10 d=4  bn=learned          froz   +0.0671 [-0.0141,+0.2039]    0.3580    0.2422   +0.44  no difference
+bloodmnist n=10 d=4  bn=pca              froz   -0.0235 [-0.0793,+0.0177]    0.3840    0.2453   -0.38  no difference
+bloodmnist n=10 d=4  bn=random           froz   -0.0511 [-0.0940,-0.0054]    0.0240    0.0394   -0.91  matched_param_fullrank better
+bloodmnist n=20 d=4  bn=learned          froz   -0.0069 [-0.0572,+0.0539]    0.7530    0.3149   -0.10  no difference
+bloodmnist n=20 d=4  bn=pca              froz   -0.0292 [-0.1042,+0.0431]    0.4630    0.2519   -0.31  no difference
+bloodmnist n=20 d=4  bn=random           froz   -0.0325 [-0.0614,-0.0030]    0.0330    0.0506   -0.90  matched_param_fullrank better
+bloodmnist n=50 d=4  bn=learned          froz   -0.0225 [-0.0550,+0.0102]    0.1750    0.1830   -0.54  no difference
+bloodmnist n=50 d=4  bn=pca              froz   -0.0334 [-0.0459,-0.0200]    0.0000    0.0000   -2.19  matched_param_fullrank better
+bloodmnist n=50 d=4  bn=random           froz   -0.0130 [-0.0416,+0.0113]    0.3220    0.2314   -0.40  no difference
+bloodmnist n=100 d=4  bn=learned         froz   -0.0332 [-0.0577,-0.0088]    0.0130    0.0272   -1.06  matched_param_fullrank better
+bloodmnist n=100 d=4  bn=pca             froz   -0.0397 [-0.0489,-0.0309]    0.0000    0.0000   -4.22  matched_param_fullrank better
+bloodmnist n=100 d=4  bn=random          froz   -0.0154 [-0.0367,+0.0031]    0.1070    0.1367   -0.63  no difference
+breastmnist n=5 d=4  bn=learned          froz   +0.0063 [-0.1026,+0.0982]    0.8930    0.3423   +0.06  no difference
+breastmnist n=5 d=4  bn=pca              froz   +0.0146 [-0.1455,+0.1740]    0.8260    0.3333   +0.08  no difference
+breastmnist n=5 d=4  bn=random           froz   -0.0637 [-0.1961,+0.0597]    0.2950    0.2262   -0.62  no difference
+breastmnist n=10 d=4  bn=learned         froz   +0.0278 [-0.0444,+0.1066]    0.4710    0.2519   +0.44  no difference
+breastmnist n=10 d=4  bn=pca             froz   +0.0611 [-0.0518,+0.1745]    0.2730    0.2262   +0.66  no difference
+breastmnist n=10 d=4  bn=random          froz   -0.1003 [-0.2566,+0.0386]    0.1470    0.1690   -0.70  no difference
+breastmnist n=20 d=4  bn=learned         froz   -0.0114 [-0.0526,+0.0240]    0.5830    0.2737   -0.44  no difference
+breastmnist n=20 d=4  bn=pca             froz   +0.0436 [-0.0657,+0.1464]    0.3750    0.2453   +0.51  no difference
+breastmnist n=20 d=4  bn=random          froz   -0.0831 [-0.2331,+0.0530]    0.2380    0.2105   -0.60  no difference
+breastmnist n=50 d=4  bn=learned         froz   -0.0180 [-0.0419,+0.0060]    0.1390    0.1683   -1.28  no difference
+breastmnist n=50 d=4  bn=pca             froz   -0.0379 [-0.1482,+0.0444]    0.4190    0.2519   -0.39  no difference
+breastmnist n=50 d=4  bn=random          froz   -0.0329 [-0.1584,+0.0730]    0.5710    0.2736   -0.36  no difference
+breastmnist n=100 d=4  bn=learned        froz   -0.0123 [-0.0406,+0.0110]    0.3060    0.2270   -0.91  no difference
+breastmnist n=100 d=4  bn=pca            froz   -0.1043 [-0.2221,-0.0159]    0.0180    0.0345   -1.08  matched_param_fullrank better
+breastmnist n=100 d=4  bn=random         froz   -0.0053 [-0.0952,+0.0798]    0.8570    0.3398   -0.11  no difference
+pathmnist n=5 d=4  bn=learned            froz   -0.0160 [-0.0995,+0.0996]    0.6790    0.3076   -0.12  no difference
+pathmnist n=5 d=4  bn=pca                froz   -0.0914 [-0.1584,-0.0370]    0.0000    0.0000   -1.20  matched_param_fullrank better
+pathmnist n=5 d=4  bn=random             froz   +0.0090 [-0.0420,+0.0503]    0.6820    0.3076   +0.15  no difference
+pathmnist n=10 d=4  bn=learned           froz   -0.0230 [-0.0747,+0.0399]    0.3970    0.2468   -0.31  no difference
+pathmnist n=10 d=4  bn=pca               froz   -0.0567 [-0.1342,+0.0172]    0.1550    0.1698   -0.56  no difference
+pathmnist n=10 d=4  bn=random            froz   +0.0077 [-0.0310,+0.0459]    0.7290    0.3149   +0.16  no difference
+pathmnist n=20 d=4  bn=learned           froz   -0.0370 [-0.0671,+0.0017]    0.0650    0.0879   -0.83  no difference
+pathmnist n=20 d=4  bn=pca               froz   -0.1006 [-0.1695,-0.0310]    0.0080    0.0204   -1.08  matched_param_fullrank better
+pathmnist n=20 d=4  bn=random            froz   -0.0124 [-0.0458,+0.0259]    0.5310    0.2655   -0.27  no difference
+pathmnist n=50 d=4  bn=learned           froz   -0.0488 [-0.0585,-0.0388]    0.0000    0.0000   -3.94  matched_param_fullrank better
+pathmnist n=50 d=4  bn=pca               froz   -0.0779 [-0.1581,-0.0076]    0.0110    0.0253   -0.85  matched_param_fullrank better
+pathmnist n=50 d=4  bn=random            froz   -0.0605 [-0.0989,-0.0195]    0.0060    0.0173   -1.14  matched_param_fullrank better
+pathmnist n=100 d=4  bn=learned          froz   -0.0371 [-0.0500,-0.0228]    0.0000    0.0000   -2.20  matched_param_fullrank better
+pathmnist n=100 d=4  bn=pca              froz   -0.0290 [-0.0422,-0.0126]    0.0010    0.0033   -1.51  matched_param_fullrank better
+pathmnist n=100 d=4  bn=random           froz   -0.0525 [-0.0748,-0.0365]    0.0000    0.0000   -2.13  matched_param_fullrank better
+pneumoniamnist n=5 d=4  bn=learned       froz   +0.0629 [-0.0133,+0.2022]    0.5510    0.2696   +0.41  no difference
+pneumoniamnist n=5 d=4  bn=pca           froz   +0.1407 [-0.0944,+0.3278]    0.2140    0.1969   +0.53  no difference
+pneumoniamnist n=5 d=4  bn=random        froz   -0.1184 [-0.3519,+0.1338]    0.3500    0.2422   -0.38  no difference
+pneumoniamnist n=10 d=4  bn=learned      froz   +0.0725 [-0.0103,+0.2093]    0.1980    0.1898   +0.48  no difference
+pneumoniamnist n=10 d=4  bn=pca          froz   -0.0813 [-0.3298,+0.1664]    0.5270    0.2655   -0.25  no difference
+pneumoniamnist n=10 d=4  bn=random       froz   -0.1575 [-0.3192,-0.0094]    0.0360    0.0517   -0.80  matched_param_fullrank better
+pneumoniamnist n=20 d=4  bn=learned      froz   -0.0021 [-0.0147,+0.0107]    0.7510    0.3149   -0.14  no difference
+pneumoniamnist n=20 d=4  bn=pca          froz   -0.0677 [-0.2408,+0.0725]    0.4290    0.2519   -0.34  no difference
+pneumoniamnist n=20 d=4  bn=random       froz   -0.0500 [-0.3402,+0.2335]    0.7260    0.3149   -0.13  no difference
+pneumoniamnist n=50 d=4  bn=learned      froz   -0.0007 [-0.0066,+0.0067]    0.7690    0.3158   -0.09  no difference
+pneumoniamnist n=50 d=4  bn=pca          froz   -0.0241 [-0.0874,+0.0304]    0.4410    0.2519   -0.33  no difference
+pneumoniamnist n=50 d=4  bn=random       froz   -0.0977 [-0.3483,+0.1443]    0.4630    0.2519   -0.31  no difference
+pneumoniamnist n=100 d=4  bn=learned     froz   -0.0006 [-0.0087,+0.0068]    0.8870    0.3423   -0.06  no difference
+pneumoniamnist n=100 d=4  bn=pca         froz   -0.0154 [-0.0449,+0.0027]    0.1870    0.1870   -0.49  no difference
+pneumoniamnist n=100 d=4  bn=random      froz   -0.0851 [-0.2593,+0.0215]    0.2890    0.2262   -0.44  no difference
+
+=== H-P2: trend of delta on log2(shots/class), PRIMARY family ===
+    n=   5  mean delta = -0.0048 (12 cells)
+    n=  10  mean delta = -0.0214 (12 cells)
+    n=  20  mean delta = -0.0324 (12 cells)
+    n=  50  mean delta = -0.0390 (12 cells)
+    n= 100  mean delta = -0.0358 (12 cells)
+
+    slope = -0.00716 per doubling  [-0.01556, +0.00115]
+    H-P2 NOT supported (CI must exclude 0 and be negative)
