@@ -18,15 +18,24 @@ named file alongside the old one. Two files, identical keys, different results.
 found. It should raise: silently keeping one of two contradictory records is
 exactly the failure the shard system exists to prevent.
 
-THE RULE
---------
-A shard is legacy if shards.shard_name(experiment, **its_own_keys) differs from
-its filename. That is a property of the file, not a hardcoded pattern, so it
-finds every stale naming convention including ones nobody remembers.
+THE RULE - CORRECTED
+--------------------
+A shard is legacy-NAMED if shards.shard_name(experiment, **its_own_keys)
+differs from its filename. That detects a stale convention, but it is NOT on
+its own a reason to remove the file.
 
-Legacy files are MOVED, never deleted - they are provenance for what the
-project believed at the time, and several predate amendments that make them
-incomparable rather than wrong.
+    legacy name, canonical twin EXISTS  ->  genuine duplicate, ARCHIVE it
+    legacy name, no twin                ->  unique data, RENAME to canonical
+
+The first version of this script archived on the name alone and moved 2,844
+files when 2 were duplicates: 1,800 diagnostic runs and the entire 144-cell
+premise check were valid, unique results that simply predated the naming
+standard. Nothing was lost - they were moved, not deleted - but the analyses
+run immediately afterwards were computed against a gutted directory.
+
+Archived files are MOVED, never deleted: they are provenance for what the
+project believed at the time, and the two known duplicates predate Amendment 2,
+which makes them incomparable rather than merely redundant.
 
 USAGE
 -----
@@ -71,12 +80,21 @@ def audit(experiment):
                  "sha": rec.get("git_sha", "?")[:8],
                  "ts": rec.get("timestamp", "?"),
                  "auc": (rec.get("metrics") or {}).get("auc")}
-        if fn != canonical:
-            legacy.append(entry)
         by_canonical.setdefault(canonical, []).append(entry)
 
     collisions = {c: v for c, v in by_canonical.items() if len(v) > 1}
-    return legacy, collisions
+
+    # Only a legacy-named file that SHARES its key-set with another file is a
+    # duplicate. A legacy-named file that is alone is unique data with an old
+    # filename, and gets renamed rather than archived.
+    for canonical, entries in collisions.items():
+        for e in entries:
+            if e["file"] != canonical:
+                legacy.append(e)
+
+    rename = [e for entries in by_canonical.values() if len(entries) == 1
+              for e in entries if e["file"] != e["canonical"]]
+    return legacy, collisions, rename
 
 
 def main():
@@ -92,10 +110,10 @@ def main():
                     if os.path.isdir(os.path.join(config.SHARD_DIR, n))
                     and not n.startswith("_")))
 
-    total_legacy = 0
+    total_legacy, total_rename = 0, 0
     for exp in names:
-        legacy, collisions = audit(exp)
-        if not legacy and not collisions:
+        legacy, collisions, rename = audit(exp)
+        if not legacy and not collisions and not rename:
             continue
 
         print(f"\n=== {exp} ===")
@@ -111,24 +129,36 @@ def main():
 
         if legacy:
             total_legacy += len(legacy)
-            print(f"\n{len(legacy)} legacy-named shard(s).")
+            print(f"\n{len(legacy)} DUPLICATE shard(s) to archive.")
             if args.apply:
                 dest = os.path.join(ARCHIVE, exp)
                 os.makedirs(dest, exist_ok=True)
                 for e in legacy:
                     shutil.move(e["path"], os.path.join(dest, e["file"]))
-                print(f"Moved to {dest}")
-            else:
-                print("Re-run with --apply to move them.")
+                print(f"Archived to {dest}")
 
-    if total_legacy == 0:
-        print("\nNo legacy-named shards. Every filename matches its own keys.")
+        if rename:
+            total_rename += len(rename)
+            print(f"{len(rename)} unique shard(s) with a legacy filename - "
+                  f"these get RENAMED, not archived.")
+            if args.apply:
+                d = os.path.join(config.SHARD_DIR, exp)
+                for e in rename:
+                    os.replace(e["path"], os.path.join(d, e["canonical"]))
+                print(f"Renamed in place.")
+
+        if (legacy or rename) and not args.apply:
+            print("Re-run with --apply.")
+
+    if total_legacy == 0 and total_rename == 0:
+        print("\nClean: every filename matches its own keys, no duplicates.")
     elif not args.apply:
-        print(f"\n{total_legacy} file(s) would be moved. Nothing changed.")
+        print(f"\n{total_legacy} duplicate(s) would be archived, "
+              f"{total_rename} file(s) renamed. Nothing changed.")
     else:
-        print(f"\n{total_legacy} file(s) archived under {ARCHIVE}.")
-        print("Predictions are keyed separately and are unaffected: a legacy")
-        print("shard's canonical twin has its own prediction file.")
+        print(f"\n{total_legacy} duplicate(s) archived under {ARCHIVE}; "
+              f"{total_rename} renamed in place.")
+        print("No unique result is ever moved out of a live namespace.")
 
 
 if __name__ == "__main__":
