@@ -82,12 +82,26 @@ from sklearn.metrics import roc_auc_score, f1_score   # noqa: E402
 
 
 # ------------------------------------------------------------------ metrics
+# Why a metric could not be computed, accumulated so a run can explain ITSELF
+# instead of emitting a bare NaN that turns into a silent fallback.
+_AUC_FAILURES = {}
+
+
 def _auc(labels, probs, num_classes):
     try:
         if num_classes == 2:
             return roc_auc_score(labels, probs[:, 1])
         return roc_auc_score(labels, probs, multi_class="ovr", average="macro")
-    except ValueError:
+    except ValueError as e:
+        # "a class is absent from this draw" is expected during bootstrapping.
+        # "scores do not sum to one" is a STORAGE fault and must be surfaced:
+        # it silently disabled the pre-registered statistic for every
+        # multi-class cell until it was traced by hand.
+        msg = str(e)
+        kind = ("scores_not_probabilities" if "sum up to" in msg
+                else "class_absent" if "present in y_true" in msg
+                else msg[:60])
+        _AUC_FAILURES[kind] = _AUC_FAILURES.get(kind, 0) + 1
         return np.nan
 
 
@@ -266,6 +280,74 @@ def _metric_of(record, metric, condition=None):
     return curve.get(condition or "0.00", {}).get(metric)
 
 
+def _integrity_check(experiment, tbl, metric, condition, tol=1e-3):
+    """
+    Recompute the metric from stored predictions and compare with the value the
+    shard recorded at training time. They should agree to floating-point noise.
+
+    Cheap insurance against a whole class of silent corruption: wrong dtype,
+    truncated file, mismatched labels, or predictions written by a different
+    model than the metrics. float16 storage produced a 4.7e-03 gap here before
+    it was changed to float32, and nothing else in the pipeline noticed.
+    """
+    import medmnist
+    worst, n_checked, n_bad = 0.0, 0, 0
+    for cell in sorted(tbl):
+        C = len(medmnist.INFO[dict(cell)["dataset"]]["label"])
+        for arm, by_seed in tbl[cell].items():
+            for seed, rec in by_seed.items():
+                stored = _metric_of(rec, metric, condition)
+                if stored is None:
+                    continue
+                probs, labels = shards.load_predictions(
+                    experiment, condition=condition, **rec["keys"])
+                if probs is None:
+                    continue
+                got = METRIC_FN[metric](labels, probs, C)
+                if np.isnan(got):
+                    continue
+                n_checked += 1
+                gap = abs(got - stored)
+                worst = max(worst, gap)
+                n_bad += gap > tol
+
+    if not n_checked:
+        print("\nIntegrity: no run had both a stored metric and a readable "
+              "prediction file - nothing could be cross-checked.")
+        return
+    print(f"\nIntegrity: {n_checked} runs re-scored from stored predictions; "
+          f"max |recomputed - recorded| = {worst:.2e}")
+    if n_bad:
+        print(f"WARNING: {n_bad} runs differ by more than {tol:g}. The stored")
+        print("predictions are not a faithful record of the run - do not quote")
+        print("bootstrap intervals until this is explained.")
+
+
+def _fallback_banner(results):
+    """One place explaining a fallback, so both runners report it identically."""
+    if "seed_level_ONLY" not in {r["method"] for r in results}:
+        return
+    n_fb = sum(1 for r in results if r["method"] == "seed_level_ONLY")
+    print("\n" + "!" * 74)
+    print(f"! SEED-LEVEL FALLBACK IN USE for {n_fb} of {len(results)} comparisons.")
+    print("! These intervals ignore test-set sampling variance and are NOT the")
+    print("! pre-registered analysis.")
+    if _AUC_FAILURES:
+        print("!")
+        print("! The metric could not be computed. Reasons:")
+        for k, v in sorted(_AUC_FAILURES.items(), key=lambda x: -x[1]):
+            print(f"!   {v:>8d}x  {k}")
+        if "scores_not_probabilities" in _AUC_FAILURES:
+            print("!")
+            print("! 'scores_not_probabilities' is a STORAGE fault: saved")
+            print("! probabilities do not sum to 1 within sklearn's tolerance.")
+            print("! shards.load_predictions renormalises rows - if this still")
+            print("! fires, that fix is not in place.")
+    else:
+        print("! Prediction files were absent for those cells.")
+    print("!" * 74)
+
+
 def compare_records(experiment, rec_a, rec_b, metric, num_classes,
                     condition=None):
     """
@@ -382,15 +464,7 @@ def run_cross(experiment, key, val_a, val_b, metric="auc",
     for r, rr, aa in zip(results, rej, adj):
         r["p_adj"], r["significant"] = float(aa), bool(rr)
 
-    if "seed_level_ONLY" in {r["method"] for r in results}:
-        n_fb = sum(1 for r in results if r["method"] == "seed_level_ONLY")
-        print("\n" + "!" * 74)
-        print(f"! SEED-LEVEL FALLBACK IN USE for {n_fb} of {len(results)} "
-              f"comparisons - NOT the pre-registered analysis.")
-        for k, v in sorted(_AUC_FAILURES.items(), key=lambda x: -x[1]):
-            print(f"!   {v:>8d}x  {k}")
-        print("!" * 74)
-
+    _fallback_banner(results)
     _integrity_check(experiment, tbl, metric, condition)
 
     print(f"\nBH-FDR family size m = {family_size or len(results)}"
@@ -471,13 +545,8 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None)
         for r, rr, aa in zip(results, rej, adj):
             r["p_adj"], r["significant"] = float(aa), bool(rr)
 
-    if "seed_level_ONLY" in {r["method"] for r in results + expl_results}:
-        print("\n" + "!" * 74)
-        print("! SEED-LEVEL FALLBACK IN USE - per-sample predictions were not found")
-        print("! for some cells. Those intervals ignore test-set sampling variance")
-        print("! and are NOT the pre-registered analysis. Re-run those cells with")
-        print("! prediction saving enabled before quoting them.")
-        print("!" * 74)
+    _fallback_banner(results + expl_results)
+    _integrity_check(experiment, tbl, metric, condition)
 
     m_used = family_size or len(results)
     print(f"\nBH-FDR family size m = {m_used}"
