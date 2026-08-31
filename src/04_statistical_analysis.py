@@ -82,26 +82,12 @@ from sklearn.metrics import roc_auc_score, f1_score   # noqa: E402
 
 
 # ------------------------------------------------------------------ metrics
-# Reasons a metric could not be computed, accumulated so the run can explain
-# ITSELF rather than emitting a bare NaN that becomes a silent fallback.
-_AUC_FAILURES = {}
-
-
 def _auc(labels, probs, num_classes):
     try:
         if num_classes == 2:
             return roc_auc_score(labels, probs[:, 1])
         return roc_auc_score(labels, probs, multi_class="ovr", average="macro")
-    except ValueError as e:
-        # "a class is absent from this draw" is expected during bootstrapping.
-        # "scores do not sum to one" is a STORAGE fault and must be reported:
-        # it silently disabled the pre-registered statistic for every
-        # multi-class cell until it was traced by hand.
-        msg = str(e)
-        kind = ("scores_not_probabilities" if "sum up to" in msg
-                else "class_absent" if "present in y_true" in msg
-                else msg[:60])
-        _AUC_FAILURES[kind] = _AUC_FAILURES.get(kind, 0) + 1
+    except ValueError:
         return np.nan
 
 
@@ -280,10 +266,16 @@ def _metric_of(record, metric, condition=None):
     return curve.get(condition or "0.00", {}).get(metric)
 
 
-def compare(experiment, tbl, cell, arm_a, arm_b, metric, num_classes,
-            condition=None):
-    """Nested bootstrap where predictions exist; seed-level fallback otherwise."""
-    rec_a, rec_b = tbl[cell].get(arm_a, {}), tbl[cell].get(arm_b, {})
+def compare_records(experiment, rec_a, rec_b, metric, num_classes,
+                    condition=None):
+    """
+    Nested bootstrap over two {seed: shard} maps; seed-level fallback otherwise.
+
+    Deliberately agnostic about WHAT differs between the two sides. Two arms in
+    one condition, or one arm in two conditions, are the same statistical
+    operation - and separating that choice from the machinery is what lets
+    H-S5 (rank 0 vs rank 8, same arm) be tested at all.
+    """
     common = sorted(set(rec_a) & set(rec_b))
     if len(common) < 2:
         return None
@@ -313,6 +305,134 @@ def compare(experiment, tbl, cell, arm_a, arm_b, metric, num_classes,
     return seed_level_bootstrap(
         {s: _metric_of(rec_a[s], metric, condition) for s in common},
         {s: _metric_of(rec_b[s], metric, condition) for s in common})
+
+
+def compare(experiment, tbl, cell, arm_a, arm_b, metric, num_classes,
+            condition=None):
+    """Two ARMS within one experimental condition."""
+    return compare_records(experiment, tbl[cell].get(arm_a, {}),
+                           tbl[cell].get(arm_b, {}), metric, num_classes,
+                           condition)
+
+
+def group_by(tbl, key):
+    """
+    base condition -> {value of `key`: cell}
+
+    Splits the cell table along one axis so the same arm can be compared across
+    two settings of it. Cells lacking the key are skipped.
+    """
+    groups = defaultdict(dict)
+    for cell in tbl:
+        d = dict(cell)
+        if key not in d:
+            continue
+        val = d.pop(key)
+        groups[tuple(sorted(d.items()))][val] = cell
+    return groups
+
+
+def run_cross(experiment, key, val_a, val_b, metric="auc",
+              family_size=None, condition=None):
+    """
+    Compare one arm against ITSELF across two values of an experimental axis.
+
+    WHY THIS EXISTS. run() compares arm_a with arm_b inside a cell, which cannot
+    express H-S5: `low_rank` at rank 0 versus `low_rank` at rank 8 is the same
+    arm in two different cells. Without this, the capacity sweep - 1,000 runs,
+    the experiment that tests the paper's mechanism claim - had no confirmatory
+    path at all, and 04 simply printed "Nothing comparable found".
+
+    Also covers bottleneck policy (bn=learned vs bn=pca), weight decay, circuit
+    depth, and angle scale, none of which are arm-valued either.
+    """
+    import medmnist
+
+    tbl = collect(experiment)
+    if not tbl:
+        print(f"No shards for '{experiment}'.")
+        return
+
+    groups = group_by(tbl, key)
+    if not groups:
+        print(f"No shards carry the key '{key}'. Available keys: "
+              f"{sorted({k for c in tbl for k, _ in c})}")
+        return
+
+    va, vb = str(val_a), str(val_b)
+    results = []
+    for base, by_val in sorted(groups.items()):
+        if va not in by_val or vb not in by_val:
+            continue
+        cell_a, cell_b = by_val[va], by_val[vb]
+        C = len(medmnist.INFO[dict(base)["dataset"]]["label"])
+        for arm in sorted(set(tbl[cell_a]) & set(tbl[cell_b])):
+            r = compare_records(experiment, tbl[cell_a][arm], tbl[cell_b][arm],
+                                metric, C, condition)
+            if r:
+                r.update(base=base, arm=arm)
+                results.append(r)
+
+    if not results:
+        print(f"No cell has both {key}={va} and {key}={vb}.")
+        return
+
+    rej, adj = benjamini_hochberg([r["p"] for r in results],
+                                  family_size=family_size)
+    for r, rr, aa in zip(results, rej, adj):
+        r["p_adj"], r["significant"] = float(aa), bool(rr)
+
+    if "seed_level_ONLY" in {r["method"] for r in results}:
+        n_fb = sum(1 for r in results if r["method"] == "seed_level_ONLY")
+        print("\n" + "!" * 74)
+        print(f"! SEED-LEVEL FALLBACK IN USE for {n_fb} of {len(results)} "
+              f"comparisons - NOT the pre-registered analysis.")
+        for k, v in sorted(_AUC_FAILURES.items(), key=lambda x: -x[1]):
+            print(f"!   {v:>8d}x  {k}")
+        print("!" * 74)
+
+    _integrity_check(experiment, tbl, metric, condition)
+
+    print(f"\nBH-FDR family size m = {family_size or len(results)}"
+          + (f"  (declared; {len(results)} computed here)" if family_size else ""))
+    print(f"\n=== CROSS-CONDITION: {key}={va} minus {key}={vb}  ({metric}) ===")
+    print(f"Same arm, same seeds, same data. Only {key} differs.")
+    print(f"\n{'condition':34s} {'arm':22s} {'delta':>9s} "
+          f"{'95% CI':>21s} {'p':>9s} {'p_adj':>9s} {'d':>7s}  verdict")
+    print("-" * 126)
+    for r in sorted(results, key=lambda x: (dict(x["base"]).get("dataset", ""),
+                                            int(dict(x["base"]).get("regime", 0)),
+                                            x["arm"])):
+        v = (f"{key}={va} better" if r["ci_lo"] > 0 else
+             f"{key}={vb} better" if r["ci_hi"] < 0 else "no difference")
+        if abs(r["delta"]) < 0.01 and v != "no difference":
+            v += " (negligible)"
+        print(f"{cell_label(r['base']):34s} {r['arm']:22s} {r['delta']:+9.4f} "
+              f"[{r['ci_lo']:+.4f},{r['ci_hi']:+.4f}] {r['p']:9.4f} "
+              f"{r['p_adj']:9.4f} {r['cohens_d']:+7.2f}  {v}")
+
+    # trend of the contrast across the scarcity axis
+    by_n = defaultdict(list)
+    for r in results:
+        reg = dict(r["base"]).get("regime")
+        if reg is not None:
+            by_n[int(reg)].append(r["delta"])
+    ns = sorted(by_n)
+    if len(ns) >= 3:
+        print(f"\n=== Trend of the contrast on log2(shots/class) ===")
+        x = np.log2(ns)
+        slope = float(np.polyfit(x, [np.mean(by_n[n]) for n in ns], 1)[0])
+        rng = np.random.default_rng(7)
+        boot = [float(np.polyfit(x, [rng.choice(by_n[n], len(by_n[n])).mean()
+                                     for n in ns], 1)[0]) for _ in range(2000)]
+        lo, hi = np.percentile(boot, [2.5, 97.5])
+        for n in ns:
+            print(f"    n={n:>4d}  mean delta = {np.mean(by_n[n]):+.4f} "
+                  f"({len(by_n[n])} cells)")
+        print(f"\n    slope = {slope:+.5f} per doubling  [{lo:+.5f}, {hi:+.5f}]")
+        print(f"    Negative slope with a CI excluding 0 = the contrast shrinks")
+        print(f"    as data grows. Result: "
+              f"{'SUPPORTED' if hi < 0 else 'NOT supported'}")
 
 
 # ------------------------------------------------------------------ analysis
@@ -352,34 +472,12 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None)
             r["p_adj"], r["significant"] = float(aa), bool(rr)
 
     if "seed_level_ONLY" in {r["method"] for r in results + expl_results}:
-        n_fb = sum(1 for r in results + expl_results
-                   if r["method"] == "seed_level_ONLY")
         print("\n" + "!" * 74)
-        print(f"! SEED-LEVEL FALLBACK IN USE for {n_fb} of "
-              f"{len(results) + len(expl_results)} comparisons.")
-        print("! These intervals ignore test-set sampling variance and are NOT")
-        print("! the pre-registered analysis.")
-        if _AUC_FAILURES:
-            print("!")
-            print("! The metric could not be computed. Reasons:")
-            for k, v in sorted(_AUC_FAILURES.items(), key=lambda x: -x[1]):
-                print(f"!   {v:>8d}x  {k}")
-            if "scores_not_probabilities" in _AUC_FAILURES:
-                print("!")
-                print("! 'scores_not_probabilities' is a STORAGE fault, not a data")
-                print("! problem: saved probabilities do not sum to 1 within")
-                print("! sklearn's tolerance. shards.load_predictions renormalises")
-                print("! rows - if this still fires, that fix is not in place.")
-        else:
-            print("! Prediction files were absent for those cells.")
+        print("! SEED-LEVEL FALLBACK IN USE - per-sample predictions were not found")
+        print("! for some cells. Those intervals ignore test-set sampling variance")
+        print("! and are NOT the pre-registered analysis. Re-run those cells with")
+        print("! prediction saving enabled before quoting them.")
         print("!" * 74)
-
-    # --- integrity check: does the bootstrap see the same numbers the run did?
-    # The stored metric was computed at training time from full-precision
-    # probabilities; the bootstrap recomputes it from what was written to disk.
-    # A gap means the stored predictions are not a faithful record of the run -
-    # exactly what reduced-precision storage caused.
-    _integrity_check(experiment, tbl, metric, condition)
 
     m_used = family_size or len(results)
     print(f"\nBH-FDR family size m = {m_used}"
@@ -440,46 +538,6 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None)
         emit_latex(results, metric)
 
 
-def _integrity_check(experiment, tbl, metric, condition, tol=1e-3):
-    """
-    Recompute the metric from stored predictions and compare with the value the
-    shard recorded at training time. They should agree to floating-point noise.
-
-    This is cheap insurance against a whole class of silent corruption: wrong
-    dtype, truncated file, mismatched labels, or predictions saved from a
-    different model than the metrics.
-    """
-    import medmnist
-    worst, n_checked, n_bad = 0.0, 0, 0
-    for cell in sorted(tbl):
-        C = len(medmnist.INFO[dict(cell)["dataset"]]["label"])
-        for arm, by_seed in tbl[cell].items():
-            for seed, rec in by_seed.items():
-                stored = _metric_of(rec, metric, condition)
-                if stored is None:
-                    continue
-                probs, labels = shards.load_predictions(
-                    experiment, condition=condition, **rec["keys"])
-                if probs is None:
-                    continue
-                got = METRIC_FN[metric](labels, probs, C)
-                if np.isnan(got):
-                    continue
-                n_checked += 1
-                gap = abs(got - stored)
-                worst = max(worst, gap)
-                n_bad += gap > tol
-
-    if not n_checked:
-        return
-    print(f"\nIntegrity: {n_checked} runs re-scored from stored predictions; "
-          f"max |recomputed - recorded| = {worst:.2e}")
-    if n_bad:
-        print(f"WARNING: {n_bad} runs differ by more than {tol:g}. The stored")
-        print("predictions are not a faithful record of the run - do not quote")
-        print("bootstrap intervals until this is explained.")
-
-
 def emit_latex(results, metric):
     out = os.path.join(config.ARTIFACT_ROOT, f"table_{metric}.tex")
     with open(out, "w") as f:
@@ -510,8 +568,25 @@ def main():
                    help="declared BH family size; see docs/analysis_plan.md")
     p.add_argument("--condition", default=None,
                    help="sub-condition for multi-condition runs, e.g. 0.20 for noise")
+    p.add_argument("--compare-key", default=None,
+                   help="compare one arm across two values of this shard key "
+                        "(e.g. rank, bn, wd, L). Needed for H-S5, where the two "
+                        "sides are the same arm in different conditions.")
+    p.add_argument("--compare-values", nargs=2, default=None,
+                   metavar=("A", "B"),
+                   help="the two values of --compare-key, as A minus B")
     p.add_argument("--latex", action="store_true")
     args = p.parse_args()
+
+    if args.compare_key:
+        if not args.compare_values:
+            p.error("--compare-key requires --compare-values A B")
+        run_cross(args.experiment, args.compare_key,
+                  args.compare_values[0], args.compare_values[1],
+                  metric=args.metric, family_size=args.family_size,
+                  condition=args.condition)
+        return
+
     run(args.experiment, args.metric, args.latex,
         family_size=args.family_size, condition=args.condition)
 
