@@ -218,7 +218,36 @@ def benjamini_hochberg(pvals, alpha=None, family_size=None):
 _COMPARISON_KEYS = ("arm", "seed")
 
 
-def cell_of(keys):
+def condition_keys(records):
+    """
+    Keys that EVERY arm in the namespace carries.
+
+    A key present on only some arms is an ARM PROPERTY, not an experimental
+    condition, and must not enter the cell. The confirmatory sweep is the
+    motivating case:
+
+        quantum_vqc              ... lrh=1e-02, lrq=1e-02
+        matched_param_fullrank   ... lrh=1e-02
+
+    lrq is keyed only for quantum arms - correctly, since a classical head has
+    no quantum parameter group to give a learning rate to. But treating it as a
+    condition put the two arms in DIFFERENT cells, so no cell held both and the
+    primary comparison silently reported "Nothing comparable found" on a
+    1,600-run sweep that had completed perfectly.
+
+    Computing this from the data means per-arm hyperparameters can be added
+    without anyone having to remember to exclude them here.
+    """
+    by_arm = defaultdict(set)
+    for r in records:
+        k = r["keys"]
+        by_arm[k["arm"]].update(kk for kk in k if kk not in _COMPARISON_KEYS)
+    if not by_arm:
+        return set()
+    return set.intersection(*by_arm.values())
+
+
+def cell_of(keys, allowed=None):
     """
     The experimental condition a shard belongs to: every key except the two
     that a comparison varies over.
@@ -239,7 +268,8 @@ def cell_of(keys):
     moment it is added, rather than requiring this function to be remembered.
     """
     return tuple(sorted((k, str(v)) for k, v in keys.items()
-                        if k not in _COMPARISON_KEYS))
+                        if k not in _COMPARISON_KEYS
+                        and (allowed is None or k in allowed)))
 
 
 def cell_label(cell):
@@ -251,13 +281,22 @@ def cell_label(cell):
     return head + ("  " + " ".join(extra) if extra else "")
 
 
-def collect(experiment):
-    """cell -> arm -> seed -> full shard record."""
+def collect(experiment, force_keys=()):
+    """
+    cell -> arm -> seed -> full shard record.
+
+    force_keys re-admits a key that would otherwise be dropped as arm-specific,
+    which --compare-key needs when the axis being compared is itself carried by
+    only one arm.
+    """
+    records = shards.load_all(experiment)
+    allowed = condition_keys(records) | set(force_keys)
+
     tbl = defaultdict(lambda: defaultdict(dict))
     seen = {}
-    for r in shards.load_all(experiment):
+    for r in records:
         k = r["keys"]
-        cell = cell_of(k)
+        cell = cell_of(k, allowed)
         slot = (cell, k["arm"], k["seed"])
         if slot in seen:
             # Two shards claiming the same condition, arm and seed. Impossible
@@ -266,7 +305,9 @@ def collect(experiment):
             raise RuntimeError(
                 f"duplicate shard for cell={cell} arm={k['arm']} seed={k['seed']}\n"
                 f"  {seen[slot]}\n  {k}\n"
-                f"An experimental axis is missing from the shard key.")
+                f"Either an experimental axis is missing from the shard key, or "
+                f"an axis you swept is carried by only some arms and was "
+                f"therefore dropped from the cell - pass it via --compare-key.")
         seen[slot] = k
         tbl[cell][k["arm"]][k["seed"]] = r
     return tbl
@@ -430,7 +471,7 @@ def run_cross(experiment, key, val_a, val_b, metric="auc",
     """
     import medmnist
 
-    tbl = collect(experiment)
+    tbl = collect(experiment, force_keys=(key,))
     if not tbl:
         print(f"No shards for '{experiment}'.")
         return
@@ -523,6 +564,15 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None)
              ("SECONDARY", *config.SECONDARY_COMPARISON)]
     exploratory = [("diagnostic", *config.DIAGNOSTIC_COMPARISON)] \
         if hasattr(config, "DIAGNOSTIC_COMPARISON") else []
+
+    all_keys = {k for c in tbl for k, _ in c}
+    every_key = {kk for r in shards.load_all(experiment)
+                 for kk in r["keys"] if kk not in _COMPARISON_KEYS}
+    dropped = sorted(every_key - all_keys)
+    if dropped:
+        print(f"Arm-specific keys excluded from the cell definition: {dropped}")
+        print("(carried by some arms but not all, so they cannot define a")
+        print(" condition shared across arms - e.g. lrq on quantum arms only)")
 
     results, expl_results = [], []
     for label, arm_a, arm_b in pairs + exploratory:
