@@ -731,6 +731,36 @@ def main():
             print("WARNING: writing tuned runs into the default namespace. Use "
                   "--experiment 01_frozen_tuned to keep them separate.")
 
+        # EVERY arm in the run must have a tuned rate, or the comparison is
+        # between arms trained at DIFFERENT learning rates.
+        #
+        # This silently invalidated a 600-run readout experiment. 09_lr_selection
+        # tunes four arms; quantum_rich and quantum_rich_padded were added later
+        # and are not in the file. tuned.get(arm, args.lr_head) fell back to None,
+        # so quantum_vqc trained at 1e-2 while the two arms it was being compared
+        # against trained at the config default of 1e-3 - a 10x difference on the
+        # only axis the experiment was supposed to hold fixed. The arms also
+        # ended up with different shard KEY SETS, which is how it surfaced: 04
+        # placed them in different cells and reported "Nothing comparable found".
+        #
+        # Failing loudly here is the difference between losing ten minutes and
+        # losing six GPU-hours plus the result.
+        missing = [a for a in arms if a != "pca_svm" and a not in tuned]
+        if missing and args.lr_head is None:
+            print(f"\nERROR: --use-tuned-lr, but no tuned rate exists for: {missing}")
+            print(f"Tuned arms are: {sorted(tuned)}")
+            print("Comparing an arm at its tuned rate against one at the config")
+            print("default is a learning-rate confound, not a head comparison.")
+            print("\nEither tune them:")
+            print(f"    python src/09_lr_selection.py --arms {' '.join(missing)}")
+            print("or set one rate explicitly for every arm in this run:")
+            print("    --lr-head 1e-2 --lr-quantum 1e-2   (drop --use-tuned-lr)")
+            return
+        if missing:
+            # An explicit --lr-head covers them, so this is a deliberate choice.
+            print(f"note: {missing} have no tuned rate and will use the explicit "
+                  f"--lr-head {args.lr_head}")
+
     # The no-tanh ablation is mathematically invalid for quantum arms: RY is
     # 2*pi-periodic, so unbounded z destroys injectivity. Drop them loudly rather
     # than letting build_arm raise 900 runs in.

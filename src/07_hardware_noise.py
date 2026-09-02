@@ -26,6 +26,34 @@ so each expectation value carries sampling error ~ 1/sqrt(shots). With 1024
 shots the standard error is ~0.03 on a quantity bounded in [-1, 1] - not
 negligible relative to the effect sizes in this study.
 
+WHY AUC IS THE WRONG METRIC FOR THE DEPOLARIZING SWEEP
+------------------------------------------------------
+Single-qubit depolarizing sends rho -> (1-p) rho + p I/2. Since tr(X I/2) = 0,
+EVERY measured expectation is contracted by the SAME positive factor:
+
+    <X_i>  ->  c <X_i>,      c = 1 - 4p/3,   identical for all i and all inputs
+
+The head output is therefore c*v, and the classifier gives W(c v) + b. For a
+binary task the decision score is
+
+    l_1 - l_0 = c (w_1 - w_0).v + (b_1 - b_0)
+
+which is a MONOTONE transformation of the noiseless score because c > 0. AUC is
+rank-based, so it is EXACTLY INVARIANT under global depolarizing noise. Measured:
+identical to four decimals at p = 0.000 through 0.050 on BreastMNIST. On
+multi-class the softmax mixes logits non-linearly so AUC moves, but barely
+(BloodMNIST 0.8382 -> 0.8385 at p=0.05).
+
+This is a genuine robustness result, not a null measurement - but reporting AUC
+alone would hide the entire effect. Depolarizing noise shrinks the logits, so
+predicted probabilities collapse toward uniform: CALIBRATION degrades while
+RANKING survives. ECE, Macro-F1 and probability spread are where it shows, and
+they are printed alongside AUC for exactly that reason.
+
+It is also the "Zombie State" mechanism of the conference paper, derived from
+first principles rather than observed: a model that still ranks correctly while
+its probabilities have collapsed.
+
 DEPOLARIZING NOISE. With probability p a qubit's state is replaced by the
 maximally mixed state. This is the standard first-order model of decoherence and
 gate infelicity. Applied after every variational block, so deeper circuits
@@ -229,6 +257,33 @@ def summarise(metric="auc"):
             v = [x for x in depol.get((cell, c), []) if x is not None]
             vals.append(f"{np.mean(v):9.4f}" if v else "        -")
         print(f"{cell[0]:16s} {cell[1]:>6s} " + " ".join(vals))
+
+    # AUC is provably rank-invariant under global depolarizing noise, so the
+    # effect lives entirely in the calibration metrics. Printing them is not
+    # optional here - without them the sweep looks like it did nothing.
+    print(f"\n=== DEPOLARIZING: calibration metrics (where the effect IS) ===")
+    print("AUC is rank-invariant under a uniform contraction of the readout;")
+    print("ECE and probability spread are not. A collapsing prob_std with a")
+    print("flat AUC is a model that still ranks but no longer calibrates.")
+    for extra in ("macro_f1", "ece", "prob_std"):
+        by = {}
+        for r in rows:
+            k = r["keys"]
+            cell = (k["dataset"], str(k["regime"]))
+            for pp, m in r["depol_curve"].items():
+                if m.get(extra) is not None:
+                    by.setdefault((cell, pp), []).append(m[extra])
+        if not by:
+            continue
+        print(f"\n  {extra}")
+        print(f"  {'dataset':16s} {'n/cls':>6s} " +
+              " ".join(f"{c:>9s}" for c in cols))
+        for cell in cells:
+            vals = []
+            for c in cols:
+                v = by.get((cell, c), [])
+                vals.append(f"{np.mean(v):9.4f}" if v else "        -")
+            print(f"  {cell[0]:16s} {cell[1]:>6s} " + " ".join(vals))
 
     print(f"\n=== Retention (noisy / exact) ===")
     for cell in cells:
