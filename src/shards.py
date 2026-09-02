@@ -85,6 +85,12 @@ def pred_exists(experiment, **keys):
 PROBS_KEY = "probs"          # single-condition runs (01, 09)
 LABELS_KEY = "labels"
 
+# sklearn's roc_auc_score requires multi-class scores to sum to 1 within roughly
+# 1e-5. Anything looser than that is a storage artefact worth repairing;
+# anything tighter is float noise that must be left alone, because touching it
+# perturbs the ranking AUC depends on.
+RENORM_TOLERANCE = 1e-6
+
 
 def save_predictions(experiment, labels, probs, **keys) -> str:
     """
@@ -136,11 +142,23 @@ def load_predictions(experiment, condition=None, **keys):
     non-label array - so single-condition files load without the caller needing
     to know how they were written.
 
-    ROWS ARE RENORMALISED TO SUM TO ONE. Reduced-precision storage perturbs the
-    sum by ~3e-4, which is inside sklearn's multi-class tolerance of ~1e-5, so
-    roc_auc_score would reject the scores outright. Renormalising here fixes
-    every reader at once and keeps files written under the old float16 format
-    usable. It is a no-op on rows that already sum to one.
+    ROWS ARE RENORMALISED ONLY WHEN THEY NEED IT.
+
+    float16 storage perturbed row sums to 0.999647-1.000352, outside sklearn's
+    multi-class tolerance, so roc_auc_score rejected the scores outright.
+    Renormalising fixes that for every reader at once.
+
+    But renormalising UNCONDITIONALLY is not free. Dividing by a float32 row sum
+    moves each probability by ~1e-7, which is enough to re-break exact ties
+    differently than they were broken at training time. AUC is a ranking
+    statistic, so on a saturated model - where many samples share an identical
+    predicted probability - a few hundred flipped ties shift AUC by ~1e-3. That
+    showed up as one run in 1,600 failing the integrity check by 1.62e-03 on a
+    file that was already correct.
+
+    So: renormalise only when the worst row sum is outside TOLERANCE. Files
+    written in float32 pass untouched and re-score bit-identically; legacy
+    float16 files are repaired as before.
     """
     path = pred_path(experiment, **keys)
     if not os.path.exists(path):
@@ -162,9 +180,16 @@ def load_predictions(experiment, condition=None, **keys):
 
         probs = z[name].astype(np.float64)
         row = probs.sum(axis=1, keepdims=True)
-        # Guard against a degenerate all-zero row rather than dividing by zero.
-        row[row <= 0] = 1.0
-        return probs / row, labels
+
+        # Degenerate all-zero rows cannot be normalised; leave them for the
+        # metric to reject rather than dividing by zero.
+        bad = (row <= 0).ravel()
+        if bad.any():
+            row[bad] = 1.0
+
+        if np.abs(row - 1.0).max() > RENORM_TOLERANCE:
+            probs = probs / row
+        return probs, labels
 
 
 # ------------------------------------------------------------------ shards
