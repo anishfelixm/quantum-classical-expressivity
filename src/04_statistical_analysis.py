@@ -430,6 +430,174 @@ def compare_records(experiment, rec_a, rec_b, metric, num_classes,
         {s: _metric_of(rec_b[s], metric, condition) for s in common})
 
 
+def gather_cell(experiment, tbl, cell, arm_a, arm_b, condition=None):
+    """
+    Per-sample predictions for one cell: ({seed: probs}, {seed: probs}, labels).
+    Returns None when any seed is missing a prediction file.
+    """
+    rec_a, rec_b = tbl[cell].get(arm_a, {}), tbl[cell].get(arm_b, {})
+    common = sorted(set(rec_a) & set(rec_b))
+    if len(common) < 2:
+        return None
+    pa, pb, labels = {}, {}, None
+    for sd in common:
+        xa = shards.load_predictions(experiment, condition=condition,
+                                     **rec_a[sd]["keys"])
+        xb = shards.load_predictions(experiment, condition=condition,
+                                     **rec_b[sd]["keys"])
+        if xa[0] is None or xb[0] is None:
+            return None
+        pa[sd], labels = xa
+        pb[sd], _ = xb
+    return pa, pb, labels
+
+
+def pooled_nested_bootstrap(cells, metric="auc", B=None, rng=None):
+    """
+    Nested bootstrap POOLED ACROSS DATASETS, which is what the analysis plan
+    specifies for H-P1 ("the 95% CI on Delta(5), pooled across datasets").
+
+    Datasets cannot share a test-index resample - they have different test sets
+    of different sizes. So each replicate resamples test indices WITHIN each
+    dataset and seeds within each dataset, computes that dataset's delta, and
+    averages the per-dataset deltas. That keeps both variance sources and
+    weights every dataset equally, rather than letting PathMNIST's 7,180 test
+    images dominate BreastMNIST's 156.
+
+    cells: list of (preds_a, preds_b, labels, num_classes).
+    """
+    B = B or config.BOOTSTRAP_RESAMPLES
+    rng = rng or np.random.default_rng(20260814)
+    fn = METRIC_FN[metric]
+    if len(cells) < 2:
+        return None
+
+    per_cell_obs = []
+    for pa, pb, y, C in cells:
+        sds = sorted(set(pa) & set(pb))
+        per_cell_obs.append(np.nanmean([fn(y, pa[s], C) - fn(y, pb[s], C)
+                                        for s in sds]))
+    observed = float(np.nanmean(per_cell_obs))
+
+    deltas = np.full(B, np.nan)
+    for b in range(B):
+        per_cell = []
+        for pa, pb, y, C in cells:
+            sds = sorted(set(pa) & set(pb))
+            idx = rng.integers(0, len(y), len(y))
+            yb = y[idx]
+            if len(np.unique(yb)) < 2:
+                continue
+            ss = rng.choice(sds, len(sds), replace=True)
+            d = np.mean([fn(yb, pa[s][idx], C) - fn(yb, pb[s][idx], C)
+                         for s in ss])
+            if not np.isnan(d):
+                per_cell.append(d)
+        if per_cell:
+            deltas[b] = np.mean(per_cell)
+
+    deltas = deltas[~np.isnan(deltas)]
+    if len(deltas) < B // 2:
+        return None
+    lo, hi = np.percentile(deltas, [2.5, 97.5])
+    p = 2 * min((deltas <= 0).mean(), (deltas >= 0).mean())
+    sd = np.nanstd(per_cell_obs, ddof=1)
+    return {"delta": observed, "ci_lo": float(lo), "ci_hi": float(hi),
+            "p": float(min(p, 1.0)),
+            "cohens_d": float(observed / sd) if sd > 0 else np.nan,
+            "n_datasets": len(cells), "method": "pooled_nested_bootstrap"}
+
+
+def report_pooled(experiment, tbl, arm_a, arm_b, metric, condition=None):
+    """
+    H-P1: pooled Delta at each shots-per-class, plus a leave-one-dataset-out
+    sensitivity analysis.
+
+    THE LEAVE-ONE-OUT IS NOT OPTIONAL. A pooled mean over four datasets can be
+    carried entirely by one of them, and if so the manuscript must say "an
+    effect on BloodMNIST" rather than "an effect". Computing it here rather
+    than in a shell one-liner is what puts it in the paper.
+    """
+    import medmnist
+
+    by_regime = defaultdict(list)     # regime -> [(dataset, pa, pb, y, C)]
+    for cell in sorted(tbl):
+        cd = dict(cell)
+        ds, reg = cd.get("dataset"), cd.get("regime")
+        if ds is None or reg is None:
+            continue
+        got = gather_cell(experiment, tbl, cell, arm_a, arm_b, condition)
+        if got is None:
+            continue
+        C = len(medmnist.INFO[ds]["label"])
+        by_regime[int(reg)].append((ds, got[0], got[1], got[2], C))
+
+    if not by_regime:
+        return
+    regimes = sorted(by_regime)
+
+    print(f"\n=== POOLED across datasets: {arm_a} - {arm_b} ({metric}) ===")
+    print("Each replicate resamples test indices and seeds WITHIN each dataset,")
+    print("then averages the per-dataset deltas - so every dataset carries equal")
+    print("weight regardless of test-set size.")
+    print(f"\n{'n/cls':>6s} {'datasets':>9s} {'delta':>9s} {'95% CI':>21s} "
+          f"{'p':>9s} {'d':>7s}  verdict")
+    print("-" * 74)
+    pooled = {}
+    for reg in regimes:
+        cells = [(pa, pb, y, C) for (_, pa, pb, y, C) in by_regime[reg]]
+        r = pooled_nested_bootstrap(cells, metric=metric)
+        if not r:
+            continue
+        pooled[reg] = r
+        v = ("quantum better" if r["ci_lo"] > 0 else
+             "classical better" if r["ci_hi"] < 0 else "no difference")
+        print(f"{reg:>6d} {r['n_datasets']:>9d} {r['delta']:+9.4f} "
+              f"[{r['ci_lo']:+.4f},{r['ci_hi']:+.4f}] {r['p']:9.4f} "
+              f"{r['cohens_d']:+7.2f}  {v}")
+
+    lo_reg = regimes[0]
+    if lo_reg in pooled:
+        r = pooled[lo_reg]
+        ok = r["ci_lo"] > 0
+        print(f"\n    H-P1 (Delta at n={lo_reg} > 0, pooled): "
+              f"{'SUPPORTED' if ok else 'NOT supported'}")
+        print(f"    delta = {r['delta']:+.4f}  95% CI "
+              f"[{r['ci_lo']:+.4f}, {r['ci_hi']:+.4f}]")
+
+    # ---- leave-one-dataset-out ------------------------------------------
+    all_ds = sorted({ds for cells in by_regime.values() for (ds, *_) in cells})
+    if len(all_ds) < 3:
+        return
+    print(f"\n=== Leave-one-dataset-out (is the pooled effect one dataset?) ===")
+    print(f"{'excluded':16s} {'delta(n=' + str(lo_reg) + ')':>14s} "
+          f"{'95% CI':>21s}   slope")
+    print("-" * 66)
+    for drop in [None] + all_ds:
+        deltas_by_reg = {}
+        row = None
+        for reg in regimes:
+            cells = [(pa, pb, y, C) for (ds, pa, pb, y, C) in by_regime[reg]
+                     if ds != drop]
+            if len(cells) < 2:
+                continue
+            r = pooled_nested_bootstrap(cells, metric=metric, B=500)
+            if r:
+                deltas_by_reg[reg] = r["delta"]
+                if reg == lo_reg:
+                    row = r
+        if row is None or len(deltas_by_reg) < 3:
+            continue
+        ns = sorted(deltas_by_reg)
+        slope = float(np.polyfit(np.log2(ns),
+                                 [deltas_by_reg[n] for n in ns], 1)[0])
+        label = "none (all four)" if drop is None else drop
+        print(f"{label:16s} {row['delta']:+14.4f} "
+              f"[{row['ci_lo']:+.4f},{row['ci_hi']:+.4f}] {slope:+8.5f}")
+    print("\nIf excluding one dataset collapses the effect, the finding is")
+    print("about that dataset and must be reported that way.")
+
+
 def compare(experiment, tbl, cell, arm_a, arm_b, metric, num_classes,
             condition=None):
     """Two ARMS within one experimental condition."""
@@ -551,7 +719,8 @@ def run_cross(experiment, key, val_a, val_b, metric="auc",
 
 
 # ------------------------------------------------------------------ analysis
-def run(experiment, metric="auc", latex=False, family_size=None, condition=None):
+def run(experiment, metric="auc", latex=False, family_size=None, condition=None,
+        arms=None):
     import medmnist
 
     tbl = collect(experiment)
@@ -560,10 +729,18 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None)
         return
 
     # Declared family members, in the order the analysis plan lists them.
-    pairs = [("PRIMARY", *config.PRIMARY_COMPARISON),
-             ("SECONDARY", *config.SECONDARY_COMPARISON)]
-    exploratory = [("diagnostic", *config.DIAGNOSTIC_COMPARISON)] \
-        if hasattr(config, "DIAGNOSTIC_COMPARISON") else []
+    # --arms overrides them for hypotheses whose arms are not in config:
+    # H-S7 compares quantum_rich with quantum_rich_padded, a pair that exists
+    # only in that experiment. Without this the readout sweep could not be
+    # analysed at all and 04 printed "Nothing comparable found" on 600 runs.
+    if arms:
+        pairs = [("PRIMARY", arms[0], arms[1])]
+        exploratory = []
+    else:
+        pairs = [("PRIMARY", *config.PRIMARY_COMPARISON),
+                 ("SECONDARY", *config.SECONDARY_COMPARISON)]
+        exploratory = [("diagnostic", *config.DIAGNOSTIC_COMPARISON)] \
+            if hasattr(config, "DIAGNOSTIC_COMPARISON") else []
 
     all_keys = {k for c in tbl for k, _ in c}
     every_key = {kk for r in shards.load_all(experiment)
@@ -653,6 +830,9 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None)
     else:
         print("    need >=3 shot levels")
 
+    # H-P1 and the leave-one-out, on whichever pair is the PRIMARY family here.
+    report_pooled(experiment, tbl, pairs[0][1], pairs[0][2], metric, condition)
+
     if latex:
         emit_latex(results, metric)
 
@@ -694,6 +874,9 @@ def main():
     p.add_argument("--compare-values", nargs=2, default=None,
                    metavar=("A", "B"),
                    help="the two values of --compare-key, as A minus B")
+    p.add_argument("--arms", nargs=2, default=None, metavar=("A", "B"),
+                   help="compare this arm pair instead of the config-declared "
+                        "PRIMARY/SECONDARY families (needed for H-S7)")
     p.add_argument("--latex", action="store_true")
     args = p.parse_args()
 
@@ -707,7 +890,8 @@ def main():
         return
 
     run(args.experiment, args.metric, args.latex,
-        family_size=args.family_size, condition=args.condition)
+        family_size=args.family_size, condition=args.condition,
+        arms=args.arms)
 
 
 if __name__ == "__main__":
