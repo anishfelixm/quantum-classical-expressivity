@@ -556,14 +556,26 @@ def report_pooled(experiment, tbl, arm_a, arm_b, metric, condition=None):
               f"[{r['ci_lo']:+.4f},{r['ci_hi']:+.4f}] {r['p']:9.4f} "
               f"{r['cohens_d']:+7.2f}  {v}")
 
+    # Only the config-declared primary pair is H-P1. Labelling every pooled
+    # contrast "H-P1" made the readout comparison look like a failed primary
+    # hypothesis when it was a different, and separately supported, test.
+    is_hp1 = (arm_a, arm_b) == tuple(config.PRIMARY_COMPARISON)
+    name = "H-P1" if is_hp1 else f"{arm_a} > {arm_b}"
+
     lo_reg = regimes[0]
     if lo_reg in pooled:
         r = pooled[lo_reg]
         ok = r["ci_lo"] > 0
-        print(f"\n    H-P1 (Delta at n={lo_reg} > 0, pooled): "
+        print(f"\n    {name} (Delta at n={lo_reg} > 0, pooled): "
               f"{'SUPPORTED' if ok else 'NOT supported'}")
         print(f"    delta = {r['delta']:+.4f}  95% CI "
               f"[{r['ci_lo']:+.4f}, {r['ci_hi']:+.4f}]")
+
+    # A contrast can be null at the smallest regime and solid elsewhere, which
+    # is invisible if only n=5 gets a verdict line.
+    sig = [n for n in regimes if n in pooled and pooled[n]["ci_lo"] > 0]
+    if sig and sig != [lo_reg]:
+        print(f"    Positive with CI excluding 0 at n = {sig}")
 
     # ---- leave-one-dataset-out ------------------------------------------
     all_ds = sorted({ds for cells in by_regime.values() for (ds, *_) in cells})
@@ -573,6 +585,7 @@ def report_pooled(experiment, tbl, arm_a, arm_b, metric, condition=None):
     print(f"{'excluded':16s} {'delta(n=' + str(lo_reg) + ')':>14s} "
           f"{'95% CI':>21s}   slope")
     print("-" * 66)
+    fragile = []
     for drop in [None] + all_ds:
         deltas_by_reg = {}
         row = None
@@ -592,10 +605,20 @@ def report_pooled(experiment, tbl, arm_a, arm_b, metric, condition=None):
         slope = float(np.polyfit(np.log2(ns),
                                  [deltas_by_reg[n] for n in ns], 1)[0])
         label = "none (all four)" if drop is None else drop
+        flag = "" if row["ci_lo"] > 0 else "   <-- effect GONE without this"
         print(f"{label:16s} {row['delta']:+14.4f} "
-              f"[{row['ci_lo']:+.4f},{row['ci_hi']:+.4f}] {slope:+8.5f}")
-    print("\nIf excluding one dataset collapses the effect, the finding is")
-    print("about that dataset and must be reported that way.")
+              f"[{row['ci_lo']:+.4f},{row['ci_hi']:+.4f}] {slope:+8.5f}{flag}")
+        if drop is not None and row["ci_lo"] <= 0:
+            fragile.append(drop)
+
+    if fragile:
+        print(f"\nNOT ROBUST: the pooled effect loses significance when "
+              f"{fragile} is excluded.")
+        print("Report this as an effect ON THOSE DATASETS, not as a general")
+        print("finding. A pooled mean carried by one of four datasets is a")
+        print("single-dataset result wearing a pooled label.")
+    else:
+        print("\nRobust: the effect survives excluding any single dataset.")
 
 
 def compare(experiment, tbl, cell, arm_a, arm_b, metric, num_classes,
