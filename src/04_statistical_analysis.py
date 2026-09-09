@@ -586,6 +586,9 @@ def report_pooled(experiment, tbl, arm_a, arm_b, metric, condition=None):
           f"{'95% CI':>21s}   slope")
     print("-" * 66)
     fragile = []
+    baseline_sig = False
+    # Which tail matters is set by the SIGN of the full pooled effect.
+    direction = 1.0 if pooled.get(lo_reg, {}).get("delta", 0.0) >= 0 else -1.0
     for drop in [None] + all_ds:
         deltas_by_reg = {}
         row = None
@@ -604,14 +607,27 @@ def report_pooled(experiment, tbl, arm_a, arm_b, metric, condition=None):
         ns = sorted(deltas_by_reg)
         slope = float(np.polyfit(np.log2(ns),
                                  [deltas_by_reg[n] for n in ns], 1)[0])
+        # Significant means the CI excludes zero IN THE DIRECTION OF THE FULL
+        # POOLED EFFECT. Testing ci_lo > 0 unconditionally assumed a positive
+        # effect, so on the d=8 sweep - where quantum loses at every regime -
+        # every row was flagged "effect GONE", including the baseline row with
+        # nothing excluded. A robustness check that fires on its own baseline
+        # is reporting a sign convention, not a property of the data.
+        sig = (row["ci_lo"] > 0) if direction > 0 else (row["ci_hi"] < 0)
         label = "none (all four)" if drop is None else drop
-        flag = "" if row["ci_lo"] > 0 else "   <-- effect GONE without this"
+        flag = "" if sig else "   <-- effect GONE without this"
         print(f"{label:16s} {row['delta']:+14.4f} "
               f"[{row['ci_lo']:+.4f},{row['ci_hi']:+.4f}] {slope:+8.5f}{flag}")
-        if drop is not None and row["ci_lo"] <= 0:
+        if drop is None:
+            baseline_sig = sig
+        elif not sig:
             fragile.append(drop)
 
-    if fragile:
+    if not baseline_sig:
+        print(f"\nThe full pooled effect at n={lo_reg} is not significant to")
+        print("begin with, so leave-one-out cannot demonstrate fragility -")
+        print("there is no effect there to lose.")
+    elif fragile:
         print(f"\nNOT ROBUST: the pooled effect loses significance when "
               f"{fragile} is excluded.")
         print("Report this as an effect ON THOSE DATASETS, not as a general")

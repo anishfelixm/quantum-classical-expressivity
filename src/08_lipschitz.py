@@ -142,7 +142,15 @@ def run(dims, n_draws, angle_scale, force=False):
                 del model
                 torch.cuda.empty_cache()
 
-            summary = {k: float(np.mean([x[k] for x in draws])) for k in draws[0]}
+            # out_dim is a COUNT, not a measurement - averaging it across draws
+            # turned it into a float and crashed the ':>4d' format in summarise().
+            # Anything integral must be excluded from the mean explicitly.
+            integral = {"out_dim"}
+            summary = {k: float(np.mean([x[k] for x in draws]))
+                       for k in draws[0] if k not in integral}
+            for k in integral:
+                if k in draws[0]:
+                    summary[k] = int(draws[0][k])
             summary["lipschitz_max_over_draws"] = float(
                 np.max([x["lipschitz_max"] for x in draws]))
             summary["lipschitz_max_sd"] = float(
@@ -179,7 +187,7 @@ def summarise():
     for (d, arm) in sorted(tbl):
         m = tbl[(d, arm)]
         per = m.get("lipschitz_max_per_dim", float("nan"))
-        print(f"{d:3d} {arm:24s} {m.get('out_dim', 0):>4d} {m['lipschitz_max']:10.3f} "
+        print(f"{d:3d} {arm:24s} {int(m.get('out_dim', 0)):>4d} {m['lipschitz_max']:10.3f} "
               f"{per:12.3f} {m['lipschitz_mean']:10.3f} {m['output_absmax']:9.3f}")
 
     # The comparison the paper actually makes
