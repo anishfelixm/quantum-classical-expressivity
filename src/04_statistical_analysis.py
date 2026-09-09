@@ -501,10 +501,17 @@ def pooled_nested_bootstrap(cells, metric="auc", B=None, rng=None):
         return None
     lo, hi = np.percentile(deltas, [2.5, 97.5])
     p = 2 * min((deltas <= 0).mean(), (deltas >= 0).mean())
+    # Cohen's d here is the pooled mean over the SD ACROSS DATASETS. With only
+    # two datasets that SD is estimated from two points and is not
+    # interpretable - the d=16 sweep (binary sets only) produced d = +11.09
+    # alongside a CI spanning zero, which is a division by a near-zero spread,
+    # not a large effect. Suppressed below three datasets rather than printed
+    # and caveated, because a number in a table gets quoted.
     sd = np.nanstd(per_cell_obs, ddof=1)
+    d_ok = len(cells) >= 3 and sd > 0
     return {"delta": observed, "ci_lo": float(lo), "ci_hi": float(hi),
             "p": float(min(p, 1.0)),
-            "cohens_d": float(observed / sd) if sd > 0 else np.nan,
+            "cohens_d": float(observed / sd) if d_ok else np.nan,
             "n_datasets": len(cells), "method": "pooled_nested_bootstrap"}
 
 
@@ -552,9 +559,11 @@ def report_pooled(experiment, tbl, arm_a, arm_b, metric, condition=None):
         pooled[reg] = r
         v = ("quantum better" if r["ci_lo"] > 0 else
              "classical better" if r["ci_hi"] < 0 else "no difference")
+        dstr = ("      -" if np.isnan(r["cohens_d"])
+                else f"{r['cohens_d']:+7.2f}")
         print(f"{reg:>6d} {r['n_datasets']:>9d} {r['delta']:+9.4f} "
               f"[{r['ci_lo']:+.4f},{r['ci_hi']:+.4f}] {r['p']:9.4f} "
-              f"{r['cohens_d']:+7.2f}  {v}")
+              f"{dstr}  {v}")
 
     # Only the config-declared primary pair is H-P1. Labelling every pooled
     # contrast "H-P1" made the readout comparison look like a failed primary
