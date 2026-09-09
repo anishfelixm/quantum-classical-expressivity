@@ -261,7 +261,7 @@ def run_pca_svm(blob_loaders, num_classes, dim, seed):
 # ------------------------------------------------------------------ keys
 def _shard_keys(dataset, regime, dim, seed, arm, freeze_policy, augment,
                 n_layers, use_tanh, angle_scale, lr_head, lr_quantum,
-                bottleneck, head_rank):
+                bottleneck, head_rank, tanh_explicit=False):
     """
     Optional axes enter the key when EXPLICITLY SET (not None / not default
     behaviour), so shards produced before those axes existed remain addressable,
@@ -274,9 +274,28 @@ def _shard_keys(dataset, regime, dim, seed, arm, freeze_policy, augment,
     """
     keys = dict(dataset=dataset, regime=regime, dim=dim, seed=seed, arm=arm,
                 fp=freeze_policy, aug=int(augment))
-    if n_layers is not None and n_layers != config.VQC_LAYERS:
+    # EXPLICITLY SET, not "different from the config default" - the same rule
+    # the lr keys follow, and for the same reason. Keying against a mutable
+    # constant means that if config.VQC_LAYERS ever changed, every old L=2 shard
+    # (which carries no L key) would become a valid cache hit for the new
+    # default and be silently reused as if it had been trained at it.
+    #
+    # It also makes the depth sweep analysable: with the old rule, --n-layers 2
+    # wrote no key while --n-layers 1 and 4 did, so the baseline landed in a
+    # different cell from the arms it was meant to anchor and
+    # `--compare-key L` could never see all three.
+    if n_layers is not None:
         keys["L"] = n_layers
-    if not use_tanh:
+    # Same "explicitly set" rule as L and the learning rates. --no-tanh alone
+    # keys only the ablation side, so the with-tanh baseline carried no key,
+    # landed in a different cell, and --compare-key notanh could never see both
+    # sides of its own contrast. --with-tanh makes the baseline declare itself.
+    #
+    # Runs that passed neither flag are untouched, so ~9,000 existing shards
+    # stay addressable.
+    if tanh_explicit:
+        keys["notanh"] = int(not use_tanh)
+    elif not use_tanh:
         keys["notanh"] = 1
     if angle_scale is not None:
         keys["as"] = f"{float(angle_scale):.4f}"
@@ -296,7 +315,7 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
              augment=False, force=False, n_layers=None, use_tanh=True,
              angle_scale=None, save_predictions=True,
              lr_head=None, lr_quantum=None, experiment=EXPERIMENT,
-             bottleneck=None, head_rank=None):
+             bottleneck=None, head_rank=None, tanh_explicit=False):
     """
     freeze_policy=FROZEN   -> cached features, no backbone constructed at all
     freeze_policy=ADAPTIVE -> full end-to-end training through layer3
@@ -308,7 +327,7 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
     """
     keys = _shard_keys(dataset, regime, dim, seed, arm, freeze_policy, augment,
                        n_layers, use_tanh, angle_scale, lr_head, lr_quantum,
-                       bottleneck, head_rank)
+                       bottleneck, head_rank, tanh_explicit)
     if not force and shards.exists(experiment, **keys):
         return None
 
@@ -666,6 +685,10 @@ def main():
                    help="256->d projection: trainable, frozen PCA, or frozen random")
     p.add_argument("--no-tanh", action="store_true",
                    help="feed raw z to the head; CLASSICAL ARMS ONLY")
+    p.add_argument("--with-tanh", action="store_true",
+                   help="the tanh baseline, keyed explicitly so it shares a "
+                        "namespace with --no-tanh and both sides of the "
+                        "ablation land in comparable cells")
     p.add_argument("--angle-scale", type=float, default=None,
                    help="tanh scale; default config.ANGLE_SCALE")
     p.add_argument("--lr-head", type=float, default=None,
@@ -705,7 +728,10 @@ def main():
         args.augment = False
         args.seeds = args.seeds or config.CONFIRMATORY_SEEDS
 
+    if args.no_tanh and args.with_tanh:
+        p.error("--no-tanh and --with-tanh are mutually exclusive")
     use_tanh = not args.no_tanh
+    tanh_explicit = args.no_tanh or args.with_tanh
     save_preds = not args.no_predictions
     arms = args.arms or (["pca_svm"] + config.arms_for(args.dims[0]))
     bn_policy = args.bottleneck or "learned"
@@ -831,7 +857,8 @@ def main():
                                          lr_head=lrh, lr_quantum=lrq,
                                          experiment=args.experiment,
                                          bottleneck=args.bottleneck,
-                                         head_rank=args.head_rank)
+                                         head_rank=args.head_rank,
+                                         tanh_explicit=tanh_explicit)
                             if m is None:
                                 continue
                             eta = (time.time() - t0) / done * (total - done) / 3600
