@@ -272,6 +272,30 @@ def cell_of(keys, allowed=None):
                         and (allowed is None or k in allowed)))
 
 
+# The scarcity axis is numeric everywhere EXCEPT the full-data reference row,
+# which is keyed regime="full". int("full") raises, and it raised in four
+# places: two sort keys and two trend accumulators. The full-data sweep
+# therefore produced no output at all - not a wrong number, just silence.
+_FULL_DATA_SORT = 10 ** 9        # sorts last, after every finite regime
+
+
+def regime_num(v):
+    """Numeric regime for sorting; non-numeric regimes sort last."""
+    try:
+        return int(v)
+    except (TypeError, ValueError):
+        return _FULL_DATA_SORT
+
+
+def is_numeric_regime(v):
+    """Trend fits are over log2(shots); 'full' has no position on that axis."""
+    try:
+        int(v)
+        return True
+    except (TypeError, ValueError):
+        return False
+
+
 def cell_label(cell):
     """Readable one-line description of a cell, for tables."""
     d = dict(cell)
@@ -537,11 +561,11 @@ def report_pooled(experiment, tbl, arm_a, arm_b, metric, condition=None):
         if got is None:
             continue
         C = len(medmnist.INFO[ds]["label"])
-        by_regime[int(reg)].append((ds, got[0], got[1], got[2], C))
+        by_regime[str(reg)].append((ds, got[0], got[1], got[2], C))
 
     if not by_regime:
         return
-    regimes = sorted(by_regime)
+    regimes = sorted(by_regime, key=regime_num)
 
     print(f"\n=== POOLED across datasets: {arm_a} - {arm_b} ({metric}) ===")
     print("Each replicate resamples test indices and seeds WITHIN each dataset,")
@@ -561,7 +585,7 @@ def report_pooled(experiment, tbl, arm_a, arm_b, metric, condition=None):
              "classical better" if r["ci_hi"] < 0 else "no difference")
         dstr = ("      -" if np.isnan(r["cohens_d"])
                 else f"{r['cohens_d']:+7.2f}")
-        print(f"{reg:>6d} {r['n_datasets']:>9d} {r['delta']:+9.4f} "
+        print(f"{str(reg):>6s} {r['n_datasets']:>9d} {r['delta']:+9.4f} "
               f"[{r['ci_lo']:+.4f},{r['ci_hi']:+.4f}] {r['p']:9.4f} "
               f"{dstr}  {v}")
 
@@ -613,8 +637,13 @@ def report_pooled(experiment, tbl, arm_a, arm_b, metric, condition=None):
                     row = r
         if row is None or len(deltas_by_reg) < 3:
             continue
-        ns = sorted(deltas_by_reg)
-        slope = float(np.polyfit(np.log2(ns),
+        # 'full' has no position on a log2(shots) axis, so it is excluded from
+        # the trend fit while still appearing in the table above.
+        ns = sorted((n for n in deltas_by_reg if is_numeric_regime(n)),
+                    key=regime_num)
+        if len(ns) < 3:
+            continue
+        slope = float(np.polyfit(np.log2([regime_num(n) for n in ns]),
                                  [deltas_by_reg[n] for n in ns], 1)[0])
         # Significant means the CI excludes zero IN THE DIRECTION OF THE FULL
         # POOLED EFFECT. Testing ci_lo > 0 unconditionally assumed a positive
@@ -732,7 +761,7 @@ def run_cross(experiment, key, val_a, val_b, metric="auc",
           f"{'95% CI':>21s} {'p':>9s} {'p_adj':>9s} {'d':>7s}  verdict")
     print("-" * 126)
     for r in sorted(results, key=lambda x: (dict(x["base"]).get("dataset", ""),
-                                            int(dict(x["base"]).get("regime", 0)),
+                                            regime_num(dict(x["base"]).get("regime")),
                                             x["arm"])):
         v = (f"{key}={va} better" if r["ci_lo"] > 0 else
              f"{key}={vb} better" if r["ci_hi"] < 0 else "no difference")
@@ -746,7 +775,7 @@ def run_cross(experiment, key, val_a, val_b, metric="auc",
     by_n = defaultdict(list)
     for r in results:
         reg = dict(r["base"]).get("regime")
-        if reg is not None:
+        if is_numeric_regime(reg):
             by_n[int(reg)].append(r["delta"])
     ns = sorted(by_n)
     if len(ns) >= 3:
@@ -843,7 +872,7 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None,
               f"{'95% CI':>21s} {'p':>9s} {'p_adj':>9s} {'d':>7s}  verdict")
         print("-" * 128)
         for r in sorted(rows, key=lambda x: (dict(x["cell"]).get("dataset", ""),
-                                             int(dict(x["cell"]).get("regime", 0)))):
+                                             regime_num(dict(x["cell"]).get("regime")))):
             cd = dict(r["cell"])
             enc = "froz" if cd.get("fp", "all") == "all" else "adap"
             v = (f"{r['arm_a']} better" if r["ci_lo"] > 0 else
@@ -860,7 +889,9 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None,
     print(f"\n=== H-P2: trend of delta on log2(shots/class), PRIMARY family ===")
     by_n = defaultdict(list)
     for r in primary:
-        by_n[int(dict(r["cell"])["regime"])].append(r["delta"])
+        reg = dict(r["cell"]).get("regime")
+        if is_numeric_regime(reg):
+            by_n[int(reg)].append(r["delta"])
     ns = sorted(by_n)
     if len(ns) >= 3:
         x = np.log2(ns)
