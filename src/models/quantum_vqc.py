@@ -71,6 +71,32 @@ If pairs beats padded, richer measurement genuinely helps. If pairs beats single
 but ties padded, the gain was twelve classifier parameters and should be
 reported as such.
 
+WHY THE ANSATZ IS ITS OWN CONTROLLED AXIS
+------------------------------------------
+Published work on quantum-classical CNNs for medical imaging reports that
+"classification performance varies significantly depending on the quantum
+circuit and the parameters used". A study that tests one ansatz and concludes
+"the quantum head does not help" is answerable with "you picked the wrong
+circuit".
+
+    ansatz="strong"   StronglyEntanglingLayers, (L, d, 3) -> 3*L*d params
+    ansatz="basic"    BasicEntanglerLayers,     (L', d)   ->   L'*d params
+
+PARITY IS PRESERVED BY SCALING DEPTH. BasicEntanglerLayers carries one rotation
+per wire per layer against StronglyEntanglingLayers' three, so the basic arm
+uses L' = 3L layers - six instead of two - and both hold exactly 3*L*d
+parameters at every d. Depth therefore differs as a NECESSARY consequence of
+holding parameters fixed; the depth sweep (L in {1,2,4}) already showed depth
+effects here are parameter-driven, so this is the right axis to hold.
+
+CRITICALLY, THE ANSATZ CANNOT ESCAPE DEQUANTIZATION. The accessible frequency
+spectrum is fixed by the ENCODING - AngleEmbedding(Y), single upload, generator
+eigenvalues +-1/2 - not by the variational structure that follows it. Both
+ansaetze therefore produce outputs in the SAME 3^d trigonometric span. What
+differs is which 3*L*d-dimensional coefficient manifold inside that span is
+reachable. So this arm cannot rescue expressivity; it tests whether the
+conclusion is an artifact of one particular manifold.
+
 DIFF METHOD
 -----------
 diff_method="backprop" on default.qubit. Measured on the project hardware
@@ -114,11 +140,15 @@ class VQCHead(nn.Module):
     def __init__(self, d: int, n_layers: int = 2, n_uploads: int = 1,
                  device_name: str = "default.qubit",
                  diff_method: str = "backprop",
-                 init_std: float = 0.1, readout: str = "single"):
+                 init_std: float = 0.1, readout: str = "single",
+                 ansatz: str = "strong"):
         super().__init__()
         if readout not in ("single", "pairs", "padded"):
             raise ValueError(
                 f"readout must be 'single', 'pairs' or 'padded', got '{readout}'")
+        if ansatz not in ("strong", "basic"):
+            raise ValueError(
+                f"ansatz must be 'strong' or 'basic', got '{ansatz}'")
         if n_layers % n_uploads != 0:
             raise ValueError(
                 f"n_layers ({n_layers}) must be divisible by n_uploads "
@@ -134,11 +164,33 @@ class VQCHead(nn.Module):
         self.n_observables = d if readout == "single" else d + d * (d - 1) // 2
         self.out_dim = d if readout == "single" else d + d * (d - 1) // 2
         self.n_distinct = d if readout in ("single", "padded") else self.n_observables
+        self.ansatz = ansatz
+
+        # PARAMETER PARITY ACROSS ANSAETZE. StronglyEntanglingLayers stores
+        # (L, d, 3); BasicEntanglerLayers stores (L', d). Setting L' = 3L gives
+        # both exactly 3*L*d parameters at every d, so the two arms differ in
+        # circuit STRUCTURE while the budget - the quantity this whole project
+        # holds fixed - is identical.
+        if ansatz == "strong":
+            circuit_layers = n_layers
+            weight_shape = (n_layers, d, 3)
+        else:
+            circuit_layers = 3 * n_layers
+            weight_shape = (circuit_layers, d)
+
+        self.circuit_layers = circuit_layers
         self.n_quantum_params = 3 * n_layers * d
-        # Accessible frequency spectrum: {-R..R}^d, i.e. (2R+1)^d basis functions.
+        # Accessible frequency spectrum: {-R..R}^d, i.e. (2R+1)^d basis
+        # functions. Set by the ENCODING, so it is the same for both ansaetze.
         self.spectrum_size = (2 * n_uploads + 1) ** d
 
-        layers_per_block = n_layers // n_uploads
+        if circuit_layers % n_uploads != 0:
+            raise ValueError(
+                f"circuit_layers ({circuit_layers}) must be divisible by "
+                f"n_uploads ({n_uploads})")
+        layers_per_block = circuit_layers // n_uploads
+        entangler = (qml.StronglyEntanglingLayers if ansatz == "strong"
+                     else qml.BasicEntanglerLayers)
         dev = qml.device(device_name, wires=d)
 
         @qml.qnode(dev, interface="torch", diff_method=diff_method)
@@ -146,8 +198,7 @@ class VQCHead(nn.Module):
             for r in range(n_uploads):
                 qml.AngleEmbedding(inputs, wires=range(d), rotation="Y")
                 lo = r * layers_per_block
-                qml.StronglyEntanglingLayers(weights[lo:lo + layers_per_block],
-                                             wires=range(d))
+                entangler(weights[lo:lo + layers_per_block], wires=range(d))
             singles = [qml.expval(qml.PauliX(i)) for i in range(d)]
             if readout != "pairs":
                 # "padded" is widened in forward(), not here: the extra columns
@@ -159,7 +210,7 @@ class VQCHead(nn.Module):
 
         self.q_layer = qml.qnn.TorchLayer(
             circuit,
-            {"weights": (n_layers, d, 3)},
+            {"weights": weight_shape},
             init_method={"weights": lambda t: nn.init.normal_(t, 0.0, init_std)},
         )
 
@@ -180,7 +231,9 @@ class VQCHead(nn.Module):
         """Reported in the manuscript's parity table."""
         return {
             "qubits": self.d,
+            "ansatz": self.ansatz,
             "layers": self.n_layers,
+            "circuit_layers": self.circuit_layers,
             "uploads": self.n_uploads,
             "quantum_params": self.n_quantum_params,
             "readout": self.readout,

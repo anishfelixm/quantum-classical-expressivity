@@ -39,10 +39,12 @@ ARM_NAMES = ["linear", "mlp", "deep_funnel", "matched_param",
              "matched_param_fullrank", "low_rank",
              "fourier_rff", "fourier_exact",
              "quantum_vqc", "quantum_reupload",
-             "quantum_rich", "quantum_rich_padded"]
+             "quantum_rich", "quantum_rich_padded",
+             "quantum_basic"]
 
 QUANTUM_ARMS = ("quantum_vqc", "quantum_reupload",
-                "quantum_rich", "quantum_rich_padded")
+                "quantum_rich", "quantum_rich_padded",
+                "quantum_basic")
 BOTTLENECK_POLICIES = ("learned", "pca", "random")
 
 
@@ -347,6 +349,18 @@ def build_arm(arm, d, num_classes, n_layers=2, seed=42,
         head = VQCHead(d, n_layers=n_layers, n_uploads=1,
                        device_name=device_name, diff_method=diff_method,
                        readout="padded")
+    elif arm == "quantum_basic":
+        # SAME encoding, SAME parameter budget, DIFFERENT variational structure.
+        # BasicEntanglerLayers uses one rotation per wire per layer against
+        # StronglyEntanglingLayers' three, so it runs 3*n_layers layers to hold
+        # 3*n_layers*d parameters - exact parity at every d.
+        #
+        # This is a NEW arm name rather than a flag on quantum_vqc, so every
+        # existing shard key is untouched and ~11,000 prior results stay
+        # addressable.
+        head = VQCHead(d, n_layers=n_layers, n_uploads=1,
+                       device_name=device_name, diff_method=diff_method,
+                       ansatz="basic")
     elif arm == "quantum_reupload":
         # R=2 by default: spectrum {-2..2}^d, 5^d basis functions, SAME parameter
         # count as quantum_vqc. Isolates spectral richness from quantum-ness.

@@ -139,16 +139,63 @@ class GPUBatches:
         grid = F.affine_grid(mat, x.shape, align_corners=False)
         return F.grid_sample(x, grid, align_corners=False, padding_mode="zeros")
 
-    def _prepare(self, imgs_u8, g):
-        x = imgs_u8.float().div_(255.0)
-        if self.augment:
-            x = self._augment(x, g)
+    def _to_input(self, x):
+        """
+        Native-resolution [0,1] tensor -> normalised network input.
+
+        Split out of _prepare so the noise sweep can corrupt images BEFORE this
+        step. The operations and their order are unchanged, so every training
+        and evaluation batch is bit-identical to what it was before the split.
+        """
         # Upsample on GPU. This is the operation that cost 28 s/epoch on CPU.
         x = F.interpolate(x, size=(config.IMAGE_SIZE, config.IMAGE_SIZE),
                           mode="bilinear", align_corners=False)
         if self.n_channels == 1:
             x = x.repeat(1, 3, 1, 1)
         return (x - self._mean) / self._std
+
+    def _prepare(self, imgs_u8, g):
+        x = imgs_u8.float().div_(255.0)
+        if self.augment:
+            x = self._augment(x, g)
+        return self._to_input(x)
+
+    def iter_with_sensor_noise(self, sigma, seed):
+        """
+        Yield (input, label) batches with additive Gaussian sensor noise applied
+        at the image's NATIVE resolution and NATIVE channel count.
+
+        WHY THIS REPLACES noise.add_gaussian_noise FOR THE NOISE SWEEP. The
+        previous sweep corrupted the tensor AFTER _prepare, which had already
+        (1) upsampled 28x28 -> 224x224 and (2) replicated grayscale to three
+        channels. That produced
+            - 64 independent noise draws per native pixel (8x8 upsampling), and
+            - 3 independent draws per pixel on grayscale sets (BreastMNIST,
+              PneumoniaMNIST), where a real single-channel sensor produces one.
+        The ResNet stem (7x7 stride-2 conv, then max-pool) averages most of that
+        high-frequency noise away, so every arm looked more robust than it would
+        be to sensor noise of the same sigma. The comparison between arms stayed
+        fair - all arms saw identical corruption - but the quantity measured was
+        not sensor noise.
+
+        Here the physical order is respected: a sensor records at native
+        resolution, noise enters there, and only then does the pipeline upsample.
+
+        RNG PARITY. The generator is seeded explicitly and batches are taken in
+        fixed order, so every arm evaluated with the same (sigma, seed) sees
+        bit-identical corrupted inputs.
+        """
+        g = torch.Generator(device=self.device).manual_seed(int(seed))
+        n = len(self.labels)
+        order = torch.arange(n, device=self.device)
+        for i in range(0, n, self.batch_size):
+            sel = order[i:i + self.batch_size]
+            x = self.images[sel].float().div(255.0)
+            if sigma > 0:
+                eps = torch.randn(x.shape, generator=g, device=self.device,
+                                  dtype=x.dtype)
+                x = torch.clamp(x + eps * sigma, 0.0, 1.0)
+            yield self._to_input(x), self.labels[sel]
 
     def __iter__(self):
         # Seeded per epoch: reproducible, and different shuffling each epoch.

@@ -95,7 +95,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import config                                                   # noqa: E402
 import shards                                                   # noqa: E402
 from data.medmnist_loader import get_loaders, num_classes_of    # noqa: E402
-from data.noise import add_gaussian_noise, seed_for_sigma       # noqa: E402
+from data.noise import seed_for_sigma                           # noqa: E402
 from models.registry import build_arm, QUANTUM_ARMS             # noqa: E402
 from train.loop import train_model                              # noqa: E402
 from train.metrics import compute_metrics                       # noqa: E402
@@ -105,7 +105,20 @@ _exp1 = __import__("01_frozen_backbone_ablation")
 get_cached_features = _exp1.get_cached_features
 FROZEN = _exp1.FROZEN
 
-EXPERIMENT = "03_robustness"
+# v2: sensor noise injected at NATIVE resolution and channel count
+# (GPUBatches.iter_with_sensor_noise), and every arm at a declared learning rate.
+#
+# The v1 namespace "03_robustness" is left untouched and is superseded, for two
+# reasons documented in Amendment 13:
+#   1. noise was added after 28->224 upsampling and after grayscale->RGB
+#      replication - 64 independent draws per native pixel, and three per pixel
+#      on single-channel data - so it was not sensor noise;
+#   2. low_rank, quantum_rich and quantum_rich_padded had no tuned learning rate
+#      and silently trained at the 1e-3 default while the other arms ran at
+#      1e-2 or 3e-2.
+EXPERIMENT = "03_robustness_v2"
+LEGACY_EXPERIMENT = "03_robustness"
+NOISE_MODEL = "awgn_native_resolution_v2"
 
 # Every arm that appears in a declared hypothesis must appear here, or the
 # noise section silently tests a different family than the plan declares.
@@ -142,13 +155,15 @@ def sweep_noise(model, test_batches, num_classes, seed, device):
     curve, probs_by_sigma, labels = {}, {}, None
 
     for sigma in config.NOISE_LEVELS:
-        torch.manual_seed(seed_for_sigma(seed, sigma))
         probs, preds, ys = [], [], []
 
-        for x, y in test_batches:
+        # Noise enters at native resolution, before upsampling - see
+        # GPUBatches.iter_with_sensor_noise for why the v1 ordering was wrong.
+        for x, y in test_batches.iter_with_sensor_noise(
+                sigma, seed_for_sigma(seed, sigma)):
             x = x.to(device, non_blocking=True)
             y = y.view(-1).long().to(device, non_blocking=True)
-            p = torch.softmax(model(add_gaussian_noise(x, sigma)), dim=1)
+            p = torch.softmax(model(x), dim=1)
             probs.append(p.cpu().numpy())
             preds.append(p.argmax(dim=1).cpu().numpy())
             ys.append(y.cpu().numpy())
@@ -164,14 +179,14 @@ def sweep_noise(model, test_batches, num_classes, seed, device):
 
 
 def run_cell(dataset, n_per_class, seed, arm, dim=4, force=False,
-             lr_head=None, lr_quantum=None):
+             lr_head=None, lr_quantum=None, experiment=EXPERIMENT):
     keys = dict(dataset=dataset, regime=n_per_class, dim=dim, seed=seed, arm=arm)
     if lr_head is not None:
         keys["lrh"] = f"{float(lr_head):.0e}"
     if lr_quantum is not None and arm in QUANTUM_ARMS:
         keys["lrq"] = f"{float(lr_quantum):.0e}"
 
-    if not force and shards.exists(EXPERIMENT, **keys):
+    if not force and shards.exists(experiment, **keys):
         return None
 
     config.set_determinism(seed)
@@ -203,7 +218,7 @@ def run_cell(dataset, n_per_class, seed, arm, dim=4, force=False,
     curve, probs_by_sigma, labels = sweep_noise(full, test_batches, C, seed, device)
 
     # One array per sigma, under the shared naming function so 04 can find them.
-    pred_file = shards.save_predictions(EXPERIMENT, labels, probs_by_sigma, **keys)
+    pred_file = shards.save_predictions(experiment, labels, probs_by_sigma, **keys)
 
     payload = {
         "curve": curve,
@@ -211,9 +226,10 @@ def run_cell(dataset, n_per_class, seed, arm, dim=4, force=False,
         "meta": {k: meta[k] for k in ("n_train", "n_val", "n_test", "regime")},
         "predictions_file": pred_file,
         "lr": {"head": lr_head, "quantum": lr_quantum},
+        "noise_model": NOISE_MODEL,
         "wall_time": time.time() - t0,
     }
-    shards.write(EXPERIMENT, payload, **keys)
+    shards.write(experiment, payload, **keys)
 
     del head_model, full
     torch.cuda.empty_cache()
@@ -221,8 +237,8 @@ def run_cell(dataset, n_per_class, seed, arm, dim=4, force=False,
 
 
 # ------------------------------------------------------------------ summary
-def summarise(metric="auc"):
-    rows = shards.load_all(EXPERIMENT)
+def summarise(metric="auc", experiment=EXPERIMENT):
+    rows = shards.load_all(experiment)
     if not rows:
         print("No shards found.")
         return
@@ -336,10 +352,20 @@ def main():
     p.add_argument("--force", action="store_true")
     p.add_argument("--summary-only", action="store_true")
     p.add_argument("--metric", default="auc")
+    p.add_argument("--experiment", default=EXPERIMENT,
+                   help=f"shard namespace (default {EXPERIMENT}; the superseded "
+                        f"v1 results are in {LEGACY_EXPERIMENT})")
     args = p.parse_args()
 
     if args.summary_only:
-        summarise(args.metric)
+        summarise(args.metric, experiment=args.experiment)
+        return
+
+    if args.experiment == LEGACY_EXPERIMENT:
+        print(f"Refusing to write into '{LEGACY_EXPERIMENT}': its shards use the "
+              f"v1 noise model, and new runs would be cache hits against them - "
+              f"silently mixing two noise models in one namespace. Use "
+              f"--summary-only to read it.")
         return
 
     if args.quick:
@@ -356,7 +382,23 @@ def main():
         with open(LR_SELECTION_FILE) as f:
             blob = json.load(f)
         tuned = {a: float(v) for a, v in blob["selected"].items()}
-        print(f"using tuned LRs: {tuned}")
+
+        # Untuned arms inherit from their structural twin (config.LR_INHERITANCE).
+        # Without this, tuned.get(arm) returned None for three arms, which then
+        # trained at the 1e-3 default against tuned arms at 1e-2 - a 10x
+        # learning-rate gap on the axis this experiment holds fixed.
+        for arm in args.arms:
+            if arm not in tuned and arm in config.LR_INHERITANCE:
+                src = config.LR_INHERITANCE[arm]
+                if src in tuned:
+                    tuned[arm] = tuned[src]
+                    print(f"  {arm:22s} inherits LR {tuned[arm]:.0e} from {src}")
+        missing = [a for a in args.arms if a not in tuned]
+        if missing:
+            print(f"ERROR: no tuned or inherited LR for {missing}. Comparing arms "
+                  f"at different learning rates is a confound, not a result.")
+            return
+        print(f"using LRs: {tuned}")
 
     total = (len(args.datasets) * len(args.regimes)
              * len(args.arms) * len(args.seeds))
@@ -371,7 +413,8 @@ def main():
                     done += 1
                     lr = tuned.get(arm)
                     out = run_cell(ds, n, seed, arm, dim=args.dim,
-                                   force=args.force, lr_head=lr, lr_quantum=lr)
+                                   force=args.force, lr_head=lr, lr_quantum=lr,
+                                   experiment=args.experiment)
                     if out is None:
                         continue
                     clean, curve, lip = out
@@ -381,7 +424,7 @@ def main():
                           f"f1 {clean['macro_f1']:.4f}->{curve['0.20']['macro_f1']:.4f} "
                           f"L={lip['lipschitz_max']:.2f} ETA {eta:.1f}h", flush=True)
 
-    summarise(args.metric)
+    summarise(args.metric, experiment=args.experiment)
 
 
 if __name__ == "__main__":

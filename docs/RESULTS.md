@@ -1,7 +1,6 @@
 # RESULTS — Definitive
 
-**3 September 2026.** Every experiment complete except the full-data row and
-three fairness ablations. Every number below is from a nested paired bootstrap
+**11 September 2026.** ALL EXPERIMENTS COMPLETE — 12 sweeps, ~11,000 runs. Every number below is from a nested paired bootstrap
 (B=2000, test indices *and* seeds resampled), BH-FDR corrected at m=23, with
 `Integrity: max |recomputed − recorded| = 0.00e+00` on all post-float32 runs.
 
@@ -32,8 +31,14 @@ classically constructible.
 | 20 | −0.0050 | [−0.0111, +0.0016] | — |
 | 50 | **−0.0080** | [−0.0126, −0.0032] | classical better |
 | 100 | **−0.0074** | [−0.0109, −0.0038] | classical better |
+| **full** | −0.0068 | [−0.0175, +0.0053] | no difference |
 
 H-P1 supported. H-P2 slope **−0.00462** [−0.00844, −0.00127], supported.
+
+**The classical advantage plateaus at about −0.007** rather than widening with
+unlimited data. At full data the pooled contrast is not significant; the two
+multi-class sets carry what signal there is (BloodMNIST −0.0419, d = −1.28;
+PathMNIST −0.0141, d = −4.35) while both binary sets are flat.
 
 **But it does not generalise.**
 
@@ -165,6 +170,31 @@ Shot noise does degrade: 0.7590 → 0.6976 at 64 shots; ≤1% loss at 1024.
 
 ---
 
+## R8b — Fairness ablations, all three complete
+
+**Depth (L ∈ {1,2,4}, 600 runs).** L=4 beats L=2 on BloodMNIST at 4 of 5 regimes
+(to +0.0278, d = +1.35) and PathMNIST at 2 of 5; null on both binary sets.
+**But 3·L·d = 48 parameters at L=4 against the control's 24** — depth helps by
+adding parameters, so L=4 cannot enter the matched comparison. L=2 is the only
+depth at which parity holds, now justified by data rather than by assumption.
+
+**Angle scale (π vs π/2, 800 runs).** Null for `quantum_vqc` almost everywhere;
+one cell favours π (Blood n=100, +0.0194). For `matched_param_fullrank` π is
+*worse* in four cells. **The pre-registered π/2 did not handicap the quantum
+arm**, and π would have hurt the classical control.
+
+**tanh (2,000 runs).** Removing tanh helps `mlp` (+0.0412, d = +0.95),
+`low_rank` (+0.0463, d = +1.18), `fourier_rff` and `matched_param_fullrank`
+consistently across regimes; only `linear` prefers it, negligibly.
+
+**This strengthens the main result.** The shared tanh is required only by the
+quantum arm — RY is 2π-periodic, so unbounded z destroys injectivity. Imposing it
+on every arm for fairness measurably costs the classical arms up to 0.046 AUC,
+and they still won. Remove the handicap and the quantum arm looks worse, not
+better.
+
+---
+
 ## R8 — Structural claims proven
 
 | Claim | Evidence |
@@ -200,14 +230,23 @@ overstate effects on few-shot medical benchmarks.
 
 ---
 
-## Remaining
+## Remaining — no compute
 
-| | Cost |
+| | |
 |---|---|
-| Full-data reference row | 8 h |
-| Depth L ∈ {1,4} | 12 h |
-| Angle scale π | 8 h |
-| tanh ablation | 4 h |
-| `generate_paper_plots.py` rewrite | — |
-| Amendments 3a, 9, 10, 11 | — |
-| Manuscript | — |
+| `generate_paper_plots.py` rewrite | last unwritten code |
+| Amendments 3a, 9, 10, 11 | analysis_plan.md |
+| `paper/main.tex` | rewrite |
+
+Every experiment is complete. Integrity `0.00e+00` on every post-float32
+namespace: 01_frozen_tuned (1,600), 12_bottleneck (900), 10_capacity (1,000),
+14_readout (600), 03_robustness (1,400), 15_dim8 (800), 16_dim16 (200),
+18_depth (600), 19_angle (800), 20_tanh (2,000), 17_fulldata (80).
+
+## Prior art — read before writing
+
+The bottleneck-dominance finding has a close precedent: Chen & Kuo,
+arXiv:2504.05336, later revision, "Is the gain quantum, or just a compact
+bottleneck?" — a rank-2 bilinear + tanh control, 40 params vs the PQC's 36, on
+synthetic time-series regression with 5 seeds. It must be cited. See
+`PAPER_OUTLINE.md` §1 for the full list of precedents and what remains ours.

@@ -200,7 +200,12 @@ def benjamini_hochberg(pvals, alpha=None, family_size=None):
     if n_ok == 0:
         return np.zeros_like(p, bool), p
 
-    m = int(family_size) if family_size else n_ok
+    # NEVER correct over fewer tests than were actually computed. Using the
+    # declared family size when MORE tests were run is anti-conservative: the
+    # tanh ablation computed 100 cell-level tests and was corrected as if it had
+    # 23. The declared size is a floor (you may not shrink the family), never a
+    # ceiling.
+    m = max(int(family_size), n_ok) if family_size else n_ok
 
     order = np.argsort(np.where(ok, p, np.inf))
     ranked = p[order][:n_ok]
@@ -294,6 +299,26 @@ def is_numeric_regime(v):
         return True
     except (TypeError, ValueError):
         return False
+
+
+def stratum_of(cell):
+    """
+    Everything that identifies a cell EXCEPT dataset and regime.
+
+    Pooling across datasets and fitting a trend across regimes are only valid
+    WITHIN one stratum. A namespace that sweeps another axis - angle scale,
+    depth, bottleneck policy - holds several strata, and averaging across them
+    mixes different experimental conditions into one number. 19_angle is the
+    motivating case: both arms at both angle scales, so an unstratified pooled
+    table would average pi/2 and pi together and call it one result.
+    """
+    return tuple((k, v) for k, v in cell if k not in ("dataset", "regime"))
+
+
+def stratum_label(stratum):
+    extra = [f"{k}={v}" for k, v in stratum
+             if k not in ("dim", "fp", "aug", "lrh", "lrq")]
+    return " ".join(extra) if extra else "(single condition)"
 
 
 def cell_label(cell):
@@ -551,7 +576,8 @@ def report_pooled(experiment, tbl, arm_a, arm_b, metric, condition=None):
     """
     import medmnist
 
-    by_regime = defaultdict(list)     # regime -> [(dataset, pa, pb, y, C)]
+    # stratum -> regime -> [(dataset, pa, pb, y, C)]
+    strata = defaultdict(lambda: defaultdict(list))
     for cell in sorted(tbl):
         cd = dict(cell)
         ds, reg = cd.get("dataset"), cd.get("regime")
@@ -561,8 +587,16 @@ def report_pooled(experiment, tbl, arm_a, arm_b, metric, condition=None):
         if got is None:
             continue
         C = len(medmnist.INFO[ds]["label"])
-        by_regime[str(reg)].append((ds, got[0], got[1], got[2], C))
+        strata[stratum_of(cell)][str(reg)].append((ds, got[0], got[1], got[2], C))
 
+    for stratum in sorted(strata):
+        if len(strata) > 1:
+            print(f"\n########## STRATUM: {stratum_label(stratum)} ##########")
+        _report_pooled_stratum(strata[stratum], arm_a, arm_b, metric)
+
+
+def _report_pooled_stratum(by_regime, arm_a, arm_b, metric):
+    """Pooled table, H-P1 line and leave-one-out for ONE stratum."""
     if not by_regime:
         return
     regimes = sorted(by_regime, key=regime_num)
@@ -753,8 +787,10 @@ def run_cross(experiment, key, val_a, val_b, metric="auc",
     _fallback_banner(results)
     _integrity_check(experiment, tbl, metric, condition)
 
-    print(f"\nBH-FDR family size m = {family_size or len(results)}"
-          + (f"  (declared; {len(results)} computed here)" if family_size else ""))
+    m_eff = max(family_size or 0, len(results))
+    print(f"\nBH-FDR m = {m_eff}  ({len(results)} computed"
+          + (f", declared floor {family_size}" if family_size else "") + ")"
+          + "  -- EXPLORATORY cell-level table")
     print(f"\n=== CROSS-CONDITION: {key}={va} minus {key}={vb}  ({metric}) ===")
     print(f"Same arm, same seeds, same data. Only {key} differs.")
     print(f"\n{'condition':34s} {'arm':22s} {'delta':>9s} "
@@ -852,10 +888,9 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None,
     _fallback_banner(results + expl_results)
     _integrity_check(experiment, tbl, metric, condition)
 
-    m_used = family_size or len(results)
-    print(f"\nBH-FDR family size m = {m_used}"
-          + (f"  (declared; {len(results)} computed here)" if family_size
-             else "  (computed here)"))
+    m_used = max(family_size or 0, len(results))
+    print(f"\nBH-FDR m = {m_used}  ({len(results)} computed"
+          + (f", declared floor {family_size}" if family_size else "") + ")")
     if not family_size:
         print(f"WARNING: docs/analysis_plan.md declares "
               f"{getattr(config, 'DECLARED_FAMILY_SIZE', 17)} tests across several")
@@ -868,6 +903,12 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None,
             continue
         tag = "" if label in ("PRIMARY", "SECONDARY") else "  [EXPLORATORY, uncorrected]"
         print(f"\n=== {label}: {arm_a} - {arm_b}  ({metric}){tag} ===")
+        # analysis_plan.md section 4: per-dataset breakdowns are EXPLORATORY. The
+        # confirmatory tests are POOLED across datasets and are assembled, with a
+        # single BH correction over the declared 23, by 13_family_table.py.
+        print("Per-cell rows are per-dataset breakdowns: EXPLORATORY under "
+              "analysis_plan.md section 4.\nBH here is within this table. "
+              "Confirmatory p-values come from 13_family_table.py.")
         print(f"{'condition':38s} {'enc':>6s} {'delta':>9s} "
               f"{'95% CI':>21s} {'p':>9s} {'p_adj':>9s} {'d':>7s}  verdict")
         print("-" * 128)
@@ -886,34 +927,44 @@ def run(experiment, metric="auc", latex=False, family_size=None, condition=None,
 
     # --- H-P2: is the effect monotone in shots per class? -----------------
     primary = [r for r in results if r["family"] == "PRIMARY"]
-    print(f"\n=== H-P2: trend of delta on log2(shots/class), PRIMARY family ===")
-    by_n = defaultdict(list)
+    by_stratum = defaultdict(list)
     for r in primary:
-        reg = dict(r["cell"]).get("regime")
-        if is_numeric_regime(reg):
-            by_n[int(reg)].append(r["delta"])
-    ns = sorted(by_n)
-    if len(ns) >= 3:
-        x = np.log2(ns)
-        slope = float(np.polyfit(x, [np.mean(by_n[n]) for n in ns], 1)[0])
-        rng = np.random.default_rng(7)
-        boot = [float(np.polyfit(x, [rng.choice(by_n[n], len(by_n[n])).mean()
-                                     for n in ns], 1)[0]) for _ in range(2000)]
-        lo, hi = np.percentile(boot, [2.5, 97.5])
-        for n in ns:
-            print(f"    n={n:>4d}  mean delta = {np.mean(by_n[n]):+.4f} "
-                  f"({len(by_n[n])} cells)")
-        print(f"\n    slope = {slope:+.5f} per doubling  [{lo:+.5f}, {hi:+.5f}]")
-        print(f"    H-P2 {'SUPPORTED' if hi < 0 else 'NOT supported'} "
-              f"(CI must exclude 0 and be negative)")
-    else:
-        print("    need >=3 shot levels")
-
+        by_stratum[stratum_of(r["cell"])].append(r)
+    for stratum in sorted(by_stratum):
+        _hp2_trend(by_stratum[stratum],
+                   stratum_label(stratum) if len(by_stratum) > 1 else None)
     # H-P1 and the leave-one-out, on whichever pair is the PRIMARY family here.
     report_pooled(experiment, tbl, pairs[0][1], pairs[0][2], metric, condition)
 
     if latex:
         emit_latex(results, metric)
+
+
+def _hp2_trend(rows, label=None):
+    """H-P2 slope on log2(shots/class) for the PRIMARY rows of ONE stratum."""
+    title = "H-P2: trend of delta on log2(shots/class), PRIMARY family"
+    print(f"\n=== {title}" + (f"  [{label}]" if label else "") + " ===")
+    by_n = defaultdict(list)
+    for r in rows:
+        reg = dict(r["cell"]).get("regime")
+        if is_numeric_regime(reg):
+            by_n[int(reg)].append(r["delta"])
+    ns = sorted(by_n)
+    if len(ns) < 3:
+        print("    need >=3 shot levels")
+        return
+    x = np.log2(ns)
+    slope = float(np.polyfit(x, [np.mean(by_n[n]) for n in ns], 1)[0])
+    rng = np.random.default_rng(7)
+    boot = [float(np.polyfit(x, [rng.choice(by_n[n], len(by_n[n])).mean()
+                                 for n in ns], 1)[0]) for _ in range(2000)]
+    lo, hi = np.percentile(boot, [2.5, 97.5])
+    for n in ns:
+        print(f"    n={n:>4d}  mean delta = {np.mean(by_n[n]):+.4f} "
+              f"({len(by_n[n])} cells)")
+    print(f"\n    slope = {slope:+.5f} per doubling  [{lo:+.5f}, {hi:+.5f}]")
+    print(f"    H-P2 {'SUPPORTED' if hi < 0 else 'NOT supported'} "
+          f"(CI must exclude 0 and be negative)")
 
 
 def emit_latex(results, metric):

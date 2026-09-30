@@ -97,9 +97,25 @@ ARMS = [
     "quantum_reupload",  # Q4: same 24 params, spectrum {-2..2}^d instead of {-1,0,1}^d
     "quantum_rich",      # same circuit, 2-local readout: 10 observables not 4
     "quantum_rich_padded",  # control: same width, same information as 4
+    "quantum_basic",     # H-S8: BasicEntanglerLayers, same params, different ansatz
 ]
 QUANTUM_ARMS = ["quantum_vqc", "quantum_reupload",
-                "quantum_rich", "quantum_rich_padded"]
+                "quantum_rich", "quantum_rich_padded",
+                "quantum_basic"]
+
+# ANSATZ COMPARISON (H-S8). Published QCNN work reports that performance
+# "varies significantly depending on the quantum circuit", so a study testing
+# one variational structure is answerable with "you picked the wrong circuit".
+#
+# quantum_basic uses BasicEntanglerLayers at 3x the depth, which holds the
+# parameter count at exactly 3*L*d - the same 24 at d=4, 48 at d=8, 96 at d=16.
+# Depth differs as a necessary consequence of fixing parameters; the depth sweep
+# already showed depth effects here are parameter-driven.
+#
+# It CANNOT escape dequantization: the 3^d span is set by AngleEmbedding(Y),
+# not by what follows it. This tests whether the conclusion is an artifact of
+# one coefficient manifold, not whether a different circuit is more expressive.
+ANSATZ_COMPARISON = ("quantum_vqc", "quantum_basic")
 
 # READOUT COMPARISON (H-S7). The founding hypothesis was that superposition
 # gives access to a 2^d state; the default readout extracts only d numbers from
@@ -130,7 +146,31 @@ ARM_DISPLAY_NAMES = {
     "quantum_reupload":       "VQC (data re-uploading)",
     "quantum_rich":           "VQC (2-local readout)",
     "quantum_rich_padded":    "VQC (2-local readout, padded control)",
+    "quantum_basic":          "VQC (basic entangler ansatz)",
     "pca_svm":                "PCA + SVM",
+}
+
+# LEARNING-RATE INHERITANCE for arms added after 09_lr_selection ran.
+#
+# 09 tuned four arms. Three more were added later, and 03 looked them up with
+# tuned.get(arm) - which returned None, so they silently trained at the config
+# default of 1e-3 while the tuned arms ran at 1e-2 or 3e-2. That is a 10x
+# learning-rate difference between arms being compared, and it confounded every
+# noise-sweep comparison involving them.
+#
+# Each untuned arm inherits from the tuned arm it is structurally identical to,
+# the same rule the readout experiment (14_readout) was run under:
+#     quantum_reupload, quantum_rich, quantum_rich_padded, quantum_basic
+#         same parameter count and same circuit family as quantum_vqc
+#     low_rank
+#         same role and same 24 parameters as matched_param_fullrank
+# Declared here rather than implied by a fallback, so it appears in the methods.
+LR_INHERITANCE = {
+    "quantum_reupload":    "quantum_vqc",
+    "quantum_rich":        "quantum_vqc",
+    "quantum_rich_padded": "quantum_vqc",
+    "quantum_basic":       "quantum_vqc",
+    "low_rank":            "matched_param_fullrank",
 }
 
 PRIMARY_COMPARISON = ("quantum_vqc", "matched_param_fullrank")  # Q1, H-P
@@ -233,7 +273,10 @@ SHOT_NOISE_SHOTS = 1024
 BOOTSTRAP_RESAMPLES = 2000
 ALPHA = 0.05
 FDR_METHOD = "benjamini-hochberg"
-DECLARED_FAMILY_SIZE = 17      # docs/analysis_plan.md; pass to 04 --family-size
+# 17 originally; +2 each from Amendments 4, 5 and 6. Every reported analysis
+# passed --family-size 23 explicitly, so no published number used 17 - but the
+# constant drives 04's warning text and must agree with the plan.
+DECLARED_FAMILY_SIZE = 23      # docs/analysis_plan.md; pass to 04 --family-size
 
 # ---------------------------------------------------------------- quantum
 QUANTUM_DEVICE = "default.qubit"

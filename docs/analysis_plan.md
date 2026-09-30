@@ -513,3 +513,186 @@ Re-running PneumoniaMNIST n=5 with `MAX_EPOCHS=1000`, `PATIENCE=200`:
 Best epochs sit well inside the original 100-epoch cap and the AUCs match the
 capped runs. The extra budget changes nothing, so the confound is benign — and
 now evidenced rather than assumed. Reported in Limitations with this table.
+
+---
+
+## Amendments written 29 September 2026
+
+Amendments 3a and 9–11 record changes made in late August and early September
+that were implemented and used but never written into this plan. Each states
+the date the change was made and the date it was written. Amendments 12–14
+were written **before** any of the runs they describe.
+
+### Amendment 3a — change made 28 August; written 29 September. Learning-rate grid extended.
+
+**Change.** Grid extended from {3e-4, 1e-3, 3e-3, 1e-2} (Amendment 3) to
+{3e-4, 1e-3, 3e-3, 1e-2, 3e-2, 1e-1}.
+
+**Reason.** On the registered grid the selected rate sat at the upper boundary,
+so the optimum was not bracketed and "the arm was under-stepped" could not be
+excluded — the objection Amendment 3 exists to close. The grid was extended in
+the direction of the boundary only, with the same tuning seeds (90001–90005),
+cells and criterion.
+
+**What informed the change.** Validation AUC on the tuning seeds only. No
+confirmatory run existed; no test-set data was consulted.
+
+**Result.** Every optimum is interior on the extended grid.
+
+| Arm | LR | Mean val AUC |
+|---|---|---|
+| linear | 3e-2 | ⟨FILL from lr_selection.json⟩ |
+| matched_param_fullrank | 1e-2 | ⟨FILL⟩ |
+| fourier_rff | 1e-2 | ⟨FILL⟩ |
+| quantum_vqc | 1e-2 | ⟨FILL⟩ |
+
+`linear`'s selected rate lies outside the registered grid. The full sweep is
+reported in the appendix.
+
+### Amendment 9 — change made 28 August; written 29 September. Predictions stored as float32.
+
+**Change.** Per-sample probabilities stored as float32 rather than float16.
+
+**Reason.** Float16 rows summed to 0.9996–1.0004, outside scikit-learn's
+tolerance, so every multi-class AUC raised and the analysis silently fell back to
+seed-level resampling — the statistic §2 forbids. Recomputed-versus-recorded AUC
+differed by up to 4.7e-3.
+
+**Effect.** `12_bottleneck_ablation` and `10_capacity_sweep` were re-run in
+float32. Every number reported in the manuscript post-dates this change, and the
+integrity check reports `max |recomputed − recorded| = 0.00e+00` on every
+namespace used.
+
+### Amendment 10 — change made 29 August; written 29 September. Conditional renormalisation.
+
+**Change.** Stored probability rows are renormalised on load only when they
+deviate from 1 by more than `RENORM_TOLERANCE = 1e-6`.
+
+**Reason.** Unconditional renormalisation perturbed float32 scores enough to
+break ties differently and shift AUC. Rows that are already valid probabilities
+are now read exactly as written.
+
+### Amendment 11 — change made 9 September; written 29 September. Explicit keying of depth and tanh.
+
+**Change.** Circuit depth `L` and the tanh setting enter the shard key whenever
+they are explicitly set, not only when they differ from the configuration default.
+
+**Reason.** Keying against a mutable default meant the baseline of each sweep
+(L=2; tanh on) carried no key, landed in a different cell from the conditions it
+anchors, and could not be compared. It also meant any change to the default
+would have silently turned old shards into cache hits for the new setting — the
+same latent fault already fixed for learning rates.
+
+**Effect on data.** None. `18_depth` and `20_tanh` were run after the change.
+
+### Amendment 12 — written 29 September. What the reported analyses are.
+
+**(a) Exploratory status, as §4 already specified.** The following are
+exploratory, excluded from the confirmatory family, and labelled as such:
+d=8 (`15_dim8`), d=16 (`16_dim16`), the full-data row (`17_fulldata`), depth
+(`18_depth`), angle scale (`19_angle`), tanh (`20_tanh`), hardware noise (`07`),
+Lipschitz constants (`08`), and the leave-one-dataset-out analysis.
+
+**(b) Per-dataset cells are exploratory.** §4 excludes per-dataset breakdowns from
+the family. The per-cell tables printed by `04_statistical_analysis.py` are
+per-dataset breakdowns. In particular, "BloodMNIST, n=5, Δ = +0.0446" is an
+exploratory observation, not a confirmatory result.
+
+**(c) A correction error, found and fixed.** `benjamini_hochberg` used the
+declared family size as m even when more tests had been computed, which is
+anti-conservative. It affected every table with more than 23 cells: `20_tanh`
+(100 cells), `19_angle` (40), and `12_bottleneck` cross-condition tables. m is now
+`max(declared, computed)`; the declared size is a floor, never a ceiling. The
+affected tables are re-run, and only the corrected values are reported. No table
+with 23 or fewer cells changes, including the primary per-cell table.
+
+**(d) The confirmatory table did not exist.** §4 specifies one test per declared
+hypothesis, pooled across datasets, with a single BH correction over 23.
+`13_family_table.py` produces that table. It is the only source of confirmatory
+p-values in the manuscript.
+
+### Amendment 13 — written 29 September, before the runs. Completing the confirmatory family.
+
+Audit of the 23 declared tests:
+
+| Test | Status on 29 Sept | Action |
+|---|---|---|
+| H-P1, H-P2 | computed | — |
+| H-S1 ×5 | **not run under the final protocol** | run now |
+| H-S2 ×5 | **`fourier_rff` never run in the confirmatory namespace** | run now |
+| H-S3 ×4 | **v1 noise sweep invalid** (below) | run now |
+| H-S4 | **not run under the final protocol** | run now |
+| H-S5a/b, H-S6 ×2, H-S7a/b | data exist | assembled by `13_family_table.py` |
+
+**H-S1.** `quantum_reupload` added to `01_frozen_tuned`, the same 40 confirmatory
+seeds, learning rate inherited from `quantum_vqc` (1e-2) under
+`config.LR_INHERITANCE`. One test per shot level: pooled nested bootstrap on
+AUC(`quantum_reupload`) − AUC(`quantum_vqc`). Prediction unchanged from
+12 August: hurts at n ∈ {5, 10}, helps at n ∈ {50, 100}.
+
+**H-S2.** `fourier_rff` added to `01_frozen_tuned`, 40 confirmatory seeds, tuned
+learning rate 1e-2. One test per shot level: pooled nested bootstrap on
+AUC(`quantum_vqc`) − AUC(`fourier_rff`). The hypothesis is that the VQC does not
+match a direct fit over its own function class, i.e. the contrast is negative.
+
+**H-S3.** The v1 sweep (`03_robustness`) added Gaussian noise to the network
+input after 28→224 upsampling and after grayscale→RGB replication. That is a
+valid perturbation, applied identically to every arm, so arm-versus-arm
+comparisons in v1 are fair — but it is not a model of sensor noise: it gives 64
+independent draws per native pixel, and three per pixel on single-channel data,
+most of which the ResNet stem averages away. Separately, three arms that H-S3
+does not use (`low_rank`, `quantum_rich`, `quantum_rich_padded`) had no tuned
+learning rate and trained at the 1e-3 default; the four H-S3 arms were correctly
+tuned. The v2 sweep (`03_robustness_v2`) injects noise at native resolution and
+channel count and assigns every arm a declared rate. **v2 is the version reported
+for H-S3.** v1 is retained, and disclosed as an earlier input-perturbation variant.
+
+The statistic is pinned now, before the v2 data exist. The registered wording is
+"the ratio of relative F1 loss to relative AUC loss"; a ratio is undefined as the
+relative AUC loss approaches zero, which it does at small σ by construction. The
+difference carries the same claim and is defined everywhere:
+
+    G(σ) = [F1(0) − F1(σ)] / F1(0)  −  [AUC(0) − AUC(σ)] / AUC(0)
+
+H-S3 at σ ∈ {0.05, 0.10, 0.15, 0.20}: G_vqc(σ) > 0, pooled nested bootstrap
+across datasets. Four tests, as registered. G for `matched_param_fullrank`,
+`fourier_rff` and `linear`, and the contrast G_vqc − G_mpfr, are reported
+alongside as exploratory. ECE and probability spread are reported descriptively.
+
+**H-S4.** Legacy adaptive-encoder runs predate Amendment 2 and learning-rate
+tuning and are not used. New namespace `25_encoder`: `quantum_vqc` and
+`matched_param_fullrank`, both freeze policies in one namespace so frozen and
+adaptive are paired on seed, tuned rates, 10 seeds (`ALL_SEEDS`), d=4, no
+augmentation on either side. Statistic pinned now:
+
+    I = mean over (dataset, n) of |Δ_frozen| − |Δ_adaptive|,   Δ = AUC(vqc) − AUC(mpfr)
+
+nested bootstrap resampling test indices and seeds within each cell. Supported if
+the 95% CI on I is positive.
+
+**Family size remains 23.** It is not reduced for any reason.
+
+### Amendment 14 — written 29 September, before the run. Ansatz check; and follow-ups deliberately not run.
+
+**E1 — Ansatz** (`21_ansatz`, 10 seeds, exploratory). `quantum_basic`
+(BasicEntanglerLayers ×6, 24 parameters) against `quantum_vqc`
+(StronglyEntanglingLayers ×2, 24 parameters). Motivated by the literature — a
+published QCNN study reports that performance varies with the circuit — not by
+any pattern in our data. Both ansätze sit behind the same single-upload
+AngleEmbedding(Y), so both occupy the same 3^d span; this tests whether the
+conclusion depends on which coefficient manifold inside it is reached.
+*Prediction:* no pooled difference at any n. Corrected by BH within the analysis;
+not a member of the confirmatory family.
+
+**Considered and deliberately not run.** The exploratory depth sweep showed
+L=2 is not the best depth for the quantum arm on BloodMNIST (both L=1 and L=4
+did better at n ≥ 10), and the tanh ablation showed the control's largest tanh
+cost at BloodMNIST n=5, the one cell with an exploratory quantum advantage.
+Parameter-matched comparisons at L=1 and L=4, and a primary contrast without tanh
+on the control, were designed and then **not run**: each would be a comparison
+chosen after seeing the data and aimed at the pattern that prompted it. Held-out
+seeds guard against seed noise, not against that selection. L=2 remains the
+pre-registered depth because it is the only depth at which the VQC and the
+classical control have identical parameter counts (24 = 24). The depth and tanh
+sweeps are reported as exploratory, with these patterns stated plainly, and
+matched comparisons at other depths are named as future work.

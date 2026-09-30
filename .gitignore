@@ -222,3 +222,4 @@ latents/
 *.npy
 *.npz
 results/checkpoints*/
+'logs_*.txt' 
