@@ -1,0 +1,998 @@
+
+Trainable capacity at d=4, bottleneck=learned:
+  quantum_vqc              bottleneck= 1028 head=  24 clf= 10 total= 1062 head=2.3%
+  matched_param_fullrank   bottleneck= 1028 head=  24 clf= 10 total= 1062 head=2.3%
+
+Experiment 1 | 400 cells | ns=19_angle | device=cuda | sha=842179e4
+  augment=False L=2 use_tanh=True bottleneck=learned angle_scale=1.5708 save_predictions=True
+[1/400] breastmnist r=5 d=4 froz s=42 quantum_vqc              auc=0.7183 f1=0.4871 ETA 0.5h
+[2/400] breastmnist r=5 d=4 froz s=42 matched_param_fullrank   auc=0.5756 f1=0.4222 ETA 0.3h
+[3/400] breastmnist r=5 d=4 froz s=123 quantum_vqc              auc=0.7061 f1=0.6130 ETA 0.3h
+[4/400] breastmnist r=5 d=4 froz s=123 matched_param_fullrank   auc=0.7178 f1=0.6350 ETA 0.2h
+[5/400] breastmnist r=5 d=4 froz s=2026 quantum_vqc              auc=0.6569 f1=0.5989 ETA 0.3h
+[6/400] breastmnist r=5 d=4 froz s=2026 matched_param_fullrank   auc=0.5612 f1=0.4802 ETA 0.2h
+[7/400] breastmnist r=5 d=4 froz s=777 quantum_vqc              auc=0.4919 f1=0.4431 ETA 0.2h
+[8/400] breastmnist r=5 d=4 froz s=777 matched_param_fullrank   auc=0.4858 f1=0.4364 ETA 0.2h
+[9/400] breastmnist r=5 d=4 froz s=888 quantum_vqc              auc=0.7448 f1=0.7141 ETA 0.2h
+[10/400] breastmnist r=5 d=4 froz s=888 matched_param_fullrank   auc=0.6865 f1=0.4222 ETA 0.2h
+[11/400] breastmnist r=5 d=4 froz s=31337 quantum_vqc              auc=0.7086 f1=0.6159 ETA 0.2h
+[12/400] breastmnist r=5 d=4 froz s=31337 matched_param_fullrank   auc=0.6984 f1=0.6254 ETA 0.2h
+[13/400] breastmnist r=5 d=4 froz s=8 quantum_vqc              auc=0.6074 f1=0.3077 ETA 0.2h
+[14/400] breastmnist r=5 d=4 froz s=8 matched_param_fullrank   auc=0.5269 f1=0.3810 ETA 0.2h
+[15/400] breastmnist r=5 d=4 froz s=271828 quantum_vqc              auc=0.6401 f1=0.4222 ETA 0.2h
+[16/400] breastmnist r=5 d=4 froz s=271828 matched_param_fullrank   auc=0.6071 f1=0.6254 ETA 0.2h
+[17/400] breastmnist r=5 d=4 froz s=161803 quantum_vqc              auc=0.6884 f1=0.4645 ETA 0.2h
+[18/400] breastmnist r=5 d=4 froz s=161803 matched_param_fullrank   auc=0.7193 f1=0.5999 ETA 0.2h
+[19/400] breastmnist r=5 d=4 froz s=1414 quantum_vqc              auc=0.6389 f1=0.5853 ETA 0.2h
+[20/400] breastmnist r=5 d=4 froz s=1414 matched_param_fullrank   auc=0.6633 f1=0.6132 ETA 0.2h
+[21/400] breastmnist r=10 d=4 froz s=42 quantum_vqc              auc=0.6805 f1=0.2121 ETA 0.2h
+[22/400] breastmnist r=10 d=4 froz s=42 matched_param_fullrank   auc=0.5758 f1=0.4222 ETA 0.2h
+[23/400] breastmnist r=10 d=4 froz s=123 quantum_vqc              auc=0.7277 f1=0.6714 ETA 0.2h
+[24/400] breastmnist r=10 d=4 froz s=123 matched_param_fullrank   auc=0.7279 f1=0.6073 ETA 0.2h
+[25/400] breastmnist r=10 d=4 froz s=2026 quantum_vqc              auc=0.6917 f1=0.6106 ETA 0.2h
+[26/400] breastmnist r=10 d=4 froz s=2026 matched_param_fullrank   auc=0.6589 f1=0.5609 ETA 0.2h
+[27/400] breastmnist r=10 d=4 froz s=777 quantum_vqc              auc=0.7139 f1=0.6753 ETA 0.2h
+[28/400] breastmnist r=10 d=4 froz s=777 matched_param_fullrank   auc=0.7492 f1=0.4470 ETA 0.2h
+[29/400] breastmnist r=10 d=4 froz s=888 quantum_vqc              auc=0.7101 f1=0.6523 ETA 0.2h
+[30/400] breastmnist r=10 d=4 froz s=888 matched_param_fullrank   auc=0.7063 f1=0.6362 ETA 0.2h
+[31/400] breastmnist r=10 d=4 froz s=31337 quantum_vqc              auc=0.7283 f1=0.6545 ETA 0.2h
+[32/400] breastmnist r=10 d=4 froz s=31337 matched_param_fullrank   auc=0.7183 f1=0.5640 ETA 0.2h
+[33/400] breastmnist r=10 d=4 froz s=8 quantum_vqc              auc=0.7421 f1=0.6294 ETA 0.2h
+[34/400] breastmnist r=10 d=4 froz s=8 matched_param_fullrank   auc=0.7688 f1=0.2642 ETA 0.2h
+[35/400] breastmnist r=10 d=4 froz s=271828 quantum_vqc              auc=0.7166 f1=0.6104 ETA 0.2h
+[36/400] breastmnist r=10 d=4 froz s=271828 matched_param_fullrank   auc=0.7003 f1=0.6620 ETA 0.2h
+[37/400] breastmnist r=10 d=4 froz s=161803 quantum_vqc              auc=0.7414 f1=0.4196 ETA 0.2h
+[38/400] breastmnist r=10 d=4 froz s=161803 matched_param_fullrank   auc=0.7059 f1=0.6155 ETA 0.2h
+[39/400] breastmnist r=10 d=4 froz s=1414 quantum_vqc              auc=0.6836 f1=0.5610 ETA 0.2h
+[40/400] breastmnist r=10 d=4 froz s=1414 matched_param_fullrank   auc=0.6921 f1=0.6079 ETA 0.2h
+[41/400] breastmnist r=20 d=4 froz s=42 quantum_vqc              auc=0.7249 f1=0.2219 ETA 0.2h
+[42/400] breastmnist r=20 d=4 froz s=42 matched_param_fullrank   auc=0.4812 f1=0.2121 ETA 0.2h
+[43/400] breastmnist r=20 d=4 froz s=123 quantum_vqc              auc=0.7477 f1=0.6864 ETA 0.2h
+[44/400] breastmnist r=20 d=4 froz s=123 matched_param_fullrank   auc=0.7640 f1=0.6743 ETA 0.2h
+[45/400] breastmnist r=20 d=4 froz s=2026 quantum_vqc              auc=0.7433 f1=0.5985 ETA 0.2h
+[46/400] breastmnist r=20 d=4 froz s=2026 matched_param_fullrank   auc=0.7356 f1=0.5929 ETA 0.2h
+[47/400] breastmnist r=20 d=4 froz s=777 quantum_vqc              auc=0.6859 f1=0.6230 ETA 0.2h
+[48/400] breastmnist r=20 d=4 froz s=777 matched_param_fullrank   auc=0.7884 f1=0.4222 ETA 0.2h
+[49/400] breastmnist r=20 d=4 froz s=888 quantum_vqc              auc=0.6836 f1=0.4865 ETA 0.2h
+[50/400] breastmnist r=20 d=4 froz s=888 matched_param_fullrank   auc=0.6719 f1=0.4222 ETA 0.2h
+[51/400] breastmnist r=20 d=4 froz s=31337 quantum_vqc              auc=0.7607 f1=0.3040 ETA 0.2h
+[52/400] breastmnist r=20 d=4 froz s=31337 matched_param_fullrank   auc=0.7728 f1=0.6852 ETA 0.2h
+[53/400] breastmnist r=20 d=4 froz s=8 quantum_vqc              auc=0.7847 f1=0.6601 ETA 0.2h
+[54/400] breastmnist r=20 d=4 froz s=8 matched_param_fullrank   auc=0.8221 f1=0.5606 ETA 0.2h
+[55/400] breastmnist r=20 d=4 froz s=271828 quantum_vqc              auc=0.6779 f1=0.5228 ETA 0.2h
+[56/400] breastmnist r=20 d=4 froz s=271828 matched_param_fullrank   auc=0.6850 f1=0.6046 ETA 0.2h
+[57/400] breastmnist r=20 d=4 froz s=161803 quantum_vqc              auc=0.7573 f1=0.6026 ETA 0.2h
+[58/400] breastmnist r=20 d=4 froz s=161803 matched_param_fullrank   auc=0.7531 f1=0.6280 ETA 0.2h
+[59/400] breastmnist r=20 d=4 froz s=1414 quantum_vqc              auc=0.7959 f1=0.6770 ETA 0.2h
+[60/400] breastmnist r=20 d=4 froz s=1414 matched_param_fullrank   auc=0.7863 f1=0.5191 ETA 0.2h
+[61/400] breastmnist r=50 d=4 froz s=42 quantum_vqc              auc=0.7366 f1=0.2121 ETA 0.2h
+[62/400] breastmnist r=50 d=4 froz s=42 matched_param_fullrank   auc=0.7824 f1=0.6044 ETA 0.2h
+[63/400] breastmnist r=50 d=4 froz s=123 quantum_vqc              auc=0.7914 f1=0.7130 ETA 0.3h
+[64/400] breastmnist r=50 d=4 froz s=123 matched_param_fullrank   auc=0.7987 f1=0.6443 ETA 0.3h
+[65/400] breastmnist r=50 d=4 froz s=2026 quantum_vqc              auc=0.7738 f1=0.6320 ETA 0.3h
+[66/400] breastmnist r=50 d=4 froz s=2026 matched_param_fullrank   auc=0.7057 f1=0.2121 ETA 0.3h
+[67/400] breastmnist r=50 d=4 froz s=777 quantum_vqc              auc=0.7554 f1=0.6950 ETA 0.3h
+[68/400] breastmnist r=50 d=4 froz s=777 matched_param_fullrank   auc=0.7352 f1=0.6695 ETA 0.3h
+[69/400] breastmnist r=50 d=4 froz s=888 quantum_vqc              auc=0.7650 f1=0.6963 ETA 0.3h
+[70/400] breastmnist r=50 d=4 froz s=888 matched_param_fullrank   auc=0.7467 f1=0.5664 ETA 0.3h
+[71/400] breastmnist r=50 d=4 froz s=31337 quantum_vqc              auc=0.7558 f1=0.6638 ETA 0.3h
+[72/400] breastmnist r=50 d=4 froz s=31337 matched_param_fullrank   auc=0.7563 f1=0.2121 ETA 0.3h
+[73/400] breastmnist r=50 d=4 froz s=8 quantum_vqc              auc=0.7398 f1=0.4222 ETA 0.3h
+[74/400] breastmnist r=50 d=4 froz s=8 matched_param_fullrank   auc=0.7385 f1=0.4708 ETA 0.3h
+[75/400] breastmnist r=50 d=4 froz s=271828 quantum_vqc              auc=0.7667 f1=0.6869 ETA 0.3h
+[76/400] breastmnist r=50 d=4 froz s=271828 matched_param_fullrank   auc=0.7571 f1=0.6877 ETA 0.3h
+[77/400] breastmnist r=50 d=4 froz s=161803 quantum_vqc              auc=0.7805 f1=0.6321 ETA 0.3h
+[78/400] breastmnist r=50 d=4 froz s=161803 matched_param_fullrank   auc=0.7686 f1=0.6840 ETA 0.3h
+[79/400] breastmnist r=50 d=4 froz s=1414 quantum_vqc              auc=0.7661 f1=0.5366 ETA 0.3h
+[80/400] breastmnist r=50 d=4 froz s=1414 matched_param_fullrank   auc=0.7786 f1=0.4936 ETA 0.3h
+[81/400] breastmnist r=100 d=4 froz s=42 quantum_vqc              auc=0.7416 f1=0.6122 ETA 0.3h
+[82/400] breastmnist r=100 d=4 froz s=42 matched_param_fullrank   auc=0.7458 f1=0.6762 ETA 0.3h
+[83/400] breastmnist r=100 d=4 froz s=123 quantum_vqc              auc=0.7924 f1=0.7179 ETA 0.3h
+[84/400] breastmnist r=100 d=4 froz s=123 matched_param_fullrank   auc=0.7964 f1=0.6443 ETA 0.3h
+[85/400] breastmnist r=100 d=4 froz s=2026 quantum_vqc              auc=0.8227 f1=0.7237 ETA 0.4h
+[86/400] breastmnist r=100 d=4 froz s=2026 matched_param_fullrank   auc=0.8248 f1=0.7532 ETA 0.4h
+[87/400] breastmnist r=100 d=4 froz s=777 quantum_vqc              auc=0.8131 f1=0.7259 ETA 0.4h
+[88/400] breastmnist r=100 d=4 froz s=777 matched_param_fullrank   auc=0.8156 f1=0.6551 ETA 0.4h
+[89/400] breastmnist r=100 d=4 froz s=888 quantum_vqc              auc=0.8340 f1=0.5623 ETA 0.4h
+[90/400] breastmnist r=100 d=4 froz s=888 matched_param_fullrank   auc=0.8377 f1=0.7378 ETA 0.4h
+[91/400] breastmnist r=100 d=4 froz s=31337 quantum_vqc              auc=0.8440 f1=0.7814 ETA 0.4h
+[92/400] breastmnist r=100 d=4 froz s=31337 matched_param_fullrank   auc=0.8335 f1=0.7502 ETA 0.4h
+[93/400] breastmnist r=100 d=4 froz s=8 quantum_vqc              auc=0.8066 f1=0.6193 ETA 0.4h
+[94/400] breastmnist r=100 d=4 froz s=8 matched_param_fullrank   auc=0.8099 f1=0.6615 ETA 0.4h
+[95/400] breastmnist r=100 d=4 froz s=271828 quantum_vqc              auc=0.8283 f1=0.7765 ETA 0.4h
+[96/400] breastmnist r=100 d=4 froz s=271828 matched_param_fullrank   auc=0.8310 f1=0.6593 ETA 0.4h
+[97/400] breastmnist r=100 d=4 froz s=161803 quantum_vqc              auc=0.8079 f1=0.7025 ETA 0.4h
+[98/400] breastmnist r=100 d=4 froz s=161803 matched_param_fullrank   auc=0.8198 f1=0.7017 ETA 0.4h
+[99/400] breastmnist r=100 d=4 froz s=1414 quantum_vqc              auc=0.7859 f1=0.7292 ETA 0.4h
+[100/400] breastmnist r=100 d=4 froz s=1414 matched_param_fullrank   auc=0.8066 f1=0.4936 ETA 0.4h
+[101/400] pneumoniamnist r=5 d=4 froz s=42 quantum_vqc              auc=0.8937 f1=0.7899 ETA 0.4h
+[102/400] pneumoniamnist r=5 d=4 froz s=42 matched_param_fullrank   auc=0.9180 f1=0.8132 ETA 0.4h
+[103/400] pneumoniamnist r=5 d=4 froz s=123 quantum_vqc              auc=0.9015 f1=0.8118 ETA 0.4h
+[104/400] pneumoniamnist r=5 d=4 froz s=123 matched_param_fullrank   auc=0.8687 f1=0.7715 ETA 0.4h
+[105/400] pneumoniamnist r=5 d=4 froz s=2026 quantum_vqc              auc=0.9160 f1=0.8077 ETA 0.4h
+[106/400] pneumoniamnist r=5 d=4 froz s=2026 matched_param_fullrank   auc=0.9182 f1=0.7856 ETA 0.4h
+[107/400] pneumoniamnist r=5 d=4 froz s=777 quantum_vqc              auc=0.9231 f1=0.8450 ETA 0.4h
+[108/400] pneumoniamnist r=5 d=4 froz s=777 matched_param_fullrank   auc=0.9074 f1=0.2842 ETA 0.4h
+[109/400] pneumoniamnist r=5 d=4 froz s=888 quantum_vqc              auc=0.9038 f1=0.8276 ETA 0.4h
+[110/400] pneumoniamnist r=5 d=4 froz s=888 matched_param_fullrank   auc=0.6002 f1=0.3846 ETA 0.4h
+[111/400] pneumoniamnist r=5 d=4 froz s=31337 quantum_vqc              auc=0.9202 f1=0.8497 ETA 0.4h
+[112/400] pneumoniamnist r=5 d=4 froz s=31337 matched_param_fullrank   auc=0.9131 f1=0.8029 ETA 0.4h
+[113/400] pneumoniamnist r=5 d=4 froz s=8 quantum_vqc              auc=0.9170 f1=0.8144 ETA 0.4h
+[114/400] pneumoniamnist r=5 d=4 froz s=8 matched_param_fullrank   auc=0.9272 f1=0.6716 ETA 0.4h
+[115/400] pneumoniamnist r=5 d=4 froz s=271828 quantum_vqc              auc=0.9120 f1=0.8322 ETA 0.4h
+[116/400] pneumoniamnist r=5 d=4 froz s=271828 matched_param_fullrank   auc=0.9132 f1=0.8266 ETA 0.4h
+[117/400] pneumoniamnist r=5 d=4 froz s=161803 quantum_vqc              auc=0.9044 f1=0.8131 ETA 0.4h
+[118/400] pneumoniamnist r=5 d=4 froz s=161803 matched_param_fullrank   auc=0.9048 f1=0.7847 ETA 0.4h
+[119/400] pneumoniamnist r=5 d=4 froz s=1414 quantum_vqc              auc=0.8761 f1=0.8127 ETA 0.4h
+[120/400] pneumoniamnist r=5 d=4 froz s=1414 matched_param_fullrank   auc=0.9114 f1=0.7584 ETA 0.4h
+[121/400] pneumoniamnist r=10 d=4 froz s=42 quantum_vqc              auc=0.9232 f1=0.8353 ETA 0.4h
+[122/400] pneumoniamnist r=10 d=4 froz s=42 matched_param_fullrank   auc=0.9305 f1=0.8461 ETA 0.3h
+[123/400] pneumoniamnist r=10 d=4 froz s=123 quantum_vqc              auc=0.9121 f1=0.7773 ETA 0.3h
+[124/400] pneumoniamnist r=10 d=4 froz s=123 matched_param_fullrank   auc=0.9122 f1=0.2898 ETA 0.3h
+[125/400] pneumoniamnist r=10 d=4 froz s=2026 quantum_vqc              auc=0.9098 f1=0.8218 ETA 0.3h
+[126/400] pneumoniamnist r=10 d=4 froz s=2026 matched_param_fullrank   auc=0.8644 f1=0.3939 ETA 0.3h
+[127/400] pneumoniamnist r=10 d=4 froz s=777 quantum_vqc              auc=0.8948 f1=0.8144 ETA 0.3h
+[128/400] pneumoniamnist r=10 d=4 froz s=777 matched_param_fullrank   auc=0.8581 f1=0.3846 ETA 0.3h
+[129/400] pneumoniamnist r=10 d=4 froz s=888 quantum_vqc              auc=0.9116 f1=0.8194 ETA 0.3h
+[130/400] pneumoniamnist r=10 d=4 froz s=888 matched_param_fullrank   auc=0.7046 f1=0.3846 ETA 0.3h
+[131/400] pneumoniamnist r=10 d=4 froz s=31337 quantum_vqc              auc=0.9256 f1=0.8438 ETA 0.3h
+[132/400] pneumoniamnist r=10 d=4 froz s=31337 matched_param_fullrank   auc=0.9076 f1=0.8422 ETA 0.3h
+[133/400] pneumoniamnist r=10 d=4 froz s=8 quantum_vqc              auc=0.9187 f1=0.8262 ETA 0.3h
+[134/400] pneumoniamnist r=10 d=4 froz s=8 matched_param_fullrank   auc=0.9296 f1=0.2727 ETA 0.3h
+[135/400] pneumoniamnist r=10 d=4 froz s=271828 quantum_vqc              auc=0.9235 f1=0.8269 ETA 0.3h
+[136/400] pneumoniamnist r=10 d=4 froz s=271828 matched_param_fullrank   auc=0.9380 f1=0.8172 ETA 0.3h
+[137/400] pneumoniamnist r=10 d=4 froz s=161803 quantum_vqc              auc=0.8636 f1=0.2727 ETA 0.3h
+[138/400] pneumoniamnist r=10 d=4 froz s=161803 matched_param_fullrank   auc=0.8654 f1=0.7521 ETA 0.3h
+[139/400] pneumoniamnist r=10 d=4 froz s=1414 quantum_vqc              auc=0.9273 f1=0.8246 ETA 0.3h
+[140/400] pneumoniamnist r=10 d=4 froz s=1414 matched_param_fullrank   auc=0.9282 f1=0.8238 ETA 0.3h
+[141/400] pneumoniamnist r=20 d=4 froz s=42 quantum_vqc              auc=0.9243 f1=0.8304 ETA 0.3h
+[142/400] pneumoniamnist r=20 d=4 froz s=42 matched_param_fullrank   auc=0.9306 f1=0.8322 ETA 0.3h
+[143/400] pneumoniamnist r=20 d=4 froz s=123 quantum_vqc              auc=0.9226 f1=0.8472 ETA 0.3h
+[144/400] pneumoniamnist r=20 d=4 froz s=123 matched_param_fullrank   auc=0.9148 f1=0.2727 ETA 0.3h
+[145/400] pneumoniamnist r=20 d=4 froz s=2026 quantum_vqc              auc=0.9374 f1=0.8607 ETA 0.3h
+[146/400] pneumoniamnist r=20 d=4 froz s=2026 matched_param_fullrank   auc=0.9383 f1=0.8508 ETA 0.3h
+[147/400] pneumoniamnist r=20 d=4 froz s=777 quantum_vqc              auc=0.9293 f1=0.8136 ETA 0.3h
+[148/400] pneumoniamnist r=20 d=4 froz s=777 matched_param_fullrank   auc=0.9306 f1=0.7894 ETA 0.3h
+[149/400] pneumoniamnist r=20 d=4 froz s=888 quantum_vqc              auc=0.9242 f1=0.8266 ETA 0.3h
+[150/400] pneumoniamnist r=20 d=4 froz s=888 matched_param_fullrank   auc=0.9169 f1=0.8134 ETA 0.3h
+[151/400] pneumoniamnist r=20 d=4 froz s=31337 quantum_vqc              auc=0.9391 f1=0.8513 ETA 0.3h
+[152/400] pneumoniamnist r=20 d=4 froz s=31337 matched_param_fullrank   auc=0.9166 f1=0.7971 ETA 0.3h
+[153/400] pneumoniamnist r=20 d=4 froz s=8 quantum_vqc              auc=0.9376 f1=0.8410 ETA 0.3h
+[154/400] pneumoniamnist r=20 d=4 froz s=8 matched_param_fullrank   auc=0.9327 f1=0.2727 ETA 0.3h
+[155/400] pneumoniamnist r=20 d=4 froz s=271828 quantum_vqc              auc=0.9297 f1=0.8160 ETA 0.3h
+[156/400] pneumoniamnist r=20 d=4 froz s=271828 matched_param_fullrank   auc=0.9230 f1=0.8346 ETA 0.3h
+[157/400] pneumoniamnist r=20 d=4 froz s=161803 quantum_vqc              auc=0.9216 f1=0.8495 ETA 0.3h
+[158/400] pneumoniamnist r=20 d=4 froz s=161803 matched_param_fullrank   auc=0.9151 f1=0.8375 ETA 0.3h
+[159/400] pneumoniamnist r=20 d=4 froz s=1414 quantum_vqc              auc=0.9279 f1=0.8620 ETA 0.3h
+[160/400] pneumoniamnist r=20 d=4 froz s=1414 matched_param_fullrank   auc=0.9282 f1=0.8386 ETA 0.3h
+[161/400] pneumoniamnist r=50 d=4 froz s=42 quantum_vqc              auc=0.9176 f1=0.8319 ETA 0.3h
+[162/400] pneumoniamnist r=50 d=4 froz s=42 matched_param_fullrank   auc=0.9198 f1=0.8357 ETA 0.3h
+[163/400] pneumoniamnist r=50 d=4 froz s=123 quantum_vqc              auc=0.9283 f1=0.8383 ETA 0.3h
+[164/400] pneumoniamnist r=50 d=4 froz s=123 matched_param_fullrank   auc=0.9290 f1=0.2727 ETA 0.3h
+[165/400] pneumoniamnist r=50 d=4 froz s=2026 quantum_vqc              auc=0.9312 f1=0.8394 ETA 0.3h
+[166/400] pneumoniamnist r=50 d=4 froz s=2026 matched_param_fullrank   auc=0.9347 f1=0.8197 ETA 0.3h
+[167/400] pneumoniamnist r=50 d=4 froz s=777 quantum_vqc              auc=0.9223 f1=0.8349 ETA 0.3h
+[168/400] pneumoniamnist r=50 d=4 froz s=777 matched_param_fullrank   auc=0.9231 f1=0.8150 ETA 0.3h
+[169/400] pneumoniamnist r=50 d=4 froz s=888 quantum_vqc              auc=0.9220 f1=0.8226 ETA 0.3h
+[170/400] pneumoniamnist r=50 d=4 froz s=888 matched_param_fullrank   auc=0.9151 f1=0.7324 ETA 0.3h
+[171/400] pneumoniamnist r=50 d=4 froz s=31337 quantum_vqc              auc=0.9257 f1=0.7884 ETA 0.3h
+[172/400] pneumoniamnist r=50 d=4 froz s=31337 matched_param_fullrank   auc=0.9281 f1=0.8477 ETA 0.3h
+[173/400] pneumoniamnist r=50 d=4 froz s=8 quantum_vqc              auc=0.9299 f1=0.7564 ETA 0.3h
+[174/400] pneumoniamnist r=50 d=4 froz s=8 matched_param_fullrank   auc=0.9321 f1=0.8372 ETA 0.3h
+[175/400] pneumoniamnist r=50 d=4 froz s=271828 quantum_vqc              auc=0.9364 f1=0.8364 ETA 0.3h
+[176/400] pneumoniamnist r=50 d=4 froz s=271828 matched_param_fullrank   auc=0.9363 f1=0.8699 ETA 0.3h
+[177/400] pneumoniamnist r=50 d=4 froz s=161803 quantum_vqc              auc=0.9254 f1=0.8349 ETA 0.3h
+[178/400] pneumoniamnist r=50 d=4 froz s=161803 matched_param_fullrank   auc=0.9281 f1=0.8261 ETA 0.3h
+[179/400] pneumoniamnist r=50 d=4 froz s=1414 quantum_vqc              auc=0.9421 f1=0.6496 ETA 0.3h
+[180/400] pneumoniamnist r=50 d=4 froz s=1414 matched_param_fullrank   auc=0.9389 f1=0.6377 ETA 0.3h
+[181/400] pneumoniamnist r=100 d=4 froz s=42 quantum_vqc              auc=0.9361 f1=0.8493 ETA 0.3h
+[182/400] pneumoniamnist r=100 d=4 froz s=42 matched_param_fullrank   auc=0.9391 f1=0.8626 ETA 0.3h
+[183/400] pneumoniamnist r=100 d=4 froz s=123 quantum_vqc              auc=0.9200 f1=0.7404 ETA 0.3h
+[184/400] pneumoniamnist r=100 d=4 froz s=123 matched_param_fullrank   auc=0.9123 f1=0.8344 ETA 0.3h
+[185/400] pneumoniamnist r=100 d=4 froz s=2026 quantum_vqc              auc=0.9228 f1=0.8229 ETA 0.3h
+[186/400] pneumoniamnist r=100 d=4 froz s=2026 matched_param_fullrank   auc=0.9184 f1=0.8277 ETA 0.3h
+[187/400] pneumoniamnist r=100 d=4 froz s=777 quantum_vqc              auc=0.9296 f1=0.8426 ETA 0.3h
+[188/400] pneumoniamnist r=100 d=4 froz s=777 matched_param_fullrank   auc=0.9248 f1=0.8253 ETA 0.3h
+[189/400] pneumoniamnist r=100 d=4 froz s=888 quantum_vqc              auc=0.9342 f1=0.8583 ETA 0.3h
+[190/400] pneumoniamnist r=100 d=4 froz s=888 matched_param_fullrank   auc=0.9341 f1=0.8136 ETA 0.3h
+[191/400] pneumoniamnist r=100 d=4 froz s=31337 quantum_vqc              auc=0.9403 f1=0.8634 ETA 0.3h
+[192/400] pneumoniamnist r=100 d=4 froz s=31337 matched_param_fullrank   auc=0.9388 f1=0.8650 ETA 0.3h
+[193/400] pneumoniamnist r=100 d=4 froz s=8 quantum_vqc              auc=0.9361 f1=0.8383 ETA 0.4h
+[194/400] pneumoniamnist r=100 d=4 froz s=8 matched_param_fullrank   auc=0.9360 f1=0.8246 ETA 0.4h
+[195/400] pneumoniamnist r=100 d=4 froz s=271828 quantum_vqc              auc=0.9576 f1=0.8788 ETA 0.4h
+[196/400] pneumoniamnist r=100 d=4 froz s=271828 matched_param_fullrank   auc=0.9541 f1=0.8432 ETA 0.4h
+[197/400] pneumoniamnist r=100 d=4 froz s=161803 quantum_vqc              auc=0.9291 f1=0.8382 ETA 0.4h
+[198/400] pneumoniamnist r=100 d=4 froz s=161803 matched_param_fullrank   auc=0.9271 f1=0.8045 ETA 0.4h
+[199/400] pneumoniamnist r=100 d=4 froz s=1414 quantum_vqc              auc=0.9459 f1=0.8602 ETA 0.4h
+[200/400] pneumoniamnist r=100 d=4 froz s=1414 matched_param_fullrank   auc=0.9420 f1=0.8542 ETA 0.4h
+[201/400] bloodmnist r=5 d=4 froz s=42 quantum_vqc              auc=0.8094 f1=0.3381 ETA 0.4h
+[202/400] bloodmnist r=5 d=4 froz s=42 matched_param_fullrank   auc=0.7648 f1=0.0387 ETA 0.4h
+[203/400] bloodmnist r=5 d=4 froz s=123 quantum_vqc              auc=0.7915 f1=0.3683 ETA 0.4h
+[204/400] bloodmnist r=5 d=4 froz s=123 matched_param_fullrank   auc=0.7791 f1=0.2379 ETA 0.4h
+[205/400] bloodmnist r=5 d=4 froz s=2026 quantum_vqc              auc=0.7966 f1=0.2332 ETA 0.4h
+[206/400] bloodmnist r=5 d=4 froz s=2026 matched_param_fullrank   auc=0.7664 f1=0.2730 ETA 0.4h
+[207/400] bloodmnist r=5 d=4 froz s=777 quantum_vqc              auc=0.7859 f1=0.2595 ETA 0.4h
+[208/400] bloodmnist r=5 d=4 froz s=777 matched_param_fullrank   auc=0.6461 f1=0.0931 ETA 0.4h
+[209/400] bloodmnist r=5 d=4 froz s=888 quantum_vqc              auc=0.8071 f1=0.1563 ETA 0.3h
+[210/400] bloodmnist r=5 d=4 froz s=888 matched_param_fullrank   auc=0.5148 f1=0.0407 ETA 0.3h
+[211/400] bloodmnist r=5 d=4 froz s=31337 quantum_vqc              auc=0.7851 f1=0.2490 ETA 0.3h
+[212/400] bloodmnist r=5 d=4 froz s=31337 matched_param_fullrank   auc=0.7210 f1=0.1262 ETA 0.3h
+[213/400] bloodmnist r=5 d=4 froz s=8 quantum_vqc              auc=0.8203 f1=0.2777 ETA 0.3h
+[214/400] bloodmnist r=5 d=4 froz s=8 matched_param_fullrank   auc=0.8030 f1=0.3088 ETA 0.3h
+[215/400] bloodmnist r=5 d=4 froz s=271828 quantum_vqc              auc=0.8783 f1=0.4581 ETA 0.3h
+[216/400] bloodmnist r=5 d=4 froz s=271828 matched_param_fullrank   auc=0.7810 f1=0.2892 ETA 0.3h
+[217/400] bloodmnist r=5 d=4 froz s=161803 quantum_vqc              auc=0.7493 f1=0.1251 ETA 0.3h
+[218/400] bloodmnist r=5 d=4 froz s=161803 matched_param_fullrank   auc=0.6269 f1=0.0790 ETA 0.3h
+[219/400] bloodmnist r=5 d=4 froz s=1414 quantum_vqc              auc=0.8428 f1=0.3385 ETA 0.3h
+[220/400] bloodmnist r=5 d=4 froz s=1414 matched_param_fullrank   auc=0.8256 f1=0.3385 ETA 0.3h
+[221/400] bloodmnist r=10 d=4 froz s=42 quantum_vqc              auc=0.8273 f1=0.3982 ETA 0.3h
+[222/400] bloodmnist r=10 d=4 froz s=42 matched_param_fullrank   auc=0.8501 f1=0.4101 ETA 0.3h
+[223/400] bloodmnist r=10 d=4 froz s=123 quantum_vqc              auc=0.8766 f1=0.4633 ETA 0.3h
+[224/400] bloodmnist r=10 d=4 froz s=123 matched_param_fullrank   auc=0.8779 f1=0.4337 ETA 0.3h
+[225/400] bloodmnist r=10 d=4 froz s=2026 quantum_vqc              auc=0.8375 f1=0.2936 ETA 0.3h
+[226/400] bloodmnist r=10 d=4 froz s=2026 matched_param_fullrank   auc=0.8741 f1=0.4771 ETA 0.3h
+[227/400] bloodmnist r=10 d=4 froz s=777 quantum_vqc              auc=0.8203 f1=0.3166 ETA 0.3h
+[228/400] bloodmnist r=10 d=4 froz s=777 matched_param_fullrank   auc=0.7575 f1=0.2782 ETA 0.3h
+[229/400] bloodmnist r=10 d=4 froz s=888 quantum_vqc              auc=0.8601 f1=0.4469 ETA 0.3h
+[230/400] bloodmnist r=10 d=4 froz s=888 matched_param_fullrank   auc=0.8013 f1=0.4245 ETA 0.3h
+[231/400] bloodmnist r=10 d=4 froz s=31337 quantum_vqc              auc=0.8311 f1=0.4005 ETA 0.3h
+[232/400] bloodmnist r=10 d=4 froz s=31337 matched_param_fullrank   auc=0.8410 f1=0.4047 ETA 0.3h
+[233/400] bloodmnist r=10 d=4 froz s=8 quantum_vqc              auc=0.8208 f1=0.3257 ETA 0.3h
+[234/400] bloodmnist r=10 d=4 froz s=8 matched_param_fullrank   auc=0.8763 f1=0.4886 ETA 0.3h
+[235/400] bloodmnist r=10 d=4 froz s=271828 quantum_vqc              auc=0.8778 f1=0.4463 ETA 0.3h
+[236/400] bloodmnist r=10 d=4 froz s=271828 matched_param_fullrank   auc=0.8492 f1=0.4157 ETA 0.3h
+[237/400] bloodmnist r=10 d=4 froz s=161803 quantum_vqc              auc=0.8113 f1=0.3221 ETA 0.3h
+[238/400] bloodmnist r=10 d=4 froz s=161803 matched_param_fullrank   auc=0.8211 f1=0.3911 ETA 0.3h
+[239/400] bloodmnist r=10 d=4 froz s=1414 quantum_vqc              auc=0.8386 f1=0.3156 ETA 0.3h
+[240/400] bloodmnist r=10 d=4 froz s=1414 matched_param_fullrank   auc=0.8718 f1=0.4753 ETA 0.3h
+[241/400] bloodmnist r=20 d=4 froz s=42 quantum_vqc              auc=0.8900 f1=0.5164 ETA 0.3h
+[242/400] bloodmnist r=20 d=4 froz s=42 matched_param_fullrank   auc=0.9035 f1=0.5327 ETA 0.3h
+[243/400] bloodmnist r=20 d=4 froz s=123 quantum_vqc              auc=0.8419 f1=0.3550 ETA 0.3h
+[244/400] bloodmnist r=20 d=4 froz s=123 matched_param_fullrank   auc=0.8976 f1=0.4870 ETA 0.3h
+[245/400] bloodmnist r=20 d=4 froz s=2026 quantum_vqc              auc=0.8379 f1=0.3259 ETA 0.3h
+[246/400] bloodmnist r=20 d=4 froz s=2026 matched_param_fullrank   auc=0.9144 f1=0.5840 ETA 0.3h
+[247/400] bloodmnist r=20 d=4 froz s=777 quantum_vqc              auc=0.8533 f1=0.4125 ETA 0.3h
+[248/400] bloodmnist r=20 d=4 froz s=777 matched_param_fullrank   auc=0.8537 f1=0.3259 ETA 0.3h
+[249/400] bloodmnist r=20 d=4 froz s=888 quantum_vqc              auc=0.9066 f1=0.5584 ETA 0.3h
+[250/400] bloodmnist r=20 d=4 froz s=888 matched_param_fullrank   auc=0.8898 f1=0.5357 ETA 0.3h
+[251/400] bloodmnist r=20 d=4 froz s=31337 quantum_vqc              auc=0.8661 f1=0.4338 ETA 0.3h
+[252/400] bloodmnist r=20 d=4 froz s=31337 matched_param_fullrank   auc=0.8548 f1=0.2799 ETA 0.3h
+[253/400] bloodmnist r=20 d=4 froz s=8 quantum_vqc              auc=0.8453 f1=0.4004 ETA 0.3h
+[254/400] bloodmnist r=20 d=4 froz s=8 matched_param_fullrank   auc=0.8865 f1=0.5131 ETA 0.3h
+[255/400] bloodmnist r=20 d=4 froz s=271828 quantum_vqc              auc=0.8907 f1=0.5199 ETA 0.3h
+[256/400] bloodmnist r=20 d=4 froz s=271828 matched_param_fullrank   auc=0.8748 f1=0.4828 ETA 0.3h
+[257/400] bloodmnist r=20 d=4 froz s=161803 quantum_vqc              auc=0.8992 f1=0.5256 ETA 0.3h
+[258/400] bloodmnist r=20 d=4 froz s=161803 matched_param_fullrank   auc=0.8393 f1=0.2771 ETA 0.3h
+[259/400] bloodmnist r=20 d=4 froz s=1414 quantum_vqc              auc=0.8636 f1=0.4333 ETA 0.3h
+[260/400] bloodmnist r=20 d=4 froz s=1414 matched_param_fullrank   auc=0.8952 f1=0.5308 ETA 0.3h
+[261/400] bloodmnist r=50 d=4 froz s=42 quantum_vqc              auc=0.9236 f1=0.5779 ETA 0.3h
+[262/400] bloodmnist r=50 d=4 froz s=42 matched_param_fullrank   auc=0.9386 f1=0.6590 ETA 0.3h
+[263/400] bloodmnist r=50 d=4 froz s=123 quantum_vqc              auc=0.8782 f1=0.4392 ETA 0.3h
+[264/400] bloodmnist r=50 d=4 froz s=123 matched_param_fullrank   auc=0.9112 f1=0.5803 ETA 0.3h
+[265/400] bloodmnist r=50 d=4 froz s=2026 quantum_vqc              auc=0.8877 f1=0.5408 ETA 0.3h
+[266/400] bloodmnist r=50 d=4 froz s=2026 matched_param_fullrank   auc=0.9182 f1=0.5815 ETA 0.3h
+[267/400] bloodmnist r=50 d=4 froz s=777 quantum_vqc              auc=0.9314 f1=0.5971 ETA 0.3h
+[268/400] bloodmnist r=50 d=4 froz s=777 matched_param_fullrank   auc=0.9341 f1=0.6331 ETA 0.3h
+[269/400] bloodmnist r=50 d=4 froz s=888 quantum_vqc              auc=0.8992 f1=0.5435 ETA 0.3h
+[270/400] bloodmnist r=50 d=4 froz s=888 matched_param_fullrank   auc=0.8608 f1=0.4102 ETA 0.3h
+[271/400] bloodmnist r=50 d=4 froz s=31337 quantum_vqc              auc=0.9353 f1=0.6307 ETA 0.3h
+[272/400] bloodmnist r=50 d=4 froz s=31337 matched_param_fullrank   auc=0.8609 f1=0.4334 ETA 0.3h
+[273/400] bloodmnist r=50 d=4 froz s=8 quantum_vqc              auc=0.9181 f1=0.5943 ETA 0.3h
+[274/400] bloodmnist r=50 d=4 froz s=8 matched_param_fullrank   auc=0.9332 f1=0.6580 ETA 0.3h
+[275/400] bloodmnist r=50 d=4 froz s=271828 quantum_vqc              auc=0.8917 f1=0.5264 ETA 0.3h
+[276/400] bloodmnist r=50 d=4 froz s=271828 matched_param_fullrank   auc=0.9354 f1=0.6230 ETA 0.3h
+[277/400] bloodmnist r=50 d=4 froz s=161803 quantum_vqc              auc=0.9152 f1=0.5774 ETA 0.3h
+[278/400] bloodmnist r=50 d=4 froz s=161803 matched_param_fullrank   auc=0.9125 f1=0.5731 ETA 0.3h
+[279/400] bloodmnist r=50 d=4 froz s=1414 quantum_vqc              auc=0.8808 f1=0.4852 ETA 0.3h
+[280/400] bloodmnist r=50 d=4 froz s=1414 matched_param_fullrank   auc=0.9354 f1=0.6617 ETA 0.3h
+[281/400] bloodmnist r=100 d=4 froz s=42 quantum_vqc              auc=0.9273 f1=0.6006 ETA 0.3h
+[282/400] bloodmnist r=100 d=4 froz s=42 matched_param_fullrank   auc=0.9498 f1=0.6819 ETA 0.3h
+[283/400] bloodmnist r=100 d=4 froz s=123 quantum_vqc              auc=0.9326 f1=0.6274 ETA 0.4h
+[284/400] bloodmnist r=100 d=4 froz s=123 matched_param_fullrank   auc=0.9537 f1=0.6844 ETA 0.3h
+[285/400] bloodmnist r=100 d=4 froz s=2026 quantum_vqc              auc=0.9150 f1=0.5666 ETA 0.4h
+[286/400] bloodmnist r=100 d=4 froz s=2026 matched_param_fullrank   auc=0.9257 f1=0.6032 ETA 0.4h
+[287/400] bloodmnist r=100 d=4 froz s=777 quantum_vqc              auc=0.9330 f1=0.6396 ETA 0.4h
+[288/400] bloodmnist r=100 d=4 froz s=777 matched_param_fullrank   auc=0.9410 f1=0.6485 ETA 0.4h
+[289/400] bloodmnist r=100 d=4 froz s=888 quantum_vqc              auc=0.9309 f1=0.6209 ETA 0.4h
+[290/400] bloodmnist r=100 d=4 froz s=888 matched_param_fullrank   auc=0.9142 f1=0.5594 ETA 0.4h
+[291/400] bloodmnist r=100 d=4 froz s=31337 quantum_vqc              auc=0.9107 f1=0.5681 ETA 0.4h
+[292/400] bloodmnist r=100 d=4 froz s=31337 matched_param_fullrank   auc=0.9291 f1=0.6125 ETA 0.4h
+[293/400] bloodmnist r=100 d=4 froz s=8 quantum_vqc              auc=0.9330 f1=0.6348 ETA 0.4h
+[294/400] bloodmnist r=100 d=4 froz s=8 matched_param_fullrank   auc=0.9535 f1=0.6953 ETA 0.4h
+[295/400] bloodmnist r=100 d=4 froz s=271828 quantum_vqc              auc=0.9069 f1=0.5455 ETA 0.4h
+[296/400] bloodmnist r=100 d=4 froz s=271828 matched_param_fullrank   auc=0.9039 f1=0.5521 ETA 0.4h
+[297/400] bloodmnist r=100 d=4 froz s=161803 quantum_vqc              auc=0.9219 f1=0.6198 ETA 0.4h
+[298/400] bloodmnist r=100 d=4 froz s=161803 matched_param_fullrank   auc=0.9515 f1=0.7032 ETA 0.4h
+[299/400] bloodmnist r=100 d=4 froz s=1414 quantum_vqc              auc=0.9253 f1=0.5865 ETA 0.4h
+[300/400] bloodmnist r=100 d=4 froz s=1414 matched_param_fullrank   auc=0.9507 f1=0.7104 ETA 0.4h
+[301/400] pathmnist r=5 d=4 froz s=42 quantum_vqc              auc=0.8818 f1=0.3900 ETA 0.4h
+[302/400] pathmnist r=5 d=4 froz s=42 matched_param_fullrank   auc=0.8207 f1=0.4107 ETA 0.4h
+[303/400] pathmnist r=5 d=4 froz s=123 quantum_vqc              auc=0.8402 f1=0.3754 ETA 0.4h
+[304/400] pathmnist r=5 d=4 froz s=123 matched_param_fullrank   auc=0.8411 f1=0.4344 ETA 0.4h
+[305/400] pathmnist r=5 d=4 froz s=2026 quantum_vqc              auc=0.8330 f1=0.4168 ETA 0.4h
+[306/400] pathmnist r=5 d=4 froz s=2026 matched_param_fullrank   auc=0.8883 f1=0.4903 ETA 0.4h
+[307/400] pathmnist r=5 d=4 froz s=777 quantum_vqc              auc=0.8198 f1=0.1740 ETA 0.4h
+[308/400] pathmnist r=5 d=4 froz s=777 matched_param_fullrank   auc=0.8719 f1=0.4855 ETA 0.4h
+[309/400] pathmnist r=5 d=4 froz s=888 quantum_vqc              auc=0.8292 f1=0.4111 ETA 0.3h
+[310/400] pathmnist r=5 d=4 froz s=888 matched_param_fullrank   auc=0.8663 f1=0.4494 ETA 0.3h
+[311/400] pathmnist r=5 d=4 froz s=31337 quantum_vqc              auc=0.8719 f1=0.3781 ETA 0.3h
+[312/400] pathmnist r=5 d=4 froz s=31337 matched_param_fullrank   auc=0.8947 f1=0.5792 ETA 0.3h
+[313/400] pathmnist r=5 d=4 froz s=8 quantum_vqc              auc=0.8671 f1=0.4095 ETA 0.3h
+[314/400] pathmnist r=5 d=4 froz s=8 matched_param_fullrank   auc=0.8932 f1=0.5452 ETA 0.3h
+[315/400] pathmnist r=5 d=4 froz s=271828 quantum_vqc              auc=0.7882 f1=0.1286 ETA 0.3h
+[316/400] pathmnist r=5 d=4 froz s=271828 matched_param_fullrank   auc=0.8008 f1=0.3595 ETA 0.3h
+[317/400] pathmnist r=5 d=4 froz s=161803 quantum_vqc              auc=0.7817 f1=0.2288 ETA 0.3h
+[318/400] pathmnist r=5 d=4 froz s=161803 matched_param_fullrank   auc=0.7453 f1=0.2436 ETA 0.3h
+[319/400] pathmnist r=5 d=4 froz s=1414 quantum_vqc              auc=0.7918 f1=0.3422 ETA 0.3h
+[320/400] pathmnist r=5 d=4 froz s=1414 matched_param_fullrank   auc=0.9101 f1=0.5758 ETA 0.3h
+[321/400] pathmnist r=10 d=4 froz s=42 quantum_vqc              auc=0.8888 f1=0.4243 ETA 0.3h
+[322/400] pathmnist r=10 d=4 froz s=42 matched_param_fullrank   auc=0.9244 f1=0.6312 ETA 0.3h
+[323/400] pathmnist r=10 d=4 froz s=123 quantum_vqc              auc=0.9029 f1=0.5646 ETA 0.3h
+[324/400] pathmnist r=10 d=4 froz s=123 matched_param_fullrank   auc=0.9059 f1=0.5628 ETA 0.3h
+[325/400] pathmnist r=10 d=4 froz s=2026 quantum_vqc              auc=0.8817 f1=0.5205 ETA 0.3h
+[326/400] pathmnist r=10 d=4 froz s=2026 matched_param_fullrank   auc=0.9517 f1=0.6659 ETA 0.3h
+[327/400] pathmnist r=10 d=4 froz s=777 quantum_vqc              auc=0.8637 f1=0.4897 ETA 0.3h
+[328/400] pathmnist r=10 d=4 froz s=777 matched_param_fullrank   auc=0.9265 f1=0.6175 ETA 0.3h
+[329/400] pathmnist r=10 d=4 froz s=888 quantum_vqc              auc=0.8493 f1=0.4395 ETA 0.3h
+[330/400] pathmnist r=10 d=4 froz s=888 matched_param_fullrank   auc=0.8604 f1=0.4484 ETA 0.3h
+[331/400] pathmnist r=10 d=4 froz s=31337 quantum_vqc              auc=0.8848 f1=0.5030 ETA 0.3h
+[332/400] pathmnist r=10 d=4 froz s=31337 matched_param_fullrank   auc=0.7999 f1=0.2681 ETA 0.3h
+[333/400] pathmnist r=10 d=4 froz s=8 quantum_vqc              auc=0.8988 f1=0.5040 ETA 0.3h
+[334/400] pathmnist r=10 d=4 froz s=8 matched_param_fullrank   auc=0.9368 f1=0.6182 ETA 0.2h
+[335/400] pathmnist r=10 d=4 froz s=271828 quantum_vqc              auc=0.8754 f1=0.4638 ETA 0.2h
+[336/400] pathmnist r=10 d=4 froz s=271828 matched_param_fullrank   auc=0.8770 f1=0.5244 ETA 0.2h
+[337/400] pathmnist r=10 d=4 froz s=161803 quantum_vqc              auc=0.8670 f1=0.4145 ETA 0.2h
+[338/400] pathmnist r=10 d=4 froz s=161803 matched_param_fullrank   auc=0.8306 f1=0.3698 ETA 0.2h
+[339/400] pathmnist r=10 d=4 froz s=1414 quantum_vqc              auc=0.8448 f1=0.4487 ETA 0.2h
+[340/400] pathmnist r=10 d=4 froz s=1414 matched_param_fullrank   auc=0.9099 f1=0.6099 ETA 0.2h
+[341/400] pathmnist r=20 d=4 froz s=42 quantum_vqc              auc=0.9012 f1=0.4539 ETA 0.2h
+[342/400] pathmnist r=20 d=4 froz s=42 matched_param_fullrank   auc=0.9212 f1=0.6476 ETA 0.2h
+[343/400] pathmnist r=20 d=4 froz s=123 quantum_vqc              auc=0.8953 f1=0.5737 ETA 0.2h
+[344/400] pathmnist r=20 d=4 froz s=123 matched_param_fullrank   auc=0.9037 f1=0.6026 ETA 0.2h
+[345/400] pathmnist r=20 d=4 froz s=2026 quantum_vqc              auc=0.9251 f1=0.5998 ETA 0.2h
+[346/400] pathmnist r=20 d=4 froz s=2026 matched_param_fullrank   auc=0.9515 f1=0.6745 ETA 0.2h
+[347/400] pathmnist r=20 d=4 froz s=777 quantum_vqc              auc=0.8966 f1=0.5582 ETA 0.2h
+[348/400] pathmnist r=20 d=4 froz s=777 matched_param_fullrank   auc=0.9394 f1=0.5971 ETA 0.2h
+[349/400] pathmnist r=20 d=4 froz s=888 quantum_vqc              auc=0.8689 f1=0.4261 ETA 0.2h
+[350/400] pathmnist r=20 d=4 froz s=888 matched_param_fullrank   auc=0.8849 f1=0.5317 ETA 0.2h
+[351/400] pathmnist r=20 d=4 froz s=31337 quantum_vqc              auc=0.9116 f1=0.5204 ETA 0.2h
+[352/400] pathmnist r=20 d=4 froz s=31337 matched_param_fullrank   auc=0.8602 f1=0.3691 ETA 0.2h
+[353/400] pathmnist r=20 d=4 froz s=8 quantum_vqc              auc=0.9001 f1=0.5737 ETA 0.2h
+[354/400] pathmnist r=20 d=4 froz s=8 matched_param_fullrank   auc=0.9619 f1=0.7149 ETA 0.2h
+[355/400] pathmnist r=20 d=4 froz s=271828 quantum_vqc              auc=0.9031 f1=0.5346 ETA 0.2h
+[356/400] pathmnist r=20 d=4 froz s=271828 matched_param_fullrank   auc=0.9287 f1=0.6198 ETA 0.2h
+[357/400] pathmnist r=20 d=4 froz s=161803 quantum_vqc              auc=0.8873 f1=0.5100 ETA 0.2h
+[358/400] pathmnist r=20 d=4 froz s=161803 matched_param_fullrank   auc=0.9299 f1=0.6013 ETA 0.2h
+[359/400] pathmnist r=20 d=4 froz s=1414 quantum_vqc              auc=0.9165 f1=0.5809 ETA 0.2h
+[360/400] pathmnist r=20 d=4 froz s=1414 matched_param_fullrank   auc=0.9510 f1=0.7038 ETA 0.2h
+[361/400] pathmnist r=50 d=4 froz s=42 quantum_vqc              auc=0.9196 f1=0.5632 ETA 0.2h
+[362/400] pathmnist r=50 d=4 froz s=42 matched_param_fullrank   auc=0.9384 f1=0.6487 ETA 0.1h
+[363/400] pathmnist r=50 d=4 froz s=123 quantum_vqc              auc=0.9643 f1=0.7265 ETA 0.1h
+[364/400] pathmnist r=50 d=4 froz s=123 matched_param_fullrank   auc=0.9656 f1=0.7338 ETA 0.1h
+[365/400] pathmnist r=50 d=4 froz s=2026 quantum_vqc              auc=0.9406 f1=0.6462 ETA 0.1h
+[366/400] pathmnist r=50 d=4 froz s=2026 matched_param_fullrank   auc=0.9354 f1=0.6163 ETA 0.1h
+[367/400] pathmnist r=50 d=4 froz s=777 quantum_vqc              auc=0.9087 f1=0.5570 ETA 0.1h
+[368/400] pathmnist r=50 d=4 froz s=777 matched_param_fullrank   auc=0.9408 f1=0.6602 ETA 0.1h
+[369/400] pathmnist r=50 d=4 froz s=888 quantum_vqc              auc=0.9540 f1=0.6744 ETA 0.1h
+[370/400] pathmnist r=50 d=4 froz s=888 matched_param_fullrank   auc=0.9271 f1=0.6377 ETA 0.1h
+[371/400] pathmnist r=50 d=4 froz s=31337 quantum_vqc              auc=0.9459 f1=0.6583 ETA 0.1h
+[372/400] pathmnist r=50 d=4 froz s=31337 matched_param_fullrank   auc=0.9317 f1=0.6557 ETA 0.1h
+[373/400] pathmnist r=50 d=4 froz s=8 quantum_vqc              auc=0.9505 f1=0.6712 ETA 0.1h
+[374/400] pathmnist r=50 d=4 froz s=8 matched_param_fullrank   auc=0.9695 f1=0.7585 ETA 0.1h
+[375/400] pathmnist r=50 d=4 froz s=271828 quantum_vqc              auc=0.9346 f1=0.5930 ETA 0.1h
+[376/400] pathmnist r=50 d=4 froz s=271828 matched_param_fullrank   auc=0.9468 f1=0.6892 ETA 0.1h
+[377/400] pathmnist r=50 d=4 froz s=161803 quantum_vqc              auc=0.9350 f1=0.6438 ETA 0.1h
+[378/400] pathmnist r=50 d=4 froz s=161803 matched_param_fullrank   auc=0.9560 f1=0.6983 ETA 0.1h
+[379/400] pathmnist r=50 d=4 froz s=1414 quantum_vqc              auc=0.9068 f1=0.5606 ETA 0.1h
+[380/400] pathmnist r=50 d=4 froz s=1414 matched_param_fullrank   auc=0.9696 f1=0.7540 ETA 0.1h
+[381/400] pathmnist r=100 d=4 froz s=42 quantum_vqc              auc=0.9307 f1=0.6232 ETA 0.1h
+[382/400] pathmnist r=100 d=4 froz s=42 matched_param_fullrank   auc=0.9693 f1=0.7551 ETA 0.1h
+[383/400] pathmnist r=100 d=4 froz s=123 quantum_vqc              auc=0.9041 f1=0.5927 ETA 0.1h
+[384/400] pathmnist r=100 d=4 froz s=123 matched_param_fullrank   auc=0.9745 f1=0.7671 ETA 0.1h
+[385/400] pathmnist r=100 d=4 froz s=2026 quantum_vqc              auc=0.9549 f1=0.6874 ETA 0.1h
+[386/400] pathmnist r=100 d=4 froz s=2026 matched_param_fullrank   auc=0.9518 f1=0.7478 ETA 0.1h
+[387/400] pathmnist r=100 d=4 froz s=777 quantum_vqc              auc=0.9575 f1=0.6779 ETA 0.1h
+[388/400] pathmnist r=100 d=4 froz s=777 matched_param_fullrank   auc=0.9623 f1=0.7295 ETA 0.1h
+[389/400] pathmnist r=100 d=4 froz s=888 quantum_vqc              auc=0.9457 f1=0.6745 ETA 0.1h
+[390/400] pathmnist r=100 d=4 froz s=888 matched_param_fullrank   auc=0.9660 f1=0.7558 ETA 0.0h
+[391/400] pathmnist r=100 d=4 froz s=31337 quantum_vqc              auc=0.9503 f1=0.7077 ETA 0.0h
+[392/400] pathmnist r=100 d=4 froz s=31337 matched_param_fullrank   auc=0.9127 f1=0.6149 ETA 0.0h
+[393/400] pathmnist r=100 d=4 froz s=8 quantum_vqc              auc=0.9505 f1=0.6579 ETA 0.0h
+[394/400] pathmnist r=100 d=4 froz s=8 matched_param_fullrank   auc=0.9705 f1=0.7692 ETA 0.0h
+[395/400] pathmnist r=100 d=4 froz s=271828 quantum_vqc              auc=0.8893 f1=0.5943 ETA 0.0h
+[396/400] pathmnist r=100 d=4 froz s=271828 matched_param_fullrank   auc=0.9423 f1=0.6851 ETA 0.0h
+[397/400] pathmnist r=100 d=4 froz s=161803 quantum_vqc              auc=0.9337 f1=0.6189 ETA 0.0h
+[398/400] pathmnist r=100 d=4 froz s=161803 matched_param_fullrank   auc=0.9464 f1=0.6562 ETA 0.0h
+[399/400] pathmnist r=100 d=4 froz s=1414 quantum_vqc              auc=0.9587 f1=0.7045 ETA 0.0h
+[400/400] pathmnist r=100 d=4 froz s=1414 matched_param_fullrank   auc=0.9645 f1=0.7422 ETA 0.0h
+
+=== AUC by cell (mean +- sd over seeds) ===
+dataset           reg   d   encoder   matched_para    quantum_vqc
+------------------------------------------------------------------
+bloodmnist         10   4    frozen  0.8420+-0.037  0.8401+-0.022
+bloodmnist        100   4    frozen  0.9373+-0.017  0.9237+-0.009
+bloodmnist         20   4    frozen  0.8810+-0.023  0.8695+-0.024
+bloodmnist          5   4    frozen  0.7229+-0.092  0.8066+-0.033
+bloodmnist         50   4    frozen  0.9140+-0.028  0.9061+-0.020
+breastmnist        10   4    frozen  0.7004+-0.051  0.7136+-0.021
+breastmnist       100   4    frozen  0.8121+-0.025  0.8076+-0.028
+breastmnist        20   4    frozen  0.7260+-0.093  0.7362+-0.040
+breastmnist         5   4    frozen  0.6242+-0.080  0.6601+-0.069
+breastmnist        50   4    frozen  0.7568+-0.026  0.7631+-0.016
+pathmnist          10   4    frozen  0.8923+-0.047  0.8757+-0.019
+pathmnist         100   4    frozen  0.9560+-0.018  0.9375+-0.022
+pathmnist          20   4    frozen  0.9232+-0.030  0.9006+-0.015
+pathmnist           5   4    frozen  0.8533+-0.049  0.8305+-0.034
+pathmnist          50   4    frozen  0.9481+-0.015  0.9360+-0.018
+pneumoniamnist     10   4    frozen  0.8839+-0.066  0.9110+-0.018
+pneumoniamnist    100   4    frozen  0.9327+-0.012  0.9352+-0.010
+pneumoniamnist     20   4    frozen  0.9247+-0.008  0.9294+-0.006
+pneumoniamnist      5   4    frozen  0.8782+-0.094  0.9068+-0.013
+pneumoniamnist     50   4    frozen  0.9285+-0.007  0.9281+-0.007
+
+=== PRIMARY (Q1, efficiency at equal parameters): quantum_vqc - matched_param_fullrank (auc) ===
+Both arms have 24 head parameters and full rank at d=4.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+bloodmnist         10   4    frozen   -0.0019 [-0.0267,+0.0229]   10  no difference
+bloodmnist        100   4    frozen   -0.0137 [-0.0225,-0.0048]   10  matched_param_fullrank better
+bloodmnist         20   4    frozen   -0.0115 [-0.0366,+0.0136]   10  no difference
+bloodmnist          5   4    frozen   +0.0838 [+0.0303,+0.1373]   10  quantum_vqc better
+bloodmnist         50   4    frozen   -0.0079 [-0.0321,+0.0163]   10  no difference
+breastmnist        10   4    frozen   +0.0132 [-0.0112,+0.0376]   10  no difference
+breastmnist       100   4    frozen   -0.0045 [-0.0093,+0.0004]   10  no difference
+breastmnist        20   4    frozen   +0.0102 [-0.0449,+0.0652]   10  no difference
+breastmnist         5   4    frozen   +0.0359 [+0.0005,+0.0713]   10  quantum_vqc better
+breastmnist        50   4    frozen   +0.0063 [-0.0116,+0.0243]   10  no difference
+pathmnist          10   4    frozen   -0.0166 [-0.0470,+0.0138]   10  no difference
+pathmnist         100   4    frozen   -0.0185 [-0.0373,+0.0003]   10  no difference
+pathmnist          20   4    frozen   -0.0227 [-0.0414,-0.0039]   10  matched_param_fullrank better
+pathmnist           5   4    frozen   -0.0228 [-0.0537,+0.0081]   10  no difference
+pathmnist          50   4    frozen   -0.0121 [-0.0278,+0.0036]   10  no difference
+pneumoniamnist     10   4    frozen   +0.0272 [-0.0140,+0.0683]   10  no difference
+pneumoniamnist    100   4    frozen   +0.0025 [+0.0006,+0.0043]   10  quantum_vqc better
+pneumoniamnist     20   4    frozen   +0.0047 [-0.0001,+0.0096]   10  no difference
+pneumoniamnist      5   4    frozen   +0.0286 [-0.0325,+0.0896]   10  no difference
+pneumoniamnist     50   4    frozen   -0.0004 [-0.0024,+0.0016]   10  no difference
+
+=== SECONDARY (Q2, dequantization): quantum_vqc - fourier_rff (auc) ===
+Basis-matched, NOT parameter-matched (324 vs 24). Asks whether
+the VQC exploits its own function class as well as a direct fit.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== DIAGNOSTIC (rank-limited control): quantum_vqc - matched_param (auc) ===
+matched_param is rank-limited to width 3; superseded by
+matched_param_fullrank. Retained for reproducibility only.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== Q3: frozen - adaptive, per arm (auc) ===
+The premise check showed compression is nearly free WITH an adaptive
+encoder. A large negative delta here means the encoder was absorbing
+the constraint - the reframed 'Latent Reshaping' claim.
+dataset           reg   d                      arm     delta    n
+------------------------------------------------------------------------
+
+=== Trainable capacity by component ===
+If the head's share is small, the experiment is not isolating the head.
+
+arm                        d bottleneck   bneck   head   clf   total  head %
+------------------------------------------------------------------------------
+matched_param_fullrank     4    learned    1028     24    10    1062    2.3%
+quantum_vqc                4    learned    1028     24    10    1062    2.3%
+
+=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===
+frozen: backbone must be '-' (no gradient reaches it).
+adaptive: backbone must be non-zero for EVERY arm, quantum included.
+
+arm                        encoder  runs    backbone  bottleneck        head  verdict
+--------------------------------------------------------------------------------------------
+matched_param_fullrank      frozen   200           -      1.4179      0.4351  OK
+quantum_vqc                 frozen   200           -      0.9951      0.2659  OK
+
+Predictions: 400/400 claimed files are retrievable on disk; 0 shards predate prediction saving.
+
+DIAGNOSTIC OUTPUT - every interval above is a normal approximation
+over seeds. Confirmatory statistics come from 04_statistical_analysis.py.
+
+Trainable capacity at d=4, bottleneck=learned:
+  quantum_vqc              bottleneck= 1028 head=  24 clf= 10 total= 1062 head=2.3%
+  matched_param_fullrank   bottleneck= 1028 head=  24 clf= 10 total= 1062 head=2.3%
+
+Experiment 1 | 400 cells | ns=19_angle | device=cuda | sha=842179e4
+  augment=False L=2 use_tanh=True bottleneck=learned angle_scale=3.1416 save_predictions=True
+[1/400] breastmnist r=5 d=4 froz s=42 quantum_vqc              auc=0.6784 f1=0.2121 ETA 0.5h
+[2/400] breastmnist r=5 d=4 froz s=42 matched_param_fullrank   auc=0.5744 f1=0.4222 ETA 0.3h
+[3/400] breastmnist r=5 d=4 froz s=123 quantum_vqc              auc=0.6378 f1=0.3537 ETA 0.3h
+[4/400] breastmnist r=5 d=4 froz s=123 matched_param_fullrank   auc=0.7233 f1=0.6490 ETA 0.2h
+[5/400] breastmnist r=5 d=4 froz s=2026 quantum_vqc              auc=0.6489 f1=0.5889 ETA 0.2h
+[6/400] breastmnist r=5 d=4 froz s=2026 matched_param_fullrank   auc=0.6439 f1=0.4222 ETA 0.2h
+[7/400] breastmnist r=5 d=4 froz s=777 quantum_vqc              auc=0.4944 f1=0.4222 ETA 0.2h
+[8/400] breastmnist r=5 d=4 froz s=777 matched_param_fullrank   auc=0.5758 f1=0.4728 ETA 0.2h
+[9/400] breastmnist r=5 d=4 froz s=888 quantum_vqc              auc=0.7325 f1=0.6650 ETA 0.2h
+[10/400] breastmnist r=5 d=4 froz s=888 matched_param_fullrank   auc=0.7157 f1=0.6581 ETA 0.2h
+[11/400] breastmnist r=5 d=4 froz s=31337 quantum_vqc              auc=0.7034 f1=0.6017 ETA 0.2h
+[12/400] breastmnist r=5 d=4 froz s=31337 matched_param_fullrank   auc=0.5986 f1=0.2121 ETA 0.2h
+[13/400] breastmnist r=5 d=4 froz s=8 quantum_vqc              auc=0.6172 f1=0.5572 ETA 0.2h
+[14/400] breastmnist r=5 d=4 froz s=8 matched_param_fullrank   auc=0.3904 f1=0.2219 ETA 0.2h
+[15/400] breastmnist r=5 d=4 froz s=271828 quantum_vqc              auc=0.6372 f1=0.5948 ETA 0.2h
+[16/400] breastmnist r=5 d=4 froz s=271828 matched_param_fullrank   auc=0.6218 f1=0.5460 ETA 0.2h
+[17/400] breastmnist r=5 d=4 froz s=161803 quantum_vqc              auc=0.6970 f1=0.4222 ETA 0.2h
+[18/400] breastmnist r=5 d=4 froz s=161803 matched_param_fullrank   auc=0.7237 f1=0.6226 ETA 0.2h
+[19/400] breastmnist r=5 d=4 froz s=1414 quantum_vqc              auc=0.6157 f1=0.5504 ETA 0.2h
+[20/400] breastmnist r=5 d=4 froz s=1414 matched_param_fullrank   auc=0.6216 f1=0.3910 ETA 0.2h
+[21/400] breastmnist r=10 d=4 froz s=42 quantum_vqc              auc=0.6675 f1=0.2121 ETA 0.2h
+[22/400] breastmnist r=10 d=4 froz s=42 matched_param_fullrank   auc=0.5695 f1=0.4222 ETA 0.2h
+[23/400] breastmnist r=10 d=4 froz s=123 quantum_vqc              auc=0.7393 f1=0.6340 ETA 0.2h
+[24/400] breastmnist r=10 d=4 froz s=123 matched_param_fullrank   auc=0.7299 f1=0.6239 ETA 0.2h
+[25/400] breastmnist r=10 d=4 froz s=2026 quantum_vqc              auc=0.6936 f1=0.6565 ETA 0.2h
+[26/400] breastmnist r=10 d=4 froz s=2026 matched_param_fullrank   auc=0.6416 f1=0.5735 ETA 0.2h
+[27/400] breastmnist r=10 d=4 froz s=777 quantum_vqc              auc=0.7020 f1=0.6692 ETA 0.2h
+[28/400] breastmnist r=10 d=4 froz s=777 matched_param_fullrank   auc=0.7116 f1=0.6806 ETA 0.2h
+[29/400] breastmnist r=10 d=4 froz s=888 quantum_vqc              auc=0.7143 f1=0.6430 ETA 0.2h
+[30/400] breastmnist r=10 d=4 froz s=888 matched_param_fullrank   auc=0.7101 f1=0.6238 ETA 0.2h
+[31/400] breastmnist r=10 d=4 froz s=31337 quantum_vqc              auc=0.7120 f1=0.5893 ETA 0.2h
+[32/400] breastmnist r=10 d=4 froz s=31337 matched_param_fullrank   auc=0.5944 f1=0.2121 ETA 0.2h
+[33/400] breastmnist r=10 d=4 froz s=8 quantum_vqc              auc=0.7444 f1=0.6909 ETA 0.2h
+[34/400] breastmnist r=10 d=4 froz s=8 matched_param_fullrank   auc=0.7832 f1=0.2121 ETA 0.2h
+[35/400] breastmnist r=10 d=4 froz s=271828 quantum_vqc              auc=0.7034 f1=0.6213 ETA 0.2h
+[36/400] breastmnist r=10 d=4 froz s=271828 matched_param_fullrank   auc=0.7325 f1=0.6674 ETA 0.2h
+[37/400] breastmnist r=10 d=4 froz s=161803 quantum_vqc              auc=0.7481 f1=0.7155 ETA 0.2h
+[38/400] breastmnist r=10 d=4 froz s=161803 matched_param_fullrank   auc=0.7310 f1=0.6226 ETA 0.2h
+[39/400] breastmnist r=10 d=4 froz s=1414 quantum_vqc              auc=0.6861 f1=0.6158 ETA 0.2h
+[40/400] breastmnist r=10 d=4 froz s=1414 matched_param_fullrank   auc=0.6635 f1=0.5940 ETA 0.2h
+[41/400] breastmnist r=20 d=4 froz s=42 quantum_vqc              auc=0.7868 f1=0.6967 ETA 0.2h
+[42/400] breastmnist r=20 d=4 froz s=42 matched_param_fullrank   auc=0.6324 f1=0.5341 ETA 0.2h
+[43/400] breastmnist r=20 d=4 froz s=123 quantum_vqc              auc=0.7460 f1=0.4993 ETA 0.2h
+[44/400] breastmnist r=20 d=4 froz s=123 matched_param_fullrank   auc=0.7723 f1=0.6400 ETA 0.2h
+[45/400] breastmnist r=20 d=4 froz s=2026 quantum_vqc              auc=0.7473 f1=0.6582 ETA 0.2h
+[46/400] breastmnist r=20 d=4 froz s=2026 matched_param_fullrank   auc=0.7038 f1=0.4222 ETA 0.2h
+[47/400] breastmnist r=20 d=4 froz s=777 quantum_vqc              auc=0.7274 f1=0.6468 ETA 0.2h
+[48/400] breastmnist r=20 d=4 froz s=777 matched_param_fullrank   auc=0.7822 f1=0.3874 ETA 0.2h
+[49/400] breastmnist r=20 d=4 froz s=888 quantum_vqc              auc=0.6867 f1=0.6120 ETA 0.2h
+[50/400] breastmnist r=20 d=4 froz s=888 matched_param_fullrank   auc=0.6673 f1=0.4222 ETA 0.2h
+[51/400] breastmnist r=20 d=4 froz s=31337 quantum_vqc              auc=0.7744 f1=0.6076 ETA 0.3h
+[52/400] breastmnist r=20 d=4 froz s=31337 matched_param_fullrank   auc=0.7690 f1=0.7094 ETA 0.2h
+[53/400] breastmnist r=20 d=4 froz s=8 quantum_vqc              auc=0.8097 f1=0.7034 ETA 0.3h
+[54/400] breastmnist r=20 d=4 froz s=8 matched_param_fullrank   auc=0.8124 f1=0.6329 ETA 0.3h
+[55/400] breastmnist r=20 d=4 froz s=271828 quantum_vqc              auc=0.5708 f1=0.2121 ETA 0.3h
+[56/400] breastmnist r=20 d=4 froz s=271828 matched_param_fullrank   auc=0.6773 f1=0.5422 ETA 0.3h
+[57/400] breastmnist r=20 d=4 froz s=161803 quantum_vqc              auc=0.7517 f1=0.2121 ETA 0.3h
+[58/400] breastmnist r=20 d=4 froz s=161803 matched_param_fullrank   auc=0.7561 f1=0.6080 ETA 0.3h
+[59/400] breastmnist r=20 d=4 froz s=1414 quantum_vqc              auc=0.7828 f1=0.5987 ETA 0.3h
+[60/400] breastmnist r=20 d=4 froz s=1414 matched_param_fullrank   auc=0.7857 f1=0.6811 ETA 0.3h
+[61/400] breastmnist r=50 d=4 froz s=42 quantum_vqc              auc=0.8124 f1=0.7039 ETA 0.3h
+[62/400] breastmnist r=50 d=4 froz s=42 matched_param_fullrank   auc=0.7673 f1=0.5887 ETA 0.3h
+[63/400] breastmnist r=50 d=4 froz s=123 quantum_vqc              auc=0.5589 f1=0.2597 ETA 0.3h
+[64/400] breastmnist r=50 d=4 froz s=123 matched_param_fullrank   auc=0.7962 f1=0.6638 ETA 0.3h
+[65/400] breastmnist r=50 d=4 froz s=2026 quantum_vqc              auc=0.7588 f1=0.5969 ETA 0.3h
+[66/400] breastmnist r=50 d=4 froz s=2026 matched_param_fullrank   auc=0.7199 f1=0.4222 ETA 0.3h
+[67/400] breastmnist r=50 d=4 froz s=777 quantum_vqc              auc=0.7454 f1=0.6974 ETA 0.3h
+[68/400] breastmnist r=50 d=4 froz s=777 matched_param_fullrank   auc=0.7598 f1=0.7271 ETA 0.3h
+[69/400] breastmnist r=50 d=4 froz s=888 quantum_vqc              auc=0.7575 f1=0.6695 ETA 0.3h
+[70/400] breastmnist r=50 d=4 froz s=888 matched_param_fullrank   auc=0.7464 f1=0.4470 ETA 0.3h
+[71/400] breastmnist r=50 d=4 froz s=31337 quantum_vqc              auc=0.7594 f1=0.6690 ETA 0.3h
+[72/400] breastmnist r=50 d=4 froz s=31337 matched_param_fullrank   auc=0.7822 f1=0.6884 ETA 0.3h
+[73/400] breastmnist r=50 d=4 froz s=8 quantum_vqc              auc=0.7256 f1=0.6335 ETA 0.3h
+[74/400] breastmnist r=50 d=4 froz s=8 matched_param_fullrank   auc=0.6926 f1=0.2219 ETA 0.3h
+[75/400] breastmnist r=50 d=4 froz s=271828 quantum_vqc              auc=0.7239 f1=0.4222 ETA 0.3h
+[76/400] breastmnist r=50 d=4 froz s=271828 matched_param_fullrank   auc=0.7414 f1=0.4222 ETA 0.3h
+[77/400] breastmnist r=50 d=4 froz s=161803 quantum_vqc              auc=0.7907 f1=0.6101 ETA 0.3h
+[78/400] breastmnist r=50 d=4 froz s=161803 matched_param_fullrank   auc=0.7786 f1=0.7151 ETA 0.3h
+[79/400] breastmnist r=50 d=4 froz s=1414 quantum_vqc              auc=0.8079 f1=0.6744 ETA 0.3h
+[80/400] breastmnist r=50 d=4 froz s=1414 matched_param_fullrank   auc=0.7928 f1=0.7204 ETA 0.3h
+[81/400] breastmnist r=100 d=4 froz s=42 quantum_vqc              auc=0.7832 f1=0.6626 ETA 0.4h
+[82/400] breastmnist r=100 d=4 froz s=42 matched_param_fullrank   auc=0.7579 f1=0.7049 ETA 0.4h
+[83/400] breastmnist r=100 d=4 froz s=123 quantum_vqc              auc=0.7905 f1=0.6991 ETA 0.4h
+[84/400] breastmnist r=100 d=4 froz s=123 matched_param_fullrank   auc=0.7916 f1=0.7228 ETA 0.4h
+[85/400] breastmnist r=100 d=4 froz s=2026 quantum_vqc              auc=0.8266 f1=0.7906 ETA 0.4h
+[86/400] breastmnist r=100 d=4 froz s=2026 matched_param_fullrank   auc=0.8193 f1=0.7391 ETA 0.4h
+[87/400] breastmnist r=100 d=4 froz s=777 quantum_vqc              auc=0.8189 f1=0.6914 ETA 0.4h
+[88/400] breastmnist r=100 d=4 froz s=777 matched_param_fullrank   auc=0.8116 f1=0.6714 ETA 0.4h
+[89/400] breastmnist r=100 d=4 froz s=888 quantum_vqc              auc=0.8425 f1=0.6611 ETA 0.4h
+[90/400] breastmnist r=100 d=4 froz s=888 matched_param_fullrank   auc=0.8369 f1=0.7436 ETA 0.4h
+[91/400] breastmnist r=100 d=4 froz s=31337 quantum_vqc              auc=0.8486 f1=0.7658 ETA 0.4h
+[92/400] breastmnist r=100 d=4 froz s=31337 matched_param_fullrank   auc=0.8388 f1=0.7407 ETA 0.4h
+[93/400] breastmnist r=100 d=4 froz s=8 quantum_vqc              auc=0.8252 f1=0.7353 ETA 0.4h
+[94/400] breastmnist r=100 d=4 froz s=8 matched_param_fullrank   auc=0.8066 f1=0.6692 ETA 0.4h
+[95/400] breastmnist r=100 d=4 froz s=271828 quantum_vqc              auc=0.8231 f1=0.7292 ETA 0.5h
+[96/400] breastmnist r=100 d=4 froz s=271828 matched_param_fullrank   auc=0.8266 f1=0.7848 ETA 0.5h
+[97/400] breastmnist r=100 d=4 froz s=161803 quantum_vqc              auc=0.8170 f1=0.7115 ETA 0.5h
+[98/400] breastmnist r=100 d=4 froz s=161803 matched_param_fullrank   auc=0.8089 f1=0.7565 ETA 0.5h
+[99/400] breastmnist r=100 d=4 froz s=1414 quantum_vqc              auc=0.7947 f1=0.7053 ETA 0.5h
+[100/400] breastmnist r=100 d=4 froz s=1414 matched_param_fullrank   auc=0.8041 f1=0.6999 ETA 0.5h
+[101/400] pneumoniamnist r=5 d=4 froz s=42 quantum_vqc              auc=0.8889 f1=0.7656 ETA 0.5h
+[102/400] pneumoniamnist r=5 d=4 froz s=42 matched_param_fullrank   auc=0.9019 f1=0.2727 ETA 0.5h
+[103/400] pneumoniamnist r=5 d=4 froz s=123 quantum_vqc              auc=0.9023 f1=0.8198 ETA 0.5h
+[104/400] pneumoniamnist r=5 d=4 froz s=123 matched_param_fullrank   auc=0.8959 f1=0.3717 ETA 0.4h
+[105/400] pneumoniamnist r=5 d=4 froz s=2026 quantum_vqc              auc=0.9193 f1=0.8274 ETA 0.4h
+[106/400] pneumoniamnist r=5 d=4 froz s=2026 matched_param_fullrank   auc=0.9163 f1=0.8082 ETA 0.4h
+[107/400] pneumoniamnist r=5 d=4 froz s=777 quantum_vqc              auc=0.9223 f1=0.8464 ETA 0.4h
+[108/400] pneumoniamnist r=5 d=4 froz s=777 matched_param_fullrank   auc=0.9002 f1=0.4029 ETA 0.4h
+[109/400] pneumoniamnist r=5 d=4 froz s=888 quantum_vqc              auc=0.9101 f1=0.7671 ETA 0.4h
+[110/400] pneumoniamnist r=5 d=4 froz s=888 matched_param_fullrank   auc=0.3834 f1=0.2727 ETA 0.4h
+[111/400] pneumoniamnist r=5 d=4 froz s=31337 quantum_vqc              auc=0.9219 f1=0.8603 ETA 0.4h
+[112/400] pneumoniamnist r=5 d=4 froz s=31337 matched_param_fullrank   auc=0.9147 f1=0.7995 ETA 0.4h
+[113/400] pneumoniamnist r=5 d=4 froz s=8 quantum_vqc              auc=0.9175 f1=0.8304 ETA 0.4h
+[114/400] pneumoniamnist r=5 d=4 froz s=8 matched_param_fullrank   auc=0.9306 f1=0.5927 ETA 0.4h
+[115/400] pneumoniamnist r=5 d=4 froz s=271828 quantum_vqc              auc=0.9171 f1=0.8357 ETA 0.4h
+[116/400] pneumoniamnist r=5 d=4 froz s=271828 matched_param_fullrank   auc=0.9106 f1=0.8249 ETA 0.4h
+[117/400] pneumoniamnist r=5 d=4 froz s=161803 quantum_vqc              auc=0.9065 f1=0.8175 ETA 0.4h
+[118/400] pneumoniamnist r=5 d=4 froz s=161803 matched_param_fullrank   auc=0.9117 f1=0.8222 ETA 0.4h
+[119/400] pneumoniamnist r=5 d=4 froz s=1414 quantum_vqc              auc=0.9046 f1=0.8196 ETA 0.4h
+[120/400] pneumoniamnist r=5 d=4 froz s=1414 matched_param_fullrank   auc=0.9068 f1=0.8290 ETA 0.4h
+[121/400] pneumoniamnist r=10 d=4 froz s=42 quantum_vqc              auc=0.9237 f1=0.8492 ETA 0.4h
+[122/400] pneumoniamnist r=10 d=4 froz s=42 matched_param_fullrank   auc=0.9313 f1=0.8593 ETA 0.4h
+[123/400] pneumoniamnist r=10 d=4 froz s=123 quantum_vqc              auc=0.8978 f1=0.8159 ETA 0.4h
+[124/400] pneumoniamnist r=10 d=4 froz s=123 matched_param_fullrank   auc=0.9051 f1=0.7147 ETA 0.4h
+[125/400] pneumoniamnist r=10 d=4 froz s=2026 quantum_vqc              auc=0.8605 f1=0.8035 ETA 0.4h
+[126/400] pneumoniamnist r=10 d=4 froz s=2026 matched_param_fullrank   auc=0.8224 f1=0.2727 ETA 0.4h
+[127/400] pneumoniamnist r=10 d=4 froz s=777 quantum_vqc              auc=0.9021 f1=0.8157 ETA 0.4h
+[128/400] pneumoniamnist r=10 d=4 froz s=777 matched_param_fullrank   auc=0.8868 f1=0.7995 ETA 0.4h
+[129/400] pneumoniamnist r=10 d=4 froz s=888 quantum_vqc              auc=0.9119 f1=0.8112 ETA 0.4h
+[130/400] pneumoniamnist r=10 d=4 froz s=888 matched_param_fullrank   auc=0.7391 f1=0.5683 ETA 0.4h
+[131/400] pneumoniamnist r=10 d=4 froz s=31337 quantum_vqc              auc=0.9185 f1=0.8442 ETA 0.4h
+[132/400] pneumoniamnist r=10 d=4 froz s=31337 matched_param_fullrank   auc=0.9176 f1=0.8059 ETA 0.4h
+[133/400] pneumoniamnist r=10 d=4 froz s=8 quantum_vqc              auc=0.9050 f1=0.7495 ETA 0.4h
+[134/400] pneumoniamnist r=10 d=4 froz s=8 matched_param_fullrank   auc=0.9355 f1=0.8619 ETA 0.3h
+[135/400] pneumoniamnist r=10 d=4 froz s=271828 quantum_vqc              auc=0.9247 f1=0.8405 ETA 0.3h
+[136/400] pneumoniamnist r=10 d=4 froz s=271828 matched_param_fullrank   auc=0.9335 f1=0.8122 ETA 0.3h
+[137/400] pneumoniamnist r=10 d=4 froz s=161803 quantum_vqc              auc=0.8779 f1=0.4119 ETA 0.3h
+[138/400] pneumoniamnist r=10 d=4 froz s=161803 matched_param_fullrank   auc=0.8729 f1=0.3846 ETA 0.3h
+[139/400] pneumoniamnist r=10 d=4 froz s=1414 quantum_vqc              auc=0.9289 f1=0.8336 ETA 0.3h
+[140/400] pneumoniamnist r=10 d=4 froz s=1414 matched_param_fullrank   auc=0.9254 f1=0.8170 ETA 0.3h
+[141/400] pneumoniamnist r=20 d=4 froz s=42 quantum_vqc              auc=0.9234 f1=0.8223 ETA 0.3h
+[142/400] pneumoniamnist r=20 d=4 froz s=42 matched_param_fullrank   auc=0.9307 f1=0.8154 ETA 0.3h
+[143/400] pneumoniamnist r=20 d=4 froz s=123 quantum_vqc              auc=0.9223 f1=0.8389 ETA 0.3h
+[144/400] pneumoniamnist r=20 d=4 froz s=123 matched_param_fullrank   auc=0.8974 f1=0.2727 ETA 0.3h
+[145/400] pneumoniamnist r=20 d=4 froz s=2026 quantum_vqc              auc=0.9356 f1=0.8277 ETA 0.3h
+[146/400] pneumoniamnist r=20 d=4 froz s=2026 matched_param_fullrank   auc=0.9256 f1=0.8612 ETA 0.3h
+[147/400] pneumoniamnist r=20 d=4 froz s=777 quantum_vqc              auc=0.9371 f1=0.8609 ETA 0.3h
+[148/400] pneumoniamnist r=20 d=4 froz s=777 matched_param_fullrank   auc=0.9311 f1=0.8177 ETA 0.3h
+[149/400] pneumoniamnist r=20 d=4 froz s=888 quantum_vqc              auc=0.9236 f1=0.8440 ETA 0.3h
+[150/400] pneumoniamnist r=20 d=4 froz s=888 matched_param_fullrank   auc=0.9163 f1=0.7971 ETA 0.3h
+[151/400] pneumoniamnist r=20 d=4 froz s=31337 quantum_vqc              auc=0.9356 f1=0.8455 ETA 0.3h
+[152/400] pneumoniamnist r=20 d=4 froz s=31337 matched_param_fullrank   auc=0.9231 f1=0.8423 ETA 0.3h
+[153/400] pneumoniamnist r=20 d=4 froz s=8 quantum_vqc              auc=0.9361 f1=0.8348 ETA 0.3h
+[154/400] pneumoniamnist r=20 d=4 froz s=8 matched_param_fullrank   auc=0.9325 f1=0.2727 ETA 0.3h
+[155/400] pneumoniamnist r=20 d=4 froz s=271828 quantum_vqc              auc=0.9105 f1=0.7099 ETA 0.3h
+[156/400] pneumoniamnist r=20 d=4 froz s=271828 matched_param_fullrank   auc=0.9220 f1=0.8468 ETA 0.3h
+[157/400] pneumoniamnist r=20 d=4 froz s=161803 quantum_vqc              auc=0.9104 f1=0.8348 ETA 0.3h
+[158/400] pneumoniamnist r=20 d=4 froz s=161803 matched_param_fullrank   auc=0.9219 f1=0.8018 ETA 0.3h
+[159/400] pneumoniamnist r=20 d=4 froz s=1414 quantum_vqc              auc=0.9283 f1=0.8592 ETA 0.3h
+[160/400] pneumoniamnist r=20 d=4 froz s=1414 matched_param_fullrank   auc=0.9249 f1=0.8360 ETA 0.3h
+[161/400] pneumoniamnist r=50 d=4 froz s=42 quantum_vqc              auc=0.9116 f1=0.7997 ETA 0.3h
+[162/400] pneumoniamnist r=50 d=4 froz s=42 matched_param_fullrank   auc=0.9189 f1=0.8390 ETA 0.3h
+[163/400] pneumoniamnist r=50 d=4 froz s=123 quantum_vqc              auc=0.9310 f1=0.8379 ETA 0.3h
+[164/400] pneumoniamnist r=50 d=4 froz s=123 matched_param_fullrank   auc=0.9255 f1=0.4783 ETA 0.3h
+[165/400] pneumoniamnist r=50 d=4 froz s=2026 quantum_vqc              auc=0.9349 f1=0.8425 ETA 0.3h
+[166/400] pneumoniamnist r=50 d=4 froz s=2026 matched_param_fullrank   auc=0.9210 f1=0.6942 ETA 0.3h
+[167/400] pneumoniamnist r=50 d=4 froz s=777 quantum_vqc              auc=0.9237 f1=0.8462 ETA 0.3h
+[168/400] pneumoniamnist r=50 d=4 froz s=777 matched_param_fullrank   auc=0.9210 f1=0.8303 ETA 0.3h
+[169/400] pneumoniamnist r=50 d=4 froz s=888 quantum_vqc              auc=0.9222 f1=0.8297 ETA 0.3h
+[170/400] pneumoniamnist r=50 d=4 froz s=888 matched_param_fullrank   auc=0.9164 f1=0.6610 ETA 0.3h
+[171/400] pneumoniamnist r=50 d=4 froz s=31337 quantum_vqc              auc=0.9297 f1=0.8377 ETA 0.3h
+[172/400] pneumoniamnist r=50 d=4 froz s=31337 matched_param_fullrank   auc=0.9290 f1=0.8076 ETA 0.3h
+[173/400] pneumoniamnist r=50 d=4 froz s=8 quantum_vqc              auc=0.9312 f1=0.8066 ETA 0.3h
+[174/400] pneumoniamnist r=50 d=4 froz s=8 matched_param_fullrank   auc=0.9334 f1=0.8409 ETA 0.3h
+[175/400] pneumoniamnist r=50 d=4 froz s=271828 quantum_vqc              auc=0.9361 f1=0.8594 ETA 0.3h
+[176/400] pneumoniamnist r=50 d=4 froz s=271828 matched_param_fullrank   auc=0.9370 f1=0.8478 ETA 0.3h
+[177/400] pneumoniamnist r=50 d=4 froz s=161803 quantum_vqc              auc=0.9227 f1=0.8417 ETA 0.3h
+[178/400] pneumoniamnist r=50 d=4 froz s=161803 matched_param_fullrank   auc=0.9256 f1=0.8446 ETA 0.3h
+[179/400] pneumoniamnist r=50 d=4 froz s=1414 quantum_vqc              auc=0.9404 f1=0.8587 ETA 0.3h
+[180/400] pneumoniamnist r=50 d=4 froz s=1414 matched_param_fullrank   auc=0.9375 f1=0.6990 ETA 0.3h
+[181/400] pneumoniamnist r=100 d=4 froz s=42 quantum_vqc              auc=0.9378 f1=0.8598 ETA 0.3h
+[182/400] pneumoniamnist r=100 d=4 froz s=42 matched_param_fullrank   auc=0.9424 f1=0.8449 ETA 0.3h
+[183/400] pneumoniamnist r=100 d=4 froz s=123 quantum_vqc              auc=0.9213 f1=0.8389 ETA 0.3h
+[184/400] pneumoniamnist r=100 d=4 froz s=123 matched_param_fullrank   auc=0.9152 f1=0.8341 ETA 0.3h
+[185/400] pneumoniamnist r=100 d=4 froz s=2026 quantum_vqc              auc=0.9238 f1=0.8209 ETA 0.3h
+[186/400] pneumoniamnist r=100 d=4 froz s=2026 matched_param_fullrank   auc=0.9175 f1=0.8329 ETA 0.3h
+[187/400] pneumoniamnist r=100 d=4 froz s=777 quantum_vqc              auc=0.9273 f1=0.8511 ETA 0.4h
+[188/400] pneumoniamnist r=100 d=4 froz s=777 matched_param_fullrank   auc=0.9210 f1=0.8285 ETA 0.4h
+[189/400] pneumoniamnist r=100 d=4 froz s=888 quantum_vqc              auc=0.9371 f1=0.8716 ETA 0.4h
+[190/400] pneumoniamnist r=100 d=4 froz s=888 matched_param_fullrank   auc=0.9407 f1=0.8270 ETA 0.4h
+[191/400] pneumoniamnist r=100 d=4 froz s=31337 quantum_vqc              auc=0.9461 f1=0.8649 ETA 0.4h
+[192/400] pneumoniamnist r=100 d=4 froz s=31337 matched_param_fullrank   auc=0.9368 f1=0.8377 ETA 0.4h
+[193/400] pneumoniamnist r=100 d=4 froz s=8 quantum_vqc              auc=0.9319 f1=0.7322 ETA 0.4h
+[194/400] pneumoniamnist r=100 d=4 froz s=8 matched_param_fullrank   auc=0.9391 f1=0.8510 ETA 0.4h
+[195/400] pneumoniamnist r=100 d=4 froz s=271828 quantum_vqc              auc=0.9599 f1=0.8410 ETA 0.4h
+[196/400] pneumoniamnist r=100 d=4 froz s=271828 matched_param_fullrank   auc=0.9565 f1=0.8548 ETA 0.4h
+[197/400] pneumoniamnist r=100 d=4 froz s=161803 quantum_vqc              auc=0.9288 f1=0.8493 ETA 0.4h
+[198/400] pneumoniamnist r=100 d=4 froz s=161803 matched_param_fullrank   auc=0.9276 f1=0.8329 ETA 0.4h
+[199/400] pneumoniamnist r=100 d=4 froz s=1414 quantum_vqc              auc=0.9470 f1=0.8558 ETA 0.4h
+[200/400] pneumoniamnist r=100 d=4 froz s=1414 matched_param_fullrank   auc=0.9413 f1=0.8576 ETA 0.4h
+[201/400] bloodmnist r=5 d=4 froz s=42 quantum_vqc              auc=0.8016 f1=0.2410 ETA 0.4h
+[202/400] bloodmnist r=5 d=4 froz s=42 matched_param_fullrank   auc=0.7586 f1=0.1115 ETA 0.4h
+[203/400] bloodmnist r=5 d=4 froz s=123 quantum_vqc              auc=0.7027 f1=0.3039 ETA 0.4h
+[204/400] bloodmnist r=5 d=4 froz s=123 matched_param_fullrank   auc=0.5992 f1=0.0302 ETA 0.4h
+[205/400] bloodmnist r=5 d=4 froz s=2026 quantum_vqc              auc=0.8154 f1=0.2534 ETA 0.4h
+[206/400] bloodmnist r=5 d=4 froz s=2026 matched_param_fullrank   auc=0.6960 f1=0.0925 ETA 0.4h
+[207/400] bloodmnist r=5 d=4 froz s=777 quantum_vqc              auc=0.7754 f1=0.2771 ETA 0.4h
+[208/400] bloodmnist r=5 d=4 froz s=777 matched_param_fullrank   auc=0.6794 f1=0.1444 ETA 0.4h
+[209/400] bloodmnist r=5 d=4 froz s=888 quantum_vqc              auc=0.8760 f1=0.4845 ETA 0.4h
+[210/400] bloodmnist r=5 d=4 froz s=888 matched_param_fullrank   auc=0.5999 f1=0.0302 ETA 0.4h
+[211/400] bloodmnist r=5 d=4 froz s=31337 quantum_vqc              auc=0.6957 f1=0.2235 ETA 0.4h
+[212/400] bloodmnist r=5 d=4 froz s=31337 matched_param_fullrank   auc=0.5195 f1=0.0167 ETA 0.4h
+[213/400] bloodmnist r=5 d=4 froz s=8 quantum_vqc              auc=0.8256 f1=0.3857 ETA 0.4h
+[214/400] bloodmnist r=5 d=4 froz s=8 matched_param_fullrank   auc=0.7631 f1=0.3035 ETA 0.4h
+[215/400] bloodmnist r=5 d=4 froz s=271828 quantum_vqc              auc=0.5453 f1=0.0407 ETA 0.3h
+[216/400] bloodmnist r=5 d=4 froz s=271828 matched_param_fullrank   auc=0.7800 f1=0.2564 ETA 0.3h
+[217/400] bloodmnist r=5 d=4 froz s=161803 quantum_vqc              auc=0.7538 f1=0.2714 ETA 0.3h
+[218/400] bloodmnist r=5 d=4 froz s=161803 matched_param_fullrank   auc=0.7031 f1=0.1185 ETA 0.3h
+[219/400] bloodmnist r=5 d=4 froz s=1414 quantum_vqc              auc=0.8115 f1=0.2238 ETA 0.3h
+[220/400] bloodmnist r=5 d=4 froz s=1414 matched_param_fullrank   auc=0.7937 f1=0.2308 ETA 0.3h
+[221/400] bloodmnist r=10 d=4 froz s=42 quantum_vqc              auc=0.8798 f1=0.4740 ETA 0.3h
+[222/400] bloodmnist r=10 d=4 froz s=42 matched_param_fullrank   auc=0.8507 f1=0.3942 ETA 0.3h
+[223/400] bloodmnist r=10 d=4 froz s=123 quantum_vqc              auc=0.8747 f1=0.4099 ETA 0.3h
+[224/400] bloodmnist r=10 d=4 froz s=123 matched_param_fullrank   auc=0.8334 f1=0.3981 ETA 0.3h
+[225/400] bloodmnist r=10 d=4 froz s=2026 quantum_vqc              auc=0.8360 f1=0.2577 ETA 0.3h
+[226/400] bloodmnist r=10 d=4 froz s=2026 matched_param_fullrank   auc=0.8670 f1=0.4370 ETA 0.3h
+[227/400] bloodmnist r=10 d=4 froz s=777 quantum_vqc              auc=0.8157 f1=0.2906 ETA 0.3h
+[228/400] bloodmnist r=10 d=4 froz s=777 matched_param_fullrank   auc=0.6937 f1=0.1303 ETA 0.3h
+[229/400] bloodmnist r=10 d=4 froz s=888 quantum_vqc              auc=0.8671 f1=0.4851 ETA 0.3h
+[230/400] bloodmnist r=10 d=4 froz s=888 matched_param_fullrank   auc=0.7970 f1=0.3231 ETA 0.3h
+[231/400] bloodmnist r=10 d=4 froz s=31337 quantum_vqc              auc=0.8493 f1=0.4645 ETA 0.3h
+[232/400] bloodmnist r=10 d=4 froz s=31337 matched_param_fullrank   auc=0.5248 f1=0.0166 ETA 0.3h
+[233/400] bloodmnist r=10 d=4 froz s=8 quantum_vqc              auc=0.8553 f1=0.4423 ETA 0.3h
+[234/400] bloodmnist r=10 d=4 froz s=8 matched_param_fullrank   auc=0.8127 f1=0.3831 ETA 0.3h
+[235/400] bloodmnist r=10 d=4 froz s=271828 quantum_vqc              auc=0.8395 f1=0.4025 ETA 0.3h
+[236/400] bloodmnist r=10 d=4 froz s=271828 matched_param_fullrank   auc=0.8464 f1=0.4116 ETA 0.3h
+[237/400] bloodmnist r=10 d=4 froz s=161803 quantum_vqc              auc=0.8284 f1=0.3950 ETA 0.3h
+[238/400] bloodmnist r=10 d=4 froz s=161803 matched_param_fullrank   auc=0.7956 f1=0.2705 ETA 0.3h
+[239/400] bloodmnist r=10 d=4 froz s=1414 quantum_vqc              auc=0.7967 f1=0.2054 ETA 0.3h
+[240/400] bloodmnist r=10 d=4 froz s=1414 matched_param_fullrank   auc=0.8388 f1=0.4229 ETA 0.3h
+[241/400] bloodmnist r=20 d=4 froz s=42 quantum_vqc              auc=0.8610 f1=0.4671 ETA 0.3h
+[242/400] bloodmnist r=20 d=4 froz s=42 matched_param_fullrank   auc=0.8961 f1=0.5079 ETA 0.3h
+[243/400] bloodmnist r=20 d=4 froz s=123 quantum_vqc              auc=0.8802 f1=0.4651 ETA 0.3h
+[244/400] bloodmnist r=20 d=4 froz s=123 matched_param_fullrank   auc=0.8806 f1=0.4749 ETA 0.3h
+[245/400] bloodmnist r=20 d=4 froz s=2026 quantum_vqc              auc=0.6441 f1=0.0166 ETA 0.3h
+[246/400] bloodmnist r=20 d=4 froz s=2026 matched_param_fullrank   auc=0.8592 f1=0.4369 ETA 0.3h
+[247/400] bloodmnist r=20 d=4 froz s=777 quantum_vqc              auc=0.8776 f1=0.4781 ETA 0.3h
+[248/400] bloodmnist r=20 d=4 froz s=777 matched_param_fullrank   auc=0.8447 f1=0.4056 ETA 0.3h
+[249/400] bloodmnist r=20 d=4 froz s=888 quantum_vqc              auc=0.8957 f1=0.5600 ETA 0.3h
+[250/400] bloodmnist r=20 d=4 froz s=888 matched_param_fullrank   auc=0.7910 f1=0.1616 ETA 0.3h
+[251/400] bloodmnist r=20 d=4 froz s=31337 quantum_vqc              auc=0.8986 f1=0.5363 ETA 0.3h
+[252/400] bloodmnist r=20 d=4 froz s=31337 matched_param_fullrank   auc=0.7773 f1=0.1024 ETA 0.3h
+[253/400] bloodmnist r=20 d=4 froz s=8 quantum_vqc              auc=0.8714 f1=0.4776 ETA 0.3h
+[254/400] bloodmnist r=20 d=4 froz s=8 matched_param_fullrank   auc=0.8481 f1=0.4517 ETA 0.3h
+[255/400] bloodmnist r=20 d=4 froz s=271828 quantum_vqc              auc=0.8982 f1=0.5182 ETA 0.3h
+[256/400] bloodmnist r=20 d=4 froz s=271828 matched_param_fullrank   auc=0.8562 f1=0.4011 ETA 0.3h
+[257/400] bloodmnist r=20 d=4 froz s=161803 quantum_vqc              auc=0.8795 f1=0.5379 ETA 0.3h
+[258/400] bloodmnist r=20 d=4 froz s=161803 matched_param_fullrank   auc=0.8501 f1=0.3590 ETA 0.3h
+[259/400] bloodmnist r=20 d=4 froz s=1414 quantum_vqc              auc=0.8946 f1=0.5129 ETA 0.3h
+[260/400] bloodmnist r=20 d=4 froz s=1414 matched_param_fullrank   auc=0.8875 f1=0.5214 ETA 0.3h
+[261/400] bloodmnist r=50 d=4 froz s=42 quantum_vqc              auc=0.9247 f1=0.6041 ETA 0.3h
+[262/400] bloodmnist r=50 d=4 froz s=42 matched_param_fullrank   auc=0.9328 f1=0.6437 ETA 0.3h
+[263/400] bloodmnist r=50 d=4 froz s=123 quantum_vqc              auc=0.9311 f1=0.6179 ETA 0.3h
+[264/400] bloodmnist r=50 d=4 froz s=123 matched_param_fullrank   auc=0.8591 f1=0.4234 ETA 0.3h
+[265/400] bloodmnist r=50 d=4 froz s=2026 quantum_vqc              auc=0.8667 f1=0.5077 ETA 0.3h
+[266/400] bloodmnist r=50 d=4 froz s=2026 matched_param_fullrank   auc=0.9303 f1=0.6489 ETA 0.3h
+[267/400] bloodmnist r=50 d=4 froz s=777 quantum_vqc              auc=0.9373 f1=0.6104 ETA 0.3h
+[268/400] bloodmnist r=50 d=4 froz s=777 matched_param_fullrank   auc=0.9233 f1=0.6094 ETA 0.3h
+[269/400] bloodmnist r=50 d=4 froz s=888 quantum_vqc              auc=0.9345 f1=0.6632 ETA 0.3h
+[270/400] bloodmnist r=50 d=4 froz s=888 matched_param_fullrank   auc=0.8538 f1=0.3283 ETA 0.3h
+[271/400] bloodmnist r=50 d=4 froz s=31337 quantum_vqc              auc=0.9054 f1=0.5520 ETA 0.3h
+[272/400] bloodmnist r=50 d=4 froz s=31337 matched_param_fullrank   auc=0.8647 f1=0.4455 ETA 0.3h
+[273/400] bloodmnist r=50 d=4 froz s=8 quantum_vqc              auc=0.9186 f1=0.5927 ETA 0.3h
+[274/400] bloodmnist r=50 d=4 froz s=8 matched_param_fullrank   auc=0.8834 f1=0.5227 ETA 0.3h
+[275/400] bloodmnist r=50 d=4 froz s=271828 quantum_vqc              auc=0.9138 f1=0.5607 ETA 0.3h
+[276/400] bloodmnist r=50 d=4 froz s=271828 matched_param_fullrank   auc=0.8908 f1=0.4556 ETA 0.3h
+[277/400] bloodmnist r=50 d=4 froz s=161803 quantum_vqc              auc=0.9377 f1=0.6505 ETA 0.3h
+[278/400] bloodmnist r=50 d=4 froz s=161803 matched_param_fullrank   auc=0.8415 f1=0.3019 ETA 0.3h
+[279/400] bloodmnist r=50 d=4 froz s=1414 quantum_vqc              auc=0.8735 f1=0.4744 ETA 0.3h
+[280/400] bloodmnist r=50 d=4 froz s=1414 matched_param_fullrank   auc=0.9251 f1=0.6445 ETA 0.3h
+[281/400] bloodmnist r=100 d=4 froz s=42 quantum_vqc              auc=0.9572 f1=0.7360 ETA 0.3h
+[282/400] bloodmnist r=100 d=4 froz s=42 matched_param_fullrank   auc=0.9404 f1=0.6386 ETA 0.3h
+[283/400] bloodmnist r=100 d=4 froz s=123 quantum_vqc              auc=0.9427 f1=0.6548 ETA 0.4h
+[284/400] bloodmnist r=100 d=4 froz s=123 matched_param_fullrank   auc=0.9378 f1=0.6404 ETA 0.4h
+[285/400] bloodmnist r=100 d=4 froz s=2026 quantum_vqc              auc=0.9387 f1=0.6487 ETA 0.4h
+[286/400] bloodmnist r=100 d=4 froz s=2026 matched_param_fullrank   auc=0.9409 f1=0.6542 ETA 0.4h
+[287/400] bloodmnist r=100 d=4 froz s=777 quantum_vqc              auc=0.9416 f1=0.6451 ETA 0.4h
+[288/400] bloodmnist r=100 d=4 froz s=777 matched_param_fullrank   auc=0.9349 f1=0.6578 ETA 0.4h
+[289/400] bloodmnist r=100 d=4 froz s=888 quantum_vqc              auc=0.9368 f1=0.6520 ETA 0.4h
+[290/400] bloodmnist r=100 d=4 froz s=888 matched_param_fullrank   auc=0.7653 f1=0.1267 ETA 0.4h
+[291/400] bloodmnist r=100 d=4 froz s=31337 quantum_vqc              auc=0.9456 f1=0.6724 ETA 0.4h
+[292/400] bloodmnist r=100 d=4 froz s=31337 matched_param_fullrank   auc=0.8662 f1=0.4301 ETA 0.4h
+[293/400] bloodmnist r=100 d=4 froz s=8 quantum_vqc              auc=0.9559 f1=0.7210 ETA 0.4h
+[294/400] bloodmnist r=100 d=4 froz s=8 matched_param_fullrank   auc=0.9465 f1=0.6809 ETA 0.4h
+[295/400] bloodmnist r=100 d=4 froz s=271828 quantum_vqc              auc=0.9535 f1=0.7036 ETA 0.4h
+[296/400] bloodmnist r=100 d=4 froz s=271828 matched_param_fullrank   auc=0.9447 f1=0.6622 ETA 0.4h
+[297/400] bloodmnist r=100 d=4 froz s=161803 quantum_vqc              auc=0.9265 f1=0.6253 ETA 0.4h
+[298/400] bloodmnist r=100 d=4 froz s=161803 matched_param_fullrank   auc=0.9290 f1=0.6496 ETA 0.4h
+[299/400] bloodmnist r=100 d=4 froz s=1414 quantum_vqc              auc=0.9326 f1=0.6346 ETA 0.4h
+[300/400] bloodmnist r=100 d=4 froz s=1414 matched_param_fullrank   auc=0.9450 f1=0.6847 ETA 0.4h
+[301/400] pathmnist r=5 d=4 froz s=42 quantum_vqc              auc=0.8784 f1=0.4320 ETA 0.4h
+[302/400] pathmnist r=5 d=4 froz s=42 matched_param_fullrank   auc=0.8344 f1=0.3870 ETA 0.4h
+[303/400] pathmnist r=5 d=4 froz s=123 quantum_vqc              auc=0.8405 f1=0.4352 ETA 0.4h
+[304/400] pathmnist r=5 d=4 froz s=123 matched_param_fullrank   auc=0.6640 f1=0.0893 ETA 0.4h
+[305/400] pathmnist r=5 d=4 froz s=2026 quantum_vqc              auc=0.7944 f1=0.3890 ETA 0.4h
+[306/400] pathmnist r=5 d=4 froz s=2026 matched_param_fullrank   auc=0.7662 f1=0.1805 ETA 0.4h
+[307/400] pathmnist r=5 d=4 froz s=777 quantum_vqc              auc=0.8307 f1=0.3738 ETA 0.4h
+[308/400] pathmnist r=5 d=4 froz s=777 matched_param_fullrank   auc=0.8407 f1=0.2871 ETA 0.4h
+[309/400] pathmnist r=5 d=4 froz s=888 quantum_vqc              auc=0.8563 f1=0.4070 ETA 0.4h
+[310/400] pathmnist r=5 d=4 froz s=888 matched_param_fullrank   auc=0.7267 f1=0.1704 ETA 0.3h
+[311/400] pathmnist r=5 d=4 froz s=31337 quantum_vqc              auc=0.8655 f1=0.4323 ETA 0.3h
+[312/400] pathmnist r=5 d=4 froz s=31337 matched_param_fullrank   auc=0.7823 f1=0.2770 ETA 0.3h
+[313/400] pathmnist r=5 d=4 froz s=8 quantum_vqc              auc=0.8500 f1=0.4540 ETA 0.3h
+[314/400] pathmnist r=5 d=4 froz s=8 matched_param_fullrank   auc=0.8814 f1=0.5336 ETA 0.3h
+[315/400] pathmnist r=5 d=4 froz s=271828 quantum_vqc              auc=0.8314 f1=0.4136 ETA 0.3h
+[316/400] pathmnist r=5 d=4 froz s=271828 matched_param_fullrank   auc=0.8520 f1=0.3369 ETA 0.3h
+[317/400] pathmnist r=5 d=4 froz s=161803 quantum_vqc              auc=0.7998 f1=0.4039 ETA 0.3h
+[318/400] pathmnist r=5 d=4 froz s=161803 matched_param_fullrank   auc=0.6484 f1=0.0572 ETA 0.3h
+[319/400] pathmnist r=5 d=4 froz s=1414 quantum_vqc              auc=0.8386 f1=0.4089 ETA 0.3h
+[320/400] pathmnist r=5 d=4 froz s=1414 matched_param_fullrank   auc=0.8784 f1=0.3446 ETA 0.3h
+[321/400] pathmnist r=10 d=4 froz s=42 quantum_vqc              auc=0.9226 f1=0.6136 ETA 0.3h
+[322/400] pathmnist r=10 d=4 froz s=42 matched_param_fullrank   auc=0.9267 f1=0.6341 ETA 0.3h
+[323/400] pathmnist r=10 d=4 froz s=123 quantum_vqc              auc=0.8811 f1=0.5160 ETA 0.3h
+[324/400] pathmnist r=10 d=4 froz s=123 matched_param_fullrank   auc=0.8358 f1=0.3546 ETA 0.3h
+[325/400] pathmnist r=10 d=4 froz s=2026 quantum_vqc              auc=0.8855 f1=0.4982 ETA 0.3h
+[326/400] pathmnist r=10 d=4 froz s=2026 matched_param_fullrank   auc=0.7984 f1=0.2619 ETA 0.3h
+[327/400] pathmnist r=10 d=4 froz s=777 quantum_vqc              auc=0.8224 f1=0.4698 ETA 0.3h
+[328/400] pathmnist r=10 d=4 froz s=777 matched_param_fullrank   auc=0.9128 f1=0.5727 ETA 0.3h
+[329/400] pathmnist r=10 d=4 froz s=888 quantum_vqc              auc=0.8676 f1=0.5092 ETA 0.3h
+[330/400] pathmnist r=10 d=4 froz s=888 matched_param_fullrank   auc=0.7622 f1=0.2059 ETA 0.3h
+[331/400] pathmnist r=10 d=4 froz s=31337 quantum_vqc              auc=0.8413 f1=0.3276 ETA 0.3h
+[332/400] pathmnist r=10 d=4 froz s=31337 matched_param_fullrank   auc=0.8661 f1=0.4280 ETA 0.3h
+[333/400] pathmnist r=10 d=4 froz s=8 quantum_vqc              auc=0.8659 f1=0.4624 ETA 0.3h
+[334/400] pathmnist r=10 d=4 froz s=8 matched_param_fullrank   auc=0.9367 f1=0.6056 ETA 0.2h
+[335/400] pathmnist r=10 d=4 froz s=271828 quantum_vqc              auc=0.8515 f1=0.4604 ETA 0.2h
+[336/400] pathmnist r=10 d=4 froz s=271828 matched_param_fullrank   auc=0.8936 f1=0.5015 ETA 0.2h
+[337/400] pathmnist r=10 d=4 froz s=161803 quantum_vqc              auc=0.8614 f1=0.4902 ETA 0.2h
+[338/400] pathmnist r=10 d=4 froz s=161803 matched_param_fullrank   auc=0.7814 f1=0.1165 ETA 0.2h
+[339/400] pathmnist r=10 d=4 froz s=1414 quantum_vqc              auc=0.8586 f1=0.4742 ETA 0.2h
+[340/400] pathmnist r=10 d=4 froz s=1414 matched_param_fullrank   auc=0.9028 f1=0.5813 ETA 0.2h
+[341/400] pathmnist r=20 d=4 froz s=42 quantum_vqc              auc=0.8943 f1=0.5414 ETA 0.2h
+[342/400] pathmnist r=20 d=4 froz s=42 matched_param_fullrank   auc=0.8626 f1=0.5221 ETA 0.2h
+[343/400] pathmnist r=20 d=4 froz s=123 quantum_vqc              auc=0.9039 f1=0.5749 ETA 0.2h
+[344/400] pathmnist r=20 d=4 froz s=123 matched_param_fullrank   auc=0.8700 f1=0.4494 ETA 0.2h
+[345/400] pathmnist r=20 d=4 froz s=2026 quantum_vqc              auc=0.9272 f1=0.6188 ETA 0.2h
+[346/400] pathmnist r=20 d=4 froz s=2026 matched_param_fullrank   auc=0.9285 f1=0.6016 ETA 0.2h
+[347/400] pathmnist r=20 d=4 froz s=777 quantum_vqc              auc=0.9094 f1=0.5876 ETA 0.2h
+[348/400] pathmnist r=20 d=4 froz s=777 matched_param_fullrank   auc=0.9156 f1=0.5281 ETA 0.2h
+[349/400] pathmnist r=20 d=4 froz s=888 quantum_vqc              auc=0.9342 f1=0.6717 ETA 0.2h
+[350/400] pathmnist r=20 d=4 froz s=888 matched_param_fullrank   auc=0.8328 f1=0.3927 ETA 0.2h
+[351/400] pathmnist r=20 d=4 froz s=31337 quantum_vqc              auc=0.9108 f1=0.5927 ETA 0.2h
+[352/400] pathmnist r=20 d=4 froz s=31337 matched_param_fullrank   auc=0.8386 f1=0.3141 ETA 0.2h
+[353/400] pathmnist r=20 d=4 froz s=8 quantum_vqc              auc=0.9155 f1=0.5725 ETA 0.2h
+[354/400] pathmnist r=20 d=4 froz s=8 matched_param_fullrank   auc=0.9407 f1=0.5601 ETA 0.2h
+[355/400] pathmnist r=20 d=4 froz s=271828 quantum_vqc              auc=0.9060 f1=0.5463 ETA 0.2h
+[356/400] pathmnist r=20 d=4 froz s=271828 matched_param_fullrank   auc=0.9180 f1=0.5996 ETA 0.2h
+[357/400] pathmnist r=20 d=4 froz s=161803 quantum_vqc              auc=0.9165 f1=0.6144 ETA 0.2h
+[358/400] pathmnist r=20 d=4 froz s=161803 matched_param_fullrank   auc=0.8296 f1=0.2417 ETA 0.2h
+[359/400] pathmnist r=20 d=4 froz s=1414 quantum_vqc              auc=0.9111 f1=0.5470 ETA 0.2h
+[360/400] pathmnist r=20 d=4 froz s=1414 matched_param_fullrank   auc=0.9110 f1=0.5649 ETA 0.2h
+[361/400] pathmnist r=50 d=4 froz s=42 quantum_vqc              auc=0.9297 f1=0.6399 ETA 0.2h
+[362/400] pathmnist r=50 d=4 froz s=42 matched_param_fullrank   auc=0.9631 f1=0.7129 ETA 0.2h
+[363/400] pathmnist r=50 d=4 froz s=123 quantum_vqc              auc=0.9366 f1=0.6882 ETA 0.1h
+[364/400] pathmnist r=50 d=4 froz s=123 matched_param_fullrank   auc=0.9006 f1=0.4729 ETA 0.1h
+[365/400] pathmnist r=50 d=4 froz s=2026 quantum_vqc              auc=0.9269 f1=0.6442 ETA 0.1h
+[366/400] pathmnist r=50 d=4 froz s=2026 matched_param_fullrank   auc=0.9070 f1=0.6483 ETA 0.1h
+[367/400] pathmnist r=50 d=4 froz s=777 quantum_vqc              auc=0.9468 f1=0.6962 ETA 0.1h
+[368/400] pathmnist r=50 d=4 froz s=777 matched_param_fullrank   auc=0.9236 f1=0.6619 ETA 0.1h
+[369/400] pathmnist r=50 d=4 froz s=888 quantum_vqc              auc=0.9576 f1=0.7192 ETA 0.1h
+[370/400] pathmnist r=50 d=4 froz s=888 matched_param_fullrank   auc=0.7566 f1=0.0338 ETA 0.1h
+[371/400] pathmnist r=50 d=4 froz s=31337 quantum_vqc              auc=0.9381 f1=0.6406 ETA 0.1h
+[372/400] pathmnist r=50 d=4 froz s=31337 matched_param_fullrank   auc=0.9458 f1=0.6735 ETA 0.1h
+[373/400] pathmnist r=50 d=4 froz s=8 quantum_vqc              auc=0.9243 f1=0.6279 ETA 0.1h
+[374/400] pathmnist r=50 d=4 froz s=8 matched_param_fullrank   auc=0.9522 f1=0.6367 ETA 0.1h
+[375/400] pathmnist r=50 d=4 froz s=271828 quantum_vqc              auc=0.9497 f1=0.6737 ETA 0.1h
+[376/400] pathmnist r=50 d=4 froz s=271828 matched_param_fullrank   auc=0.9583 f1=0.7050 ETA 0.1h
+[377/400] pathmnist r=50 d=4 froz s=161803 quantum_vqc              auc=0.9122 f1=0.6083 ETA 0.1h
+[378/400] pathmnist r=50 d=4 froz s=161803 matched_param_fullrank   auc=0.9421 f1=0.6392 ETA 0.1h
+[379/400] pathmnist r=50 d=4 froz s=1414 quantum_vqc              auc=0.9522 f1=0.6408 ETA 0.1h
+[380/400] pathmnist r=50 d=4 froz s=1414 matched_param_fullrank   auc=0.9583 f1=0.7254 ETA 0.1h
+[381/400] pathmnist r=100 d=4 froz s=42 quantum_vqc              auc=0.9551 f1=0.7153 ETA 0.1h
+[382/400] pathmnist r=100 d=4 froz s=42 matched_param_fullrank   auc=0.9477 f1=0.7430 ETA 0.1h
+[383/400] pathmnist r=100 d=4 froz s=123 quantum_vqc              auc=0.9400 f1=0.6758 ETA 0.1h
+[384/400] pathmnist r=100 d=4 froz s=123 matched_param_fullrank   auc=0.9301 f1=0.5936 ETA 0.1h
+[385/400] pathmnist r=100 d=4 froz s=2026 quantum_vqc              auc=0.9498 f1=0.7184 ETA 0.1h
+[386/400] pathmnist r=100 d=4 froz s=2026 matched_param_fullrank   auc=0.9709 f1=0.7571 ETA 0.1h
+[387/400] pathmnist r=100 d=4 froz s=777 quantum_vqc              auc=0.9512 f1=0.6788 ETA 0.1h
+[388/400] pathmnist r=100 d=4 froz s=777 matched_param_fullrank   auc=0.9620 f1=0.7412 ETA 0.1h
+[389/400] pathmnist r=100 d=4 froz s=888 quantum_vqc              auc=0.9465 f1=0.6858 ETA 0.1h
+[390/400] pathmnist r=100 d=4 froz s=888 matched_param_fullrank   auc=0.8518 f1=0.3508 ETA 0.0h
+[391/400] pathmnist r=100 d=4 froz s=31337 quantum_vqc              auc=0.9608 f1=0.7184 ETA 0.0h
+[392/400] pathmnist r=100 d=4 froz s=31337 matched_param_fullrank   auc=0.9527 f1=0.6874 ETA 0.0h
+[393/400] pathmnist r=100 d=4 froz s=8 quantum_vqc              auc=0.9478 f1=0.6658 ETA 0.0h
+[394/400] pathmnist r=100 d=4 froz s=8 matched_param_fullrank   auc=0.9657 f1=0.7601 ETA 0.0h
+[395/400] pathmnist r=100 d=4 froz s=271828 quantum_vqc              auc=0.9393 f1=0.6970 ETA 0.0h
+[396/400] pathmnist r=100 d=4 froz s=271828 matched_param_fullrank   auc=0.9539 f1=0.6993 ETA 0.0h
+[397/400] pathmnist r=100 d=4 froz s=161803 quantum_vqc              auc=0.9520 f1=0.7207 ETA 0.0h
+[398/400] pathmnist r=100 d=4 froz s=161803 matched_param_fullrank   auc=0.9458 f1=0.7380 ETA 0.0h
+[399/400] pathmnist r=100 d=4 froz s=1414 quantum_vqc              auc=0.9630 f1=0.7150 ETA 0.0h
+[400/400] pathmnist r=100 d=4 froz s=1414 matched_param_fullrank   auc=0.9683 f1=0.7447 ETA 0.0h
+
+=== AUC by cell (mean +- sd over seeds) ===
+dataset           reg   d   encoder   matched_para    quantum_vqc
+------------------------------------------------------------------
+bloodmnist         10   4    frozen  0.7860+-0.099  0.8443+-0.025
+bloodmnist        100   4    frozen  0.9151+-0.055  0.9431+-0.010
+bloodmnist         20   4    frozen  0.8491+-0.037  0.8601+-0.073
+bloodmnist          5   4    frozen  0.6893+-0.086  0.7603+-0.089
+bloodmnist         50   4    frozen  0.8905+-0.033  0.9143+-0.024
+breastmnist        10   4    frozen  0.6867+-0.064  0.7111+-0.025
+breastmnist       100   4    frozen  0.8102+-0.022  0.8170+-0.020
+breastmnist        20   4    frozen  0.7359+-0.058  0.7384+-0.065
+breastmnist         5   4    frozen  0.6189+-0.094  0.6462+-0.063
+breastmnist        50   4    frozen  0.7577+-0.031  0.7440+-0.068
+pathmnist          10   4    frozen  0.8617+-0.060  0.8658+-0.026
+pathmnist         100   4    frozen  0.9449+-0.033  0.9506+-0.007
+pathmnist          20   4    frozen  0.8847+-0.040  0.9129+-0.011
+pathmnist           5   4    frozen  0.7874+-0.081  0.8386+-0.025
+pathmnist          50   4    frozen  0.9208+-0.059  0.9374+-0.014
+pneumoniamnist     10   4    frozen  0.8869+-0.060  0.9051+-0.021
+pneumoniamnist    100   4    frozen  0.9338+-0.012  0.9361+-0.011
+pneumoniamnist     20   4    frozen  0.9225+-0.010  0.9263+-0.010
+pneumoniamnist      5   4    frozen  0.8572+-0.158  0.9110+-0.010
+pneumoniamnist     50   4    frozen  0.9265+-0.007  0.9283+-0.008
+
+=== PRIMARY (Q1, efficiency at equal parameters): quantum_vqc - matched_param_fullrank (auc) ===
+Both arms have 24 head parameters and full rank at d=4.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+bloodmnist         10   4    frozen   +0.0583 [-0.0069,+0.1234]   10  no difference
+bloodmnist        100   4    frozen   +0.0280 [-0.0069,+0.0629]   10  no difference
+bloodmnist         20   4    frozen   +0.0110 [-0.0460,+0.0680]   10  no difference
+bloodmnist          5   4    frozen   +0.0710 [-0.0102,+0.1523]   10  no difference
+bloodmnist         50   4    frozen   +0.0239 [-0.0092,+0.0570]   10  no difference
+breastmnist        10   4    frozen   +0.0243 [-0.0074,+0.0560]   10  no difference
+breastmnist       100   4    frozen   +0.0068 [+0.0005,+0.0131]   10  quantum_vqc better
+breastmnist        20   4    frozen   +0.0025 [-0.0394,+0.0444]   10  no difference
+breastmnist         5   4    frozen   +0.0273 [-0.0315,+0.0861]   10  no difference
+breastmnist        50   4    frozen   -0.0137 [-0.0645,+0.0372]   10  no difference
+pathmnist          10   4    frozen   +0.0041 [-0.0395,+0.0477]   10  no difference
+pathmnist         100   4    frozen   +0.0057 [-0.0150,+0.0263]   10  no difference
+pathmnist          20   4    frozen   +0.0282 [+0.0004,+0.0560]   10  quantum_vqc better
+pathmnist           5   4    frozen   +0.0511 [+0.0016,+0.1007]   10  quantum_vqc better
+pathmnist          50   4    frozen   +0.0167 [-0.0261,+0.0594]   10  no difference
+pneumoniamnist     10   4    frozen   +0.0181 [-0.0173,+0.0536]   10  no difference
+pneumoniamnist    100   4    frozen   +0.0023 [-0.0012,+0.0058]   10  no difference
+pneumoniamnist     20   4    frozen   +0.0038 [-0.0033,+0.0108]   10  no difference
+pneumoniamnist      5   4    frozen   +0.0538 [-0.0493,+0.1570]   10  no difference
+pneumoniamnist     50   4    frozen   +0.0018 [-0.0018,+0.0054]   10  no difference
+
+=== SECONDARY (Q2, dequantization): quantum_vqc - fourier_rff (auc) ===
+Basis-matched, NOT parameter-matched (324 vs 24). Asks whether
+the VQC exploits its own function class as well as a direct fit.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== DIAGNOSTIC (rank-limited control): quantum_vqc - matched_param (auc) ===
+matched_param is rank-limited to width 3; superseded by
+matched_param_fullrank. Retained for reproducibility only.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== Q3: frozen - adaptive, per arm (auc) ===
+The premise check showed compression is nearly free WITH an adaptive
+encoder. A large negative delta here means the encoder was absorbing
+the constraint - the reframed 'Latent Reshaping' claim.
+dataset           reg   d                      arm     delta    n
+------------------------------------------------------------------------
+
+=== Trainable capacity by component ===
+If the head's share is small, the experiment is not isolating the head.
+
+arm                        d bottleneck   bneck   head   clf   total  head %
+------------------------------------------------------------------------------
+matched_param_fullrank     4    learned    1028     24    10    1062    2.3%
+quantum_vqc                4    learned    1028     24    10    1062    2.3%
+
+=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===
+frozen: backbone must be '-' (no gradient reaches it).
+adaptive: backbone must be non-zero for EVERY arm, quantum included.
+
+arm                        encoder  runs    backbone  bottleneck        head  verdict
+--------------------------------------------------------------------------------------------
+matched_param_fullrank      frozen   400           -      1.4952      0.5444  OK
+quantum_vqc                 frozen   400           -      1.3695      0.2621  OK
+
+Predictions: 800/800 claimed files are retrievable on disk; 0 shards predate prediction saving.
+
+DIAGNOSTIC OUTPUT - every interval above is a normal approximation
+over seeds. Confirmatory statistics come from 04_statistical_analysis.py.

@@ -1,0 +1,41 @@
+
+Integrity: 1000 runs re-scored from stored predictions; max |recomputed - recorded| = 1.10e-05
+
+BH-FDR family size m = 23  (declared; 20 computed here)
+
+=== CROSS-CONDITION: rank=0 minus rank=8  (auc) ===
+Same arm, same seeds, same data. Only rank differs.
+
+condition                          arm                        delta                95% CI         p     p_adj       d  verdict
+------------------------------------------------------------------------------------------------------------------------------
+bloodmnist n=5 d=4                 low_rank                 -0.0072 [-0.0514,+0.0348]    0.7430    1.0000   -0.10  no difference
+bloodmnist n=10 d=4                low_rank                 -0.0019 [-0.0394,+0.0387]    0.9210    1.0000   -0.03  no difference
+bloodmnist n=20 d=4                low_rank                 -0.0118 [-0.0310,+0.0075]    0.2560    0.9516   -0.36  no difference
+bloodmnist n=50 d=4                low_rank                 +0.0005 [-0.0129,+0.0142]    0.9080    1.0000   +0.02  no difference
+bloodmnist n=100 d=4               low_rank                 +0.0111 [+0.0002,+0.0218]    0.0490    0.6785   +0.62  rank=0 better
+breastmnist n=5 d=4                low_rank                 -0.0443 [-0.1238,+0.0246]    0.2230    0.9516   -0.41  no difference
+breastmnist n=10 d=4               low_rank                 +0.0082 [-0.0211,+0.0413]    0.6450    1.0000   +0.22  no difference
+breastmnist n=20 d=4               low_rank                 +0.0030 [-0.0301,+0.0396]    0.8730    1.0000   +0.07  no difference
+breastmnist n=50 d=4               low_rank                 -0.0016 [-0.0212,+0.0244]    0.7920    1.0000   -0.06  no difference
+breastmnist n=100 d=4              low_rank                 -0.0077 [-0.0424,+0.0268]    0.6420    1.0000   -0.20  no difference
+pathmnist n=5 d=4                  low_rank                 +0.0029 [-0.0274,+0.0343]    0.8700    1.0000   +0.06  no difference
+pathmnist n=10 d=4                 low_rank                 +0.0059 [-0.0186,+0.0297]    0.6540    1.0000   +0.14  no difference
+pathmnist n=20 d=4                 low_rank                 +0.0126 [-0.0031,+0.0294]    0.1110    0.8510   +0.46  no difference
+pathmnist n=50 d=4                 low_rank                 +0.0104 [-0.0040,+0.0255]    0.1540    0.8855   +0.42  no difference
+pathmnist n=100 d=4                low_rank                 +0.0090 [-0.0002,+0.0178]    0.0590    0.6785   +0.60  no difference
+pneumoniamnist n=5 d=4             low_rank                 -0.0009 [-0.0262,+0.0290]    0.9620    1.0000   -0.02  no difference
+pneumoniamnist n=10 d=4            low_rank                 -0.0093 [-0.0264,+0.0091]    0.3310    0.9516   -0.34  no difference
+pneumoniamnist n=20 d=4            low_rank                 +0.0024 [-0.0024,+0.0077]    0.3070    0.9516   +0.39  no difference
+pneumoniamnist n=50 d=4            low_rank                 +0.0003 [-0.0042,+0.0064]    0.9350    1.0000   +0.04  no difference
+pneumoniamnist n=100 d=4           low_rank                 -0.0000 [-0.0054,+0.0057]    0.9690    1.0000   -0.00  no difference
+
+=== Trend of the contrast on log2(shots/class) ===
+    n=   5  mean delta = -0.0124 (4 cells)
+    n=  10  mean delta = +0.0007 (4 cells)
+    n=  20  mean delta = +0.0015 (4 cells)
+    n=  50  mean delta = +0.0024 (4 cells)
+    n= 100  mean delta = +0.0031 (4 cells)
+
+    slope = +0.00290 per doubling  [-0.00025, +0.00693]
+    Negative slope with a CI excluding 0 = the contrast shrinks
+    as data grows. Result: NOT supported

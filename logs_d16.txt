@@ -1,0 +1,286 @@
+nohup: ignoring input
+
+Trainable capacity at d=16, bottleneck=learned:
+  quantum_vqc              bottleneck= 4112 head=  96 clf= 34 total= 4242 head=2.3%
+  low_rank                 bottleneck= 4112 head=  96 clf= 34 total= 4242 head=2.3%
+  fourier_rff              bottleneck= 4112 head=32784 clf= 34 total=36930 head=88.8%
+  linear                   bottleneck= 4112 head=   0 clf= 34 total= 4146 head=0.0%
+
+Experiment 1 | 200 cells | ns=16_dim16 | device=cuda | sha=141a7111
+  augment=False L=2 use_tanh=True bottleneck=learned angle_scale=1.5708 save_predictions=True
+[1/200] breastmnist r=5 d=16 froz s=42 quantum_vqc              auc=0.7201 f1=0.6304 ETA 2.2h
+[2/200] breastmnist r=5 d=16 froz s=42 low_rank                 auc=0.7160 f1=0.6209 ETA 1.1h
+[3/200] breastmnist r=5 d=16 froz s=42 fourier_rff              auc=0.6890 f1=0.4222 ETA 0.7h
+[4/200] breastmnist r=5 d=16 froz s=42 linear                   auc=0.7285 f1=0.6373 ETA 0.6h
+[5/200] breastmnist r=5 d=16 froz s=123 quantum_vqc              auc=0.7112 f1=0.6073 ETA 0.8h
+[6/200] breastmnist r=5 d=16 froz s=123 low_rank                 auc=0.7327 f1=0.5912 ETA 0.7h
+[7/200] breastmnist r=5 d=16 froz s=123 fourier_rff              auc=0.6606 f1=0.2121 ETA 0.6h
+[8/200] breastmnist r=5 d=16 froz s=123 linear                   auc=0.7571 f1=0.5626 ETA 0.5h
+[9/200] breastmnist r=5 d=16 froz s=2026 quantum_vqc              auc=0.5746 f1=0.4222 ETA 0.7h
+[10/200] breastmnist r=5 d=16 froz s=2026 low_rank                 auc=0.5869 f1=0.4222 ETA 0.6h
+[11/200] breastmnist r=5 d=16 froz s=2026 fourier_rff              auc=0.6513 f1=0.4222 ETA 0.6h
+[12/200] breastmnist r=5 d=16 froz s=2026 linear                   auc=0.6101 f1=0.5280 ETA 0.5h
+[13/200] breastmnist r=5 d=16 froz s=777 quantum_vqc              auc=0.4227 f1=0.3267 ETA 0.8h
+[14/200] breastmnist r=5 d=16 froz s=777 low_rank                 auc=0.4589 f1=0.2896 ETA 0.7h
+[15/200] breastmnist r=5 d=16 froz s=777 fourier_rff              auc=0.5950 f1=0.2121 ETA 0.7h
+[16/200] breastmnist r=5 d=16 froz s=777 linear                   auc=0.4332 f1=0.4222 ETA 0.6h
+[17/200] breastmnist r=5 d=16 froz s=888 quantum_vqc              auc=0.7575 f1=0.6917 ETA 0.7h
+[18/200] breastmnist r=5 d=16 froz s=888 low_rank                 auc=0.7231 f1=0.3997 ETA 0.6h
+[19/200] breastmnist r=5 d=16 froz s=888 fourier_rff              auc=0.7076 f1=0.2121 ETA 0.6h
+[20/200] breastmnist r=5 d=16 froz s=888 linear                   auc=0.7120 f1=0.2121 ETA 0.6h
+[21/200] breastmnist r=10 d=16 froz s=42 quantum_vqc              auc=0.7269 f1=0.2121 ETA 0.6h
+[22/200] breastmnist r=10 d=16 froz s=42 low_rank                 auc=0.6454 f1=0.5948 ETA 0.6h
+[23/200] breastmnist r=10 d=16 froz s=42 fourier_rff              auc=0.7178 f1=0.2121 ETA 0.5h
+[24/200] breastmnist r=10 d=16 froz s=42 linear                   auc=0.7496 f1=0.4222 ETA 0.5h
+[25/200] breastmnist r=10 d=16 froz s=123 quantum_vqc              auc=0.7258 f1=0.6444 ETA 0.5h
+[26/200] breastmnist r=10 d=16 froz s=123 low_rank                 auc=0.7381 f1=0.6484 ETA 0.5h
+[27/200] breastmnist r=10 d=16 froz s=123 fourier_rff              auc=0.7122 f1=0.4222 ETA 0.5h
+[28/200] breastmnist r=10 d=16 froz s=123 linear                   auc=0.7544 f1=0.5546 ETA 0.5h
+[29/200] breastmnist r=10 d=16 froz s=2026 quantum_vqc              auc=0.6646 f1=0.4417 ETA 0.5h
+[30/200] breastmnist r=10 d=16 froz s=2026 low_rank                 auc=0.6554 f1=0.4222 ETA 0.5h
+[31/200] breastmnist r=10 d=16 froz s=2026 fourier_rff              auc=0.6838 f1=0.2121 ETA 0.5h
+[32/200] breastmnist r=10 d=16 froz s=2026 linear                   auc=0.6974 f1=0.4222 ETA 0.4h
+[33/200] breastmnist r=10 d=16 froz s=777 quantum_vqc              auc=0.7043 f1=0.6582 ETA 0.5h
+[34/200] breastmnist r=10 d=16 froz s=777 low_rank                 auc=0.6921 f1=0.6685 ETA 0.5h
+[35/200] breastmnist r=10 d=16 froz s=777 fourier_rff              auc=0.6898 f1=0.4444 ETA 0.4h
+[36/200] breastmnist r=10 d=16 froz s=777 linear                   auc=0.7164 f1=0.6635 ETA 0.4h
+[37/200] breastmnist r=10 d=16 froz s=888 quantum_vqc              auc=0.7199 f1=0.2504 ETA 0.4h
+[38/200] breastmnist r=10 d=16 froz s=888 low_rank                 auc=0.7112 f1=0.6307 ETA 0.4h
+[39/200] breastmnist r=10 d=16 froz s=888 fourier_rff              auc=0.6681 f1=0.4222 ETA 0.4h
+[40/200] breastmnist r=10 d=16 froz s=888 linear                   auc=0.6942 f1=0.4222 ETA 0.4h
+[41/200] breastmnist r=20 d=16 froz s=42 quantum_vqc              auc=0.7383 f1=0.2687 ETA 0.4h
+[42/200] breastmnist r=20 d=16 froz s=42 low_rank                 auc=0.7853 f1=0.6627 ETA 0.4h
+[43/200] breastmnist r=20 d=16 froz s=42 fourier_rff              auc=0.7602 f1=0.4222 ETA 0.4h
+[44/200] breastmnist r=20 d=16 froz s=42 linear                   auc=0.7962 f1=0.6571 ETA 0.4h
+[45/200] breastmnist r=20 d=16 froz s=123 quantum_vqc              auc=0.7569 f1=0.6770 ETA 0.5h
+[46/200] breastmnist r=20 d=16 froz s=123 low_rank                 auc=0.7500 f1=0.4926 ETA 0.4h
+[47/200] breastmnist r=20 d=16 froz s=123 fourier_rff              auc=0.7527 f1=0.4196 ETA 0.4h
+[48/200] breastmnist r=20 d=16 froz s=123 linear                   auc=0.7634 f1=0.6988 ETA 0.4h
+[49/200] breastmnist r=20 d=16 froz s=2026 quantum_vqc              auc=0.7279 f1=0.6560 ETA 0.5h
+[50/200] breastmnist r=20 d=16 froz s=2026 low_rank                 auc=0.7343 f1=0.5985 ETA 0.5h
+[51/200] breastmnist r=20 d=16 froz s=2026 fourier_rff              auc=0.7519 f1=0.6594 ETA 0.5h
+[52/200] breastmnist r=20 d=16 froz s=2026 linear                   auc=0.7444 f1=0.5798 ETA 0.5h
+[53/200] breastmnist r=20 d=16 froz s=777 quantum_vqc              auc=0.7556 f1=0.4222 ETA 0.5h
+[54/200] breastmnist r=20 d=16 froz s=777 low_rank                 auc=0.7855 f1=0.4222 ETA 0.5h
+[55/200] breastmnist r=20 d=16 froz s=777 fourier_rff              auc=0.7095 f1=0.2121 ETA 0.5h
+[56/200] breastmnist r=20 d=16 froz s=777 linear                   auc=0.7312 f1=0.4222 ETA 0.5h
+[57/200] breastmnist r=20 d=16 froz s=888 quantum_vqc              auc=0.6840 f1=0.5974 ETA 0.5h
+[58/200] breastmnist r=20 d=16 froz s=888 low_rank                 auc=0.6759 f1=0.6253 ETA 0.5h
+[59/200] breastmnist r=20 d=16 froz s=888 fourier_rff              auc=0.6495 f1=0.4222 ETA 0.5h
+[60/200] breastmnist r=20 d=16 froz s=888 linear                   auc=0.6558 f1=0.2121 ETA 0.5h
+[61/200] breastmnist r=50 d=16 froz s=42 quantum_vqc              auc=0.8164 f1=0.7043 ETA 0.6h
+[62/200] breastmnist r=50 d=16 froz s=42 low_rank                 auc=0.8003 f1=0.6692 ETA 0.5h
+[63/200] breastmnist r=50 d=16 froz s=42 fourier_rff              auc=0.8173 f1=0.3688 ETA 0.5h
+[64/200] breastmnist r=50 d=16 froz s=42 linear                   auc=0.8198 f1=0.7109 ETA 0.5h
+[65/200] breastmnist r=50 d=16 froz s=123 quantum_vqc              auc=0.7932 f1=0.4097 ETA 0.6h
+[66/200] breastmnist r=50 d=16 froz s=123 low_rank                 auc=0.7993 f1=0.7279 ETA 0.6h
+[67/200] breastmnist r=50 d=16 froz s=123 fourier_rff              auc=0.8012 f1=0.7029 ETA 0.6h
+[68/200] breastmnist r=50 d=16 froz s=123 linear                   auc=0.8014 f1=0.6479 ETA 0.6h
+[69/200] breastmnist r=50 d=16 froz s=2026 quantum_vqc              auc=0.7767 f1=0.7237 ETA 0.6h
+[70/200] breastmnist r=50 d=16 froz s=2026 low_rank                 auc=0.7690 f1=0.6784 ETA 0.6h
+[71/200] breastmnist r=50 d=16 froz s=2026 fourier_rff              auc=0.7715 f1=0.5155 ETA 0.6h
+[72/200] breastmnist r=50 d=16 froz s=2026 linear                   auc=0.7726 f1=0.6272 ETA 0.6h
+[73/200] breastmnist r=50 d=16 froz s=777 quantum_vqc              auc=0.7475 f1=0.5438 ETA 0.7h
+[74/200] breastmnist r=50 d=16 froz s=777 low_rank                 auc=0.7515 f1=0.6991 ETA 0.6h
+[75/200] breastmnist r=50 d=16 froz s=777 fourier_rff              auc=0.6786 f1=0.4222 ETA 0.6h
+[76/200] breastmnist r=50 d=16 froz s=777 linear                   auc=0.7393 f1=0.7104 ETA 0.6h
+[77/200] breastmnist r=50 d=16 froz s=888 quantum_vqc              auc=0.7644 f1=0.7022 ETA 0.7h
+[78/200] breastmnist r=50 d=16 froz s=888 low_rank                 auc=0.7600 f1=0.6634 ETA 0.7h
+[79/200] breastmnist r=50 d=16 froz s=888 fourier_rff              auc=0.7686 f1=0.5125 ETA 0.6h
+[80/200] breastmnist r=50 d=16 froz s=888 linear                   auc=0.7596 f1=0.6650 ETA 0.6h
+[81/200] breastmnist r=100 d=16 froz s=42 quantum_vqc              auc=0.7561 f1=0.6230 ETA 0.7h
+[82/200] breastmnist r=100 d=16 froz s=42 low_rank                 auc=0.7567 f1=0.6746 ETA 0.7h
+[83/200] breastmnist r=100 d=16 froz s=42 fourier_rff              auc=0.7686 f1=0.5987 ETA 0.7h
+[84/200] breastmnist r=100 d=16 froz s=42 linear                   auc=0.7646 f1=0.5654 ETA 0.6h
+[85/200] breastmnist r=100 d=16 froz s=123 quantum_vqc              auc=0.7907 f1=0.7170 ETA 0.7h
+[86/200] breastmnist r=100 d=16 froz s=123 low_rank                 auc=0.7884 f1=0.7292 ETA 0.7h
+[87/200] breastmnist r=100 d=16 froz s=123 fourier_rff              auc=0.8008 f1=0.6821 ETA 0.7h
+[88/200] breastmnist r=100 d=16 froz s=123 linear                   auc=0.7941 f1=0.7351 ETA 0.7h
+[89/200] breastmnist r=100 d=16 froz s=2026 quantum_vqc              auc=0.8208 f1=0.7689 ETA 0.8h
+[90/200] breastmnist r=100 d=16 froz s=2026 low_rank                 auc=0.7980 f1=0.7370 ETA 0.7h
+[91/200] breastmnist r=100 d=16 froz s=2026 fourier_rff              auc=0.8198 f1=0.7174 ETA 0.7h
+[92/200] breastmnist r=100 d=16 froz s=2026 linear                   auc=0.8262 f1=0.7753 ETA 0.7h
+[93/200] breastmnist r=100 d=16 froz s=777 quantum_vqc              auc=0.8143 f1=0.7407 ETA 0.7h
+[94/200] breastmnist r=100 d=16 froz s=777 low_rank                 auc=0.8133 f1=0.7115 ETA 0.7h
+[95/200] breastmnist r=100 d=16 froz s=777 fourier_rff              auc=0.8214 f1=0.7057 ETA 0.7h
+[96/200] breastmnist r=100 d=16 froz s=777 linear                   auc=0.8131 f1=0.7440 ETA 0.7h
+[97/200] breastmnist r=100 d=16 froz s=888 quantum_vqc              auc=0.8386 f1=0.5898 ETA 0.8h
+[98/200] breastmnist r=100 d=16 froz s=888 low_rank                 auc=0.8277 f1=0.5684 ETA 0.7h
+[99/200] breastmnist r=100 d=16 froz s=888 fourier_rff              auc=0.8235 f1=0.7249 ETA 0.7h
+[100/200] breastmnist r=100 d=16 froz s=888 linear                   auc=0.8298 f1=0.7407 ETA 0.7h
+[101/200] pneumoniamnist r=5 d=16 froz s=42 quantum_vqc              auc=0.9128 f1=0.8141 ETA 0.7h
+[102/200] pneumoniamnist r=5 d=16 froz s=42 low_rank                 auc=0.8985 f1=0.8144 ETA 0.7h
+[103/200] pneumoniamnist r=5 d=16 froz s=42 fourier_rff              auc=0.9011 f1=0.3846 ETA 0.7h
+[104/200] pneumoniamnist r=5 d=16 froz s=42 linear                   auc=0.9104 f1=0.2727 ETA 0.7h
+[105/200] pneumoniamnist r=5 d=16 froz s=123 quantum_vqc              auc=0.9334 f1=0.2727 ETA 0.7h
+[106/200] pneumoniamnist r=5 d=16 froz s=123 low_rank                 auc=0.8975 f1=0.8118 ETA 0.7h
+[107/200] pneumoniamnist r=5 d=16 froz s=123 fourier_rff              auc=0.9006 f1=0.7971 ETA 0.6h
+[108/200] pneumoniamnist r=5 d=16 froz s=123 linear                   auc=0.8971 f1=0.7051 ETA 0.6h
+[109/200] pneumoniamnist r=5 d=16 froz s=2026 quantum_vqc              auc=0.9170 f1=0.7436 ETA 0.6h
+[110/200] pneumoniamnist r=5 d=16 froz s=2026 low_rank                 auc=0.9183 f1=0.8447 ETA 0.6h
+[111/200] pneumoniamnist r=5 d=16 froz s=2026 fourier_rff              auc=0.9005 f1=0.2727 ETA 0.6h
+[112/200] pneumoniamnist r=5 d=16 froz s=2026 linear                   auc=0.9073 f1=0.4976 ETA 0.6h
+[113/200] pneumoniamnist r=5 d=16 froz s=777 quantum_vqc              auc=0.9262 f1=0.8383 ETA 0.6h
+[114/200] pneumoniamnist r=5 d=16 froz s=777 low_rank                 auc=0.9128 f1=0.4029 ETA 0.6h
+[115/200] pneumoniamnist r=5 d=16 froz s=777 fourier_rff              auc=0.9061 f1=0.3937 ETA 0.6h
+[116/200] pneumoniamnist r=5 d=16 froz s=777 linear                   auc=0.9198 f1=0.8094 ETA 0.6h
+[117/200] pneumoniamnist r=5 d=16 froz s=888 quantum_vqc              auc=0.9135 f1=0.8198 ETA 0.6h
+[118/200] pneumoniamnist r=5 d=16 froz s=888 low_rank                 auc=0.9127 f1=0.8485 ETA 0.5h
+[119/200] pneumoniamnist r=5 d=16 froz s=888 fourier_rff              auc=0.8928 f1=0.3846 ETA 0.5h
+[120/200] pneumoniamnist r=5 d=16 froz s=888 linear                   auc=0.8991 f1=0.2727 ETA 0.5h
+[121/200] pneumoniamnist r=10 d=16 froz s=42 quantum_vqc              auc=0.9333 f1=0.8567 ETA 0.5h
+[122/200] pneumoniamnist r=10 d=16 froz s=42 low_rank                 auc=0.9289 f1=0.8562 ETA 0.5h
+[123/200] pneumoniamnist r=10 d=16 froz s=42 fourier_rff              auc=0.9173 f1=0.4422 ETA 0.5h
+[124/200] pneumoniamnist r=10 d=16 froz s=42 linear                   auc=0.9307 f1=0.8585 ETA 0.5h
+[125/200] pneumoniamnist r=10 d=16 froz s=123 quantum_vqc              auc=0.9053 f1=0.3427 ETA 0.5h
+[126/200] pneumoniamnist r=10 d=16 froz s=123 low_rank                 auc=0.9141 f1=0.7717 ETA 0.5h
+[127/200] pneumoniamnist r=10 d=16 froz s=123 fourier_rff              auc=0.8937 f1=0.7728 ETA 0.5h
+[128/200] pneumoniamnist r=10 d=16 froz s=123 linear                   auc=0.8950 f1=0.6879 ETA 0.4h
+[129/200] pneumoniamnist r=10 d=16 froz s=2026 quantum_vqc              auc=0.8894 f1=0.5148 ETA 0.4h
+[130/200] pneumoniamnist r=10 d=16 froz s=2026 low_rank                 auc=0.9136 f1=0.8075 ETA 0.4h
+[131/200] pneumoniamnist r=10 d=16 froz s=2026 fourier_rff              auc=0.8430 f1=0.2727 ETA 0.4h
+[132/200] pneumoniamnist r=10 d=16 froz s=2026 linear                   auc=0.9085 f1=0.8135 ETA 0.4h
+[133/200] pneumoniamnist r=10 d=16 froz s=777 quantum_vqc              auc=0.9117 f1=0.4671 ETA 0.4h
+[134/200] pneumoniamnist r=10 d=16 froz s=777 low_rank                 auc=0.8955 f1=0.8213 ETA 0.4h
+[135/200] pneumoniamnist r=10 d=16 froz s=777 fourier_rff              auc=0.8874 f1=0.2727 ETA 0.4h
+[136/200] pneumoniamnist r=10 d=16 froz s=777 linear                   auc=0.9158 f1=0.2727 ETA 0.4h
+[137/200] pneumoniamnist r=10 d=16 froz s=888 quantum_vqc              auc=0.9168 f1=0.8194 ETA 0.4h
+[138/200] pneumoniamnist r=10 d=16 froz s=888 low_rank                 auc=0.9105 f1=0.8230 ETA 0.4h
+[139/200] pneumoniamnist r=10 d=16 froz s=888 fourier_rff              auc=0.9196 f1=0.8155 ETA 0.4h
+[140/200] pneumoniamnist r=10 d=16 froz s=888 linear                   auc=0.9075 f1=0.7315 ETA 0.3h
+[141/200] pneumoniamnist r=20 d=16 froz s=42 quantum_vqc              auc=0.9322 f1=0.3846 ETA 0.3h
+[142/200] pneumoniamnist r=20 d=16 froz s=42 low_rank                 auc=0.9253 f1=0.8402 ETA 0.3h
+[143/200] pneumoniamnist r=20 d=16 froz s=42 fourier_rff              auc=0.9332 f1=0.8369 ETA 0.3h
+[144/200] pneumoniamnist r=20 d=16 froz s=42 linear                   auc=0.9251 f1=0.5477 ETA 0.3h
+[145/200] pneumoniamnist r=20 d=16 froz s=123 quantum_vqc              auc=0.9237 f1=0.8451 ETA 0.3h
+[146/200] pneumoniamnist r=20 d=16 froz s=123 low_rank                 auc=0.9228 f1=0.8271 ETA 0.3h
+[147/200] pneumoniamnist r=20 d=16 froz s=123 fourier_rff              auc=0.9266 f1=0.8417 ETA 0.3h
+[148/200] pneumoniamnist r=20 d=16 froz s=123 linear                   auc=0.9228 f1=0.8416 ETA 0.3h
+[149/200] pneumoniamnist r=20 d=16 froz s=2026 quantum_vqc              auc=0.9375 f1=0.8699 ETA 0.3h
+[150/200] pneumoniamnist r=20 d=16 froz s=2026 low_rank                 auc=0.9385 f1=0.6919 ETA 0.3h
+[151/200] pneumoniamnist r=20 d=16 froz s=2026 fourier_rff              auc=0.9354 f1=0.8440 ETA 0.3h
+[152/200] pneumoniamnist r=20 d=16 froz s=2026 linear                   auc=0.9370 f1=0.8136 ETA 0.3h
+[153/200] pneumoniamnist r=20 d=16 froz s=777 quantum_vqc              auc=0.9336 f1=0.7986 ETA 0.3h
+[154/200] pneumoniamnist r=20 d=16 froz s=777 low_rank                 auc=0.9267 f1=0.8423 ETA 0.3h
+[155/200] pneumoniamnist r=20 d=16 froz s=777 fourier_rff              auc=0.9277 f1=0.7721 ETA 0.3h
+[156/200] pneumoniamnist r=20 d=16 froz s=777 linear                   auc=0.9240 f1=0.3893 ETA 0.3h
+[157/200] pneumoniamnist r=20 d=16 froz s=888 quantum_vqc              auc=0.9257 f1=0.7740 ETA 0.3h
+[158/200] pneumoniamnist r=20 d=16 froz s=888 low_rank                 auc=0.9230 f1=0.8446 ETA 0.2h
+[159/200] pneumoniamnist r=20 d=16 froz s=888 fourier_rff              auc=0.9132 f1=0.8296 ETA 0.2h
+[160/200] pneumoniamnist r=20 d=16 froz s=888 linear                   auc=0.9224 f1=0.8438 ETA 0.2h
+[161/200] pneumoniamnist r=50 d=16 froz s=42 quantum_vqc              auc=0.9235 f1=0.8364 ETA 0.2h
+[162/200] pneumoniamnist r=50 d=16 froz s=42 low_rank                 auc=0.9191 f1=0.8302 ETA 0.2h
+[163/200] pneumoniamnist r=50 d=16 froz s=42 fourier_rff              auc=0.9205 f1=0.8292 ETA 0.2h
+[164/200] pneumoniamnist r=50 d=16 froz s=42 linear                   auc=0.9195 f1=0.8418 ETA 0.2h
+[165/200] pneumoniamnist r=50 d=16 froz s=123 quantum_vqc              auc=0.9298 f1=0.8499 ETA 0.2h
+[166/200] pneumoniamnist r=50 d=16 froz s=123 low_rank                 auc=0.9219 f1=0.4742 ETA 0.2h
+[167/200] pneumoniamnist r=50 d=16 froz s=123 fourier_rff              auc=0.9236 f1=0.8047 ETA 0.2h
+[168/200] pneumoniamnist r=50 d=16 froz s=123 linear                   auc=0.9175 f1=0.2727 ETA 0.2h
+[169/200] pneumoniamnist r=50 d=16 froz s=2026 quantum_vqc              auc=0.9373 f1=0.8162 ETA 0.2h
+[170/200] pneumoniamnist r=50 d=16 froz s=2026 low_rank                 auc=0.9327 f1=0.8195 ETA 0.2h
+[171/200] pneumoniamnist r=50 d=16 froz s=2026 fourier_rff              auc=0.9316 f1=0.8129 ETA 0.2h
+[172/200] pneumoniamnist r=50 d=16 froz s=2026 linear                   auc=0.9350 f1=0.8261 ETA 0.2h
+[173/200] pneumoniamnist r=50 d=16 froz s=777 quantum_vqc              auc=0.9198 f1=0.8119 ETA 0.2h
+[174/200] pneumoniamnist r=50 d=16 froz s=777 low_rank                 auc=0.9227 f1=0.8309 ETA 0.2h
+[175/200] pneumoniamnist r=50 d=16 froz s=777 fourier_rff              auc=0.9185 f1=0.5892 ETA 0.2h
+[176/200] pneumoniamnist r=50 d=16 froz s=777 linear                   auc=0.9226 f1=0.7611 ETA 0.2h
+[177/200] pneumoniamnist r=50 d=16 froz s=888 quantum_vqc              auc=0.9256 f1=0.7454 ETA 0.2h
+[178/200] pneumoniamnist r=50 d=16 froz s=888 low_rank                 auc=0.9237 f1=0.6802 ETA 0.1h
+[179/200] pneumoniamnist r=50 d=16 froz s=888 fourier_rff              auc=0.9254 f1=0.7611 ETA 0.1h
+[180/200] pneumoniamnist r=50 d=16 froz s=888 linear                   auc=0.9219 f1=0.8154 ETA 0.1h
+[181/200] pneumoniamnist r=100 d=16 froz s=42 quantum_vqc              auc=0.9377 f1=0.8610 ETA 0.1h
+[182/200] pneumoniamnist r=100 d=16 froz s=42 low_rank                 auc=0.9398 f1=0.8255 ETA 0.1h
+[183/200] pneumoniamnist r=100 d=16 froz s=42 fourier_rff              auc=0.9395 f1=0.8410 ETA 0.1h
+[184/200] pneumoniamnist r=100 d=16 froz s=42 linear                   auc=0.9369 f1=0.8578 ETA 0.1h
+[185/200] pneumoniamnist r=100 d=16 froz s=123 quantum_vqc              auc=0.9180 f1=0.7461 ETA 0.1h
+[186/200] pneumoniamnist r=100 d=16 froz s=123 low_rank                 auc=0.9162 f1=0.8029 ETA 0.1h
+[187/200] pneumoniamnist r=100 d=16 froz s=123 fourier_rff              auc=0.9211 f1=0.7134 ETA 0.1h
+[188/200] pneumoniamnist r=100 d=16 froz s=123 linear                   auc=0.9165 f1=0.8135 ETA 0.1h
+[189/200] pneumoniamnist r=100 d=16 froz s=2026 quantum_vqc              auc=0.9206 f1=0.8334 ETA 0.1h
+[190/200] pneumoniamnist r=100 d=16 froz s=2026 low_rank                 auc=0.9200 f1=0.8377 ETA 0.1h
+[191/200] pneumoniamnist r=100 d=16 froz s=2026 fourier_rff              auc=0.9208 f1=0.8309 ETA 0.1h
+[192/200] pneumoniamnist r=100 d=16 froz s=2026 linear                   auc=0.9222 f1=0.8352 ETA 0.1h
+[193/200] pneumoniamnist r=100 d=16 froz s=777 quantum_vqc              auc=0.9260 f1=0.8426 ETA 0.1h
+[194/200] pneumoniamnist r=100 d=16 froz s=777 low_rank                 auc=0.9246 f1=0.8289 ETA 0.0h
+[195/200] pneumoniamnist r=100 d=16 froz s=777 fourier_rff              auc=0.9208 f1=0.8145 ETA 0.0h
+[196/200] pneumoniamnist r=100 d=16 froz s=777 linear                   auc=0.9259 f1=0.8542 ETA 0.0h
+[197/200] pneumoniamnist r=100 d=16 froz s=888 quantum_vqc              auc=0.9387 f1=0.8268 ETA 0.0h
+[198/200] pneumoniamnist r=100 d=16 froz s=888 low_rank                 auc=0.9392 f1=0.8436 ETA 0.0h
+[199/200] pneumoniamnist r=100 d=16 froz s=888 fourier_rff              auc=0.9396 f1=0.8000 ETA 0.0h
+[200/200] pneumoniamnist r=100 d=16 froz s=888 linear                   auc=0.9385 f1=0.8340 ETA 0.0h
+
+=== AUC by cell (mean +- sd over seeds) ===
+dataset           reg   d   encoder         linear       low_rank    fourier_rff    quantum_vqc
+------------------------------------------------------------------------------------------------
+breastmnist        10  16    frozen  0.7224+-0.025  0.6884+-0.034  0.6944+-0.018  0.7083+-0.023
+breastmnist       100  16    frozen  0.8056+-0.024  0.7968+-0.024  0.8068+-0.021  0.8041+-0.028
+breastmnist        20  16    frozen  0.7382+-0.047  0.7462+-0.040  0.7248+-0.042  0.7325+-0.027
+breastmnist         5  16    frozen  0.6482+-0.118  0.6435+-0.107  0.6607+-0.038  0.6372+-0.124
+breastmnist        50  16    frozen  0.7785+-0.029  0.7760+-0.020  0.7674+-0.048  0.7797+-0.024
+pneumoniamnist     10  16    frozen  0.9115+-0.012  0.9125+-0.011  0.8922+-0.028  0.9113+-0.014
+pneumoniamnist    100  16    frozen  0.9280+-0.009  0.9280+-0.010  0.9283+-0.009  0.9282+-0.009
+pneumoniamnist     20  16    frozen  0.9263+-0.005  0.9273+-0.006  0.9272+-0.008  0.9305+-0.005
+pneumoniamnist      5  16    frozen  0.9067+-0.008  0.9080+-0.008  0.9002+-0.004  0.9206+-0.008
+pneumoniamnist     50  16    frozen  0.9233+-0.006  0.9240+-0.005  0.9239+-0.005  0.9272+-0.006
+
+=== PRIMARY (Q1, efficiency at equal parameters): quantum_vqc - matched_param_fullrank (auc) ===
+Both arms have 24 head parameters and full rank at d=4.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== SECONDARY (Q2, dequantization): quantum_vqc - fourier_rff (auc) ===
+Basis-matched, NOT parameter-matched (324 vs 24). Asks whether
+the VQC exploits its own function class as well as a direct fit.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+breastmnist        10  16    frozen   +0.0139 [-0.0082,+0.0361]    5  no difference
+breastmnist       100  16    frozen   -0.0027 [-0.0125,+0.0071]    5  no difference
+breastmnist        20  16    frozen   +0.0078 [-0.0203,+0.0358]    5  no difference
+breastmnist         5  16    frozen   -0.0235 [-0.1099,+0.0629]    5  no difference
+breastmnist        50  16    frozen   +0.0122 [-0.0159,+0.0403]    5  no difference
+pneumoniamnist     10  16    frozen   +0.0191 [+0.0032,+0.0350]    5  quantum_vqc better
+pneumoniamnist    100  16    frozen   -0.0002 [-0.0029,+0.0026]    5  no difference
+pneumoniamnist     20  16    frozen   +0.0033 [-0.0021,+0.0087]    5  no difference
+pneumoniamnist      5  16    frozen   +0.0203 [+0.0135,+0.0272]    5  quantum_vqc better
+pneumoniamnist     50  16    frozen   +0.0033 [+0.0010,+0.0056]    5  quantum_vqc better
+
+=== DIAGNOSTIC (rank-limited control): quantum_vqc - matched_param (auc) ===
+matched_param is rank-limited to width 3; superseded by
+matched_param_fullrank. Retained for reproducibility only.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== Q3: frozen - adaptive, per arm (auc) ===
+The premise check showed compression is nearly free WITH an adaptive
+encoder. A large negative delta here means the encoder was absorbing
+the constraint - the reframed 'Latent Reshaping' claim.
+dataset           reg   d                      arm     delta    n
+------------------------------------------------------------------------
+
+=== Trainable capacity by component ===
+If the head's share is small, the experiment is not isolating the head.
+
+arm                        d bottleneck   bneck   head   clf   total  head %
+------------------------------------------------------------------------------
+fourier_rff               16    learned    4112  32784    34   36930   88.8%
+linear                    16    learned    4112      0    34    4146    0.0%
+low_rank                  16    learned    4112     96    34    4242    2.3%
+quantum_vqc               16    learned    4112     96    34    4242    2.3%
+
+=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===
+frozen: backbone must be '-' (no gradient reaches it).
+adaptive: backbone must be non-zero for EVERY arm, quantum included.
+
+arm                        encoder  runs    backbone  bottleneck        head  verdict
+--------------------------------------------------------------------------------------------
+fourier_rff                 frozen    50           -      3.6877      5.3739  OK
+linear                      frozen    50           -      0.6703           -  OK
+low_rank                    frozen    50           -      0.5720      0.2481  OK
+quantum_vqc                 frozen    50           -      0.8814      0.2218  OK
+
+Predictions: 200/200 claimed files are retrievable on disk; 0 shards predate prediction saving.
+
+DIAGNOSTIC OUTPUT - every interval above is a normal approximation
+over seeds. Confirmatory statistics come from 04_statistical_analysis.py.

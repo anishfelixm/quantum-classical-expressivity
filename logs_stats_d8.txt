@@ -1,0 +1,70 @@
+Arm-specific keys excluded from the cell definition: ['lrq']
+(carried by some arms but not all, so they cannot define a
+ condition shared across arms - e.g. lrq on quantum arms only)
+
+Integrity: 800 runs re-scored from stored predictions; max |recomputed - recorded| = 0.00e+00
+
+BH-FDR family size m = 23  (declared; 20 computed here)
+
+=== PRIMARY: quantum_vqc - low_rank  (auc) ===
+condition                                 enc     delta                95% CI         p     p_adj       d  verdict
+--------------------------------------------------------------------------------------------------------------------------------
+bloodmnist n=5 d=8  lrh=1e-02            froz   -0.0132 [-0.0502,+0.0384]    0.5330    0.7211   -0.17  no difference
+bloodmnist n=10 d=8  lrh=1e-02           froz   -0.0183 [-0.0412,+0.0048]    0.1280    0.2697   -0.46  no difference
+bloodmnist n=20 d=8  lrh=1e-02           froz   -0.0281 [-0.0378,-0.0159]    0.0000    0.0000   -1.50  low_rank better
+bloodmnist n=50 d=8  lrh=1e-02           froz   -0.0223 [-0.0409,-0.0062]    0.0060    0.0197   -0.76  low_rank better
+bloodmnist n=100 d=8  lrh=1e-02          froz   -0.0107 [-0.0200,-0.0025]    0.0120    0.0345   -0.71  low_rank better
+breastmnist n=5 d=8  lrh=1e-02           froz   -0.0010 [-0.0418,+0.0415]    0.9400    1.0000   -0.02  no difference
+breastmnist n=10 d=8  lrh=1e-02          froz   +0.0088 [-0.0160,+0.0340]    0.4600    0.7053   +0.30  no difference
+breastmnist n=20 d=8  lrh=1e-02          froz   +0.0145 [-0.0032,+0.0376]    0.1290    0.2697   +0.56  no difference
+breastmnist n=50 d=8  lrh=1e-02          froz   +0.0031 [-0.0113,+0.0210]    0.7350    0.9261   +0.17  no difference
+breastmnist n=100 d=8  lrh=1e-02         froz   +0.0103 [-0.0029,+0.0293]    0.1410    0.2702   +0.68  no difference
+pathmnist n=5 d=8  lrh=1e-02             froz   -0.0367 [-0.0564,-0.0157]    0.0010    0.0038   -1.07  low_rank better
+pathmnist n=10 d=8  lrh=1e-02            froz   -0.0298 [-0.0438,-0.0160]    0.0000    0.0000   -1.23  low_rank better
+pathmnist n=20 d=8  lrh=1e-02            froz   -0.0223 [-0.0318,-0.0124]    0.0000    0.0000   -1.34  low_rank better
+pathmnist n=50 d=8  lrh=1e-02            froz   -0.0242 [-0.0369,-0.0123]    0.0000    0.0000   -1.13  low_rank better
+pathmnist n=100 d=8  lrh=1e-02           froz   -0.0190 [-0.0226,-0.0152]    0.0000    0.0000   -3.16  low_rank better
+pneumoniamnist n=5 d=8  lrh=1e-02        froz   -0.0019 [-0.0164,+0.0155]    0.7650    0.9261   -0.07  no difference
+pneumoniamnist n=10 d=8  lrh=1e-02       froz   -0.0061 [-0.0217,+0.0071]    0.4210    0.7053   -0.28  no difference
+pneumoniamnist n=20 d=8  lrh=1e-02       froz   +0.0078 [+0.0007,+0.0177]    0.0230    0.0588   +0.56  quantum_vqc better (negligible)
+pneumoniamnist n=50 d=8  lrh=1e-02       froz   -0.0006 [-0.0026,+0.0013]    0.4440    0.7053   -0.30  no difference
+pneumoniamnist n=100 d=8  lrh=1e-02      froz   -0.0007 [-0.0026,+0.0014]    0.5140    0.7211   -0.24  no difference
+
+=== H-P2: trend of delta on log2(shots/class), PRIMARY family ===
+    n=   5  mean delta = -0.0132 (4 cells)
+    n=  10  mean delta = -0.0114 (4 cells)
+    n=  20  mean delta = -0.0070 (4 cells)
+    n=  50  mean delta = -0.0110 (4 cells)
+    n= 100  mean delta = -0.0050 (4 cells)
+
+    slope = +0.00147 per doubling  [-0.00213, +0.00512]
+    H-P2 NOT supported (CI must exclude 0 and be negative)
+
+=== POOLED across datasets: quantum_vqc - low_rank (auc) ===
+Each replicate resamples test indices and seeds WITHIN each dataset,
+then averages the per-dataset deltas - so every dataset carries equal
+weight regardless of test-set size.
+
+ n/cls  datasets     delta                95% CI         p       d  verdict
+--------------------------------------------------------------------------
+     5         4   -0.0132 [-0.0283,+0.0044]    0.1400   -0.80  no difference
+    10         4   -0.0114 [-0.0213,-0.0011]    0.0340   -0.69  classical better
+    20         4   -0.0070 [-0.0132,+0.0006]    0.0690   -0.33  no difference
+    50         4   -0.0110 [-0.0176,-0.0045]    0.0020   -0.77  classical better
+   100         4   -0.0050 [-0.0094,+0.0003]    0.0580   -0.39  no difference
+
+    quantum_vqc > low_rank (Delta at n=5 > 0, pooled): NOT supported
+    delta = -0.0132  95% CI [-0.0283, +0.0044]
+
+=== Leave-one-dataset-out (is the pooled effect one dataset?) ===
+excluded             delta(n=5)                95% CI   slope
+------------------------------------------------------------------
+none (all four)         -0.0132 [-0.0295,+0.0019] +0.00147   <-- effect GONE without this
+bloodmnist              -0.0132 [-0.0274,+0.0029] +0.00190   <-- effect GONE without this
+breastmnist             -0.0173 [-0.0339,+0.0014] +0.00150   <-- effect GONE without this
+pathmnist               -0.0054 [-0.0247,+0.0144] +0.00074   <-- effect GONE without this
+pneumoniamnist          -0.0170 [-0.0369,+0.0055] +0.00175   <-- effect GONE without this
+
+The full pooled effect at n=5 is not significant to
+begin with, so leave-one-out cannot demonstrate fragility -
+there is no effect there to lose.

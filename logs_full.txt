@@ -1,0 +1,217 @@
+nohup: ignoring input
+
+Trainable capacity at d=4, bottleneck=learned:
+  quantum_vqc              bottleneck= 1028 head=  24 clf= 10 total= 1062 head=2.3%
+  matched_param_fullrank   bottleneck= 1028 head=  24 clf= 10 total= 1062 head=2.3%
+  linear                   bottleneck= 1028 head=   0 clf= 10 total= 1038 head=0.0%
+  fourier_rff              bottleneck= 1028 head= 324 clf= 10 total= 1362 head=23.8%
+
+Experiment 1 | 80 cells | ns=17_fulldata | device=cpu | sha=e07459a5
+  augment=False L=2 use_tanh=True bottleneck=learned angle_scale=1.5708 save_predictions=True
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[1/80] breastmnist r=full d=4 froz s=42 quantum_vqc              auc=0.8331 f1=0.7688 ETA 29.8h
+[2/80] breastmnist r=full d=4 froz s=42 matched_param_fullrank   auc=0.7646 f1=0.4222 ETA 15.7h
+[3/80] breastmnist r=full d=4 froz s=42 linear                   auc=0.8557 f1=0.7606 ETA 11.0h
+[4/80] breastmnist r=full d=4 froz s=42 fourier_rff              auc=0.8611 f1=0.7021 ETA 8.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[5/80] breastmnist r=full d=4 froz s=123 quantum_vqc              auc=0.8319 f1=0.7555 ETA 12.2h
+[6/80] breastmnist r=full d=4 froz s=123 matched_param_fullrank   auc=0.7769 f1=0.6479 ETA 10.2h
+[7/80] breastmnist r=full d=4 froz s=123 linear                   auc=0.8413 f1=0.6888 ETA 8.8h
+[8/80] breastmnist r=full d=4 froz s=123 fourier_rff              auc=0.8492 f1=0.7815 ETA 7.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[9/80] breastmnist r=full d=4 froz s=2026 quantum_vqc              auc=0.8396 f1=0.7626 ETA 10.1h
+[10/80] breastmnist r=full d=4 froz s=2026 matched_param_fullrank   auc=0.8315 f1=0.7712 ETA 9.2h
+[11/80] breastmnist r=full d=4 froz s=2026 linear                   auc=0.8542 f1=0.8015 ETA 8.4h
+[12/80] breastmnist r=full d=4 froz s=2026 fourier_rff              auc=0.8419 f1=0.7564 ETA 7.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[13/80] breastmnist r=full d=4 froz s=777 quantum_vqc              auc=0.8175 f1=0.7382 ETA 8.3h
+[14/80] breastmnist r=full d=4 froz s=777 matched_param_fullrank   auc=0.8229 f1=0.7379 ETA 7.6h
+[15/80] breastmnist r=full d=4 froz s=777 linear                   auc=0.8496 f1=0.7848 ETA 7.1h
+[16/80] breastmnist r=full d=4 froz s=777 fourier_rff              auc=0.8348 f1=0.7848 ETA 6.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+[17/80] breastmnist r=full d=4 froz s=888 quantum_vqc              auc=0.8657 f1=0.7606 ETA 7.7h
+[18/80] breastmnist r=full d=4 froz s=888 matched_param_fullrank   auc=0.8605 f1=0.7498 ETA 7.3h
+[19/80] breastmnist r=full d=4 froz s=888 linear                   auc=0.8574 f1=0.7411 ETA 6.9h
+[20/80] breastmnist r=full d=4 froz s=888 fourier_rff              auc=0.8609 f1=0.7881 ETA 6.5h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[21/80] pneumoniamnist r=full d=4 froz s=42 quantum_vqc              auc=0.9581 f1=0.8633 ETA 15.4h
+[22/80] pneumoniamnist r=full d=4 froz s=42 matched_param_fullrank   auc=0.9561 f1=0.8275 ETA 15.1h
+[23/80] pneumoniamnist r=full d=4 froz s=42 linear                   auc=0.9578 f1=0.8551 ETA 14.6h
+[24/80] pneumoniamnist r=full d=4 froz s=42 fourier_rff              auc=0.9524 f1=0.8226 ETA 14.3h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[25/80] pneumoniamnist r=full d=4 froz s=123 quantum_vqc              auc=0.9569 f1=0.8409 ETA 20.7h
+[26/80] pneumoniamnist r=full d=4 froz s=123 matched_param_fullrank   auc=0.9480 f1=0.8354 ETA 20.0h
+[27/80] pneumoniamnist r=full d=4 froz s=123 linear                   auc=0.9565 f1=0.8232 ETA 19.3h
+[28/80] pneumoniamnist r=full d=4 froz s=123 fourier_rff              auc=0.9561 f1=0.8674 ETA 18.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[29/80] pneumoniamnist r=full d=4 froz s=2026 quantum_vqc              auc=0.9585 f1=0.8758 ETA 23.4h
+[30/80] pneumoniamnist r=full d=4 froz s=2026 matched_param_fullrank   auc=0.9581 f1=0.8405 ETA 22.6h
+[31/80] pneumoniamnist r=full d=4 froz s=2026 linear                   auc=0.9568 f1=0.8563 ETA 21.7h
+[32/80] pneumoniamnist r=full d=4 froz s=2026 fourier_rff              auc=0.9567 f1=0.8547 ETA 20.9h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[33/80] pneumoniamnist r=full d=4 froz s=777 quantum_vqc              auc=0.9570 f1=0.8623 ETA 24.5h
+[34/80] pneumoniamnist r=full d=4 froz s=777 matched_param_fullrank   auc=0.9565 f1=0.8636 ETA 23.6h
+[35/80] pneumoniamnist r=full d=4 froz s=777 linear                   auc=0.9581 f1=0.8858 ETA 22.6h
+[36/80] pneumoniamnist r=full d=4 froz s=777 fourier_rff              auc=0.9576 f1=0.8623 ETA 21.8h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+[37/80] pneumoniamnist r=full d=4 froz s=888 quantum_vqc              auc=0.9575 f1=0.8633 ETA 24.5h
+[38/80] pneumoniamnist r=full d=4 froz s=888 matched_param_fullrank   auc=0.9571 f1=0.8583 ETA 23.5h
+[39/80] pneumoniamnist r=full d=4 froz s=888 linear                   auc=0.9605 f1=0.8216 ETA 22.6h
+[40/80] pneumoniamnist r=full d=4 froz s=888 fourier_rff              auc=0.9567 f1=0.8364 ETA 21.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[41/80] bloodmnist r=full d=4 froz s=42 quantum_vqc              auc=0.9510 f1=0.6894 ETA 28.6h
+[42/80] bloodmnist r=full d=4 froz s=42 matched_param_fullrank   auc=0.9827 f1=0.8284 ETA 27.8h
+[43/80] bloodmnist r=full d=4 froz s=42 linear                   auc=0.9807 f1=0.8091 ETA 26.8h
+[44/80] bloodmnist r=full d=4 froz s=42 fourier_rff              auc=0.9838 f1=0.8342 ETA 26.0h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[45/80] bloodmnist r=full d=4 froz s=123 quantum_vqc              auc=0.9528 f1=0.6824 ETA 30.4h
+[46/80] bloodmnist r=full d=4 froz s=123 matched_param_fullrank   auc=0.9792 f1=0.8140 ETA 29.3h
+[47/80] bloodmnist r=full d=4 froz s=123 linear                   auc=0.9805 f1=0.8175 ETA 28.2h
+[48/80] bloodmnist r=full d=4 froz s=123 fourier_rff              auc=0.9829 f1=0.8309 ETA 27.2h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[49/80] bloodmnist r=full d=4 froz s=2026 quantum_vqc              auc=0.9419 f1=0.6708 ETA 31.0h
+[50/80] bloodmnist r=full d=4 froz s=2026 matched_param_fullrank   auc=0.9732 f1=0.7556 ETA 29.8h
+[51/80] bloodmnist r=full d=4 froz s=2026 linear                   auc=0.9822 f1=0.8324 ETA 28.5h
+[52/80] bloodmnist r=full d=4 froz s=2026 fourier_rff              auc=0.9754 f1=0.7933 ETA 27.3h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[53/80] bloodmnist r=full d=4 froz s=777 quantum_vqc              auc=0.8830 f1=0.4885 ETA 30.1h
+[54/80] bloodmnist r=full d=4 froz s=777 matched_param_fullrank   auc=0.9828 f1=0.8207 ETA 28.8h
+[55/80] bloodmnist r=full d=4 froz s=777 linear                   auc=0.9811 f1=0.8165 ETA 27.4h
+[56/80] bloodmnist r=full d=4 froz s=777 fourier_rff              auc=0.9753 f1=0.7747 ETA 26.1h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+[57/80] bloodmnist r=full d=4 froz s=888 quantum_vqc              auc=0.9524 f1=0.6973 ETA 27.9h
+[58/80] bloodmnist r=full d=4 froz s=888 matched_param_fullrank   auc=0.9728 f1=0.7794 ETA 26.5h
+[59/80] bloodmnist r=full d=4 froz s=888 linear                   auc=0.9789 f1=0.8097 ETA 25.0h
+[60/80] bloodmnist r=full d=4 froz s=888 fourier_rff              auc=0.9834 f1=0.8326 ETA 23.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+[61/80] pathmnist r=full d=4 froz s=42 quantum_vqc              auc=0.9627 f1=0.7567 ETA 25.1h
+[62/80] pathmnist r=full d=4 froz s=42 matched_param_fullrank   auc=0.9784 f1=0.8270 ETA 23.6h
+[63/80] pathmnist r=full d=4 froz s=42 linear                   auc=0.9766 f1=0.8179 ETA 22.1h
+[64/80] pathmnist r=full d=4 froz s=42 fourier_rff              auc=0.9813 f1=0.8199 ETA 20.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+[65/80] pathmnist r=full d=4 froz s=123 quantum_vqc              auc=0.9637 f1=0.7783 ETA 21.3h
+[66/80] pathmnist r=full d=4 froz s=123 matched_param_fullrank   auc=0.9759 f1=0.8100 ETA 19.7h
+[67/80] pathmnist r=full d=4 froz s=123 linear                   auc=0.9739 f1=0.8135 ETA 18.1h
+[68/80] pathmnist r=full d=4 froz s=123 fourier_rff              auc=0.9805 f1=0.7961 ETA 16.6h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+[69/80] pathmnist r=full d=4 froz s=2026 quantum_vqc              auc=0.9588 f1=0.7522 ETA 16.6h
+[70/80] pathmnist r=full d=4 froz s=2026 matched_param_fullrank   auc=0.9753 f1=0.7960 ETA 15.0h
+[71/80] pathmnist r=full d=4 froz s=2026 linear                   auc=0.9758 f1=0.8175 ETA 13.3h
+[72/80] pathmnist r=full d=4 froz s=2026 fourier_rff              auc=0.9846 f1=0.8446 ETA 11.7h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+[73/80] pathmnist r=full d=4 froz s=777 quantum_vqc              auc=0.9626 f1=0.7171 ETA 11.1h
+[74/80] pathmnist r=full d=4 froz s=777 matched_param_fullrank   auc=0.9719 f1=0.7964 ETA 9.4h
+[75/80] pathmnist r=full d=4 froz s=777 linear                   auc=0.9766 f1=0.8332 ETA 7.8h
+[76/80] pathmnist r=full d=4 froz s=777 fourier_rff              auc=0.9778 f1=0.8293 ETA 6.2h
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pathmnist.npz
+[77/80] pathmnist r=full d=4 froz s=888 quantum_vqc              auc=0.9585 f1=0.7618 ETA 5.0h
+[78/80] pathmnist r=full d=4 froz s=888 matched_param_fullrank   auc=0.9752 f1=0.7889 ETA 3.3h
+[79/80] pathmnist r=full d=4 froz s=888 linear                   auc=0.9753 f1=0.8115 ETA 1.6h
+[80/80] pathmnist r=full d=4 froz s=888 fourier_rff              auc=0.9809 f1=0.8063 ETA 0.0h
+
+=== AUC by cell (mean +- sd over seeds) ===
+dataset           reg   d   encoder         linear   matched_para    fourier_rff    quantum_vqc
+------------------------------------------------------------------------------------------------
+bloodmnist       full   4    frozen  0.9807+-0.001  0.9781+-0.004  0.9801+-0.004  0.9362+-0.027
+breastmnist      full   4    frozen  0.8516+-0.006  0.8113+-0.036  0.8496+-0.010  0.8376+-0.016
+pathmnist        full   4    frozen  0.9756+-0.001  0.9753+-0.002  0.9810+-0.002  0.9612+-0.002
+pneumoniamnist   full   4    frozen  0.9579+-0.001  0.9552+-0.004  0.9559+-0.002  0.9576+-0.001
+
+=== PRIMARY (Q1, efficiency at equal parameters): quantum_vqc - matched_param_fullrank (auc) ===
+Both arms have 24 head parameters and full rank at d=4.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+bloodmnist       full   4    frozen   -0.0419 [-0.0706,-0.0132]    5  matched_param_fullrank better
+breastmnist      full   4    frozen   +0.0263 [-0.0027,+0.0553]    5  no difference
+pathmnist        full   4    frozen   -0.0141 [-0.0169,-0.0112]    5  matched_param_fullrank better
+pneumoniamnist   full   4    frozen   +0.0024 [-0.0008,+0.0057]    5  no difference
+
+=== SECONDARY (Q2, dequantization): quantum_vqc - fourier_rff (auc) ===
+Basis-matched, NOT parameter-matched (324 vs 24). Asks whether
+the VQC exploits its own function class as well as a direct fit.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+bloodmnist       full   4    frozen   -0.0439 [-0.0676,-0.0202]    5  fourier_rff better
+breastmnist      full   4    frozen   -0.0120 [-0.0235,-0.0005]    5  fourier_rff better
+pathmnist        full   4    frozen   -0.0198 [-0.0236,-0.0160]    5  fourier_rff better
+pneumoniamnist   full   4    frozen   +0.0017 [-0.0004,+0.0038]    5  no difference
+
+=== DIAGNOSTIC (rank-limited control): quantum_vqc - matched_param (auc) ===
+matched_param is rank-limited to width 3; superseded by
+matched_param_fullrank. Retained for reproducibility only.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== Q3: frozen - adaptive, per arm (auc) ===
+The premise check showed compression is nearly free WITH an adaptive
+encoder. A large negative delta here means the encoder was absorbing
+the constraint - the reframed 'Latent Reshaping' claim.
+dataset           reg   d                      arm     delta    n
+------------------------------------------------------------------------
+
+=== Trainable capacity by component ===
+If the head's share is small, the experiment is not isolating the head.
+
+arm                        d bottleneck   bneck   head   clf   total  head %
+------------------------------------------------------------------------------
+fourier_rff                4    learned    1028    324    10    1362   23.8%
+linear                     4    learned    1028      0    10    1038    0.0%
+matched_param_fullrank     4    learned    1028     24    10    1062    2.3%
+quantum_vqc                4    learned    1028     24    10    1062    2.3%
+
+=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===
+frozen: backbone must be '-' (no gradient reaches it).
+adaptive: backbone must be non-zero for EVERY arm, quantum included.
+
+arm                        encoder  runs    backbone  bottleneck        head  verdict
+--------------------------------------------------------------------------------------------
+fourier_rff                 frozen    20           -      1.8734      0.5127  OK
+linear                      frozen    20           -      1.3063           -  OK
+matched_param_fullrank      frozen    20           -      1.5244      0.6350  OK
+quantum_vqc                 frozen    20           -      1.7204      0.4271  OK
+
+Predictions: 80/80 claimed files are retrievable on disk; 0 shards predate prediction saving.
+
+DIAGNOSTIC OUTPUT - every interval above is a normal approximation
+over seeds. Confirmatory statistics come from 04_statistical_analysis.py.

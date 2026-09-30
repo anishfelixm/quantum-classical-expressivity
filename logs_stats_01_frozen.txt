@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/jovyan/qml_exp_2026/quantum-classical-expressivity/src/04_statistical_analysis.py", line 714, in <module>
+    main()
+  File "/home/jovyan/qml_exp_2026/quantum-classical-expressivity/src/04_statistical_analysis.py", line 709, in main
+    run(args.experiment, args.metric, args.latex,
+  File "/home/jovyan/qml_exp_2026/quantum-classical-expressivity/src/04_statistical_analysis.py", line 557, in run
+    tbl = collect(experiment)
+  File "/home/jovyan/qml_exp_2026/quantum-classical-expressivity/src/04_statistical_analysis.py", line 305, in collect
+    raise RuntimeError(
+RuntimeError: duplicate shard for cell=(('aug', '0'), ('dataset', 'pneumoniamnist'), ('dim', '4'), ('fp', 'all'), ('regime', '5')) arm=quantum_vqc seed=42
+  {'dataset': 'pneumoniamnist', 'regime': '5', 'dim': 4, 'seed': 42, 'arm': 'quantum_vqc', 'fp': 'all', 'aug': 0, 'bn': 'random'}
+  {'dataset': 'pneumoniamnist', 'regime': '5', 'dim': 4, 'seed': 42, 'arm': 'quantum_vqc', 'fp': 'all', 'aug': 0}
+Either an experimental axis is missing from the shard key, or an axis you swept is carried by only some arms and was therefore dropped from the cell - pass it via --compare-key.

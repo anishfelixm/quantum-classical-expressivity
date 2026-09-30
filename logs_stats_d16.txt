@@ -1,0 +1,47 @@
+Arm-specific keys excluded from the cell definition: ['lrq']
+(carried by some arms but not all, so they cannot define a
+ condition shared across arms - e.g. lrq on quantum arms only)
+
+Integrity: 200 runs re-scored from stored predictions; max |recomputed - recorded| = 0.00e+00
+
+BH-FDR family size m = 23  (declared; 10 computed here)
+
+=== PRIMARY: quantum_vqc - low_rank  (auc) ===
+condition                                 enc     delta                95% CI         p     p_adj       d  verdict
+--------------------------------------------------------------------------------------------------------------------------------
+breastmnist n=5 d=16  lrh=1e-02          froz   -0.0063 [-0.0526,+0.0325]    0.7660    1.0000   -0.23  no difference
+breastmnist n=10 d=16  lrh=1e-02         froz   +0.0199 [-0.0187,+0.0799]    0.3620    1.0000   +0.55  no difference
+breastmnist n=20 d=16  lrh=1e-02         froz   -0.0137 [-0.0489,+0.0127]    0.3510    1.0000   -0.57  no difference
+breastmnist n=50 d=16  lrh=1e-02         froz   +0.0036 [-0.0094,+0.0197]    0.6360    1.0000   +0.40  no difference
+breastmnist n=100 d=16  lrh=1e-02        froz   +0.0073 [-0.0155,+0.0317]    0.5340    1.0000   +0.75  no difference
+pneumoniamnist n=5 d=16  lrh=1e-02       froz   +0.0126 [+0.0011,+0.0268]    0.0270    0.6210   +0.85  quantum_vqc better
+pneumoniamnist n=10 d=16  lrh=1e-02      froz   -0.0012 [-0.0161,+0.0128]    0.8830    1.0000   -0.08  no difference
+pneumoniamnist n=20 d=16  lrh=1e-02      froz   +0.0032 [-0.0005,+0.0080]    0.1020    1.0000   +0.92  no difference
+pneumoniamnist n=50 d=16  lrh=1e-02      froz   +0.0032 [-0.0012,+0.0074]    0.1440    1.0000   +0.80  no difference
+pneumoniamnist n=100 d=16  lrh=1e-02     froz   +0.0002 [-0.0023,+0.0023]    0.7640    1.0000   +0.14  no difference
+
+=== H-P2: trend of delta on log2(shots/class), PRIMARY family ===
+    n=   5  mean delta = +0.0032 (2 cells)
+    n=  10  mean delta = +0.0093 (2 cells)
+    n=  20  mean delta = -0.0052 (2 cells)
+    n=  50  mean delta = +0.0034 (2 cells)
+    n= 100  mean delta = +0.0037 (2 cells)
+
+    slope = -0.00036 per doubling  [-0.00308, +0.00232]
+    H-P2 NOT supported (CI must exclude 0 and be negative)
+
+=== POOLED across datasets: quantum_vqc - low_rank (auc) ===
+Each replicate resamples test indices and seeds WITHIN each dataset,
+then averages the per-dataset deltas - so every dataset carries equal
+weight regardless of test-set size.
+
+ n/cls  datasets     delta                95% CI         p       d  verdict
+--------------------------------------------------------------------------
+     5         2   +0.0032 [-0.0200,+0.0255]    0.7480   +0.24  no difference
+    10         2   +0.0093 [-0.0112,+0.0394]    0.4460   +0.63  no difference
+    20         2   -0.0052 [-0.0226,+0.0080]    0.4700   -0.44  no difference
+    50         2   +0.0034 [-0.0032,+0.0112]    0.3360  +11.09  no difference
+   100         2   +0.0037 [-0.0079,+0.0155]    0.5110   +0.75  no difference
+
+    quantum_vqc > low_rank (Delta at n=5 > 0, pooled): NOT supported
+    delta = +0.0032  95% CI [-0.0200, +0.0255]

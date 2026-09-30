@@ -1,0 +1,69 @@
+Arm-specific keys excluded from the cell definition: ['lrq']
+(carried by some arms but not all, so they cannot define a
+ condition shared across arms - e.g. lrq on quantum arms only)
+
+Integrity: 1600 runs re-scored from stored predictions; max |recomputed - recorded| = 0.00e+00
+
+BH-FDR family size m = 23  (declared; 20 computed here)
+
+=== PRIMARY: quantum_vqc - matched_param_fullrank  (auc) ===
+condition                                 enc     delta                95% CI         p     p_adj       d  verdict
+--------------------------------------------------------------------------------------------------------------------------------
+bloodmnist n=5 d=4  lrh=1e-02            froz   +0.0446 [+0.0116,+0.0780]    0.0080    0.0263   +0.40  quantum_vqc better
+bloodmnist n=10 d=4  lrh=1e-02           froz   +0.0056 [-0.0062,+0.0180]    0.3660    0.7092   +0.14  no difference
+bloodmnist n=20 d=4  lrh=1e-02           froz   -0.0105 [-0.0218,+0.0009]    0.0750    0.2156   -0.28  no difference
+bloodmnist n=50 d=4  lrh=1e-02           froz   -0.0152 [-0.0249,-0.0040]    0.0060    0.0230   -0.44  matched_param_fullrank better
+bloodmnist n=100 d=4  lrh=1e-02          froz   -0.0153 [-0.0247,-0.0053]    0.0010    0.0046   -0.48  matched_param_fullrank better
+breastmnist n=5 d=4  lrh=1e-02           froz   +0.0104 [-0.0121,+0.0345]    0.3500    0.7092   +0.20  no difference
+breastmnist n=10 d=4  lrh=1e-02          froz   -0.0010 [-0.0217,+0.0206]    0.9010    1.0000   -0.02  no difference
+breastmnist n=20 d=4  lrh=1e-02          froz   +0.0055 [-0.0153,+0.0266]    0.6300    0.8050   +0.10  no difference
+breastmnist n=50 d=4  lrh=1e-02          froz   +0.0026 [-0.0101,+0.0186]    0.7190    0.8704   +0.09  no difference
+breastmnist n=100 d=4  lrh=1e-02         froz   +0.0027 [-0.0057,+0.0120]    0.5290    0.8050   +0.16  no difference
+pathmnist n=5 d=4  lrh=1e-02             froz   -0.0038 [-0.0196,+0.0101]    0.6230    0.8050   -0.08  no difference
+pathmnist n=10 d=4  lrh=1e-02            froz   -0.0089 [-0.0223,+0.0058]    0.2090    0.5341   -0.20  no difference
+pathmnist n=20 d=4  lrh=1e-02            froz   -0.0200 [-0.0296,-0.0091]    0.0000    0.0000   -0.61  matched_param_fullrank better
+pathmnist n=50 d=4  lrh=1e-02            froz   -0.0203 [-0.0274,-0.0136]    0.0000    0.0000   -0.86  matched_param_fullrank better
+pathmnist n=100 d=4  lrh=1e-02           froz   -0.0176 [-0.0235,-0.0121]    0.0000    0.0000   -0.93  matched_param_fullrank better
+pneumoniamnist n=5 d=4  lrh=1e-02        froz   +0.0056 [-0.0126,+0.0253]    0.5970    0.8050   +0.09  no difference
+pneumoniamnist n=10 d=4  lrh=1e-02       froz   +0.0052 [-0.0048,+0.0181]    0.3700    0.7092   +0.14  no difference
+pneumoniamnist n=20 d=4  lrh=1e-02       froz   +0.0048 [+0.0018,+0.0083]    0.0000    0.0000   +0.52  quantum_vqc better (negligible)
+pneumoniamnist n=50 d=4  lrh=1e-02       froz   +0.0008 [-0.0013,+0.0032]    0.4720    0.7754   +0.13  no difference
+pneumoniamnist n=100 d=4  lrh=1e-02      froz   +0.0005 [-0.0009,+0.0022]    0.4680    0.7754   +0.14  no difference
+
+=== H-P2: trend of delta on log2(shots/class), PRIMARY family ===
+    n=   5  mean delta = +0.0142 (4 cells)
+    n=  10  mean delta = +0.0002 (4 cells)
+    n=  20  mean delta = -0.0050 (4 cells)
+    n=  50  mean delta = -0.0080 (4 cells)
+    n= 100  mean delta = -0.0074 (4 cells)
+
+    slope = -0.00462 per doubling  [-0.00844, -0.00127]
+    H-P2 SUPPORTED (CI must exclude 0 and be negative)
+
+=== POOLED across datasets: quantum_vqc - matched_param_fullrank (auc) ===
+Each replicate resamples test indices and seeds WITHIN each dataset,
+then averages the per-dataset deltas - so every dataset carries equal
+weight regardless of test-set size.
+
+ n/cls  datasets     delta                95% CI         p       d  verdict
+--------------------------------------------------------------------------
+     5         4   +0.0142 [+0.0026,+0.0258]    0.0100   +0.67  quantum better
+    10         4   +0.0002 [-0.0069,+0.0081]    0.9940   +0.03  no difference
+    20         4   -0.0050 [-0.0111,+0.0016]    0.1350   -0.41  no difference
+    50         4   -0.0080 [-0.0126,-0.0032]    0.0000   -0.70  classical better
+   100         4   -0.0074 [-0.0109,-0.0038]    0.0000   -0.70  classical better
+
+    H-P1 (Delta at n=5 > 0, pooled): SUPPORTED
+    delta = +0.0142  95% CI [+0.0026, +0.0258]
+
+=== Leave-one-dataset-out (is the pooled effect one dataset?) ===
+excluded             delta(n=5)                95% CI   slope
+------------------------------------------------------------------
+none (all four)         +0.0142 [+0.0018,+0.0256] -0.00462
+bloodmnist              +0.0041 [-0.0057,+0.0148] -0.00197
+breastmnist             +0.0155 [+0.0014,+0.0283] -0.00581
+pathmnist               +0.0202 [+0.0041,+0.0364] -0.00500
+pneumoniamnist          +0.0171 [+0.0030,+0.0303] -0.00571
+
+If excluding one dataset collapses the effect, the finding is
+about that dataset and must be reported that way.

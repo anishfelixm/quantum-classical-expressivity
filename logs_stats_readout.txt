@@ -1,0 +1,4 @@
+Arm-specific keys excluded from the cell definition: ['lrh', 'lrq']
+(carried by some arms but not all, so they cannot define a
+ condition shared across arms - e.g. lrq on quantum arms only)
+Nothing comparable found.

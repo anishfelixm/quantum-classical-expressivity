@@ -1,0 +1,46 @@
+Arm-specific keys excluded from the cell definition: ['lrq']
+(carried by some arms but not all, so they cannot define a
+ condition shared across arms - e.g. lrq on quantum arms only)
+
+Integrity: 80 runs re-scored from stored predictions; max |recomputed - recorded| = 0.00e+00
+
+BH-FDR family size m = 23  (declared; 8 computed here)
+
+=== PRIMARY: quantum_vqc - matched_param_fullrank  (auc) ===
+condition                                 enc     delta                95% CI         p     p_adj       d  verdict
+--------------------------------------------------------------------------------------------------------------------------------
+bloodmnist n=full d=4  lrh=1e-02         froz   -0.0419 [-0.0721,-0.0240]    0.0000    0.0000   -1.28  matched_param_fullrank better
+breastmnist n=full d=4  lrh=1e-02        froz   +0.0263 [-0.0037,+0.0764]    0.1140    0.3746   +0.79  no difference
+pathmnist n=full d=4  lrh=1e-02          froz   -0.0141 [-0.0170,-0.0108]    0.0000    0.0000   -4.35  matched_param_fullrank better
+pneumoniamnist n=full d=4  lrh=1e-02     froz   +0.0024 [+0.0000,+0.0066]    0.0460    0.2116   +0.65  quantum_vqc better (negligible)
+
+=== SECONDARY: quantum_vqc - fourier_rff  (auc) ===
+condition                                 enc     delta                95% CI         p     p_adj       d  verdict
+--------------------------------------------------------------------------------------------------------------------------------
+bloodmnist n=full d=4  lrh=1e-02         froz   -0.0439 [-0.0689,-0.0296]    0.0000    0.0000   -1.62  fourier_rff better
+breastmnist n=full d=4  lrh=1e-02        froz   -0.0120 [-0.0303,+0.0008]    0.0780    0.2990   -0.92  no difference
+pathmnist n=full d=4  lrh=1e-02          froz   -0.0198 [-0.0239,-0.0161]    0.0000    0.0000   -4.57  fourier_rff better
+pneumoniamnist n=full d=4  lrh=1e-02     froz   +0.0017 [-0.0014,+0.0047]    0.2500    0.7188   +0.71  no difference
+
+=== H-P2: trend of delta on log2(shots/class), PRIMARY family ===
+    need >=3 shot levels
+
+=== POOLED across datasets: quantum_vqc - matched_param_fullrank (auc) ===
+Each replicate resamples test indices and seeds WITHIN each dataset,
+then averages the per-dataset deltas - so every dataset carries equal
+weight regardless of test-set size.
+
+ n/cls  datasets     delta                95% CI         p       d  verdict
+--------------------------------------------------------------------------
+  full         4   -0.0068 [-0.0175,+0.0053]    0.2260   -0.24  no difference
+
+    H-P1 (Delta at n=full > 0, pooled): NOT supported
+    delta = -0.0068  95% CI [-0.0175, +0.0053]
+
+=== Leave-one-dataset-out (is the pooled effect one dataset?) ===
+excluded          delta(n=full)                95% CI   slope
+------------------------------------------------------------------
+
+The full pooled effect at n=full is not significant to
+begin with, so leave-one-out cannot demonstrate fragility -
+there is no effect there to lose.
