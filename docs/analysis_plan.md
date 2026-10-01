@@ -537,17 +537,26 @@ cells and criterion.
 **What informed the change.** Validation AUC on the tuning seeds only. No
 confirmatory run existed; no test-set data was consulted.
 
-**Result.** Every optimum is interior on the extended grid.
+**Result.** On the registered grid, **all four arms** selected 1e-2 — the upper
+boundary. On the extended grid every optimum is interior.
 
-| Arm | LR | Mean val AUC |
-|---|---|---|
-| linear | 3e-2 | ⟨FILL from lr_selection.json⟩ |
-| matched_param_fullrank | 1e-2 | ⟨FILL⟩ |
-| fourier_rff | 1e-2 | ⟨FILL⟩ |
-| quantum_vqc | 1e-2 | ⟨FILL⟩ |
+| Arm | Registered-grid pick | Extended-grid pick | Mean val AUC | Changed? |
+|---|---|---|---|---|
+| linear | 1e-2 | **3e-2** | 0.9048 (1e-2: 0.9010) | yes |
+| matched_param_fullrank | 1e-2 | 1e-2 | 0.8845 | no |
+| fourier_rff | 1e-2 | 1e-2 | 0.8979 | no |
+| quantum_vqc | 1e-2 | 1e-2 | 0.8785 | no |
+
+**Consequence for the confirmatory results.** The extension changed one arm's
+rate, `linear`, by +0.004 validation AUC. The primary pair (`quantum_vqc`,
+`matched_param_fullrank`) and the H-S2 control (`fourier_rff`) receive exactly
+the rate the registered grid alone would have selected. H-P1, H-P2 and H-S2 are
+therefore invariant to this amendment.
 
 `linear`'s selected rate lies outside the registered grid. The full sweep is
-reported in the appendix.
+reported in the appendix. The `grid` field in `lr_selection.json` still lists
+the four registered values; its `full_sweep` field holds all six and is the
+authoritative record.
 
 ### Amendment 9 — change made 28 August; written 29 September. Predictions stored as float32.
 
@@ -696,3 +705,48 @@ pre-registered depth because it is the only depth at which the VQC and the
 classical control have identical parameter counts (24 = 24). The depth and tanh
 sweeps are reported as exploratory, with these patterns stated plainly, and
 matched comparisons at other depths are named as future work.
+
+### Amendment 15 — written 1 October 2026, before any family-level analysis. How the confirmatory table is computed.
+
+Every choice below is fixed before `13_family_table.py` is run for the first
+time. Recorded honestly: per-cell and per-regime H-P, H-S5, H-S6 slope and H-S7
+results have been seen; H-S1, H-S2, H-S3 (v2) and H-S4 results have not.
+
+**One statistic per declared test, one correction.** `13_family_table.py`
+computes exactly the 23 tests of §4 and applies Benjamini–Hochberg once across
+them, m = 23. A test whose data are missing or incomplete is reported as
+*not computed*; m is not reduced.
+
+**Verdict.** A test is *supported* when its BH-adjusted p ≤ 0.05 **and** the
+observed effect lies in the predicted direction. The unadjusted 95% CI is
+reported alongside. This applies §4 to every member of the family, H-P1
+included: H-P1's verdict depends on where its p-value ranks among the 23.
+
+**p-values** use the +1 correction, p = 2·min((k≤0 + 1)/(B+1), (k≥0 + 1)/(B+1)),
+so no p-value is exactly zero. Slightly conservative; it changes only effects
+whose bootstrap distribution lies entirely on one side of zero.
+
+**All statistics are nested bootstraps** (§2): every replicate resamples test
+indices and seeds within each cell, with equal weight per cell, B = 2000.
+
+- **H-P2** is the slope of pooled Δ(n) on log₂ n computed *inside* the nested
+  bootstrap. `04_statistical_analysis.py` computed H-P2 by resampling the four
+  per-dataset deltas at each n, which ignores test-set and seed variance — not
+  the §2 statistic. Both are reported; the nested one is the confirmatory value.
+- **H-S1, H-S2:** pooled Δ(n) across datasets at each n — five tests each.
+- **H-S3:** G_vqc(σ) pooled across all 20 dataset × n cells, one test per
+  σ ∈ {0.05, 0.10, 0.15, 0.20}; test indices and seeds resampled jointly across
+  σ = 0 and σ, so each G is paired.
+- **H-S4:** I pooled across all 20 cells; frozen and adaptive share resampled
+  test indices and seeds.
+- **H-S5a:** Δ₀(5) pooled across datasets. **H-S5b:** nested slope of Δ₀.
+- **H-S6:** one test per frozen policy. §3 names both Δ(5) and the slope; the
+  test statistic is **Δ(5)**, the sign-bearing quantity that H-P1 itself tests,
+  and the slope is reported descriptively. Supported if Δ(5) > 0 under that
+  policy.
+- **H-S7a, H-S7b:** pooled across all 20 dataset × n cells — the only reading
+  of "pooled" that yields one test each.
+
+**Completeness.** Every test requires all 20 cells, or all 4 cells for
+per-regime tests, with the full planned seed set. Partial data are reported as
+incomplete, never analysed.
