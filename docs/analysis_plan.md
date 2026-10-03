@@ -750,3 +750,57 @@ indices and seeds within each cell, with equal weight per cell, B = 2000.
 **Completeness.** Every test requires all 20 cells, or all 4 cells for
 per-regime tests, with the full planned seed set. Partial data are reported as
 incomplete, never analysed.
+
+### Amendment 16 — written 3 October 2026, before the runs. A powered follow-up to H-S6, and the function-class control for re-uploading.
+
+**Status of what follows.** Neither item is a member of the confirmatory
+family, and neither changes any verdict in it. H-S6's confirmatory verdict —
+*not supported* — is fixed. Both items are reported alongside the family table
+with their own correction.
+
+**(a) Why H-S6 needs a follow-up.** H-S6 was run in `12_bottleneck`: 5 seeds,
+at the default learning rate 1e-3, because that experiment never received the
+tuned rates. The exploratory companion analysis showed that the same
+experiment could not detect the n=5 advantage even under its own *learned*
+bottleneck (+0.030, 95% CI [−0.020, +0.088]). H-S6's null was therefore
+uninformative: the test lacked the power to see the effect it was testing for.
+
+**Design.** The primary's protocol exactly, with one thing changed:
+`quantum_vqc` and `matched_param_fullrank`, d=4, frozen backbone, all 40
+`CONFIRMATORY_SEEDS`, learning rate 1e-2 for both arms, bottleneck frozen as
+PCA (fitted on the unlabelled full training split, Amendment 7) or as a random
+Johnson–Lindenstrauss projection (seeded per run). Namespace
+`26_bottleneck_tuned`. The learned-bottleneck reference is the primary itself
+(`01_frozen_tuned`), identical in seeds, cells, rate and code path.
+
+**Stated limitation.** The rate 1e-2 was selected with a learned bottleneck.
+It is not re-tuned for the frozen policies; it is identical for both arms, so it
+cannot favour either, but the absolute performance under a frozen bottleneck
+may not be optimal.
+
+**Statistic.** Δ(5) under each frozen policy, pooled across datasets, nested
+bootstrap exactly as in Amendment 15; BH across the two policies (m = 2).
+Per-n rows and the slope are descriptive.
+
+**Prediction.** Under both frozen policies Δ(5) is **not** positive — the
+interval includes zero or lies below it — that is, the n=5 advantage depends on
+the learned bottleneck. Basis: the exploratory point estimates in
+`12_bottleneck` (learned +0.030, PCA −0.028, random −0.055 at n=5).
+
+**(b) E7 — the function-class control for the re-uploading VQC.** H-S1
+showed re-uploading beats the single-encoding VQC at n ≥ 10, and an exploratory
+contrast showed it beats the matched classical control at four of five n. The
+single-encoding VQC has a function-class control (H-S2, `fourier_rff`): a direct
+fit over its own trigonometric span, which beat it at n ≥ 10. The re-uploading
+VQC has none. The test suite verifies its output lies in the {−2..2}^d span to a
+residual below 1e-8, so the control is `fourier_rff_r2`: all 312 canonical
+frequencies of {−2..2}^4, 624 features, 2,500 parameters — a direct fit, not
+parameter-matched, exactly as `fourier_rff` is for H-S2. Added to
+`01_frozen_tuned` with the same 40 seeds, rate inherited from `fourier_rff`
+(1e-2). Exploratory, motivated by the data, and labelled so.
+
+**Statistic.** Pooled Δ(n) = AUC(`quantum_reupload`) − AUC(`fourier_rff_r2`) at
+each n; BH within the analysis (m = 5).
+
+**Prediction.** Δ(n) < 0 at n ≥ 10, mirroring H-S2: the re-uploading VQC does
+not match a direct fit over its own function class.

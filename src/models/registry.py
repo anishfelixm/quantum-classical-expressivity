@@ -40,7 +40,7 @@ ARM_NAMES = ["linear", "mlp", "deep_funnel", "matched_param",
              "fourier_rff", "fourier_exact",
              "quantum_vqc", "quantum_reupload",
              "quantum_rich", "quantum_rich_padded",
-             "quantum_basic"]
+             "quantum_basic", "fourier_rff_r2"]
 
 QUANTUM_ARMS = ("quantum_vqc", "quantum_reupload",
                 "quantum_rich", "quantum_rich_padded",
@@ -327,6 +327,11 @@ def build_arm(arm, d, num_classes, n_layers=2, seed=42,
         deep_encoder = DeepFunnelEncoder(FEATURE_DIM, d)
     elif arm == "fourier_rff":
         head = FourierRFFHead(d, seed=seed)
+    elif arm == "fourier_rff_r2":
+        # Direct fit over the RE-UPLOADING circuit's function class, {-2..2}^d.
+        # The control for quantum_reupload that fourier_rff is for quantum_vqc.
+        # New arm name, so no existing shard key changes.
+        head = FourierRFFHead(d, seed=seed, max_freq=2)
     elif arm == "fourier_exact":
         head = FourierExactHead(d)
     elif arm == "quantum_vqc":

@@ -113,22 +113,30 @@ def _is_canonical(omega) -> bool:
     return False
 
 
-def canonical_frequencies(d: int) -> torch.Tensor:
-    """All (3^d - 1)/2 canonical frequency vectors. Feasible for d <= 8."""
+def canonical_frequencies(d: int, max_freq: int = 1) -> torch.Tensor:
+    """
+    All ((2K+1)^d - 1)/2 canonical frequency vectors in {-K..K}^d, K = max_freq.
+
+    K=1 is the single-encoding VQC's support {-1,0,1}^d. K=2 is the support of
+    the re-uploading VQC (two RY encodings per qubit; the test suite verifies the
+    circuit's output lies in this span to a residual below 1e-8). range(-1, 2)
+    enumerates [-1, 0, 1] in the same order as before, so K=1 is unchanged.
+    """
+    vals = list(range(-max_freq, max_freq + 1))
     return torch.tensor(
-        [w for w in itertools.product([-1, 0, 1], repeat=d) if _is_canonical(w)],
+        [w for w in itertools.product(vals, repeat=d) if _is_canonical(w)],
         dtype=torch.float32,
     )
 
 
-def _sample_canonical_random(d: int, m: int, generator) -> torch.Tensor:
+def _sample_canonical_random(d: int, m: int, generator, max_freq: int = 1) -> torch.Tensor:
     """
     Rejection sampling for large d, where enumeration is infeasible
     (3^16 = 43M). Draws canonical vectors and rejects duplicates.
     """
     seen, out = set(), []
     while len(out) < m:
-        batch = torch.randint(-1, 2, (4 * m, d), generator=generator)
+        batch = torch.randint(-max_freq, max_freq + 1, (4 * m, d), generator=generator)
         for row in batch:
             if len(out) >= m:
                 break
@@ -178,19 +186,33 @@ class FourierRFFHead(nn.Module):
     Monte-Carlo kernel approximation - and it is stated in the manuscript.
     """
 
-    def __init__(self, d: int, seed: int, max_features: int = 2048):
+    def __init__(self, d: int, seed: int, max_features: int = 2048,
+                 max_freq: int = 1):
+        """
+        max_freq=1 (default) is the original arm, bit-identical: the same
+        enumeration order, the same feasibility threshold (3^8), and the same
+        random-number consumption.
+
+        max_freq=2 covers the re-uploading VQC's support {-2..2}^d: at d=4 that
+        is all 312 canonical frequencies, 624 features, Linear(624, 4) = 2,500
+        parameters. Like the max_freq=1 arm against the single-encoding VQC
+        (324 parameters vs 24), it is a direct fit over the circuit's function
+        class, NOT a parameter-matched control.
+        """
         super().__init__()
         self.d = d
-        n_canonical = (3 ** d - 1) // 2
+        self.max_freq = max_freq
+        base = 2 * max_freq + 1
+        n_canonical = (base ** d - 1) // 2
         m = max(1, min(n_canonical, max_features // 2))
 
         g = torch.Generator().manual_seed(seed)
-        if d <= 8:
-            all_freqs = canonical_frequencies(d)   # sample WITHOUT replacement
+        if base ** d <= 3 ** 8:                    # enumerable: 6,561 vectors
+            all_freqs = canonical_frequencies(d, max_freq)   # WITHOUT replacement
             idx = torch.randperm(all_freqs.shape[0], generator=g)[:m]
             omega = all_freqs[idx]
         else:
-            omega = _sample_canonical_random(d, m, g)
+            omega = _sample_canonical_random(d, m, g, max_freq)
 
         self.register_buffer("omega", omega)        # [m, d], non-trainable
         self.m = omega.shape[0]

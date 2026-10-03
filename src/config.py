@@ -98,6 +98,7 @@ ARMS = [
     "quantum_rich",      # same circuit, 2-local readout: 10 observables not 4
     "quantum_rich_padded",  # control: same width, same information as 4
     "quantum_basic",     # H-S8: BasicEntanglerLayers, same params, different ansatz
+    "fourier_rff_r2",    # E7: direct fit over the re-uploading spectrum {-2..2}^d
 ]
 QUANTUM_ARMS = ["quantum_vqc", "quantum_reupload",
                 "quantum_rich", "quantum_rich_padded",
@@ -147,6 +148,7 @@ ARM_DISPLAY_NAMES = {
     "quantum_rich":           "VQC (2-local readout)",
     "quantum_rich_padded":    "VQC (2-local readout, padded control)",
     "quantum_basic":          "VQC (basic entangler ansatz)",
+    "fourier_rff_r2":         "Random Fourier features, re-upload spectrum",
     "pca_svm":                "PCA + SVM",
 }
 
@@ -171,6 +173,7 @@ LR_INHERITANCE = {
     "quantum_rich_padded": "quantum_vqc",
     "quantum_basic":       "quantum_vqc",
     "low_rank":            "matched_param_fullrank",
+    "fourier_rff_r2":      "fourier_rff",
 }
 
 PRIMARY_COMPARISON = ("quantum_vqc", "matched_param_fullrank")  # Q1, H-P

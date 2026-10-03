@@ -31,7 +31,22 @@ bottleneck_learned_reference
     H-S6 found no n=5 advantage under frozen PCA or random projections, in an
     experiment with 5 seeds at the untuned default learning rate. A null there
     means something only if the SAME experiment shows the advantage under its
-    own learned bottleneck. This is that within-experiment reference.
+    own learned bottleneck. This is that within-experiment reference. (It did
+    not: +0.030 with an interval spanning zero - so H-S6 was uninformative.)
+
+PRE-SPECIFIED FOLLOW-UPS (Amendment 16, written before their runs)
+-------------------------------------------------------------------
+hs6_followup_pca, hs6_followup_random
+    H-S6 rerun under the PRIMARY's protocol - 40 confirmatory seeds, the tuned
+    rate 1e-2 - with only the bottleneck policy changed. The learned condition
+    is the primary itself (01_frozen_tuned), identical in every other respect.
+    The test is delta(5) under each frozen policy, BH across the two (m=2);
+    per-n rows and slopes are descriptive. H-S6's confirmatory verdict is fixed
+    and is not revisited: this is reported alongside it, not in place of it.
+
+reupload_vs_fourier_r2  (E7)
+    The control H-S2 provides for the single-encoding VQC, built for the
+    re-uploading one: a direct fit over its own function class, {-2..2}^d.
 
 METHOD
 ------
@@ -145,6 +160,20 @@ GROUPS = {
         "03_robustness_v2",
         lambda c, e: load_noise_pair(c, e, "quantum_vqc", "matched_param_fullrank"),
         "gapdiff", False, 10, "G_vqc - G_control, paired (Amendment 13)"),
+    "reupload_vs_fourier_r2": (
+        "01_frozen_tuned",
+        lambda c, e: ft.load_pairs(c, e, "quantum_reupload", "fourier_rff_r2"),
+        "diff", True, 40, "re-upload VQC - Fourier over {-2..2}^d (E7, Amendment 16)"),
+    "hs6_followup_pca": (
+        "26_bottleneck_tuned",
+        lambda c, e: ft.load_pairs(c, e, "quantum_vqc", "matched_param_fullrank",
+                                   ft._bn("pca")),
+        "diff", True, 40, "VQC - control, frozen PCA, primary protocol (Amendment 16)"),
+    "hs6_followup_random": (
+        "26_bottleneck_tuned",
+        lambda c, e: ft.load_pairs(c, e, "quantum_vqc", "matched_param_fullrank",
+                                   ft._bn("random")),
+        "diff", True, 40, "VQC - control, frozen random, primary protocol (Amendment 16)"),
     "bottleneck_learned_reference": (
         "12_bottleneck",
         lambda c, e: ft.load_pairs(c, e, "quantum_vqc", "matched_param_fullrank",
@@ -226,6 +255,50 @@ def summarise(name, result, B):
     return out
 
 
+FOLLOWUP = ("hs6_followup_pca", "hs6_followup_random")
+
+
+def report_followup(results, B):
+    """
+    Amendment 16's test: delta(5) under each frozen policy, BH across the two.
+    Per-n rows and the slope are printed as descriptive only.
+    """
+    have = [g for g in FOLLOWUP if g in results]
+    if not have:
+        return []
+    print("\n" + "=" * 78)
+    print("PRE-SPECIFIED FOLLOW-UP TO H-S6 (Amendment 16). Reported alongside H-S6;")
+    print("H-S6's confirmatory verdict is fixed and is not revisited.")
+    print("=" * 78)
+    tests, rows = [], []
+    for g in have:
+        cells, obs, reps, by_regime, label = results[g]
+        pooled = ft.pool(cells, obs, reps, True)
+        o, r = pooled[5]
+        tests.append((g, ft.ci_p(o[0], r[:, 0], B)))
+        print(f"\n--- {g}: {label}   (descriptive by n)")
+        for n in ft.REGIMES:
+            o, r = pooled[n]
+            s = ft.ci_p(o[0], r[:, 0], B)
+            if s:
+                print(f"    n={n:<4d}  {s['estimate']:+.4f} [{s['ci_lo']:+.4f},{s['ci_hi']:+.4f}]")
+        est, R = ft.regime_slope(pooled)
+        s = ft.ci_p(est, R, B)
+        if s:
+            print(f"    slope   {s['estimate']:+.5f} [{s['ci_lo']:+.5f},{s['ci_hi']:+.5f}]")
+    adj = ft.benjamini_hochberg([t[1]["p"] for t in tests], len(FOLLOWUP))
+    print(f"\n    THE TEST: delta(5) > 0 under a frozen bottleneck  (BH m={len(FOLLOWUP)})")
+    print(f"    Learned-bottleneck reference = H-P1: +0.0142 [+0.0025, +0.0256]")
+    for (g, s), a in zip(tests, adj):
+        verdict = ("advantage SURVIVES freezing" if a <= 0.05 and s["estimate"] > 0
+                   else "no advantage under this frozen policy")
+        print(f"    {g:22s} {s['estimate']:+.4f} [{s['ci_lo']:+.4f},{s['ci_hi']:+.4f}] "
+              f"p={s['p']:.4f} p_adj={a:.4f}  {verdict}")
+        rows.append({"analysis": g, "row": "n=5 (test)", **s, "p_adj_followup": float(a),
+                     "verdict": verdict})
+    return rows
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--groups", nargs="+", default=list(GROUPS), choices=list(GROUPS))
@@ -254,8 +327,9 @@ def main():
     print("=" * 78)
     rows = []
     for g in args.groups:
-        if g in results:
+        if g in results and g not in FOLLOWUP:
             rows += summarise(g, results[g], args.B)
+    rows += report_followup(results, args.B)
     out = os.path.join(ctx.config.ARTIFACT_ROOT, "exploratory_table.json")
     with open(out, "w") as f:
         json.dump(rows, f, indent=1)
