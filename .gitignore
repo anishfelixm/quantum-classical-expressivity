@@ -223,3 +223,8 @@ latents/
 *.npz
 results/checkpoints*/
 'logs_*.txt' 
+
+# Archives — artifact backups live on the PVC, not in git (GitHub caps files at 100 MB)
+*.tgz
+*.tar.gz
+*.zip
