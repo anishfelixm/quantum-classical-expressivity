@@ -1,0 +1,55 @@
+nohup: ignoring input
+EXPLORATORY companions | workers=7 | B=2000 | sha=898375dd
+  reupload_vs_control          computed (20 cells, 40 seeds) in 1578s
+  ansatz                       computed (20 cells, 10 seeds) in 373s
+  gap_control                  computed (20 cells, 10 seeds) in 1089s
+  gap_vqc_minus_control        computed (20 cells, 10 seeds) in 2171s
+  bottleneck_learned_reference computed (20 cells, 5 seeds) in 190s
+
+==============================================================================
+EXPLORATORY. None of these is in the confirmatory family; none changes
+a verdict in it. BH is applied within each analysis separately.
+==============================================================================
+
+--- reupload_vs_control: re-upload VQC - matched control (NOT pre-specified)
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0181 [+0.0065,+0.0306]  0.0030  0.0150  CI excludes 0
+    n=10         +0.0092 [+0.0017,+0.0165]  0.0150  0.0283  CI excludes 0
+    n=20         +0.0074 [+0.0016,+0.0134]  0.0170  0.0283  CI excludes 0
+    n=50         +0.0022 [-0.0017,+0.0062]  0.2679  0.2679  
+    n=100        +0.0029 [+0.0001,+0.0059]  0.0390  0.0487  CI excludes 0
+    slope       -0.00339 [-0.00575,-0.00112]  (descriptive)
+
+--- ansatz: BasicEntangler - StronglyEntangling (Amendment 14)
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          -0.0190 [-0.0353,-0.0027]  0.0220  0.0550  CI excludes 0
+    n=10         -0.0081 [-0.0180,+0.0007]  0.0750  0.0750  
+    n=20         -0.0091 [-0.0191,+0.0002]  0.0560  0.0700  
+    n=50         -0.0117 [-0.0221,-0.0010]  0.0400  0.0666  CI excludes 0
+    n=100        -0.0180 [-0.0251,-0.0111]  0.0010  0.0050  CI excludes 0
+    slope       -0.00023 [-0.00369,+0.00335]  (descriptive)
+
+--- gap_control: control's rel F1 loss - rel AUC loss (Amendment 13)
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=4)
+    sigma=0.05   +0.3026 [+0.2761,+0.3254]  0.0010  0.0010  CI excludes 0
+    sigma=0.10   +0.3353 [+0.3038,+0.3626]  0.0010  0.0010  CI excludes 0
+    sigma=0.15   +0.3386 [+0.3095,+0.3662]  0.0010  0.0010  CI excludes 0
+    sigma=0.20   +0.3173 [+0.2908,+0.3430]  0.0010  0.0010  CI excludes 0
+
+--- gap_vqc_minus_control: G_vqc - G_control, paired (Amendment 13)
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=4)
+    sigma=0.05   +0.0534 [+0.0245,+0.0846]  0.0020  0.0027  CI excludes 0
+    sigma=0.10   +0.0655 [+0.0313,+0.1019]  0.0010  0.0027  CI excludes 0
+    sigma=0.15   +0.0436 [+0.0102,+0.0786]  0.0190  0.0190  CI excludes 0
+    sigma=0.20   +0.0477 [+0.0160,+0.0807]  0.0020  0.0027  CI excludes 0
+
+--- bottleneck_learned_reference: VQC - control, learned bottleneck, H-S6's own experiment
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0297 [-0.0201,+0.0880]  0.2669  0.2669  
+    n=10         +0.0362 [-0.0086,+0.0901]  0.1219  0.1837  
+    n=20         -0.0144 [-0.0332,+0.0051]  0.1469  0.1837  
+    n=50         -0.0225 [-0.0323,-0.0118]  0.0010  0.0025  CI excludes 0
+    n=100        -0.0208 [-0.0300,-0.0115]  0.0010  0.0025  CI excludes 0
+    slope       -0.01448 [-0.02562,-0.00430]  (descriptive)
+
+Written: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/exploratory_table.json

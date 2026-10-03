@@ -1,0 +1,12 @@
+gap closure sha=bd833ba started Wed Sep 30 10:24:07 UTC 2026
+[09-30 10:24] START H-S2 fourier_rff
+[09-30 10:58] DONE  H-S2 fourier_rff
+[09-30 10:58] START H-S3 noise v2
+[10-01 00:38] DONE  H-S3 noise v2
+[10-01 00:38] START H-S1 reupload
+[10-01 10:01] DONE  H-S1 reupload
+[10-01 10:01] START H-S4 encoder
+[10-01 15:56] DONE  H-S4 encoder
+[10-01 15:56] START E1 ansatz
+[10-01 21:15] DONE  E1 ansatz
+gap closure finished Thu Oct  1 21:15:35 UTC 2026
