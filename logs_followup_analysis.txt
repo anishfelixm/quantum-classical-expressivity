@@ -1,0 +1,46 @@
+EXPLORATORY companions | workers=7 | B=2000 | sha=30e57d94
+  reupload_vs_fourier_r2       computed (20 cells, 40 seeds) in 1583s
+  hs6_followup_pca             computed (20 cells, 40 seeds) in 1578s
+  hs6_followup_random          computed (20 cells, 40 seeds) in 1580s
+
+==============================================================================
+EXPLORATORY. None of these is in the confirmatory family; none changes
+a verdict in it. BH is applied within each analysis separately.
+==============================================================================
+
+--- reupload_vs_fourier_r2: re-upload VQC - Fourier over {-2..2}^d (E7, Amendment 16)
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0150 [+0.0022,+0.0279]  0.0150  0.0250  CI excludes 0
+    n=10         +0.0148 [+0.0038,+0.0264]  0.0060  0.0150  CI excludes 0
+    n=20         +0.0029 [-0.0041,+0.0105]  0.4358  0.5447  
+    n=50         -0.0002 [-0.0067,+0.0071]  0.9105  0.9105  
+    n=100        -0.0038 [-0.0063,-0.0013]  0.0030  0.0150  CI excludes 0
+    slope       -0.00476 [-0.00740,-0.00215]  (descriptive)
+
+==============================================================================
+PRE-SPECIFIED FOLLOW-UP TO H-S6 (Amendment 16). Reported alongside H-S6;
+H-S6's confirmatory verdict is fixed and is not revisited.
+==============================================================================
+
+--- hs6_followup_pca: VQC - control, frozen PCA, primary protocol (Amendment 16)   (descriptive by n)
+    n=5     -0.0301 [-0.0421,-0.0179]
+    n=10    -0.0212 [-0.0295,-0.0127]
+    n=20    -0.0164 [-0.0238,-0.0095]
+    n=50    -0.0112 [-0.0184,-0.0042]
+    n=100   -0.0090 [-0.0157,-0.0023]
+    slope   +0.00472 [+0.00203,+0.00733]
+
+--- hs6_followup_random: VQC - control, frozen random, primary protocol (Amendment 16)   (descriptive by n)
+    n=5     -0.0190 [-0.0321,-0.0063]
+    n=10    -0.0320 [-0.0432,-0.0211]
+    n=20    -0.0326 [-0.0422,-0.0233]
+    n=50    -0.0287 [-0.0376,-0.0196]
+    n=100   -0.0242 [-0.0309,-0.0175]
+    slope   -0.00055 [-0.00336,+0.00237]
+
+    THE TEST: delta(5) > 0 under a frozen bottleneck  (BH m=2)
+    Learned-bottleneck reference = H-P1: +0.0142 [+0.0025, +0.0256]
+    hs6_followup_pca       -0.0301 [-0.0421,-0.0179] p=0.0010 p_adj=0.0020  no advantage under this frozen policy
+    hs6_followup_random    -0.0190 [-0.0321,-0.0063] p=0.0050 p_adj=0.0050  no advantage under this frozen policy
+
+Written: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/exploratory_table.json

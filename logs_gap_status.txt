@@ -10,3 +10,11 @@ gap closure sha=bd833ba started Wed Sep 30 10:24:07 UTC 2026
 [10-01 15:56] START E1 ansatz
 [10-01 21:15] DONE  E1 ansatz
 gap closure finished Thu Oct  1 21:15:35 UTC 2026
+follow-up sha=30e57d9 started Sat Oct  3 10:42:36 UTC 2026
+[10-03 10:42] START E7 fourier_rff_r2
+[10-03 11:18] DONE  E7 fourier_rff_r2
+[10-03 11:18] START H-S6 follow-up pca
+[10-03 22:06] DONE  H-S6 follow-up pca
+[10-03 22:06] START H-S6 follow-up random
+[10-04 05:36] DONE  H-S6 follow-up random
+follow-up finished Sun Oct  4 05:36:46 UTC 2026
