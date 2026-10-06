@@ -44,6 +44,12 @@ hs6_followup_pca, hs6_followup_random
     per-n rows and slopes are descriptive. H-S6's confirmatory verdict is fixed
     and is not revisited: this is reported alongside it, not in place of it.
 
+hs5_followup  (Amendment 17, written before its run)
+    H-S5 rerun under the primary's protocol - 40 confirmatory seeds, rate 1e-2 -
+    exactly as H-S6 was in Amendment 16. low_rank at rank 0 (8 parameters)
+    minus rank 8 (72 parameters). Tests: delta_0(5) > 0 and slope < 0, BH m=2.
+    H-S5's confirmatory verdict is fixed and is not revisited.
+
 reupload_vs_fourier_r2  (E7)
     The control H-S2 provides for the single-encoding VQC, built for the
     re-uploading one: a direct fit over its own function class, {-2..2}^d.
@@ -164,6 +170,10 @@ GROUPS = {
         "01_frozen_tuned",
         lambda c, e: ft.load_pairs(c, e, "quantum_reupload", "fourier_rff_r2"),
         "diff", True, 40, "re-upload VQC - Fourier over {-2..2}^d (E7, Amendment 16)"),
+    "hs5_followup": (
+        "27_capacity_tuned",
+        lambda c, e: ft.load_cross(c, e, "rank", "0", "8", "low_rank"),
+        "diff", True, 40, "low_rank rank 0 - rank 8, primary protocol (Amendment 17)"),
     "hs6_followup_pca": (
         "26_bottleneck_tuned",
         lambda c, e: ft.load_pairs(c, e, "quantum_vqc", "matched_param_fullrank",
@@ -256,6 +266,48 @@ def summarise(name, result, B):
 
 
 FOLLOWUP = ("hs6_followup_pca", "hs6_followup_random")
+FOLLOWUP_HS5 = ("hs5_followup",)
+
+
+def report_hs5_followup(results, B):
+    """
+    Amendment 17's two tests, mirroring H-S5a and H-S5b: delta_0(5) > 0 and a
+    negative slope of delta_0 on log2(n). BH across the two (m=2).
+    """
+    if "hs5_followup" not in results:
+        return []
+    cells, obs, reps, by_regime, label = results["hs5_followup"]
+    pooled = ft.pool(cells, obs, reps, True)
+    print("\n" + "=" * 78)
+    print("PRE-SPECIFIED FOLLOW-UP TO H-S5 (Amendment 17). Reported alongside H-S5;")
+    print("H-S5's confirmatory verdict is fixed and is not revisited.")
+    print("=" * 78)
+    print(f"\n--- hs5_followup: {label}   (descriptive by n)")
+    for n in ft.REGIMES:
+        o, r = pooled[n]
+        s = ft.ci_p(o[0], r[:, 0], B)
+        if s:
+            print(f"    n={n:<4d}  {s['estimate']:+.4f} [{s['ci_lo']:+.4f},{s['ci_hi']:+.4f}]")
+    o, r = pooled[5]
+    t_a = ft.ci_p(o[0], r[:, 0], B)
+    est, R = ft.regime_slope(pooled)
+    t_b = ft.ci_p(est, R, B)
+    tests = [("H-S5a follow-up: delta_0(5) > 0", t_a, +1),
+             ("H-S5b follow-up: slope < 0", t_b, -1)]
+    adj = ft.benjamini_hochberg([t[1]["p"] for t in tests], 2)
+    print(f"\n    THE TESTS  (BH m=2). Original H-S5: delta_0(5) -0.0124 "
+          f"[-0.0380, +0.0114], slope +0.0029")
+    rows = []
+    for (name, s, sign), a in zip(tests, adj):
+        ok = a <= 0.05 and np.sign(s["estimate"]) == sign
+        verdict = ("restriction effect DETECTED" if ok else
+                   "OPPOSITE to the restriction hypothesis" if a <= 0.05 else
+                   "no restriction effect")
+        print(f"    {name:34s} {s['estimate']:+.5f} [{s['ci_lo']:+.5f},{s['ci_hi']:+.5f}] "
+              f"p={s['p']:.4f} p_adj={a:.4f}  {verdict}")
+        rows.append({"analysis": "hs5_followup", "row": name, **s,
+                     "p_adj_followup": float(a), "verdict": verdict})
+    return rows
 
 
 def report_followup(results, B):
@@ -327,9 +379,10 @@ def main():
     print("=" * 78)
     rows = []
     for g in args.groups:
-        if g in results and g not in FOLLOWUP:
+        if g in results and g not in FOLLOWUP and g not in FOLLOWUP_HS5:
             rows += summarise(g, results[g], args.B)
     rows += report_followup(results, args.B)
+    rows += report_hs5_followup(results, args.B)
     out = os.path.join(ctx.config.ARTIFACT_ROOT, "exploratory_table.json")
     with open(out, "w") as f:
         json.dump(rows, f, indent=1)

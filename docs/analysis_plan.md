@@ -804,3 +804,27 @@ each n; BH within the analysis (m = 5).
 
 **Prediction.** Δ(n) < 0 at n ≥ 10, mirroring H-S2: the re-uploading VQC does
 not match a direct fit over its own function class.
+
+### Amendment 17 — written 6 October 2026, before the run. A powered follow-up to H-S5.
+
+**Status.** Not a member of the confirmatory family; changes no verdict in it.
+H-S5's confirmatory verdict — *not supported* — is fixed. Reported alongside it.
+
+**Why.** H-S5 ran in `10_capacity` at the default rate 1e-3 with 10 seeds —
+outside the primary's protocol, exactly as H-S6 did before Amendment 16. Its
+interval for Δ₀(5), [−0.0380, +0.0114], excludes a restriction effect as large
+as the primary advantage (+0.0142) but not a smaller one. Amendment 16 placed
+one mechanism test on the primary's protocol; this places the other there too.
+
+**Design.** `low_rank` at rank 0 (8 parameters) and rank 8 (72 parameters), d=4,
+frozen backbone, learned bottleneck, all 40 `CONFIRMATORY_SEEDS`, rate 1e-2
+(inherited from `matched_param_fullrank` under `config.LR_INHERITANCE`).
+Namespace `27_capacity_tuned`. The feature cache for these seeds and cells
+already exists from the primary, so no backbone pass is repeated.
+
+**Statistics.** Mirroring H-S5a and H-S5b: Δ₀(5) = AUC(rank 0) − AUC(rank 8),
+pooled across datasets, and the slope of Δ₀ on log₂ n, both by the nested
+bootstrap of Amendment 15; BH across the two (m = 2).
+
+**Prediction.** No restriction effect: Δ₀(5) is not positive and the slope is
+not negative. Basis: the original H-S5 (Δ₀(5) = −0.0124, slope +0.0029).
