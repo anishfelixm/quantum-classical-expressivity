@@ -1,252 +1,190 @@
-# RESULTS — Definitive
+# RESULTS — Final
 
-**11 September 2026.** ALL EXPERIMENTS COMPLETE — 12 sweeps, ~11,000 runs. Every number below is from a nested paired bootstrap
-(B=2000, test indices *and* seeds resampled), BH-FDR corrected at m=23, with
-`Integrity: max |recomputed − recorded| = 0.00e+00` on all post-float32 runs.
+**4 October 2026. All experiments complete.** Every number below comes from a
+nested bootstrap (test images and seeds resampled within each cell, datasets
+weighted equally, B = 2000, +1-corrected p-values) unless stated. Stored
+predictions reproduce recorded metrics to 0.00e+00 in every namespace used.
 
----
+Three evidential tiers, never mixed:
 
-## R1 — The quantum head computes classical trigonometry
+- **Confirmatory** — the 23 tests of `analysis_plan.md` §4, one BH correction
+  (m = 23), computed by `13_family_table.py`.
+- **Pre-specified follow-up** — Amendment 16, written before its runs.
+- **Exploratory** — everything else, corrected within each analysis.
 
-`AngleEmbedding(Y)`, single upload: the measured output lies **exactly** in the
-`3^d` trigonometric span, for any parameters and any input.
-
-- Residual **1e-16** across six (d, L) configurations
-- Wrong-frequency negative control fails at **0.908**
-- Reproduces Schuld/Sweke/Meyer (2021) for this architecture
-
-The 2^d state exists; the d single-qubit expectations read out of it are
-classically constructible.
-
----
-
-## R2 — No parameter-efficiency advantage that survives scope changes
-
-**d=4, 40 seeds, tuned per-arm LRs** (`quantum_vqc` − `matched_param_fullrank`):
-
-| n/cls | Δ | 95% CI | verdict |
-|---|---|---|---|
-| 5 | **+0.0142** | [+0.0026, +0.0258] | quantum better |
-| 10 | +0.0002 | [−0.0069, +0.0081] | — |
-| 20 | −0.0050 | [−0.0111, +0.0016] | — |
-| 50 | **−0.0080** | [−0.0126, −0.0032] | classical better |
-| 100 | **−0.0074** | [−0.0109, −0.0038] | classical better |
-| **full** | −0.0068 | [−0.0175, +0.0053] | no difference |
-
-H-P1 supported. H-P2 slope **−0.00462** [−0.00844, −0.00127], supported.
-
-**The classical advantage plateaus at about −0.007** rather than widening with
-unlimited data. At full data the pooled contrast is not significant; the two
-multi-class sets carry what signal there is (BloodMNIST −0.0419, d = −1.28;
-PathMNIST −0.0141, d = −4.35) while both binary sets are flat.
-
-**But it does not generalise.**
-
-| Leave out | Δ(5) | 95% CI |
-|---|---|---|
-| nothing | +0.0142 | [+0.0018, +0.0256] |
-| **BloodMNIST** | **+0.0041** | **[−0.0057, +0.0148]** ← gone |
-| BreastMNIST | +0.0155 | [+0.0014, +0.0283] |
-| PathMNIST | +0.0202 | [+0.0041, +0.0364] |
-| PneumoniaMNIST | +0.0171 | [+0.0030, +0.0303] |
-
-**d=8** (`quantum_vqc` − `low_rank`, 48 params each, exact parity):
-Δ negative at every regime; significant against quantum at n=10 (−0.0114) and
-n=50 (−0.0110); slope **+0.0015**, no crossover.
-
-**d=16** (binary datasets): no difference at any regime.
-
-**Conclusion.** A small advantage at d=4, n=5, carried by one of four datasets,
-that reverses at d=8 and vanishes at d=16.
+The analysis plan was fixed in version control before the confirmatory run.
+Amendments are dated; 3a and 9–11 were written retrospectively and say so.
+Describe this as a *pre-specified analysis plan*, not as a third-party
+pre-registration.
 
 ---
 
-## R3 — Every proposed mechanism is refuted
+## 1. Confirmatory — 23 tests, BH-FDR m = 23
 
-| Mechanism | Test | Result |
-|---|---|---|
-| Superposition | analytic + numeric | **refuted**, R1 |
-| Capacity restriction | 1,000-run classical sweep, ranks 8→72 params | **refuted** — 19/20 cells null, survivor dies under BH |
-| Impoverished readout | 10 observables vs 4, padded control | see R4 — helps, but not where the advantage is |
+**14 supported · 1 opposite to prediction · 1 difference without prediction · 7 not supported**
 
-The capacity sweep is the decisive one: varying restriction directly, in a
-purely classical head, reproduces nothing.
-
----
-
-## R4 — Richer readout helps, at matched parameters
-
-`quantum_rich` − `quantum_rich_padded`. Identical circuit, identical 24
-parameters, identical classifier width. Only difference: whether the 6 extra
-columns carry real ⟨XᵢXⱼ⟩ or duplicated singles.
-
-| n/cls | Δ | 95% CI | verdict |
-|---|---|---|---|
-| 5 | +0.0142 | [−0.0033, +0.0322] | — |
-| **10** | **+0.0139** | **[+0.0046, +0.0250]** | rich better |
-| **20** | **+0.0139** | **[+0.0043, +0.0235]** | rich better |
-| **50** | **+0.0075** | **[+0.0003, +0.0155]** | rich better |
-| 100 | +0.0073 | [−0.0012, +0.0147] | — |
-
-**Measuring more of the state helps.** The padded control rules out classifier
-capacity as the explanation. This is the only positive quantum-side result that
-replicates across regimes.
-
----
-
-## R5 — The learned bottleneck dominates everything
-
-Trainable capacity, d=4, binary:
-
-| component | params | share |
-|---|---|---|
-| bottleneck `Linear(256,4)` | 1,028 | **97%** |
-| head | 24 | 2% |
-| classifier | 10 | 1% |
-
-Freezing the projection (`bn=learned` − `bn=pca`), 900 runs:
-
-| dataset, n | arm | Δ | Cohen's d |
-|---|---|---|---|
-| Blood, 100 | linear | +0.0974 | **+6.73** |
-| Blood, 20 | linear | +0.1714 | +3.51 |
-| Breast, 10 | linear | +0.2931 | +3.06 |
-| Blood, 10 | quantum | +0.1276 | +2.66 |
-
-**The largest and most consistent effect in the project** — an order of
-magnitude bigger than any head-level difference. The head, quantum or classical,
-is not what the "frozen backbone" protocol measures.
-
-The scarcity crossover is present under a learned projection (slope −0.0145) and
-**absent under both frozen policies** (PCA −0.0119 no crossover; random +0.0049).
-
----
-
-## R6 — Unitarity bounds the head, and the bound is dimension-independent
-
-Architecture-level, 20 parameter draws:
-
-| arm | L(d=4) | L(d=8) | L(d=16) | \|out\|max (d=16) |
+| Test | Estimate | 95% CI | p_adj | Verdict |
 |---|---|---|---|---|
-| **quantum_vqc** | 1.515 | **1.393** | **1.203** | **0.921** |
-| quantum_reupload | 1.63 | 1.489 | 1.280 | 0.910 |
-| low_rank | 1.14 | 1.121 | 1.079 | 1.483 |
-| matched_param_fullrank | 2.38 | 2.336 | 2.072 | 4.945 |
-| fourier_rff | 3.86 | 4.758 | **5.671** | 3.883 |
-| matched_param | 3.74 | 4.501 | **5.240** | 8.731 |
+| **H-P1** VQC − control, Δ(5) | **+0.0142** | [+0.0025, +0.0256] | 0.026 | **supported** |
+| **H-P2** slope on log₂ n | **−0.0046** | [−0.0070, −0.0022] | 0.002 | **supported** |
+| H-S1 re-upload − VQC, n=5 | +0.0039 | [−0.0059, +0.0133] | 0.41 | not supported (pred. −) |
+| H-S1 n=10 | +0.0090 | [+0.0029, +0.0154] | 0.006 | **opposite** (pred. −) |
+| H-S1 n=20 | +0.0125 | [+0.0077, +0.0175] | 0.002 | difference (no pred.) |
+| H-S1 n=50 | +0.0102 | [+0.0060, +0.0140] | 0.002 | **supported** |
+| H-S1 n=100 | +0.0103 | [+0.0078, +0.0132] | 0.002 | **supported** |
+| H-S2 VQC − Fourier, n=5 | −0.0095 | [−0.0193, +0.0003] | 0.084 | not supported |
+| H-S2 n=10 | −0.0187 | [−0.0249, −0.0123] | 0.002 | **supported** |
+| H-S2 n=20 | −0.0212 | [−0.0261, −0.0157] | 0.002 | **supported** |
+| H-S2 n=50 | −0.0203 | [−0.0239, −0.0166] | 0.002 | **supported** |
+| H-S2 n=100 | −0.0161 | [−0.0194, −0.0127] | 0.002 | **supported** |
+| H-S3 VQC F1-vs-AUC gap, σ=0.05 | +0.356 | [+0.329, +0.382] | 0.002 | **supported** |
+| H-S3 σ=0.10 | +0.401 | [+0.374, +0.425] | 0.002 | **supported** |
+| H-S3 σ=0.15 | +0.382 | [+0.353, +0.408] | 0.002 | **supported** |
+| H-S3 σ=0.20 | +0.365 | [+0.340, +0.387] | 0.002 | **supported** |
+| H-S4 encoder absorbs head | −0.0048 | [−0.0188, +0.0014] | 0.12 | not supported |
+| H-S5a restriction, Δ₀(5) | −0.0124 | [−0.0380, +0.0114] | 0.34 | not supported |
+| H-S5b restriction, slope | +0.0029 | [−0.0017, +0.0076] | 0.26 | not supported |
+| H-S6 frozen PCA, Δ(5) | −0.0283 | [−0.1085, +0.0479] | 0.51 | not supported — underpowered, see §2 |
+| H-S6 frozen random, Δ(5) | −0.0545 | [−0.1232, +0.0153] | 0.15 | not supported — underpowered, see §2 |
+| H-S7a rich − padded readout | +0.0114 | [+0.0065, +0.0163] | 0.002 | **supported** |
+| H-S7b rich − single readout | +0.0111 | [+0.0065, +0.0156] | 0.002 | **supported** |
 
-Quantum output stays **bounded below 1 at every dimension** — exactly what
-`v_i = ⟨ψ|U†X_iU|ψ⟩` with unitary U predicts. Its Lipschitz constant is flat or
-**falling** with d, while `fourier_rff` grows 3.86 → 5.67 and `matched_param`
-reaches 8.73 unbounded.
+**Anchors.** H-P1's observed Δ(5) reproduces `04` exactly (+0.0142). `04`'s
+H-P2 interval, recomputed by its own procedure, reproduces exactly
+([−0.00844, −0.00127]). The nested H-P2 interval is narrower because it treats
+the four datasets as fixed — so it supports inference about *these* datasets,
+and generalisation across datasets rests on the leave-one-out in §3.
 
-Ratio to quantum_vqc grows with dimension: `fourier_rff` 2.55× → 3.42× → 4.72×.
+### What the decision rule licenses
 
-**Theory predicted it; measurement confirms it at three dimensions.**
-
----
-
-## R7 — Failure under noise is calibration, not ranking
-
-Input noise, 1,400 runs. PathMNIST n=20, σ=0.20:
-
-| arm | AUC | Macro-F1 | trained L |
-|---|---|---|---|
-| fourier_rff | 0.9658 → 0.6125 | 0.7188 → **0.1303** | 12.79 |
-| quantum_vqc | 0.9251 → 0.6199 | 0.5998 → **0.0869** | 1.59 |
-
-F1 collapses far harder than AUC across every arm and dataset: ranking survives,
-the decision threshold does not. Pooled AUC contrast at σ=0.20 is significant
-only at n=50 and is not robust to leave-one-out.
-
-**Depolarizing noise, derived and confirmed.** Single-qubit depolarizing gives
-`⟨X_i⟩ → c⟨X_i⟩` with `c = 1 − 4p/3`, identical for every i and every input. The
-binary decision score `l₁ − l₀ = c(w₁−w₀)·v + (b₁−b₀)` is a monotone
-transformation, so **AUC is exactly invariant** — measured identical to four
-decimals at p = 0.000…0.050. Multi-class moves only via the softmax
-(0.8382 → 0.8385). ECE rises 0.0865 → 0.0974; prob_std falls 0.1947 → 0.1893.
-
-Shot noise does degrade: 0.7590 → 0.6976 at 64 shots; ≤1% loss at 1024.
-
----
-
-## R8b — Fairness ablations, all three complete
-
-**Depth (L ∈ {1,2,4}, 600 runs).** L=4 beats L=2 on BloodMNIST at 4 of 5 regimes
-(to +0.0278, d = +1.35) and PathMNIST at 2 of 5; null on both binary sets.
-**But 3·L·d = 48 parameters at L=4 against the control's 24** — depth helps by
-adding parameters, so L=4 cannot enter the matched comparison. L=2 is the only
-depth at which parity holds, now justified by data rather than by assumption.
-
-**Angle scale (π vs π/2, 800 runs).** Null for `quantum_vqc` almost everywhere;
-one cell favours π (Blood n=100, +0.0194). For `matched_param_fullrank` π is
-*worse* in four cells. **The pre-registered π/2 did not handicap the quantum
-arm**, and π would have hurt the classical control.
-
-**tanh (2,000 runs).** Removing tanh helps `mlp` (+0.0412, d = +0.95),
-`low_rank` (+0.0463, d = +1.18), `fourier_rff` and `matched_param_fullrank`
-consistently across regimes; only `linear` prefers it, negligibly.
-
-**This strengthens the main result.** The shared tanh is required only by the
-quantum arm — RY is 2π-periodic, so unbounded z destroys injectivity. Imposing it
-on every arm for fairness measurably costs the classical arms up to 0.046 AUC,
-and they still won. Remove the handicap and the quantum arm looks worse, not
-better.
+The rule, fixed before the data: *H-P1 and H-P2 supported → "scarcity-dependent
+quantum advantage, attributed to function-class restriction acting as a
+regulariser."* Both hold. The paper therefore claims the scarcity-dependent
+advantage, and reports alongside it that the attribution was tested by H-S5 and
+**not supported**. Wording: *an advantage of the VQC head over a
+parameter-matched classical head* — the head computes a classical function (§4),
+so "quantum advantage" would overstate it.
 
 ---
 
-## R8 — Structural claims proven
+## 2. Pre-specified follow-up — Amendment 16
+
+### H-S6 rerun under the primary's protocol
+
+H-S6 ran with 5 seeds at the untuned rate and could not detect the advantage
+even under its own learned bottleneck (+0.030, [−0.020, +0.088]); its null was
+uninformative. The follow-up used the primary's protocol exactly — 40 seeds,
+rate 1e-2, same arms and cells — changing only the bottleneck.
+
+| Bottleneck | n=5 (test) | n=10 | n=20 | n=50 | n=100 |
+|---|---|---|---|---|---|
+| learned (= H-P1) | **+0.0142** | +0.0002 | −0.0050 | −0.0080 | −0.0074 |
+| frozen PCA | **−0.0301** | −0.0212 | −0.0164 | −0.0112 | −0.0090 |
+| frozen random | **−0.0190** | −0.0320 | −0.0326 | −0.0287 | −0.0242 |
+
+Test, BH m = 2: PCA −0.0301 [−0.0421, −0.0179], p_adj 0.002; random −0.0190
+[−0.0321, −0.0063], p_adj 0.005. **Prediction confirmed** ("not positive"), and
+exceeded: with the projection frozen, the VQC head is significantly *worse*
+than the matched head at every n, under both policies.
+
+The negative sign replicates the original H-S6 at a different learning rate
+(1e-3: PCA −0.028, random −0.055), which answers the stated limitation that
+1e-2 was not re-tuned for frozen bottlenecks.
+
+**Conclusion.** The n=5 advantage exists only when a learned projection adapts
+upstream. It is a property of the projection–VQC system, not of the quantum
+head's function class.
+
+### E7 — function-class control for re-uploading
+
+Re-upload VQC (24 parameters) − direct fit over {−2..2}^d (2,500 parameters):
+
+| n | 5 | 10 | 20 | 50 | 100 |
+|---|---|---|---|---|---|
+| Δ | **+0.0150** | **+0.0148** | +0.0029 | −0.0002 | **−0.0038** |
+| 95% CI | [+.0022, +.0279] | [+.0038, +.0264] | [−.0041, +.0105] | [−.0067, +.0071] | [−.0063, −.0013] |
+
+Prediction (Δ < 0 at n ≥ 10) **wrong** at n=10; held only at n=100. Not
+parameter-matched: a 24-parameter model beating a 2,500-parameter fit of the
+same classical function class at 5–10 shots, and losing at 100, is a
+bias–variance pattern. Exploratory, motivated by data.
+
+---
+
+## 3. Exploratory
+
+### Scope of the primary effect
+
+| Analysis | Result |
+|---|---|
+| Leave-one-dataset-out, Δ(5) | without BloodMNIST **+0.0041 [−0.0057, +0.0148]**; without Breast +0.0155, Path +0.0202, Pneumonia +0.0171 — the effect is carried by BloodMNIST |
+| d=8, VQC − low_rank (48 each, 10 seeds) | n=5 −0.0132 [−0.0283, +0.0044]; n=10 **−0.0114**; n=50 **−0.0110** — reverses |
+| d=16, binary sets (96 each) | no difference at any n |
+| Full data (5 seeds) | pooled −0.0068 [−0.0175, +0.0053]; plateau ≈ −0.007 |
+
+### Re-uploading and ansatz
+
+| Analysis | Result |
+|---|---|
+| Re-upload − control (not pre-specified) | **+0.0181, +0.0092, +0.0074**, +0.0022, **+0.0029**; CI excludes 0 at four of five n |
+| Ansatz: Basic − Strong (24 each) | negative throughout; after within-analysis BH, significant at n=100 (−0.0180, p_adj 0.005). The primary used the better circuit |
+
+### Capacity
+
+| Quantity | Value |
+|---|---|
+| Trainable parameters, d=4, binary | projection 1,028 (**97%**), head 24, classifier 10 |
+| Learned − frozen PCA (12_bottleneck, pooled over 3 arms) | +0.187 at n=5 → +0.082 at n=100; slope −0.027 [−0.043, −0.011] |
+| Learned − frozen random | +0.180 → +0.202; slope +0.004 [−0.007, +0.016] |
+
+### Noise and robustness
+
+| Analysis | Result |
+|---|---|
+| Classical control's F1-vs-AUC gap | +0.303, +0.335, +0.339, +0.317 |
+| Paired VQC − control gap | **+0.053, +0.066, +0.044, +0.048** — all CIs exclude 0 |
+| Head sensitivity normalised by output range (L / \|out\|max) | VQC 1.55 / 1.53 / 1.31 (d=4/8/16) vs primary control 0.58 / 0.49 / 0.42 |
+
+The F1 collapse under sensor noise is generic to small heads; the VQC adds a
+modest, consistent excess. Bounded output did not buy robustness: the VQC's raw
+Lipschitz constant is small because unitarity caps its output at 1, but the
+classifier rescales it, and relative to its own range the VQC is about three
+times as sensitive as the control.
+
+### Hardware feasibility (`07`, default rate 1e-3, quantum only)
+
+AUC retention at 1,024 shots: 0.989–1.005. Depolarising noise leaves binary AUC
+**exactly** invariant — the readout contracts uniformly, ⟨Xᵢ⟩ → (1 − 4p/3)⟨Xᵢ⟩,
+a monotone transform of the decision score — and moves multi-class AUC only
+through the softmax (0.8382 → 0.8385 at p = 0.05).
+
+### Fairness ablations (10 seeds)
+
+| Axis | Result |
+|---|---|
+| Depth L ∈ {1,2,4} | on BloodMNIST both L=1 and L=4 beat L=2 at n ≥ 10; null elsewhere. L=2 is the only depth with exact parity (24 = 24) |
+| Angle scale π vs π/2 | π helps the VQC in 3/20 cells (+0.012 to +0.019), hurts the control in 5/20 — π/2 did not handicap the VQC |
+| tanh removed (classical arms) | helps `mlp` and `low_rank` on multi-class sets; the primary control mostly unaffected |
+
+---
+
+## 4. Established structural results
 
 | Claim | Evidence |
 |---|---|
-| Frozen backbone unchanged | 0 params, 0 buffers, max delta 0.00e+00, six arms |
-| Test not vacuous | negative control without `set_bn_eval()`: 45 buffers drift |
-| Gradients reach encoder from every head | layer3 displacement 0.53, quantum included |
-| Frozen blocks clean | no gradient in frozen regime |
-| Parameter parity 24/24/24 | unit test |
-| Predictions faithful | integrity 0.00e+00 across 4,500+ runs |
+| Single-encoding VQC output is classical | in the 3^d trigonometric span, residual 1e-16; wrong-frequency control fails (0.908) |
+| Re-uploading output is classical | in the 5^d span, residual < 1e-8; truncated basis fails |
+| Parity | 24 = 24 = 24 at d=4; 48 and 96 at d=8, 16 via `low_rank` |
+| Frozen backbone is frozen | 0 parameters, 0 buffers changed; negative control drifts 45 buffers |
+| Adaptive encoder adapts, for every arm | backbone gradient non-zero for VQC and control |
+| Learning rates | every arm's optimum at the registered grid's edge; extension changed only `linear` — primary pair invariant |
 
 ---
 
-## The paper
+## 5. Disclosures
 
-**Not** "quantum wins" and **not** "quantum loses". The defensible claim:
-
-> A parameter-matched variational quantum head shows a small advantage under
-> extreme scarcity at one bottleneck dimension, carried by one of four datasets,
-> which reverses at d=8 and vanishes at d=16. None of the mechanisms usually
-> invoked explains it: the output is classically constructible, capacity
-> restriction reproduces nothing, and the effect requires a learned bottleneck.
-> Two properties *are* robust and mechanistic — unitarity bounds the head's
-> output and Lipschitz constant independently of dimension, and richer
-> measurement of the same state improves accuracy at matched parameters.
-> Separately, the standard "frozen backbone" protocol does not isolate the head:
-> the projection between backbone and head holds 97% of trainable capacity, and
-> freezing it changes results by up to Cohen's d = 6.73.
-
-**Two contributions apply beyond this paper:** the capacity-accounting flaw in
-frozen-backbone protocols, and the demonstration that seed-level statistics
-overstate effects on few-shot medical benchmarks.
-
----
-
-## Remaining — no compute
-
-| | |
-|---|---|
-| `generate_paper_plots.py` rewrite | last unwritten code |
-| Amendments 3a, 9, 10, 11 | analysis_plan.md |
-| `paper/main.tex` | rewrite |
-
-Every experiment is complete. Integrity `0.00e+00` on every post-float32
-namespace: 01_frozen_tuned (1,600), 12_bottleneck (900), 10_capacity (1,000),
-14_readout (600), 03_robustness (1,400), 15_dim8 (800), 16_dim16 (200),
-18_depth (600), 19_angle (800), 20_tanh (2,000), 17_fulldata (80).
-
-## Prior art — read before writing
-
-The bottleneck-dominance finding has a close precedent: Chen & Kuo,
-arXiv:2504.05336, later revision, "Is the gain quantum, or just a compact
-bottleneck?" — a rank-2 bilinear + tanh control, 40 params vs the PQC's 36, on
-synthetic time-series regression with 5 seeds. It must be cited. See
-`PAPER_OUTLINE.md` §1 for the full list of precedents and what remains ours.
+Validation uses 2n labels per class (training n) · BatchNorm in eval mode ·
+`10_capacity`, `12_bottleneck`, `07` at the 1e-3 default · `12_bottleneck` 5
+seeds · datasets treated as fixed in the nested bootstrap · 28×28 images
+upsampled to 224 · one backbone (ResNet-18 to layer3) · simulation only ·
+follow-up rate tuned under a learned bottleneck · Pauli-X readout.
