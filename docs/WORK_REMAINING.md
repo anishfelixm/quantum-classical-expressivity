@@ -1,137 +1,81 @@
-# Work Remaining — v2
+# Work Remaining — v3
 
-**Updated:** 29 August 2026 · **Submission target:** ~26 September
+**Updated:** 11 October 2026.
 
----
+## 1. Experiments — done
 
-## 1. Have all experiments run?
+**All of them.** The 23-test confirmatory family, both pre-specified follow-ups
+(Amendments 16 and 17), and every exploratory and fairness analysis listed in
+`RESULTS.md`. Results are backed up and checksummed. The cluster is returned.
 
-**No — 6 of 14 are done.** But the ones that carry the paper are.
-
-| # | Experiment | Runs | Status |
-|---|---|---|---|
-| 1 | Dequantization proof | — | ✅ residual 1e-16 |
-| 2 | Flow verification (freezing + gradients) | 13 | ✅ both proofs pass |
-| 3 | Premise check (Q0) | 144 | ✅ |
-| 4 | Diagnostic sweep | 1,803 | ✅ |
-| 5 | LR selection | 1,440 | ✅ optimum interior |
-| 6 | Capacity sweep, H-S5 | 1,000 | ✅ float32, refuted |
-| 7 | Bottleneck ablation, H-S6 | 900 | ✅ float32 |
-| 8 | **Confirmatory sweep** | 1,600 | ✅ **H-P2 supported** |
-| 9 | H-S7 readout richness | 0 | ⬜ 6 h |
-| 10 | Q5 software noise | 0 | ⬜ 12 h |
-| 11 | Q7 hardware noise | 0 | ⬜ 8 h — never executed, `--quick` first |
-| 12 | d=8 and d=16 | 0 | ⬜ 45 h |
-| 13 | Full-data reference row | 0 | ⬜ 8 h |
-| 14 | Depth / angle-scale / tanh ablations | 0 | ⬜ 24 h |
-| 15 | Lipschitz | 0 | ⬜ minutes |
-
-**≈103 GPU-hours remain. 28 days available.**
-
----
-
-## 2. Has everything been tested?
-
-**Code paths that have executed on real data: yes.** 61 unit tests pass, and
-every script above ran end to end.
-
-**Code paths that have never executed:**
-
-- `07_hardware_noise.py` — **never run once.** Highest remaining risk.
-  `torch.as_tensor(circuit(...))` on `default.mixed` is untested.
-- `src/eval/generate_paper_plots.py` — conference-era, crashes on import.
-- `03_robustness_evaluation.py` — the arm list was extended to 7 arms
-  (including the rich-readout pair) and has not run since.
-- `08_lipschitz.py` — same, plus the new per-dimension normalisation.
-
-Every bug found in the last three days was in a path running for the first time
-on a new shape of data. Expect the same from items 9–15.
-
----
-
-## 3. The result, as it now stands
-
-### Primary hypothesis
-
-**H-P2 SUPPORTED.** Slope −0.00462 per doubling, CI [−0.00844, −0.00127],
-40 seeds, per-arm tuned learning rates, nested bootstrap, BH-FDR m=23.
-
-| shots/class | 5 | 10 | 20 | 50 | 100 |
-|---|---|---|---|---|---|
-| mean Δ | **+0.0142** | +0.0002 | −0.0050 | −0.0080 | −0.0074 |
-
-**H-P1 — not yet computed.** The plan specifies Δ(5) *pooled across datasets*;
-only per-dataset rows exist. One BH-surviving positive cell: BloodMNIST n=5,
-Δ = +0.0446, p_adj = 0.026.
-
-**This reverses the earlier reading.** The 10-seed untuned diagnostic showed no
-crossover; 40 seeds with tuned LRs resolves one. That is what a confirmatory
-sweep is for, and both readings must appear in the manuscript — the diagnostic
-as diagnostic, the confirmatory as confirmatory.
-
-### Secondary
-
-| | Result |
+| Block | Status |
 |---|---|
-| H-S5 restriction is the mechanism | **refuted** — 19/20 null, survivor dies under correction |
-| H-S6 head vs bottleneck | crossover present under learned projection, absent under PCA and random |
-| Bottleneck dominance | **d up to +6.73** — the largest effect in the project |
-| Q2 dequantization | classical direct fit beats the VQC on multi-class, to −0.17 |
+| Validity gate (freezing, gradient flow, parity, dequantization) | ✅ |
+| LR selection, per arm | ✅ |
+| Confirmatory sweep, 40 seeds | ✅ H-P1, H-P2 supported |
+| H-S1 … H-S7 | ✅ 14 / 1 / 1 / 7 (supported / opposite / difference / not) |
+| H-S6 follow-up | ✅ prediction confirmed |
+| H-S5 follow-up | ✅ no restriction effect by the rule; prediction not cleanly confirmed |
+| E1 ansatz, E7 re-upload control | ✅ |
+| d=8, d=16, full data, noise, hardware noise, Lipschitz, depth, angle, tanh | ✅ |
+| Backup | ✅ local + Google Drive, SHA-256 OK |
 
-### The story the data tells
+## 2. Writing — remaining
 
-1. A small scarcity-dependent advantage exists and is statistically real.
-2. It is **not** superposition — the output lies in a classical trigonometric span.
-3. It is **not** capacity restriction — a classical capacity sweep shows nothing.
-4. It **requires a learned bottleneck** — it vanishes under frozen projections.
-5. The projection itself dominates everything, for every head.
+| # | Task | Needs |
+|---|---|---|
+| 1 | Commit corrected docs (v43) | 10 min |
+| 2 | Extract results archive locally | 15 min |
+| 3 | `generate_paper_plots.py`, seven figures | code from Claude, run locally, no GPU |
+| 4 | Manuscript from conference `main.tex` | the bulk of the remaining work |
+| 5 | Citation verification | every entry in `AUDIT_REPORT.md` §5 |
+| 6 | Cover letter | conference overlap, data and code availability |
+| 7 | `LowRankHead` docstring (one sentence) + parity check | 5 min |
 
-An advantage that exists, is real, and is explained by none of the mechanisms
-usually invoked for it — that is a stronger paper than either a clean win or a
-clean null.
+## 3. The conference paper — what must not carry over
 
----
+Checked against the conference `main.tex` (title *Expressivity and Robustness of
+Hybrid Quantum Neural Networks for Constrained Medical Image Classification*).
+None of the following may appear as a finding in the journal version:
 
-## 4. Order of work
+| Conference claim | What the journal's controls show |
+|---|---|
+| VQC maps z into ℂ¹⁶ and gains expressivity from the Hilbert space; "Bottleneck Gap" | encoded amplitudes are real; outputs lie in a 3^d classical trigonometric span (residual 1e-16) |
+| Classical heads suffer "topological collapse" at d=4 | the conference compared against Linear and MLP only, with no parameter matching; against a matched head the VQC is ahead only at n=5, by +0.014 |
+| "Latent Reshaping": quantum gradients reshape the backbone favourably | H-S4 (encoder absorbs head) not supported; no VQC-specific reshaping is shown |
+| "Precision Paradox", "Glass Cannon", "phase misalignment" | F1 collapse under noise with AUC preserved happens to the classical control too (gap +0.30 to +0.34); the VQC's excess is +0.04 to +0.07 |
+| "Data abundance as a topological regulariser"; VQC superior under noise at full data | on clean full-data test sets the VQC shows no advantage (−0.0068 [−0.0175, +0.0053]); the noise analyses find the F1 collapse in every small head, so no VQC-specific fragility for data to "regularise" away |
+| "Zombie State", exclusive to the hybrid, caused by tanh saturation | tanh·π/2 is applied to every arm in the journal design; the effect is not exclusive |
+| Parameter-shift gradients | training uses backprop through the simulator (adjoint agrees to 3e-7) |
+| Abbas et al. effective dimension as superior capacity | not tested; do not cite as support |
 
-**Now — the primary hypothesis is incomplete without these:**
+Protocol changes to state once, in a "changes from the conference version"
+paragraph (needed for the overlap disclosure): quantum rate 5e-3 vs classical
+1e-3 → per-arm tuned rates (1e-2); 50 epochs without early stopping → AUC-based
+checkpoint selection on validation; 3 seeds → 40; fractional scarcity (10 % /
+1 %) → absolute n ∈ {5, 10, 20, 50, 100} per class; two datasets → four; Linear
+and MLP baselines → parameter-matched and function-class controls; PR-curve threshold locking for F1 → state the journal's F1 threshold
+rule explicitly in Methods.
 
-1. Pooled H-P1 in `04` (code, not compute)
-2. H-S7 readout, 6 h — answers "was the state used?"
-3. Q5 noise, 12 h — the second pillar of the original hypothesis
+## 4. What a reviewer will most likely attack
 
-**Then — robustness:**
+1. **Effect size** — +0.014 AUC, carried by BloodMNIST. Answer: stated up front;
+   the contribution is attribution.
+2. **"So what causes it?"** — not determined. Learned projection required;
+   restriction not established and not excluded. Say so plainly.
+3. **28×28 images, one backbone, simulation only** — limitations, stated.
+4. **Mechanism tests initially underpowered** — rerun at 40 seeds, pre-specified.
+5. **Novelty against Bowles et al. and the 2026 matched-baseline papers** —
+   positioning in `PAPER_OUTLINE.md` §3.
 
-4. d=8/16, 45 h — kills "is this a d=4 artifact?"
-5. Full-data row, 8 h — completes the scarcity axis
-6. Depth, angle-scale, tanh, 24 h — closes fairness objections
-7. Hardware noise, 8 h — feasibility section
-8. Lipschitz, minutes
+Acceptance cannot be promised. The controls earn a serious hearing at a
+soundness-focused venue; the outcome depends on the manuscript and the reviewers.
 
-**Last:** rewrite `generate_paper_plots.py`, then draft.
+## 5. Genuine limitations
 
----
-
-## 5. Documents needing updates
-
-- `analysis_plan.md` — Amendment 3a (LR grid extension), Amendment 9 (float16 →
-  float32 storage, with measured gaps 4.7e-03 → 1.04e-04 and which experiments
-  were re-run), Amendment 10 (renormalisation made conditional).
-- `MASTER_RESEARCH_DOCUMENT.md` — v4.0. The thesis changed again: H-P2 is
-  supported, so the paper is no longer a pure null.
-- `PAPER_OUTLINE.md` — §2 findings need the confirmatory numbers.
-- `.gitignore` — add `logs_*.txt`; they are currently tracked.
-
----
-
-## 6. Genuine limitations
-
-1. No real quantum hardware.
-2. Qubit count — state-vector simulation is exponential; depolarizing noise is
-   4^d, worse.
-3. MedMNIST is 28×28 by construction; native-resolution imaging is a different
-   study.
-4. No quantum advantage is *provable* here — the model is classically simulable
-   by construction. The paper claims characterization.
-
-Everything else on this list is being done.
+1. No real quantum hardware; shot and depolarising simulation only.
+2. Small qubit counts (4, 8, 16); classically simulable by construction.
+3. MedMNIST 28×28, upsampled.
+4. One backbone; four datasets, treated as fixed in the bootstrap.
+5. Mechanism of the H-P1 advantage not identified beyond "needs a learned
+   projection".

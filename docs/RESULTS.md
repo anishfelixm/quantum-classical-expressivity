@@ -1,15 +1,20 @@
 # RESULTS — Final
 
-**4 October 2026. All experiments complete.** Every number below comes from a
-nested bootstrap (test images and seeds resampled within each cell, datasets
-weighted equally, B = 2000, +1-corrected p-values) unless stated. Stored
-predictions reproduce recorded metrics to 0.00e+00 in every namespace used.
+**11 October 2026. All experiments complete; cluster returned.** Supersedes the
+4 October version, which called the restriction mechanism "refuted" — the
+powered follow-up (Amendment 17) does not support that word (§2).
+
+Every number below comes from a nested bootstrap (test images and seeds
+resampled within each cell, datasets weighted equally, B = 2000, +1-corrected
+p-values) unless stated. Stored predictions reproduce recorded metrics to
+0.00e+00 in every namespace used.
 
 Three evidential tiers, never mixed:
 
 - **Confirmatory** — the 23 tests of `analysis_plan.md` §4, one BH correction
   (m = 23), computed by `13_family_table.py`.
-- **Pre-specified follow-up** — Amendment 16, written before its runs.
+- **Pre-specified follow-up** — Amendments 16 and 17, each written before its
+  run, each with its own correction. They change no confirmatory verdict.
 - **Exploratory** — everything else, corrected within each analysis.
 
 The analysis plan was fixed in version control before the confirmatory run.
@@ -42,8 +47,8 @@ pre-registration.
 | H-S3 σ=0.15 | +0.382 | [+0.353, +0.408] | 0.002 | **supported** |
 | H-S3 σ=0.20 | +0.365 | [+0.340, +0.387] | 0.002 | **supported** |
 | H-S4 encoder absorbs head | −0.0048 | [−0.0188, +0.0014] | 0.12 | not supported |
-| H-S5a restriction, Δ₀(5) | −0.0124 | [−0.0380, +0.0114] | 0.34 | not supported |
-| H-S5b restriction, slope | +0.0029 | [−0.0017, +0.0076] | 0.26 | not supported |
+| H-S5a restriction, Δ₀(5) | −0.0124 | [−0.0380, +0.0114] | 0.34 | not supported — underpowered, see §2 |
+| H-S5b restriction, slope | +0.0029 | [−0.0017, +0.0076] | 0.26 | not supported — see §2 |
 | H-S6 frozen PCA, Δ(5) | −0.0283 | [−0.1085, +0.0479] | 0.51 | not supported — underpowered, see §2 |
 | H-S6 frozen random, Δ(5) | −0.0545 | [−0.1232, +0.0153] | 0.15 | not supported — underpowered, see §2 |
 | H-S7a rich − padded readout | +0.0114 | [+0.0065, +0.0163] | 0.002 | **supported** |
@@ -60,21 +65,21 @@ and generalisation across datasets rests on the leave-one-out in §3.
 The rule, fixed before the data: *H-P1 and H-P2 supported → "scarcity-dependent
 quantum advantage, attributed to function-class restriction acting as a
 regulariser."* Both hold. The paper therefore claims the scarcity-dependent
-advantage, and reports alongside it that the attribution was tested by H-S5 and
-**not supported**. Wording: *an advantage of the VQC head over a
-parameter-matched classical head* — the head computes a classical function (§4),
-so "quantum advantage" would overstate it.
+advantage, and reports alongside it that the attribution was tested twice and
+**not established** (H-S5 and its follow-up, §2). Wording: *an advantage of the
+VQC head over a parameter-matched classical head* — the head computes a
+classical function (§4), so "quantum advantage" would overstate it.
 
 ---
 
-## 2. Pre-specified follow-up — Amendment 16
+## 2. Pre-specified follow-ups — Amendments 16 and 17
 
-### H-S6 rerun under the primary's protocol
+Both confirmatory mechanism tests, H-S5 and H-S6, originally ran outside the
+primary's protocol (default rate 1e-3; 10 and 5 seeds). Each was rerun under
+the primary's protocol — 40 seeds, rate 1e-2, same cells — with the design and
+prediction written before the run.
 
-H-S6 ran with 5 seeds at the untuned rate and could not detect the advantage
-even under its own learned bottleneck (+0.030, [−0.020, +0.088]); its null was
-uninformative. The follow-up used the primary's protocol exactly — 40 seeds,
-rate 1e-2, same arms and cells — changing only the bottleneck.
+### H-S6 follow-up (Amendment 16a) — does the advantage survive a frozen projection?
 
 | Bottleneck | n=5 (test) | n=10 | n=20 | n=50 | n=100 |
 |---|---|---|---|---|---|
@@ -93,9 +98,43 @@ The negative sign replicates the original H-S6 at a different learning rate
 
 **Conclusion.** The n=5 advantage exists only when a learned projection adapts
 upstream. It is a property of the projection–VQC system, not of the quantum
-head's function class.
+head's function class in isolation.
 
-### E7 — function-class control for re-uploading
+### H-S5 follow-up (Amendment 17) — does restriction help under scarcity?
+
+`low_rank` rank 0 (8 parameters) − rank 8 (72 parameters), d=4, learned
+bottleneck:
+
+| n | 5 | 10 | 20 | 50 | 100 |
+|---|---|---|---|---|---|
+| Δ₀ | **+0.0097** | **+0.0118** | +0.0041 | +0.0019 | **+0.0059** |
+| 95% CI | [+.0007, +.0187] | [+.0035, +.0205] | [−.0031, +.0111] | [−.0040, +.0076] | [+.0016, +.0102] |
+
+| Test (BH m = 2) | Estimate | 95% CI | p_adj | Rule's label |
+|---|---|---|---|---|
+| H-S5a Δ₀(5) > 0 | +0.0097 | [+0.0007, +0.0187] | 0.074 | no restriction effect |
+| H-S5b slope < 0 | −0.0016 | [−0.0037, +0.0005] | 0.143 | no restriction effect |
+
+**Prediction ("no restriction effect") — not cleanly confirmed.** Neither test
+survives correction. But Δ₀(5) moved from −0.0124 to +0.0097, its unadjusted
+interval excludes zero (p = 0.037), and the smaller head leads at every n.
+
+**What this licenses, and nothing stronger:**
+
+1. **No scarcity-dependent restriction effect** — the slope is null in both runs.
+   The prediction the analysis plan attached to the attribution (restriction
+   helps *more* when data are scarce) is not supported.
+2. **A possible scarcity-independent smaller-head benefit**, up to about
+   0.019 AUC, not established after correction and not excluded.
+3. **Restriction is neither established nor excluded** as a contributor to the
+   +0.0142 advantage, which lies inside that range.
+4. The contrast is classical-vs-classical. It shows how restriction behaves for
+   a classical head under this protocol; it does not measure the VQC directly.
+
+The 4 October version's "restriction refuted" was too strong even for the
+original H-S5, whose interval never excluded an effect of this size.
+
+### E7 — function-class control for re-uploading (Amendment 16b)
 
 Re-upload VQC (24 parameters) − direct fit over {−2..2}^d (2,500 parameters):
 
@@ -107,7 +146,16 @@ Re-upload VQC (24 parameters) − direct fit over {−2..2}^d (2,500 parameters)
 Prediction (Δ < 0 at n ≥ 10) **wrong** at n=10; held only at n=100. Not
 parameter-matched: a 24-parameter model beating a 2,500-parameter fit of the
 same classical function class at 5–10 shots, and losing at 100, is a
-bias–variance pattern. Exploratory, motivated by data.
+bias–variance pattern. Motivated by data, labelled exploratory in its design
+note, reported with its pre-written prediction.
+
+### How the two follow-ups fit together
+
+The H-S6 follow-up says *where* the advantage is: in the learned projection
+working with the VQC. The H-S5 follow-up says *what is not shown*: that
+restriction is the reason. A projection that adapts to a small, bounded head
+could favour that head for reasons other than restriction; these data do not
+separate the two, and the paper says so.
 
 ---
 
@@ -173,7 +221,7 @@ through the softmax (0.8382 → 0.8385 at p = 0.05).
 | Claim | Evidence |
 |---|---|
 | Single-encoding VQC output is classical | in the 3^d trigonometric span, residual 1e-16; wrong-frequency control fails (0.908) |
-| Re-uploading output is classical | in the 5^d span, residual < 1e-8; truncated basis fails |
+| Re-uploading output is classical | in the 5^d span, residual < 1e-8 in the test suite, 2.21e-7 in `verify_v40`; the truncated {−1,0,1}^d basis fails (0.469) |
 | Parity | 24 = 24 = 24 at d=4; 48 and 96 at d=8, 16 via `low_rank` |
 | Frozen backbone is frozen | 0 parameters, 0 buffers changed; negative control drifts 45 buffers |
 | Adaptive encoder adapts, for every arm | backbone gradient non-zero for VQC and control |
@@ -181,10 +229,33 @@ through the softmax (0.8382 → 0.8385 at p = 0.05).
 
 ---
 
-## 5. Disclosures
+## 5. The findings, in one list
+
+1. A small advantage of the VQC head over a parameter-matched classical head at
+   five labels per class, shrinking with data — **confirmatory**.
+2. It is carried by one dataset, reverses at d=8, is null at d=16 and absent at
+   full data — **exploratory scope**.
+3. It exists only with a learned projection; frozen, the VQC head loses at every
+   n — **pre-specified follow-up**.
+4. Restriction as its cause: not established, not excluded; no scarcity
+   dependence — **confirmatory + pre-specified follow-up**.
+5. The VQC loses to a direct fit over its own function class at n ≥ 10 —
+   **confirmatory**.
+6. Re-uploading helps at n ≥ 10 (opposite to its pre-written prediction) —
+   **confirmatory**; it beats a 2,500-parameter fit of its own class at 5–10
+   shots and loses at 100 — **follow-up, not parameter-matched**.
+7. Richer readout helps — **confirmatory**.
+8. Under sensor noise F1 collapses while AUC holds, for every small head; the
+   VQC's excess is modest — **confirmatory + exploratory**. Bounded output is not
+   robustness — **exploratory**.
+
+---
+
+## 6. Disclosures
 
 Validation uses 2n labels per class (training n) · BatchNorm in eval mode ·
-`10_capacity`, `12_bottleneck`, `07` at the 1e-3 default · `12_bottleneck` 5
-seeds · datasets treated as fixed in the nested bootstrap · 28×28 images
-upsampled to 224 · one backbone (ResNet-18 to layer3) · simulation only ·
-follow-up rate tuned under a learned bottleneck · Pauli-X readout.
+`10_capacity`, `12_bottleneck`, `07` at the 1e-3 default (H-S5 and H-S6 rerun
+at 1e-2 in the follow-ups) · `12_bottleneck` 5 seeds, `10_capacity` 10 seeds ·
+datasets treated as fixed in the nested bootstrap · 28×28 images upsampled to
+224 · one backbone (ResNet-18 to layer3) · simulation only · follow-up rate
+tuned under a learned bottleneck · Pauli-X readout.

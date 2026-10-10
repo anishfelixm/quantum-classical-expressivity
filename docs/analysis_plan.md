@@ -828,3 +828,59 @@ bootstrap of Amendment 15; BH across the two (m = 2).
 
 **Prediction.** No restriction effect: Δ₀(5) is not positive and the slope is
 not negative. Basis: the original H-S5 (Δ₀(5) = −0.0124, slope +0.0029).
+
+---
+
+## Results of the pre-specified follow-ups — recorded 11 October 2026
+
+Recorded after the runs. Nothing above this line has been edited since it was
+written; each prediction stands exactly as dated. Neither follow-up is a member
+of the confirmatory family, and no confirmatory verdict changes.
+
+### Amendment 16(a) — H-S6 follow-up (`26_bottleneck_tuned`, run ended 4 October)
+
+| Bottleneck | Δ(5) | 95% CI | p_adj (m = 2) |
+|---|---|---|---|
+| frozen PCA | −0.0301 | [−0.0421, −0.0179] | 0.002 |
+| frozen random | −0.0190 | [−0.0321, −0.0063] | 0.005 |
+
+Δ is negative at every n under both policies. **Prediction confirmed** ("not
+positive"): the n=5 advantage depends on the learned projection.
+
+### Amendment 16(b) — E7 (`01_frozen_tuned`, `quantum_reupload` − `fourier_rff_r2`)
+
+Δ(n) = +0.0150, +0.0148, +0.0029, −0.0002, −0.0038 for n = 5, 10, 20, 50, 100;
+the intervals exclude zero at n = 5, 10 and 100. **Prediction (Δ < 0 at n ≥ 10)
+not confirmed:** wrong in sign at n = 10, null at 20 and 50, held only at 100.
+
+### Amendment 17 — H-S5 follow-up (`27_capacity_tuned`, run ended 6 October)
+
+Δ₀(n) = AUC(`low_rank` rank 0) − AUC(`low_rank` rank 8):
+
+| n | 5 | 10 | 20 | 50 | 100 |
+|---|---|---|---|---|---|
+| Δ₀ | +0.0097 | +0.0118 | +0.0041 | +0.0019 | +0.0059 |
+| 95% CI | [+.0007, +.0187] | [+.0035, +.0205] | [−.0031, +.0111] | [−.0040, +.0076] | [+.0016, +.0102] |
+
+| Test (BH m = 2) | Estimate | 95% CI | p | p_adj | Rule's label |
+|---|---|---|---|---|---|
+| H-S5a: Δ₀(5) > 0 | +0.00973 | [+0.00069, +0.01874] | 0.037 | 0.074 | no restriction effect |
+| H-S5b: slope < 0 | −0.00160 | [−0.00369, +0.00051] | 0.143 | 0.143 | no restriction effect |
+
+**Prediction ("Δ₀(5) not positive and slope not negative") — not cleanly
+confirmed.** Neither test survives correction, so the decision rule returns "no
+restriction effect". But the point estimate of Δ₀(5) moved from −0.0124 in the
+original H-S5 to +0.0097, its unadjusted interval excludes zero, and the smaller
+head is ahead at every n. The accurate summary:
+
+1. A **scarcity-dependent** benefit of restriction is not supported in either
+   run (slope +0.0029, then −0.0016, both intervals spanning zero).
+2. A **scarcity-independent** benefit of a smaller head, of up to about
+   0.019 AUC at n = 5, is not established after correction and is not excluded.
+3. Restriction is therefore **neither established nor excluded** as a
+   contributor to the H-P1 advantage (+0.0142), which lies inside that range.
+   Earlier documents that called restriction "refuted" overstated the original
+   H-S5, whose interval [−0.0380, +0.0114] never excluded an effect of this
+   size. That wording is withdrawn.
+4. The contrast is between two classical heads. It measures whether restriction
+   helps a classical head under this protocol; it does not measure the VQC.
