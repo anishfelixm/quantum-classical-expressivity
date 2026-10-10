@@ -25,7 +25,7 @@ written before the confirmatory run and is contradicted by it.
 |---|---|---|
 | Advantage at n=5: Δ(5) = +0.0142 [+0.0025, +0.0256], p_adj 0.026 | H-P1 | confirmatory |
 | It shrinks with data: slope −0.0046 per doubling, p_adj 0.002 | H-P2 | confirmatory |
-| Carried by BloodMNIST (without it +0.0041 [−0.0057, +0.0148]); reverses at d=8; null at d=16; absent at full data | leave-one-out, d=8/16, full | exploratory |
+| Carried by BloodMNIST (without it +0.0041 [−0.0071, +0.0155]); reverses at d=8; null at d=16; absent at full data | leave-one-out, d=8/16, full | exploratory |
 | Needs the learned projection: frozen PCA −0.0301, frozen random −0.0190 at n=5, negative at every n | H-S6 follow-up (Am. 16) | pre-specified follow-up |
 | Restriction: no scarcity dependence in either run; a constant smaller-head benefit up to ~0.019 not established, not excluded | H-S5, H-S5 follow-up (Am. 17) | confirmatory + follow-up |
 | The VQC loses to a direct fit over its own function class at n ≥ 10 | H-S2 | confirmatory |

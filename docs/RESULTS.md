@@ -161,11 +161,20 @@ separate the two, and the paper says so.
 
 ## 3. Exploratory
 
+Leave-one-out intervals are from the nested bootstrap (the method of every other
+number here), computed by `generate_paper_plots.py`; the point estimates equal
+those from `04`, whose dataset-level intervals were slightly narrower
+([−0.0057, +0.0148] without BloodMNIST). The method was fixed before the nested
+values were seen.
+
 ### Scope of the primary effect
 
 | Analysis | Result |
 |---|---|
-| Leave-one-dataset-out, Δ(5) | without BloodMNIST **+0.0041 [−0.0057, +0.0148]**; without Breast +0.0155, Path +0.0202, Pneumonia +0.0171 — the effect is carried by BloodMNIST |
+| Leave-one-dataset-out, Δ(5), nested bootstrap | without BloodMNIST **+0.0041 [−0.0071, +0.0155]**; without Breast +0.0155 [+0.0022, +0.0293], Path +0.0202 [+0.0056, +0.0344], Pneumonia +0.0171 [+0.0030, +0.0310] — the effect is carried by BloodMNIST |
+| Per dataset, Δ(5) | BloodMNIST **+0.0446 [+0.0117, +0.0770]**; Breast +0.0104, Path −0.0038, Pneumonia +0.0056, all intervals spanning 0 |
+| Per dataset, n ≥ 20 | PathMNIST negative at n = 20, 50, 100 (−0.020, −0.020, −0.018; intervals exclude 0); BloodMNIST negative at 50 and 100 |
+| Pooled Δ(n), per-n rows of H-P2 | +0.0142, +0.0002, −0.0050, **−0.0080 [−0.0124, −0.0032]**, **−0.0074 [−0.0110, −0.0038]** — the matched head is ahead at n ≥ 50 (descriptive) |
 | d=8, VQC − low_rank (48 each, 10 seeds) | n=5 −0.0132 [−0.0283, +0.0044]; n=10 **−0.0114**; n=50 **−0.0110** — reverses |
 | d=16, binary sets (96 each) | no difference at any n |
 | Full data (5 seeds) | pooled −0.0068 [−0.0175, +0.0053]; plateau ≈ −0.007 |
@@ -190,7 +199,7 @@ separate the two, and the paper says so.
 | Analysis | Result |
 |---|---|
 | Classical control's F1-vs-AUC gap | +0.303, +0.335, +0.339, +0.317 |
-| Paired VQC − control gap | **+0.053, +0.066, +0.044, +0.048** — all CIs exclude 0 |
+| Paired VQC − control gap | **+0.053, +0.065, +0.044, +0.048** — all CIs exclude 0 |
 | Head sensitivity normalised by output range (L / \|out\|max) | VQC 1.55 / 1.53 / 1.31 (d=4/8/16) vs primary control 0.58 / 0.49 / 0.42 |
 
 The F1 collapse under sensor noise is generic to small heads; the VQC adds a
