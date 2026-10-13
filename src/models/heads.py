@@ -177,12 +177,15 @@ class LowRankHead(nn.Module):
 
     2. A CLEAN CAPACITY AXIS THAT DOES NOT CONFOUND RANK.
 
-       The paper's central claim is that the quantum head's advantage under
-       extreme scarcity is a REGULARIZATION effect of its restricted function
-       class - 24 parameters reaching a 24-dimensional manifold inside an
-       81-dimensional trigonometric span - rather than anything quantum.
+       The hypothesis this head was built to test (H-S5) was that the quantum
+       head's advantage under extreme scarcity is a REGULARIZATION effect of its
+       restricted function class - 24 parameters reaching a 24-dimensional
+       manifold inside an 81-dimensional trigonometric span - rather than anything
+       quantum. Tested twice (H-S5, and the powered rerun of Amendment 17), it was
+       neither established nor excluded: no scarcity-dependent effect of
+       restriction was found.
 
-       That claim had no dedicated control. Every other arm varies capacity AND
+       Before this head existed, that hypothesis had no dedicated control. Every other arm varies capacity AND
        something else: MatchedParamHead loses rank as it shrinks, and a width-w
        MLP cannot go below 2*d*d parameters while staying full rank - so it
        cannot even reach the VQC's 24 at d=4, let alone the restricted end where
