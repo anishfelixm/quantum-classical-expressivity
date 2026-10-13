@@ -1,4 +1,4 @@
-# Work Remaining — v4
+# Work Remaining — v5
 
 **Updated:** 13 October 2026.
 
@@ -32,10 +32,18 @@ planned on it.
 | 2 | Reporting tables (`15`), figure reproduction (`16`), independent theory check | ✅ |
 | 3 | Figures 1–7 and S1 from data | ✅ |
 | 4 | `LowRankHead` docstring + parity check (24/24/24, 19 passed) | ✅ |
-| 5 | E8 written up (`RESULTS.md` §3, finding 9) | ✅ this commit |
+| 5 | E8 written up (`RESULTS.md` §3, finding 9) | ✅ |
+| 5a | Pre-plan compression check into `RESULTS.md` (§3, finding 10); gradient-variance row with its correction (§4) | ✅ v50 |
+| 5b | Docstring and doc corrections: `07` channel formula and scope, the `09` and `config.py` "calibration failure" wording, `MATH_VERIFICATION.md` addendum, `HYPOTHESES.md` marked historical | ✅ v50, via `scripts/v50_text_fixes.py` |
+| 5c | Pod logs from the 10 Oct "FINAL" commit (5 logs + `logs_gap_status.txt`) saved and committed; pod branch bundled | ✅ v50 |
+| 5d | Full test suite once in the `qml_v2` environment on the pod | ✅ 66 passed |
 | 6 | Manuscript from conference `main.tex` on the IEEE Access template | ⬜ waits on template and author details; the bulk of the remaining work |
 | 7 | Citation verification | ⬜ every entry in `AUDIT_REPORT.md` §5, plus the 2026 papers (2608.07822, 2605.09118, 2605.19417, 2609.15267) |
 | 8 | Cover letter | ⬜ conference overlap, data and code availability |
+| 9 | Code release: README rewritten to the journal's findings (no conference claims; the conference figures in `assets/` not presented as results); legacy conference files (`results/*.pt`, `results/*.json`, `data/*.npz`) labelled or removed; repository public or to be made public at acceptance. `LICENSE`, `environment.yml`, `requirements.txt` and `requirements.lock.txt` already exist | ⬜ need the current README, `git ls-files results data assets`, and the repo's visibility |
+| 10 | Data release: per-sample predictions, bootstrap caches, run records and E8 latents in a citable archive (e.g. Zenodo DOI), named in the data-availability statement | ⬜ at submission |
+| 11 | Barren-plateau table (`MATH_VERIFICATION.md` §7): no script in the repo produced it. Either recompute it from the `quantum_grad_var` that `loop.py` logs in every quantum run's history (backup shards), or leave it out of the paper | ⬜ |
+| 12 | Literature re-check in the week of submission | ⬜ |
 
 Captions to write with the manuscript: figure 2 must say its run is more
 saturated than typical and how its plane was chosen (`RESULTS.md` §6.7); every
@@ -49,7 +57,7 @@ None of the following may appear as a finding in the journal version:
 
 | Conference claim | What the journal's controls show |
 |---|---|
-| VQC maps z into ℂ¹⁶ and gains expressivity from the Hilbert space; "Bottleneck Gap" | encoded amplitudes are real; outputs lie in a 3^d classical trigonometric span (residual 1e-16) |
+| VQC maps z into ℂ¹⁶ and gains expressivity from the Hilbert space; "Bottleneck Gap" | encoded amplitudes are real; outputs lie in a 3^d classical trigonometric span (residual 1e-16); compression to d=4 costs +0.0018 mean AUC against d=256 at n=100 and full data (premise check, `RESULTS.md` §3), so there is no gap for a head to close |
 | Classical heads suffer "topological collapse" at d=4 | the conference compared against Linear and MLP only, with no parameter matching; against a matched head the VQC is ahead only at n=5, by +0.014 |
 | "Latent Reshaping": quantum gradients reshape the backbone favourably | H-S4 (encoder absorbs head) not supported; no VQC-specific reshaping is shown |
 | "Precision Paradox", "Glass Cannon", "phase misalignment" | F1 collapse under noise with AUC preserved happens to the classical control too (gap +0.30 to +0.34); the VQC's excess is +0.04 to +0.07 |
@@ -77,7 +85,11 @@ rule explicitly in Methods.
    the advantage (exploratory).
 3. **28×28 images, one backbone, simulation only** — limitations, stated.
 4. **Mechanism tests initially underpowered** — rerun at 40 seeds, pre-specified.
-5. **Novelty against Bowles et al. and the 2026 matched-baseline papers** —
+5. **"Why compress to d=4 at all, if it costs nothing?"** — the conference
+   design, kept so the journal tests the conference's claims on their own
+   terms; d=8 and d=16 are reported too. Say so, and do not motivate d=4 as an
+   edge-compression necessity.
+6. **Novelty against Bowles et al. and the 2026 matched-baseline papers** —
    positioning in `PAPER_OUTLINE.md` §3.
 
 Acceptance cannot be promised. The controls earn a serious hearing at a

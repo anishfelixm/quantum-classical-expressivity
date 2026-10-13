@@ -1,7 +1,8 @@
 # RESULTS — Final
 
-**11 October 2026; reporting tables added 13 October (§6); one exploratory
-reproduction, E8 latent saturation, added 13 October (§3).** Supersedes the
+**11 October 2026. Added 13 October: reporting tables (§6), the exploratory E8
+latent-saturation reproduction (§3) and the pre-plan compression check (§3).**
+Supersedes the
 4 October version, which called the restriction mechanism "refuted" — the
 powered follow-up (Amendment 17) does not support that word (§2).
 
@@ -235,6 +236,36 @@ docstring writes the channel as ρ → (1 − p)ρ + p·I/2, which would contrac
 ρ → (1 − p)ρ + (p/3)(XρX + YρY + ZρZ), which contracts by (1 − 4p/3) — the
 factor quoted. Numbers unaffected; wording only.
 
+### Compression premise (`06_premise_check.py`; pre-plan diagnostic)
+
+Added to this document 13 October 2026. The run is older than the analysis plan:
+commit `538d8361`, completed by 12 August 2026 (`HYPOTHESES.md` records it as
+complete on that date). It used a linear head, 3 seeds, and the training
+protocol of that date, before the plan and its amendments (no per-arm learning
+rate tuning). Log: `logs_premise.txt`.
+
+The architecture and training are the same in every row; only the projection
+width d changes. Mean AUC:
+
+| Dataset | n | d=4 | d=256 | d=256 − d=4 |
+|---|---|---|---|---|
+| BloodMNIST | 100 | 0.9786 | 0.9886 | +0.0099 |
+| BloodMNIST | full | 0.9901 | 0.9915 | +0.0015 |
+| BreastMNIST | 100 | 0.8395 | 0.8328 | −0.0067 |
+| BreastMNIST | full | 0.9025 | 0.8844 | −0.0181 |
+| PathMNIST | 100 | 0.9385 | 0.9519 | +0.0134 |
+| PathMNIST | full | 0.9709 | 0.9854 | +0.0144 |
+| PneumoniaMNIST | 100 | 0.9437 | 0.9437 | +0.0000 |
+| PneumoniaMNIST | full | 0.9733 | 0.9730 | −0.0002 |
+
+Mean gap +0.0018. **Compressing to d=4 costs almost nothing in AUC** at n=100
+and at full data. The only consistent cost is on PathMNIST (+0.013 to +0.014).
+There, d=16 reaches 0.9876 at full data, so 1 − AUC falls from 2.9 % to 1.2 %.
+This result contradicts the conference paper's "Bottleneck Gap" more directly
+than anything else in the project: there is no large compression penalty for a
+head to recover. It was not run at n ≤ 50. The manuscript reports it as
+exploratory context and does not frame d=4 as a severe constraint.
+
 ### Fairness ablations (10 seeds)
 
 | Axis | Result |
@@ -313,6 +344,7 @@ dataset-level patterns give no support to that reading.
 | Re-uploading output is classical | in the 5^d span, residual < 1e-8 in the test suite, 2.21e-7 in `verify_v40`; the truncated {−1,0,1}^d basis fails (0.469) |
 | Independent re-derivation | plain-numpy rebuild of the circuit, no PennyLane or project code: 3^d span 2×10⁻¹⁵, two-qubit readout 2×10⁻¹⁵, re-upload 5^d span 4×10⁻¹⁵ (3^d span fails, 0.27), end-of-circuit depolarising contraction exact to 2×10⁻¹⁶ (`tests/test_independent_theory.py`) |
 | Parity | 24 = 24 = 24 at d=4; 48 and 96 at d=8, 16 via `low_rank` |
+| Quantum gradient variance (`MATH_VERIFICATION.md` §7; batch 32) | falls with qubit count at every depth: L=4 12.96 → 0.996 → 0.210 (d = 4/8/16; ~62×). It falls with depth at d=8 and 16, **but not at d=4**, where it rises (10.45 → 11.21 → 12.96 for L = 1/2/4). That document's "monotone decay in both n and L" is wrong for d=4. The script and log behind this table must be identified before the paper cites it (`WORK_REMAINING.md`) |
 | Frozen backbone is frozen | 0 parameters, 0 buffers changed; negative control drifts 45 buffers |
 | Adaptive encoder adapts, for every arm | backbone gradient non-zero for VQC and control |
 | Learning rates | every arm's optimum at the registered grid's edge; extension changed only `linear` — primary pair invariant |
@@ -344,6 +376,10 @@ dataset-level patterns give no support to that reading.
    latent coordinates unsaturated at n=5 than under the matched head, at an
    identical learning rate; this does not track the AUC advantage. Both
    pre-written predictions were wrong — **exploratory (E8)**.
+10. Compressing the 256 features to d=4 costs almost no AUC at n=100 and at full
+    data (mean gap +0.0018; PathMNIST the exception at about +0.014). The
+    conference paper's "Bottleneck Gap" does not exist at those data sizes —
+    **exploratory, pre-plan protocol, 3 seeds**.
 
 ---
 

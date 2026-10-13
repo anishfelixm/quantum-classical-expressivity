@@ -1,5 +1,12 @@
 # Hypotheses
 
+> **Historical — drafted August 2026, statuses as of 12 August.** Superseded by
+> `docs/analysis_plan.md` (the binding plan) and `docs/RESULTS.md` (outcomes).
+> Statuses, run counts and "prior signal" readings below are not current. In
+> particular, the "calibration failure" reading of the conference noise result
+> is not supported (`docs/RESULTS.md` §3). H0 is reported there as the
+> compression premise check.
+
 Every hypothesis the paper will state, what tests it, what evidence exists, and what each
 possible outcome would mean. Statuses are current as of 12 August 2026.
 

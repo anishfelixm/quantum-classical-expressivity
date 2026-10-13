@@ -1,5 +1,8 @@
 # Mathematical Verification
 
+> **Status, 13 October 2026.** Written before the confirmatory run. Two
+> statements below are corrected and the open items resolved in §11 at the end.
+
 **Purpose.** Independent re-derivation of every mathematical claim the project rests on,
 and a check of each against the accepted theory of the field. Written so a reviewer can
 follow the argument without running anything.
@@ -271,3 +274,46 @@ architectures. `round` rather than truncation avoids float-representation collis
 
 **No mathematical errors found.** Two scope notes (§4, §5) and one implementation check
 (§6) require action before submission.
+
+## 11. Status update — 13 October 2026
+
+Added after all experiments finished. Sections 1–10 above are kept as first
+written, so the record shows what was checked and when.
+
+**Two statements above are wrong as written. Neither changes a result.**
+
+- **§1, "no complex phase is ever used".** The variational layers
+  (`Rot = RZ·RY·RZ` plus CNOTs) do introduce complex phases. What is true is
+  narrower: the ENCODED state is real. For a real vector ψ and Hermitian
+  M = A + iB (A real symmetric, B real antisymmetric), ψᵀBψ = 0. So only the
+  real symmetric part of M(Θ) reaches the output. §2 is unaffected. The
+  manuscript says "the encoded amplitudes are real" and nothing stronger.
+- **§7, "monotone decay in both n and L".** It holds in n at every L, and in L
+  at n = 8 and 16. At n = 4 the variance rises with L (10.45 → 11.21 → 12.96).
+  The ~62× figure is unaffected. The script and log that produced the table
+  have to be identified before the paper cites it (`docs/WORK_REMAINING.md`).
+
+**Open items above, now resolved:**
+
+- §4, re-uploading: run as H-S1 (it helps at n ≥ 10, the opposite of its
+  prediction) and as E7 against a function-class control. See `docs/RESULTS.md`.
+- §5, angle scale: π vs π/2 was swept. π helps the VQC in 3 of 20 cells and
+  hurts the control in 5 of 20, so π/2 did not handicap the VQC.
+- §6, ±ω duplicates: found and fixed. One representative per ±ω pair
+  (`canonical_frequencies`). H-S2 was run on the corrected implementation.
+- §8: the confirmatory analysis uses the nested bootstrap (`13_family_table.py`).
+  The normal-approximation intervals are not quoted.
+
+**Added since.**
+
+- **Hardware depolarising noise (`07`).** It contracts every ⟨Xᵢ⟩ by
+  (1 − 4p/3) and leaves binary AUC exactly invariant only when the channel acts
+  once, after the final block. That is the model simulated for the
+  single-block VQC. With noise after every layer, an independent simulation
+  gives input-dependent factors (0.81–0.87 at p = 0.05) and reorders 24 of
+  1,770 test pairs.
+- **Independent re-derivation.** `tests/test_independent_theory.py` rebuilds the
+  circuit in plain numpy, with no PennyLane or project code. It gives the 3^d
+  span to 2×10⁻¹⁵, the two-qubit readout to 2×10⁻¹⁵, the re-upload 5^d span to
+  4×10⁻¹⁵ (the 3^d span fails at 0.27), and the end-of-circuit contraction to
+  2×10⁻¹⁶.

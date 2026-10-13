@@ -27,8 +27,11 @@ grids would reintroduce the bias this exists to remove.
 TUNING SEEDS. Disjoint from config.CONFIRMATORY_SEEDS, so selection never
 touches a split the confirmatory sweep will evaluate on. Asserted at import.
 
-CRITERION. Validation AUC, never test. AUC because it is the primary endpoint
-and because selecting on F1 interacts with the VQC's calibration failure.
+CRITERION. Validation AUC, never test. AUC because it is the primary endpoint,
+and because F1 also depends on where the decision threshold falls - an extra
+source of noise on 10-20 validation images. (An earlier version of this
+sentence cited a "calibration failure" of the VQC; the ECE data do not
+support that - docs/RESULTS.md section 3.)
 
 ONE GLOBAL LR PER ARM, not one per cell. At n=5/class the validation set is
 10-20 images; selecting per cell on 10 images mostly fits noise and would let

@@ -1,0 +1,25 @@
+EXPLORATORY companions | workers=7 | B=2000 | sha=17506e82
+  hs5_followup                 computed (20 cells, 40 seeds) in 1577s
+
+==============================================================================
+EXPLORATORY. None of these is in the confirmatory family; none changes
+a verdict in it. BH is applied within each analysis separately.
+==============================================================================
+
+==============================================================================
+PRE-SPECIFIED FOLLOW-UP TO H-S5 (Amendment 17). Reported alongside H-S5;
+H-S5's confirmatory verdict is fixed and is not revisited.
+==============================================================================
+
+--- hs5_followup: low_rank rank 0 - rank 8, primary protocol (Amendment 17)   (descriptive by n)
+    n=5     +0.0097 [+0.0007,+0.0187]
+    n=10    +0.0118 [+0.0035,+0.0205]
+    n=20    +0.0041 [-0.0031,+0.0111]
+    n=50    +0.0019 [-0.0040,+0.0076]
+    n=100   +0.0059 [+0.0016,+0.0102]
+
+    THE TESTS  (BH m=2). Original H-S5: delta_0(5) -0.0124 [-0.0380, +0.0114], slope +0.0029
+    H-S5a follow-up: delta_0(5) > 0    +0.00973 [+0.00069,+0.01874] p=0.0370 p_adj=0.0740  no restriction effect
+    H-S5b follow-up: slope < 0         -0.00160 [-0.00369,+0.00051] p=0.1429 p_adj=0.1429  no restriction effect
+
+Written: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/exploratory_table.json

@@ -28,8 +28,10 @@ negligible relative to the effect sizes in this study.
 
 WHY AUC IS THE WRONG METRIC FOR THE DEPOLARIZING SWEEP
 ------------------------------------------------------
-Single-qubit depolarizing sends rho -> (1-p) rho + p I/2. Since tr(X I/2) = 0,
-EVERY measured expectation is contracted by the SAME positive factor:
+PennyLane's DepolarizingChannel is the Pauli form
+rho -> (1-p) rho + (p/3)(X rho X + Y rho Y + Z rho Z). Applied once to every
+qubit after the final block, it contracts EVERY measured expectation by the
+SAME positive factor:
 
     <X_i>  ->  c <X_i>,      c = 1 - 4p/3,   identical for all i and all inputs
 
@@ -44,15 +46,24 @@ identical to four decimals at p = 0.000 through 0.050 on BreastMNIST. On
 multi-class the softmax mixes logits non-linearly so AUC moves, but barely
 (BloodMNIST 0.8382 -> 0.8385 at p=0.05).
 
+SCOPE. The invariance needs the channel to act once, after the final block.
+That is true here for the single-block VQC (n_uploads = 1). With noise after
+every layer, or after each block of a re-uploading circuit, the contraction
+depends on the input and AUC can move: an independent simulation with
+per-layer noise reorders 24 of 1,770 test pairs at p = 0.05
+(tests/test_independent_theory.py).
+
 This is a genuine robustness result, not a null measurement - but reporting AUC
 alone would hide the entire effect. Depolarizing noise shrinks the logits, so
 predicted probabilities collapse toward uniform: CALIBRATION degrades while
 RANKING survives. ECE, Macro-F1 and probability spread are where it shows, and
 they are printed alongside AUC for exactly that reason.
 
-It is also the "Zombie State" mechanism of the conference paper, derived from
-first principles rather than observed: a model that still ranks correctly while
-its probabilities have collapsed.
+The conference paper described a similar pattern under SENSOR noise (its
+"Zombie State"). That observation does not carry over: under sensor noise the
+journal's controls find the F1 collapse in every small head, with the VQC's
+calibration error among the lowest (docs/RESULTS.md section 3). The mechanism
+above belongs to this hardware noise model only.
 
 DEPOLARIZING NOISE. With probability p a qubit's state is replaced by the
 maximally mixed state. This is the standard first-order model of decoherence and

@@ -33,11 +33,16 @@ the exploratory E8 reproduction (13 October); writing.
 | The VQC loses to a direct fit over its own function class at n ≥ 10 | H-S2 | confirmatory |
 | Its output is classical: 3^d trigonometric span, residual 1e-16 | dequantization test | proof + numerics |
 | Bounded output is not robustness; F1 collapse under noise is generic | H-S3, Lipschitz, paired gap | confirmatory + exploratory |
+| Compression to d=4 is nearly free at n=100 and full data: d=256 − d=4 = +0.0018 mean AUC (PathMNIST ~+0.014); no "Bottleneck Gap" | `06` premise check, pre-plan, 3 seeds | exploratory |
 | Under the VQC head the projection leaves ~1 fewer of 4 latent coordinates unsaturated at n=5 (same LR, 0.01, both arms); does not track the advantage; both pre-written predictions wrong | E8, 160 exact reproductions | exploratory |
 
 **Wording.** "An advantage of the VQC head over a parameter-matched classical
 head." Never "quantum advantage". Never "restriction refuted" or "restriction
 explains".
+
+**Title caution.** The project's working title says "Extreme Latent
+Compression", but the premise check shows compression to d=4 is nearly free at
+n ≥ 100. The manuscript title must not imply that d=4 is a severe constraint.
 
 **What the paper is.** A characterization study with stronger controls than the
 subfield's norm. Its contribution is attribution — where a reported advantage

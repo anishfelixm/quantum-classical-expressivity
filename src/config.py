@@ -248,8 +248,8 @@ CLASS_WEIGHT_CLIP = (0.1, 10.0)
 
 # Checkpoints are selected on validation AUC (the primary endpoint) and, as a
 # stated sensitivity check, also on Macro-F1. Selecting on F1 alone while
-# reporting AUC let the selection criterion interact with the VQC's calibration
-# failure - a confound, not a preference.
+# reporting AUC selected checkpoints on a different metric from the one
+# reported - a confound, not a preference.
 SELECTION_METRIC = "auc"
 
 
