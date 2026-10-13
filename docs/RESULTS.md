@@ -210,10 +210,22 @@ times as sensitive as the control.
 
 ### Hardware feasibility (`07`, default rate 1e-3, quantum only)
 
-AUC retention at 1,024 shots: 0.989–1.005. Depolarising noise leaves binary AUC
-**exactly** invariant — the readout contracts uniformly, ⟨Xᵢ⟩ → (1 − 4p/3)⟨Xᵢ⟩,
-a monotone transform of the decision score — and moves multi-class AUC only
-through the softmax (0.8382 → 0.8385 at p = 0.05).
+AUC retention at 1,024 shots: 0.989–1.005. Depolarising noise **applied once per
+qubit at the end of the circuit** — the model `07` simulates for the
+single-block VQC — leaves binary AUC exactly invariant: the readout contracts
+uniformly, ⟨Xᵢ⟩ → (1 − 4p/3)⟨Xᵢ⟩, and the binary score c·(w₁ − w₀)·v + (b₁ − b₀)
+is a monotone transform of the noiseless one. Multi-class AUC moves only through
+the softmax (0.8382 → 0.8385 at p = 0.05).
+
+**Scope, added 13 October.** The invariance is a property of end-of-circuit
+noise, not of depolarising noise in general. An independent numpy simulation
+(`tests/test_independent_theory.py`) with noise after *every* layer gives
+input-dependent contraction factors (0.81–0.87 at p = 0.05) and reorders 24 of
+1,770 test pairs. The paper names the noise model and states this. `07`'s
+docstring writes the channel as ρ → (1 − p)ρ + p·I/2, which would contract by
+(1 − p); PennyLane's `DepolarizingChannel` is the Pauli form
+ρ → (1 − p)ρ + (p/3)(XρX + YρY + ZρZ), which contracts by (1 − 4p/3) — the
+factor quoted. Numbers unaffected; wording only.
 
 ### Fairness ablations (10 seeds)
 
@@ -231,6 +243,7 @@ through the softmax (0.8382 → 0.8385 at p = 0.05).
 |---|---|
 | Single-encoding VQC output is classical | in the 3^d trigonometric span, residual 1e-16; wrong-frequency control fails (0.908) |
 | Re-uploading output is classical | in the 5^d span, residual < 1e-8 in the test suite, 2.21e-7 in `verify_v40`; the truncated {−1,0,1}^d basis fails (0.469) |
+| Independent re-derivation | plain-numpy rebuild of the circuit, no PennyLane or project code: 3^d span 2×10⁻¹⁵, two-qubit readout 2×10⁻¹⁵, re-upload 5^d span 4×10⁻¹⁵ (3^d span fails, 0.27), end-of-circuit depolarising contraction exact to 2×10⁻¹⁶ (`tests/test_independent_theory.py`) |
 | Parity | 24 = 24 = 24 at d=4; 48 and 96 at d=8, 16 via `low_rank` |
 | Frozen backbone is frozen | 0 parameters, 0 buffers changed; negative control drifts 45 buffers |
 | Adaptive encoder adapts, for every arm | backbone gradient non-zero for VQC and control |
