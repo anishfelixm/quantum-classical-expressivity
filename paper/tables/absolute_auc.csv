@@ -1,0 +1,817 @@
+namespace,arm,dataset,regime,dim,extra,seeds,auc_mean,auc_sd
+01_frozen_tuned,fourier_rff,bloodmnist,10,4,{},40,0.8735950136779362,0.01802172724107939
+01_frozen_tuned,fourier_rff,bloodmnist,100,4,{},40,0.9605079813826716,0.005635141234407726
+01_frozen_tuned,fourier_rff,bloodmnist,20,4,{},40,0.9114098146224056,0.011865629341483365
+01_frozen_tuned,fourier_rff,bloodmnist,5,4,{},40,0.8094448055943599,0.0503008513622347
+01_frozen_tuned,fourier_rff,bloodmnist,50,4,{},40,0.944997901583192,0.006756935568810669
+01_frozen_tuned,fourier_rff,breastmnist,10,4,{},40,0.7024331662489557,0.057732942196676185
+01_frozen_tuned,fourier_rff,breastmnist,100,4,{},40,0.8031746031746032,0.026943447678160298
+01_frozen_tuned,fourier_rff,breastmnist,20,4,{},40,0.7308218462823726,0.040999964144662795
+01_frozen_tuned,fourier_rff,breastmnist,5,4,{},40,0.6527255639097744,0.08049491552107046
+01_frozen_tuned,fourier_rff,breastmnist,50,4,{},40,0.7758928571428572,0.02155574275938004
+01_frozen_tuned,fourier_rff,pathmnist,10,4,{},40,0.9219130562510381,0.019203037522404775
+01_frozen_tuned,fourier_rff,pathmnist,100,4,{},40,0.9664627783338956,0.007319799607366697
+01_frozen_tuned,fourier_rff,pathmnist,20,4,{},40,0.9460334383514064,0.012706965995032302
+01_frozen_tuned,fourier_rff,pathmnist,5,4,{},40,0.8722608774021718,0.027522671339488568
+01_frozen_tuned,fourier_rff,pathmnist,50,4,{},40,0.9614141386891631,0.009738759410637045
+01_frozen_tuned,fourier_rff,pneumoniamnist,10,4,{},40,0.9069699211045364,0.015582887211510374
+01_frozen_tuned,fourier_rff,pneumoniamnist,100,4,{},40,0.9360649517861056,0.01093586273761987
+01_frozen_tuned,fourier_rff,pneumoniamnist,20,4,{},40,0.9225894422529037,0.012964458465767064
+01_frozen_tuned,fourier_rff,pneumoniamnist,5,4,{},40,0.886799939732632,0.044154838133812414
+01_frozen_tuned,fourier_rff,pneumoniamnist,50,4,{},40,0.9263750547885163,0.010447119736384715
+01_frozen_tuned,fourier_rff_r2,bloodmnist,10,4,{},40,0.8263845823542784,0.06882188315250573
+01_frozen_tuned,fourier_rff_r2,bloodmnist,100,4,{},40,0.9531625883264863,0.006093294812431452
+01_frozen_tuned,fourier_rff_r2,bloodmnist,20,4,{},40,0.8930762057027156,0.02392420691517012
+01_frozen_tuned,fourier_rff_r2,bloodmnist,5,4,{},40,0.7464886426678341,0.07997411226519156
+01_frozen_tuned,fourier_rff_r2,bloodmnist,50,4,{},40,0.9289754881321748,0.032966572696701314
+01_frozen_tuned,fourier_rff_r2,breastmnist,10,4,{},40,0.6789238721804511,0.06479333562601415
+01_frozen_tuned,fourier_rff_r2,breastmnist,100,4,{},40,0.805733082706767,0.026371007688257
+01_frozen_tuned,fourier_rff_r2,breastmnist,20,4,{},40,0.7161680242272348,0.05101174100629234
+01_frozen_tuned,fourier_rff_r2,breastmnist,5,4,{},40,0.6389176065162907,0.07501238353008532
+01_frozen_tuned,fourier_rff_r2,breastmnist,50,4,{},40,0.7560463659147869,0.05864284923306806
+01_frozen_tuned,fourier_rff_r2,pathmnist,10,4,{},40,0.9058881912401663,0.027591571299315776
+01_frozen_tuned,fourier_rff_r2,pathmnist,100,4,{},40,0.9634957166465803,0.008060790664114673
+01_frozen_tuned,fourier_rff_r2,pathmnist,20,4,{},40,0.932965885342789,0.01887443059554901
+01_frozen_tuned,fourier_rff_r2,pathmnist,5,4,{},40,0.8595222078401104,0.02861869812641208
+01_frozen_tuned,fourier_rff_r2,pathmnist,50,4,{},40,0.9579878786496648,0.009064868700637963
+01_frozen_tuned,fourier_rff_r2,pneumoniamnist,10,4,{},40,0.8955163817663816,0.05416275640385138
+01_frozen_tuned,fourier_rff_r2,pneumoniamnist,100,4,{},40,0.9356329443348674,0.010903348896706975
+01_frozen_tuned,fourier_rff_r2,pneumoniamnist,20,4,{},40,0.9220997698882314,0.012854219914008178
+01_frozen_tuned,fourier_rff_r2,pneumoniamnist,5,4,{},40,0.8939697019504713,0.02156218222179632
+01_frozen_tuned,fourier_rff_r2,pneumoniamnist,50,4,{},40,0.9259390751698444,0.009354932563600631
+01_frozen_tuned,matched_param_fullrank,bloodmnist,10,4,{},40,0.8348372301341381,0.04065100928809734
+01_frozen_tuned,matched_param_fullrank,bloodmnist,100,4,{},40,0.9320080632595935,0.02262353197334495
+01_frozen_tuned,matched_param_fullrank,bloodmnist,20,4,{},40,0.8774476968782613,0.02618473551870122
+01_frozen_tuned,matched_param_fullrank,bloodmnist,5,4,{},40,0.7417560231750646,0.09087228482766706
+01_frozen_tuned,matched_param_fullrank,bloodmnist,50,4,{},40,0.9135926971745952,0.0245444276573676
+01_frozen_tuned,matched_param_fullrank,breastmnist,10,4,{},40,0.7082132414369257,0.06138136215445696
+01_frozen_tuned,matched_param_fullrank,breastmnist,100,4,{},40,0.8021198830409357,0.026265970195861663
+01_frozen_tuned,matched_param_fullrank,breastmnist,20,4,{},40,0.7262792397660819,0.053818043888096856
+01_frozen_tuned,matched_param_fullrank,breastmnist,5,4,{},40,0.6578738512949039,0.07280068158302808
+01_frozen_tuned,matched_param_fullrank,breastmnist,50,4,{},40,0.7694105054302423,0.02812918580356174
+01_frozen_tuned,matched_param_fullrank,pathmnist,10,4,{},40,0.8819320684891144,0.04134885089019902
+01_frozen_tuned,matched_param_fullrank,pathmnist,100,4,{},40,0.9611735574728598,0.012832094057107692
+01_frozen_tuned,matched_param_fullrank,pathmnist,20,4,{},40,0.9221301440014834,0.029016933526454427
+01_frozen_tuned,matched_param_fullrank,pathmnist,5,4,{},40,0.8375820028021547,0.04468429880332013
+01_frozen_tuned,matched_param_fullrank,pathmnist,50,4,{},40,0.9506222594816046,0.014836088061213774
+01_frozen_tuned,matched_param_fullrank,pneumoniamnist,10,4,{},40,0.9040855796625028,0.03656587259821393
+01_frozen_tuned,matched_param_fullrank,pneumoniamnist,100,4,{},40,0.9361154941924174,0.010375151946157048
+01_frozen_tuned,matched_param_fullrank,pneumoniamnist,20,4,{},40,0.9203917378917378,0.012240200564604021
+01_frozen_tuned,matched_param_fullrank,pneumoniamnist,5,4,{},40,0.8893618507560817,0.05089841644385573
+01_frozen_tuned,matched_param_fullrank,pneumoniamnist,50,4,{},40,0.9259861932938858,0.009387891762370036
+01_frozen_tuned,quantum_reupload,bloodmnist,10,4,{},40,0.8563137279322225,0.026806589343962288
+01_frozen_tuned,quantum_reupload,bloodmnist,100,4,{},40,0.944436826050801,0.009841529989427509
+01_frozen_tuned,quantum_reupload,bloodmnist,20,4,{},40,0.8960690337656425,0.01911130169370526
+01_frozen_tuned,quantum_reupload,bloodmnist,5,4,{},40,0.7814964884490421,0.05923877699356705
+01_frozen_tuned,quantum_reupload,bloodmnist,50,4,{},40,0.9265019565272785,0.012809061120153743
+01_frozen_tuned,quantum_reupload,breastmnist,10,4,{},40,0.709748329156224,0.05161460162585289
+01_frozen_tuned,quantum_reupload,breastmnist,100,4,{},40,0.8054824561403509,0.025083424247768556
+01_frozen_tuned,quantum_reupload,breastmnist,20,4,{},40,0.7315450083542189,0.03622804704135661
+01_frozen_tuned,quantum_reupload,breastmnist,5,4,{},40,0.6703738512949039,0.05876607813164799
+01_frozen_tuned,quantum_reupload,breastmnist,50,4,{},40,0.7688335421888054,0.028746551246583835
+01_frozen_tuned,quantum_reupload,pathmnist,10,4,{},40,0.8907050266830309,0.027769554493929174
+01_frozen_tuned,quantum_reupload,pathmnist,100,4,{},40,0.957578175680001,0.009925771178409698
+01_frozen_tuned,quantum_reupload,pathmnist,20,4,{},40,0.9242344972882215,0.018381557619885282
+01_frozen_tuned,quantum_reupload,pathmnist,5,4,{},40,0.8514604290119852,0.03299291440066045
+01_frozen_tuned,quantum_reupload,pathmnist,50,4,{},40,0.9482414148704734,0.013910789995905443
+01_frozen_tuned,quantum_reupload,pneumoniamnist,10,4,{},40,0.9090464058733291,0.015025432785450427
+01_frozen_tuned,quantum_reupload,pneumoniamnist,100,4,{},40,0.9355122726276572,0.010658137647359865
+01_frozen_tuned,quantum_reupload,pneumoniamnist,20,4,{},40,0.9241946088099933,0.010753341086329254
+01_frozen_tuned,quantum_reupload,pneumoniamnist,5,4,{},40,0.895598016655709,0.02841942903148569
+01_frozen_tuned,quantum_reupload,pneumoniamnist,50,4,{},40,0.9247501643655489,0.012516050668575052
+01_frozen_tuned,quantum_vqc,bloodmnist,10,4,{},40,0.8404674408003278,0.025375083858887308
+01_frozen_tuned,quantum_vqc,bloodmnist,100,4,{},40,0.9166811434307574,0.02492729845964769
+01_frozen_tuned,quantum_vqc,bloodmnist,20,4,{},40,0.866974838772882,0.02338734839236781
+01_frozen_tuned,quantum_vqc,bloodmnist,5,4,{},40,0.7863566392156407,0.06393610051012104
+01_frozen_tuned,quantum_vqc,bloodmnist,50,4,{},40,0.8983907030838733,0.02423371833345206
+01_frozen_tuned,quantum_vqc,breastmnist,10,4,{},40,0.7072159565580618,0.05783192847736441
+01_frozen_tuned,quantum_vqc,breastmnist,100,4,{},40,0.8048350041771094,0.026734586092680722
+01_frozen_tuned,quantum_vqc,breastmnist,20,4,{},40,0.7318086883876358,0.04030173291209754
+01_frozen_tuned,quantum_vqc,breastmnist,5,4,{},40,0.6682905179615706,0.06812921163239506
+01_frozen_tuned,quantum_vqc,breastmnist,50,4,{},40,0.7720185881370092,0.027477483115181434
+01_frozen_tuned,quantum_vqc,pathmnist,10,4,{},40,0.8730042827434463,0.020308487548750635
+01_frozen_tuned,quantum_vqc,pathmnist,100,4,{},40,0.9435853528562715,0.016006683984139465
+01_frozen_tuned,quantum_vqc,pathmnist,20,4,{},40,0.9021362792334265,0.02012528153670184
+01_frozen_tuned,quantum_vqc,pathmnist,5,4,{},40,0.8337795075965279,0.028267445086819994
+01_frozen_tuned,quantum_vqc,pathmnist,50,4,{},40,0.9303418031543093,0.01998012607301908
+01_frozen_tuned,quantum_vqc,pneumoniamnist,10,4,{},40,0.9093107604646068,0.016852546481649782
+01_frozen_tuned,quantum_vqc,pneumoniamnist,100,4,{},40,0.9366581744466359,0.00993320543569859
+01_frozen_tuned,quantum_vqc,pneumoniamnist,20,4,{},40,0.9251580648696033,0.009305650153686293
+01_frozen_tuned,quantum_vqc,pneumoniamnist,5,4,{},40,0.8949906859522244,0.03285501013793403
+01_frozen_tuned,quantum_vqc,pneumoniamnist,50,4,{},40,0.9267746000438308,0.010274498111239434
+10_capacity,low_rank (rank 0),bloodmnist,10,4,{},10,0.7819672021470931,0.03802995267188405
+10_capacity,low_rank (rank 0),bloodmnist,100,4,{},10,0.9292376675444188,0.009032729827397286
+10_capacity,low_rank (rank 0),bloodmnist,20,4,{},10,0.8321274628927009,0.026681783505798504
+10_capacity,low_rank (rank 0),bloodmnist,5,4,{},10,0.7250807178919414,0.04322291826292049
+10_capacity,low_rank (rank 0),bloodmnist,50,4,{},10,0.8929394706499165,0.015204472338814879
+10_capacity,low_rank (rank 0),breastmnist,10,4,{},10,0.7060568086883876,0.03335927459293154
+10_capacity,low_rank (rank 0),breastmnist,100,4,{},10,0.7784252297410192,0.018816179342981208
+10_capacity,low_rank (rank 0),breastmnist,20,4,{},10,0.721971595655806,0.03258410140926258
+10_capacity,low_rank (rank 0),breastmnist,5,4,{},10,0.6076649958228906,0.1273999452802643
+10_capacity,low_rank (rank 0),breastmnist,50,4,{},10,0.7478905597326649,0.02100874506473382
+10_capacity,low_rank (rank 0),pathmnist,10,4,{},10,0.8507808679040487,0.02895512945861138
+10_capacity,low_rank (rank 0),pathmnist,100,4,{},10,0.9634218298695416,0.005966200168269566
+10_capacity,low_rank (rank 0),pathmnist,20,4,{},10,0.9017707516089656,0.019738896784541885
+10_capacity,low_rank (rank 0),pathmnist,5,4,{},10,0.7944101961779009,0.03570203792046773
+10_capacity,low_rank (rank 0),pathmnist,50,4,{},10,0.9338864836487005,0.01743236162883271
+10_capacity,low_rank (rank 0),pneumoniamnist,10,4,{},10,0.8958470304624152,0.02435471046596835
+10_capacity,low_rank (rank 0),pneumoniamnist,100,4,{},10,0.9280933596318212,0.004446343205981643
+10_capacity,low_rank (rank 0),pneumoniamnist,20,4,{},10,0.9215384615384616,0.007217030608510188
+10_capacity,low_rank (rank 0),pneumoniamnist,5,4,{},10,0.8954426912119221,0.0244829284105117
+10_capacity,low_rank (rank 0),pneumoniamnist,50,4,{},10,0.923098838483454,0.005269892048952162
+10_capacity,low_rank (rank 1),bloodmnist,10,4,{},10,0.7792216060613308,0.047185208645207775
+10_capacity,low_rank (rank 1),bloodmnist,100,4,{},10,0.9178504066956478,0.014362912156282706
+10_capacity,low_rank (rank 1),bloodmnist,20,4,{},10,0.8455982216002196,0.028617375392684836
+10_capacity,low_rank (rank 1),bloodmnist,5,4,{},10,0.7357918081381606,0.04920700928252681
+10_capacity,low_rank (rank 1),bloodmnist,50,4,{},10,0.8926135893536451,0.01895488731000714
+10_capacity,low_rank (rank 1),breastmnist,10,4,{},10,0.7003132832080201,0.022736902381862944
+10_capacity,low_rank (rank 1),breastmnist,100,4,{},10,0.7894319131161236,0.02111468108716795
+10_capacity,low_rank (rank 1),breastmnist,20,4,{},10,0.7184210526315791,0.04293929445954564
+10_capacity,low_rank (rank 1),breastmnist,5,4,{},10,0.6031537176274018,0.12001135208175126
+10_capacity,low_rank (rank 1),breastmnist,50,4,{},10,0.7501253132832081,0.01842831825357385
+10_capacity,low_rank (rank 1),pathmnist,10,4,{},10,0.834435721500261,0.03505343875817746
+10_capacity,low_rank (rank 1),pathmnist,100,4,{},10,0.9527076295941359,0.015245025641942285
+10_capacity,low_rank (rank 1),pathmnist,20,4,{},10,0.8918410750541644,0.026391285915622908
+10_capacity,low_rank (rank 1),pathmnist,5,4,{},10,0.7814168752471059,0.04551531649210933
+10_capacity,low_rank (rank 1),pathmnist,50,4,{},10,0.9245414355299129,0.01516061780440852
+10_capacity,low_rank (rank 1),pneumoniamnist,10,4,{},10,0.9052717510409817,0.019807052501920108
+10_capacity,low_rank (rank 1),pneumoniamnist,100,4,{},10,0.9307725180802103,0.004842685161794294
+10_capacity,low_rank (rank 1),pneumoniamnist,20,4,{},10,0.921770764847688,0.005788193593137262
+10_capacity,low_rank (rank 1),pneumoniamnist,5,4,{},10,0.8993677405215866,0.015080749463635927
+10_capacity,low_rank (rank 1),pneumoniamnist,50,4,{},10,0.9234494849879467,0.00496013052814093
+10_capacity,low_rank (rank 2),bloodmnist,10,4,{},10,0.80243750939775,0.0458617450255029
+10_capacity,low_rank (rank 2),bloodmnist,100,4,{},10,0.9244699116607075,0.013980381471738716
+10_capacity,low_rank (rank 2),bloodmnist,20,4,{},10,0.8473746899964704,0.022542329159491274
+10_capacity,low_rank (rank 2),bloodmnist,5,4,{},10,0.7246252573950585,0.05332410505920551
+10_capacity,low_rank (rank 2),bloodmnist,50,4,{},10,0.8993291918151561,0.013709001323222449
+10_capacity,low_rank (rank 2),breastmnist,10,4,{},10,0.7023391812865497,0.026114043402174138
+10_capacity,low_rank (rank 2),breastmnist,100,4,{},10,0.7860484544695071,0.018396467159977174
+10_capacity,low_rank (rank 2),breastmnist,20,4,{},10,0.7336466165413533,0.03017189405158732
+10_capacity,low_rank (rank 2),breastmnist,5,4,{},10,0.6401211361737678,0.0825755391959336
+10_capacity,low_rank (rank 2),breastmnist,50,4,{},10,0.751921470342523,0.021936078283323782
+10_capacity,low_rank (rank 2),pathmnist,10,4,{},10,0.8473097674165053,0.024559673516512278
+10_capacity,low_rank (rank 2),pathmnist,100,4,{},10,0.960282092128956,0.0073688734080481376
+10_capacity,low_rank (rank 2),pathmnist,20,4,{},10,0.8910217581417477,0.015887983094867903
+10_capacity,low_rank (rank 2),pathmnist,5,4,{},10,0.7969086082246433,0.032263412864004845
+10_capacity,low_rank (rank 2),pathmnist,50,4,{},10,0.9351349090739081,0.014524202443058552
+10_capacity,low_rank (rank 2),pneumoniamnist,10,4,{},10,0.8982007451238221,0.022660986507095457
+10_capacity,low_rank (rank 2),pneumoniamnist,100,4,{},10,0.9288609467455622,0.005704787038972236
+10_capacity,low_rank (rank 2),pneumoniamnist,20,4,{},10,0.9119428007889547,0.016897933897306622
+10_capacity,low_rank (rank 2),pneumoniamnist,5,4,{},10,0.8982949813719043,0.023933140881009295
+10_capacity,low_rank (rank 2),pneumoniamnist,50,4,{},10,0.9205643217181677,0.0062592523367564845
+10_capacity,low_rank (rank 4),bloodmnist,10,4,{},10,0.8043499391378901,0.039927715474483816
+10_capacity,low_rank (rank 4),bloodmnist,100,4,{},10,0.92498497664337,0.013972993594870867
+10_capacity,low_rank (rank 4),bloodmnist,20,4,{},10,0.8441278743043418,0.022403343578042103
+10_capacity,low_rank (rank 4),bloodmnist,5,4,{},10,0.7239180734666523,0.05431125432939764
+10_capacity,low_rank (rank 4),bloodmnist,50,4,{},10,0.8974960026700568,0.0152954906798448
+10_capacity,low_rank (rank 4),breastmnist,10,4,{},10,0.7039473684210525,0.0280995355646178
+10_capacity,low_rank (rank 4),breastmnist,100,4,{},10,0.7864870509607351,0.018547821469505302
+10_capacity,low_rank (rank 4),breastmnist,20,4,{},10,0.7341269841269842,0.031440746322751706
+10_capacity,low_rank (rank 4),breastmnist,5,4,{},10,0.6435254803675856,0.08300117217311499
+10_capacity,low_rank (rank 4),breastmnist,50,4,{},10,0.7531328320802004,0.02288278350008745
+10_capacity,low_rank (rank 4),pathmnist,10,4,{},10,0.8470208620187953,0.022025147614088744
+10_capacity,low_rank (rank 4),pathmnist,100,4,{},10,0.9574794214337194,0.00794468037657518
+10_capacity,low_rank (rank 4),pathmnist,20,4,{},10,0.8889915967166846,0.01761956613682698
+10_capacity,low_rank (rank 4),pathmnist,5,4,{},10,0.7963849707602757,0.03606401287886648
+10_capacity,low_rank (rank 4),pathmnist,50,4,{},10,0.9365779569388945,0.013747517019458517
+10_capacity,low_rank (rank 4),pneumoniamnist,10,4,{},10,0.8988395792241946,0.022858176084273683
+10_capacity,low_rank (rank 4),pneumoniamnist,100,4,{},10,0.9294860837168528,0.005969146091573999
+10_capacity,low_rank (rank 4),pneumoniamnist,20,4,{},10,0.9118463730002192,0.016363065269756127
+10_capacity,low_rank (rank 4),pneumoniamnist,5,4,{},10,0.8951555993863687,0.0294589235650163
+10_capacity,low_rank (rank 4),pneumoniamnist,50,4,{},10,0.9204087223317993,0.00655915187517763
+10_capacity,low_rank (rank 8),bloodmnist,10,4,{},10,0.7838294269929599,0.03661907727542041
+10_capacity,low_rank (rank 8),bloodmnist,100,4,{},10,0.9181685689311287,0.012945753089144772
+10_capacity,low_rank (rank 8),bloodmnist,20,4,{},10,0.8439674250256463,0.013610300033958439
+10_capacity,low_rank (rank 8),bloodmnist,5,4,{},10,0.7323101633076666,0.04412271778543878
+10_capacity,low_rank (rank 8),bloodmnist,50,4,{},10,0.8924215945673654,0.016049991503024358
+10_capacity,low_rank (rank 8),breastmnist,10,4,{},10,0.6978696741854638,0.045334650259710396
+10_capacity,low_rank (rank 8),breastmnist,100,4,{},10,0.7861111111111112,0.039068374805829476
+10_capacity,low_rank (rank 8),breastmnist,20,4,{},10,0.7189640768588138,0.04407935846360902
+10_capacity,low_rank (rank 8),breastmnist,5,4,{},10,0.6520050125313281,0.064861183137382
+10_capacity,low_rank (rank 8),breastmnist,50,4,{},10,0.7495405179615705,0.024990381259511037
+10_capacity,low_rank (rank 8),pathmnist,10,4,{},10,0.8449032133382641,0.019520277411715577
+10_capacity,low_rank (rank 8),pathmnist,100,4,{},10,0.9543782166687299,0.01134670918565731
+10_capacity,low_rank (rank 8),pathmnist,20,4,{},10,0.8891477585529286,0.015396101921722104
+10_capacity,low_rank (rank 8),pathmnist,5,4,{},10,0.7914744637544837,0.03664957649662783
+10_capacity,low_rank (rank 8),pathmnist,50,4,{},10,0.9234742918310888,0.018168848909786414
+10_capacity,low_rank (rank 8),pneumoniamnist,10,4,{},10,0.9051293008985317,0.019733766214395175
+10_capacity,low_rank (rank 8),pneumoniamnist,100,4,{},10,0.9281191102344948,0.008823912784497623
+10_capacity,low_rank (rank 8),pneumoniamnist,20,4,{},10,0.9191463949156257,0.002922971995904247
+10_capacity,low_rank (rank 8),pneumoniamnist,5,4,{},10,0.8963182117028271,0.027471729158574237
+10_capacity,low_rank (rank 8),pneumoniamnist,50,4,{},10,0.9227673679596757,0.007592411547865542
+12_bottleneck,linear,bloodmnist,10,4,"{""bn"": ""learned""}",5,0.7990192476310793,0.025445645470325705
+12_bottleneck,linear,bloodmnist,100,4,"{""bn"": ""learned""}",5,0.9293548344129918,0.009637670055776898
+12_bottleneck,linear,bloodmnist,20,4,"{""bn"": ""learned""}",5,0.8449243478784222,0.015230911308660056
+12_bottleneck,linear,bloodmnist,5,4,"{""bn"": ""learned""}",5,0.7506242756926927,0.016750201101077687
+12_bottleneck,linear,bloodmnist,50,4,"{""bn"": ""learned""}",5,0.9014009951698299,0.006374396488457878
+12_bottleneck,linear,breastmnist,10,4,"{""bn"": ""learned""}",5,0.7109440267335004,0.042394831401405764
+12_bottleneck,linear,breastmnist,100,4,"{""bn"": ""learned""}",5,0.7860066833751045,0.026575412378389472
+12_bottleneck,linear,breastmnist,20,4,"{""bn"": ""learned""}",5,0.7189223057644111,0.03872605123163732
+12_bottleneck,linear,breastmnist,5,4,"{""bn"": ""learned""}",5,0.6198412698412699,0.1621075308018384
+12_bottleneck,linear,breastmnist,50,4,"{""bn"": ""learned""}",5,0.7499582289055973,0.029753805930270362
+12_bottleneck,linear,pathmnist,10,4,"{""bn"": ""learned""}",5,0.8674119246624536,0.03202033948232714
+12_bottleneck,linear,pathmnist,100,4,"{""bn"": ""learned""}",5,0.9598619080031459,0.006543838081991501
+12_bottleneck,linear,pathmnist,20,4,"{""bn"": ""learned""}",5,0.9061374063264459,0.023951080003520572
+12_bottleneck,linear,pathmnist,5,4,"{""bn"": ""learned""}",5,0.8150776604296517,0.04259540610912414
+12_bottleneck,linear,pathmnist,50,4,"{""bn"": ""learned""}",5,0.9313484309837428,0.008032045441121849
+12_bottleneck,linear,pneumoniamnist,10,4,"{""bn"": ""learned""}",5,0.8825947841332455,0.025289251056653018
+12_bottleneck,linear,pneumoniamnist,100,4,"{""bn"": ""learned""}",5,0.9277098400175323,0.004783877743156735
+12_bottleneck,linear,pneumoniamnist,20,4,"{""bn"": ""learned""}",5,0.9235239973701512,0.006856766510892907
+12_bottleneck,linear,pneumoniamnist,5,4,"{""bn"": ""learned""}",5,0.8887683541529695,0.01705908005303415
+12_bottleneck,linear,pneumoniamnist,50,4,"{""bn"": ""learned""}",5,0.9212557527942143,0.005089168411700452
+12_bottleneck,linear,bloodmnist,10,4,"{""bn"": ""pca""}",5,0.6280328632700908,0.06576611597611141
+12_bottleneck,linear,bloodmnist,100,4,"{""bn"": ""pca""}",5,0.8319127054788362,0.005400083213793071
+12_bottleneck,linear,bloodmnist,20,4,"{""bn"": ""pca""}",5,0.6734882728529344,0.05727839754955755
+12_bottleneck,linear,bloodmnist,5,4,"{""bn"": ""pca""}",5,0.5980429655613273,0.0701049117976843
+12_bottleneck,linear,bloodmnist,50,4,"{""bn"": ""pca""}",5,0.7897278885198397,0.0280743715683007
+12_bottleneck,linear,breastmnist,10,4,"{""bn"": ""pca""}",5,0.4177944862155389,0.06924568449262314
+12_bottleneck,linear,breastmnist,100,4,"{""bn"": ""pca""}",5,0.6130743525480368,0.05251720575978038
+12_bottleneck,linear,breastmnist,20,4,"{""bn"": ""pca""}",5,0.4309941520467836,0.057239089324688165
+12_bottleneck,linear,breastmnist,5,4,"{""bn"": ""pca""}",5,0.40505430242272344,0.05480866619239987
+12_bottleneck,linear,breastmnist,50,4,"{""bn"": ""pca""}",5,0.5038011695906434,0.055898675657716
+12_bottleneck,linear,pathmnist,10,4,"{""bn"": ""pca""}",5,0.6368155337964624,0.10383704036214919
+12_bottleneck,linear,pathmnist,100,4,"{""bn"": ""pca""}",5,0.8986906866007649,0.010024702251153813
+12_bottleneck,linear,pathmnist,20,4,"{""bn"": ""pca""}",5,0.7330150059631018,0.08767562278245077
+12_bottleneck,linear,pathmnist,5,4,"{""bn"": ""pca""}",5,0.5972800292347573,0.0994490389885102
+12_bottleneck,linear,pathmnist,50,4,"{""bn"": ""pca""}",5,0.8604045404863688,0.03743997790799718
+12_bottleneck,linear,pneumoniamnist,10,4,"{""bn"": ""pca""}",5,0.38900723208415516,0.33621147162423604
+12_bottleneck,linear,pneumoniamnist,100,4,"{""bn"": ""pca""}",5,0.7085623493315802,0.24747064517241463
+12_bottleneck,linear,pneumoniamnist,20,4,"{""bn"": ""pca""}",5,0.4559171597633136,0.33620264437545233
+12_bottleneck,linear,pneumoniamnist,5,4,"{""bn"": ""pca""}",5,0.37592811746657906,0.31790488311319876
+12_bottleneck,linear,pneumoniamnist,50,4,"{""bn"": ""pca""}",5,0.5005982905982906,0.3394390851479651
+12_bottleneck,linear,bloodmnist,10,4,"{""bn"": ""random""}",5,0.5110424343819397,0.08309710991670718
+12_bottleneck,linear,bloodmnist,100,4,"{""bn"": ""random""}",5,0.640525609218252,0.05994651457724836
+12_bottleneck,linear,bloodmnist,20,4,"{""bn"": ""random""}",5,0.527627743783314,0.08229358538869083
+12_bottleneck,linear,bloodmnist,5,4,"{""bn"": ""random""}",5,0.497070814750438,0.08517241545351899
+12_bottleneck,linear,bloodmnist,50,4,"{""bn"": ""random""}",5,0.588506035670045,0.06432372999434552
+12_bottleneck,linear,breastmnist,10,4,"{""bn"": ""random""}",5,0.5380325814536341,0.10620953790210223
+12_bottleneck,linear,breastmnist,100,4,"{""bn"": ""random""}",5,0.5907268170426065,0.08954379688178049
+12_bottleneck,linear,breastmnist,20,4,"{""bn"": ""random""}",5,0.5365914786967418,0.10367285638587938
+12_bottleneck,linear,breastmnist,5,4,"{""bn"": ""random""}",5,0.5352130325814537,0.10289101132482271
+12_bottleneck,linear,breastmnist,50,4,"{""bn"": ""random""}",5,0.5595655806182123,0.08904317358146824
+12_bottleneck,linear,pathmnist,10,4,"{""bn"": ""random""}",5,0.5528905983437322,0.10500719262712871
+12_bottleneck,linear,pathmnist,100,4,"{""bn"": ""random""}",5,0.7431279419025567,0.060851796228732005
+12_bottleneck,linear,pathmnist,20,4,"{""bn"": ""random""}",5,0.5953836515852753,0.1083855357645668
+12_bottleneck,linear,pathmnist,5,4,"{""bn"": ""random""}",5,0.5329751272809657,0.09965535170757987
+12_bottleneck,linear,pathmnist,50,4,"{""bn"": ""random""}",5,0.6592523147271596,0.09928498031019772
+12_bottleneck,linear,pneumoniamnist,10,4,"{""bn"": ""random""}",5,0.697103879026956,0.16673646119572638
+12_bottleneck,linear,pneumoniamnist,100,4,"{""bn"": ""random""}",5,0.7143282927898313,0.17274269268307293
+12_bottleneck,linear,pneumoniamnist,20,4,"{""bn"": ""random""}",5,0.700970852509314,0.167456654292648
+12_bottleneck,linear,pneumoniamnist,5,4,"{""bn"": ""random""}",5,0.6946175761560378,0.16479233480034425
+12_bottleneck,linear,pneumoniamnist,50,4,"{""bn"": ""random""}",5,0.7111023449484988,0.17142129921415705
+12_bottleneck,matched_param_fullrank,bloodmnist,10,4,"{""bn"": ""learned""}",5,0.705441123312923,0.1211461434386935
+12_bottleneck,matched_param_fullrank,bloodmnist,100,4,"{""bn"": ""learned""}",5,0.9238683061992876,0.016162732715624368
+12_bottleneck,matched_param_fullrank,bloodmnist,20,4,"{""bn"": ""learned""}",5,0.8099387879979016,0.05401313266421735
+12_bottleneck,matched_param_fullrank,bloodmnist,5,4,"{""bn"": ""learned""}",5,0.636734844763337,0.07052441049059194
+12_bottleneck,matched_param_fullrank,bloodmnist,50,4,"{""bn"": ""learned""}",5,0.8870802662917583,0.0333184393880322
+12_bottleneck,matched_param_fullrank,breastmnist,10,4,"{""bn"": ""learned""}",5,0.6797410192147035,0.057759508491296956
+12_bottleneck,matched_param_fullrank,breastmnist,100,4,"{""bn"": ""learned""}",5,0.7903926482873851,0.018489667183778823
+12_bottleneck,matched_param_fullrank,breastmnist,20,4,"{""bn"": ""learned""}",5,0.7131578947368422,0.0383221620229431
+12_bottleneck,matched_param_fullrank,breastmnist,5,4,"{""bn"": ""learned""}",5,0.6357142857142858,0.05690274905003867
+12_bottleneck,matched_param_fullrank,breastmnist,50,4,"{""bn"": ""learned""}",5,0.7554720133667502,0.020056324751684784
+12_bottleneck,matched_param_fullrank,pathmnist,10,4,"{""bn"": ""learned""}",5,0.8166492905879228,0.08246404805810804
+12_bottleneck,matched_param_fullrank,pathmnist,100,4,"{""bn"": ""learned""}",5,0.9601331542122583,0.008250708129549832
+12_bottleneck,matched_param_fullrank,pathmnist,20,4,"{""bn"": ""learned""}",5,0.8921600838687169,0.03768901177381209
+12_bottleneck,matched_param_fullrank,pathmnist,5,4,"{""bn"": ""learned""}",5,0.7603588333184093,0.13472239667200187
+12_bottleneck,matched_param_fullrank,pathmnist,50,4,"{""bn"": ""learned""}",5,0.9324054196650529,0.01951638094530473
+12_bottleneck,matched_param_fullrank,pneumoniamnist,10,4,"{""bn"": ""learned""}",5,0.832905982905983,0.15122444510673375
+12_bottleneck,matched_param_fullrank,pneumoniamnist,100,4,"{""bn"": ""learned""}",5,0.9275235590620206,0.009729716746069445
+12_bottleneck,matched_param_fullrank,pneumoniamnist,20,4,"{""bn"": ""learned""}",5,0.9238439623055008,0.01731572834584103
+12_bottleneck,matched_param_fullrank,pneumoniamnist,5,4,"{""bn"": ""learned""}",5,0.8402542187157571,0.15374014927223403
+12_bottleneck,matched_param_fullrank,pneumoniamnist,50,4,"{""bn"": ""learned""}",5,0.9203462634231867,0.012556144766684771
+12_bottleneck,matched_param_fullrank,bloodmnist,10,4,"{""bn"": ""pca""}",5,0.6683380661600884,0.04708309819662701
+12_bottleneck,matched_param_fullrank,bloodmnist,100,4,"{""bn"": ""pca""}",5,0.8575002829256277,0.0074766252884598565
+12_bottleneck,matched_param_fullrank,bloodmnist,20,4,"{""bn"": ""pca""}",5,0.7295583226315421,0.05701782483647787
+12_bottleneck,matched_param_fullrank,bloodmnist,5,4,"{""bn"": ""pca""}",5,0.6029877180681722,0.060993559864957636
+12_bottleneck,matched_param_fullrank,bloodmnist,50,4,"{""bn"": ""pca""}",5,0.8328432786632819,0.018005737514834436
+12_bottleneck,matched_param_fullrank,breastmnist,10,4,"{""bn"": ""pca""}",5,0.5110275689223058,0.08838922979455291
+12_bottleneck,matched_param_fullrank,breastmnist,100,4,"{""bn"": ""pca""}",5,0.7196324143692565,0.010629697144997419
+12_bottleneck,matched_param_fullrank,breastmnist,20,4,"{""bn"": ""pca""}",5,0.5440685045948205,0.1039050200863048
+12_bottleneck,matched_param_fullrank,breastmnist,5,4,"{""bn"": ""pca""}",5,0.46612364243943194,0.10013954528856062
+12_bottleneck,matched_param_fullrank,breastmnist,50,4,"{""bn"": ""pca""}",5,0.6709690893901421,0.02567206740837127
+12_bottleneck,matched_param_fullrank,pathmnist,10,4,"{""bn"": ""pca""}",5,0.7366199774230499,0.0783660663754242
+12_bottleneck,matched_param_fullrank,pathmnist,100,4,"{""bn"": ""pca""}",5,0.9143368658050857,0.007584281464918559
+12_bottleneck,matched_param_fullrank,pathmnist,20,4,"{""bn"": ""pca""}",5,0.8185313333776442,0.06993985960025408
+12_bottleneck,matched_param_fullrank,pathmnist,5,4,"{""bn"": ""pca""}",5,0.7024235789699632,0.08019524216708845
+12_bottleneck,matched_param_fullrank,pathmnist,50,4,"{""bn"": ""pca""}",5,0.8834687645299987,0.02090012093573385
+12_bottleneck,matched_param_fullrank,pneumoniamnist,10,4,"{""bn"": ""pca""}",5,0.6769274600043831,0.2474771351629421
+12_bottleneck,matched_param_fullrank,pneumoniamnist,100,4,"{""bn"": ""pca""}",5,0.9219526627218937,0.002032537286808756
+12_bottleneck,matched_param_fullrank,pneumoniamnist,20,4,"{""bn"": ""pca""}",5,0.8049660311198773,0.14420547290788804
+12_bottleneck,matched_param_fullrank,pneumoniamnist,5,4,"{""bn"": ""pca""}",5,0.6434100372561912,0.25953071681065487
+12_bottleneck,matched_param_fullrank,pneumoniamnist,50,4,"{""bn"": ""pca""}",5,0.895790050405435,0.04646707863635126
+12_bottleneck,matched_param_fullrank,bloodmnist,10,4,"{""bn"": ""random""}",5,0.5675967243547058,0.04023537534249842
+12_bottleneck,matched_param_fullrank,bloodmnist,100,4,"{""bn"": ""random""}",5,0.6735083052868747,0.03569808001683956
+12_bottleneck,matched_param_fullrank,bloodmnist,20,4,"{""bn"": ""random""}",5,0.5887529491556085,0.03810725851453854
+12_bottleneck,matched_param_fullrank,bloodmnist,5,4,"{""bn"": ""random""}",5,0.5571505697594666,0.03277131217931754
+12_bottleneck,matched_param_fullrank,bloodmnist,50,4,"{""bn"": ""random""}",5,0.6367601531290514,0.06352880555400278
+12_bottleneck,matched_param_fullrank,breastmnist,10,4,"{""bn"": ""random""}",5,0.6053467000835422,0.07937285610230439
+12_bottleneck,matched_param_fullrank,breastmnist,100,4,"{""bn"": ""random""}",5,0.6092731829573934,0.07772558565678081
+12_bottleneck,matched_param_fullrank,breastmnist,20,4,"{""bn"": ""random""}",5,0.5900584795321638,0.07075384097513311
+12_bottleneck,matched_param_fullrank,breastmnist,5,4,"{""bn"": ""random""}",5,0.5843358395989975,0.06805074100543489
+12_bottleneck,matched_param_fullrank,breastmnist,50,4,"{""bn"": ""random""}",5,0.6022974101921471,0.07817312727842832
+12_bottleneck,matched_param_fullrank,pathmnist,10,4,"{""bn"": ""random""}",5,0.6182147741159221,0.07457452078881344
+12_bottleneck,matched_param_fullrank,pathmnist,100,4,"{""bn"": ""random""}",5,0.7862176372200552,0.016213552260806705
+12_bottleneck,matched_param_fullrank,pathmnist,20,4,"{""bn"": ""random""}",5,0.6873074864968534,0.03438359554115399
+12_bottleneck,matched_param_fullrank,pathmnist,5,4,"{""bn"": ""random""}",5,0.6033158218022968,0.07269035863541859
+12_bottleneck,matched_param_fullrank,pathmnist,50,4,"{""bn"": ""random""}",5,0.754689692967595,0.012178346609261339
+12_bottleneck,matched_param_fullrank,pneumoniamnist,10,4,"{""bn"": ""random""}",5,0.6670238877931186,0.18180866728707673
+12_bottleneck,matched_param_fullrank,pneumoniamnist,100,4,"{""bn"": ""random""}",5,0.8134527722989262,0.05990550038162788
+12_bottleneck,matched_param_fullrank,pneumoniamnist,20,4,"{""bn"": ""random""}",5,0.6738538242384396,0.182953460305409
+12_bottleneck,matched_param_fullrank,pneumoniamnist,5,4,"{""bn"": ""random""}",5,0.6239984659215428,0.18279389716805194
+12_bottleneck,matched_param_fullrank,pneumoniamnist,50,4,"{""bn"": ""random""}",5,0.7308481262327416,0.13749129527302248
+12_bottleneck,quantum_vqc,bloodmnist,10,4,"{""bn"": ""learned""}",5,0.7724485330370717,0.050978589600343224
+12_bottleneck,quantum_vqc,bloodmnist,100,4,"{""bn"": ""learned""}",5,0.8906216952380681,0.021761380573590613
+12_bottleneck,quantum_vqc,bloodmnist,20,4,"{""bn"": ""learned""}",5,0.8030341824880075,0.04957456805156766
+12_bottleneck,quantum_vqc,bloodmnist,5,4,"{""bn"": ""learned""}",5,0.7024858201875751,0.0984693864274501
+12_bottleneck,quantum_vqc,bloodmnist,50,4,"{""bn"": ""learned""}",5,0.8645464384304858,0.02921638434880088
+12_bottleneck,quantum_vqc,breastmnist,10,4,"{""bn"": ""learned""}",5,0.7078320802005014,0.033564900326139534
+12_bottleneck,quantum_vqc,breastmnist,100,4,"{""bn"": ""learned""}",5,0.7780284043441938,0.02888494585368571
+12_bottleneck,quantum_vqc,breastmnist,20,4,"{""bn"": ""learned""}",5,0.7017543859649124,0.032229451481939855
+12_bottleneck,quantum_vqc,breastmnist,5,4,"{""bn"": ""learned""}",5,0.6416875522138681,0.09340004098640016
+12_bottleneck,quantum_vqc,breastmnist,50,4,"{""bn"": ""learned""}",5,0.7376357560568088,0.020554710524479946
+12_bottleneck,quantum_vqc,pathmnist,10,4,"{""bn"": ""learned""}",5,0.7936647263468488,0.04461797440362696
+12_bottleneck,quantum_vqc,pathmnist,100,4,"{""bn"": ""learned""}",5,0.9230679873293008,0.010929778788279774
+12_bottleneck,quantum_vqc,pathmnist,20,4,"{""bn"": ""learned""}",5,0.8551854649024111,0.024173647757341817
+12_bottleneck,quantum_vqc,pathmnist,5,4,"{""bn"": ""learned""}",5,0.7443321740003062,0.04462410646856741
+12_bottleneck,quantum_vqc,pathmnist,50,4,"{""bn"": ""learned""}",5,0.8836254076668577,0.011234488313993686
+12_bottleneck,quantum_vqc,pneumoniamnist,10,4,"{""bn"": ""learned""}",5,0.9054788516326978,0.008021648775829598
+12_bottleneck,quantum_vqc,pneumoniamnist,100,4,"{""bn"": ""learned""}",5,0.9269603331141791,0.0022961369763472334
+12_bottleneck,quantum_vqc,pneumoniamnist,20,4,"{""bn"": ""learned""}",5,0.9216984440061363,0.007161743107264179
+12_bottleneck,quantum_vqc,pneumoniamnist,5,4,"{""bn"": ""learned""}",5,0.9031799254876178,0.01412607206920182
+12_bottleneck,quantum_vqc,pneumoniamnist,50,4,"{""bn"": ""learned""}",5,0.9196800350646506,0.006878130351496239
+12_bottleneck,quantum_vqc,bloodmnist,10,4,"{""bn"": ""pca""}",5,0.6448753964835069,0.04163515429940746
+12_bottleneck,quantum_vqc,bloodmnist,100,4,"{""bn"": ""pca""}",5,0.8178526699277517,0.004136036819558882
+12_bottleneck,quantum_vqc,bloodmnist,20,4,"{""bn"": ""pca""}",5,0.7003237027569411,0.06412850401053886
+12_bottleneck,quantum_vqc,bloodmnist,5,4,"{""bn"": ""pca""}",5,0.5800664117974887,0.03310329209479478
+12_bottleneck,quantum_vqc,bloodmnist,50,4,"{""bn"": ""pca""}",5,0.799413275251743,0.009088633970274925
+12_bottleneck,quantum_vqc,breastmnist,10,4,"{""bn"": ""pca""}",5,0.5722222222222222,0.0511193554239052
+12_bottleneck,quantum_vqc,breastmnist,100,4,"{""bn"": ""pca""}",5,0.6598162071846282,0.090217513912677
+12_bottleneck,quantum_vqc,breastmnist,20,4,"{""bn"": ""pca""}",5,0.5880116959064328,0.06618553786469837
+12_bottleneck,quantum_vqc,breastmnist,5,4,"{""bn"": ""pca""}",5,0.5367167919799498,0.05751805378374872
+12_bottleneck,quantum_vqc,breastmnist,50,4,"{""bn"": ""pca""}",5,0.633375104427736,0.07868733503616285
+12_bottleneck,quantum_vqc,pathmnist,10,4,"{""bn"": ""pca""}",5,0.6798809005573209,0.041214794457275376
+12_bottleneck,quantum_vqc,pathmnist,100,4,"{""bn"": ""pca""}",5,0.8853201975555987,0.013800999009337223
+12_bottleneck,quantum_vqc,pathmnist,20,4,"{""bn"": ""pca""}",5,0.7179917744097163,0.03509251730749429
+12_bottleneck,quantum_vqc,pathmnist,5,4,"{""bn"": ""pca""}",5,0.6110129205095189,0.04112605408246608
+12_bottleneck,quantum_vqc,pathmnist,50,4,"{""bn"": ""pca""}",5,0.8055341375581048,0.07275170842928658
+12_bottleneck,quantum_vqc,pneumoniamnist,10,4,"{""bn"": ""pca""}",5,0.5956191102344949,0.15455761494918452
+12_bottleneck,quantum_vqc,pneumoniamnist,100,4,"{""bn"": ""pca""}",5,0.9116173570019726,0.004894668799470832
+12_bottleneck,quantum_vqc,pneumoniamnist,20,4,"{""bn"": ""pca""}",5,0.7372375630067939,0.15457102334765285
+12_bottleneck,quantum_vqc,pneumoniamnist,5,4,"{""bn"": ""pca""}",5,0.5739381985535832,0.17218007180760947
+12_bottleneck,quantum_vqc,pneumoniamnist,50,4,"{""bn"": ""pca""}",5,0.8716831032215648,0.05292270488857667
+12_bottleneck,quantum_vqc,bloodmnist,10,4,"{""bn"": ""random""}",5,0.5164210419943349,0.03451204946458344
+12_bottleneck,quantum_vqc,bloodmnist,100,4,"{""bn"": ""random""}",5,0.6581214983256845,0.03648537796520267
+12_bottleneck,quantum_vqc,bloodmnist,20,4,"{""bn"": ""random""}",5,0.5564734747320673,0.031221069519502927
+12_bottleneck,quantum_vqc,bloodmnist,5,4,"{""bn"": ""random""}",5,0.5118624298801612,0.02967644929812027
+12_bottleneck,quantum_vqc,bloodmnist,50,4,"{""bn"": ""random""}",5,0.6237417716128574,0.05370623691724288
+12_bottleneck,quantum_vqc,breastmnist,10,4,"{""bn"": ""random""}",5,0.5051587301587301,0.11788253181069161
+12_bottleneck,quantum_vqc,breastmnist,100,4,"{""bn"": ""random""}",5,0.6039264828738513,0.07113462235816308
+12_bottleneck,quantum_vqc,breastmnist,20,4,"{""bn"": ""random""}",5,0.5073517126148704,0.11599955881732145
+12_bottleneck,quantum_vqc,breastmnist,5,4,"{""bn"": ""random""}",5,0.5206558061821219,0.08834174176830868
+12_bottleneck,quantum_vqc,breastmnist,50,4,"{""bn"": ""random""}",5,0.5678571428571428,0.10545465211918527
+12_bottleneck,quantum_vqc,pathmnist,10,4,"{""bn"": ""random""}",5,0.6259256524888376,0.03340589035870166
+12_bottleneck,quantum_vqc,pathmnist,100,4,"{""bn"": ""random""}",5,0.733701781948502,0.029270782287411732
+12_bottleneck,quantum_vqc,pathmnist,20,4,"{""bn"": ""random""}",5,0.6749299535965197,0.05306360360513035
+12_bottleneck,quantum_vqc,pathmnist,5,4,"{""bn"": ""random""}",5,0.6123018410925382,0.03967494863593248
+12_bottleneck,quantum_vqc,pathmnist,50,4,"{""bn"": ""random""}",5,0.6941880612379536,0.05307568436822019
+12_bottleneck,quantum_vqc,pneumoniamnist,10,4,"{""bn"": ""random""}",5,0.5096657900504054,0.2694510009722293
+12_bottleneck,quantum_vqc,pneumoniamnist,100,4,"{""bn"": ""random""}",5,0.7285711154941923,0.1785836005098228
+12_bottleneck,quantum_vqc,pneumoniamnist,20,4,"{""bn"": ""random""}",5,0.6242647381108919,0.25003857338079327
+12_bottleneck,quantum_vqc,pneumoniamnist,5,4,"{""bn"": ""random""}",5,0.5058108700416393,0.288743426713799
+12_bottleneck,quantum_vqc,pneumoniamnist,50,4,"{""bn"": ""random""}",5,0.6331076046460662,0.22942972523551663
+14_readout,quantum_rich,bloodmnist,10,4,{},10,0.8639397898258157,0.023591401133875336
+14_readout,quantum_rich,bloodmnist,100,4,{},10,0.9380155225654974,0.009333076596794969
+14_readout,quantum_rich,bloodmnist,20,4,{},10,0.8909808663691214,0.024671225286573256
+14_readout,quantum_rich,bloodmnist,5,4,{},10,0.8288182363960317,0.030361671164233998
+14_readout,quantum_rich,bloodmnist,50,4,{},10,0.9132212288466575,0.02477906069917149
+14_readout,quantum_rich,breastmnist,10,4,{},10,0.7265873015873016,0.025573298583672216
+14_readout,quantum_rich,breastmnist,100,4,{},10,0.8015873015873016,0.03319364079162739
+14_readout,quantum_rich,breastmnist,20,4,{},10,0.7480576441102758,0.049939226700563964
+14_readout,quantum_rich,breastmnist,5,4,{},10,0.6595655806182121,0.08623733234684686
+14_readout,quantum_rich,breastmnist,50,4,{},10,0.7626670843776108,0.027432249515091413
+14_readout,quantum_rich,pathmnist,10,4,{},10,0.9037408476871811,0.014610862221093736
+14_readout,quantum_rich,pathmnist,100,4,{},10,0.9580096287051092,0.012915080390564493
+14_readout,quantum_rich,pathmnist,20,4,{},10,0.920588795630135,0.026610088795833632
+14_readout,quantum_rich,pathmnist,5,4,{},10,0.8634865576603238,0.018445292787596317
+14_readout,quantum_rich,pathmnist,50,4,{},10,0.9466587758032079,0.015794256102641183
+14_readout,quantum_rich,pneumoniamnist,10,4,{},10,0.9143688362919132,0.014058454812853099
+14_readout,quantum_rich,pneumoniamnist,100,4,{},10,0.9328643436335744,0.010899410045653866
+14_readout,quantum_rich,pneumoniamnist,20,4,{},10,0.9264858645627877,0.009919831300538211
+14_readout,quantum_rich,pneumoniamnist,5,4,{},10,0.9124205566513257,0.006978391527753096
+14_readout,quantum_rich,pneumoniamnist,50,4,{},10,0.9269225290379136,0.007804392234707203
+14_readout,quantum_rich_padded,bloodmnist,10,4,{},10,0.8520465018625394,0.017688226732070454
+14_readout,quantum_rich_padded,bloodmnist,100,4,{},10,0.9065114659107145,0.03273192129812627
+14_readout,quantum_rich_padded,bloodmnist,20,4,{},10,0.8558896252201983,0.02245410934713914
+14_readout,quantum_rich_padded,bloodmnist,5,4,{},10,0.8136637305385328,0.025179545132384688
+14_readout,quantum_rich_padded,bloodmnist,50,4,{},10,0.8879130905256399,0.025378143618753957
+14_readout,quantum_rich_padded,breastmnist,10,4,{},10,0.7020050125313284,0.0327504204984095
+14_readout,quantum_rich_padded,breastmnist,100,4,{},10,0.81203007518797,0.02721735760903871
+14_readout,quantum_rich_padded,breastmnist,20,4,{},10,0.73765664160401,0.0472431559873338
+14_readout,quantum_rich_padded,breastmnist,5,4,{},10,0.6460735171261488,0.10567941041763088
+14_readout,quantum_rich_padded,breastmnist,50,4,{},10,0.7681495405179616,0.024813586870822833
+14_readout,quantum_rich_padded,pathmnist,10,4,{},10,0.8846816020110616,0.0170986407372558
+14_readout,quantum_rich_padded,pathmnist,100,4,{},10,0.9488933874495183,0.011595843247428628
+14_readout,quantum_rich_padded,pathmnist,20,4,{},10,0.9083638183328544,0.020143601684920086
+14_readout,quantum_rich_padded,pathmnist,5,4,{},10,0.8382989936696333,0.02260442996344512
+14_readout,quantum_rich_padded,pathmnist,50,4,{},10,0.935321886286881,0.019865013462465345
+14_readout,quantum_rich_padded,pneumoniamnist,10,4,{},10,0.9144795090948936,0.01113874021750303
+14_readout,quantum_rich_padded,pneumoniamnist,100,4,{},10,0.9336894586894587,0.010928983536050952
+14_readout,quantum_rich_padded,pneumoniamnist,20,4,{},10,0.9286423405654176,0.00821552124624725
+14_readout,quantum_rich_padded,pneumoniamnist,5,4,{},10,0.9094225290379135,0.008478832361083028
+14_readout,quantum_rich_padded,pneumoniamnist,50,4,{},10,0.9280407626561473,0.007950044256246453
+14_readout,quantum_vqc,bloodmnist,10,4,{},10,0.8401333676519954,0.023564739378372945
+14_readout,quantum_vqc,bloodmnist,100,4,{},10,0.9235688874278919,0.009664085781904532
+14_readout,quantum_vqc,bloodmnist,20,4,{},10,0.8695183922338515,0.025285142400282876
+14_readout,quantum_vqc,bloodmnist,5,4,{},10,0.8066414912379083,0.0351908007000724
+14_readout,quantum_vqc,bloodmnist,50,4,{},10,0.9064599575250908,0.021354287308970838
+14_readout,quantum_vqc,breastmnist,10,4,{},10,0.7135756056808689,0.0223539759143764
+14_readout,quantum_vqc,breastmnist,100,4,{},10,0.8073725981620716,0.02918967244956701
+14_readout,quantum_vqc,breastmnist,20,4,{},10,0.7361946532999164,0.04211964138752376
+14_readout,quantum_vqc,breastmnist,5,4,{},10,0.660108604845447,0.07284417919480914
+14_readout,quantum_vqc,breastmnist,50,4,{},10,0.7631161236424393,0.016988566508914955
+14_readout,quantum_vqc,pathmnist,10,4,{},10,0.8757119956857154,0.019519331767428382
+14_readout,quantum_vqc,pathmnist,100,4,{},10,0.9378483849944189,0.02380910286236309
+14_readout,quantum_vqc,pathmnist,20,4,{},10,0.9005878246423874,0.015613318027485638
+14_readout,quantum_vqc,pathmnist,5,4,{},10,0.8304700953839589,0.03586499239197033
+14_readout,quantum_vqc,pathmnist,50,4,{},10,0.9353451809547184,0.019413912369532948
+14_readout,quantum_vqc,pneumoniamnist,10,4,{},10,0.9110311198772738,0.01931833386229437
+14_readout,quantum_vqc,pneumoniamnist,100,4,{},10,0.9351714880561035,0.0110413604881637
+14_readout,quantum_vqc,pneumoniamnist,20,4,{},10,0.9293841770764848,0.006561565675803611
+14_readout,quantum_vqc,pneumoniamnist,5,4,{},10,0.906789392943239,0.014205653741853808
+14_readout,quantum_vqc,pneumoniamnist,50,4,{},10,0.9280922638614946,0.007233246334667214
+15_dim8,fourier_rff,bloodmnist,10,8,{},10,0.7169711746600549,0.13618768626670566
+15_dim8,fourier_rff,bloodmnist,100,8,{},10,0.9337137550484014,0.021242272702256544
+15_dim8,fourier_rff,bloodmnist,20,8,{},10,0.8601321598436937,0.09614427582165698
+15_dim8,fourier_rff,bloodmnist,5,8,{},10,0.6789313938140714,0.09579887867171184
+15_dim8,fourier_rff,bloodmnist,50,8,{},10,0.9245992679536222,0.0244804849859087
+15_dim8,fourier_rff,breastmnist,10,8,{},10,0.702955304928989,0.031533381991712274
+15_dim8,fourier_rff,breastmnist,100,8,{},10,0.7963032581453634,0.05362838909868659
+15_dim8,fourier_rff,breastmnist,20,8,{},10,0.7369674185463659,0.05129179329916752
+15_dim8,fourier_rff,breastmnist,5,8,{},10,0.6612364243943192,0.046036829206513585
+15_dim8,fourier_rff,breastmnist,50,8,{},10,0.7552631578947369,0.06067999724753132
+15_dim8,fourier_rff,pathmnist,10,8,{},10,0.913045815152478,0.02272337827568168
+15_dim8,fourier_rff,pathmnist,100,8,{},10,0.9667524192292525,0.011090654112608544
+15_dim8,fourier_rff,pathmnist,20,8,{},10,0.944061960821562,0.021711884332741238
+15_dim8,fourier_rff,pathmnist,5,8,{},10,0.8696977056615927,0.03526851233505467
+15_dim8,fourier_rff,pathmnist,50,8,{},10,0.9628463940579717,0.007504763309632467
+15_dim8,fourier_rff,pneumoniamnist,10,8,{},10,0.8805232303309227,0.0311892039260894
+15_dim8,fourier_rff,pneumoniamnist,100,8,{},10,0.9349972605741836,0.010493844339498853
+15_dim8,fourier_rff,pneumoniamnist,20,8,{},10,0.9243343195266274,0.010146380340609152
+15_dim8,fourier_rff,pneumoniamnist,5,8,{},10,0.880294214332676,0.04054784215726562
+15_dim8,fourier_rff,pneumoniamnist,50,8,{},10,0.9254437869822485,0.006925779919916869
+15_dim8,linear,bloodmnist,10,8,{},10,0.9135625821871484,0.0072895439916753225
+15_dim8,linear,bloodmnist,100,8,{},10,0.9745787252260577,0.001333858916095329
+15_dim8,linear,bloodmnist,20,8,{},10,0.9378202884446993,0.004339236622082435
+15_dim8,linear,bloodmnist,5,8,{},10,0.873910055066103,0.017573529719747134
+15_dim8,linear,bloodmnist,50,8,{},10,0.9619022346444173,0.0036372435769183795
+15_dim8,linear,breastmnist,10,8,{},10,0.6998329156223894,0.0602559036460125
+15_dim8,linear,breastmnist,100,8,{},10,0.7947994987468672,0.038533472971109595
+15_dim8,linear,breastmnist,20,8,{},10,0.7415413533834586,0.06966172773210891
+15_dim8,linear,breastmnist,5,8,{},10,0.6579156223893066,0.07625728993357443
+15_dim8,linear,breastmnist,50,8,{},10,0.7621971595655805,0.039284351624779806
+15_dim8,linear,pathmnist,10,8,{},10,0.9467307328856844,0.012514303434236169
+15_dim8,linear,pathmnist,100,8,{},10,0.9725698966329033,0.008285977933201969
+15_dim8,linear,pathmnist,20,8,{},10,0.9685004213401809,0.00454644746448748
+15_dim8,linear,pathmnist,5,8,{},10,0.915919688685938,0.016752987630559456
+15_dim8,linear,pathmnist,50,8,{},10,0.9705743396516704,0.006983435370552541
+15_dim8,linear,pneumoniamnist,10,8,{},10,0.9141891299583607,0.014798180213960706
+15_dim8,linear,pneumoniamnist,100,8,{},10,0.9341852947622181,0.010696759741185462
+15_dim8,linear,pneumoniamnist,20,8,{},10,0.9273991891299584,0.007287773605391934
+15_dim8,linear,pneumoniamnist,5,8,{},10,0.9077328511943895,0.015300947731582474
+15_dim8,linear,pneumoniamnist,50,8,{},10,0.9285196142888452,0.006542365841212922
+15_dim8,low_rank,bloodmnist,10,8,{},10,0.8809403434369167,0.0197543204802321
+15_dim8,low_rank,bloodmnist,100,8,{},10,0.9502956824686886,0.008105201407942332
+15_dim8,low_rank,bloodmnist,20,8,{},10,0.9126189170870062,0.014027845041556448
+15_dim8,low_rank,bloodmnist,5,8,{},10,0.8268170720692909,0.07293704417366631
+15_dim8,low_rank,bloodmnist,50,8,{},10,0.9371108089431436,0.012560141780121693
+15_dim8,low_rank,breastmnist,10,8,{},10,0.7041771094402673,0.025828216091640585
+15_dim8,low_rank,breastmnist,100,8,{},10,0.8031119465329992,0.019186191661035003
+15_dim8,low_rank,breastmnist,20,8,{},10,0.7409147869674185,0.040998287188866354
+15_dim8,low_rank,breastmnist,5,8,{},10,0.6656850459482039,0.07726831110812878
+15_dim8,low_rank,breastmnist,50,8,{},10,0.7677109440267336,0.028339566084023562
+15_dim8,low_rank,pathmnist,10,8,{},10,0.9274268407735576,0.01285346667089311
+15_dim8,low_rank,pathmnist,100,8,{},10,0.9713277565468841,0.00544569188641337
+15_dim8,low_rank,pathmnist,20,8,{},10,0.9555824117410661,0.012008393706740497
+15_dim8,low_rank,pathmnist,5,8,{},10,0.9010833061756998,0.024453419014298095
+15_dim8,low_rank,pathmnist,50,8,{},10,0.9673373874868275,0.006800848051328622
+15_dim8,low_rank,pneumoniamnist,10,8,{},10,0.9123208415516106,0.01210975549217532
+15_dim8,low_rank,pneumoniamnist,100,8,{},10,0.9354306377383301,0.011463339878358087
+15_dim8,low_rank,pneumoniamnist,20,8,{},10,0.9224035722112646,0.015840816302967037
+15_dim8,low_rank,pneumoniamnist,5,8,{},10,0.903990795529257,0.021136764725023266
+15_dim8,low_rank,pneumoniamnist,50,8,{},10,0.9289003944773176,0.006989831625491106
+15_dim8,quantum_vqc,bloodmnist,10,8,{},10,0.8626205368073109,0.032190824066270475
+15_dim8,quantum_vqc,bloodmnist,100,8,{},10,0.9395809848472585,0.010514970566095405
+15_dim8,quantum_vqc,bloodmnist,20,8,{},10,0.8845516172224099,0.012763893697811739
+15_dim8,quantum_vqc,bloodmnist,5,8,{},10,0.8135786087503044,0.028507443156022667
+15_dim8,quantum_vqc,bloodmnist,50,8,{},10,0.9147785132066545,0.023256399153993957
+15_dim8,quantum_vqc,breastmnist,10,8,{},10,0.7129490392648287,0.03021076735295306
+15_dim8,quantum_vqc,breastmnist,100,8,{},10,0.8134502923976609,0.019835724014500643
+15_dim8,quantum_vqc,breastmnist,20,8,{},10,0.7554093567251462,0.035849189865614986
+15_dim8,quantum_vqc,breastmnist,5,8,{},10,0.6646407685881369,0.07686941024160229
+15_dim8,quantum_vqc,breastmnist,50,8,{},10,0.7708020050125313,0.027654441504900627
+15_dim8,quantum_vqc,pathmnist,10,8,{},10,0.8975897282105935,0.02064271783925104
+15_dim8,quantum_vqc,pathmnist,100,8,{},10,0.9523158981374431,0.006898756602513599
+15_dim8,quantum_vqc,pathmnist,20,8,{},10,0.9332983344200839,0.013057040358143155
+15_dim8,quantum_vqc,pathmnist,5,8,{},10,0.8644089624356612,0.02900071434147593
+15_dim8,quantum_vqc,pathmnist,50,8,{},10,0.943172065253458,0.022269200208801927
+15_dim8,quantum_vqc,pneumoniamnist,10,8,{},10,0.9062360289283369,0.023591383167172842
+15_dim8,quantum_vqc,pneumoniamnist,100,8,{},10,0.9347764628533859,0.010790669405243035
+15_dim8,quantum_vqc,pneumoniamnist,20,8,{},10,0.9302175104098179,0.006467752857112573
+15_dim8,quantum_vqc,pneumoniamnist,5,8,{},10,0.9021137409598948,0.018153043800254846
+15_dim8,quantum_vqc,pneumoniamnist,50,8,{},10,0.9282686828840676,0.007378436031375251
+16_dim16,fourier_rff,breastmnist,10,16,{},5,0.6943609022556391,0.02055110251731824
+16_dim16,fourier_rff,breastmnist,100,16,{},5,0.8068086883876358,0.023227601951064627
+16_dim16,fourier_rff,breastmnist,20,16,{},5,0.7247702589807853,0.04654769546952311
+16_dim16,fourier_rff,breastmnist,5,16,{},5,0.6607142857142858,0.04301814363555721
+16_dim16,fourier_rff,breastmnist,50,16,{},5,0.7674185463659149,0.05369913417538238
+16_dim16,fourier_rff,pneumoniamnist,10,16,{},5,0.8921959237343853,0.030917795363766112
+16_dim16,fourier_rff,pneumoniamnist,100,16,{},5,0.9283300460223538,0.010212233629073919
+16_dim16,fourier_rff,pneumoniamnist,20,16,{},5,0.9272046898969977,0.008674883636809403
+16_dim16,fourier_rff,pneumoniamnist,5,16,{},5,0.9002410694718387,0.004772950899171963
+16_dim16,fourier_rff,pneumoniamnist,50,16,{},5,0.9239261450799912,0.005042667598358563
+16_dim16,linear,breastmnist,10,16,{},5,0.7223893065998329,0.028364157157803008
+16_dim16,linear,breastmnist,100,16,{},5,0.8055555555555556,0.026826751652436368
+16_dim16,linear,breastmnist,20,16,{},5,0.7381787802840435,0.05212494516551925
+16_dim16,linear,breastmnist,5,16,{},5,0.6481620718462823,0.13235197792729983
+16_dim16,linear,breastmnist,50,16,{},5,0.778529657477026,0.03221307070287641
+16_dim16,linear,pneumoniamnist,10,16,{},5,0.9114902476440937,0.013074612426264376
+16_dim16,linear,pneumoniamnist,100,16,{},5,0.9279859741398203,0.009516153350825987
+16_dim16,linear,pneumoniamnist,20,16,{},5,0.9262656147271532,0.006075120073827074
+16_dim16,linear,pneumoniamnist,5,16,{},5,0.9067280298049528,0.009175848158512209
+16_dim16,linear,pneumoniamnist,50,16,{},5,0.9233059390751699,0.006872732286268281
+16_dim16,low_rank,breastmnist,10,16,{},5,0.6884294068504595,0.03854625637188269
+16_dim16,low_rank,breastmnist,100,16,{},5,0.7968253968253969,0.0269587031804944
+16_dim16,low_rank,breastmnist,20,16,{},5,0.7461988304093568,0.04521308545134082
+16_dim16,low_rank,breastmnist,5,16,{},5,0.6434837092731829,0.11919391119873024
+16_dim16,low_rank,breastmnist,50,16,{},5,0.7760233918128655,0.022587601014092556
+16_dim16,low_rank,pneumoniamnist,10,16,{},5,0.9125180802103878,0.011901240160330988
+16_dim16,low_rank,pneumoniamnist,100,16,{},5,0.9279574841113302,0.0109547842923449
+16_dim16,low_rank,pneumoniamnist,20,16,{},5,0.9272802980495289,0.006510512041122072
+16_dim16,low_rank,pneumoniamnist,5,16,{},5,0.9079706333552486,0.0093813511142987
+16_dim16,low_rank,pneumoniamnist,50,16,{},5,0.924000657462196,0.005144932830026235
+16_dim16,quantum_vqc,breastmnist,10,16,{},5,0.7082915622389307,0.026053370281271335
+16_dim16,quantum_vqc,breastmnist,100,16,{},5,0.804093567251462,0.03184994589886816
+16_dim16,quantum_vqc,breastmnist,20,16,{},5,0.7325396825396825,0.029739215141513266
+16_dim16,quantum_vqc,breastmnist,5,16,{},5,0.637218045112782,0.13851661151970357
+16_dim16,quantum_vqc,breastmnist,50,16,{},5,0.7796574770258982,0.026509428666868846
+16_dim16,quantum_vqc,pneumoniamnist,10,16,{},5,0.9112962962962964,0.016076567001023778
+16_dim16,quantum_vqc,pneumoniamnist,100,16,{},5,0.9281755424063117,0.009567704660401476
+16_dim16,quantum_vqc,pneumoniamnist,20,16,{},5,0.9305193951347798,0.00571057422981393
+16_dim16,quantum_vqc,pneumoniamnist,5,16,{},5,0.9205654174884945,0.008938602959852951
+16_dim16,quantum_vqc,pneumoniamnist,50,16,{},5,0.9271992110453648,0.006699483679382664
+17_fulldata,fourier_rff,bloodmnist,full,4,{},5,0.9801429736112208,0.004392720498413956
+17_fulldata,fourier_rff,breastmnist,full,4,{},5,0.8495822890559733,0.01160736716556453
+17_fulldata,fourier_rff,pathmnist,full,4,{},5,0.9810408078162419,0.0024465754631437546
+17_fulldata,fourier_rff,pneumoniamnist,full,4,{},5,0.9558864781941704,0.002030746538556812
+17_fulldata,linear,bloodmnist,full,4,{},5,0.9806855273034353,0.0011912326140113053
+17_fulldata,linear,breastmnist,full,4,{},5,0.8516290726817042,0.006465417915990162
+17_fulldata,linear,pathmnist,full,4,{},5,0.9756435745942882,0.0010965426227362996
+17_fulldata,linear,pneumoniamnist,full,4,{},5,0.9579355687047995,0.0015739359048352651
+17_fulldata,matched_param_fullrank,bloodmnist,full,4,{},5,0.9781260783528868,0.004940113085773416
+17_fulldata,matched_param_fullrank,breastmnist,full,4,{},5,0.8112781954887218,0.03974640905023776
+17_fulldata,matched_param_fullrank,pathmnist,full,4,{},5,0.9753284416990974,0.0023018082154678144
+17_fulldata,matched_param_fullrank,pneumoniamnist,full,4,{},5,0.9551577909270218,0.0040876668899532086
+17_fulldata,quantum_vqc,bloodmnist,full,4,{},5,0.9362328720675558,0.030095837417056726
+17_fulldata,quantum_vqc,breastmnist,full,4,{},5,0.8375522138680035,0.01769450873589976
+17_fulldata,quantum_vqc,pathmnist,full,4,{},5,0.9612440476720181,0.002429461304892753
+17_fulldata,quantum_vqc,pneumoniamnist,full,4,{},5,0.9575849222003068,0.0006829647333746563
+21_ansatz,quantum_basic,bloodmnist,10,4,{},10,0.8227622706204819,0.017687137494465096
+21_ansatz,quantum_basic,bloodmnist,100,4,{},10,0.8655818969430935,0.023053457468299936
+21_ansatz,quantum_basic,bloodmnist,20,4,{},10,0.8433740667618951,0.02900538792111281
+21_ansatz,quantum_basic,bloodmnist,5,4,{},10,0.7722613250678448,0.06447067676208805
+21_ansatz,quantum_basic,bloodmnist,50,4,{},10,0.8754420836583927,0.03415965805263202
+21_ansatz,quantum_basic,breastmnist,10,4,{},10,0.7069653299916457,0.035076268019606796
+21_ansatz,quantum_basic,breastmnist,100,4,{},10,0.8152464494569758,0.029090401012133744
+21_ansatz,quantum_basic,breastmnist,20,4,{},10,0.7327276524644946,0.05716505220811041
+21_ansatz,quantum_basic,breastmnist,5,4,{},10,0.6545112781954887,0.10847936149063042
+21_ansatz,quantum_basic,breastmnist,50,4,{},10,0.7723684210526317,0.026601452123047233
+21_ansatz,quantum_basic,pathmnist,10,4,{},10,0.8623513884011942,0.024691417969534266
+21_ansatz,quantum_basic,pathmnist,100,4,{},10,0.9171903633217464,0.02618588217500384
+21_ansatz,quantum_basic,pathmnist,20,4,{},10,0.897936153103888,0.023827154025999976
+21_ansatz,quantum_basic,pathmnist,5,4,{},10,0.7995985386253247,0.045239055163324805
+21_ansatz,quantum_basic,pathmnist,50,4,{},10,0.9101821917134018,0.03142400604415391
+21_ansatz,quantum_basic,pneumoniamnist,10,4,{},10,0.9157812842428227,0.011434362978240593
+21_ansatz,quantum_basic,pneumoniamnist,100,4,{},10,0.9339129958360726,0.012380851010925209
+21_ansatz,quantum_basic,pneumoniamnist,20,4,{},10,0.9251161516546134,0.008685499610872512
+21_ansatz,quantum_basic,pneumoniamnist,5,4,{},10,0.901813499890423,0.023014871017134633
+21_ansatz,quantum_basic,pneumoniamnist,50,4,{},10,0.9281174665790048,0.007480071737262251
+21_ansatz,quantum_vqc,bloodmnist,10,4,{},10,0.8401333676519954,0.023564739378372945
+21_ansatz,quantum_vqc,bloodmnist,100,4,{},10,0.9235688874278919,0.009664085781904532
+21_ansatz,quantum_vqc,bloodmnist,20,4,{},10,0.8695183922338515,0.025285142400282876
+21_ansatz,quantum_vqc,bloodmnist,5,4,{},10,0.8066414912379083,0.0351908007000724
+21_ansatz,quantum_vqc,bloodmnist,50,4,{},10,0.9064599575250908,0.021354287308970838
+21_ansatz,quantum_vqc,breastmnist,10,4,{},10,0.7135756056808689,0.0223539759143764
+21_ansatz,quantum_vqc,breastmnist,100,4,{},10,0.8073725981620716,0.02918967244956701
+21_ansatz,quantum_vqc,breastmnist,20,4,{},10,0.7361946532999164,0.04211964138752376
+21_ansatz,quantum_vqc,breastmnist,5,4,{},10,0.660108604845447,0.07284417919480914
+21_ansatz,quantum_vqc,breastmnist,50,4,{},10,0.7631161236424393,0.016988566508914955
+21_ansatz,quantum_vqc,pathmnist,10,4,{},10,0.8757119956857154,0.019519331767428382
+21_ansatz,quantum_vqc,pathmnist,100,4,{},10,0.9378483849944189,0.02380910286236309
+21_ansatz,quantum_vqc,pathmnist,20,4,{},10,0.9005878246423874,0.015613318027485638
+21_ansatz,quantum_vqc,pathmnist,5,4,{},10,0.8304700953839589,0.03586499239197033
+21_ansatz,quantum_vqc,pathmnist,50,4,{},10,0.9353451809547184,0.019413912369532948
+21_ansatz,quantum_vqc,pneumoniamnist,10,4,{},10,0.9110311198772738,0.01931833386229437
+21_ansatz,quantum_vqc,pneumoniamnist,100,4,{},10,0.9351714880561035,0.0110413604881637
+21_ansatz,quantum_vqc,pneumoniamnist,20,4,{},10,0.9293841770764848,0.006561565675803611
+21_ansatz,quantum_vqc,pneumoniamnist,5,4,{},10,0.906789392943239,0.014205653741853808
+21_ansatz,quantum_vqc,pneumoniamnist,50,4,{},10,0.9280922638614946,0.007233246334667214
+25_encoder,matched_param_fullrank,bloodmnist,10,4,{},10,0.8420230641624459,0.03907283222119156
+25_encoder,matched_param_fullrank,bloodmnist,100,4,{},10,0.9372771507347096,0.017978534793591926
+25_encoder,matched_param_fullrank,bloodmnist,20,4,{},10,0.8809531898198429,0.024538904559316742
+25_encoder,matched_param_fullrank,bloodmnist,5,4,{},10,0.7228659985998462,0.09749668839014747
+25_encoder,matched_param_fullrank,bloodmnist,50,4,{},10,0.9141239905164286,0.02956076124380263
+25_encoder,matched_param_fullrank,bloodmnist,10,4,{},10,0.7922150014256195,0.04446779459871157
+25_encoder,matched_param_fullrank,bloodmnist,100,4,{},10,0.9325240502627151,0.015334861278719913
+25_encoder,matched_param_fullrank,bloodmnist,20,4,{},10,0.8358530809955701,0.07419275276875742
+25_encoder,matched_param_fullrank,bloodmnist,5,4,{},10,0.7135590468144581,0.07396582880073344
+25_encoder,matched_param_fullrank,bloodmnist,50,4,{},10,0.9113007153601138,0.029950666593842983
+25_encoder,matched_param_fullrank,breastmnist,10,4,{},10,0.7003550543024228,0.053232890159358504
+25_encoder,matched_param_fullrank,breastmnist,100,4,{},10,0.8121136173767753,0.026627266179853278
+25_encoder,matched_param_fullrank,breastmnist,20,4,{},10,0.7260547201336676,0.09760649008733283
+25_encoder,matched_param_fullrank,breastmnist,5,4,{},10,0.6242063492063492,0.0843064716200005
+25_encoder,matched_param_fullrank,breastmnist,50,4,{},10,0.7567251461988305,0.02690388534529848
+25_encoder,matched_param_fullrank,breastmnist,10,4,{},10,0.7187343358395989,0.07827509108844527
+25_encoder,matched_param_fullrank,breastmnist,100,4,{},10,0.7856516290726817,0.15717666128478708
+25_encoder,matched_param_fullrank,breastmnist,20,4,{},10,0.7676796157059316,0.051172291248492575
+25_encoder,matched_param_fullrank,breastmnist,5,4,{},10,0.6315998329156224,0.12433755043173697
+25_encoder,matched_param_fullrank,breastmnist,50,4,{},10,0.8048872180451128,0.036461457421685904
+25_encoder,matched_param_fullrank,pathmnist,10,4,{},10,0.8923202611795913,0.04919706131009454
+25_encoder,matched_param_fullrank,pathmnist,100,4,{},10,0.956146608096016,0.018348218339246724
+25_encoder,matched_param_fullrank,pathmnist,20,4,{},10,0.9232580006051455,0.03202230053134369
+25_encoder,matched_param_fullrank,pathmnist,5,4,{},10,0.8532594370536127,0.05154691395492275
+25_encoder,matched_param_fullrank,pathmnist,50,4,{},10,0.9480886909290357,0.01600347106241397
+25_encoder,matched_param_fullrank,pathmnist,10,4,{},10,0.8892954276434721,0.04989174442718844
+25_encoder,matched_param_fullrank,pathmnist,100,4,{},10,0.9362503718610439,0.023786334710632365
+25_encoder,matched_param_fullrank,pathmnist,20,4,{},10,0.9040612960544783,0.0368180692360402
+25_encoder,matched_param_fullrank,pathmnist,5,4,{},10,0.8594810447066756,0.04494634099848668
+25_encoder,matched_param_fullrank,pathmnist,50,4,{},10,0.8978317827009594,0.05637752221623974
+25_encoder,matched_param_fullrank,pneumoniamnist,10,4,{},10,0.8838647819417051,0.0699758971518977
+25_encoder,matched_param_fullrank,pneumoniamnist,100,4,{},10,0.9326775147928995,0.012250247516902617
+25_encoder,matched_param_fullrank,pneumoniamnist,20,4,{},10,0.9246674337058953,0.008490070654578907
+25_encoder,matched_param_fullrank,pneumoniamnist,5,4,{},10,0.8782138943677407,0.09893481095821859
+25_encoder,matched_param_fullrank,pneumoniamnist,50,4,{},10,0.928513587552049,0.0074973991635235125
+25_encoder,matched_param_fullrank,pneumoniamnist,10,4,{},10,0.9248986412447951,0.009152703389225284
+25_encoder,matched_param_fullrank,pneumoniamnist,100,4,{},10,0.953121301775148,0.011119699505966661
+25_encoder,matched_param_fullrank,pneumoniamnist,20,4,{},10,0.9393847249616482,0.007959435952805483
+25_encoder,matched_param_fullrank,pneumoniamnist,5,4,{},10,0.8716951566951566,0.12315868688351693
+25_encoder,matched_param_fullrank,pneumoniamnist,50,4,{},10,0.9471619548542625,0.0065669282952247
+25_encoder,quantum_vqc,bloodmnist,10,4,{},10,0.8401333676519954,0.023564739378372945
+25_encoder,quantum_vqc,bloodmnist,100,4,{},10,0.9235688874278919,0.009664085781904532
+25_encoder,quantum_vqc,bloodmnist,20,4,{},10,0.8695183922338515,0.025285142400282876
+25_encoder,quantum_vqc,bloodmnist,5,4,{},10,0.8066414912379083,0.0351908007000724
+25_encoder,quantum_vqc,bloodmnist,50,4,{},10,0.9064599575250908,0.021354287308970838
+25_encoder,quantum_vqc,bloodmnist,10,4,{},10,0.8104907086014125,0.04269152860850153
+25_encoder,quantum_vqc,bloodmnist,100,4,{},10,0.9417333271096326,0.008616766198177143
+25_encoder,quantum_vqc,bloodmnist,20,4,{},10,0.8663596802873277,0.03329789873401484
+25_encoder,quantum_vqc,bloodmnist,5,4,{},10,0.7499056859739383,0.05152625170809079
+25_encoder,quantum_vqc,bloodmnist,50,4,{},10,0.9150886123222547,0.019308346324778593
+25_encoder,quantum_vqc,breastmnist,10,4,{},10,0.7135756056808689,0.0223539759143764
+25_encoder,quantum_vqc,breastmnist,100,4,{},10,0.8073725981620716,0.02918967244956701
+25_encoder,quantum_vqc,breastmnist,20,4,{},10,0.7361946532999164,0.04211964138752376
+25_encoder,quantum_vqc,breastmnist,5,4,{},10,0.660108604845447,0.07284417919480914
+25_encoder,quantum_vqc,breastmnist,50,4,{},10,0.7631161236424393,0.016988566508914955
+25_encoder,quantum_vqc,breastmnist,10,4,{},10,0.7232873851294903,0.05147009946222581
+25_encoder,quantum_vqc,breastmnist,100,4,{},10,0.8711257309941519,0.026437178406061166
+25_encoder,quantum_vqc,breastmnist,20,4,{},10,0.7731307435254803,0.06479842229834627
+25_encoder,quantum_vqc,breastmnist,5,4,{},10,0.6402255639097745,0.10953868099213494
+25_encoder,quantum_vqc,breastmnist,50,4,{},10,0.7981203007518797,0.12537056806628494
+25_encoder,quantum_vqc,pathmnist,10,4,{},10,0.8757119956857154,0.019519331767428382
+25_encoder,quantum_vqc,pathmnist,100,4,{},10,0.9378483849944189,0.02380910286236309
+25_encoder,quantum_vqc,pathmnist,20,4,{},10,0.9005878246423874,0.015613318027485638
+25_encoder,quantum_vqc,pathmnist,5,4,{},10,0.8304700953839589,0.03586499239197033
+25_encoder,quantum_vqc,pathmnist,50,4,{},10,0.9353451809547184,0.019413912369532948
+25_encoder,quantum_vqc,pathmnist,10,4,{},10,0.8563427109701038,0.032590768711985074
+25_encoder,quantum_vqc,pathmnist,100,4,{},10,0.9063966850298147,0.030202825985321178
+25_encoder,quantum_vqc,pathmnist,20,4,{},10,0.8968439507442343,0.02703407547538659
+25_encoder,quantum_vqc,pathmnist,5,4,{},10,0.8005262684107117,0.04858634649672816
+25_encoder,quantum_vqc,pathmnist,50,4,{},10,0.894227262615446,0.0257161391175312
+25_encoder,quantum_vqc,pneumoniamnist,10,4,{},10,0.9110311198772738,0.01931833386229437
+25_encoder,quantum_vqc,pneumoniamnist,100,4,{},10,0.9351714880561035,0.0110413604881637
+25_encoder,quantum_vqc,pneumoniamnist,20,4,{},10,0.9293841770764848,0.006561565675803611
+25_encoder,quantum_vqc,pneumoniamnist,5,4,{},10,0.906789392943239,0.014205653741853808
+25_encoder,quantum_vqc,pneumoniamnist,50,4,{},10,0.9280922638614946,0.007233246334667214
+25_encoder,quantum_vqc,pneumoniamnist,10,4,{},10,0.8777761341222879,0.0960049585044578
+25_encoder,quantum_vqc,pneumoniamnist,100,4,{},10,0.9531689677843523,0.009606167853302684
+25_encoder,quantum_vqc,pneumoniamnist,20,4,{},10,0.9391053035283804,0.009119941376293414
+25_encoder,quantum_vqc,pneumoniamnist,5,4,{},10,0.8799616480385712,0.09734186828320587
+25_encoder,quantum_vqc,pneumoniamnist,50,4,{},10,0.9024200087661628,0.1431065991853946
+26_bottleneck_tuned,matched_param_fullrank,bloodmnist,10,4,"{""bn"": ""pca""}",40,0.8340440496317886,0.0108313505693751
+26_bottleneck_tuned,matched_param_fullrank,bloodmnist,100,4,"{""bn"": ""pca""}",40,0.8706242462502727,0.003877040412295999
+26_bottleneck_tuned,matched_param_fullrank,bloodmnist,20,4,"{""bn"": ""pca""}",40,0.8500449455667752,0.007582332338842797
+26_bottleneck_tuned,matched_param_fullrank,bloodmnist,5,4,"{""bn"": ""pca""}",40,0.7954092020387067,0.026189256830731585
+26_bottleneck_tuned,matched_param_fullrank,bloodmnist,50,4,"{""bn"": ""pca""}",40,0.8644461981927778,0.005589628530954065
+26_bottleneck_tuned,matched_param_fullrank,breastmnist,10,4,"{""bn"": ""pca""}",40,0.6672932330827068,0.05661373316963481
+26_bottleneck_tuned,matched_param_fullrank,breastmnist,100,4,"{""bn"": ""pca""}",40,0.7222431077694236,0.013042659879518245
+26_bottleneck_tuned,matched_param_fullrank,breastmnist,20,4,"{""bn"": ""pca""}",40,0.6887687969924812,0.04976631557832812
+26_bottleneck_tuned,matched_param_fullrank,breastmnist,5,4,"{""bn"": ""pca""}",40,0.6270520050125313,0.09102074345508329
+26_bottleneck_tuned,matched_param_fullrank,breastmnist,50,4,"{""bn"": ""pca""}",40,0.7173663324979114,0.014046389001808776
+26_bottleneck_tuned,matched_param_fullrank,pathmnist,10,4,"{""bn"": ""pca""}",40,0.8852189364961666,0.016491333017109335
+26_bottleneck_tuned,matched_param_fullrank,pathmnist,100,4,"{""bn"": ""pca""}",40,0.9240151067824527,0.005953913034546193
+26_bottleneck_tuned,matched_param_fullrank,pathmnist,20,4,"{""bn"": ""pca""}",40,0.9037886249743157,0.011374455239407479
+26_bottleneck_tuned,matched_param_fullrank,pathmnist,5,4,"{""bn"": ""pca""}",40,0.8593373960834111,0.024217248534560403
+26_bottleneck_tuned,matched_param_fullrank,pathmnist,50,4,"{""bn"": ""pca""}",40,0.9161479566121387,0.008138927204795454
+26_bottleneck_tuned,matched_param_fullrank,pneumoniamnist,10,4,"{""bn"": ""pca""}",40,0.8907219756738988,0.03007080078897347
+26_bottleneck_tuned,matched_param_fullrank,pneumoniamnist,100,4,"{""bn"": ""pca""}",40,0.9189690170940171,0.005169824564891715
+26_bottleneck_tuned,matched_param_fullrank,pneumoniamnist,20,4,"{""bn"": ""pca""}",40,0.9124871246986632,0.010123105096333322
+26_bottleneck_tuned,matched_param_fullrank,pneumoniamnist,5,4,"{""bn"": ""pca""}",40,0.8645186828840675,0.0507113825180156
+26_bottleneck_tuned,matched_param_fullrank,pneumoniamnist,50,4,"{""bn"": ""pca""}",40,0.917865439403901,0.007154310090625633
+26_bottleneck_tuned,matched_param_fullrank,bloodmnist,10,4,"{""bn"": ""random""}",40,0.6849694386595578,0.048079423159547614
+26_bottleneck_tuned,matched_param_fullrank,bloodmnist,100,4,"{""bn"": ""random""}",40,0.7415155319126049,0.03320935014060134
+26_bottleneck_tuned,matched_param_fullrank,bloodmnist,20,4,"{""bn"": ""random""}",40,0.7007607608189472,0.04637406809241671
+26_bottleneck_tuned,matched_param_fullrank,bloodmnist,5,4,"{""bn"": ""random""}",40,0.6316054461426266,0.06883862295970501
+26_bottleneck_tuned,matched_param_fullrank,bloodmnist,50,4,"{""bn"": ""random""}",40,0.729784552524681,0.03586583586434692
+26_bottleneck_tuned,matched_param_fullrank,breastmnist,10,4,"{""bn"": ""random""}",40,0.6028038847117794,0.08316033545718517
+26_bottleneck_tuned,matched_param_fullrank,breastmnist,100,4,"{""bn"": ""random""}",40,0.6548976608187135,0.05307261496972321
+26_bottleneck_tuned,matched_param_fullrank,breastmnist,20,4,"{""bn"": ""random""}",40,0.6229271094402673,0.06740178845595529
+26_bottleneck_tuned,matched_param_fullrank,breastmnist,5,4,"{""bn"": ""random""}",40,0.5849728487886383,0.10008527514852737
+26_bottleneck_tuned,matched_param_fullrank,breastmnist,50,4,"{""bn"": ""random""}",40,0.647953216374269,0.054600506834264186
+26_bottleneck_tuned,matched_param_fullrank,pathmnist,10,4,"{""bn"": ""random""}",40,0.7757032032122783,0.043855543836145684
+26_bottleneck_tuned,matched_param_fullrank,pathmnist,100,4,"{""bn"": ""random""}",40,0.8277953959838161,0.03092198862141903
+26_bottleneck_tuned,matched_param_fullrank,pathmnist,20,4,"{""bn"": ""random""}",40,0.801180667237509,0.03894200736626934
+26_bottleneck_tuned,matched_param_fullrank,pathmnist,5,4,"{""bn"": ""random""}",40,0.7351339651236961,0.037213862582920504
+26_bottleneck_tuned,matched_param_fullrank,pathmnist,50,4,"{""bn"": ""random""}",40,0.8204475371679028,0.0343918302071239
+26_bottleneck_tuned,matched_param_fullrank,pneumoniamnist,10,4,"{""bn"": ""random""}",40,0.766670090948937,0.1065262326411934
+26_bottleneck_tuned,matched_param_fullrank,pneumoniamnist,100,4,"{""bn"": ""random""}",40,0.7970968934911242,0.09301174390208995
+26_bottleneck_tuned,matched_param_fullrank,pneumoniamnist,20,4,"{""bn"": ""random""}",40,0.7781903353057199,0.10473917343700845
+26_bottleneck_tuned,matched_param_fullrank,pneumoniamnist,5,4,"{""bn"": ""random""}",40,0.7382348509752357,0.12372542088264538
+26_bottleneck_tuned,matched_param_fullrank,pneumoniamnist,50,4,"{""bn"": ""random""}",40,0.7800228742055666,0.11035594024440537
+26_bottleneck_tuned,quantum_vqc,bloodmnist,10,4,"{""bn"": ""pca""}",40,0.7999013654359148,0.012001967445621955
+26_bottleneck_tuned,quantum_vqc,bloodmnist,100,4,"{""bn"": ""pca""}",40,0.8541051544467232,0.004496730517910849
+26_bottleneck_tuned,quantum_vqc,bloodmnist,20,4,"{""bn"": ""pca""}",40,0.8171054462275353,0.011572117265704313
+26_bottleneck_tuned,quantum_vqc,bloodmnist,5,4,"{""bn"": ""pca""}",40,0.7610353825978656,0.03991429151682823
+26_bottleneck_tuned,quantum_vqc,bloodmnist,50,4,"{""bn"": ""pca""}",40,0.8412861081153651,0.006818406661543419
+26_bottleneck_tuned,quantum_vqc,breastmnist,10,4,"{""bn"": ""pca""}",40,0.6450605680868838,0.0645314264695906
+26_bottleneck_tuned,quantum_vqc,breastmnist,100,4,"{""bn"": ""pca""}",40,0.7136487050960735,0.018425956117701967
+26_bottleneck_tuned,quantum_vqc,breastmnist,20,4,"{""bn"": ""pca""}",40,0.6821637426900585,0.044178080304943
+26_bottleneck_tuned,quantum_vqc,breastmnist,5,4,"{""bn"": ""pca""}",40,0.6179824561403509,0.07654522254607507
+26_bottleneck_tuned,quantum_vqc,breastmnist,50,4,"{""bn"": ""pca""}",40,0.7092992898913951,0.019794182731497318
+26_bottleneck_tuned,quantum_vqc,pathmnist,10,4,"{""bn"": ""pca""}",40,0.8551770519816102,0.02326539137910233
+26_bottleneck_tuned,quantum_vqc,pathmnist,100,4,"{""bn"": ""pca""}",40,0.9157435856061952,0.00931246364436291
+26_bottleneck_tuned,quantum_vqc,pathmnist,20,4,"{""bn"": ""pca""}",40,0.877291471905637,0.018441178980553637
+26_bottleneck_tuned,quantum_vqc,pathmnist,5,4,"{""bn"": ""pca""}",40,0.8198172364067082,0.028427042226935526
+26_bottleneck_tuned,quantum_vqc,pathmnist,50,4,"{""bn"": ""pca""}",40,0.9051965712316621,0.0119185381661554
+26_bottleneck_tuned,quantum_vqc,pneumoniamnist,10,4,"{""bn"": ""pca""}",40,0.8925186280955512,0.026643726886929755
+26_bottleneck_tuned,quantum_vqc,pneumoniamnist,100,4,"{""bn"": ""pca""}",40,0.9163905325443787,0.0027363730412295587
+26_bottleneck_tuned,quantum_vqc,pneumoniamnist,20,4,"{""bn"": ""pca""}",40,0.9129498137190446,0.0062821595143336215
+26_bottleneck_tuned,quantum_vqc,pneumoniamnist,5,4,"{""bn"": ""pca""}",40,0.8270857988165681,0.09436517206653801
+26_bottleneck_tuned,quantum_vqc,pneumoniamnist,50,4,"{""bn"": ""pca""}",40,0.9151106728029805,0.005639431589884172
+26_bottleneck_tuned,quantum_vqc,bloodmnist,10,4,"{""bn"": ""random""}",40,0.6506896538429118,0.04619203911680428
+26_bottleneck_tuned,quantum_vqc,bloodmnist,100,4,"{""bn"": ""random""}",40,0.7065070817602783,0.037867771949645135
+26_bottleneck_tuned,quantum_vqc,bloodmnist,20,4,"{""bn"": ""random""}",40,0.6692213890559022,0.044233646588843524
+26_bottleneck_tuned,quantum_vqc,bloodmnist,5,4,"{""bn"": ""random""}",40,0.6076392689385938,0.05396548452611559
+26_bottleneck_tuned,quantum_vqc,bloodmnist,50,4,"{""bn"": ""random""}",40,0.697689696679125,0.03659989146668056
+26_bottleneck_tuned,quantum_vqc,breastmnist,10,4,"{""bn"": ""random""}",40,0.5719742063492064,0.09703190085967321
+26_bottleneck_tuned,quantum_vqc,breastmnist,100,4,"{""bn"": ""random""}",40,0.6339625104427735,0.05760915891736929
+26_bottleneck_tuned,quantum_vqc,breastmnist,20,4,"{""bn"": ""random""}",40,0.595577485380117,0.0808008293406532
+26_bottleneck_tuned,quantum_vqc,breastmnist,5,4,"{""bn"": ""random""}",40,0.5682852965747702,0.09506213601809498
+26_bottleneck_tuned,quantum_vqc,breastmnist,50,4,"{""bn"": ""random""}",40,0.6210395781119465,0.061158770648338204
+26_bottleneck_tuned,quantum_vqc,pathmnist,10,4,"{""bn"": ""random""}",40,0.7197332190842388,0.04658476851830582
+26_bottleneck_tuned,quantum_vqc,pathmnist,100,4,"{""bn"": ""random""}",40,0.7941309855120018,0.04162107060038317
+26_bottleneck_tuned,quantum_vqc,pathmnist,20,4,"{""bn"": ""random""}",40,0.7411504115390384,0.04091059456236181
+26_bottleneck_tuned,quantum_vqc,pathmnist,5,4,"{""bn"": ""random""}",40,0.7004932526536434,0.051830140771824636
+26_bottleneck_tuned,quantum_vqc,pathmnist,50,4,"{""bn"": ""random""}",40,0.7759135713352595,0.04215832749132625
+26_bottleneck_tuned,quantum_vqc,pneumoniamnist,10,4,"{""bn"": ""random""}",40,0.7598541255752794,0.10413101351377003
+26_bottleneck_tuned,quantum_vqc,pneumoniamnist,100,4,"{""bn"": ""random""}",40,0.7900390368178829,0.08664509651492695
+26_bottleneck_tuned,quantum_vqc,pneumoniamnist,20,4,"{""bn"": ""random""}",40,0.766725016436555,0.09241451383754193
+26_bottleneck_tuned,quantum_vqc,pneumoniamnist,5,4,"{""bn"": ""random""}",40,0.7376505314486084,0.12108068986888
+26_bottleneck_tuned,quantum_vqc,pneumoniamnist,50,4,"{""bn"": ""random""}",40,0.7687439732632041,0.10079282501333243
+27_capacity_tuned,low_rank (rank 0),bloodmnist,10,4,{},40,0.8431072798841207,0.03659312338883538
+27_capacity_tuned,low_rank (rank 0),bloodmnist,100,4,{},40,0.9325229006527497,0.0166785264722887
+27_capacity_tuned,low_rank (rank 0),bloodmnist,20,4,{},40,0.8645258721810354,0.0324701983089501
+27_capacity_tuned,low_rank (rank 0),bloodmnist,5,4,{},40,0.7922595444323255,0.059458268883374986
+27_capacity_tuned,low_rank (rank 0),bloodmnist,50,4,{},40,0.9018379072012118,0.02646585622700367
+27_capacity_tuned,low_rank (rank 0),breastmnist,10,4,{},40,0.7133145363408522,0.054268912089453517
+27_capacity_tuned,low_rank (rank 0),breastmnist,100,4,{},40,0.7925595238095238,0.03431475628438692
+27_capacity_tuned,low_rank (rank 0),breastmnist,20,4,{},40,0.7271512113617378,0.04719265252152968
+27_capacity_tuned,low_rank (rank 0),breastmnist,5,4,{},40,0.6532894736842105,0.09570305592637963
+27_capacity_tuned,low_rank (rank 0),breastmnist,50,4,{},40,0.7664917502088555,0.028523724385963053
+27_capacity_tuned,low_rank (rank 0),pathmnist,10,4,{},40,0.9003248796584433,0.02966619820734727
+27_capacity_tuned,low_rank (rank 0),pathmnist,100,4,{},40,0.9597588880322286,0.010004710386705808
+27_capacity_tuned,low_rank (rank 0),pathmnist,20,4,{},40,0.9207318485209802,0.026983752525088563
+27_capacity_tuned,low_rank (rank 0),pathmnist,5,4,{},40,0.8634862916961161,0.03237462838418973
+27_capacity_tuned,low_rank (rank 0),pathmnist,50,4,{},40,0.9432699768918222,0.021499447833715365
+27_capacity_tuned,low_rank (rank 0),pneumoniamnist,10,4,{},40,0.912656147271532,0.014256978404328163
+27_capacity_tuned,low_rank (rank 0),pneumoniamnist,100,4,{},40,0.9361563116370808,0.010041499989166466
+27_capacity_tuned,low_rank (rank 0),pneumoniamnist,20,4,{},40,0.9264318978742055,0.010155654017550635
+27_capacity_tuned,low_rank (rank 0),pneumoniamnist,5,4,{},40,0.9008231974578129,0.025076753684371008
+27_capacity_tuned,low_rank (rank 0),pneumoniamnist,50,4,{},40,0.9266650230111768,0.009933368329986479
+27_capacity_tuned,low_rank (rank 8),bloodmnist,10,4,{},40,0.8230910952449205,0.061873012935906024
+27_capacity_tuned,low_rank (rank 8),bloodmnist,100,4,{},40,0.9085250581345518,0.03024078180682262
+27_capacity_tuned,low_rank (rank 8),bloodmnist,20,4,{},40,0.8506809351115893,0.05537129791977749
+27_capacity_tuned,low_rank (rank 8),bloodmnist,5,4,{},40,0.7728814200937236,0.05568009833196284
+27_capacity_tuned,low_rank (rank 8),bloodmnist,50,4,{},40,0.8882674769237863,0.03757266588160125
+27_capacity_tuned,low_rank (rank 8),breastmnist,10,4,{},40,0.7027412280701755,0.05043012741539139
+27_capacity_tuned,low_rank (rank 8),breastmnist,100,4,{},40,0.7968541144527987,0.028585152726096692
+27_capacity_tuned,low_rank (rank 8),breastmnist,20,4,{},40,0.7313178780284044,0.035740315047663236
+27_capacity_tuned,low_rank (rank 8),breastmnist,5,4,{},40,0.6581636382623225,0.08210347111601411
+27_capacity_tuned,low_rank (rank 8),breastmnist,50,4,{},40,0.7657215956558062,0.02871143847876363
+27_capacity_tuned,low_rank (rank 8),pathmnist,10,4,{},40,0.8855748609816348,0.04320500392044161
+27_capacity_tuned,low_rank (rank 8),pathmnist,100,4,{},40,0.9573068566715236,0.019049128710658152
+27_capacity_tuned,low_rank (rank 8),pathmnist,20,4,{},40,0.9192815442193314,0.028636396112908125
+27_capacity_tuned,low_rank (rank 8),pathmnist,5,4,{},40,0.8429123359967494,0.03361893702976903
+27_capacity_tuned,low_rank (rank 8),pathmnist,50,4,{},40,0.9515299851140584,0.01698590765781102
+27_capacity_tuned,low_rank (rank 8),pneumoniamnist,10,4,{},40,0.9108560705676091,0.023501419355545814
+27_capacity_tuned,low_rank (rank 8),pneumoniamnist,100,4,{},40,0.9347030462415077,0.010978745102574579
+27_capacity_tuned,low_rank (rank 8),pneumoniamnist,20,4,{},40,0.92128013368398,0.013092035805066366
+27_capacity_tuned,low_rank (rank 8),pneumoniamnist,5,4,{},40,0.8969926583388123,0.024218827900813318
+27_capacity_tuned,low_rank (rank 8),pneumoniamnist,50,4,{},40,0.9249852071005916,0.010613474184195058
