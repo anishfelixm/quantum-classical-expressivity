@@ -1,6 +1,7 @@
 # RESULTS — Final
 
-**11 October 2026. All experiments complete; cluster returned.** Supersedes the
+**11 October 2026; reporting tables added 13 October (§6); one exploratory
+reproduction, E8 latent saturation, added 13 October (§3).** Supersedes the
 4 October version, which called the restriction mechanism "refuted" — the
 powered follow-up (Amendment 17) does not support that word (§2).
 
@@ -242,6 +243,66 @@ factor quoted. Numbers unaffected; wording only.
 | Angle scale π vs π/2 | π helps the VQC in 3/20 cells (+0.012 to +0.019), hurts the control in 5/20 — π/2 did not handicap the VQC |
 | tanh removed (classical arms) | helps `mlp` and `low_rank` on multi-class sets; the primary control mostly unaffected |
 
+### Latent saturation — E8 (13 October 2026; descriptive, no test)
+
+**Why it was run.** The function-class figure's run showed two of its four
+latent coordinates pinned at the tanh boundary. E8 asks whether that is typical,
+and whether it differs between the primary arms.
+
+**What was run.** `src/17_latent_saturation.py`, namespace `28_latent_saturation`.
+It retrained 160 primary confirmatory runs from their own records:
+`quantum_vqc` and `matched_param_fullrank`, four datasets, n ∈ {5, 100}, the
+first 10 confirmatory seeds. **All 160 reproduced their recorded test AUC
+exactly** (largest difference 0.0), so the latents are those of the reported
+models. A coordinate counts as *pinned* when at least half the test latents lie
+within 5 % of the boundary (|z| > 0.95·π/2). *Active* = 4 − pinned. The two
+predictions and these definitions were written in the script's docstring and
+committed (`8817335`) before any run.
+
+Mean active coordinates (of 4), 10 seeds per cell:
+
+| Dataset | n=5 matched | n=5 VQC | VQC − matched | n=100 matched | n=100 VQC | VQC − matched |
+|---|---|---|---|---|---|---|
+| BloodMNIST | 3.8 | 2.8 | −1.0 | 3.1 | 2.1 | −1.0 |
+| BreastMNIST | 3.9 | 2.8 | −1.1 | 3.0 | 2.9 | −0.1 |
+| PathMNIST | 4.0 | 2.7 | −1.3 | 3.3 | 2.6 | −0.7 |
+| PneumoniaMNIST | 3.9 | 2.9 | −1.0 | 3.1 | 2.9 | −0.2 |
+
+**P1 — "saturation is not VQC-specific" (the arms differ by < 1 coordinate in
+every cell): not supported.** The VQC keeps fewer coordinates active in all 8
+cells. At n=5 the gap is 1.0 to 1.3 in every dataset. At n=100 it is 1.0 on
+BloodMNIST and 0.1 to 0.7 elsewhere. Three cells sit at exactly −1.0, which
+fails "< 1" only on the boundary. BreastMNIST n=5 (−1.1) and PathMNIST n=5
+(−1.3) fail outright, so the verdict does not depend on where the boundary is
+drawn.
+
+**P2 — "both arms saturate more at n=5 than at n=100": not supported** (7 of 8
+rows). The matched head saturates *more with more data*: 3.8 to 4.0 active at
+n=5, 3.0 to 3.3 at n=100, in every dataset. The VQC is roughly flat (2.6 to
+2.9; BloodMNIST n=100 2.1). The arm gap is largest at n=5 because the matched
+head hardly saturates there, not because the VQC saturates more.
+
+**Saturation does not track the advantage.** Per seed at n=5, VQC − matched AUC
+against VQC − matched active coordinates gives Spearman ρ = +0.30, +0.24,
+−0.12, −0.22 (Blood, Breast, Path, Pneumonia): small, of inconsistent sign, and
+not tested. Ten seeds could not detect a weak association. Across datasets,
+PathMNIST has the most VQC saturation at n=5 (2.7 active) and no VQC advantage
+(0.834 vs 0.838, §6.1).
+
+**Learning rate is not the explanation.** The projection is trained at the
+arm's `lr_head`. Every primary record at n ∈ {5, 100} in `01_frozen_tuned`
+(320 per arm, 40 seeds, including the 10 E8 retrained) used 0.01 for both arms,
+as `artifacts/lr_selection.json` selected.
+The arms differ only in the head itself: its function, the gradient it returns
+to the projection, and its initialisation. That difference is the treatment,
+not a confound.
+
+**What E8 licenses.** Training the projection through the VQC head leaves about
+one fewer latent coordinate in use at n=5 than training it through the matched
+head, in every dataset (exploratory, one reproduction per run, no test). It
+does not show that saturation causes the n=5 advantage, and the seed-level and
+dataset-level patterns give no support to that reading.
+
 ---
 
 ## 4. Established structural results
@@ -279,6 +340,10 @@ factor quoted. Numbers unaffected; wording only.
    decision-threshold effect, not miscalibration: the VQC's ECE is among the
    lowest of seven heads — **descriptive**. Bounded output is not robustness —
    **exploratory**.
+9. The projection trained through the VQC head leaves about one fewer of four
+   latent coordinates unsaturated at n=5 than under the matched head, at an
+   identical learning rate; this does not track the AUC advantage. Both
+   pre-written predictions were wrong — **exploratory (E8)**.
 
 ---
 
@@ -393,6 +458,13 @@ written retrospectively (they say so).
 n = 5 / seed 42 on the cluster GPU: test AUC 0.809446 recorded, 0.809446
 reproduced, maximum per-image probability difference 0.0. The trained head's
 output (PennyLane) equals an 81-term classical trigonometric sum to 2×10⁻¹⁵.
+
+**For the caption.** This run has 2 of 4 coordinates pinned (z2, z4). The
+BloodMNIST n=5 VQC average is 1.2 (E8, §3), so the run is more saturated than
+typical. The figure shows the plane of the two coordinates with the largest
+interquartile range (z1–z3) with the pinned pair fixed at their medians. That
+rule was chosen after a first version plotted a saturated plane. It is a
+presentation choice, and the caption states it.
 
 ---
 

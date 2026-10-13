@@ -2,10 +2,12 @@
 
 **Project:** Quantum–Classical Expressivity Under Extreme Latent Compression
 **Repository:** `github.com/anishfelixm/quantum-classical-expressivity`, branch `feature/journal-expansion`
-**Version 5.0 — 11 October 2026.** Supersedes v3.0 (26 August), whose thesis
-("the advantage is an artifact"; "no parameter-efficiency advantage") was
-written before the confirmatory run and is contradicted by it.
-**Target venue:** IEEE Access. **Status:** all experiments complete; writing.
+**Version 5.1 — 13 October 2026** (v5.0, 11 October, plus E8 and the noise-scope
+correction). Supersedes v3.0 (26 August), whose thesis ("the advantage is an
+artifact"; "no parameter-efficiency advantage") was written before the
+confirmatory run and is contradicted by it.
+**Target venue:** IEEE Access. **Status:** all experiments complete, including
+the exploratory E8 reproduction (13 October); writing.
 
 > Read this first. Then `docs/RESULTS.md` (every number, by evidential tier),
 > `docs/analysis_plan.md` (binding; amendments; follow-up results at the end),
@@ -31,6 +33,7 @@ written before the confirmatory run and is contradicted by it.
 | The VQC loses to a direct fit over its own function class at n ≥ 10 | H-S2 | confirmatory |
 | Its output is classical: 3^d trigonometric span, residual 1e-16 | dequantization test | proof + numerics |
 | Bounded output is not robustness; F1 collapse under noise is generic | H-S3, Lipschitz, paired gap | confirmatory + exploratory |
+| Under the VQC head the projection leaves ~1 fewer of 4 latent coordinates unsaturated at n=5 (same LR, 0.01, both arms); does not track the advantage; both pre-written predictions wrong | E8, 160 exact reproductions | exploratory |
 
 **Wording.** "An advantage of the VQC head over a parameter-matched classical
 head." Never "quantum advantage". Never "restriction refuted" or "restriction
@@ -118,7 +121,10 @@ Parity identities: `MatchedParamFullRank` d² + 2d = 6d ⟺ d = 4 only;
 - Frozen backbone: 0 parameters, 0 buffers changed; negative control without
   `set_bn_eval()` drifts 45 buffers. Adaptive: backbone gradient non-zero for
   every arm.
-- Depolarising noise leaves binary AUC exactly invariant: ⟨Xᵢ⟩ → (1 − 4p/3)⟨Xᵢ⟩.
+- Depolarising noise **applied at the end of the circuit** (what `07` simulates)
+  leaves binary AUC exactly invariant: ⟨Xᵢ⟩ → (1 − 4p/3)⟨Xᵢ⟩. Noise after every
+  layer does not: contraction 0.81–0.87 at p = 0.05, 24 of 1,770 test pairs
+  reorder (`tests/test_independent_theory.py`). Name the noise model in the paper.
 - Head sensitivity normalised by output range: VQC 1.55 / 1.53 / 1.31 vs
   control 0.58 / 0.49 / 0.42 (d = 4 / 8 / 16).
 - `canonical_frequencies(d, max_freq=1)` bit-identical to the pre-refactor basis.
@@ -164,14 +170,18 @@ mechanism tests run off the primary's protocol.
 ```
 python 3.10 · torch 2.4.1+cu118 · pennylane 0.42.3 · numpy 1.26.4 · medmnist 3.0.2
 conda env: qml_v2   (exported: conda_env_qml_v2.yml, pip_freeze.txt)
-GPU (returned): A100-SXM4-40GB MIG 3g.20gb
+GPU: A100-SXM4-40GB MIG 3g.20gb (RVCE Kubeflow pod; still available on
+     13 October; nothing scheduled on it)
 simulator: default.qubit + backprop
 ```
 
 Backup dated 2026-10-10 at `C:\Users\Anish\quantum-classical-expressivity-remote-backup`
 and on Google Drive: results (shards, predictions, bootstrap caches, tables,
 logs), feature cache, checkpoints, data cache, latents, repo snapshot, git
-state. SHA-256 verified.
+state. SHA-256 verified. Added after that backup: `reproduced_2026-10-13b.tgz`
+(function-class figure data) and `e8_results.tgz` (E8 shards, latents,
+predictions, logs), both in the pod's `backup_2026-10-10/` and to be copied into
+the local backup and Google Drive.
 
 ---
 

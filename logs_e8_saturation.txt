@@ -1,0 +1,208 @@
+nohup: ignoring input
+E8 latent saturation | 160 runs | sha=88173350 | device=cuda
+[3/160] bloodmnist n=5 s=123 quantum_vqc: AUC 0.7915 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  16s  elapsed 0.00h
+[4/160] bloodmnist n=5 s=123 matched_param_fullrank: AUC 0.7791 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 0.00h
+[5/160] bloodmnist n=5 s=2026 quantum_vqc: AUC 0.7966 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.03, 0.0]  14s  elapsed 0.01h
+[6/160] bloodmnist n=5 s=2026 matched_param_fullrank: AUC 0.7664 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 0.01h
+[7/160] bloodmnist n=5 s=777 quantum_vqc: AUC 0.7859 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.0, 0.0, 1.0]  13s  elapsed 0.01h
+[8/160] bloodmnist n=5 s=777 matched_param_fullrank: AUC 0.6461 (diff +0.0e+00)  n_active 3  pinned [0.0, 1.0, 0.0, 0.0]  1s  elapsed 0.01h
+[9/160] bloodmnist n=5 s=888 quantum_vqc: AUC 0.8071 (diff +0.0e+00)  n_active 3  pinned [1.0, 0.0, 0.04, 0.0]  11s  elapsed 0.02h
+[10/160] bloodmnist n=5 s=888 matched_param_fullrank: AUC 0.5148 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  1s  elapsed 0.02h
+[11/160] bloodmnist n=5 s=31337 quantum_vqc: AUC 0.7851 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.0, 0.0, 0.82]  14s  elapsed 0.02h
+[12/160] bloodmnist n=5 s=31337 matched_param_fullrank: AUC 0.7210 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 0.02h
+[13/160] bloodmnist n=5 s=8 quantum_vqc: AUC 0.8203 (diff +0.0e+00)  n_active 2  pinned [0.0, 1.0, 0.0, 0.77]  14s  elapsed 0.03h
+[14/160] bloodmnist n=5 s=8 matched_param_fullrank: AUC 0.8030 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 0.03h
+[15/160] bloodmnist n=5 s=271828 quantum_vqc: AUC 0.8783 (diff +0.0e+00)  n_active 3  pinned [0.96, 0.0, 0.0, 0.0]  14s  elapsed 0.03h
+[16/160] bloodmnist n=5 s=271828 matched_param_fullrank: AUC 0.7810 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.0, 1.0, 0.0]  2s  elapsed 0.03h
+[17/160] bloodmnist n=5 s=161803 quantum_vqc: AUC 0.7493 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 0.0, 1.0]  9s  elapsed 0.03h
+[18/160] bloodmnist n=5 s=161803 matched_param_fullrank: AUC 0.6269 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  1s  elapsed 0.03h
+[19/160] bloodmnist n=5 s=1414 quantum_vqc: AUC 0.8428 (diff +0.0e+00)  n_active 2  pinned [0.0, 1.0, 0.0, 0.99]  14s  elapsed 0.04h
+[20/160] bloodmnist n=5 s=1414 matched_param_fullrank: AUC 0.8256 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 0.04h
+[21/160] breastmnist n=5 s=42 quantum_vqc: AUC 0.7183 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  3s  elapsed 0.04h
+[22/160] breastmnist n=5 s=42 matched_param_fullrank: AUC 0.5756 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  0s  elapsed 0.04h
+[23/160] breastmnist n=5 s=123 quantum_vqc: AUC 0.7061 (diff +0.0e+00)  n_active 1  pinned [0.0, 1.0, 0.96, 1.0]  3s  elapsed 0.04h
+[24/160] breastmnist n=5 s=123 matched_param_fullrank: AUC 0.7178 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  0s  elapsed 0.04h
+[25/160] breastmnist n=5 s=2026 quantum_vqc: AUC 0.6569 (diff +0.0e+00)  n_active 1  pinned [0.0, 1.0, 1.0, 1.0]  3s  elapsed 0.04h
+[26/160] breastmnist n=5 s=2026 matched_param_fullrank: AUC 0.5612 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  1s  elapsed 0.04h
+[27/160] breastmnist n=5 s=777 quantum_vqc: AUC 0.4919 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  3s  elapsed 0.04h
+[28/160] breastmnist n=5 s=777 matched_param_fullrank: AUC 0.4858 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  0s  elapsed 0.04h
+[29/160] breastmnist n=5 s=888 quantum_vqc: AUC 0.7448 (diff +0.0e+00)  n_active 2  pinned [0.0, 1.0, 0.0, 1.0]  3s  elapsed 0.04h
+[30/160] breastmnist n=5 s=888 matched_param_fullrank: AUC 0.6865 (diff +0.0e+00)  n_active 4  pinned [0.14, 0.0, 0.35, 0.0]  1s  elapsed 0.04h
+[31/160] breastmnist n=5 s=31337 quantum_vqc: AUC 0.7084 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.0, 1.0, 0.97]  3s  elapsed 0.04h
+[32/160] breastmnist n=5 s=31337 matched_param_fullrank: AUC 0.6984 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  0s  elapsed 0.04h
+[33/160] breastmnist n=5 s=8 quantum_vqc: AUC 0.6074 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  3s  elapsed 0.04h
+[34/160] breastmnist n=5 s=8 matched_param_fullrank: AUC 0.5269 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  1s  elapsed 0.04h
+[35/160] breastmnist n=5 s=271828 quantum_vqc: AUC 0.6401 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  3s  elapsed 0.05h
+[36/160] breastmnist n=5 s=271828 matched_param_fullrank: AUC 0.6071 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.0, 0.0, 1.0]  0s  elapsed 0.05h
+[37/160] breastmnist n=5 s=161803 quantum_vqc: AUC 0.6884 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  3s  elapsed 0.05h
+[38/160] breastmnist n=5 s=161803 matched_param_fullrank: AUC 0.7193 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  1s  elapsed 0.05h
+[39/160] breastmnist n=5 s=1414 quantum_vqc: AUC 0.6389 (diff +0.0e+00)  n_active 2  pinned [0.46, 0.97, 0.0, 1.0]  3s  elapsed 0.05h
+[40/160] breastmnist n=5 s=1414 matched_param_fullrank: AUC 0.6633 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  0s  elapsed 0.05h
+[41/160] pathmnist n=5 s=42 quantum_vqc: AUC 0.8818 (diff +0.0e+00)  n_active 2  pinned [0.01, 0.0, 0.98, 1.0]  17s  elapsed 0.05h
+[42/160] pathmnist n=5 s=42 matched_param_fullrank: AUC 0.8207 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.01, 0.0, 0.0]  2s  elapsed 0.05h
+[43/160] pathmnist n=5 s=123 quantum_vqc: AUC 0.8402 (diff +0.0e+00)  n_active 4  pinned [0.03, 0.07, 0.25, 0.12]  17s  elapsed 0.06h
+[44/160] pathmnist n=5 s=123 matched_param_fullrank: AUC 0.8411 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 0.06h
+[45/160] pathmnist n=5 s=2026 quantum_vqc: AUC 0.8330 (diff +0.0e+00)  n_active 3  pinned [0.01, 0.9, 0.09, 0.0]  17s  elapsed 0.06h
+[46/160] pathmnist n=5 s=2026 matched_param_fullrank: AUC 0.8883 (diff +0.0e+00)  n_active 4  pinned [0.02, 0.01, 0.0, 0.0]  2s  elapsed 0.06h
+[47/160] pathmnist n=5 s=777 quantum_vqc: AUC 0.8198 (diff +0.0e+00)  n_active 2  pinned [0.94, 0.01, 0.0, 1.0]  15s  elapsed 0.07h
+[48/160] pathmnist n=5 s=777 matched_param_fullrank: AUC 0.8719 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 0.07h
+[49/160] pathmnist n=5 s=888 quantum_vqc: AUC 0.8292 (diff +0.0e+00)  n_active 2  pinned [0.15, 1.0, 0.03, 1.0]  17s  elapsed 0.07h
+[50/160] pathmnist n=5 s=888 matched_param_fullrank: AUC 0.8663 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 0.07h
+[51/160] pathmnist n=5 s=31337 quantum_vqc: AUC 0.8719 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.02]  17s  elapsed 0.08h
+[52/160] pathmnist n=5 s=31337 matched_param_fullrank: AUC 0.8947 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 0.08h
+[53/160] pathmnist n=5 s=8 quantum_vqc: AUC 0.8671 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 1.0, 0.0]  17s  elapsed 0.08h
+[54/160] pathmnist n=5 s=8 matched_param_fullrank: AUC 0.8932 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.01]  2s  elapsed 0.08h
+[55/160] pathmnist n=5 s=271828 quantum_vqc: AUC 0.7882 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.0, 1.0, 1.0]  11s  elapsed 0.09h
+[56/160] pathmnist n=5 s=271828 matched_param_fullrank: AUC 0.8008 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.22, 0.0]  2s  elapsed 0.09h
+[57/160] pathmnist n=5 s=161803 quantum_vqc: AUC 0.7817 (diff +0.0e+00)  n_active 3  pinned [0.0, 1.0, 0.0, 0.07]  15s  elapsed 0.09h
+[58/160] pathmnist n=5 s=161803 matched_param_fullrank: AUC 0.7453 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 0.09h
+[59/160] pathmnist n=5 s=1414 quantum_vqc: AUC 0.7918 (diff +0.0e+00)  n_active 3  pinned [0.26, 0.0, 0.98, 0.02]  17s  elapsed 0.10h
+[60/160] pathmnist n=5 s=1414 matched_param_fullrank: AUC 0.9101 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.08]  2s  elapsed 0.10h
+[61/160] pneumoniamnist n=5 s=42 quantum_vqc: AUC 0.8937 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.03]  3s  elapsed 0.10h
+[62/160] pneumoniamnist n=5 s=42 matched_param_fullrank: AUC 0.9180 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  0s  elapsed 0.10h
+[63/160] pneumoniamnist n=5 s=123 quantum_vqc: AUC 0.9015 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 0.0, 1.0]  3s  elapsed 0.10h
+[64/160] pneumoniamnist n=5 s=123 matched_param_fullrank: AUC 0.8687 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  0s  elapsed 0.10h
+[65/160] pneumoniamnist n=5 s=2026 quantum_vqc: AUC 0.9160 (diff +0.0e+00)  n_active 4  pinned [0.2, 0.0, 0.0, 0.0]  3s  elapsed 0.10h
+[66/160] pneumoniamnist n=5 s=2026 matched_param_fullrank: AUC 0.9182 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  0s  elapsed 0.10h
+[67/160] pneumoniamnist n=5 s=777 quantum_vqc: AUC 0.9231 (diff +0.0e+00)  n_active 3  pinned [0.0, 1.0, 0.0, 0.0]  3s  elapsed 0.10h
+[68/160] pneumoniamnist n=5 s=777 matched_param_fullrank: AUC 0.9074 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  0s  elapsed 0.10h
+[69/160] pneumoniamnist n=5 s=888 quantum_vqc: AUC 0.9038 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  3s  elapsed 0.10h
+[70/160] pneumoniamnist n=5 s=888 matched_param_fullrank: AUC 0.6002 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  0s  elapsed 0.10h
+[71/160] pneumoniamnist n=5 s=31337 quantum_vqc: AUC 0.9202 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 0.0, 1.0]  3s  elapsed 0.10h
+[72/160] pneumoniamnist n=5 s=31337 matched_param_fullrank: AUC 0.9131 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  1s  elapsed 0.10h
+[73/160] pneumoniamnist n=5 s=8 quantum_vqc: AUC 0.9170 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 1.0, 0.0]  3s  elapsed 0.10h
+[74/160] pneumoniamnist n=5 s=8 matched_param_fullrank: AUC 0.9272 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  0s  elapsed 0.10h
+[75/160] pneumoniamnist n=5 s=271828 quantum_vqc: AUC 0.9120 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.86, 0.0, 1.0]  3s  elapsed 0.10h
+[76/160] pneumoniamnist n=5 s=271828 matched_param_fullrank: AUC 0.9132 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.0, 1.0, 0.0]  1s  elapsed 0.10h
+[77/160] pneumoniamnist n=5 s=161803 quantum_vqc: AUC 0.9044 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 0.7, 0.0]  3s  elapsed 0.11h
+[78/160] pneumoniamnist n=5 s=161803 matched_param_fullrank: AUC 0.9048 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  0s  elapsed 0.11h
+[79/160] pneumoniamnist n=5 s=1414 quantum_vqc: AUC 0.8761 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  3s  elapsed 0.11h
+[80/160] pneumoniamnist n=5 s=1414 matched_param_fullrank: AUC 0.9114 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  0s  elapsed 0.11h
+[81/160] bloodmnist n=100 s=42 quantum_vqc: AUC 0.9273 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.0, 1.0, 1.0]  130s  elapsed 0.14h
+[82/160] bloodmnist n=100 s=42 matched_param_fullrank: AUC 0.9498 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.19, 0.0, 0.0]  7s  elapsed 0.14h
+[83/160] bloodmnist n=100 s=123 quantum_vqc: AUC 0.9327 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.0, 0.01, 1.0]  131s  elapsed 0.18h
+[84/160] bloodmnist n=100 s=123 matched_param_fullrank: AUC 0.9533 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  7s  elapsed 0.18h
+[85/160] bloodmnist n=100 s=2026 quantum_vqc: AUC 0.9150 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 0.0, 1.0]  131s  elapsed 0.22h
+[86/160] bloodmnist n=100 s=2026 matched_param_fullrank: AUC 0.9257 (diff +0.0e+00)  n_active 2  pinned [0.0, 1.0, 1.0, 0.0]  7s  elapsed 0.22h
+[87/160] bloodmnist n=100 s=777 quantum_vqc: AUC 0.9324 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 1.0, 0.0]  133s  elapsed 0.26h
+[88/160] bloodmnist n=100 s=777 matched_param_fullrank: AUC 0.9410 (diff +0.0e+00)  n_active 3  pinned [0.0, 1.0, 0.0, 0.0]  7s  elapsed 0.26h
+[89/160] bloodmnist n=100 s=888 quantum_vqc: AUC 0.9309 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 1.0, 0.0]  129s  elapsed 0.30h
+[90/160] bloodmnist n=100 s=888 matched_param_fullrank: AUC 0.9142 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 1.0, 0.05]  7s  elapsed 0.30h
+[91/160] bloodmnist n=100 s=31337 quantum_vqc: AUC 0.9107 (diff +0.0e+00)  n_active 2  pinned [0.03, 0.0, 1.0, 1.0]  131s  elapsed 0.34h
+[92/160] bloodmnist n=100 s=31337 matched_param_fullrank: AUC 0.9289 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.0, 1.0, 1.0]  7s  elapsed 0.34h
+[93/160] bloodmnist n=100 s=8 quantum_vqc: AUC 0.9329 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 1.0, 0.0]  130s  elapsed 0.37h
+[94/160] bloodmnist n=100 s=8 matched_param_fullrank: AUC 0.9535 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  7s  elapsed 0.38h
+[95/160] bloodmnist n=100 s=271828 quantum_vqc: AUC 0.9069 (diff +0.0e+00)  n_active 2  pinned [0.0, 1.0, 0.0, 1.0]  130s  elapsed 0.41h
+[96/160] bloodmnist n=100 s=271828 matched_param_fullrank: AUC 0.9041 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.0, 1.0, 1.0]  7s  elapsed 0.41h
+[97/160] bloodmnist n=100 s=161803 quantum_vqc: AUC 0.9217 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.92, 0.0, 1.0]  130s  elapsed 0.45h
+[98/160] bloodmnist n=100 s=161803 matched_param_fullrank: AUC 0.9515 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  7s  elapsed 0.45h
+[99/160] bloodmnist n=100 s=1414 quantum_vqc: AUC 0.9253 (diff +0.0e+00)  n_active 2  pinned [0.66, 0.0, 0.0, 1.0]  129s  elapsed 0.49h
+[100/160] bloodmnist n=100 s=1414 matched_param_fullrank: AUC 0.9507 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  7s  elapsed 0.49h
+[101/160] breastmnist n=100 s=42 quantum_vqc: AUC 0.7416 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  8s  elapsed 0.49h
+[102/160] breastmnist n=100 s=42 matched_param_fullrank: AUC 0.7458 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 0.49h
+[103/160] breastmnist n=100 s=123 quantum_vqc: AUC 0.7924 (diff +0.0e+00)  n_active 4  pinned [0.05, 0.0, 0.0, 0.19]  18s  elapsed 0.50h
+[104/160] breastmnist n=100 s=123 matched_param_fullrank: AUC 0.7964 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.0, 1.0, 1.0]  2s  elapsed 0.50h
+[105/160] breastmnist n=100 s=2026 quantum_vqc: AUC 0.8198 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.01, 0.0, 1.0]  25s  elapsed 0.50h
+[106/160] breastmnist n=100 s=2026 matched_param_fullrank: AUC 0.8248 (diff +0.0e+00)  n_active 2  pinned [0.0, 1.0, 1.0, 0.0]  2s  elapsed 0.50h
+[107/160] breastmnist n=100 s=777 quantum_vqc: AUC 0.8131 (diff +0.0e+00)  n_active 3  pinned [0.04, 0.0, 0.0, 1.0]  16s  elapsed 0.51h
+[108/160] breastmnist n=100 s=777 matched_param_fullrank: AUC 0.8156 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.02, 0.0]  1s  elapsed 0.51h
+[109/160] breastmnist n=100 s=888 quantum_vqc: AUC 0.8340 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.99, 0.0, 0.0]  23s  elapsed 0.52h
+[110/160] breastmnist n=100 s=888 matched_param_fullrank: AUC 0.8377 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.0, 1.0, 0.0]  2s  elapsed 0.52h
+[111/160] breastmnist n=100 s=31337 quantum_vqc: AUC 0.8440 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.63, 0.66, 0.0]  25s  elapsed 0.52h
+[112/160] breastmnist n=100 s=31337 matched_param_fullrank: AUC 0.8335 (diff +0.0e+00)  n_active 3  pinned [0.86, 0.0, 0.0, 0.0]  2s  elapsed 0.52h
+[113/160] breastmnist n=100 s=8 quantum_vqc: AUC 0.8066 (diff +0.0e+00)  n_active 3  pinned [0.97, 0.0, 0.0, 0.0]  17s  elapsed 0.53h
+[114/160] breastmnist n=100 s=8 matched_param_fullrank: AUC 0.8099 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.0, 0.0, 0.88]  1s  elapsed 0.53h
+[115/160] breastmnist n=100 s=271828 quantum_vqc: AUC 0.8283 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.99, 0.0, 0.64]  26s  elapsed 0.54h
+[116/160] breastmnist n=100 s=271828 matched_param_fullrank: AUC 0.8310 (diff +0.0e+00)  n_active 3  pinned [1.0, 0.0, 0.0, 0.0]  2s  elapsed 0.54h
+[117/160] breastmnist n=100 s=161803 quantum_vqc: AUC 0.8079 (diff +0.0e+00)  n_active 2  pinned [0.99, 0.0, 0.0, 0.69]  15s  elapsed 0.54h
+[118/160] breastmnist n=100 s=161803 matched_param_fullrank: AUC 0.8198 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  1s  elapsed 0.54h
+[119/160] breastmnist n=100 s=1414 quantum_vqc: AUC 0.7861 (diff +0.0e+00)  n_active 3  pinned [0.0, 1.0, 0.0, 0.0]  16s  elapsed 0.55h
+[120/160] breastmnist n=100 s=1414 matched_param_fullrank: AUC 0.8066 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.0, 1.0, 1.0]  2s  elapsed 0.55h
+[121/160] pathmnist n=100 s=42 quantum_vqc: AUC 0.9308 (diff +0.0e+00)  n_active 3  pinned [0.01, 0.0, 0.0, 1.0]  164s  elapsed 0.59h
+[122/160] pathmnist n=100 s=42 matched_param_fullrank: AUC 0.9693 (diff +0.0e+00)  n_active 4  pinned [0.41, 0.0, 0.0, 0.0]  9s  elapsed 0.59h
+[123/160] pathmnist n=100 s=123 quantum_vqc: AUC 0.9041 (diff +0.0e+00)  n_active 2  pinned [0.02, 0.0, 1.0, 1.0]  164s  elapsed 0.64h
+[124/160] pathmnist n=100 s=123 matched_param_fullrank: AUC 0.9745 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  9s  elapsed 0.64h
+[125/160] pathmnist n=100 s=2026 quantum_vqc: AUC 0.9548 (diff +0.0e+00)  n_active 3  pinned [0.03, 0.0, 0.0, 0.83]  164s  elapsed 0.69h
+[126/160] pathmnist n=100 s=2026 matched_param_fullrank: AUC 0.9518 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.08, 0.0]  9s  elapsed 0.69h
+[127/160] pathmnist n=100 s=777 quantum_vqc: AUC 0.9575 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 0.0, 1.0]  163s  elapsed 0.74h
+[128/160] pathmnist n=100 s=777 matched_param_fullrank: AUC 0.9623 (diff +0.0e+00)  n_active 3  pinned [0.0, 1.0, 0.0, 0.0]  9s  elapsed 0.74h
+[129/160] pathmnist n=100 s=888 quantum_vqc: AUC 0.9500 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.0, 1.0, 0.01]  164s  elapsed 0.78h
+[130/160] pathmnist n=100 s=888 matched_param_fullrank: AUC 0.9660 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.14, 0.0, 0.56]  9s  elapsed 0.79h
+[131/160] pathmnist n=100 s=31337 quantum_vqc: AUC 0.9492 (diff +0.0e+00)  n_active 4  pinned [0.04, 0.44, 0.04, 0.04]  166s  elapsed 0.83h
+[132/160] pathmnist n=100 s=31337 matched_param_fullrank: AUC 0.9135 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.0, 1.0, 1.0]  9s  elapsed 0.83h
+[133/160] pathmnist n=100 s=8 quantum_vqc: AUC 0.9504 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 1.0, 0.03]  165s  elapsed 0.88h
+[134/160] pathmnist n=100 s=8 matched_param_fullrank: AUC 0.9705 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.1, 0.0]  9s  elapsed 0.88h
+[135/160] pathmnist n=100 s=271828 quantum_vqc: AUC 0.8894 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.0, 1.0, 1.0]  163s  elapsed 0.93h
+[136/160] pathmnist n=100 s=271828 matched_param_fullrank: AUC 0.9428 (diff +0.0e+00)  n_active 3  pinned [0.12, 0.0, 1.0, 0.0]  9s  elapsed 0.93h
+[137/160] pathmnist n=100 s=161803 quantum_vqc: AUC 0.9337 (diff +0.0e+00)  n_active 2  pinned [0.02, 0.01, 1.0, 1.0]  165s  elapsed 0.98h
+[138/160] pathmnist n=100 s=161803 matched_param_fullrank: AUC 0.9464 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.0, 1.0, 1.0]  9s  elapsed 0.98h
+[139/160] pathmnist n=100 s=1414 quantum_vqc: AUC 0.9587 (diff +0.0e+00)  n_active 3  pinned [0.01, 0.0, 0.0, 0.98]  162s  elapsed 1.02h
+[140/160] pathmnist n=100 s=1414 matched_param_fullrank: AUC 0.9645 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.01, 0.01]  9s  elapsed 1.03h
+[141/160] pneumoniamnist n=100 s=42 quantum_vqc: AUC 0.9361 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.03, 0.0, 1.0]  36s  elapsed 1.04h
+[142/160] pneumoniamnist n=100 s=42 matched_param_fullrank: AUC 0.9391 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.47, 0.0, 1.0]  2s  elapsed 1.04h
+[143/160] pneumoniamnist n=100 s=123 quantum_vqc: AUC 0.9200 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  36s  elapsed 1.05h
+[144/160] pneumoniamnist n=100 s=123 matched_param_fullrank: AUC 0.9123 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.0, 1.0, 0.0]  2s  elapsed 1.05h
+[145/160] pneumoniamnist n=100 s=2026 quantum_vqc: AUC 0.9228 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.01, 1.0, 1.0]  36s  elapsed 1.06h
+[146/160] pneumoniamnist n=100 s=2026 matched_param_fullrank: AUC 0.9184 (diff +0.0e+00)  n_active 3  pinned [0.0, 1.0, 0.0, 0.0]  2s  elapsed 1.06h
+[147/160] pneumoniamnist n=100 s=777 quantum_vqc: AUC 0.9296 (diff +0.0e+00)  n_active 3  pinned [1.0, 0.0, 0.0, 0.0]  35s  elapsed 1.07h
+[148/160] pneumoniamnist n=100 s=777 matched_param_fullrank: AUC 0.9248 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 1.07h
+[149/160] pneumoniamnist n=100 s=888 quantum_vqc: AUC 0.9342 (diff +0.0e+00)  n_active 2  pinned [0.0, 1.0, 0.0, 1.0]  36s  elapsed 1.08h
+[150/160] pneumoniamnist n=100 s=888 matched_param_fullrank: AUC 0.9341 (diff +0.0e+00)  n_active 2  pinned [0.0, 0.0, 0.86, 1.0]  2s  elapsed 1.08h
+[151/160] pneumoniamnist n=100 s=31337 quantum_vqc: AUC 0.9403 (diff +0.0e+00)  n_active 3  pinned [0.0, 1.0, 0.0, 0.0]  36s  elapsed 1.09h
+[152/160] pneumoniamnist n=100 s=31337 matched_param_fullrank: AUC 0.9388 (diff +0.0e+00)  n_active 2  pinned [1.0, 0.0, 0.09, 1.0]  2s  elapsed 1.09h
+[153/160] pneumoniamnist n=100 s=8 quantum_vqc: AUC 0.9361 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  36s  elapsed 1.10h
+[154/160] pneumoniamnist n=100 s=8 matched_param_fullrank: AUC 0.9360 (diff +0.0e+00)  n_active 3  pinned [0.71, 0.0, 0.0, 0.0]  2s  elapsed 1.10h
+[155/160] pneumoniamnist n=100 s=271828 quantum_vqc: AUC 0.9576 (diff +0.0e+00)  n_active 1  pinned [1.0, 0.65, 0.0, 1.0]  35s  elapsed 1.11h
+[156/160] pneumoniamnist n=100 s=271828 matched_param_fullrank: AUC 0.9541 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.0, 1.0, 0.0]  2s  elapsed 1.11h
+[157/160] pneumoniamnist n=100 s=161803 quantum_vqc: AUC 0.9291 (diff +0.0e+00)  n_active 4  pinned [0.41, 0.0, 0.0, 0.0]  36s  elapsed 1.12h
+[158/160] pneumoniamnist n=100 s=161803 matched_param_fullrank: AUC 0.9271 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 1.12h
+[159/160] pneumoniamnist n=100 s=1414 quantum_vqc: AUC 0.9459 (diff +0.0e+00)  n_active 3  pinned [0.0, 0.0, 0.02, 0.98]  35s  elapsed 1.13h
+[160/160] pneumoniamnist n=100 s=1414 matched_param_fullrank: AUC 0.9420 (diff +0.0e+00)  n_active 4  pinned [0.0, 0.0, 0.0, 0.0]  2s  elapsed 1.13h
+E8 latent saturation - EXPLORATORY | 160 runs | 160/160 reproduced the recorded AUC exactly
+largest |reproduced - recorded| AUC: 0.00e+00
+
+dataset            n arm                      runs mean n_active  share pinned, per coordinate (mean over runs)
+bloodmnist         5 matched_param_fullrank     10          3.80    0.00  0.10  0.10  0.00
+bloodmnist         5 quantum_vqc                10          2.80    0.30  0.30  0.01  0.56
+breastmnist        5 matched_param_fullrank     10          3.90    0.01  0.00  0.04  0.10
+breastmnist        5 quantum_vqc                10          2.80    0.05  0.40  0.30  0.50
+pathmnist          5 matched_param_fullrank     10          4.00    0.00  0.00  0.02  0.01
+pathmnist          5 quantum_vqc                10          2.70    0.24  0.30  0.43  0.42
+pneumoniamnist     5 matched_param_fullrank     10          3.90    0.00  0.00  0.10  0.00
+pneumoniamnist     5 quantum_vqc                10          2.90    0.42  0.19  0.17  0.30
+bloodmnist       100 matched_param_fullrank     10          3.10    0.10  0.22  0.40  0.20
+bloodmnist       100 quantum_vqc                10          2.10    0.47  0.19  0.50  0.70
+breastmnist      100 matched_param_fullrank     10          3.00    0.19  0.10  0.40  0.29
+breastmnist      100 quantum_vqc                10          2.90    0.21  0.36  0.07  0.35
+pathmnist        100 matched_param_fullrank     10          3.30    0.05  0.12  0.32  0.26
+pathmnist        100 quantum_vqc                10          2.60    0.21  0.05  0.50  0.69
+pneumoniamnist   100 matched_param_fullrank     10          3.10    0.17  0.15  0.30  0.30
+pneumoniamnist   100 quantum_vqc                10          2.90    0.24  0.27  0.10  0.50
+
+P1 (not VQC-specific): VQC - matched mean n_active per cell
+  bloodmnist      n=  5  -1.00  (NOT within 1)
+  bloodmnist      n=100  -1.00  (NOT within 1)
+  breastmnist     n=  5  -1.10  (NOT within 1)
+  breastmnist     n=100  -0.10  (within 1)
+  pathmnist       n=  5  -1.30  (NOT within 1)
+  pathmnist       n=100  -0.70  (within 1)
+  pneumoniamnist  n=  5  -1.00  (NOT within 1)
+  pneumoniamnist  n=100  -0.20  (within 1)
+
+P2 (more saturation with less data): mean n_active at n=5 vs n=100
+  quantum_vqc              bloodmnist      n=5 2.80  n=100 2.10  (not lower at n=5)
+  quantum_vqc              breastmnist     n=5 2.80  n=100 2.90  (lower at n=5)
+  quantum_vqc              pathmnist       n=5 2.70  n=100 2.60  (not lower at n=5)
+  quantum_vqc              pneumoniamnist  n=5 2.90  n=100 2.90  (not lower at n=5)
+  matched_param_fullrank   bloodmnist      n=5 3.80  n=100 3.10  (not lower at n=5)
+  matched_param_fullrank   breastmnist     n=5 3.90  n=100 3.00  (not lower at n=5)
+  matched_param_fullrank   pathmnist       n=5 4.00  n=100 3.30  (not lower at n=5)
+  matched_param_fullrank   pneumoniamnist  n=5 3.90  n=100 3.10  (not lower at n=5)
+
+Descriptive only: per seed, VQC - matched AUC against VQC - matched n_active (n = 5)
+  bloodmnist      10 seeds  Spearman rho = +0.30
+  breastmnist     10 seeds  Spearman rho = +0.24
+  pathmnist       10 seeds  Spearman rho = -0.12
+  pneumoniamnist  10 seeds  Spearman rho = -0.22
+
+EXPLORATORY. One reproduction per run; no test, no correction.

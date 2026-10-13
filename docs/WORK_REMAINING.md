@@ -1,12 +1,15 @@
-# Work Remaining — v3
+# Work Remaining — v4
 
-**Updated:** 11 October 2026.
+**Updated:** 13 October 2026.
 
 ## 1. Experiments — done
 
 **All of them.** The 23-test confirmatory family, both pre-specified follow-ups
-(Amendments 16 and 17), and every exploratory and fairness analysis listed in
-`RESULTS.md`. Results are backed up and checksummed. The cluster is returned.
+(Amendments 16 and 17), every exploratory and fairness analysis listed in
+`RESULTS.md`, and the E8 latent-saturation reproduction (13 October). The
+10 October results are backed up and checksummed; the two archives added since
+still need copying (`STATE.md`). The pod is still available; nothing is
+planned on it.
 
 | Block | Status |
 |---|---|
@@ -18,19 +21,25 @@
 | H-S5 follow-up | ✅ no restriction effect by the rule; prediction not cleanly confirmed |
 | E1 ansatz, E7 re-upload control | ✅ |
 | d=8, d=16, full data, noise, hardware noise, Lipschitz, depth, angle, tanh | ✅ |
-| Backup | ✅ local + Google Drive, SHA-256 OK |
+| E8 latent saturation (exploratory, 160 exact reproductions) | ✅ both predictions wrong; ~1 fewer active coordinate under the VQC at n=5; does not track the advantage |
+| Backup | ✅ 10 Oct local + Google Drive, SHA-256 OK; ⬜ add the 13 Oct archives |
 
 ## 2. Writing — remaining
 
-| # | Task | Needs |
+| # | Task | Status |
 |---|---|---|
-| 1 | Commit corrected docs (v43) | 10 min |
-| 2 | Extract results archive locally | 15 min |
-| 3 | `generate_paper_plots.py`, seven figures | code from Claude, run locally, no GPU |
-| 4 | Manuscript from conference `main.tex` | the bulk of the remaining work |
-| 5 | Citation verification | every entry in `AUDIT_REPORT.md` §5 |
-| 6 | Cover letter | conference overlap, data and code availability |
-| 7 | `LowRankHead` docstring (one sentence) + parity check | 5 min |
+| 1 | Corrected docs (v43), results extracted locally | ✅ |
+| 2 | Reporting tables (`15`), figure reproduction (`16`), independent theory check | ✅ |
+| 3 | Figures 1–7 and S1 from data | ✅ |
+| 4 | `LowRankHead` docstring + parity check (24/24/24, 19 passed) | ✅ |
+| 5 | E8 written up (`RESULTS.md` §3, finding 9) | ✅ this commit |
+| 6 | Manuscript from conference `main.tex` on the IEEE Access template | ⬜ waits on template and author details; the bulk of the remaining work |
+| 7 | Citation verification | ⬜ every entry in `AUDIT_REPORT.md` §5, plus the 2026 papers (2608.07822, 2605.09118, 2605.19417, 2609.15267) |
+| 8 | Cover letter | ⬜ conference overlap, data and code availability |
+
+Captions to write with the manuscript: figure 2 must say its run is more
+saturated than typical and how its plane was chosen (`RESULTS.md` §6.7); every
+caption states the evidential tier of what it shows.
 
 ## 3. The conference paper — what must not carry over
 
@@ -62,7 +71,10 @@ rule explicitly in Methods.
 1. **Effect size** — +0.014 AUC, carried by BloodMNIST. Answer: stated up front;
    the contribution is attribution.
 2. **"So what causes it?"** — not determined. Learned projection required;
-   restriction not established and not excluded. Say so plainly.
+   restriction not established and not excluded. Say so plainly. If asked
+   whether the projection degenerates under the VQC: E8 shows it saturates about
+   one more coordinate at n=5 at the same learning rate, and this does not track
+   the advantage (exploratory).
 3. **28×28 images, one backbone, simulation only** — limitations, stated.
 4. **Mechanism tests initially underpowered** — rerun at 40 seeds, pre-specified.
 5. **Novelty against Bowles et al. and the 2026 matched-baseline papers** —
@@ -78,4 +90,5 @@ soundness-focused venue; the outcome depends on the manuscript and the reviewers
 3. MedMNIST 28×28, upsampled.
 4. One backbone; four datasets, treated as fixed in the bootstrap.
 5. Mechanism of the H-P1 advantage not identified beyond "needs a learned
-   projection".
+   projection". E8 describes one difference in how the projection trains, not a
+   mechanism.
