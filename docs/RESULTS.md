@@ -203,7 +203,14 @@ values were seen.
 | Head sensitivity normalised by output range (L / \|out\|max) | VQC 1.55 / 1.53 / 1.31 (d=4/8/16) vs primary control 0.58 / 0.49 / 0.42 |
 
 The F1 collapse under sensor noise is generic to small heads; the VQC adds a
-modest, consistent excess. Bounded output did not buy robustness: the VQC's raw
+modest, consistent excess. **It is not a calibration failure** (added 13 Oct,
+`15_reporting_tables.py`, descriptive): the VQC's expected calibration error is
+the lowest or within 0.005 of the lowest of all seven heads at every σ
+(§6.4) — 0.226 vs 0.263 for the matched head at σ = 0.05, 0.342 vs 0.370 at
+σ = 0.20. What collapses is the argmax decision while the ranking holds: a
+decision-threshold effect. H-S3's verdict, which tests the F1-vs-AUC gap, is
+unchanged; the registered wording "a calibration failure" is not supported and
+the paper says "decision-threshold degradation". Bounded output did not buy robustness: the VQC's raw
 Lipschitz constant is small because unitarity caps its output at 1, but the
 classifier rescales it, and relative to its own range the VQC is about three
 times as sensitive as the control.
@@ -268,12 +275,128 @@ factor quoted. Numbers unaffected; wording only.
    shots and loses at 100 — **follow-up, not parameter-matched**.
 7. Richer readout helps — **confirmatory**.
 8. Under sensor noise F1 collapses while AUC holds, for every small head; the
-   VQC's excess is modest — **confirmatory + exploratory**. Bounded output is not
-   robustness — **exploratory**.
+   VQC's excess is modest — **confirmatory + exploratory**. It is a
+   decision-threshold effect, not miscalibration: the VQC's ECE is among the
+   lowest of seven heads — **descriptive**. Bounded output is not robustness —
+   **exploratory**.
 
 ---
 
-## 6. Disclosures
+## 6. Reporting tables — 13 October 2026
+
+Computed by `src/15_reporting_tables.py` on the cluster from every run record
+and stored prediction (integrity: recorded vs recomputed AUC, max 2.2×10⁻¹⁶
+over 4,000 primary runs). Definitions were fixed in that file's docstring
+before any of these numbers existed. All descriptive; none enters the
+confirmatory family. Full tables: `paper/tables/*.csv`.
+
+### 6.1 Absolute AUC, primary arms, n = 5 (mean over 40 seeds)
+
+| Dataset | Matched head | VQC |
+|---|---|---|
+| BloodMNIST | 0.742 (SD 0.091) | 0.786 (SD 0.064) |
+| BreastMNIST | 0.658 (SD 0.073) | 0.668 (SD 0.068) |
+| PathMNIST | 0.838 (SD 0.045) | 0.834 (SD 0.028) |
+| PneumoniaMNIST | 0.889 (SD 0.051) | 0.895 (SD 0.033) |
+
+**Correction to the plan's limitation 4**, which says both arms sit at "AUC
+0.60–0.68 at n = 5": that range came from the diagnostic runs. In the
+confirmatory data only BreastMNIST is that low; the others are 0.74–0.90.
+Recorded in the plan's results section; the original text is not edited.
+
+### 6.2 Checkpoint chosen by validation F1 instead of AUC (Amendment 2)
+
+Pooled Δ, seed-level 95% interval:
+
+| | n = 5 | 10 | 20 | 50 | 100 |
+|---|---|---|---|---|---|
+| VQC − matched, AUC-selected | +0.0142 | +0.0002 | −0.0050 | −0.0080 | −0.0074 |
+| VQC − matched, F1-selected | +0.0168 [+.0036, +.0299] | +0.0045 | −0.0051 | −0.0091 | −0.0067 |
+
+Same sign at every n for the primary contrast, H-S1 and H-S2. The conclusions do
+not depend on the selection rule.
+
+### 6.3 Effect sizes (§5) and practical significance
+
+Paired d_z over seeds, pooled as each test pools. Tests in AUC units with
+|estimate| < 0.01 are **negligible** under §5.
+
+| Test | Estimate | d_z | Seeds | Verdict | §5 |
+|---|---|---|---|---|---|
+| H-P1 | +0.0142 | +0.36 | 40 | supported | — |
+| H-P2 | −0.0046 | −0.56 | 40 | supported | slope |
+| H-S1 n=5 / 10 / 20 / 50 / 100 | +.0039 / +.0090 / +.0125 / +.0102 / +.0103 | +0.17 / +0.50 / +0.88 / +0.95 / +1.38 | 40 | ns / **opposite** / difference / supported / supported | n=5, **n=10 negligible** |
+| H-S2 n=5 … 100 | −.0095 / −.0187 / −.0212 / −.0203 / −.0161 | −0.34 / −1.38 / −1.54 / −2.28 / −1.89 | 40 | ns / supported ×4 | n=5 negligible |
+| H-S3 σ = .05 / .10 / .15 / .20 | +.356 / +.401 / +.382 / +.365 | +10.7 / +9.1 / +7.2 / +8.7 | 10 | supported | — |
+| H-S4 | −0.0048 | −0.93 * | 10 | ns | negligible |
+| H-S5a / b | −0.0124 / +0.0029 | −0.45 / +0.55 | 10 | ns | — |
+| H-S6 PCA / random | −0.0283 / −0.0545 | −0.22 / −0.73 | 5 | ns | — |
+| H-S7a / b | +0.0114 / +0.0111 | +1.73 / +1.42 | 10 | supported | — |
+
+\* H-S4's d_z uses the per-seed analogue |Δ_frozen,s| − |Δ_adaptive,s|; taking
+the absolute value per seed adds seed noise to both terms, so it is not
+comparable with the registered statistic (absolute value after averaging).
+Reported with that warning, not interpreted.
+
+**The one "opposite to prediction" result (H-S1, n = 10) is significant but
+negligible** (+0.0090). The paper says so. H-P1's estimate exceeds 0.01, but
+its interval reaches 0.0025: the advantage may be practically negligible.
+
+### 6.4 Noise, all seven heads (means over 200 runs per head and σ)
+
+| σ | G: VQC | matched | low-rank | Fourier | linear | 2-local | padded | ECE: VQC | matched | low-rank | Fourier | linear | 2-local | padded |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0.05 | **.356** | .303 | .297 | .320 | .329 | .340 | .348 | **.226** | .263 | .252 | .330 | .313 | .268 | .244 |
+| 0.10 | **.401** | .335 | .348 | .361 | .381 | .365 | .377 | **.289** | .325 | .304 | .403 | .396 | .334 | .295 |
+| 0.15 | **.382** | .339 | .338 | .356 | .376 | .362 | .366 | .319 | .354 | .337 | .446 | .439 | .363 | **.318** |
+| 0.20 | **.365** | .317 | .306 | .331 | .347 | .351 | .347 | .342 | .370 | .352 | .467 | .460 | .386 | **.337** |
+
+The VQC has the largest F1-vs-AUC gap of all seven heads and the lowest or
+near-lowest calibration error. The Fourier and linear heads are the worst
+calibrated.
+
+### 6.5 d = 8, d = 16, full data (descriptive; nested intervals in §3)
+
+| | n = 5 | 10 | 20 | 50 | 100 | Seeds |
+|---|---|---|---|---|---|---|
+| d = 8, VQC − low-rank (48 each) | −0.0132 | −0.0114 | −0.0070 | −0.0110 | −0.0050 | 10 |
+| d = 16, VQC − low-rank (96 each, binary sets) | +0.0032 | +0.0093 | −0.0052 | +0.0034 | +0.0037 | 5 |
+| full data, VQC − matched | — | — | — | — | — | 5; pooled −0.0068 |
+
+### 6.6 Provenance — the plan existed before every experiment
+
+Git history of `docs/analysis_plan.md`: first committed **d6e37db, 17 Aug 2026**
+(the plan says "written 14 August"; git can verify only from 17 August);
+Amendments 4–8 by **ec5cae6, 27 Aug**; unchanged until bd833ba, 30 Sep.
+
+| Experiment | Runs | First run (UTC; cluster clock, consistent with commit times) | Commit | Plan at that commit contained |
+|---|---|---|---|---|
+| H-S6 (`12_bottleneck`) | 900 | 30 Aug 09:56 | 8f48df8 | Amendments 1–8 (H-S6 = Amendment 5) |
+| H-S5 (`10_capacity`) | 1,000 | 31 Aug 18:28 | 9dcda12 | 1–8 (H-S5 = Amendment 4) |
+| **Primary** (`01_frozen_tuned`) | 1,600 of 4,000 | **31 Aug 19:15** | 9dcda12 | 1–8; H-P1, H-P2 and the decision rule (§2) |
+| H-S7 (`14_readout`) | 600 | 2 Sep 19:07 | 9e637b3 | 1–8 (H-S7 = Amendment 6) |
+| d = 8, d = 16 | 1,000 | 6–7 Sep | 141a711 | 1–8 |
+| full data | 80 | 11 Sep | e07459a | 1–8 |
+| H-S1, H-S2, H-S3 (v2), H-S4, ansatz | 4,200 | 30 Sep – 1 Oct | bd833ba | 1–14 (Amendments 13, 14) |
+| H-S6 follow-up, E7 | 4,000 | 3 Oct 11:18 | 30e57d9 | 1–16 (Amendment 16) |
+| H-S5 follow-up | 1,600 | 6 Oct 14:42:28 | 17506e8 | 1–17 (Amendment 17, committed 14:42:01) |
+
+Every experiment ran on a commit whose analysis plan already contained its
+hypothesis and, for the follow-ups, its written prediction. Two qualifications
+belong in the paper: the primary crossover was first noticed in diagnostic data
+before the plan (§0 of the plan says so), and Amendments 3a and 9–11 were
+written retrospectively (they say so).
+
+### 6.7 The function-class figure is the reported model
+
+`src/16_reproduce_for_figure.py` retrained the run quantum_vqc / BloodMNIST /
+n = 5 / seed 42 on the cluster GPU: test AUC 0.809446 recorded, 0.809446
+reproduced, maximum per-image probability difference 0.0. The trained head's
+output (PennyLane) equals an 81-term classical trigonometric sum to 2×10⁻¹⁵.
+
+---
+
+## 7. Disclosures
 
 Validation uses 2n labels per class (training n) · BatchNorm in eval mode ·
 `10_capacity`, `12_bottleneck`, `07` at the 1e-3 default (H-S5 and H-S6 rerun

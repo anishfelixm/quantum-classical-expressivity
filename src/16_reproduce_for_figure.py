@@ -32,8 +32,14 @@ those of the reported run in any useful sense.
 WHAT IS SAVED (artifacts/reproduced/function_class.npz)
 -------------------------------------------------------
 The trained head evaluated by PennyLane itself, in float64:
-  - on a 61 x 61 grid over (z1, z2) in the encoder's range (-pi/2, pi/2),
-    with z3, z4 held at the median of the real test latents;
+  - on a 61 x 61 grid over EVERY pair of latent coordinates (i, j) in the
+    encoder's range (-pi/2, pi/2), the other two held at the median of the real
+    test latents. The plotting script shows the pair along which the real test
+    latents spread most (largest product of interquartile ranges), so the
+    surface is drawn where the data actually are. (Added 13 Oct: in this run two
+    of the four latent coordinates sit near the tanh boundary for most test
+    images, so a fixed (z1, z2) slice showed the surface mostly where there are
+    no data.)
   - at 2,000 random latents in the same range, from which the plotting script
     fits the 81-term classical Fourier series;
   - the real test latents and labels, so the figure can show where the data lie.
@@ -130,6 +136,14 @@ def main():
                        np.full(G1.size, fixed[0]), np.full(G1.size, fixed[1])], 1)
         dev = next(head.parameters()).device
         out_grid = head(torch.from_numpy(Zg).to(dev)).cpu().numpy().reshape(GRID, GRID, -1)
+        med = np.median(z_test, axis=0)
+        pairs = [(i, j) for i in range(4) for j in range(i + 1, 4)]
+        pair_grids = []
+        for i, j in pairs:
+            Zp = np.tile(med, (G1.size, 1))
+            Zp[:, i], Zp[:, j] = G1.ravel(), G2.ravel()
+            pair_grids.append(head(torch.from_numpy(Zp).to(dev)).cpu().numpy().reshape(GRID, GRID, -1))
+        pair_grids = np.stack(pair_grids)
         rng = np.random.default_rng(0)
         Zf = rng.uniform(-lim, lim, (N_FIT, 4))
         out_fit = head(torch.from_numpy(Zf).to(dev)).cpu().numpy()
@@ -139,6 +153,7 @@ def main():
     path = os.path.join(dest, "function_class.npz")
     np.savez_compressed(
         path, grid_z1=G1, grid_z2=G2, grid_out=out_grid, fixed_z34=fixed,
+        pairs=np.array(pairs), pair_grids=pair_grids, median_z=med,
         fit_z=Zf, fit_out=out_fit, test_z=z_test, test_y=labels.astype(np.int16),
         auc_recorded=auc_rec, auc_reproduced=auc_new, max_prob_diff=pdiff,
         angle_scale=float(model.angle_scale), cell=json.dumps(CELL),

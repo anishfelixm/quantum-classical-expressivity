@@ -542,51 +542,81 @@ def fig_function_class_3d(plt, path, out, record):
               f"(run src/16_reproduce_for_figure.py)")
         return
     z = np.load(path, allow_pickle=False)
-    G1, G2, Q = z["grid_z1"], z["grid_z2"], z["grid_out"][..., 0]
+    tz = z["test_z"]
+    G1, G2 = z["grid_z1"], z["grid_z2"]
+    if "pair_grids" in z.files:
+        # The plane along which the real test latents spread most: largest
+        # product of interquartile ranges. Fixed rule, stated in the caption.
+        iqr = np.subtract(*np.percentile(tz, [75, 25], axis=0))
+        k = int(np.argmax([iqr[i] * iqr[j] for i, j in z["pairs"]]))
+        (ci, cj), Q = z["pairs"][k], z["pair_grids"][k][..., 0]
+        fixed = [(m, float(z["median_z"][m])) for m in range(tz.shape[1]) if m not in (ci, cj)]
+    else:
+        ci, cj, Q = 0, 1, z["grid_out"][..., 0]
+        fixed = [(2, float(z["fixed_z34"][0])), (3, float(z["fixed_z34"][1]))]
+    ci, cj = int(ci), int(cj)
     d = z["fit_z"].shape[1]
     Phi = fourier_basis(z["fit_z"])
     coef, *_ = np.linalg.lstsq(Phi, z["fit_out"][:, 0], rcond=None)
     fit_resid = float(np.abs(Phi @ coef - z["fit_out"][:, 0]).max())
-    Zg = np.stack([G1.ravel(), G2.ravel(),
-                   np.full(G1.size, z["fixed_z34"][0]), np.full(G1.size, z["fixed_z34"][1])], 1)
+    Zg = np.zeros((G1.size, d))
+    for m, val in fixed:
+        Zg[:, m] = val
+    Zg[:, ci], Zg[:, cj] = G1.ravel(), G2.ravel()
     Fsurf = (fourier_basis(Zg) @ coef).reshape(G1.shape)
     diff = np.abs(Q - Fsurf)
     lim = float(np.abs(Q).max())
+    a = float(z["angle_scale"])
     n_terms = Phi.shape[1]
+    sub = lambda i: "₁₂₃₄₅₆₇₈"[i]
+    H, xe, ye = np.histogram2d(tz[:, ci], tz[:, cj], bins=20, range=[[-a, a], [-a, a]])
+    Hp = np.pad(H, 1, mode="edge")                           # 3x3 box smoothing, display only
+    H = sum(Hp[1 + di:Hp.shape[0] - 1 + di, 1 + dj:Hp.shape[1] - 1 + dj]
+            for di in (-1, 0, 1) for dj in (-1, 0, 1)) / 9.0
+    Xc, Yc = np.meshgrid((xe[:-1] + xe[1:]) / 2, (ye[:-1] + ye[1:]) / 2, indexing="ij")
+
     fig = plt.figure(figsize=(COL2, 2.75))
-    for k, (S, title) in enumerate([(Q, "(a) trained VQC head, ⟨X₁⟩, computed by PennyLane"),
-                                    (Fsurf, f"(b) classical sum of {n_terms} sines and cosines")]):
-        ax = fig.add_subplot(1, 3, k + 1, projection="3d")
+    gs = fig.add_gridspec(1, 3, width_ratios=[1, 1, 0.8], wspace=0.32)
+    for k2, (S, title) in enumerate([(Q, "(a) trained VQC head, ⟨X₁⟩ (PennyLane)"),
+                                     (Fsurf, f"(b) sum of {n_terms} sines and cosines")]):
+        ax = fig.add_subplot(gs[0, k2], projection="3d")
         ax.plot_surface(G1, G2, S, cmap=DIV, vmin=-lim, vmax=lim, rstride=1, cstride=1,
                         linewidth=0.12, edgecolor=(1, 1, 1, 0.3), antialiased=True)
-        if k == 0:
-            tz = z["test_z"]
-            ax.scatter(tz[:, 0], tz[:, 1], np.full(len(tz), -lim), s=0.6, c=INK2,
-                       alpha=0.35, depthshade=False, linewidths=0)
+        if k2 == 0 and H.max() > 0:
+            ax.contourf(Xc, Yc, H / H.max(), zdir="z", offset=-lim, levels=[0.02, 0.15, 0.4, 1.01],
+                        colors=["#e1e0d9", "#c3c2b7", "#898781"], alpha=0.9)
         ax.set_zlim(-lim, lim)
-        ax.set_xlabel("z₁", labelpad=-9); ax.set_ylabel("z₂", labelpad=-9)
+        ax.set_xlabel(f"z{sub(ci)}", labelpad=-9); ax.set_ylabel(f"z{sub(cj)}", labelpad=-9)
         ax.set_xticks([]); ax.set_yticks([])
         ax.zaxis.set_major_locator(__import__("matplotlib").ticker.MaxNLocator(3))
         ax.tick_params(axis="z", pad=1, labelsize=6)
+        if k2 == 1:
+            ax.set_zticklabels([])                           # same scale as (a)
         ax.view_init(28, -55)
-        for a in (ax.xaxis, ax.yaxis, ax.zaxis):
-            a.pane.set_facecolor((1, 1, 1, 0)); a.pane.set_edgecolor(GRID)
+        for ax_ in (ax.xaxis, ax.yaxis, ax.zaxis):
+            ax_.pane.set_facecolor((1, 1, 1, 0)); ax_.pane.set_edgecolor(GRID)
         ax.set_title(title, fontsize=7.3, pad=0)
-    ax = fig.add_subplot(1, 3, 3)
-    a = float(z["angle_scale"])
-    im = ax.imshow(diff, origin="lower", extent=[-a, a, -a, a], cmap="Greys", aspect="equal")
+    ax = fig.add_subplot(gs[0, 2])
+    im = ax.imshow(diff, origin="lower", extent=[-a, a, -a, a],
+                   cmap="Greys", aspect="equal")
     ax.set_title("(c) |(a) − (b)|", fontsize=7.3)
-    ax.set_xlabel("z₁"); ax.set_ylabel("z₂")
+    ax.set_xlabel(f"z{sub(ci)}"); ax.set_ylabel(f"z{sub(cj)}", labelpad=1)
     cb = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
     cb.formatter.set_powerlimits((0, 0)); cb.update_ticks(); cb.ax.tick_params(labelsize=6)
-    fig.tight_layout(w_pad=0.6)
     meta = {"cell": json.loads(str(z["cell"])), "auc_recorded": float(z["auc_recorded"]),
             "auc_reproduced": float(z["auc_reproduced"]), "max_prob_diff": float(z["max_prob_diff"]),
             "device": str(z["device"]), "n_basis": n_terms, "d": d,
-            "max_residual_fit_points": fit_resid, "max_residual_grid": float(diff.max()),
-            "slice_fixed_z3_z4": [float(x) for x in z["fixed_z34"]]}
-    print(f"     residual: {fit_resid:.1e} (fit points), {diff.max():.1e} (grid); "
-          f"AUC recorded {meta['auc_recorded']:.4f}, reproduced {meta['auc_reproduced']:.4f}")
+            "plotted_coordinates": [ci + 1, cj + 1],
+            "fixed_coordinates_at_test_median": {f"z{m + 1}": v for m, v in fixed},
+            "test_latent_iqr": [float(x) for x in np.subtract(*np.percentile(tz, [75, 25], axis=0))],
+            "share_of_test_latents_within_5pct_of_boundary":
+                [float(np.mean(np.abs(tz[:, m]) > 0.95 * a)) for m in range(tz.shape[1])],
+            "max_residual_fit_points": fit_resid, "max_residual_grid": float(diff.max())}
+    print(f"     plane z{ci + 1}-z{cj + 1}; residual {fit_resid:.1e} (fit points), "
+          f"{diff.max():.1e} (grid); AUC recorded {meta['auc_recorded']:.4f}, "
+          f"reproduced {meta['auc_reproduced']:.4f}")
+    print(f"     test latents near the tanh boundary, per coordinate: "
+          f"{[round(x, 2) for x in meta['share_of_test_latents_within_5pct_of_boundary']]}")
     save(fig, out, "fig2_function_class_3d", meta, record)
     plt.close(fig)
 
@@ -655,7 +685,7 @@ def fig_scope(plt, fam, out, record):
     im = ax.imshow(M, cmap=DIV, vmin=-v, vmax=v, aspect="auto")
     for i in range(M.shape[0]):
         for j in range(M.shape[1]):
-            ax.text(j, i, f"{points(M[i, j]):+.1f}", ha="center", va="center", fontsize=7,
+            ax.text(j, i, f"{points(M[i, j]):+.1f}".replace("-", "\u2212"), ha="center", va="center", fontsize=7,
                     fontweight="bold" if sig[i, j] else "normal",
                     color="white" if abs(M[i, j]) > 0.66 * v else INK)
     ax.axhline(len(rows) - 1.5, color="white", lw=3)
@@ -725,6 +755,7 @@ def fig_noise(plt, fam, exp, out, record):
     b.axhline(0, color=AXIS, lw=0.8)
     b.set_ylim(min(0, min(s["ci_lo"] for s in dif)) - 0.005, None)
     b.set_title("(b) the VQC's excess over the matched head, paired", pad=16)
+    b.set_ylabel("difference in the quantity of (a)")
     for ax in (a, b):
         ax.set_xticks(sig)
         ax.set_xlabel("sensor-noise σ, at native 28×28 resolution")
@@ -756,8 +787,8 @@ def fig_all_tests(plt, art, out, record):
     with open(os.path.join(art, "family_table.json")) as f:
         table = {r["test"]: r for r in json.load(f)}
     panels = [("Δ AUC (points)", [t for t in table if t not in ("H-P2", "H-S5b") and not t.startswith("H-S3")], True),
-              ("slope of Δ AUC per doubling of n (points)", ["H-P2", "H-S5b"], True),
-              ("relative F1 loss − relative AUC loss", [t for t in table if t.startswith("H-S3")], False)]
+              ("slope per doubling of n (points)", ["H-P2", "H-S5b"], True),
+              ("F1 loss − AUC loss, relative", [t for t in table if t.startswith("H-S3")], False)]
     heights = []
     layout = []
     for xlabel, ids, is_points in panels:
@@ -805,7 +836,7 @@ def fig_all_tests(plt, art, out, record):
                 handles.append(h); labs.append(l)
     # Explicit margins: the group headings sit in the left margin, which
     # tight_layout cannot account for.
-    fig.subplots_adjust(left=0.47, right=0.97, top=1 - 0.55 / H, bottom=0.45 / H, hspace=0.45)
+    fig.subplots_adjust(left=0.47, right=0.94, top=1 - 0.55 / H, bottom=0.45 / H, hspace=0.45)
     fig.legend(handles, labs, loc="upper center", ncol=2, bbox_to_anchor=(0.5, 1.0),
                fontsize=6.5, handletextpad=0.3, columnspacing=0.8)
     save(fig, out, "figS1_all_confirmatory_tests",

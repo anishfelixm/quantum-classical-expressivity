@@ -884,3 +884,37 @@ head is ahead at every n. The accurate summary:
    size. That wording is withdrawn.
 4. The contrast is between two classical heads. It measures whether restriction
    helps a classical head under this protocol; it does not measure the VQC.
+
+
+---
+
+## Records of 13 October 2026
+
+Recorded after the reporting analyses; nothing above is edited.
+
+**§7 step 4 — the commit SHA left blank.** This plan was first committed as
+`d6e37db` on 17 August 2026 (written 14 August; git verifies only the commit
+date). Amendments 4–8 were committed in `ec5cae6` on 27 August, and the file did
+not change again until `bd833ba` on 30 September. The confirmatory sweep's
+first run was at 19:15 UTC on 31 August, on commit `9dcda12`, whose copy of this
+plan contains §2–§4 and Amendments 1–8. Every later experiment ran on a commit
+whose copy of this plan already contained its amendment; the table is in
+`docs/RESULTS.md` §6.6.
+
+**§6, accepted limitation 4, is inaccurate for the confirmatory data.** It
+states that both primary arms sit at AUC 0.60–0.68 at n = 5; that range came
+from the diagnostic runs. Confirmatory means at n = 5 are 0.66–0.67
+(BreastMNIST), 0.74–0.79 (BloodMNIST), 0.83–0.84 (PathMNIST) and 0.89–0.90
+(PneumoniaMNIST). The manuscript reports the confirmatory values.
+
+**H-S3's wording.** The registered sentence calls the F1 collapse "a
+calibration failure, not a ranking failure". The test statistic G is unchanged
+and its verdict stands. The descriptive ECE promised by Amendment 13 shows the
+VQC's calibration error is the lowest or within 0.005 of the lowest of seven
+heads at every σ, so "calibration failure" is not supported; the manuscript
+calls it decision-threshold degradation.
+
+**Noise model in `07`.** The depolarizing channel is applied once per qubit
+after the variational block. AUC invariance holds for that model and not for
+noise after every layer (`tests/test_independent_theory.py`). The manuscript
+names the model.
