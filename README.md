@@ -7,9 +7,10 @@ matched to it on parameter count or on function class.
 
 **Status.** All experiments are complete and the results below are final. The
 journal manuscript (IEEE Access) is in preparation. This repository began as the
-code for a conference paper; the journal study re-tested that paper's claims
-with stronger controls, and several did not survive
-([changes from the conference version](#changes-from-the-conference-version)).
+code for an earlier draft written for a conference, which was never submitted
+or published. This study re-tested that draft's claims with stronger controls,
+and several did not survive
+([what changed from the earlier draft](#what-changed-from-the-earlier-draft)).
 
 > **What this is not.** The circuits have 4–16 qubits and run on a state-vector
 > simulator. They are classically simulable by construction, and the trained
@@ -288,20 +289,22 @@ docs/
   HYPOTHESES.md                 historical (August 2026), superseded by the plan
 paper/                          manuscript source, figures and tables
 logs_*.txt                      console output of every run, kept for provenance
-legacy/conference/              files from the conference version (see below)
+legacy/conference/              files from the earlier, unsubmitted draft (see below)
 artifacts/                      git-ignored: data cache, features, shards, predictions, caches
 ```
 
 ---
 
-## Changes from the conference version
+## What changed from the earlier draft
 
-The conference paper was *Expressivity and Robustness of Hybrid Quantum Neural
-Networks for Constrained Medical Image Classification*. The journal study re-ran
-its comparisons with the controls above. Its own controls refuted several of its
-claims, and they are withdrawn:
+The earlier draft, *Expressivity and Robustness of Hybrid Quantum Neural
+Networks for Constrained Medical Image Classification*, was written for a
+conference but never submitted or published. This study re-ran its comparisons
+with the controls above. The controls refuted several of the draft's claims,
+and they are withdrawn. Similar claims appear elsewhere in the hybrid-QML
+literature, which is why the controls are worth reporting:
 
-| Conference claim | What the controls show |
+| Claim in the earlier draft | What the controls show |
 |---|---|
 | The VQC maps the latent into a 16-dimensional complex Hilbert space and gains expressivity there; classical heads suffer a "Bottleneck Gap" | the head's output is a classical trigonometric function; compression to d = 4 costs almost nothing (finding 10) |
 | Classical heads suffer "topological collapse" at d = 4 | against a parameter-matched head, the VQC is ahead only at n = 5, by +0.014 |
@@ -320,7 +323,7 @@ The protocol changed as well:
 - **Baselines:** parameter-matched and function-class controls instead of Linear
   and MLP.
 
-The conference figures and training logs are kept, unchanged, in
+The draft's figures and training logs are kept, unchanged, in
 [`legacy/conference/`](legacy/conference/) for provenance. They are not results
 of this study.
 
