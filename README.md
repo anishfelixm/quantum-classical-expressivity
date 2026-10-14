@@ -154,8 +154,9 @@ Other design choices:
 - **Scarcity is absolute** (n ∈ {5, 10, 20, 50, 100} per class), never a
   percentage. 1 % of BreastMNIST and 1 % of PathMNIST are unrelated experiments.
 - **Sampling is stratified.**
-- **Validation is capped** at 2n per class, so model selection never sees more
-  labels than training.
+- **Validation is capped** at 2n per class, so model selection uses a bounded
+  number of extra labels. It is still more than the n used for training; the
+  paper lists this as a limitation.
 - **The backbone stays frozen.** Training changes 0 of its parameters and 0
   BatchNorm buffers, while a deliberately broken negative control drifts
   (`tests/test_freezing.py`, `src/11_flow_verification.py`).
