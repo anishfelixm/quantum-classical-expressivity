@@ -1,4 +1,4 @@
-# Work Remaining — v5
+# Work Remaining — v6
 
 **Updated:** 13 October 2026.
 
@@ -40,7 +40,7 @@ planned on it.
 | 6 | Manuscript from conference `main.tex` on the IEEE Access template | ⬜ waits on template and author details; the bulk of the remaining work |
 | 7 | Citation verification | ⬜ every entry in `AUDIT_REPORT.md` §5, plus the 2026 papers (2608.07822, 2605.09118, 2605.19417, 2609.15267) |
 | 8 | Cover letter | ⬜ conference overlap, data and code availability |
-| 9 | Code release: README rewritten to the journal's findings (no conference claims; the conference figures in `assets/` not presented as results); legacy conference files (`results/*.pt`, `results/*.json`, `data/*.npz`) labelled or removed; repository public or to be made public at acceptance. `LICENSE`, `environment.yml`, `requirements.txt` and `requirements.lock.txt` already exist | ⬜ need the current README, `git ls-files results data assets`, and the repo's visibility |
+| 9 | Code release: README rewritten to the journal's findings; conference figures and logs moved to `legacy/conference/` with a note; README claims checked mechanically (`scripts/v51_release_tidy.py`). Left: repository visibility (public now, or at acceptance) and the paper/figures conference PDFs, removed with the manuscript rewrite | ✅ v51, except visibility |
 | 10 | Data release: per-sample predictions, bootstrap caches, run records and E8 latents in a citable archive (e.g. Zenodo DOI), named in the data-availability statement | ⬜ at submission |
 | 11 | Barren-plateau table (`MATH_VERIFICATION.md` §7): no script in the repo produced it. Either recompute it from the `quantum_grad_var` that `loop.py` logs in every quantum run's history (backup shards), or leave it out of the paper | ⬜ |
 | 12 | Literature re-check in the week of submission | ⬜ |
