@@ -1413,3 +1413,109 @@ invariant by construction.
 - (ii) End-of-circuit noise leaves binary AUC exactly unchanged.
 - (iii) Per-layer noise at p ≤ 0.01 changes binary AUC by less than 0.005 in
   every cell.
+
+---
+
+## Records of 16 October 2026 — the gate, before wave 1
+
+Written after the gate and before any wave-1 run. Nothing here changes a
+reported number, a hypothesis, an arm or a statistic.
+
+**Gate (J = 3; J = 8 had been killed by the pod's 16 GiB memory limit).**
+20 of 22 checks passed. Two failed, for two different reasons:
+
+1. **`03_robustness_v2` — an error in the replay script, not in the runs.**
+   `03`'s `main()` passed the tuned rate as both `lr_head` and `lr_quantum`
+   for every arm, and the record stores both under `"lr"`. The key carries
+   `lrq` only for circuit arms, and the replay adapter took the rates from the
+   key, so for classical arms it passed `lr_quantum=None`. Classical arms have
+   no quantum parameter group, so the value does not enter training, but the
+   stored field differs and the comparison correctly reported it. The adapter
+   now passes exactly the recorded `"lr"` values. The re-run gate decides
+   whether that was the only difference.
+
+2. **`09_lr_selection` at `8c80cce` — the feature cache.** The differing run
+   (`breastmnist`, n = 5, seed 90001, `linear`, 3e-4) is line `[1/960]` of
+   `logs_lr.txt`: the first run of the sweep, preceded by three data-load
+   lines. It built the feature cache for that dataset, n and seed.
+   `01.get_cached_features` builds a missing cache by constructing the
+   ResNet-18 (torchvision), whose random initialisation draws from the global
+   PyTorch stream before the pretrained weights are loaded. The head is then
+   initialised from the same stream (`build_arm` does not re-seed it). A run
+   that finds the cache on disk skips that draw. So a cache-building run's
+   head starts from a different, equally random, point of the seeded stream.
+   The replay found the cache on disk; the original did not.
+
+**Scope, from the original logs** (`scripts/predict_cold_runs.py`,
+`docs/cold_cache_prediction.json`, written now from the committed logs).
+Cache-building runs among the reported namespaces:
+
+| log | source | commit | runs | built the cache |
+|---|---|---|---|---|
+| `logs_confirm.txt` | `01_frozen_tuned` | `9dcda129` | 1,600 | 600 — every `quantum_vqc` run of the 30 seeds outside `ALL_SEEDS` (the first arm run for each new dataset, n and seed) |
+| `logs_lr.txt` | `09_lr_selection` | `8c80cce7` | 960 | 60 — `linear` at 3e-4, the first run of each dataset, n and seed |
+| `logs_compression_frozen.txt` | `29_compression_frozen` | `75ad1667` | 479 logged | 19 |
+| `logs_full.txt` | `17_fulldata` | `e07459a5` | 80 | 20 (cross-device; see below) |
+| every other reported log (19 logs) | | | 17,640 | 0 |
+
+**What this means for the results: nothing changes.** Each of these runs was
+initialised from the seeded stream, by a draw that depends on neither the data
+nor the arm; it is as valid a repetition as any other. Every reported number
+was computed from the records, and Section F of `verify_claims.py` reproduced
+the published family table exactly from them. What it changes is how a run is
+reproduced: a cache-building run is reproduced only if its cache is absent
+again.
+
+**What it means for the gate.** The quick sets draw the first seed of
+`ALL_SEEDS`, which never built a cache in the confirmatory sweep, so the gate
+did not test this case except by accident in `09`. The gate is extended
+before wave 1 (below).
+
+**Procedure from now on** (`replay.py`, "FEATURE-CACHE STATE").
+- Each run is first re-executed in the state its log line predicts: **cold**
+  (the cache is rebuilt for that run in a private temporary folder, which is
+  then deleted; the shared cache is never written) or **warm** (the cache on
+  disk is read). Runs with no log line start warm.
+- If that execution is not identical, the other state is tried once. The
+  record keeps the state that reproduced the run, the logs' prediction and
+  every attempt.
+- On a cold execution, the rebuilt features are compared bit for bit with the
+  cache file. If they differ (a different device or library), the file's
+  features are used, since those are the ones the original run computed and
+  saved, and the record says so.
+- `U_` (unclipped) runs use the state their `R_` run established, so `U_`
+  and `R_` differ only in the clip.
+- `B_` (1,000-epoch) runs are now checked, not just executed. Up to the epoch
+  at which the reference run stopped, a long run is the same computation (the
+  scheduler's patience is a constant 15, independent of the budget), so every
+  per-epoch series must agree bit for bit over those epochs. A long run that
+  fails this is retried in the other cache state once.
+- `17_fulldata` ran on CPU and is re-executed on GPU, always warm. Identity
+  is not expected there (Amendment 21); its `B_` runs are checked against
+  `R_17` on the same GPU.
+
+**Prediction P0** (added to Amendment 21's P1–P6, before any of these runs):
+every run the logs show building its cache is reproduced bit for bit in the
+cold state, and every run they show reading it, in the warm state.
+`analyse_replay.py identity` tabulates prediction × state used × verdict.
+
+**Gate additions.**
+- One cheapest predicted-cold run per source and commit (`gate_cold_*`): it
+  must be bit-identical.
+- The `B_` gate now applies the epoch-by-epoch check.
+
+**Clipped side of the clipping contrast.** As Amendment 21 already specifies
+for the case where P1 fails, the contrast is computed against `R_` wherever a
+namespace has any run that did not reproduce its record. Where every run
+reproduced its record, `R_` and the record are the same numbers.
+`analyse_replay.py results` applies this rule namespace by namespace and says
+which side it used.
+
+**Parallelism.** Each job holds about 3.2 GB; the pod's limit is 16 GiB.
+Wave 1 runs with J = 4. A job killed for memory is marked FAIL in
+`logs_v57/status.txt`; launching the wave again re-runs only what is missing.
+
+**Methods text that follows from this (one sentence, factual):** "Runs that
+built the feature cache drew the head's initialisation after the backbone's
+constructor had consumed random numbers; the replay script reproduces them by
+rebuilding the cache (Section X: n of n runs re-executed bit for bit)."

@@ -1,6 +1,6 @@
 # Project State
 
-**Updated:** 15 October 2026. Keep this current — it is the handoff document.
+**Updated:** 16 October 2026. Keep this current — it is the handoff document.
 
 Read `docs/MASTER_RESEARCH_DOCUMENT.md` first, then `docs/RESULTS.md` (every
 number), `docs/analysis_plan.md` (binding; amendments; records at the end) and
@@ -32,6 +32,15 @@ trained weights (`artifacts/step_norms/`, `artifacts/weights/`).
 
 Progress: `tail -f logs_v57/status.txt`. Projection: `logs_v57/plan_wave1_*.txt`.
 **Do not `git pull` on the pod while a wave is running.**
+
+## Gate of 16 October (before wave 1)
+
+20 of 22 checks passed. The two failures are explained in `analysis_plan.md`,
+"Records of 16 October": an error in the replay adapter for `03` (fixed), and
+runs that built the feature cache (699 of the logged runs; they need the cache
+absent to be reproduced). No reported number changes. The replay now handles
+the cache state, and the gate gains one cache-building run per source and
+commit. Re-run the gate; launch wave 1 only if every check passes.
 
 ## Done on 15 October
 

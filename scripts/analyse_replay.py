@@ -89,13 +89,22 @@ def identity(ctx):
     out("1. RE-EXECUTION AT THE ORIGINAL PROTOCOL (R_<source>): IDENTITY WITH THE RECORDED RUN")
     out("=" * 100)
     p1_bad, need_u, n_missing = 0, {}, [0]
+    cache_tab = {}
     for src in SOURCES:
         rec, rep = load(ctx, src), load(ctx, "R_" + src)
         verdicts = collections.Counter()
         diffs = []
         for key, r in rep.items():
-            v = r.get("replay_check", {}).get("verdict", "?")
+            rc = r.get("replay_check", {})
+            v = rc.get("verdict", "?")
             verdicts[v.split(" ")[0]] += 1
+            if src not in CROSS_DEVICE:
+                ct = cache_tab.setdefault(src, collections.Counter())
+                ct[(rc.get("predicted_cache") or "no log line", rc.get("cache", "warm"),
+                    v.split(" ")[0])] += 1
+                ci = rc.get("cold_info")
+                if isinstance(ci, dict) and ci.get("features_rebuilt_identical") is False:
+                    ct[("(cold runs whose rebuilt features differed from the cache file)", "", "")] += 1
             if v.startswith("DIFFERENT") and len(diffs) < 5:
                 diffs.append((dict(key).get("arm"), dict(key).get("dataset"), dict(key).get("regime"),
                               dict(key).get("seed"), r["replay_check"].get("first_difference"),
@@ -109,6 +118,18 @@ def identity(ctx):
             out(f"      e.g. {d}")
         if src not in CROSS_DEVICE:
             p1_bad += verdicts["DIFFERENT"]
+    out("")
+    out("Feature-cache state (docs/cold_cache_prediction.json, written from the original logs "
+        "before wave 1): logs' prediction -> state that was used -> verdict")
+    p0_bad = 0
+    for src, ct in cache_tab.items():
+        for (pred, used, v), n in sorted(ct.items()):
+            flag = ""
+            if v == "IDENTICAL" and pred in ("cold", "warm") and pred != used:
+                flag, p0_bad = "   <- not as predicted", p0_bad + n
+            out(f"  {src:24s} {pred:12s} -> {used:5s} -> {v:10s} {n:6d}{flag}")
+    out("P0 " + ("HOLDS: every reproduced run was reproduced in the cache state the logs predict."
+                 if p0_bad == 0 else f"FAILS for {p0_bad} runs (listed above)."))
     out("")
     out(("P1 HOLDS so far: every re-executed run is bit-identical to its record."
          if p1_bad == 0 else f"P1 FAILS: {p1_bad} re-executed runs differ from their records.")
@@ -160,8 +181,9 @@ def identity(ctx):
 
 
 # ------------------------------------------------------------------ views
-def build_view(ctx, src):
-    """X_<src>: hard links to U_ runs where they exist, else to the recorded run."""
+def build_view(ctx, src, base):
+    """X_<src>: hard links to U_ runs where they exist, else to the run in `base`
+    (the recorded namespace when every R_ run reproduced its record, else R_)."""
     cfg = ctx.config
     view = "X_" + src
     sdir, pdir = os.path.join(cfg.SHARD_DIR, view), os.path.join(cfg.PREDICTION_DIR, view)
@@ -173,7 +195,7 @@ def build_view(ctx, src):
     n_u = 0
     for key, r in rec.items():
         keys = r["keys"]
-        use = "U_" + src if key in unc else src
+        use = "U_" + src if key in unc else base
         n_u += key in unc
         os.link(ctx.shards.shard_path(use, **keys), os.path.join(sdir, ctx.shards.shard_name(view, **keys)))
         pp = ctx.shards.pred_path(use, **keys)
@@ -191,7 +213,7 @@ def results(ctx, B, workers):
     out("=" * 100)
     out("4. VIEWS OF THE UNCLIPPED CONDITION")
     out("=" * 100)
-    changed, ready = {}, {}
+    changed, ready, ident = {}, {}, {}
     for src in SOURCES:
         if src in CROSS_DEVICE:
             continue
@@ -208,10 +230,18 @@ def results(ctx, B, workers):
                           f"{missing_u} of {len(flagged)} flagged runs without an unclipped run")
         else:
             ready[src] = "ok"
-        view, n_u, n = build_view(ctx, src)
+        # The clipped side of every contrast is the run that was actually re-executed
+        # next to its unclipped counterpart. Where every R_ run is bit-identical to
+        # its record that IS the recorded run; otherwise R_ is used, so the contrast
+        # never mixes a re-execution with a record it does not reproduce.
+        ident[src] = bool(rec) and all(k in rep and str(rep[k].get("replay_check", {})
+                                                        .get("verdict", "")).startswith("IDENTICAL")
+                                       for k in rec)
+        base = src if ident[src] else "R_" + src
+        view, n_u, n = build_view(ctx, src, base)
         changed[src] = n_u
-        out(f"{view:28s} {n:5d} runs, of which {n_u:5d} are unclipped re-executions"
-            + ("" if ready[src] == "ok" else f"   {ready[src]}"))
+        out(f"{view:28s} {n:5d} runs, of which {n_u:5d} are unclipped re-executions; "
+            f"clipped side {base}" + ("" if ready[src] == "ok" else f"   {ready[src]}"))
 
     out("\n" + "=" * 100)
     out("5-6. CONFIRMATORY FAMILY (13_family_table) - RECORDED vs UNCLIPPED, identical draws")
@@ -225,25 +255,34 @@ def results(ctx, B, workers):
     if os.path.isdir(pub):
         for fn in os.listdir(pub):
             shutil.copy2(os.path.join(pub, fn), os.path.join(cache_r, fn))
-    groups_r, groups_x = {}, {}
+    cache_b = os.path.join(work, "family_reexecuted")
+    os.makedirs(cache_b, exist_ok=True)
+    groups_r, groups_b, groups_x = {}, {}, {}
     base = {g: v for g, v in ft.GROUPS.items()}
     for g, spec in base.items():
         ns = spec[0]
         ft.GROUPS[g] = spec
         groups_r[g] = ft.run_group(ctx, g, B, workers, cache_r, False)
+        groups_b[g] = groups_r[g]
         if ready.get(ns) != "ok":
             groups_x[g] = {"status": ready.get(ns, "source not replayed")}
             out(f"  {g:11s} {ns:20s} {groups_x[g]['status']}")
             continue
+        if not ident.get(ns):
+            ft.GROUPS[g] = ("R_" + ns,) + spec[1:]
+            groups_b[g] = ft.run_group(ctx, g, B, workers, cache_b, True)
+            ft.GROUPS[g] = spec
+            out(f"  {g:11s} {ns:20s} clipped side = R_{ns} (not every run reproduced its record)")
         if changed.get(ns, 0) == 0:
-            groups_x[g] = groups_r[g]
+            groups_x[g] = groups_b[g]
             out(f"  {g:11s} {ns:20s} unchanged: no run had a step above 20")
             continue
         ft.GROUPS[g] = ("X_" + ns,) + spec[1:]
         groups_x[g] = ft.run_group(ctx, g, B, workers, cache_x, True)
         ft.GROUPS[g] = spec
-        _report_group_change(ft, g, groups_r[g], groups_x[g], B)
+        _report_group_change(ft, g, groups_b[g], groups_x[g], B)
     rows_r, rows_x = ft.assemble(groups_r, B), ft.assemble(groups_x, B)
+    rows_b = ft.assemble(groups_b, B)
     fam_path = os.path.join(cfg.ARTIFACT_ROOT, "family_table.json")
     if os.path.exists(fam_path):
         with open(fam_path, encoding="utf-8") as f:
@@ -253,6 +292,10 @@ def results(ctx, B, workers):
                     or abs(r["p_adj"] - pub_rows[r["test"]].get("p_adj", np.nan)) > 1e-12)]
         out(f"\nAnchor: recorded-side family {'REPRODUCES' if not bad else 'DOES NOT REPRODUCE'} "
             f"family_table.json{'' if not bad else ': ' + ', '.join(bad)}")
+    if any(not ident.get(spec[0]) for spec in base.values() if ready.get(spec[0]) == "ok"):
+        out("\nThe clipped side below is the re-execution (R_) for the namespaces marked above; "
+            "elsewhere it is the recorded run, which the re-execution reproduces bit for bit.")
+    rows_r = rows_b
     n_changed = 0
     out(f"\n  {'test':12s} {'estimate rec':>12s} {'p_adj rec':>9s} {'verdict recorded':>27s} | "
         f"{'estimate unc':>12s} {'p_adj unc':>9s} {'verdict unclipped':>27s}")
@@ -273,7 +316,7 @@ def results(ctx, B, workers):
     out("=" * 100)
     cache_er = os.path.join(work, "exploratory_recorded")
     cache_ex = os.path.join(work, "exploratory_unclipped")
-    for d in (cache_er, cache_ex):
+    for d in (cache_er, cache_ex, os.path.join(work, "exploratory_reexecuted")):
         os.makedirs(d, exist_ok=True)
     pub = os.path.join(cfg.ARTIFACT_ROOT, "exploratory_cache")
     if os.path.isdir(pub):
@@ -287,7 +330,12 @@ def results(ctx, B, workers):
         if changed.get(ns, 0) == 0:
             out(f"  {g:28s} {ns:20s} unchanged: no run had a step above 20")
             continue
-        r = et.run_group(ctx, g, B, workers, cache_er, False)
+        if ident.get(ns):
+            r = et.run_group(ctx, g, B, workers, cache_er, False)
+        else:
+            et.GROUPS[g] = ("R_" + ns,) + spec[1:]
+            r = et.run_group(ctx, g, B, workers, os.path.join(work, "exploratory_reexecuted"), True)
+            et.GROUPS[g] = spec
         et.GROUPS[g] = ("X_" + ns,) + spec[1:]
         x = et.run_group(ctx, g, B, workers, cache_ex, True)
         et.GROUPS[g] = spec
@@ -299,7 +347,8 @@ def results(ctx, B, workers):
     out("\n" + "=" * 100)
     out("7. LEARNING-RATE SELECTION (09) - RECORDED vs UNCLIPPED")
     out("=" * 100)
-    for label, ns in (("recorded", "09_lr_selection"), ("unclipped", "X_09_lr_selection")):
+    for label, ns in (("recorded", "09_lr_selection"), ("re-executed (R_)", "R_09_lr_selection"),
+                      ("unclipped", "X_09_lr_selection")):
         acc = collections.defaultdict(list)
         for r in ctx.shards.load_all(ns):
             if r.get("val_auc") is not None:

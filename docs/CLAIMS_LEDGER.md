@@ -84,6 +84,7 @@ Logs named here are in the repository root. "Records" means the shard records.
 | A100 MIG 3g.20gb; full-data runs on CPU | `logs_full.txt` header `device=cpu`; GPU | POD-A prints the GPU and partition |
 | Python 3.10, PyTorch 2.4.1, PennyLane 0.42.3, NumPy 1.26.4, medmnist 3.0.2 | `requirements.lock.txt` | POD-A prints the installed versions |
 | 800 re-upload runs 9 h 23 min; 800 Fourier runs 34 min | `logs_gap_closure.txt` | VERIFIED |
+| seed fixes data subset, batch order and initialisation | true for every run; runs that built the feature cache drew the head's initialisation after the ResNet constructor consumed random numbers (699 logged runs; `analysis_plan.md`, Records of 16 October) | ADD one sentence to Methods; count of bit-identical re-executions from AMEND 21 (P0, P1) |
 | integrity 2.2×10⁻¹⁶ over 4,000 runs; 66 tests | `logs_reporting_tables.txt`; `logs_pytest.txt` | VERIFIED |
 
 ## Results

@@ -53,6 +53,8 @@ import os
 import subprocess
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ART = os.environ.get("QML_ARTIFACT_ROOT", os.path.join(REPO, "artifacts"))
 SHARDS = os.path.join(ART, "shards")
@@ -301,13 +303,34 @@ def main():
             fname = f"gate_{u['src']}_{u['sha'][:8]}"
             gate.append(script(fname, f"{py} --source {u['src']} --code-at {u['sha']} --quick",
                                "quick check: re-executions must be bit-identical"))
+        # Runs the original logs show built their own feature cache
+        # (docs/cold_cache_prediction.json): the quick set above draws from ALL_SEEDS
+        # and so rarely contains one. One cheapest such run per source and commit
+        # must also be bit-identical, re-executed in that state.
+        import predict_cold_runs as pcr
+        table = pcr.load_table()
+        cold = {}
+        for u in units:
+            if u["kind"] != "R" or u["src"] == "17_fulldata":
+                continue
+            if pcr.predicted(table, u["src"], {"keys": u["keys"], "git_sha": u["sha"]}) == "cold":
+                key = (u["src"], u["sha"])
+                if key not in cold or u["plan"] < cold[key]["plan"]:
+                    cold[key] = u
+        for (src, sha), u in sorted(cold.items()):
+            lst = os.path.join(args.write, f"gate_cold_{src}_{sha[:8]}.list")
+            with open(lst, "w", encoding="utf-8") as f:
+                f.write(name(src, u["keys"]) + "\n")
+            gate.append(script(f"gate_cold_{src}_{sha[:8]}",
+                               f"{py} --source {src} --code-at {sha} --from-list {lst} --gate",
+                               "a run the logs show built its feature cache: must be bit-identical"))
         gate.append(script("gate_hardware_tuned", f"{py} --hardware-tuned --quick",
                            "smoke test of the Amendment 23 path"))
         b01 = sorted({u["sha"] for u in units if u["kind"] == "B" and u["src"] == "01_frozen_tuned"})
         if b01:
             gate.append(script("gate_budget_01", f"{py} --source 01_frozen_tuned --code-at {b01[0]} "
                                                  f"--budget {BUDGET} --quick",
-                               "smoke test of the Amendment 20 path"))
+                               "Amendment 20 path: the first epochs must repeat the recorded run exactly"))
         with open(os.path.join(args.write, "jobs_gate.txt"), "w", encoding="utf-8") as f:
             f.write("\n".join(gate) + "\n")
         print(f"wrote {len(gate)} gate jobs and {len(lines)} wave-1 jobs under {args.write}")

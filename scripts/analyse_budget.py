@@ -67,6 +67,23 @@ def main():
     out(f"Amendment 20 analysis | sha={ctx.config.git_sha()[:8]} | B={args.B} | seeds {seeds}"
         + ("   (NOT B=2000: testing only)" if args.B != pc.B_DEFAULT else ""))
 
+    # ---------------------------------------------------------------- 0
+    out("\n=== 0. Is each long run the recorded run continued? ===")
+    out("Each B_ run must repeat its reference run bit for bit over the epochs the reference ran")
+    out("(replay.py check_budget). Counts by verdict and feature-cache state:")
+    p0 = 0
+    for ns in (BUD, "B_17_fulldata"):
+        c = collections.Counter()
+        for r in ctx.shards.load_all(ns):
+            rc = r.get("replay_check", {})
+            v = str(rc.get("verdict", "?"))
+            c[(v.split(" (")[0], rc.get("cache", "?"))] += 1
+            p0 += v.startswith("PREFIX DIFFERENT")
+        for (v, cache), n in sorted(c.items()):
+            out(f"  {ns:20s} {v:28s} cache={cache:5s} {n:6d}")
+    out("P0 " + ("HOLDS: no long run departs from its reference before the reference stopped."
+                 if p0 == 0 else f"FAILS for {p0} runs: those pairs are not the same run continued."))
+
     # ---------------------------------------------------------------- 1
     out("\n=== 1. Runs, epochs, steps above 20 (d = 4) ===")
     out(f"{'arm':24s} {'n':>4s} {'runs':>5s} {'epochs 100/1000':>16s} {'selected 100/1000':>18s} "
