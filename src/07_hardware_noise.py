@@ -50,8 +50,11 @@ SCOPE. The invariance needs the channel to act once, after the final block.
 That is true here for the single-block VQC (n_uploads = 1). With noise after
 every layer, or after each block of a re-uploading circuit, the contraction
 depends on the input and AUC can move: an independent simulation with
-per-layer noise reorders 24 of 1,770 test pairs at p = 0.05
-(tests/test_independent_theory.py).
+per-layer noise reorders 7 of 1,770 test pairs at p = 0.05 for the test's
+readout vector, and a median of 10 over 1,000 random readout vectors
+(tests/test_independent_theory.py; printed by
+scripts/print_independent_theory.py). An earlier version of this docstring
+said 24, which no recorded run gives; corrected 15 October 2026.
 
 This is a genuine robustness result, not a null measurement - but reporting AUC
 alone would hide the entire effect. Depolarizing noise shrinks the logits, so

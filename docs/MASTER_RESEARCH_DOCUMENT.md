@@ -2,12 +2,19 @@
 
 **Project:** Quantum–Classical Expressivity Under Extreme Latent Compression
 **Repository:** `github.com/anishfelixm/quantum-classical-expressivity`, branch `feature/journal-expansion`
-**Version 5.1 — 13 October 2026** (v5.0, 11 October, plus E8 and the noise-scope
-correction). Supersedes v3.0 (26 August), whose thesis ("the advantage is an
+**Version 5.2 — 15 October 2026** (v5.1, 13 October, plus Amendments 18–19,
+the run-record verification and its corrections; Amendments 20–21 pending). Supersedes v3.0 (26 August), whose thesis ("the advantage is an
 artifact"; "no parameter-efficiency advantage") was written before the
 confirmatory run and is contradicted by it.
-**Target venue:** IEEE Access. **Status:** all experiments complete, including
-the exploratory E8 reproduction (13 October); writing.
+**Target venue:** IEEE Access. **Status:** writing. Pre-registered runs are
+pending:
+- Amendment 20: a 1,000-epoch budget at every n, and with full data.
+- Amendment 21: every reported run re-executed with every step recorded and
+  its weights saved, and repeated without clipping where clipping acted.
+- Amendment 22: sensitivity of the trained heads.
+- Amendment 23: hardware feasibility of the models as trained.
+
+See `docs/CLAIMS_LEDGER.md` for the status of every manuscript claim.
 
 > Read this first. Then `docs/RESULTS.md` (every number, by evidential tier),
 > `docs/analysis_plan.md` (binding; amendments; follow-up results at the end),
@@ -33,16 +40,19 @@ the exploratory E8 reproduction (13 October); writing.
 | The VQC loses to a direct fit over its own function class at n ≥ 10 | H-S2 | confirmatory |
 | Its output is classical: 3^d trigonometric span, residual 1e-16 | dequantization test | proof + numerics |
 | Bounded output is not robustness; F1 collapse under noise is generic | H-S3, Lipschitz, paired gap | confirmatory + exploratory |
-| Compression to d=4 is nearly free at n=100 and full data: d=256 − d=4 = +0.0018 mean AUC (PathMNIST ~+0.014); no "Bottleneck Gap" | `06` premise check, pre-plan, 3 seeds | exploratory |
+| With frozen features, compression to d=4 costs AUC on BloodMNIST at every n (+0.018 to +0.055) and on PathMNIST at small n (+0.023 at n=5); nothing detectable on the binary sets. Both predictions failed. (The pre-plan end-to-end check, layer3 trainable, found +0.0018 mean at n=100/full; it does not transfer.) | Amendment 18, 10 seeds | exploratory |
 | Under the VQC head the projection leaves ~1 fewer of 4 latent coordinates unsaturated at n=5 (same LR, 0.01, both arms); does not track the advantage; both pre-written predictions wrong | E8, 160 exact reproductions | exploratory |
 
 **Wording.** "An advantage of the VQC head over a parameter-matched classical
 head." Never "quantum advantage". Never "restriction refuted" or "restriction
 explains".
 
-**Title caution.** The project's working title says "Extreme Latent
-Compression", but the premise check shows compression to d=4 is nearly free at
-n ≥ 100. The manuscript title must not imply that d=4 is a severe constraint.
+**Title caution.** The manuscript title is about where the advantage comes
+from, not about compression. Amendment 18 shows d=4 is a real constraint with
+frozen features on BloodMNIST, which is also the dataset that carries the
+advantage (exploratory observation, untested). Do not turn that coincidence
+into a claim that the circuit "recovers" compression loss: no test measures
+that, and the function the circuit computes is classical either way.
 
 **What the paper is.** A characterization study with stronger controls than the
 subfield's norm. Its contribution is attribution — where a reported advantage
@@ -103,8 +113,16 @@ Parity identities: `MatchedParamFullRank` d² + 2d = 6d ⟺ d = 4 only;
 - **Checkpoint selection on validation AUC** (Amendment 2).
 - **Per-arm learning rates** (Amendment 3, 3a); untuned arms inherit by
   `config.LR_INHERITANCE`.
-- **Regularisation parity:** identical weight decay, clipping (never binds),
-  scheduler, class weighting.
+- **Regularisation parity:** identical weight decay, gradient clipping at
+  norm 20, scheduler and class weighting. The clipping is identical in
+  setting but **not in effect**. The records of 15 October show the
+  epoch-mean norm above 20 in Fourier heads (`fourier_rff_r2` 1,053 of
+  70,673 epochs; d=8 Fourier 2,466 of 17,200) and never in a circuit arm.
+  Amendment 21 re-executes every reported run step by step, and repeats
+  without clipping where it acted.
+- **Training budget:** 100 epochs. 57–63% of primary runs reach the cap.
+  The cap does not change n=5 results (Amendment 19); Amendment 20 checks
+  every n and arm.
 - **Every run saves per-sample predictions;** recomputed metrics match
   recorded ones to 0.00e+00.
 - **Statistics:** nested paired bootstrap over test images and seeds, B = 2000,
@@ -128,10 +146,15 @@ Parity identities: `MatchedParamFullRank` d² + 2d = 6d ⟺ d = 4 only;
   every arm.
 - Depolarising noise **applied at the end of the circuit** (what `07` simulates)
   leaves binary AUC exactly invariant: ⟨Xᵢ⟩ → (1 − 4p/3)⟨Xᵢ⟩. Noise after every
-  layer does not: contraction 0.81–0.87 at p = 0.05, 24 of 1,770 test pairs
-  reorder (`tests/test_independent_theory.py`). Name the noise model in the paper.
-- Head sensitivity normalised by output range: VQC 1.55 / 1.53 / 1.31 vs
-  control 0.58 / 0.49 / 0.42 (d = 4 / 8 / 16).
+  layer does not: contraction 0.81–0.87 at p = 0.05, 7 of 1,770 test pairs
+  reorder for the test's readout vector (median 10 over 1,000 random readouts,
+  5th–95th percentile 1–25; `scripts/print_independent_theory.py`). The figure
+  "24" in earlier versions was wrong. Name the noise model in the paper.
+- Head sensitivity normalised by output range, at initialisation (`08`, 20
+  draws): VQC 1.55 / 1.53 / 1.31 (d = 4 / 8 / 16). `matched_param_fullrank`:
+  0.58 / 0.49 / 0.42; it is parameter-matched only at d = 4. `low_rank`, the
+  parameter-matched control at every d: 0.76 / 0.75 / 0.73. Source:
+  `logs_lipschitz.txt`, L_max / |out|max.
 - `canonical_frequencies(d, max_freq=1)` bit-identical to the pre-refactor basis.
 
 ### Runtime (for any future rerun)
@@ -160,13 +183,20 @@ Each of these was believed at some point and is now withdrawn:
 | 4 Oct: "restriction refuted" | not established, not excluded (Amendment 17) |
 | "The advantage requires a learned bottleneck — undetermined" | established by the H-S6 follow-up |
 | "Interior LR optimum" | optimum at the registered grid's edge; primary pair invariant |
+| "Compression to d=4 is nearly free" (pre-plan end-to-end check) | false with frozen features on BloodMNIST and on PathMNIST at small n (Amendment 18) |
+| "Per-layer noise reorders 24 of 1,770 pairs" | 7 of 1,770 for the test's readout; median 10 over 1,000 readouts (15 Oct) |
+| "Clipping never binds" | binds on Fourier heads, never on circuits (15 Oct records); Amendment 21 |
+| Clip threshold "2× the p95 of 9.62 (`deep_funnel`), max 15.87" | set before run records existed (git `7be3dcf`, 10 Aug 19:30); replaced by measured step norms (Amendment 21) |
+| Pre-tuning gradient norms "0.48–0.76 / 0.97–2.55" | Amendment 3's figures; being recomputed from the diagnostic records (`verify_claims.py` C) before any use |
 
-Confounds found and fixed: rank-limited "matched" control; clipping binding on
-classical arms only; F1-based checkpoint selection; duplicated Fourier
+Confounds found and fixed: rank-limited "matched" control; clipping at 1.0
+binding on classical arms only (threshold raised to 20 on 10 August); F1-based checkpoint selection; duplicated Fourier
 frequencies; shared learning rate across arms with ~5× different gradient
 scales; noise injected after upsampling (v1, disclosed); BH anti-conservative
 when computed family > declared; unstratified pooling across angle scales;
-mechanism tests run off the primary's protocol.
+mechanism tests run off the primary's protocol. Found 15 October and being
+tested: clipping at 20 still binding on Fourier heads (Amendment 21); the
+100-epoch cap reached by most runs (Amendment 20).
 
 ---
 
@@ -175,8 +205,8 @@ mechanism tests run off the primary's protocol.
 ```
 python 3.10 · torch 2.4.1+cu118 · pennylane 0.42.3 · numpy 1.26.4 · medmnist 3.0.2
 conda env: qml_v2   (exported: conda_env_qml_v2.yml, pip_freeze.txt)
-GPU: A100-SXM4-40GB MIG 3g.20gb (RVCE Kubeflow pod; still available on
-     13 October; nothing scheduled on it)
+GPU: A100-SXM4-40GB MIG 3g.20gb (RVCE Kubeflow pod; available on
+     15 October for Amendments 20–21)
 simulator: default.qubit + backprop
 ```
 

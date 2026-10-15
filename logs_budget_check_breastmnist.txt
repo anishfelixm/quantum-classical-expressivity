@@ -1,0 +1,90 @@
+nohup: ignoring input
+budget check | MAX_EPOCHS=1000 PATIENCE=200 | min epochs at 1 batch = 200, 2 batches = 100 | ns=30_budget_check
+using tuned LRs from 2026-08-27T05:30:16: {'fourier_rff': 0.01, 'linear': 0.03, 'matched_param_fullrank': 0.01, 'quantum_vqc': 0.01}
+
+Trainable capacity at d=4, bottleneck=learned:
+  quantum_vqc              bottleneck= 1028 head=  24 clf= 10 total= 1062 head=2.3%
+  matched_param_fullrank   bottleneck= 1028 head=  24 clf= 10 total= 1062 head=2.3%
+
+Experiment 1 | 20 cells | ns=30_budget_check | device=cuda | sha=75ad1667
+  augment=False L=2 use_tanh=True bottleneck=learned angle_scale=1.5708 save_predictions=True
+[1/20] breastmnist r=5 d=4 froz s=42 quantum_vqc              auc=0.7183 f1=0.4871 ETA 0.1h
+[2/20] breastmnist r=5 d=4 froz s=42 matched_param_fullrank   auc=0.5756 f1=0.4222 ETA 0.1h
+[3/20] breastmnist r=5 d=4 froz s=123 quantum_vqc              auc=0.7061 f1=0.6130 ETA 0.1h
+[4/20] breastmnist r=5 d=4 froz s=123 matched_param_fullrank   auc=0.7178 f1=0.6350 ETA 0.0h
+[5/20] breastmnist r=5 d=4 froz s=2026 quantum_vqc              auc=0.6569 f1=0.5989 ETA 0.0h
+[6/20] breastmnist r=5 d=4 froz s=2026 matched_param_fullrank   auc=0.5612 f1=0.4802 ETA 0.0h
+[7/20] breastmnist r=5 d=4 froz s=777 quantum_vqc              auc=0.4919 f1=0.4431 ETA 0.0h
+[8/20] breastmnist r=5 d=4 froz s=777 matched_param_fullrank   auc=0.4858 f1=0.4364 ETA 0.0h
+[9/20] breastmnist r=5 d=4 froz s=888 quantum_vqc              auc=0.7448 f1=0.7141 ETA 0.0h
+[10/20] breastmnist r=5 d=4 froz s=888 matched_param_fullrank   auc=0.6865 f1=0.4222 ETA 0.0h
+[11/20] breastmnist r=5 d=4 froz s=31337 quantum_vqc              auc=0.7084 f1=0.6159 ETA 0.0h
+[12/20] breastmnist r=5 d=4 froz s=31337 matched_param_fullrank   auc=0.6984 f1=0.6254 ETA 0.0h
+[13/20] breastmnist r=5 d=4 froz s=8 quantum_vqc              auc=0.6074 f1=0.3077 ETA 0.0h
+[14/20] breastmnist r=5 d=4 froz s=8 matched_param_fullrank   auc=0.5269 f1=0.3810 ETA 0.0h
+[15/20] breastmnist r=5 d=4 froz s=271828 quantum_vqc              auc=0.6401 f1=0.4222 ETA 0.0h
+[16/20] breastmnist r=5 d=4 froz s=271828 matched_param_fullrank   auc=0.6071 f1=0.6254 ETA 0.0h
+[17/20] breastmnist r=5 d=4 froz s=161803 quantum_vqc              auc=0.6884 f1=0.4645 ETA 0.0h
+[18/20] breastmnist r=5 d=4 froz s=161803 matched_param_fullrank   auc=0.7193 f1=0.5999 ETA 0.0h
+[19/20] breastmnist r=5 d=4 froz s=1414 quantum_vqc              auc=0.6389 f1=0.5853 ETA 0.0h
+[20/20] breastmnist r=5 d=4 froz s=1414 matched_param_fullrank   auc=0.6633 f1=0.6132 ETA 0.0h
+
+=== AUC by cell (mean +- sd over seeds) ===
+dataset           reg   d   encoder   matched_para    quantum_vqc
+------------------------------------------------------------------
+bloodmnist          5   4    frozen  0.7943+-0.002  0.8095+-0.003
+breastmnist         5   4    frozen  0.6242+-0.080  0.6601+-0.069
+pathmnist           5   4    frozen  0.8494+-0.030  0.8422+-0.022
+pneumoniamnist      5   4    frozen  0.8745+-0.098  0.9102+-0.009
+
+=== PRIMARY (Q1, efficiency at equal parameters): quantum_vqc - matched_param_fullrank (auc) ===
+Both arms have 24 head parameters and full rank at d=4.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+bloodmnist          5   4    frozen   +0.0151 [+0.0070,+0.0232]    2  quantum_vqc better
+breastmnist         5   4    frozen   +0.0359 [+0.0005,+0.0713]   10  quantum_vqc better
+pathmnist           5   4    frozen   +0.0002 [-0.0663,+0.0667]    3  no difference
+pneumoniamnist      5   4    frozen   +0.0357 [-0.0308,+0.1021]    9  no difference
+
+=== SECONDARY (Q2, dequantization): quantum_vqc - fourier_rff (auc) ===
+Basis-matched, NOT parameter-matched (324 vs 24). Asks whether
+the VQC exploits its own function class as well as a direct fit.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== DIAGNOSTIC (rank-limited control): quantum_vqc - matched_param (auc) ===
+matched_param is rank-limited to width 3; superseded by
+matched_param_fullrank. Retained for reproducibility only.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== Q3: frozen - adaptive, per arm (auc) ===
+The premise check showed compression is nearly free WITH an adaptive
+encoder. A large negative delta here means the encoder was absorbing
+the constraint - the reframed 'Latent Reshaping' claim.
+dataset           reg   d                      arm     delta    n
+------------------------------------------------------------------------
+
+=== Trainable capacity by component ===
+If the head's share is small, the experiment is not isolating the head.
+
+arm                        d bottleneck   bneck   head   clf   total  head %
+------------------------------------------------------------------------------
+matched_param_fullrank     4    learned    1028     24    10    1062    2.3%
+quantum_vqc                4    learned    1028     24    10    1062    2.3%
+
+=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===
+frozen: backbone must be '-' (no gradient reaches it).
+adaptive: backbone must be non-zero for EVERY arm, quantum included.
+
+arm                        encoder  runs    backbone  bottleneck        head  verdict
+--------------------------------------------------------------------------------------------
+matched_param_fullrank      frozen    24           -      0.2264      0.1061  OK
+quantum_vqc                 frozen    25           -      0.2026      0.0565  OK
+
+Predictions: 49/49 claimed files are retrievable on disk; 0 shards predate prediction saving.
+
+DIAGNOSTIC OUTPUT - every interval above is a normal approximation
+over seeds. Confirmatory statistics come from 04_statistical_analysis.py.

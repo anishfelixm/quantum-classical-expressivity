@@ -1,0 +1,1327 @@
+shard root: artifacts/shards
+
+====================================================================================================
+NAMESPACE 01_frozen   shards=1803   unreadable=0
+  git commits: 4771f9a4: 1598, 79b85278: 4, 96dba577: 1, 9f211304: 185, d6e37dbf: 15
+  [arm=fourier_rff aug=0 dim=4 fp=all]  runs=200
+      lr_head: None: 200
+      lr_quantum: None: 200
+      epochs run: min 38, median 100.0, max 100; stopped before the 100-epoch cap: 87 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 8, median 78.0, max 100
+      pre-clip grad norm (epoch means): max 16.991; epochs above 20: 0 of 17258
+      summed training time: 0.13 h
+  [arm=fourier_rff aug=0 dim=4 fp=layer3_only]  runs=200
+      lr_head: None: 200
+      lr_quantum: None: 200
+      epochs run: min 39, median 76.0, max 100; stopped before the 100-epoch cap: 148 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 2, median 46.0, max 100
+      pre-clip grad norm (epoch means): max 17.359; epochs above 20: 0 of 15157
+      summed training time: 0.73 h
+  [arm=linear aug=0 dim=4 fp=all]  runs=200
+      lr_head: None: 200
+      lr_quantum: None: 200
+      epochs run: min 41, median 92.0, max 100; stopped before the 100-epoch cap: 101 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 2, median 62.0, max 100
+      pre-clip grad norm (epoch means): max 3.687; epochs above 20: 0 of 16362
+      summed training time: 0.11 h
+  [arm=linear aug=0 dim=4 fp=layer3_only]  runs=200
+      lr_head: None: 200
+      lr_quantum: None: 200
+      epochs run: min 38, median 82.0, max 100; stopped before the 100-epoch cap: 134 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 2, median 52.0, max 100
+      pre-clip grad norm (epoch means): max 4.341; epochs above 20: 0 of 15693
+      summed training time: 0.73 h
+  [arm=matched_param aug=0 dim=4 fp=all]  runs=200
+      lr_head: None: 200
+      lr_quantum: None: 200
+      epochs run: min 41, median 85.0, max 100; stopped before the 100-epoch cap: 112 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 55.0, max 100
+      pre-clip grad norm (epoch means): max 19.199; epochs above 20: 0 of 15671
+      summed training time: 0.12 h
+  [arm=matched_param aug=0 dim=4 fp=layer3_only]  runs=200
+      lr_head: None: 200
+      lr_quantum: None: 200
+      epochs run: min 36, median 76.0, max 100; stopped before the 100-epoch cap: 129 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 46.0, max 100
+      pre-clip grad norm (epoch means): max 19.214; epochs above 20: 0 of 15260
+      summed training time: 0.77 h
+  [arm=matched_param_fullrank aug=0 dim=4 fp=all]  runs=2
+      lr_head: 0.001: 2
+      lr_quantum: 0.001: 2
+      epochs run: min 100, median 100.0, max 100; stopped before the 100-epoch cap: 0 of 2
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 2, does NOT match 0, not checkable 0
+      best (selected) epoch: min 90, median 94.5, max 99
+      pre-clip grad norm (epoch means): max 2.798; epochs above 20: 0 of 200
+      summed training time: 0.00 h
+      n_train by dataset: breastmnist:40: 2
+  [arm=quantum_reupload aug=0 dim=4 fp=all]  runs=200
+      lr_head: None: 200
+      lr_quantum: None: 200
+      epochs run: min 33, median 100.0, max 100; stopped before the 100-epoch cap: 53 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 98.0, max 100
+      pre-clip grad norm (epoch means): max 3.890; epochs above 20: 0 of 18277
+      summed training time: 52.48 h
+  [arm=quantum_vqc aug=0 bn=random dim=4 fp=all]  runs=1
+      lr_head: 0.001: 1
+      lr_quantum: 0.001: 1
+      epochs run: min 51, median 51, max 51; stopped before the 100-epoch cap: 1 of 1
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 1, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 1, max 1
+      pre-clip grad norm (epoch means): max 0.053; epochs above 20: 0 of 51
+      summed training time: 0.01 h
+      n_train by dataset: pneumoniamnist:10: 1
+  [arm=quantum_vqc aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.001: 2, None: 198
+      lr_quantum: 0.001: 2, None: 198
+      epochs run: min 34, median 79.0, max 100; stopped before the 100-epoch cap: 133 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 49.0, max 100
+      pre-clip grad norm (epoch means): max 3.625; epochs above 20: 0 of 15537
+      summed training time: 1.74 h
+  [arm=quantum_vqc aug=0 dim=4 fp=layer3_only]  runs=200
+      lr_head: None: 200
+      lr_quantum: None: 200
+      epochs run: min 38, median 78.5, max 100; stopped before the 100-epoch cap: 129 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 48.5, max 100
+      pre-clip grad norm (epoch means): max 5.191; epochs above 20: 0 of 15623
+      summed training time: 2.31 h
+
+====================================================================================================
+NAMESPACE 01_frozen_tuned   shards=4000   unreadable=0
+  git commits: 30e57d94: 800, 9dcda129: 1600, bd833baa: 1600
+  [arm=fourier_rff aug=0 dim=4 fp=all]  runs=800
+      lr_head: 0.01: 800
+      lr_quantum: 0.01: 800
+      epochs run: min 33, median 100.0, max 100; stopped before the 100-epoch cap: 341 of 800
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 800, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 79.0, max 100
+      pre-clip grad norm (epoch means): max 26.215; epochs above 20: 4 of 69306
+      summed training time: 0.53 h
+  [arm=fourier_rff_r2 aug=0 dim=4 fp=all]  runs=800
+      lr_head: 0.01: 800
+      lr_quantum: 0.001: 800
+      epochs run: min 44, median 100.0, max 100; stopped before the 100-epoch cap: 301 of 800
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 800, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 83.0, max 100
+      pre-clip grad norm (epoch means): max 61.483; epochs above 20: 1053 of 70673
+      summed training time: 0.55 h
+  [arm=matched_param_fullrank aug=0 dim=4 fp=all]  runs=800
+      lr_head: 0.01: 800
+      lr_quantum: 0.01: 800
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 329 of 800
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 800, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 84.0, max 100
+      pre-clip grad norm (epoch means): max 14.981; epochs above 20: 0 of 68941
+      summed training time: 0.53 h
+      n_train by dataset: bloodmnist:160: 40, bloodmnist:40: 40, bloodmnist:400: 40, bloodmnist:80: 40, bloodmnist:800: 40, breastmnist:10: 40, breastmnist:100: 40, breastmnist:20: 40, breastmnist:200: 40, breastmnist:40: 40, pathmnist:180: 40, pathmnist:45: 40, pathmnist:450: 40, pathmnist:90: 40, pathmnist:900: 40, pneumoniamnist:10: 40, pneumoniamnist:100: 40, pneumoniamnist:20: 40, pneumoniamnist:200: 40, pneumoniamnist:40: 40
+  [arm=quantum_reupload aug=0 dim=4 fp=all]  runs=800
+      lr_head: 0.01: 800
+      lr_quantum: 0.01: 800
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 298 of 800
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 800, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 89.0, max 100
+      pre-clip grad norm (epoch means): max 9.542; epochs above 20: 0 of 69269
+      summed training time: 8.76 h
+  [arm=quantum_vqc aug=0 dim=4 fp=all]  runs=800
+      lr_head: 0.01: 800
+      lr_quantum: 0.01: 800
+      epochs run: min 34, median 100.0, max 100; stopped before the 100-epoch cap: 299 of 800
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 800, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 90.0, max 100
+      pre-clip grad norm (epoch means): max 8.007; epochs above 20: 0 of 69124
+      summed training time: 7.77 h
+
+====================================================================================================
+NAMESPACE 03_robustness   shards=1400   unreadable=0
+  git commits: c0359a9d: 1400
+  [arm=fourier_rff dim=4]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      trained-head Lipschitz (max over points): mean 8.762, n=200
+  [arm=linear dim=4]  runs=200
+      lr_head: 0.03: 200
+      lr_quantum: 0.03: 200
+      trained-head Lipschitz (max over points): mean 1.000, n=200
+  [arm=low_rank dim=4]  runs=200
+      lr_head: None: 200
+      lr_quantum: None: 200
+      trained-head Lipschitz (max over points): mean 2.876, n=200
+  [arm=matched_param_fullrank dim=4]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      trained-head Lipschitz (max over points): mean 6.259, n=200
+      n_train by dataset: bloodmnist:160: 10, bloodmnist:40: 10, bloodmnist:400: 10, bloodmnist:80: 10, bloodmnist:800: 10, breastmnist:10: 10, breastmnist:100: 10, breastmnist:20: 10, breastmnist:200: 10, breastmnist:40: 10, pathmnist:180: 10, pathmnist:45: 10, pathmnist:450: 10, pathmnist:90: 10, pathmnist:900: 10, pneumoniamnist:10: 10, pneumoniamnist:100: 10, pneumoniamnist:20: 10, pneumoniamnist:200: 10, pneumoniamnist:40: 10
+  [arm=quantum_rich dim=4]  runs=200
+      lr_head: None: 200
+      lr_quantum: None: 200
+      trained-head Lipschitz (max over points): mean 2.156, n=200
+  [arm=quantum_rich_padded dim=4]  runs=200
+      lr_head: None: 200
+      lr_quantum: None: 200
+      trained-head Lipschitz (max over points): mean 2.391, n=200
+  [arm=quantum_vqc dim=4]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      trained-head Lipschitz (max over points): mean 1.470, n=200
+
+====================================================================================================
+NAMESPACE 03_robustness_v2   shards=1400   unreadable=0
+  git commits: bd833baa: 1400
+  [arm=fourier_rff dim=4]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      trained-head Lipschitz (max over points): mean 8.762, n=200
+  [arm=linear dim=4]  runs=200
+      lr_head: 0.03: 200
+      lr_quantum: 0.03: 200
+      trained-head Lipschitz (max over points): mean 1.000, n=200
+  [arm=low_rank dim=4]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      trained-head Lipschitz (max over points): mean 4.249, n=200
+  [arm=matched_param_fullrank dim=4]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      trained-head Lipschitz (max over points): mean 6.259, n=200
+      n_train by dataset: bloodmnist:160: 10, bloodmnist:40: 10, bloodmnist:400: 10, bloodmnist:80: 10, bloodmnist:800: 10, breastmnist:10: 10, breastmnist:100: 10, breastmnist:20: 10, breastmnist:200: 10, breastmnist:40: 10, pathmnist:180: 10, pathmnist:45: 10, pathmnist:450: 10, pathmnist:90: 10, pathmnist:900: 10, pneumoniamnist:10: 10, pneumoniamnist:100: 10, pneumoniamnist:20: 10, pneumoniamnist:200: 10, pneumoniamnist:40: 10
+  [arm=quantum_rich dim=4]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      trained-head Lipschitz (max over points): mean 2.152, n=200
+  [arm=quantum_rich_padded dim=4]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      trained-head Lipschitz (max over points): mean 2.385, n=200
+  [arm=quantum_vqc dim=4]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      trained-head Lipschitz (max over points): mean 1.470, n=200
+
+====================================================================================================
+NAMESPACE 06_premise   shards=144   unreadable=0
+  git commits: 538d8361: 144
+  [arm=linear dim=16]  runs=24
+      lr_head: None: 24
+      lr_quantum: None: 24
+      epochs run: min 46, median 77.5, max 100; stopped before the 100-epoch cap: 15 of 24
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 24, does NOT match 0, not checkable 0
+      best (selected) epoch: min 16, median 47.5, max 100
+      pre-clip grad norm (epoch means): max 3.602; epochs above 20: 0 of 1874
+      summed training time: 1.04 h
+      n_train by dataset: bloodmnist:11959: 3, bloodmnist:800: 3, breastmnist:200: 3, breastmnist:546: 3, pathmnist:10002: 3, pathmnist:900: 3, pneumoniamnist:200: 3, pneumoniamnist:4708: 3
+  [arm=linear dim=256]  runs=24
+      lr_head: None: 24
+      lr_quantum: None: 24
+      epochs run: min 42, median 76.5, max 100; stopped before the 100-epoch cap: 19 of 24
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 24, does NOT match 0, not checkable 0
+      best (selected) epoch: min 12, median 46.5, max 87
+      pre-clip grad norm (epoch means): max 4.500; epochs above 20: 0 of 1810
+      summed training time: 0.95 h
+      n_train by dataset: bloodmnist:11959: 3, bloodmnist:800: 3, breastmnist:200: 3, breastmnist:546: 3, pathmnist:10002: 3, pathmnist:900: 3, pneumoniamnist:200: 3, pneumoniamnist:4708: 3
+  [arm=linear dim=32]  runs=24
+      lr_head: None: 24
+      lr_quantum: None: 24
+      epochs run: min 44, median 67.0, max 100; stopped before the 100-epoch cap: 16 of 24
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 24, does NOT match 0, not checkable 0
+      best (selected) epoch: min 14, median 37.0, max 94
+      pre-clip grad norm (epoch means): max 3.242; epochs above 20: 0 of 1802
+      summed training time: 1.02 h
+      n_train by dataset: bloodmnist:11959: 3, bloodmnist:800: 3, breastmnist:200: 3, breastmnist:546: 3, pathmnist:10002: 3, pathmnist:900: 3, pneumoniamnist:200: 3, pneumoniamnist:4708: 3
+  [arm=linear dim=4]  runs=24
+      lr_head: None: 24
+      lr_quantum: None: 24
+      epochs run: min 51, median 97.5, max 100; stopped before the 100-epoch cap: 12 of 24
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 24, does NOT match 0, not checkable 0
+      best (selected) epoch: min 21, median 70.5, max 99
+      pre-clip grad norm (epoch means): max 3.500; epochs above 20: 0 of 1998
+      summed training time: 1.03 h
+      n_train by dataset: bloodmnist:11959: 3, bloodmnist:800: 3, breastmnist:200: 3, breastmnist:546: 3, pathmnist:10002: 3, pathmnist:900: 3, pneumoniamnist:200: 3, pneumoniamnist:4708: 3
+  [arm=linear dim=64]  runs=24
+      lr_head: None: 24
+      lr_quantum: None: 24
+      epochs run: min 47, median 83.0, max 100; stopped before the 100-epoch cap: 15 of 24
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 24, does NOT match 0, not checkable 0
+      best (selected) epoch: min 17, median 53.0, max 99
+      pre-clip grad norm (epoch means): max 3.743; epochs above 20: 0 of 1893
+      summed training time: 1.02 h
+      n_train by dataset: bloodmnist:11959: 3, bloodmnist:800: 3, breastmnist:200: 3, breastmnist:546: 3, pathmnist:10002: 3, pathmnist:900: 3, pneumoniamnist:200: 3, pneumoniamnist:4708: 3
+  [arm=linear dim=8]  runs=24
+      lr_head: None: 24
+      lr_quantum: None: 24
+      epochs run: min 50, median 88.5, max 100; stopped before the 100-epoch cap: 15 of 24
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 24, does NOT match 0, not checkable 0
+      best (selected) epoch: min 20, median 58.5, max 98
+      pre-clip grad norm (epoch means): max 3.451; epochs above 20: 0 of 1969
+      summed training time: 1.03 h
+      n_train by dataset: bloodmnist:11959: 3, bloodmnist:800: 3, breastmnist:200: 3, breastmnist:546: 3, pathmnist:10002: 3, pathmnist:900: 3, pneumoniamnist:200: 3, pneumoniamnist:4708: 3
+
+====================================================================================================
+NAMESPACE 07_hardware_noise   shards=21   unreadable=0
+  git commits: 880c0a42: 3, 9e637b38: 18
+  [arm=quantum_vqc dim=4]  runs=21
+      lr_head: None: 21
+      lr_quantum: None: 21
+      n_eval by dataset: bloodmnist:500: 1, breastmnist:156: 10, pneumoniamnist:500: 10
+
+====================================================================================================
+NAMESPACE 08_lipschitz   shards=30   unreadable=0
+  git commits: 141a7111: 30
+  [arm=fourier_rff dim=16 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=fourier_rff dim=4 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=fourier_rff dim=8 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=linear dim=16 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=linear dim=4 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=linear dim=8 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=low_rank dim=16 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=low_rank dim=4 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=low_rank dim=8 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=matched_param dim=16 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=matched_param dim=4 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=matched_param dim=8 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=matched_param_fullrank dim=16 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=matched_param_fullrank dim=4 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=matched_param_fullrank dim=8 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=mlp dim=16 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=mlp dim=4 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=mlp dim=8 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=quantum_reupload dim=16 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=quantum_reupload dim=4 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=quantum_reupload dim=8 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=quantum_rich dim=16 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=quantum_rich dim=4 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=quantum_rich dim=8 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=quantum_rich_padded dim=16 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=quantum_rich_padded dim=4 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=quantum_rich_padded dim=8 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=quantum_vqc dim=16 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=quantum_vqc dim=4 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+  [arm=quantum_vqc dim=8 scale=1.5708]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+
+====================================================================================================
+NAMESPACE 09_lr_selection   shards=1440   unreadable=0
+  git commits: 8c80cce7: 960, ec5cae63: 480
+  [arm=fourier_rff dim=4 lr=1e-01]  runs=60
+      lr_head: 0.1: 60
+      lr_quantum: 0.1: 60
+      epochs run: min 31, median 51.0, max 100; stopped before the 100-epoch cap: 57 of 60
+      best (selected) epoch: min 1, median 4.0, max 98
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.6378, n=60
+      mean pre-clip gradient norm: 1.041 (range of run means 0.26-3.32)
+  [arm=fourier_rff dim=4 lr=1e-02]  runs=60
+      lr_head: 0.01: 60
+      lr_quantum: 0.01: 60
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 25 of 60
+      best (selected) epoch: min 2, median 76.0, max 100
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.8979, n=60
+      mean pre-clip gradient norm: 3.137 (range of run means 0.47-6.82)
+  [arm=fourier_rff dim=4 lr=1e-03]  runs=60
+      lr_head: 0.001: 60
+      lr_quantum: 0.001: 60
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 14 of 60
+      best (selected) epoch: min 1, median 98.0, max 100
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.8610, n=60
+      mean pre-clip gradient norm: 2.734 (range of run means 0.52-5.91)
+  [arm=fourier_rff dim=4 lr=3e-02]  runs=60
+      lr_head: 0.03: 60
+      lr_quantum: 0.03: 60
+      epochs run: min 31, median 51.5, max 100; stopped before the 100-epoch cap: 46 of 60
+      best (selected) epoch: min 1, median 21.0, max 100
+      summed training time: 0.05 h
+      mean validation AUC (selection criterion): 0.7644, n=60
+      mean pre-clip gradient norm: 1.588 (range of run means 0.23-4.37)
+  [arm=fourier_rff dim=4 lr=3e-03]  runs=60
+      lr_head: 0.003: 60
+      lr_quantum: 0.003: 60
+      epochs run: min 36, median 100.0, max 100; stopped before the 100-epoch cap: 19 of 60
+      best (selected) epoch: min 1, median 90.5, max 100
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.8875, n=60
+      mean pre-clip gradient norm: 3.314 (range of run means 0.53-7.02)
+  [arm=fourier_rff dim=4 lr=3e-04]  runs=60
+      lr_head: 0.0003: 60
+      lr_quantum: 0.0003: 60
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 11 of 60
+      best (selected) epoch: min 1, median 100.0, max 100
+      summed training time: 0.05 h
+      mean validation AUC (selection criterion): 0.7975, n=60
+      mean pre-clip gradient norm: 2.515 (range of run means 0.52-7.01)
+  [arm=linear dim=4 lr=1e-01]  runs=60
+      lr_head: 0.1: 60
+      lr_quantum: 0.1: 60
+      epochs run: min 31, median 51.0, max 100; stopped before the 100-epoch cap: 45 of 60
+      best (selected) epoch: min 1, median 15.5, max 100
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.7584, n=60
+      mean pre-clip gradient norm: 0.723 (range of run means 0.16-1.41)
+  [arm=linear dim=4 lr=1e-02]  runs=60
+      lr_head: 0.01: 60
+      lr_quantum: 0.01: 60
+      epochs run: min 31, median 100.0, max 100; stopped before the 100-epoch cap: 25 of 60
+      best (selected) epoch: min 1, median 87.0, max 100
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.9010, n=60
+      mean pre-clip gradient norm: 0.996 (range of run means 0.16-2.01)
+  [arm=linear dim=4 lr=1e-03]  runs=60
+      lr_head: 0.001: 60
+      lr_quantum: 0.001: 60
+      epochs run: min 36, median 100.0, max 100; stopped before the 100-epoch cap: 17 of 60
+      best (selected) epoch: min 2, median 99.0, max 100
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.8602, n=60
+      mean pre-clip gradient norm: 0.739 (range of run means 0.14-1.41)
+  [arm=linear dim=4 lr=3e-02]  runs=60
+      lr_head: 0.03: 60
+      lr_quantum: 0.03: 60
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 25 of 60
+      best (selected) epoch: min 1, median 81.5, max 100
+      summed training time: 0.05 h
+      mean validation AUC (selection criterion): 0.9048, n=60
+      mean pre-clip gradient norm: 0.928 (range of run means 0.20-1.65)
+  [arm=linear dim=4 lr=3e-03]  runs=60
+      lr_head: 0.003: 60
+      lr_quantum: 0.003: 60
+      epochs run: min 32, median 100.0, max 100; stopped before the 100-epoch cap: 19 of 60
+      best (selected) epoch: min 1, median 98.0, max 100
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.8873, n=60
+      mean pre-clip gradient norm: 0.837 (range of run means 0.18-1.67)
+  [arm=linear dim=4 lr=3e-04]  runs=60
+      lr_head: 0.0003: 60
+      lr_quantum: 0.0003: 60
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 11 of 60
+      best (selected) epoch: min 1, median 100.0, max 100
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.7986, n=60
+      mean pre-clip gradient norm: 0.743 (range of run means 0.09-1.27)
+  [arm=matched_param_fullrank dim=4 lr=1e-01]  runs=60
+      lr_head: 0.1: 60
+      lr_quantum: 0.1: 60
+      epochs run: min 31, median 51.0, max 100; stopped before the 100-epoch cap: 53 of 60
+      best (selected) epoch: min 1, median 6.0, max 99
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.7202, n=60
+      mean pre-clip gradient norm: 0.296 (range of run means 0.06-1.38)
+  [arm=matched_param_fullrank dim=4 lr=1e-02]  runs=60
+      lr_head: 0.01: 60
+      lr_quantum: 0.01: 60
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 24 of 60
+      best (selected) epoch: min 2, median 85.5, max 100
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.8845, n=60
+      mean pre-clip gradient norm: 1.554 (range of run means 0.19-3.99)
+  [arm=matched_param_fullrank dim=4 lr=1e-03]  runs=60
+      lr_head: 0.001: 60
+      lr_quantum: 0.001: 60
+      epochs run: min 44, median 100.0, max 100; stopped before the 100-epoch cap: 17 of 60
+      best (selected) epoch: min 8, median 96.5, max 100
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.8523, n=60
+      mean pre-clip gradient norm: 1.112 (range of run means 0.12-2.87)
+  [arm=matched_param_fullrank dim=4 lr=3e-02]  runs=60
+      lr_head: 0.03: 60
+      lr_quantum: 0.03: 60
+      epochs run: min 31, median 91.0, max 100; stopped before the 100-epoch cap: 34 of 60
+      best (selected) epoch: min 1, median 61.0, max 100
+      summed training time: 0.06 h
+      mean validation AUC (selection criterion): 0.8234, n=60
+      mean pre-clip gradient norm: 1.108 (range of run means 0.03-3.44)
+  [arm=matched_param_fullrank dim=4 lr=3e-03]  runs=60
+      lr_head: 0.003: 60
+      lr_quantum: 0.003: 60
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 18 of 60
+      best (selected) epoch: min 3, median 95.5, max 100
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.8816, n=60
+      mean pre-clip gradient norm: 1.594 (range of run means 0.26-4.38)
+  [arm=matched_param_fullrank dim=4 lr=3e-04]  runs=60
+      lr_head: 0.0003: 60
+      lr_quantum: 0.0003: 60
+      epochs run: min 56, median 100.0, max 100; stopped before the 100-epoch cap: 9 of 60
+      best (selected) epoch: min 26, median 99.0, max 100
+      summed training time: 0.04 h
+      mean validation AUC (selection criterion): 0.7985, n=60
+      mean pre-clip gradient norm: 0.792 (range of run means 0.06-1.76)
+  [arm=quantum_vqc dim=4 lr=1e-01]  runs=60
+      lr_head: 0.1: 60
+      lr_quantum: 0.1: 60
+      epochs run: min 36, median 51.0, max 100; stopped before the 100-epoch cap: 48 of 60
+      best (selected) epoch: min 1, median 20.0, max 100
+      summed training time: 0.49 h
+      mean validation AUC (selection criterion): 0.8007, n=60
+      mean pre-clip gradient norm: 0.253 (range of run means 0.04-1.09)
+  [arm=quantum_vqc dim=4 lr=1e-02]  runs=60
+      lr_head: 0.01: 60
+      lr_quantum: 0.01: 60
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 25 of 60
+      best (selected) epoch: min 2, median 83.0, max 100
+      summed training time: 0.65 h
+      mean validation AUC (selection criterion): 0.8785, n=60
+      mean pre-clip gradient norm: 1.070 (range of run means 0.17-2.29)
+  [arm=quantum_vqc dim=4 lr=1e-03]  runs=60
+      lr_head: 0.001: 60
+      lr_quantum: 0.001: 60
+      epochs run: min 45, median 100.0, max 100; stopped before the 100-epoch cap: 21 of 60
+      best (selected) epoch: min 1, median 98.0, max 100
+      summed training time: 0.64 h
+      mean validation AUC (selection criterion): 0.8418, n=60
+      mean pre-clip gradient norm: 0.632 (range of run means 0.08-1.33)
+  [arm=quantum_vqc dim=4 lr=3e-02]  runs=60
+      lr_head: 0.03: 60
+      lr_quantum: 0.03: 60
+      epochs run: min 31, median 93.5, max 100; stopped before the 100-epoch cap: 33 of 60
+      best (selected) epoch: min 1, median 63.5, max 100
+      summed training time: 0.65 h
+      mean validation AUC (selection criterion): 0.8690, n=60
+      mean pre-clip gradient norm: 0.986 (range of run means 0.05-2.27)
+  [arm=quantum_vqc dim=4 lr=3e-03]  runs=60
+      lr_head: 0.003: 60
+      lr_quantum: 0.003: 60
+      epochs run: min 32, median 100.0, max 100; stopped before the 100-epoch cap: 21 of 60
+      best (selected) epoch: min 1, median 97.5, max 100
+      summed training time: 0.64 h
+      mean validation AUC (selection criterion): 0.8653, n=60
+      mean pre-clip gradient norm: 0.810 (range of run means 0.17-1.76)
+  [arm=quantum_vqc dim=4 lr=3e-04]  runs=60
+      lr_head: 0.0003: 60
+      lr_quantum: 0.0003: 60
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 12 of 60
+      best (selected) epoch: min 1, median 99.0, max 100
+      summed training time: 0.65 h
+      mean validation AUC (selection criterion): 0.8137, n=60
+      mean pre-clip gradient norm: 0.507 (range of run means 0.07-1.15)
+
+====================================================================================================
+NAMESPACE 10_capacity   shards=1000   unreadable=0
+  git commits: 9dcda129: 1000
+  [arm=low_rank dim=4 rank=0]  runs=200
+      lr_head: 0.001: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 38, median 100.0, max 100; stopped before the 100-epoch cap: 53 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 98.0, max 100
+      summed training time: 0.13 h
+  [arm=low_rank dim=4 rank=1]  runs=200
+      lr_head: 0.001: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 46, median 100.0, max 100; stopped before the 100-epoch cap: 36 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 8, median 99.0, max 100
+      summed training time: 0.14 h
+  [arm=low_rank dim=4 rank=2]  runs=200
+      lr_head: 0.001: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 39, median 100.0, max 100; stopped before the 100-epoch cap: 59 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 5, median 98.0, max 100
+      summed training time: 0.14 h
+  [arm=low_rank dim=4 rank=4]  runs=200
+      lr_head: 0.001: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 39, median 100.0, max 100; stopped before the 100-epoch cap: 57 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 5, median 98.0, max 100
+      summed training time: 0.14 h
+  [arm=low_rank dim=4 rank=8]  runs=200
+      lr_head: 0.001: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 40, median 100.0, max 100; stopped before the 100-epoch cap: 41 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 98.0, max 100
+      summed training time: 0.14 h
+
+====================================================================================================
+NAMESPACE 10_capacity_f16   shards=1000   unreadable=0
+  git commits: 48f3c247: 60, ec5cae63: 940
+  [arm=low_rank dim=4 rank=0]  runs=200
+      lr_head: 0.001: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 38, median 100.0, max 100; stopped before the 100-epoch cap: 53 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 98.0, max 100
+      summed training time: 0.31 h
+  [arm=low_rank dim=4 rank=1]  runs=200
+      lr_head: 0.001: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 46, median 100.0, max 100; stopped before the 100-epoch cap: 36 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 8, median 99.0, max 100
+      summed training time: 0.35 h
+  [arm=low_rank dim=4 rank=2]  runs=200
+      lr_head: 0.001: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 39, median 100.0, max 100; stopped before the 100-epoch cap: 59 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 5, median 98.0, max 100
+      summed training time: 0.35 h
+  [arm=low_rank dim=4 rank=4]  runs=200
+      lr_head: 0.001: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 39, median 100.0, max 100; stopped before the 100-epoch cap: 57 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 5, median 98.0, max 100
+      summed training time: 0.35 h
+  [arm=low_rank dim=4 rank=8]  runs=200
+      lr_head: 0.001: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 40, median 100.0, max 100; stopped before the 100-epoch cap: 41 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 98.0, max 100
+      summed training time: 0.37 h
+
+====================================================================================================
+NAMESPACE 11_flow   shards=13   unreadable=0
+  git commits: 48f3c247: 13
+  [arm=fourier_rff dim=4 fp=all]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+      n_train by dataset: breastmnist:40: 1
+  [arm=fourier_rff dim=4 fp=layer3_only]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+      n_train by dataset: breastmnist:40: 1
+  [arm=linear dim=4 fp=all]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+      n_train by dataset: breastmnist:40: 1
+  [arm=linear dim=4 fp=all nobneval=1]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+      n_train by dataset: breastmnist:40: 1
+  [arm=linear dim=4 fp=layer3_only]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+      n_train by dataset: breastmnist:40: 1
+  [arm=low_rank dim=4 fp=all]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+      n_train by dataset: breastmnist:40: 1
+  [arm=low_rank dim=4 fp=layer3_only]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+      n_train by dataset: breastmnist:40: 1
+  [arm=matched_param_fullrank dim=4 fp=all]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+      n_train by dataset: breastmnist:40: 1
+  [arm=matched_param_fullrank dim=4 fp=layer3_only]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+      n_train by dataset: breastmnist:40: 1
+  [arm=quantum_reupload dim=4 fp=all]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+      n_train by dataset: breastmnist:40: 1
+  [arm=quantum_reupload dim=4 fp=layer3_only]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+      n_train by dataset: breastmnist:40: 1
+  [arm=quantum_vqc dim=4 fp=all]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+      n_train by dataset: breastmnist:40: 1
+  [arm=quantum_vqc dim=4 fp=layer3_only]  runs=1
+      lr_head: None: 1
+      lr_quantum: None: 1
+      n_train by dataset: breastmnist:40: 1
+
+====================================================================================================
+NAMESPACE 12_bottleneck   shards=900   unreadable=0
+  git commits: 8f48df8c: 900
+  [arm=linear bn=learned dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 38, median 100.0, max 100; stopped before the 100-epoch cap: 19 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 4, median 99.0, max 100
+      summed training time: 0.06 h
+  [arm=linear bn=pca dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 18 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 100.0, max 100
+      summed training time: 0.06 h
+  [arm=linear bn=random dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 31, median 100.0, max 100; stopped before the 100-epoch cap: 42 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 99.5, max 100
+      summed training time: 0.05 h
+  [arm=matched_param_fullrank bn=learned dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 24 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 98.0, max 100
+      summed training time: 0.07 h
+      n_train by dataset: bloodmnist:160: 5, bloodmnist:40: 5, bloodmnist:400: 5, bloodmnist:80: 5, bloodmnist:800: 5, breastmnist:10: 5, breastmnist:100: 5, breastmnist:20: 5, breastmnist:200: 5, breastmnist:40: 5, pathmnist:180: 5, pathmnist:45: 5, pathmnist:450: 5, pathmnist:90: 5, pathmnist:900: 5, pneumoniamnist:10: 5, pneumoniamnist:100: 5, pneumoniamnist:20: 5, pneumoniamnist:200: 5, pneumoniamnist:40: 5
+  [arm=matched_param_fullrank bn=pca dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 11 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 100.0, max 100
+      summed training time: 0.07 h
+      n_train by dataset: bloodmnist:160: 5, bloodmnist:40: 5, bloodmnist:400: 5, bloodmnist:80: 5, bloodmnist:800: 5, breastmnist:10: 5, breastmnist:100: 5, breastmnist:20: 5, breastmnist:200: 5, breastmnist:40: 5, pathmnist:180: 5, pathmnist:45: 5, pathmnist:450: 5, pathmnist:90: 5, pathmnist:900: 5, pneumoniamnist:10: 5, pneumoniamnist:100: 5, pneumoniamnist:20: 5, pneumoniamnist:200: 5, pneumoniamnist:40: 5
+  [arm=matched_param_fullrank bn=random dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 31, median 100.0, max 100; stopped before the 100-epoch cap: 34 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 99.0, max 100
+      summed training time: 0.06 h
+      n_train by dataset: bloodmnist:160: 5, bloodmnist:40: 5, bloodmnist:400: 5, bloodmnist:80: 5, bloodmnist:800: 5, breastmnist:10: 5, breastmnist:100: 5, breastmnist:20: 5, breastmnist:200: 5, breastmnist:40: 5, pathmnist:180: 5, pathmnist:45: 5, pathmnist:450: 5, pathmnist:90: 5, pathmnist:900: 5, pneumoniamnist:10: 5, pneumoniamnist:100: 5, pneumoniamnist:20: 5, pneumoniamnist:200: 5, pneumoniamnist:40: 5
+  [arm=quantum_vqc bn=learned dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 47, median 100.0, max 100; stopped before the 100-epoch cap: 24 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 4, median 98.0, max 100
+      summed training time: 0.97 h
+  [arm=quantum_vqc bn=pca dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 37, median 100.0, max 100; stopped before the 100-epoch cap: 16 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 100.0, max 100
+      summed training time: 0.91 h
+  [arm=quantum_vqc bn=random dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 31, median 100.0, max 100; stopped before the 100-epoch cap: 36 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 97.0, max 100
+      summed training time: 0.86 h
+
+====================================================================================================
+NAMESPACE 12_bottleneck_f16   shards=900   unreadable=0
+  git commits: 48f3c247: 108, 87d9a85b: 792
+  [arm=linear bn=learned dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 38, median 100.0, max 100; stopped before the 100-epoch cap: 19 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 4, median 99.0, max 100
+      summed training time: 0.15 h
+  [arm=linear bn=pca dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 17 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 100.0, max 100
+      summed training time: 0.15 h
+  [arm=linear bn=random dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 31, median 100.0, max 100; stopped before the 100-epoch cap: 42 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 99.5, max 100
+      summed training time: 0.13 h
+  [arm=matched_param_fullrank bn=learned dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 24 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 98.0, max 100
+      summed training time: 0.20 h
+      n_train by dataset: bloodmnist:160: 5, bloodmnist:40: 5, bloodmnist:400: 5, bloodmnist:80: 5, bloodmnist:800: 5, breastmnist:10: 5, breastmnist:100: 5, breastmnist:20: 5, breastmnist:200: 5, breastmnist:40: 5, pathmnist:180: 5, pathmnist:45: 5, pathmnist:450: 5, pathmnist:90: 5, pathmnist:900: 5, pneumoniamnist:10: 5, pneumoniamnist:100: 5, pneumoniamnist:20: 5, pneumoniamnist:200: 5, pneumoniamnist:40: 5
+  [arm=matched_param_fullrank bn=pca dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 11 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 100.0, max 100
+      summed training time: 0.19 h
+      n_train by dataset: bloodmnist:160: 5, bloodmnist:40: 5, bloodmnist:400: 5, bloodmnist:80: 5, bloodmnist:800: 5, breastmnist:10: 5, breastmnist:100: 5, breastmnist:20: 5, breastmnist:200: 5, breastmnist:40: 5, pathmnist:180: 5, pathmnist:45: 5, pathmnist:450: 5, pathmnist:90: 5, pathmnist:900: 5, pneumoniamnist:10: 5, pneumoniamnist:100: 5, pneumoniamnist:20: 5, pneumoniamnist:200: 5, pneumoniamnist:40: 5
+  [arm=matched_param_fullrank bn=random dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 31, median 100.0, max 100; stopped before the 100-epoch cap: 34 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 99.0, max 100
+      summed training time: 0.17 h
+      n_train by dataset: bloodmnist:160: 5, bloodmnist:40: 5, bloodmnist:400: 5, bloodmnist:80: 5, bloodmnist:800: 5, breastmnist:10: 5, breastmnist:100: 5, breastmnist:20: 5, breastmnist:200: 5, breastmnist:40: 5, pathmnist:180: 5, pathmnist:45: 5, pathmnist:450: 5, pathmnist:90: 5, pathmnist:900: 5, pneumoniamnist:10: 5, pneumoniamnist:100: 5, pneumoniamnist:20: 5, pneumoniamnist:200: 5, pneumoniamnist:40: 5
+  [arm=quantum_vqc bn=learned dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 47, median 100.0, max 100; stopped before the 100-epoch cap: 24 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 4, median 98.0, max 100
+      summed training time: 2.14 h
+  [arm=quantum_vqc bn=pca dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 31, median 100.0, max 100; stopped before the 100-epoch cap: 16 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 100.0, max 100
+      summed training time: 2.00 h
+  [arm=quantum_vqc bn=random dim=4]  runs=100
+      lr_head: 0.001: 100
+      lr_quantum: 0.001: 100
+      epochs run: min 31, median 100.0, max 100; stopped before the 100-epoch cap: 36 of 100
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 100, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 97.0, max 100
+      summed training time: 1.91 h
+
+====================================================================================================
+NAMESPACE 13_stepbudget   shards=9   unreadable=0
+  git commits: 8c80cce7: 9
+  [arm=linear aug=0 dim=4 fp=all]  runs=3
+      lr_head: 0.001: 3
+      lr_quantum: 0.001: 3
+      epochs run: min 209, median 235, max 309; stopped before the 100-epoch cap: 0 of 3
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 0, does NOT match 3, not checkable 0; e.g. (dataset, n, seed, ran, expected) [('pneumoniamnist', '5', 123, 309, 100), ('pneumoniamnist', '5', 42, 209, 51), ('pneumoniamnist', '5', 2026, 235, 65)]
+      best (selected) epoch: min 9, median 35, max 109
+      pre-clip grad norm (epoch means): max 1.995; epochs above 20: 0 of 753
+      summed training time: 0.00 h
+      n_train by dataset: pneumoniamnist:10: 3
+  [arm=matched_param_fullrank aug=0 dim=4 fp=all]  runs=3
+      lr_head: 0.001: 3
+      lr_quantum: 0.001: 3
+      epochs run: min 214, median 216, max 266; stopped before the 100-epoch cap: 0 of 3
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 0, does NOT match 3, not checkable 0; e.g. (dataset, n, seed, ran, expected) [('pneumoniamnist', '5', 2026, 266, 96), ('pneumoniamnist', '5', 123, 216, 51), ('pneumoniamnist', '5', 42, 214, 51)]
+      best (selected) epoch: min 14, median 16, max 66
+      pre-clip grad norm (epoch means): max 2.231; epochs above 20: 0 of 696
+      summed training time: 0.00 h
+      n_train by dataset: pneumoniamnist:10: 3
+  [arm=quantum_vqc aug=0 dim=4 fp=all]  runs=3
+      lr_head: 0.001: 3
+      lr_quantum: 0.001: 3
+      epochs run: min 239, median 244, max 250; stopped before the 100-epoch cap: 0 of 3
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 0, does NOT match 3, not checkable 0; e.g. (dataset, n, seed, ran, expected) [('pneumoniamnist', '5', 2026, 239, 69), ('pneumoniamnist', '5', 42, 244, 74), ('pneumoniamnist', '5', 123, 250, 80)]
+      best (selected) epoch: min 39, median 44, max 50
+      pre-clip grad norm (epoch means): max 0.521; epochs above 20: 0 of 733
+      summed training time: 0.01 h
+      n_train by dataset: pneumoniamnist:10: 3
+
+====================================================================================================
+NAMESPACE 14_readout   shards=600   unreadable=0
+  git commits: 9e637b38: 600
+  [arm=quantum_rich aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 32, median 100.0, max 100; stopped before the 100-epoch cap: 85 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 83.0, max 100
+      pre-clip grad norm (epoch means): max 11.589; epochs above 20: 0 of 16943
+      summed training time: 2.54 h
+  [arm=quantum_rich_padded aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 31, median 100.0, max 100; stopped before the 100-epoch cap: 90 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 80.0, max 100
+      pre-clip grad norm (epoch means): max 10.533; epochs above 20: 0 of 16766
+      summed training time: 1.85 h
+  [arm=quantum_vqc aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 34, median 100.0, max 100; stopped before the 100-epoch cap: 82 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 87.0, max 100
+      pre-clip grad norm (epoch means): max 8.007; epochs above 20: 0 of 16919
+      summed training time: 1.85 h
+
+====================================================================================================
+NAMESPACE 15_dim8   shards=800   unreadable=0
+  git commits: 141a7111: 800
+  [arm=fourier_rff aug=0 dim=8 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 41, median 100.0, max 100; stopped before the 100-epoch cap: 77 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 86.0, max 100
+      pre-clip grad norm (epoch means): max 111.977; epochs above 20: 2466 of 17200
+      summed training time: 0.13 h
+  [arm=linear aug=0 dim=8 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 31, median 100.0, max 100; stopped before the 100-epoch cap: 76 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 87.0, max 100
+      pre-clip grad norm (epoch means): max 4.408; epochs above 20: 0 of 17092
+      summed training time: 0.11 h
+  [arm=low_rank aug=0 dim=8 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 93 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 75.0, max 100
+      pre-clip grad norm (epoch means): max 10.415; epochs above 20: 0 of 17021
+      summed training time: 0.14 h
+  [arm=quantum_vqc aug=0 dim=8 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 77 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 85.5, max 100
+      pre-clip grad norm (epoch means): max 13.577; epochs above 20: 0 of 17306
+      summed training time: 3.72 h
+
+====================================================================================================
+NAMESPACE 16_dim16   shards=200   unreadable=0
+  git commits: 141a7111: 200
+  [arm=fourier_rff aug=0 dim=16 fp=all]  runs=50
+      lr_head: 0.01: 50
+      lr_quantum: 0.01: 50
+      epochs run: min 48, median 66.0, max 100; stopped before the 100-epoch cap: 35 of 50
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 50, does NOT match 0, not checkable 0
+      best (selected) epoch: min 2, median 36.0, max 100
+      pre-clip grad norm (epoch means): max 79.583; epochs above 20: 428 of 3613
+      summed training time: 0.01 h
+  [arm=linear aug=0 dim=16 fp=all]  runs=50
+      lr_head: 0.01: 50
+      lr_quantum: 0.01: 50
+      epochs run: min 49, median 76.0, max 100; stopped before the 100-epoch cap: 30 of 50
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 50, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 46.0, max 100
+      pre-clip grad norm (epoch means): max 4.277; epochs above 20: 0 of 3763
+      summed training time: 0.01 h
+  [arm=low_rank aug=0 dim=16 fp=all]  runs=50
+      lr_head: 0.01: 50
+      lr_quantum: 0.01: 50
+      epochs run: min 51, median 69.0, max 100; stopped before the 100-epoch cap: 32 of 50
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 50, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 39.0, max 100
+      pre-clip grad norm (epoch means): max 9.042; epochs above 20: 0 of 3713
+      summed training time: 0.01 h
+  [arm=quantum_vqc aug=0 dim=16 fp=all]  runs=50
+      lr_head: 0.01: 50
+      lr_quantum: 0.01: 50
+      epochs run: min 47, median 56.0, max 100; stopped before the 100-epoch cap: 33 of 50
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 50, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 26.0, max 100
+      pre-clip grad norm (epoch means): max 9.462; epochs above 20: 0 of 3572
+      summed training time: 1.60 h
+
+====================================================================================================
+NAMESPACE 17_fulldata   shards=80   unreadable=0
+  git commits: e07459a5: 80
+  [arm=fourier_rff aug=0 dim=4 fp=all]  runs=20
+      lr_head: 0.01: 20
+      lr_quantum: 0.01: 20
+      epochs run: min 84, median 100.0, max 100; stopped before the 100-epoch cap: 2 of 20
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 20, does NOT match 0, not checkable 0
+      best (selected) epoch: min 54, median 90.0, max 99
+      pre-clip grad norm (epoch means): max 5.269; epochs above 20: 0 of 1979
+      summed training time: 7.59 h
+      n_train by dataset: bloodmnist:11959: 5, breastmnist:546: 5, pathmnist:10002: 5, pneumoniamnist:4708: 5
+  [arm=linear aug=0 dim=4 fp=all]  runs=20
+      lr_head: 0.01: 20
+      lr_quantum: 0.01: 20
+      epochs run: min 73, median 100.0, max 100; stopped before the 100-epoch cap: 1 of 20
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 20, does NOT match 0, not checkable 0
+      best (selected) epoch: min 43, median 92.0, max 98
+      pre-clip grad norm (epoch means): max 3.146; epochs above 20: 0 of 1973
+      summed training time: 5.45 h
+      n_train by dataset: bloodmnist:11959: 5, breastmnist:546: 5, pathmnist:10002: 5, pneumoniamnist:4708: 5
+  [arm=matched_param_fullrank aug=0 dim=4 fp=all]  runs=20
+      lr_head: 0.01: 20
+      lr_quantum: 0.01: 20
+      epochs run: min 40, median 100.0, max 100; stopped before the 100-epoch cap: 3 of 20
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 20, does NOT match 0, not checkable 0
+      best (selected) epoch: min 10, median 91.5, max 100
+      pre-clip grad norm (epoch means): max 4.248; epochs above 20: 0 of 1865
+      summed training time: 7.54 h
+      n_train by dataset: bloodmnist:11959: 5, breastmnist:546: 5, pathmnist:10002: 5, pneumoniamnist:4708: 5
+  [arm=quantum_vqc aug=0 dim=4 fp=all]  runs=20
+      lr_head: 0.01: 20
+      lr_quantum: 0.01: 20
+      epochs run: min 56, median 100.0, max 100; stopped before the 100-epoch cap: 4 of 20
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 20, does NOT match 0, not checkable 0
+      best (selected) epoch: min 26, median 94.5, max 100
+      pre-clip grad norm (epoch means): max 5.577; epochs above 20: 0 of 1921
+      summed training time: 102.01 h
+      n_train by dataset: bloodmnist:11959: 5, breastmnist:546: 5, pathmnist:10002: 5, pneumoniamnist:4708: 5
+
+====================================================================================================
+NAMESPACE 18_depth   shards=600   unreadable=0
+  git commits: 842179e4: 600
+  [L=1 arm=quantum_vqc aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 32, median 100.0, max 100; stopped before the 100-epoch cap: 75 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 90.0, max 100
+      pre-clip grad norm (epoch means): max 6.307; epochs above 20: 0 of 17325
+      summed training time: 1.34 h
+  [L=2 arm=quantum_vqc aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 34, median 100.0, max 100; stopped before the 100-epoch cap: 82 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 87.0, max 100
+      pre-clip grad norm (epoch means): max 8.007; epochs above 20: 0 of 16919
+      summed training time: 1.88 h
+  [L=4 arm=quantum_vqc aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 34, median 100.0, max 100; stopped before the 100-epoch cap: 70 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 2, median 91.0, max 100
+      pre-clip grad norm (epoch means): max 9.167; epochs above 20: 0 of 17327
+      summed training time: 3.00 h
+
+====================================================================================================
+NAMESPACE 19_angle   shards=800   unreadable=0
+  git commits: 842179e4: 800
+  [arm=matched_param_fullrank as=1.5708 aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 81 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 81.5, max 100
+      pre-clip grad norm (epoch means): max 14.888; epochs above 20: 0 of 17215
+      summed training time: 0.13 h
+      n_train by dataset: bloodmnist:160: 10, bloodmnist:40: 10, bloodmnist:400: 10, bloodmnist:80: 10, bloodmnist:800: 10, breastmnist:10: 10, breastmnist:100: 10, breastmnist:20: 10, breastmnist:200: 10, breastmnist:40: 10, pathmnist:180: 10, pathmnist:45: 10, pathmnist:450: 10, pathmnist:90: 10, pathmnist:900: 10, pneumoniamnist:10: 10, pneumoniamnist:100: 10, pneumoniamnist:20: 10, pneumoniamnist:200: 10, pneumoniamnist:40: 10
+  [arm=matched_param_fullrank as=3.1416 aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 50, median 100.0, max 100; stopped before the 100-epoch cap: 86 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 81.5, max 100
+      pre-clip grad norm (epoch means): max 14.565; epochs above 20: 0 of 16998
+      summed training time: 0.13 h
+      n_train by dataset: bloodmnist:160: 10, bloodmnist:40: 10, bloodmnist:400: 10, bloodmnist:80: 10, bloodmnist:800: 10, breastmnist:10: 10, breastmnist:100: 10, breastmnist:20: 10, breastmnist:200: 10, breastmnist:40: 10, pathmnist:180: 10, pathmnist:45: 10, pathmnist:450: 10, pathmnist:90: 10, pathmnist:900: 10, pneumoniamnist:10: 10, pneumoniamnist:100: 10, pneumoniamnist:20: 10, pneumoniamnist:200: 10, pneumoniamnist:40: 10
+  [arm=quantum_vqc as=1.5708 aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 34, median 100.0, max 100; stopped before the 100-epoch cap: 81 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 87.0, max 100
+      pre-clip grad norm (epoch means): max 8.007; epochs above 20: 0 of 16928
+      summed training time: 1.88 h
+  [arm=quantum_vqc as=3.1416 aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 41, median 100.0, max 100; stopped before the 100-epoch cap: 77 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 88.0, max 100
+      pre-clip grad norm (epoch means): max 12.183; epochs above 20: 0 of 17388
+      summed training time: 1.88 h
+
+====================================================================================================
+NAMESPACE 20_tanh   shards=2000   unreadable=0
+  git commits: 842179e4: 2000
+  [arm=fourier_rff aug=0 dim=4 fp=all notanh=0]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 33, median 100.0, max 100; stopped before the 100-epoch cap: 90 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 77.0, max 100
+      pre-clip grad norm (epoch means): max 20.473; epochs above 20: 1 of 16801
+      summed training time: 0.13 h
+  [arm=fourier_rff aug=0 dim=4 fp=all notanh=1]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 35, median 100.0, max 100; stopped before the 100-epoch cap: 77 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 84.0, max 100
+      pre-clip grad norm (epoch means): max 15.150; epochs above 20: 0 of 17377
+      summed training time: 0.13 h
+  [arm=linear aug=0 dim=4 fp=all notanh=0]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 50, median 100.0, max 100; stopped before the 100-epoch cap: 65 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 93.0, max 100
+      pre-clip grad norm (epoch means): max 6.108; epochs above 20: 0 of 17406
+      summed training time: 0.12 h
+  [arm=linear aug=0 dim=4 fp=all notanh=1]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 49, median 100.0, max 100; stopped before the 100-epoch cap: 68 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 96.0, max 100
+      pre-clip grad norm (epoch means): max 3.601; epochs above 20: 0 of 17440
+      summed training time: 0.11 h
+  [arm=low_rank aug=0 dim=4 fp=all notanh=0]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 90 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 77.0, max 100
+      pre-clip grad norm (epoch means): max 15.655; epochs above 20: 0 of 16605
+      summed training time: 0.14 h
+  [arm=low_rank aug=0 dim=4 fp=all notanh=1]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 32, median 100.0, max 100; stopped before the 100-epoch cap: 91 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 78.0, max 100
+      pre-clip grad norm (epoch means): max 10.617; epochs above 20: 0 of 16744
+      summed training time: 0.13 h
+  [arm=matched_param_fullrank aug=0 dim=4 fp=all notanh=0]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 81 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 81.5, max 100
+      pre-clip grad norm (epoch means): max 14.888; epochs above 20: 0 of 17215
+      summed training time: 0.13 h
+      n_train by dataset: bloodmnist:160: 10, bloodmnist:40: 10, bloodmnist:400: 10, bloodmnist:80: 10, bloodmnist:800: 10, breastmnist:10: 10, breastmnist:100: 10, breastmnist:20: 10, breastmnist:200: 10, breastmnist:40: 10, pathmnist:180: 10, pathmnist:45: 10, pathmnist:450: 10, pathmnist:90: 10, pathmnist:900: 10, pneumoniamnist:10: 10, pneumoniamnist:100: 10, pneumoniamnist:20: 10, pneumoniamnist:200: 10, pneumoniamnist:40: 10
+  [arm=matched_param_fullrank aug=0 dim=4 fp=all notanh=1]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 85 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 85.5, max 100
+      pre-clip grad norm (epoch means): max 9.477; epochs above 20: 0 of 17097
+      summed training time: 0.13 h
+      n_train by dataset: bloodmnist:160: 10, bloodmnist:40: 10, bloodmnist:400: 10, bloodmnist:80: 10, bloodmnist:800: 10, breastmnist:10: 10, breastmnist:100: 10, breastmnist:20: 10, breastmnist:200: 10, breastmnist:40: 10, pathmnist:180: 10, pathmnist:45: 10, pathmnist:450: 10, pathmnist:90: 10, pathmnist:900: 10, pneumoniamnist:10: 10, pneumoniamnist:100: 10, pneumoniamnist:20: 10, pneumoniamnist:200: 10, pneumoniamnist:40: 10
+  [arm=mlp aug=0 dim=4 fp=all notanh=0]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 33, median 100.0, max 100; stopped before the 100-epoch cap: 65 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 94.0, max 100
+      pre-clip grad norm (epoch means): max 2.984; epochs above 20: 0 of 17371
+      summed training time: 0.12 h
+  [arm=mlp aug=0 dim=4 fp=all notanh=1]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.001: 200
+      epochs run: min 33, median 100.0, max 100; stopped before the 100-epoch cap: 68 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 95.0, max 100
+      pre-clip grad norm (epoch means): max 2.599; epochs above 20: 0 of 17127
+      summed training time: 0.11 h
+
+====================================================================================================
+NAMESPACE 21_ansatz   shards=400   unreadable=0
+  git commits: bd833baa: 400
+  [arm=quantum_basic aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 35, median 100.0, max 100; stopped before the 100-epoch cap: 85 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 81.0, max 100
+      pre-clip grad norm (epoch means): max 9.215; epochs above 20: 0 of 17020
+      summed training time: 3.05 h
+  [arm=quantum_vqc aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 34, median 100.0, max 100; stopped before the 100-epoch cap: 82 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 87.0, max 100
+      pre-clip grad norm (epoch means): max 8.007; epochs above 20: 0 of 16919
+      summed training time: 1.91 h
+
+====================================================================================================
+NAMESPACE 25_encoder   shards=800   unreadable=0
+  git commits: bd833baa: 800
+  [arm=matched_param_fullrank aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 51, median 100.0, max 100; stopped before the 100-epoch cap: 81 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 81.5, max 100
+      pre-clip grad norm (epoch means): max 14.888; epochs above 20: 0 of 17215
+      summed training time: 0.13 h
+      n_train by dataset: bloodmnist:160: 10, bloodmnist:40: 10, bloodmnist:400: 10, bloodmnist:80: 10, bloodmnist:800: 10, breastmnist:10: 10, breastmnist:100: 10, breastmnist:20: 10, breastmnist:200: 10, breastmnist:40: 10, pathmnist:180: 10, pathmnist:45: 10, pathmnist:450: 10, pathmnist:90: 10, pathmnist:900: 10, pneumoniamnist:10: 10, pneumoniamnist:100: 10, pneumoniamnist:20: 10, pneumoniamnist:200: 10, pneumoniamnist:40: 10
+  [arm=matched_param_fullrank aug=0 dim=4 fp=layer3_only]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 39, median 69.5, max 100; stopped before the 100-epoch cap: 148 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 39.5, max 100
+      pre-clip grad norm (epoch means): max 18.294; epochs above 20: 0 of 14617
+      summed training time: 0.75 h
+      n_train by dataset: bloodmnist:160: 10, bloodmnist:40: 10, bloodmnist:400: 10, bloodmnist:80: 10, bloodmnist:800: 10, breastmnist:10: 10, breastmnist:100: 10, breastmnist:20: 10, breastmnist:200: 10, breastmnist:40: 10, pathmnist:180: 10, pathmnist:45: 10, pathmnist:450: 10, pathmnist:90: 10, pathmnist:900: 10, pneumoniamnist:10: 10, pneumoniamnist:100: 10, pneumoniamnist:20: 10, pneumoniamnist:200: 10, pneumoniamnist:40: 10
+  [arm=quantum_vqc aug=0 dim=4 fp=all]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 34, median 100.0, max 100; stopped before the 100-epoch cap: 82 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 87.0, max 100
+      pre-clip grad norm (epoch means): max 8.007; epochs above 20: 0 of 16919
+      summed training time: 1.92 h
+  [arm=quantum_vqc aug=0 dim=4 fp=layer3_only]  runs=200
+      lr_head: 0.01: 200
+      lr_quantum: 0.01: 200
+      epochs run: min 38, median 68.0, max 100; stopped before the 100-epoch cap: 146 of 200
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 200, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 38.0, max 100
+      pre-clip grad norm (epoch means): max 9.393; epochs above 20: 0 of 14482
+      summed training time: 2.24 h
+
+====================================================================================================
+NAMESPACE 26_bottleneck_tuned   shards=3200   unreadable=0
+  git commits: 30e57d94: 3200
+  [arm=matched_param_fullrank aug=0 bn=pca dim=4 fp=all]  runs=800
+      lr_head: 0.01: 800
+      lr_quantum: 0.01: 800
+      epochs run: min 31, median 99.0, max 100; stopped before the 100-epoch cap: 403 of 800
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 800, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 69.0, max 100
+      pre-clip grad norm (epoch means): max 1.387; epochs above 20: 0 of 66218
+      summed training time: 0.47 h
+      n_train by dataset: bloodmnist:160: 40, bloodmnist:40: 40, bloodmnist:400: 40, bloodmnist:80: 40, bloodmnist:800: 40, breastmnist:10: 40, breastmnist:100: 40, breastmnist:20: 40, breastmnist:200: 40, breastmnist:40: 40, pathmnist:180: 40, pathmnist:45: 40, pathmnist:450: 40, pathmnist:90: 40, pathmnist:900: 40, pneumoniamnist:10: 40, pneumoniamnist:100: 40, pneumoniamnist:20: 40, pneumoniamnist:200: 40, pneumoniamnist:40: 40
+  [arm=matched_param_fullrank aug=0 bn=random dim=4 fp=all]  runs=800
+      lr_head: 0.01: 800
+      lr_quantum: 0.01: 800
+      epochs run: min 31, median 100.0, max 100; stopped before the 100-epoch cap: 325 of 800
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 800, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 86.5, max 100
+      pre-clip grad norm (epoch means): max 4.254; epochs above 20: 0 of 68913
+      summed training time: 0.47 h
+      n_train by dataset: bloodmnist:160: 40, bloodmnist:40: 40, bloodmnist:400: 40, bloodmnist:80: 40, bloodmnist:800: 40, breastmnist:10: 40, breastmnist:100: 40, breastmnist:20: 40, breastmnist:200: 40, breastmnist:40: 40, pathmnist:180: 40, pathmnist:45: 40, pathmnist:450: 40, pathmnist:90: 40, pathmnist:900: 40, pneumoniamnist:10: 40, pneumoniamnist:100: 40, pneumoniamnist:20: 40, pneumoniamnist:200: 40, pneumoniamnist:40: 40
+  [arm=quantum_vqc aug=0 bn=pca dim=4 fp=all]  runs=800
+      lr_head: 0.01: 800
+      lr_quantum: 0.01: 800
+      epochs run: min 32, median 100.0, max 100; stopped before the 100-epoch cap: 327 of 800
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 800, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 92.0, max 100
+      pre-clip grad norm (epoch means): max 1.440; epochs above 20: 0 of 67891
+      summed training time: 6.85 h
+  [arm=quantum_vqc aug=0 bn=random dim=4 fp=all]  runs=800
+      lr_head: 0.01: 800
+      lr_quantum: 0.01: 800
+      epochs run: min 31, median 94.0, max 100; stopped before the 100-epoch cap: 421 of 800
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 800, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 64.0, max 100
+      pre-clip grad norm (epoch means): max 3.067; epochs above 20: 0 of 63917
+      summed training time: 6.45 h
+
+====================================================================================================
+NAMESPACE 27_capacity_tuned   shards=1600   unreadable=0
+  git commits: 17506e82: 1600
+  [arm=low_rank aug=0 dim=4 fp=all rank=0]  runs=800
+      lr_head: 0.01: 800
+      lr_quantum: 0.001: 800
+      epochs run: min 32, median 100.0, max 100; stopped before the 100-epoch cap: 318 of 800
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 800, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 85.0, max 100
+      pre-clip grad norm (epoch means): max 7.844; epochs above 20: 0 of 69267
+      summed training time: 0.50 h
+  [arm=low_rank aug=0 dim=4 fp=all rank=8]  runs=800
+      lr_head: 0.01: 800
+      lr_quantum: 0.001: 800
+      epochs run: min 34, median 100.0, max 100; stopped before the 100-epoch cap: 379 of 800
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 800, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 73.0, max 100
+      pre-clip grad norm (epoch means): max 19.921; epochs above 20: 0 of 67552
+      summed training time: 0.55 h
+
+====================================================================================================
+NAMESPACE 28_latent_saturation   shards=160   unreadable=0
+  git commits: 88173350: 160
+  [arm=matched_param_fullrank]  runs=80
+      lr_head: None: 80
+      lr_quantum: None: 80
+  [arm=quantum_vqc]  runs=80
+      lr_head: None: 80
+      lr_quantum: None: 80
+
+====================================================================================================
+NAMESPACE 29_compression_frozen   shards=480   unreadable=0
+  git commits: 75ad1667: 480
+  [arm=linear aug=0 dim=256 fp=all]  runs=240
+      lr_head: 0.03: 240
+      lr_quantum: 0.03: 240
+      epochs run: min 36, median 100.0, max 100; stopped before the 100-epoch cap: 109 of 240
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 240, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 75.0, max 100
+      pre-clip grad norm (epoch means): max 21.784; epochs above 20: 4 of 20708
+      summed training time: 0.53 h
+  [arm=linear aug=0 dim=4 fp=all]  runs=240
+      lr_head: 0.03: 240
+      lr_quantum: 0.03: 240
+      epochs run: min 49, median 100.0, max 100; stopped before the 100-epoch cap: 88 of 240
+      early-stopping rule (val AUC, patience 30, floor min(max(20,200//B),50)): matches 240, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 85.5, max 100
+      pre-clip grad norm (epoch means): max 5.492; epochs above 20: 0 of 20991
+      summed training time: 0.53 h
+
+====================================================================================================
+NAMESPACE 30_budget_check   shards=80   unreadable=0
+  git commits: 75ad1667: 80
+  [arm=matched_param_fullrank aug=0 dim=4 fp=all]  runs=40
+      lr_head: 0.01: 40
+      lr_quantum: 0.01: 40
+      epochs run: min 201, median 247.5, max 455; stopped before the 1000-epoch cap: 40 of 40
+      early-stopping rule (val AUC, patience 200, floor min(max(20,200//B),500)): matches 40, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 47.5, max 255
+      pre-clip grad norm (epoch means): max 15.487; epochs above 20: 0 of 10569
+      summed training time: 0.07 h
+      n_train by dataset: bloodmnist:40: 10, breastmnist:10: 10, pathmnist:45: 10, pneumoniamnist:10: 10
+  [arm=quantum_vqc aug=0 dim=4 fp=all]  runs=40
+      lr_head: 0.01: 40
+      lr_quantum: 0.01: 40
+      epochs run: min 201, median 230.0, max 376; stopped before the 1000-epoch cap: 40 of 40
+      early-stopping rule (val AUC, patience 200, floor min(max(20,200//B),500)): matches 40, does NOT match 0, not checkable 0
+      best (selected) epoch: min 1, median 30.0, max 176
+      pre-clip grad norm (epoch means): max 3.744; epochs above 20: 0 of 10141
+      summed training time: 0.30 h
+      n_train by dataset: bloodmnist:40: 10, breastmnist:10: 10, pathmnist:45: 10, pneumoniamnist:10: 10

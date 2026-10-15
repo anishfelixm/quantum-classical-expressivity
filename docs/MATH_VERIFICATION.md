@@ -310,8 +310,11 @@ written, so the record shows what was checked and when.
   (1 − 4p/3) and leaves binary AUC exactly invariant only when the channel acts
   once, after the final block. That is the model simulated for the
   single-block VQC. With noise after every layer, an independent simulation
-  gives input-dependent factors (0.81–0.87 at p = 0.05) and reorders 24 of
-  1,770 test pairs.
+  gives input-dependent factors (0.81–0.87 at p = 0.05) and reorders 7 of
+  1,770 test pairs for the test's readout vector; over 1,000 random readout
+  vectors the count has median 10, 5th–95th percentile 1–25, maximum 39
+  (`scripts/print_independent_theory.py`, `logs_independent_theory.txt`).
+  Corrected 15 October 2026 from "24", which no recorded run gives.
 - **Independent re-derivation.** `tests/test_independent_theory.py` rebuilds the
   circuit in plain numpy, with no PennyLane or project code. It gives the 3^d
   span to 2×10⁻¹⁵, the two-qubit readout to 2×10⁻¹⁵, the re-upload 5^d span to

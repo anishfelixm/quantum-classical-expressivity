@@ -44,6 +44,17 @@ tasks, but roughly doubles residual error on multi-class tasks.*
 **What this kills.** The conference paper's "topological collapse", the "Bottleneck Gap",
 and the edge-compression motivation. All contradicted by the project's own control.
 
+**Update, 15 October 2026 — the above holds only in the end-to-end setting.** This
+check trained layer3 of the backbone (`freeze_policy="layer3_only"`) with
+augmentation, at n = 100 and full data only. Amendment 18 repeated it with frozen
+features, the setting of every reported comparison, at every n (10 seeds). There,
+d = 4 costs AUC on BloodMNIST at every n (+0.018 to +0.055) and on PathMNIST at small
+n (+0.023 at n = 5), and nothing detectable on the binary sets. Both of its
+pre-written predictions failed. So with frozen features a compression cost does exist
+on two datasets. The "Hilbert-space expressivity" story stays withdrawn for a
+different reason: the head's output is a classical trigonometric function. See
+`RESULTS.md` §3.
+
 **Why it is a contribution.** Much of the hybrid-QML literature implicitly assumes
 aggressive compression justifies a quantum head. This is 144 controlled cells across four
 modalities showing otherwise — including a correction of the authors' own earlier claim.

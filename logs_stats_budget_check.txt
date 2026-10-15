@@ -1,0 +1,24 @@
+budget runs: 80   matching primary runs available: 80
+learning rates in budget runs (lr_head, lr_quantum): {(0.01, 0.01): 80}
+
+=== 1. Per dataset and arm (n = 5, d = 4) ===
+dataset          arm                      seeds AUC 100ep AUC 1000ep   change  epochs 100/1000  selected 100/1000
+bloodmnist       quantum_vqc                 10    0.8066     0.8092  +0.0026    92.5/  293.8     75.7/    93.8
+bloodmnist       matched_param_fullrank      10    0.7229     0.7313  +0.0085    85.2/  327.5     66.7/   127.5
+breastmnist      quantum_vqc                 10    0.6601     0.6601  +0.0000    53.2/  214.3     14.3/    14.3
+breastmnist      matched_param_fullrank      10    0.6242     0.6242  +0.0000    63.8/  229.4     29.4/    29.4
+pathmnist        quantum_vqc                 10    0.8305     0.8328  +0.0023    91.1/  290.7     74.1/    90.7
+pathmnist        matched_param_fullrank      10    0.8533     0.8531  -0.0002    95.6/  282.2     76.6/    82.2
+pneumoniamnist   quantum_vqc                 10    0.9068     0.9068  +0.0000    52.6/  215.3     15.3/    15.3
+pneumoniamnist   matched_param_fullrank      10    0.8782     0.8782  +0.0000    55.2/  217.8     17.8/    17.8
+
+=== 2. Pooled change per arm (1000-epoch minus 100-epoch), equal weight per dataset ===
+Prediction P1: |change| < 0.01 for each arm.
+  quantum_vqc              +0.0012  95% seed-bootstrap [-0.0000, +0.0027]  (4 datasets)  P1 holds
+  matched_param_fullrank   +0.0021  95% seed-bootstrap [+0.0002, +0.0042]  (4 datasets)  P1 holds
+
+=== 3. Delta(5) = VQC - matched, pooled, under each budget ===
+Prediction P2: positive under the 1,000-epoch budget.
+  100 epochs (primary runs, same seeds)  Delta(5) = +0.0314  95% seed-bootstrap [+0.0111, +0.0551]
+  1000 epochs                            Delta(5) = +0.0305  95% seed-bootstrap [+0.0101, +0.0540]
+  P2 holds (point estimate under 1000 epochs: +0.0305); seeds per dataset: {'bloodmnist': 10, 'breastmnist': 10, 'pathmnist': 10, 'pneumoniamnist': 10}

@@ -1,7 +1,12 @@
 # RESULTS — Final
 
 **11 October 2026. Added 13 October: reporting tables (§6), the exploratory E8
-latent-saturation reproduction (§3) and the pre-plan compression check (§3).**
+latent-saturation reproduction (§3) and the pre-plan compression check (§3).
+Added 15 October: the compression check in the study's own frozen setting
+(Amendment 18), the n = 5 training-budget check (Amendment 19), the run-record
+facts and corrections (§3, "Protocol checks"). Amendments 20 (budget at every n)
+and 21 (clipping removed) are pre-registered and pending; their results go in
+the same section.**
 Supersedes the
 4 October version, which called the restriction mechanism "refuted" — the
 powered follow-up (Amendment 17) does not support that word (§2).
@@ -233,8 +238,12 @@ the softmax (0.8382 → 0.8385 at p = 0.05).
 **Scope, added 13 October.** The invariance is a property of end-of-circuit
 noise, not of depolarising noise in general. An independent numpy simulation
 (`tests/test_independent_theory.py`) with noise after *every* layer gives
-input-dependent contraction factors (0.81–0.87 at p = 0.05) and reorders 24 of
-1,770 test pairs. The paper names the noise model and states this. `07`'s
+input-dependent contraction factors (0.81–0.87 at p = 0.05) and reorders 7 of
+1,770 test pairs for the test's readout vector; over 1,000 random readout
+vectors the count has median 10 (5th–95th percentile 1–25, maximum 39)
+(`scripts/print_independent_theory.py`, `logs_independent_theory.txt`).
+Corrected 15 October: earlier versions said 24, a figure no recorded run
+gives. The paper names the noise model and states this. `07`'s
 docstring writes the channel as ρ → (1 − p)ρ + p·I/2, which would contract by
 (1 − p); PennyLane's `DepolarizingChannel` is the Pauli form
 ρ → (1 − p)ρ + (p/3)(XρX + YρY + ZρZ), which contracts by (1 − 4p/3) — the
@@ -273,13 +282,99 @@ width d changes. Mean AUC:
 | PneumoniaMNIST | 100 | 0.9437 | 0.9437 | +0.0000 |
 | PneumoniaMNIST | full | 0.9733 | 0.9730 | −0.0002 |
 
-Mean gap +0.0018. **Compressing to d=4 costs almost nothing in AUC** at n=100
-and at full data. The only consistent cost is on PathMNIST (+0.013 to +0.014).
+Mean gap +0.0018. **In this end-to-end setting**, compressing to d=4 costs
+almost nothing in AUC at n=100 and at full data. The only consistent cost is on PathMNIST (+0.013 to +0.014).
 There, d=16 reaches 0.9876 at full data, so 1 − AUC falls from 2.9 % to 1.2 %.
-This result contradicts the conference paper's "Bottleneck Gap" more directly
-than anything else in the project: there is no large compression penalty for a
-head to recover. It was not run at n ≤ 50. The manuscript reports it as
-exploratory context and does not frame d=4 as a severe constraint.
+In that end-to-end setting there was no large compression penalty for a head
+to recover. It was not run at n ≤ 50.
+
+**Superseded for the frozen setting by Amendment 18 (run 15 October,
+`29_compression_frozen`, 480 runs, 10 seeds, nested bootstrap, BH m = 24).**
+With frozen features — the setting of every reported comparison — the cost
+d=256 − d=4 of the identity head is:
+
+| Dataset | n = 5 | 10 | 20 | 50 | 100 | full |
+|---|---|---|---|---|---|---|
+| BloodMNIST | **+0.0550** | **+0.0180** | **+0.0201** | **+0.0239** | **+0.0211** | **+0.0217** |
+| PathMNIST | **+0.0232** | **+0.0180** | **+0.0126** | **+0.0046** | +0.0029 | +0.0012 |
+| BreastMNIST | +0.0308 | −0.0083 | +0.0145 | −0.0017 | −0.0004 | +0.0161 |
+| PneumoniaMNIST | +0.0036 | +0.0027 | −0.0047 | +0.0002 | −0.0000 | −0.0022 |
+
+Bold: interval excludes 0 after BH. Mean over datasets +0.0281, +0.0076,
++0.0106, +0.0068, +0.0059 (n = 5 … 100), +0.0092 (full); slope −0.00405
+[−0.00797, −0.00032]. Both pre-written predictions failed: P1 (cost < 0.02 at
+n = 100 and full data on every dataset) fails on BloodMNIST, and P2 (no mean
+cost at n ≤ 20) fails. **With frozen features, d = 4 is a material constraint
+on BloodMNIST at every n and on PathMNIST at small n.** The manuscript says so
+and does not call compression nearly free. Exploratory observation, not tested:
+BloodMNIST is also the dataset that carries the H-P1 advantage. Log:
+`logs_stats_compression_frozen.txt`.
+
+### Protocol checks — 15 October 2026
+
+From the run records (`scripts/check_paper_facts.py`, `logs_paper_facts.txt`)
+and Amendment 19.
+
+**Early stopping.** The rule as written matches every run in every namespace,
+except the nine shards of `13_stepbudget`, the 27 August check, which ran at a
+different budget.
+
+**Learning rates.** Every rate in the manuscript's table is the rate recorded
+in the runs.
+
+**The 100-epoch cap.** In `01_frozen_tuned`, 57–63% of runs, depending on the
+arm, reached the cap, and the median selected epoch is 79–90.
+
+Amendment 19 (n = 5, `quantum_vqc` and `matched_param_fullrank`, ten seeds,
+1,000 epochs with patience 200):
+
+- Every run stopped early, at 201–455 epochs.
+- Pooled change: VQC +0.0012 [−0.0000, +0.0027]; matched +0.0021
+  [+0.0002, +0.0042].
+- Δ(5): +0.0314 [+0.0111, +0.0551] at 100 epochs, +0.0305 [+0.0101, +0.0540]
+  at 1,000.
+- Both predictions held. Seed bootstrap; `logs_stats_budget_check.txt`.
+
+Whether the cap binds at n ≥ 10, for the other three arms, or with full
+data (71 of 80 full-data runs reached it) is Amendment 20 (pending).
+
+**Gradient clipping at 20.** The shards store the epoch mean of the pre-clip
+norm. It exceeded 20 only in these arms:
+
+| Arm | Epochs above 20 | Maximum |
+|---|---|---|
+| `fourier_rff_r2` | 1,053 of 70,673 | 61.5 |
+| `fourier_rff`, d = 4 | 4 of 69,306 | 26.2 |
+| `fourier_rff`, d = 8 | 2,466 of 17,200 | 112.0 |
+| `fourier_rff`, d = 16 | 428 of 3,613 | 79.6 |
+| `linear`, d = 256 (compression) | 4 of 20,708 | 21.8 |
+
+The epoch mean never exceeded 20 in a circuit arm: the maximum was 8.0
+single-encoding and 9.5 re-uploading. It came close in three classical heads:
+the matched head (15.0), low-rank rank 8 (19.9) and the matched head with a
+trainable layer3 (18.3).
+
+So clipping acted on classical Fourier heads and not on the circuits. That is
+the confound the protocol was meant to exclude, and it bears most strongly on
+E7. Only epoch means were recorded, so no arm is cleared step by step.
+
+Amendment 21 (pending) does two things:
+- It re-executes every reported run at the original protocol, with the code
+  of its own commit, recording every step and saving the trained weights.
+- It repeats without clipping every run in which a step exceeded 20.
+
+**The threshold's stated basis, and the pre-tuning norms.**
+
+- The basis "9.62 and 15.87, from `deep_funnel` runs" was set on 10 August at
+  19:30 (git `7be3dcf`). That was before the run-record system was first
+  committed (23:55 the same day), so it was never written to a record.
+  `scripts/verify_claims.py` searches the pod regardless. The manuscript will
+  report the measured step norms of every reported run instead.
+- Amendment 3's pre-tuning norms ("0.48–0.76; 0.97–1.39; 1.27–2.55") match the
+  arms of the diagnostic runs, which carry per-epoch norms at 1e-3.
+  `verify_claims.py` recomputes them per dataset and n. For reference, the
+  tuning records at 1e-3 give overall means of 0.632 (VQC), 0.739 (identity),
+  1.112 (matched) and 2.734 (Fourier).
 
 ### Fairness ablations (10 seeds)
 
@@ -391,10 +486,12 @@ dataset-level patterns give no support to that reading.
    latent coordinates unsaturated at n=5 than under the matched head, at an
    identical learning rate; this does not track the AUC advantage. Both
    pre-written predictions were wrong — **exploratory (E8)**.
-10. Compressing the 256 features to d=4 costs almost no AUC at n=100 and at full
-    data (mean gap +0.0018; PathMNIST the exception at about +0.014). The
-    conference paper's "Bottleneck Gap" does not exist at those data sizes —
-    **exploratory, pre-plan protocol, 3 seeds**.
+10. With frozen features, compressing the 256 features to d=4 costs AUC on
+    BloodMNIST at every n (+0.018 to +0.055) and on PathMNIST at small n
+    (+0.023 at n=5), and nothing detectable on the two binary sets. Both
+    pre-written predictions failed — **exploratory, Amendment 18, 10 seeds**.
+    The earlier end-to-end check (trainable layer3), which found almost no
+    cost at n=100 and full data, does not transfer to the frozen setting.
 
 ---
 

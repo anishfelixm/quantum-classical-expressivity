@@ -57,7 +57,7 @@ None of the following may appear as a finding in the journal version:
 
 | Conference claim | What the journal's controls show |
 |---|---|
-| VQC maps z into ℂ¹⁶ and gains expressivity from the Hilbert space; "Bottleneck Gap" | encoded amplitudes are real; outputs lie in a 3^d classical trigonometric span (residual 1e-16); compression to d=4 costs +0.0018 mean AUC against d=256 at n=100 and full data (premise check, `RESULTS.md` §3), so there is no gap for a head to close |
+| VQC maps z into ℂ¹⁶ and gains expressivity from the Hilbert space; "Bottleneck Gap" | encoded amplitudes are real; outputs lie in a 3^d classical trigonometric span (residual 1e-16); so whatever the head adds is not Hilbert-space expressivity. Compression to d=4 does cost AUC with frozen features on BloodMNIST (every n) and PathMNIST (small n) (Amendment 18, `RESULTS.md` §3); the earlier end-to-end check's "+0.0018" does not transfer. No test measures whether a head "recovers" that loss |
 | Classical heads suffer "topological collapse" at d=4 | the conference compared against Linear and MLP only, with no parameter matching; against a matched head the VQC is ahead only at n=5, by +0.014 |
 | "Latent Reshaping": quantum gradients reshape the backbone favourably | H-S4 (encoder absorbs head) not supported; no VQC-specific reshaping is shown |
 | "Precision Paradox", "Glass Cannon", "phase misalignment" | F1 collapse under noise with AUC preserved happens to the classical control too (gap +0.30 to +0.34); the VQC's excess is +0.04 to +0.07 |

@@ -1,0 +1,7 @@
+torch: 2.4.1+cu118 | pennylane: 0.42.3 | numpy: 1.26.4
+cuda: True NVIDIA A100-SXM4-40GB MIG 3g.20gb
+weights_only: True
+backprop   out.sum=4.8420352936  z.grad=19.1322574615  w.grad=9.7079191208
+adjoint    out.sum=4.8420333862  z.grad=19.1322517395  w.grad=9.7079162598
+d=16 L=4: 0.623s/step, 3.32 GB
+weights_only load: {'a': tensor([ 0.2739,  0.5679, -0.6731])}

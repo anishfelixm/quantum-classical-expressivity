@@ -39,7 +39,7 @@ written before they ran. **Exploratory**: everything else.
 | 7 | Data re-uploading (a wider frequency spectrum) helps at n ≥ 10. At n = 10 this is the **opposite** of the prediction written before the run. | confirmatory |
 | 8 | Reading out two-qubit correlators ⟨XᵢXⱼ⟩ as well as ⟨Xᵢ⟩ helps (+0.011). | confirmatory |
 | 9 | Under sensor noise, macro-F1 collapses while AUC holds for **every** small head, classical or quantum. The cause is the decision threshold, not miscalibration: the VQC's calibration error is among the lowest of seven heads. | confirmatory + descriptive |
-| 10 | Compressing the 256 features to d = 4 costs almost nothing: mean AUC gap +0.0018 against d = 256 at n = 100 and full data. | exploratory (pre-plan, 3 seeds) |
+| 10 | With frozen features, compressing the 256 features to d = 4 costs AUC on BloodMNIST at every n (+0.018 to +0.055) and on PathMNIST at small n (+0.023 at n = 5), and nothing detectable on the two binary sets. Both pre-written predictions failed. | exploratory (Amendment 18, 10 seeds) |
 | 11 | Under the VQC head, the projection leaves about one fewer of four latent coordinates unsaturated at n = 5, at the same learning rate. This does not track the advantage. | exploratory |
 
 Of the 23 confirmatory tests, 14 were supported, 1 came out opposite to its
@@ -128,8 +128,9 @@ python -m pytest tests/test_independent_theory.py -v    # plain numpy, no PennyL
 
 The independent rebuild also verifies the depolarising-noise result: noise
 applied once after the circuit contracts every ⟨Xᵢ⟩ by (1 − 4p/3) and leaves
-binary AUC exactly unchanged. Noise after every layer does not; there, 24 of
-1,770 test pairs reorder. Derivations: [`docs/MATH_VERIFICATION.md`](docs/MATH_VERIFICATION.md).
+binary AUC exactly unchanged. Noise after every layer does not; there, 7 of
+1,770 test pairs reorder for the test's readout vector (median 10 over 1,000
+random readouts). Derivations: [`docs/MATH_VERIFICATION.md`](docs/MATH_VERIFICATION.md).
 
 ---
 
@@ -142,7 +143,7 @@ hidden an effect.
 | Confound | Fix |
 |---|---|
 | The first "parameter-matched" control was rank-limited | `matched_param_fullrank`, plus `low_rank`, whose parity identity holds at every d |
-| Gradient clipping at 1.0 bound on classical arms and never on the VQC, acting as a per-arm learning-rate multiplier | clip at 20.0, twice the largest observed p95 norm, so it never binds; norms are logged |
+| Gradient clipping at 1.0 bound on classical arms and never on the VQC, acting as a per-arm learning-rate multiplier | clip at 20.0, with pre-clip norms logged. The logs show 20.0 still binds on the Fourier heads (epoch means above 20 in 1,053 of 70,673 epochs for the re-uploading Fourier head) and never on a circuit. Every reported run is being re-executed with every step recorded, and without clipping where it acted (Amendment 21) |
 | Checkpoints selected on macro-F1 while AUC was reported | selection on validation AUC (Amendment 2); F1-selected results reported as a sensitivity check |
 | One shared learning rate, while gradient scales differ about 5× across arms | per-arm rates tuned on validation, on seeds disjoint from the confirmatory seeds (`09`) |
 | Duplicated Fourier frequencies (both ω and −ω) | one representative per ±ω pair |
@@ -307,7 +308,7 @@ literature, which is why the controls are worth reporting:
 
 | Claim in the earlier draft | What the controls show |
 |---|---|
-| The VQC maps the latent into a 16-dimensional complex Hilbert space and gains expressivity there; classical heads suffer a "Bottleneck Gap" | the head's output is a classical trigonometric function; compression to d = 4 costs almost nothing (finding 10) |
+| The VQC maps the latent into a 16-dimensional complex Hilbert space and gains expressivity there; classical heads suffer a "Bottleneck Gap" | the head's output is a classical trigonometric function, so whatever it adds is not Hilbert-space expressivity. Compression to d = 4 does cost AUC with frozen features on two datasets (finding 10); no test here measures whether any head "recovers" it |
 | Classical heads suffer "topological collapse" at d = 4 | against a parameter-matched head, the VQC is ahead only at n = 5, by +0.014 |
 | "Latent Reshaping": quantum gradients reshape the encoder favourably | not supported (H-S4) |
 | "Precision Paradox": the hybrid's F1 collapses under noise while AUC holds | the same happens to the classical control; a decision-threshold effect common to every small head |

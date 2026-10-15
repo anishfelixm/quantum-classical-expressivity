@@ -1,0 +1,45 @@
+
+Integrity: 480 runs re-scored from stored predictions; max |recomputed - recorded| = 0.00e+00
+
+BH-FDR m = 24  (24 computed)  -- EXPLORATORY cell-level table
+
+=== CROSS-CONDITION: dim=256 minus dim=4  (auc) ===
+Same arm, same seeds, same data. Only dim differs.
+
+condition                          arm                        delta                95% CI         p     p_adj       d  verdict
+------------------------------------------------------------------------------------------------------------------------------
+bloodmnist n=5 d=4  lrh=3e-02      linear                   +0.0550 [+0.0239,+0.0975]    0.0000    0.0000   +0.87  dim=256 better
+bloodmnist n=10 d=4  lrh=3e-02     linear                   +0.0180 [+0.0092,+0.0276]    0.0000    0.0000   +1.17  dim=256 better
+bloodmnist n=20 d=4  lrh=3e-02     linear                   +0.0201 [+0.0152,+0.0254]    0.0000    0.0000   +2.40  dim=256 better
+bloodmnist n=50 d=4  lrh=3e-02     linear                   +0.0239 [+0.0181,+0.0307]    0.0000    0.0000   +2.31  dim=256 better
+bloodmnist n=100 d=4  lrh=3e-02    linear                   +0.0211 [+0.0151,+0.0275]    0.0000    0.0000   +2.10  dim=256 better
+bloodmnist n=full d=4  lrh=3e-02   linear                   +0.0217 [+0.0138,+0.0303]    0.0000    0.0000   +1.56  dim=256 better
+breastmnist n=5 d=4  lrh=3e-02     linear                   +0.0308 [-0.0345,+0.0963]    0.3320    0.4856   +0.36  no difference
+breastmnist n=10 d=4  lrh=3e-02    linear                   -0.0083 [-0.0450,+0.0290]    0.6780    0.8136   -0.20  no difference
+breastmnist n=20 d=4  lrh=3e-02    linear                   +0.0145 [-0.0171,+0.0472]    0.3440    0.4856   +0.36  no difference
+breastmnist n=50 d=4  lrh=3e-02    linear                   -0.0017 [-0.0256,+0.0252]    0.8890    0.9742   -0.05  no difference
+breastmnist n=100 d=4  lrh=3e-02   linear                   -0.0004 [-0.0152,+0.0135]    0.9910    0.9910   -0.03  no difference
+breastmnist n=full d=4  lrh=3e-02  linear                   +0.0161 [-0.0122,+0.0492]    0.2980    0.4768   +1.25  no difference
+pathmnist n=5 d=4  lrh=3e-02       linear                   +0.0232 [+0.0124,+0.0366]    0.0000    0.0000   +1.14  dim=256 better
+pathmnist n=10 d=4  lrh=3e-02      linear                   +0.0180 [+0.0128,+0.0232]    0.0000    0.0000   +2.10  dim=256 better
+pathmnist n=20 d=4  lrh=3e-02      linear                   +0.0126 [+0.0070,+0.0180]    0.0000    0.0000   +1.37  dim=256 better
+pathmnist n=50 d=4  lrh=3e-02      linear                   +0.0046 [+0.0012,+0.0083]    0.0060    0.0144   +0.80  dim=256 better (negligible)
+pathmnist n=100 d=4  lrh=3e-02     linear                   +0.0029 [-0.0003,+0.0064]    0.0850    0.1700   +0.52  no difference
+pathmnist n=full d=4  lrh=3e-02    linear                   +0.0012 [-0.0008,+0.0033]    0.2350    0.4338   +0.41  no difference
+pneumoniamnist n=5 d=4  lrh=3e-02  linear                   +0.0036 [-0.0075,+0.0131]    0.5320    0.7093   +0.21  no difference
+pneumoniamnist n=10 d=4  lrh=3e-02 linear                   +0.0027 [-0.0060,+0.0123]    0.6070    0.7667   +0.19  no difference
+pneumoniamnist n=20 d=4  lrh=3e-02 linear                   -0.0047 [-0.0121,+0.0004]    0.0760    0.1658   -0.48  no difference
+pneumoniamnist n=50 d=4  lrh=3e-02 linear                   +0.0002 [-0.0022,+0.0027]    0.8930    0.9742   +0.05  no difference
+pneumoniamnist n=100 d=4  lrh=3e-02 linear                   -0.0000 [-0.0027,+0.0028]    0.9900    0.9910   -0.00  no difference
+pneumoniamnist n=full d=4  lrh=3e-02 linear                   -0.0022 [-0.0070,+0.0011]    0.2790    0.4768   -0.35  no difference
+
+=== Trend of the contrast on log2(shots/class) ===
+    n=   5  mean delta = +0.0281 (4 cells)
+    n=  10  mean delta = +0.0076 (4 cells)
+    n=  20  mean delta = +0.0106 (4 cells)
+    n=  50  mean delta = +0.0068 (4 cells)
+    n= 100  mean delta = +0.0059 (4 cells)
+
+    slope = -0.00405 per doubling  [-0.00797, -0.00032]
+    Negative slope with a CI excluding 0 = the contrast shrinks
+    as data grows. Result: SUPPORTED

@@ -106,8 +106,9 @@ def main():
         out(f"NAMESPACE {ns}   shards={len(files)}   unreadable={bad}")
         out(f"  git commits: {fmt_counts(shas)}")
         # Training budget: 30_budget_check runs 01 with MAX_EPOCHS=1000, PATIENCE=200
-        # (scripts/run_budget_check.py); every other namespace uses config defaults.
-        max_ep, pat = (1000, 200) if ns.startswith("30_budget") else (100, 30)
+        # (scripts/run_budget_check.py); B_ namespaces (Amendment 20) record their
+        # budget in the shard's "recorded" field; everything else uses 100 / 30.
+        max_ep0, pat0 = (1000, 200) if ns.startswith("30_budget") else (100, 30)
         for gk, rs in sorted(groups.items()):
             label = " ".join(f"{a}={b}" for a, b in gk)
             lrh, lrq = collections.Counter(), collections.Counter()
@@ -118,6 +119,9 @@ def main():
             rule_ok, rule_bad, rule_na, bad_examples = 0, 0, 0, []
             for r in rs:
                 k = r.get("keys", {})
+                rec = r.get("recorded") or {}
+                max_ep = int(rec.get("max_epochs", max_ep0))
+                pat = int(rec.get("patience", pat0))
                 m = r.get("metrics", {}) if isinstance(r.get("metrics"), dict) else {}
                 if not m and isinstance(r.get("test_metrics"), dict):   # 09_lr_selection
                     m = r["test_metrics"]
@@ -183,9 +187,9 @@ def main():
             out(f"      lr_quantum: {fmt_counts(lrq)}")
             if epochs:
                 out(f"      epochs run: min {min(epochs)}, median {statistics.median(epochs)}, "
-                    f"max {max(epochs)}; stopped before the {max_ep}-epoch cap: {early} of {len(epochs)}")
+                    f"max {max(epochs)}; stopped before the {max_ep0}-epoch cap (or recorded budget): {early} of {len(epochs)}")
             if rule_ok or rule_bad:
-                out(f"      early-stopping rule (val AUC, patience {pat}, floor min(max(20,200//B),{max_ep // 2})): "
+                out(f"      early-stopping rule (val AUC, patience {pat0}, floor min(max(20,200//B),{max_ep0 // 2}); recorded budgets override): "
                     f"matches {rule_ok}, does NOT match {rule_bad}, not checkable {rule_na}"
                     + (f"; e.g. (dataset, n, seed, ran, expected) {bad_examples}" if bad_examples else ""))
             if best:

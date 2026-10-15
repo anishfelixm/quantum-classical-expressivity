@@ -1,0 +1,122 @@
+REPORTING TABLES - descriptive companions to the confirmatory family
+  metric self-check vs scikit-learn: OK
+  01_frozen_tuned         4000 run records
+  03_robustness_v2        1400 run records
+  10_capacity             1000 run records
+  12_bottleneck            900 run records
+  14_readout               600 run records
+  15_dim8                  800 run records
+  16_dim16                 200 run records
+  17_fulldata               80 run records
+  21_ansatz                400 run records
+  25_encoder               800 run records
+  26_bottleneck_tuned     3200 run records
+  27_capacity_tuned       1600 run records
+  integrity: 4000 primary-namespace runs, max |recorded - recomputed AUC| = 2.22e-16
+
+=== 1. Absolute AUC, primary arms, n=5 (mean over seeds) ===
+  bloodmnist      matched classical head   0.7418 (SD 0.0909, 40 seeds)
+  breastmnist     matched classical head   0.6579 (SD 0.0728, 40 seeds)
+  pathmnist       matched classical head   0.8376 (SD 0.0447, 40 seeds)
+  pneumoniamnist  matched classical head   0.8894 (SD 0.0509, 40 seeds)
+  bloodmnist      VQC                      0.7864 (SD 0.0639, 40 seeds)
+  breastmnist     VQC                      0.6683 (SD 0.0681, 40 seeds)
+  pathmnist       VQC                      0.8338 (SD 0.0283, 40 seeds)
+  pneumoniamnist  VQC                      0.8950 (SD 0.0329, 40 seeds)
+
+=== 2. Sensitivity: checkpoint chosen by F1 instead of AUC (descriptive, seed-level CI) ===
+  primary:
+    n=   5  AUC-selected +0.0142   F1-selected +0.0168 [+0.0036, +0.0299]
+    n=  10  AUC-selected +0.0002   F1-selected +0.0045 [-0.0056, +0.0146]
+    n=  20  AUC-selected -0.0050   F1-selected -0.0051 [-0.0113, +0.0012]
+    n=  50  AUC-selected -0.0080   F1-selected -0.0091 [-0.0140, -0.0043]
+    n= 100  AUC-selected -0.0074   F1-selected -0.0067 [-0.0105, -0.0030]
+  hs1:
+    n=   5  AUC-selected +0.0039   F1-selected +0.0042 [-0.0037, +0.0122]
+    n=  10  AUC-selected +0.0090   F1-selected +0.0077 [+0.0020, +0.0134]
+    n=  20  AUC-selected +0.0125   F1-selected +0.0125 [+0.0086, +0.0164]
+    n=  50  AUC-selected +0.0102   F1-selected +0.0117 [+0.0082, +0.0152]
+    n= 100  AUC-selected +0.0103   F1-selected +0.0101 [+0.0076, +0.0126]
+  hs2:
+    n=   5  AUC-selected -0.0095   F1-selected -0.0134 [-0.0220, -0.0048]
+    n=  10  AUC-selected -0.0187   F1-selected -0.0189 [-0.0233, -0.0146]
+    n=  20  AUC-selected -0.0212   F1-selected -0.0227 [-0.0261, -0.0194]
+    n=  50  AUC-selected -0.0203   F1-selected -0.0221 [-0.0256, -0.0187]
+    n= 100  AUC-selected -0.0161   F1-selected -0.0168 [-0.0197, -0.0139]
+
+=== 3 & 5. Effect sizes for the 23 confirmatory tests ===
+  H-P1         est +0.0142  d_z +0.36 (40 seeds)  SUPPORTED                  
+  H-P2         est -0.0046  d_z -0.56 (40 seeds)  SUPPORTED                  
+  H-S1 n=5     est +0.0039  d_z +0.17 (40 seeds)  not supported              negligible (<0.01)
+  H-S1 n=10    est +0.0090  d_z +0.50 (40 seeds)  OPPOSITE to prediction     negligible (<0.01)
+  H-S1 n=20    est +0.0125  d_z +0.88 (40 seeds)  difference (no prediction) 
+  H-S1 n=50    est +0.0102  d_z +0.95 (40 seeds)  SUPPORTED                  
+  H-S1 n=100   est +0.0103  d_z +1.38 (40 seeds)  SUPPORTED                  
+  H-S2 n=5     est -0.0095  d_z -0.34 (40 seeds)  not supported              negligible (<0.01)
+  H-S2 n=10    est -0.0187  d_z -1.38 (40 seeds)  SUPPORTED                  
+  H-S2 n=20    est -0.0212  d_z -1.54 (40 seeds)  SUPPORTED                  
+  H-S2 n=50    est -0.0203  d_z -2.28 (40 seeds)  SUPPORTED                  
+  H-S2 n=100   est -0.0161  d_z -1.89 (40 seeds)  SUPPORTED                  
+  H-S3 s=0.05  est +0.3560  d_z +10.68 (10 seeds)  SUPPORTED                  
+  H-S3 s=0.10  est +0.4008  d_z +9.08 (10 seeds)  SUPPORTED                  
+  H-S3 s=0.15  est +0.3822  d_z +7.21 (10 seeds)  SUPPORTED                  
+  H-S3 s=0.20  est +0.3650  d_z +8.67 (10 seeds)  SUPPORTED                  
+  H-S4         est -0.0048  d_z -0.93 (10 seeds)  not supported              negligible (<0.01)
+  H-S5a        est -0.0124  d_z -0.45 (10 seeds)  not supported              
+  H-S5b        est +0.0029  d_z +0.55 (10 seeds)  not supported              
+  H-S6 pca     est -0.0283  d_z -0.22 (5 seeds)  not supported              
+  H-S6 random  est -0.0545  d_z -0.73 (5 seeds)  not supported              
+  H-S7a        est +0.0114  d_z +1.73 (10 seeds)  SUPPORTED                  
+  H-S7b        est +0.0111  d_z +1.42 (10 seeds)  SUPPORTED                  
+
+=== 4. Noise, descriptive: G = rel. F1 loss - rel. AUC loss, ECE ===
+  clean AUC recomputed vs recorded: max diff 2.22e-16
+  sigma=0.05: fourie G=0.320 ECE=0.330 | linear G=0.329 ECE=0.313 | low G=0.297 ECE=0.252 | matche G=0.303 ECE=0.263 | quantu G=0.340 ECE=0.268 | quantu G=0.348 ECE=0.244 | quantu G=0.356 ECE=0.226
+  sigma=0.10: fourie G=0.361 ECE=0.403 | linear G=0.381 ECE=0.396 | low G=0.348 ECE=0.304 | matche G=0.335 ECE=0.325 | quantu G=0.365 ECE=0.334 | quantu G=0.377 ECE=0.295 | quantu G=0.401 ECE=0.289
+  sigma=0.15: fourie G=0.356 ECE=0.446 | linear G=0.376 ECE=0.439 | low G=0.338 ECE=0.337 | matche G=0.339 ECE=0.354 | quantu G=0.362 ECE=0.363 | quantu G=0.366 ECE=0.318 | quantu G=0.382 ECE=0.319
+  sigma=0.20: fourie G=0.331 ECE=0.467 | linear G=0.347 ECE=0.460 | low G=0.306 ECE=0.352 | matche G=0.317 ECE=0.370 | quantu G=0.351 ECE=0.386 | quantu G=0.347 ECE=0.337 | quantu G=0.365 ECE=0.342
+
+=== 6. Exploratory scope (descriptive means; seed-level CI) ===
+  d8    n=   5 delta -0.0132 [-0.0340, +0.0076] (10 seeds)
+  d8    n=  10 delta -0.0114 [-0.0179, -0.0049] (10 seeds)
+  d8    n=  20 delta -0.0070 [-0.0140, -0.0001] (10 seeds)
+  d8    n=  50 delta -0.0110 [-0.0192, -0.0029] (10 seeds)
+  d8    n= 100 delta -0.0050 [-0.0090, -0.0010] (10 seeds)
+  d16   n=   5 delta +0.0032 [-0.0117, +0.0180] (5 seeds)
+  d16   n=  10 delta +0.0093 [-0.0173, +0.0360] (5 seeds)
+  d16   n=  20 delta -0.0052 [-0.0185, +0.0081] (5 seeds)
+  d16   n=  50 delta +0.0034 [-0.0030, +0.0098] (5 seeds)
+  d16   n= 100 delta +0.0037 [-0.0025, +0.0100] (5 seeds)
+  full  n=full delta -0.0068 [-0.0245, +0.0109] (5 seeds)
+
+=== 7. Provenance ===
+  01_frozen_tuned         4000 runs  2026-08-31T19:15:53 -> 2026-10-03T11:17:59  commits {'bd833baa': 1600, '30e57d94': 800, '9dcda129': 1600}
+  03_robustness_v2        1400 runs  2026-09-30T10:59:02 -> 2026-10-01T00:38:16  commits {'bd833baa': 1400}
+  10_capacity             1000 runs  2026-08-31T18:28:43 -> 2026-08-31T19:13:00  commits {'9dcda129': 1000}
+  12_bottleneck            900 runs  2026-08-30T09:56:09 -> 2026-08-30T13:27:56  commits {'8f48df8c': 900}
+  14_readout               600 runs  2026-09-02T19:07:20 -> 2026-09-03T01:48:39  commits {'9e637b38': 600}
+  15_dim8                  800 runs  2026-09-06T18:22:06 -> 2026-09-06T22:44:42  commits {'141a7111': 800}
+  16_dim16                 200 runs  2026-09-07T07:51:05 -> 2026-09-07T09:30:27  commits {'141a7111': 200}
+  17_fulldata               80 runs  2026-09-11T07:17:33 -> 2026-09-16T16:52:30  commits {'e07459a5': 80}
+  21_ansatz                400 runs  2026-10-01T15:56:45 -> 2026-10-01T21:15:34  commits {'bd833baa': 400}
+  25_encoder               800 runs  2026-10-01T10:02:00 -> 2026-10-01T15:56:34  commits {'bd833baa': 800}
+  26_bottleneck_tuned     3200 runs  2026-10-03T11:18:16 -> 2026-10-04T05:36:43  commits {'30e57d94': 3200}
+  27_capacity_tuned       1600 runs  2026-10-06T14:42:28 -> 2026-10-06T15:50:26  commits {'17506e82': 1600}
+  Compare with the analysis plan's commit date:
+    git log --reverse --date=iso --format="%h %ad %s" -- docs/analysis_plan.md
+
+=== 8. Trainable capacity (from the run records) ===
+  01_frozen_tuned      matched_param_fullrank   bloodmnist   learned  projection 1028, head 24, classifier 40, total 1092
+  01_frozen_tuned      matched_param_fullrank   breastmnist  learned  projection 1028, head 24, classifier 10, total 1062
+  01_frozen_tuned      quantum_vqc              bloodmnist   learned  projection 1028, head 24, classifier 40, total 1092
+  01_frozen_tuned      quantum_vqc              breastmnist  learned  projection 1028, head 24, classifier 10, total 1062
+  26_bottleneck_tuned  matched_param_fullrank   bloodmnist   pca      projection 0, head 24, classifier 40, total 64
+  26_bottleneck_tuned  matched_param_fullrank   bloodmnist   random   projection 0, head 24, classifier 40, total 64
+  26_bottleneck_tuned  matched_param_fullrank   breastmnist  pca      projection 0, head 24, classifier 10, total 34
+  26_bottleneck_tuned  matched_param_fullrank   breastmnist  random   projection 0, head 24, classifier 10, total 34
+  26_bottleneck_tuned  quantum_vqc              bloodmnist   pca      projection 0, head 24, classifier 40, total 64
+  26_bottleneck_tuned  quantum_vqc              bloodmnist   random   projection 0, head 24, classifier 40, total 64
+  26_bottleneck_tuned  quantum_vqc              breastmnist  pca      projection 0, head 24, classifier 10, total 34
+  26_bottleneck_tuned  quantum_vqc              breastmnist  random   projection 0, head 24, classifier 10, total 34
+
+Written: artifacts/reporting/reporting_tables.json, capacity.json; /tmp/tables_rerun/*.csv

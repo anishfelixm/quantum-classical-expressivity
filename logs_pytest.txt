@@ -1,0 +1,159 @@
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+
+  breastmnist n=5: train=[5, 5] val=[10, 10] val/train=2.0
+.Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+
+  bloodmnist n=5: train=[5, 5, 5, 5, 5, 5, 5, 5] val=[10, 10, 10, 10, 10, 10, 10, 10] val/train=2.0
+.Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+
+  breastmnist n=20: train=[20, 20] val=[21, 40] val/train=1.525
+.Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+
+  bloodmnist n=20: train=[20, 20, 20, 20, 20, 20, 20, 20] val=[40, 40, 40, 40, 40, 40, 40, 40] val/train=2.0
+.Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/pneumoniamnist.npz
+
+  n_val=20 (full split would be 524)
+.Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+
+  breastmnist n=100: val counts=[21, 57] (available [21, 57])
+.Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+.Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/bloodmnist.npz
+.Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+Using downloaded and verified file: /home/jovyan/qml_exp_2026/quantum-classical-expressivity/artifacts/data_cache/breastmnist.npz
+..
+  de-normalized range after sigma=0.5: [0.0000, 1.0000]
+...
+  d=2 L=1: basis=     9  max|residual|=4.441e-16  max|v|=0.913  quantum_params=6
+.
+  d=2 L=3: basis=     9  max|residual|=5.551e-16  max|v|=0.588  quantum_params=18
+.
+  d=3 L=2: basis=    27  max|residual|=4.996e-16  max|v|=0.773  quantum_params=18
+.
+  d=4 L=1: basis=    81  max|residual|=3.775e-15  max|v|=0.869  quantum_params=12
+.
+  d=4 L=2: basis=    81  max|residual|=1.110e-15  max|v|=0.978  quantum_params=24
+.
+  d=4 L=4: basis=    81  max|residual|=7.772e-16  max|v|=0.690  quantum_params=48
+.
+  wrong-frequency basis: max|residual|=9.084e-01 (expected large)
+..
+  linear                   params changed=0 buffers changed=0
+.
+  matched_param_fullrank   params changed=0 buffers changed=0
+.
+  low_rank                 params changed=0 buffers changed=0
+.
+  quantum_vqc              params changed=0 buffers changed=0
+.
+  backbone params requiring grad: 0
+  total trainable in model: 1062
+.
+  grad norms: {'backbone': None, 'bottleneck': 0.3159467022287111, 'head': 0.08504697680473328, 'classifier': 0.3784681949842829}
+.
+  without set_bn_eval: params changed=0 buffers changed=45
+.
+  linear         backbone grad=6.1999076450836705
+  layer3 params changed=15  other blocks changed=0
+.
+  quantum_vqc    backbone grad=0.23424105055846647
+  layer3 params changed=15  other blocks changed=0
+.
+  d(loss)/dh norm = 8.6781e-01
+......
+  quantum_vqc              d=4  head params = 24
+.
+  quantum_reupload         d=4  head params = 24
+.
+  matched_param_fullrank   d=4  head params = 24
+.
+  low_rank                 d=4  head params = 24
+.
+  matched_param            d=4  head params = 24
+.
+  quantum_vqc=24  quantum_reupload=24  matched_param_fullrank=24  low_rank=24  matched_param=24
+.
+  low_rank rank=2 d=4   params=24 target=24
+.
+  low_rank rank=2 d=8   params=48 target=48
+.
+  low_rank rank=2 d=16  params=96 target=96
+.
+  matched_param_fullrank d=8   params=80 target=48 (mismatch expected)
+
+  matched_param_fullrank d=16  params=288 target=96 (mismatch expected)
+.
+  low_rank rank=0  d=4  params=8
+.
+  low_rank rank=1  d=4  params=16
+.
+  low_rank rank=2  d=4  params=24
+.
+  low_rank rank=4  d=4  params=40
+.
+  low_rank rank=8  d=4  params=72
+..
+  matched_param d=4 hidden_width=3 rank_limited=True
+.
+  quantum_vqc      params=24 spectrum=81
+  quantum_reupload params=24 spectrum=625
+.
+  learned bottleneck: head 2.3% of 1062 trainable
+  frozen  bottleneck: head 70.6% of 34 trainable
+.
+  d=2 L=2 R=1: basis=     9 max|residual|=2.442e-15  max|v|=0.992  params=12
+.
+  d=2 L=2 R=2: basis=    25 max|residual|=2.331e-15  max|v|=0.999  params=12
+.
+  d=2 L=4 R=2: basis=    25 max|residual|=2.831e-15  max|v|=0.988  params=24
+.
+  d=3 L=2 R=2: basis=   125 max|residual|=2.998e-15  max|v|=0.973  params=18
+.
+  d=2 L=3 R=3: basis=    49 max|residual|=2.554e-15  max|v|=0.956  params=18
+.
+  d=2 R=2 fitted with max_freq=1: max|residual|=6.378e-01 (expected LARGE)
+.
+  d=2 R=3 fitted with max_freq=2: max|residual|=1.894e-01 (expected LARGE)
+.
+  d=3 R=2 fitted with max_freq=1: max|residual|=7.609e-01 (expected LARGE)
+.
+  R=1 reproducibility: max|diff|=0.000e+00
+.
+  R=1: 24 params, spectrum 81
+  R=2: 24 params, spectrum 625
+..
+66 passed in 51.38s

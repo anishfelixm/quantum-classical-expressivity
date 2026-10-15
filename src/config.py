@@ -241,9 +241,17 @@ LR_QUANTUM = 1e-3
 WEIGHT_DECAY = 1e-4            # applied to EVERY arm, or to none - never split
 WEIGHT_DECAY_VARIANTS = [0.0, 1e-4]   # pilot runs both as a sensitivity check
 
-GRAD_CLIP_NORM = 20.0   # 2x the largest observed p95 (9.62, deep_funnel/bloodmnist);
-                        # max observed 15.87. Clipping is a safety net against
-                        # explosions, never a per-arm learning-rate multiplier.
+GRAD_CLIP_NORM = 20.0   # Chosen on 10 August (commit 7be3dcf) as 2x the largest p95
+                        # norm seen in early runs (9.62, deep_funnel/bloodmnist; max
+                        # 15.87); those runs predate the run-record system, so the
+                        # figures were never recorded. Intended as a safety net, never
+                        # a per-arm learning-rate multiplier - but the run records show
+                        # it DID bind on Fourier heads (epoch-mean norm above 20 in up
+                        # to 14% of epochs at d=8) and never on a circuit. Amendment 21
+                        # (docs/analysis_plan.md) re-executes every reported run with
+                        # every step recorded, and without clipping where it acted,
+                        # setting this from outside; the value here is unchanged so
+                        # every reported run stays reproducible.
 CLASS_WEIGHT_CLIP = (0.1, 10.0)
 
 # Checkpoints are selected on validation AUC (the primary endpoint) and, as a

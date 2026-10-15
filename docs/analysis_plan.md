@@ -1029,3 +1029,387 @@ under the declared protocol, stand as declared. If P2 fails, the manuscript
 states prominently that the n = 5 advantage does not survive a longer training
 budget. Incomplete cells, if compute ends first, are reported as incomplete with
 their seed counts.
+
+---
+
+## Records of 15 October 2026 — Amendments 18 and 19 after their runs; corrections found in verification
+
+Recorded after the runs. Nothing above this line is edited. Both amendments ran
+on commit `75ad1667`. Logs: `logs_stats_compression_frozen.txt`,
+`logs_stats_budget_check.txt`, `logs_paper_facts.txt`,
+`logs_independent_theory.txt` (archive `v54_logs_2026-10-15.tgz`, SHA-256
+`5d89ac773805c3e08faa22ad2d435a8f3d00be063102a0754594d33ca7b32b10`).
+
+### Amendment 18 — compression with frozen features (`29_compression_frozen`, 480 runs)
+
+Cost = AUC(d = 256) − AUC(d = 4), `linear` arm, 10 seeds, nested bootstrap
+(`04 --compare-key dim --compare-values 256 4`), BH within the analysis
+(m = 24). Integrity: 480 runs re-scored, maximum difference 0. Bold: 95%
+interval excludes zero and BH-adjusted p ≤ 0.05.
+
+| Dataset | n = 5 | 10 | 20 | 50 | 100 | full |
+|---|---|---|---|---|---|---|
+| BloodMNIST | **+0.0550** | **+0.0180** | **+0.0201** | **+0.0239** | **+0.0211** | **+0.0217** |
+| PathMNIST | **+0.0232** | **+0.0180** | **+0.0126** | **+0.0046** | +0.0029 | +0.0012 |
+| BreastMNIST | +0.0308 | −0.0083 | +0.0145 | −0.0017 | −0.0004 | +0.0161 |
+| PneumoniaMNIST | +0.0036 | +0.0027 | −0.0047 | +0.0002 | −0.0000 | −0.0022 |
+
+Mean over datasets: +0.0281, +0.0076, +0.0106, +0.0068, +0.0059 at
+n = 5, 10, 20, 50, 100 (full data: +0.0092). Slope on log₂ n −0.00405
+[−0.00797, −0.00032].
+
+- **P1 fails on BloodMNIST** (+0.0211 at n = 100, +0.0217 with full data, both
+  above 0.02). It holds on the other three datasets.
+- **P2 fails.** The mean cost at n ≤ 20 is positive at every size (+0.0281,
+  +0.0076, +0.0106), not ≤ 0.
+
+As the amendment specified: the manuscript says that d = 4 is a material
+constraint on BloodMNIST with frozen features, does not call compression
+"nearly free", and reports the earlier end-to-end check only as context, with
+its protocol. Exploratory observation, found by looking and not tested:
+BloodMNIST, where compression costs most, is also the dataset that carries
+the H-P1 advantage.
+
+### Amendment 19 — the 100-epoch budget at n = 5 (`30_budget_check`, 80 runs)
+
+All 80 runs trained at (1e-2, 1e-2). All 80 stopped early, at 201–455 epochs;
+none reached 1,000.
+
+- **P1 holds.** Pooled change (1,000 − 100 epochs): `quantum_vqc` +0.0012
+  [−0.0000, +0.0027]; `matched_param_fullrank` +0.0021 [+0.0002, +0.0042].
+- **P2 holds.** Δ(5) on the same ten seeds: +0.0314 [+0.0111, +0.0551] at
+  100 epochs, +0.0305 [+0.0101, +0.0540] at 1,000.
+
+On BreastMNIST and PneumoniaMNIST the mean selected epoch is the same under
+both budgets (14.3 and 29.4; 15.3 and 17.8). A longer run can only select the
+same or a later epoch, so the selected epoch is the same in every one of those
+40 runs. Mean test AUC agrees to four decimals, consistent with the
+1,000-epoch runs repeating the 100-epoch runs exactly over their shared
+epochs.
+
+
+### Corrections and open items found during manuscript verification
+
+The manuscript was checked line by line against the code, the committed logs
+and the run records. Each claim and its source is listed in
+`docs/CLAIMS_LEDGER.md`. These items affect this plan or its records.
+
+1. **Reordered pairs under per-layer noise: 7 of 1,770, not 24.**
+   - `scripts/print_independent_theory.py` prints the quantity that
+     `tests/test_independent_theory.py` asserts on, with the test's own
+     circuit, inputs and readout vector (seed 1). The count is 7 of 1,770 at
+     p = 0.05.
+   - Over 1,000 random readout vectors the count has median 10, 5th–95th
+     percentile 1–25 and maximum 39, and is zero for 22 of them.
+   - "24" matches no recorded run.
+2. **The stated basis of the clip threshold was never written to a file.**
+   - `config.py` says the threshold of 20 is twice the largest
+     95th-percentile norm seen in early runs (9.62, `deep_funnel` on
+     BloodMNIST; maximum 15.87).
+   - Git dates the threshold to 10 August, 19:30 (commit `7be3dcf`). The
+     shard system that records runs was first committed at 23:55 that day
+     (`3e67091`). So those early runs predate any run record.
+   - `scripts/verify_claims.py` (section D) searches every shard folder,
+     archive and log on the pod for them anyway.
+   - The manuscript does not rest on these values. Amendment 21 records the
+     norm of every optimisation step of every reported run.
+3. **The pre-tuning gradient norms of Amendment 3** ("quantum_vqc 0.48–0.76;
+   linear 0.97–1.39; fourier_rff 1.27–2.55").
+   - The diagnostic runs (`01_frozen`, frozen backbone, rate 1e-3) carry
+     per-epoch pre-clip norms for these arms.
+   - `scripts/verify_claims.py` (section C) recomputes the per-dataset and
+     per-n means. Until it confirms the source, the manuscript does not quote
+     the ranges.
+   - The tuning records (`09_lr_selection`, 1e-3) give overall means of 0.632
+     (VQC), 0.739 (identity), 1.112 (matched) and 2.734 (Fourier).
+4. **Run-record facts** (`scripts/check_paper_facts.py`, `logs_paper_facts.txt`):
+   - The early-stopping rule as written matches every run in every
+     namespace, except the nine shards of `13_stepbudget` (the 27 August
+     check, run at a different budget).
+   - Every learning rate in the manuscript's table is the rate recorded.
+   - The 100-epoch cap was reached by 57–63% of the runs in `01_frozen_tuned`
+     (median selected epoch 79–90), and by 71 of the 80 full-data runs.
+   - The epoch-mean pre-clip norm exceeded 20 in:
+
+     | Arm | Epochs above 20 | Maximum |
+     |---|---|---|
+     | `fourier_rff_r2` | 1,053 of 70,673 | 61.5 |
+     | `fourier_rff`, d = 4 | 4 of 69,306 | 26.2 |
+     | `fourier_rff`, d = 8 | 2,466 of 17,200 | 112.0 |
+     | `fourier_rff`, d = 16 | 428 of 3,613 | 79.6 |
+     | `fourier_rff` in `20_tanh` | 1 epoch | — |
+     | `linear`, d = 256 (`29_compression_frozen`) | 4 of 20,708 | — |
+
+   - Epoch means came close to 20 elsewhere:
+     - `low_rank` rank 8 in `27_capacity_tuned`: 19.9;
+     - the matched head with a trainable layer3 in `25_encoder`: 18.3;
+     - the matched head in the primary namespace: 15.0.
+   - Because only epoch means were recorded, no arm is cleared step by step.
+5. **Statements in the manuscript draft that the audit found inaccurate.**
+   Each is corrected in the manuscript; the ledger gives the source of each
+   correct value.
+   - The PennyLane span residuals were 4×10⁻¹⁶ to 4×10⁻¹⁵, not "6×10⁻¹⁶ to
+     2×10⁻¹⁵".
+   - The NumPy re-derivation residuals were 3.4×10⁻¹⁵ (single encoding),
+     1.7×10⁻¹⁵ (two-qubit readout) and 3.4×10⁻¹⁵ (re-uploading), not
+     2/2/4×10⁻¹⁵.
+   - Adjoint and backpropagation gradients agree to a relative 4×10⁻⁷, not
+     3×10⁻⁷.
+   - The full-data PathMNIST subsample has 10,002 images, not 10,000:
+     per-class rounding of 10,000 × class share.
+   - The early-stopping floor takes the values 50, 40, 33, 28 and 20, not
+     only 50 and 20.
+   - Shot-noise "retention 0.989–1.005" is a ratio of cell means; single runs
+     range more widely.
+   - The 27 August budget check is replaced by Amendments 19 and 20.
+
+---
+
+## Amendment 20 — written 15 October 2026, before the run. Does the 100-epoch budget bind at any n, for any arm, or with full data?
+
+**Status.** Exploratory sensitivity analysis. Not a member of the confirmatory
+family; changes no verdict in it; reported in full whatever it shows. Written
+after every primary result was known, which is why it is exploratory. Its
+motivation is the training dynamics in the run records (item 4 above), not the
+outcome of any contrast.
+
+**Why.**
+- Most primary runs, and 71 of 80 full-data runs, reached the 100-epoch cap,
+  with validation AUC still improving late.
+- Amendment 19 covered only n = 5 and only two arms.
+- H-P2, H-S1, H-S2, E7 and the full-data result are all decided where the cap
+  binds most.
+
+**Design.** `scripts/replay.py --budget 1000:200`, target `B_<source>`.
+- Each run repeats a recorded run with identical keys, re-executed by the code
+  of the commit that recorded it (a git worktree).
+- `config.MAX_EPOCHS` is set to 1,000 and `config.PATIENCE` to 200
+  in-process. Nothing else changes, clipping included.
+- The minimum-epoch floor follows `MAX_EPOCHS // 2`, as in Amendment 19.
+
+| Block | Source | Arms | n | Seeds | Runs | Partner (100 epochs) |
+|---|---|---|---|---|---|---|
+| primary | `01_frozen_tuned` | all five | 5–100 | `config.ALL_SEEDS` (10) | 1,000 | the recorded run |
+| full data | `17_fulldata` | `quantum_vqc`, `matched_param_fullrank` | full | its 5 seeds | 40 | `R_17_fulldata` (same GPU, Amendment 21) |
+
+The recorded full-data runs ran on CPU. Their 100-epoch partner is therefore
+their GPU re-execution, so that the two budgets differ in nothing else.
+
+**Statistics** (`scripts/analyse_budget.py`):
+- The confirmatory nested bootstrap of `13_family_table.py`, B = 2000, with
+  the same draws under both budgets. Every change therefore has a paired
+  interval.
+- (1) Epochs run and selected, and runs reaching 1,000 epochs, per arm and n.
+- (2) Pooled AUC change per arm and n.
+- (3) Δ under each budget, and its change, for VQC − matched, re-upload − VQC,
+  VQC − Fourier, re-upload − Fourier {−2..2}^d and re-upload − matched, per n;
+  plus the slope of VQC − matched.
+- (4) Full data: AUC per arm and dataset under each budget, and pooled
+  VQC − matched under each (descriptive).
+
+**Predictions.**
+- **P1.** For every arm at every n, |pooled change| < 0.01.
+- **P2.** Wherever a contrast's 100-epoch interval on these ten seeds excludes
+  zero, its 1,000-epoch estimate has the same sign.
+- **P3.** The VQC − matched slope is negative under the 1,000-epoch budget.
+- **P4.** With full data, pooled VQC − matched is not positive under either
+  budget.
+
+**Conditional extension, fixed now.** If P1 fails for any arm at any n, the
+same re-execution at 1,000 epochs is run for the follow-up namespaces whose
+arms and sizes match the failure: `26_bottleneck_tuned`, `27_capacity_tuned`
+and `14_readout`, ten seeds. They are analysed the same way.
+
+**What each outcome means for the manuscript.**
+- **P1 fails:** Methods and Limitations state the size of the change and where
+  it occurs.
+- **P2 fails:** the manuscript states, beside the confirmatory verdict and
+  with the same prominence, which contrast does not survive the longer budget.
+- **P3 fails:** the manuscript states that the shrinking of the advantage
+  depends on the 100-epoch budget.
+- **P4 fails:** "absent with full data" is withdrawn.
+
+Confirmatory verdicts stand as computed under the declared protocol. Nothing
+is replaced.
+
+**Stated limitations.**
+- Ten seeds (five at full data), not forty.
+- d = 8 and 16, the ablations and the noise sweep stay at 100 epochs unless
+  the conditional extension triggers.
+
+---
+
+## Amendment 21 — written 15 October 2026, before the run. Every reported training run re-executed, step by step; clipping removed where it acted.
+
+**Status.** A reproducibility audit plus an exploratory sensitivity analysis.
+It changes no confirmatory verdict, and is reported in full whatever it shows.
+
+**Why.**
+- Methods says clipping at 20 never acts as an arm-specific learning rate.
+  The records show the epoch-mean norm above 20 in Fourier heads and never in
+  a circuit (item 4 above).
+- The records hold epoch means only, so no arm can be cleared step by step.
+- The threshold's stated basis was never recorded (item 2).
+- The trained weights of the reported models were never stored. Any question
+  about the trained models themselves (Amendments 22 and 23) needs them back.
+
+**Design.** `scripts/replay.py`.
+- **Re-execution at the original protocol (`--clip 20`, target `R_<source>`).**
+  - Each recorded run is executed again by the code of the commit that
+    recorded it (`--code-at`, a git worktree), through the same `run_cell` of
+    the same study script, with arguments reconstructed exactly from the
+    run's keys.
+  - In-process recorders (`scripts/recorders.py`) keep the pre-clip norm of
+    every optimisation step and the AUC-selected trained weights. They change
+    no computation.
+  - Each re-execution is compared with its record: every number in the two
+    records (timings excepted) and every stored test probability.
+- **Sources.**
+  - Through `01`: `01_frozen_tuned`, `14_readout`, `15_dim8`, `16_dim16`,
+    `17_fulldata`, `18_depth`, `19_angle`, `20_tanh`, `21_ansatz`,
+    `25_encoder`, `26_bottleneck_tuned`, `27_capacity_tuned`,
+    `29_compression_frozen`.
+  - Through their own scripts: `03_robustness_v2`, `09_lr_selection`,
+    `10_capacity`, `12_bottleneck`.
+  - This is every namespace from which the manuscript reports a number,
+    except the pre-plan compression check (`06_premise`, reported only as
+    context) and E8 (`28_latent_saturation`, itself a re-execution).
+- **Unclipped re-execution (`--clip inf`, target `U_<source>`)** of every run
+  whose `R_` record shows a step above 20 or a non-finite norm. Clipping at
+  20 changes a step only when its norm is at least 20. A run with no such
+  step is therefore identical with or without clipping, and needs no
+  unclipped counterpart.
+- **Gate.**
+  - Before anything long is launched, one cheap run per configuration of
+    every source and commit is re-executed (`replay.py --quick`).
+  - Wave 1 starts only if every one is bit-identical to its record.
+  - `17_fulldata` is exempt: it ran on CPU and is re-executed on GPU, so it
+    is reported as a cross-device comparison, not an identity test.
+- **Order** (`scripts/plan_v57_jobs.py`; jobs start in this order):
+  1. `R_01_frozen_tuned`;
+  2. Amendment 20 primary block;
+  3. `R_` of 26, 27, 14, 03, 10, 12, 25;
+  4. `R_` of 15, 16, 21, 18, 19, 20, 29, 09;
+  5. Amendment 23;
+  6. `R_17_fulldata` and Amendment 20's full-data block;
+  7. then wave 2, the `U_` runs.
+
+**Statistics** (`scripts/analyse_replay.py`):
+1. **Identity.** Per source: re-executed, identical, different, with the
+   first differing field.
+2. **Steps.** Per source, arm, configuration, dataset and n: runs with a step
+   above 20, steps above 20, and the largest step norm.
+3. **Unclipped condition.** For each source, a read-only view `X_<source>` of
+   hard links is built: the `U_` run where clipping acted, the recorded run
+   otherwise.
+4. **Recomputation.**
+   - Every analysis of `13_family_table.py` (all 23 tests) and of
+     `14_exploratory_table.py` is recomputed on the views, with the same
+     bootstrap draws as on the recorded namespaces. Each change therefore has
+     a paired interval.
+   - The family's verdicts follow, BH m = 23.
+   - Analyses whose namespaces contain no run in which clipping acted are
+     unchanged by construction, and are reported as such.
+5. **Learning-rate selection** recomputed on `X_09_lr_selection`.
+6. **Everything else.** For every other source, the number of changed runs.
+   Where any changed, its reported numbers are recomputed on the view by the
+   script that produced them.
+
+**Predictions.**
+- **P1.** Every re-execution except `17_fulldata` is bit-identical to its
+  record.
+- **P2.** No step of any `quantum_vqc` or `quantum_reupload` run exceeds 20.
+- **P3.** No confirmatory verdict changes when clipping is removed.
+- **P4.** E7's pattern is unchanged: the sign at each n, and whether the
+  interval excludes zero.
+- **P5.** Amendment 18's P1 and P2 outcomes are unchanged.
+- **P6.** The selected learning rate of every arm is unchanged.
+
+**What each outcome means for the manuscript.**
+- **P1 holds:** Methods states that every reported run was re-executed
+  bit-for-bit, with the count.
+- **P1 fails:** the runs that differ, and by how much, are reported. The
+  identity argument for the unclipped condition is withdrawn for their
+  sources, and those sources' `U_` and `R_` runs are compared directly.
+- **Clipping acted in a contrast** (on one arm or both): the unclipped result
+  is reported beside the recorded one with the same prominence.
+  - A registered confirmatory verdict stands as registered. If the unclipped
+    verdict differs, the abstract and conclusion use the weaker of the two.
+  - For exploratory analyses (E7, d = 8 and 16 absolute AUCs, compression),
+    the text describes the unclipped result, with the clipped one beside it.
+- **Methods** reports the step-level clipping facts as measured, and drops
+  the unverifiable basis.
+
+**Stored for every re-executed run:**
+`artifacts/step_norms/<namespace>/<shard>.npz` and
+`artifacts/weights/<namespace>/<shard>.pt`, named in the shard's `recorded`
+field.
+
+---
+
+## Amendment 22 — written 15 October 2026, before any trained weights exist. Sensitivity of the trained heads.
+
+**Status.** Exploratory; descriptive.
+
+**Why.** The manuscript's sensitivity result was measured at initialisation
+only, because no trained weights had been kept. Amendment 21 regenerates them.
+
+**Data.**
+- The `R_03_robustness_v2` weights: seven heads at d = 4, four datasets,
+  n = 5–100, ten seeds. These are the heads of the noise analysis.
+- The `R_15_dim8` and `R_16_dim16` weights of `quantum_vqc` and `low_rank`.
+
+**Measure.** The estimator of `src/08_lipschitz.py`, applied to each trained
+head (projection and classifier excluded):
+- 512 inputs, 32 random unit directions per input, ε = 1e-3, the largest
+  finite-difference ratio;
+- divided by the largest absolute head output over the same inputs.
+
+It is computed on two input sets:
+- (a) uniform on [−π/2, π/2]^d, as at initialisation;
+- (b) the run's own test latents: the squashed projection of the test images,
+  from its saved projection and the cached features, up to 512 of them.
+
+**Reported.** The mean per head, per input set and per n, and the paired ratio
+VQC / matched per run.
+
+**Prediction.** The VQC's normalised sensitivity exceeds the matched head's on
+both input sets (pooled paired ratio above 1), as at initialisation.
+
+---
+
+## Amendment 23 — written 15 October 2026, before the run. Hardware feasibility of the models as trained in the study.
+
+**Status.** Exploratory feasibility; no classical counterpart; descriptive.
+
+**Why.** The hardware analysis (`07_hardware_noise`) trained its circuits at
+the default rate of 1e-3, not the tuned 1e-2 of every reported comparison. Its
+noise model also acted only at the end of the circuit, where the AUC is
+invariant by construction.
+
+**Design.**
+- **(a)** `scripts/replay.py --hardware-tuned`: every cell of
+  `07_hardware_noise` is re-run by `07` with the rate set to 1e-2 in-process,
+  in namespace `33_hardware_tuned`. Cells:
+  - BreastMNIST and PneumoniaMNIST at n ∈ {5, 100}, five seeds;
+  - the BloodMNIST cell.
+
+  Shots {exact, 8192, 1024, 256, 64}; end-of-circuit depolarising
+  p ∈ {0, 0.001, 0.005, 0.01, 0.05}; up to 500 test images. The weights are
+  kept.
+  - Consistency check: those weights are compared with the `R_01_frozen_tuned`
+    weights of the same dataset, n and seed, which come from the same
+    protocol.
+- **(b)** Depolarising noise after every layer, on the trained weights from
+  (a).
+  - It is applied with the independent NumPy simulator of
+    `tests/test_independent_theory.py`, at the same p values and on the same
+    test images.
+  - The simulator must first reproduce the PennyLane head outputs of those
+    weights to within 1e-6, or (b) is not reported.
+
+**Predictions.**
+- (i) At 1,024 shots, the cell-mean AUC is between 0.98 and 1.02 of exact.
+- (ii) End-of-circuit noise leaves binary AUC exactly unchanged.
+- (iii) Per-layer noise at p ≤ 0.01 changes binary AUC by less than 0.005 in
+  every cell.

@@ -1,0 +1,9 @@
+numpy 1.26.4; d=4, L=2, 400 inputs, weights ~ N(0,1) seed 0
+1. single-encoding <X_i> in the 3^d span: max residual 3.442e-15
+   wrong-frequency basis: max residual 0.848 (must be large)
+2. two-qubit readout in the 3^d span: max residual 1.665e-15
+3. re-uploading in the 5^d span: max residual 3.442e-15; in the 3^d span: 0.274 (must be large)
+4. end-of-circuit depolarising, p=0.05: max |noisy - (1-4p/3) x clean| = 3.331e-16  (1-4p/3 = 0.9333)
+5. depolarising after every layer, p=0.05: per-output contraction ratio 0.813 to 0.871 over 60 inputs
+   reordered pairs for the test's readout vector (seed 1): 7 of 1770
+   over 1,000 random readout vectors (seed 2026): median 10, 5th-95th percentile 1-25, max 39, zero in 22 of 1000
