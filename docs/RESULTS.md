@@ -202,7 +202,7 @@ values were seen.
 |---|---|
 | Classical control's F1-vs-AUC gap | +0.303, +0.335, +0.339, +0.317 |
 | Paired VQC − control gap | **+0.053, +0.065, +0.044, +0.048** — all CIs exclude 0 |
-| Head sensitivity normalised by output range (L / \|out\|max) | VQC 1.55 / 1.53 / 1.31 (d=4/8/16) vs primary control 0.58 / 0.49 / 0.42 |
+| Head sensitivity normalised by output range (L / \|out\|max), **at initialisation** (`08`, 20 parameter draws; not trained heads) | VQC 1.55 / 1.53 / 1.31 (d=4/8/16) vs `matched_param_fullrank` 0.58 / 0.49 / 0.42 and `low_rank` (parity at every d) 0.76 / 0.75 / 0.73 |
 
 The F1 collapse under sensor noise is generic to small heads; the VQC adds a
 modest, consistent excess. **It is not a calibration failure** (added 13 Oct,
@@ -214,8 +214,12 @@ decision-threshold effect. H-S3's verdict, which tests the F1-vs-AUC gap, is
 unchanged; the registered wording "a calibration failure" is not supported and
 the paper says "decision-threshold degradation". Bounded output did not buy robustness: the VQC's raw
 Lipschitz constant is small because unitarity caps its output at 1, but the
-classifier rescales it, and relative to its own range the VQC is about three
-times as sensitive as the control.
+classifier rescales it, and relative to its own range the VQC is about 2.7
+times as sensitive as the control (1.55 / 0.58). Measured at initialisation
+(20 parameter draws, 512 inputs, 32 directions, ε = 1e-3): an
+architecture-level property, not a property of the trained heads. `03` records
+the raw constant of every trained head but not its output range, so trained
+normalised constants do not exist. Clarified 15 October.
 
 ### Hardware feasibility (`07`, default rate 1e-3, quantum only)
 
@@ -243,6 +247,17 @@ commit `538d8361`, completed by 12 August 2026 (`HYPOTHESES.md` records it as
 complete on that date). It used a linear head, 3 seeds, and the training
 protocol of that date, before the plan and its amendments (no per-arm learning
 rate tuning). Log: `logs_premise.txt`.
+
+**Protocol, stated exactly (added 15 October).** `06` calls `build_arm` with its
+default `freeze_policy="layer3_only"` and `get_loaders` with
+`augment=config.AUGMENT_E2E` (True). So layer3 of the backbone was TRAINED
+(rate 1e-4), augmentation was ON (rotation ±10° and horizontal flip, on every
+dataset — it predates Amendment 8), and head and projection used the default
+rate 1e-3. This is the end-to-end setting, not the frozen setting of every
+reported comparison: a trainable layer3 can compensate for a narrow
+projection. The check therefore shows that d=4 costs little WHEN THE ENCODER
+ADAPTS; it does not show it for frozen features. Amendment 18 repeats it in the
+frozen setting, at every n.
 
 The architecture and training are the same in every row; only the projection
 width d changes. Mean AUC:

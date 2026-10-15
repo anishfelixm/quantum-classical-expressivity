@@ -1,44 +1,52 @@
 """
-EXPERIMENT 8 - EMPIRICAL LIPSCHITZ CONSTANTS.
+EXPERIMENT 8 - EMPIRICAL LIPSCHITZ CONSTANTS, AT INITIALISATION.
 
 WHY THIS EXISTS
 ---------------
-The project's second hypothesis is that the quantum head degrades more
-gracefully under input noise. That belief has a concrete mathematical basis,
-unlike the expressivity argument:
+A common argument for quantum heads is that they degrade gracefully under input
+noise because their output is bounded:
 
     v_i(z) = <psi(z)| U^dag X_i U |psi(z)>
 
-U is unitary, so it preserves norms, and the output is bounded in [-1, 1] for
-every input and every parameter setting. The map is therefore Lipschitz-bounded
-BY CONSTRUCTION. A classical MLP has no such guarantee - its weights can grow
-without bound, so an arbitrarily small input perturbation can produce an
-arbitrarily large output change.
+U is unitary, so every expectation lies in [-1, 1] for every input and every
+parameter setting, and the raw Lipschitz constant of the head is small. A
+classical head has no such bound.
 
-Measuring the constant turns "the VQC is more robust" from an observation on a
-noise curve into a MECHANISM that predicts the curve. That distinction is what
-separates a description from an explanation, and reviewers notice it.
+WHAT THE MEASUREMENT SHOWED (exploratory; see docs/RESULTS.md section 3)
+-----------------------------------------------------------------------
+The raw constant is not comparable across heads, because the shared classifier
+that follows every head can rescale its output. Normalised by each head's own
+output range (L_max / |out|max), the VQC head is the MORE sensitive one: 1.55
+against 0.58 for matched_param_fullrank and 0.76 for low_rank at d=4. Bounded
+output is therefore not evidence of robustness, which agrees with the sensor-
+noise results (03_robustness_evaluation.py). This file was first written to
+support the graceful-degradation argument; the docstring was corrected on
+15 October 2026 to say what the data show.
 
 WHAT IS MEASURED
 ----------------
-For each head f and many random inputs z in the operating range:
+For each head f, at INITIALISATION, for each of n_draws random parameter draws
+(seeds 1000 .. 1000 + n_draws - 1):
 
-    L_local(z) = max over random unit directions u  of  ||f(z + eps*u) - f(z)|| / eps
-    L_hat      = max over sampled z of L_local(z)
+    z ~ Uniform([-angle_scale, angle_scale]^d), 512 points  (the operating range)
+    u ~ uniform on the unit sphere, 32 directions per point
+    L_local(z) = max over u of ||f(z + eps*u) - f(z)|| / eps,   eps = 1e-3
+    L_max      = max over the sampled z of L_local(z)
 
-Reported: the max (an estimate of the true Lipschitz constant), the mean (typical
-sensitivity), and the p95. Also the output range, since a head whose outputs are
-bounded cannot produce large swings regardless of its local slope.
+Reported per head: L_max, its mean and p95 over points, L_max / sqrt(out_dim),
+and the largest absolute output over the same points (|out|max). Each is
+averaged over the draws. The normalised comparison in docs/RESULTS.md is
+mean L_max / mean |out|max.
 
-TWO REGIMES
------------
-    --at-init   (default) architecture-level property, averaged over parameter
-                draws. This is the honest measurement for "bounded BY
-                CONSTRUCTION" - it is a claim about the architecture, not about
-                one trained model.
-    --trained   loads trained heads and measures the realised constants. Slower,
-                and reported alongside rather than instead: a reviewer will want
-                both.
+SCOPE - READ THIS BEFORE CITING THE NUMBERS
+-------------------------------------------
+Everything here is measured at initialisation: it is a property of the
+ARCHITECTURE, not of any trained model. There is no trained-head mode in this
+file. (An earlier version of this docstring described a "--trained" option;
+it was never implemented.) The noise sweep, 03_robustness_evaluation.py, records
+the raw Lipschitz constant of every TRAINED head (256 points, 16 directions,
+same eps), but not the trained head's output range, so trained constants cannot
+be normalised the same way and are not reported as a comparison.
 
 Cost: forward passes only. Minutes.
 
@@ -46,6 +54,7 @@ USAGE
 -----
     python src/08_lipschitz.py
     python src/08_lipschitz.py --dims 4 8 --n-draws 20
+    python src/08_lipschitz.py --summary-only
 """
 import argparse
 import json
@@ -176,8 +185,9 @@ def summarise():
         k = r["keys"]
         tbl[(k["dim"], k["arm"])] = r["metrics"]
 
-    print(f"\n=== Empirical Lipschitz constants (architecture-level) ===")
-    print("Bounded output + small L => graceful degradation under input noise.")
+    print(f"\n=== Empirical Lipschitz constants at initialisation (architecture-level) ===")
+    print("Raw constants are not comparable across heads: the shared classifier")
+    print("rescales each head's output. Compare L_max / |out|max.")
     print("L/sqrt(out_dim) is the comparable column: heads emit different")
     print("numbers of observables, and an L2 norm over more components is")
     print("mechanically larger even at equal per-component sensitivity.")
@@ -207,8 +217,9 @@ def summarise():
             print(f"    {arm:24s} raw {raw:6.2f}x   per-dim {pd:6.2f}x")
 
     print("\nNOTE: measured at initialisation - this is a claim about the")
-    print("ARCHITECTURE, not about any trained model. Trained constants are")
-    print("recorded per-run by 03_robustness_evaluation.py and reported alongside.")
+    print("ARCHITECTURE, not about any trained model. 03_robustness_evaluation.py")
+    print("records raw trained constants, without output range, so they are not")
+    print("normalised or compared.")
 
 
 def main():

@@ -918,3 +918,114 @@ calls it decision-threshold degradation.
 after the variational block. AUC invariance holds for that model and not for
 noise after every layer (`tests/test_independent_theory.py`). The manuscript
 names the model.
+
+---
+
+## Amendment 18 — written 15 October 2026, before the run. The compression check, repeated in the study's own setting.
+
+**Status.** Exploratory. Not a member of the confirmatory family; changes no
+verdict in it. Reported in full whatever it shows.
+
+**Why.** The compression check in `docs/RESULTS.md` §3 (`06_premise_check.py`,
+commit `538d8361`, 10–12 August) predates this plan and used the end-to-end
+protocol of that date: the backbone's layer3 trainable (rate 1e-4),
+augmentation on (random rotation of ±10° and horizontal flip on every dataset —
+including chest radiographs, since it predates Amendment 8), head and projection
+at the then-default rate 1e-3, 3 seeds, and only n = 100 and full data. Every
+reported comparison in this study uses a frozen backbone and no augmentation.
+With a trainable layer3 the backbone can compensate for a narrow projection, so
+that check cannot show how much a 4-dimensional projection of FROZEN features
+loses, and it says nothing about n ≤ 50, where the primary effect lives. The
+mismatch was found during manuscript verification on 15 October. This design
+and its predictions are written before any run of it.
+
+**Design.** `src/01_frozen_backbone_ablation.py`, namespace
+`29_compression_frozen`:
+
+| Axis | Value |
+|---|---|
+| Arm | `linear` (identity head: projection → tanh·π/2 → shared classifier) |
+| Backbone | frozen, cached features, no augmentation |
+| Projection | learned, width d ∈ {4, 256} — the only thing that differs within a pair |
+| Training size | n ∈ {5, 10, 20, 50, 100} per class, and full data (PathMNIST capped at 10,000, as in `17_fulldata`) |
+| Datasets | all four |
+| Seeds | 10, `config.ALL_SEEDS` (passed explicitly: `config.seeds_for` has no entry for d = 256) |
+| Learning rate | the identity head's tuned rate, 3e-2, for both widths (`--use-tuned-lr`) |
+| Runs | 4 × 6 × 2 × 10 = 480 |
+
+Within a pair the seed, the split, the cached features and the code path are
+identical; only the projection width differs.
+
+**Statistic.** Per dataset × size cell, cost = AUC(d = 256) − AUC(d = 4), by the
+nested bootstrap of `04_statistical_analysis.py --compare-key dim
+--compare-values 256 4` (test images and seeds resampled), Benjamini–Hochberg
+within the analysis (m = 24). Means over the four datasets at each size are
+reported descriptively.
+
+**Predictions.**
+
+- **P1.** At n = 100 and with full data, the point estimate of the cost is below
+  0.02 AUC on every dataset, as in the earlier check.
+- **P2.** At n ≤ 20, the cost averaged over the four datasets is not positive:
+  the 256-dimensional projection has 65,792 parameters against 1,028 to fit
+  from the same labels.
+
+**What each outcome means for the manuscript.** If P1 holds, the manuscript may
+say that compressing frozen features to d = 4 costs little at those sizes. If it
+fails on a dataset, the manuscript says that d = 4 is a material constraint on
+that dataset with frozen features and does not call compression "nearly free".
+P2 is reported as confirmed or not, with the per-dataset values. In every case
+the earlier end-to-end check is reported only as context, with its protocol
+stated.
+
+**Stated limitation.** The rate 3e-2 was tuned at d = 4 and is not re-tuned for
+d = 256. It is identical for both widths.
+
+---
+
+## Amendment 19 — written 15 October 2026, before the run. Does the 100-epoch budget bind at n = 5?
+
+**Status.** Exploratory. Not a member of the confirmatory family; changes no
+verdict in it. Reported in full whatever it shows.
+
+**Why.** At n = 5 an epoch is one or two optimisation steps, so the 100-epoch
+cap allows at most 200 steps. The only evidence that the cap does not bind is
+the "Validity finding — 27 August" above: PneumoniaMNIST only, 3 seeds, three
+arms, at the default rate of that date (1e-3), run by editing `config.py`. It
+has no script and no log in the repository, and it predates the tuned rate the
+primary comparison used. The manuscript cites it. This repeats it under the
+final protocol, on every dataset, with records. Found during manuscript
+verification on 15 October; written before any run of this design.
+
+**Design.** `scripts/run_budget_check.py`, namespace `30_budget_check`. It runs
+`src/01_frozen_backbone_ablation.py` unchanged, with `config.MAX_EPOCHS` raised
+from 100 to 1,000 and `config.PATIENCE` from 30 to 200 in-process. Everything
+else is the primary protocol: `quantum_vqc` and `matched_param_fullrank`,
+frozen backbone, d = 4, learned projection, n = 5, tuned rate 1e-2
+(`--use-tuned-lr`), the first ten confirmatory seeds (`config.ALL_SEEDS`), all
+four datasets. 80 runs. Each run is paired with the `01_frozen_tuned` run of the
+same dataset, seed and arm: same split, initialisation, features and rate.
+Because `config.min_epochs_for` clamps at `MAX_EPOCHS // 2`, the minimum before
+early stopping rises from 50 epochs to 200 (one training batch) or 100 (two).
+
+**Statistics** (`scripts/analyse_budget_check.py`; descriptive). Per dataset and
+arm: mean test AUC under each budget and the mean paired change. Per arm, pooled
+over datasets with equal weight: the mean paired change (1,000-epoch minus
+100-epoch) with a 95% percentile interval from a bootstrap over seeds within
+datasets (B = 2000). Δ(5) = AUC(`quantum_vqc`) − AUC(`matched_param_fullrank`),
+pooled, under each budget, with the same bootstrap. Seeds only, not test images:
+this checks a protocol constant and enters no test family.
+
+**Predictions.**
+
+- **P1.** For each arm, the pooled change in AUC from the longer budget is
+  smaller than 0.01 in absolute value.
+- **P2.** Δ(5) is positive under the 1,000-epoch budget.
+
+**What each outcome means for the manuscript.** If P1 fails for an arm, the
+100-epoch cap was binding for that arm at n = 5; the manuscript says so in
+Methods and Limitations, and the confirmatory verdicts, which were computed
+under the declared protocol, stand as declared. If P2 fails, the manuscript
+states prominently that the n = 5 advantage does not survive a longer training
+budget. Incomplete cells, if compute ends first, are reported as incomplete with
+their seed counts.
