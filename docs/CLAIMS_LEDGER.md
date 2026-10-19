@@ -58,7 +58,7 @@ Logs named here are in the repository root. "Records" means the shard records.
 | PennyLane residuals "6×10⁻¹⁶ to 2×10⁻¹⁵ for six (d, L)" | `logs_pytest.txt`: 4.4×10⁻¹⁶ to 3.8×10⁻¹⁵ | **CORRECTED: 4×10⁻¹⁶ to 4×10⁻¹⁵** |
 | wrong-frequency basis fails | `logs_pytest.txt`: 0.908 | VERIFIED |
 | NumPy rebuild "2×10⁻¹⁵ single and two-qubit, 4×10⁻¹⁵ re-upload; 3^d fails for re-upload" | `logs_independent_theory.txt`: 3.4×10⁻¹⁵, 1.7×10⁻¹⁵, 3.4×10⁻¹⁵; 3^d span 0.274 | **CORRECTED to the logged values** |
-| Fig. 2: run reproduces AUC 0.809446; fit residual ≤ 2×10⁻¹⁵ | RESULTS §6.7 (`16_reproduce_for_figure.py` output) | VERIFIED from RESULTS; the residual value comes from the plotting script, so print it from `figure_data.json` before submission |
+| Fig. 2: run reproduces AUC 0.809446; fit residual ≤ 2×10⁻¹⁵ | `paper/figures/figure_data.json`: AUC recorded = reproduced = 0.809445742694102, max prob diff 0; residual 2.15×10⁻¹⁵ at the fit points, 2.33×10⁻¹⁵ on the plotted grid | **CORRECTED: "below 3×10⁻¹⁵"** (2.3×10⁻¹⁵ exceeds the draft's bound) |
 | end-of-circuit depolarising: uniform contraction 1 − 4p/3, binary AUC exactly unchanged | derivation; `logs_independent_theory.txt` (3.3×10⁻¹⁶); `logs_hwnoise.txt` (binary AUC identical at every p) | VERIFIED |
 | per-layer noise: contraction 0.81–0.87 at p = 0.05; "reorders 24 of 1,770 pairs" | `logs_independent_theory.txt`: 0.813–0.871; 7 of 1,770 for the test's readout, median 10 over 1,000 readouts | **CORRECTED: 7 (median 10)**; on trained models: AMEND 23(b) |
 | arm definitions and parameter counts (Table) | `heads.py`, `classical_fourier.py`, `logs_e7.txt` (Fourier r2 2,500) | VERIFIED |
@@ -85,6 +85,7 @@ Logs named here are in the repository root. "Records" means the shard records.
 | Python 3.10, PyTorch 2.4.1, PennyLane 0.42.3, NumPy 1.26.4, medmnist 3.0.2 | `requirements.lock.txt` | POD-A prints the installed versions |
 | 800 re-upload runs 9 h 23 min; 800 Fourier runs 34 min | `logs_gap_closure.txt` | VERIFIED |
 | seed fixes data subset, batch order and initialisation | true for every run; runs that built the feature cache drew the head's initialisation after the ResNet constructor consumed random numbers (699 logged runs; `analysis_plan.md`, Records of 16 October) | ADD one sentence to Methods; count of bit-identical re-executions from AMEND 21 (P0, P1) |
+| barren-plateau table (MATH_VERIFICATION §7) | no script produced it; the logged `quantum_grad_var` is a different quantity (variance across one circuit's parameters within a step) | **WITHDRAWN**; replaced by AMEND 24 if reported at all |
 | integrity 2.2×10⁻¹⁶ over 4,000 runs; 66 tests | `logs_reporting_tables.txt`; `logs_pytest.txt` | VERIFIED |
 
 ## Results
@@ -121,5 +122,6 @@ Logs named here are in the repository root. "Records" means the shard records.
 |---|---|
 | Every exploratory label, seed count and rate disclosure | VERIFIED against the plan and the records |
 | "trained normalised constants do not exist" | **REPLACE** with AMEND 22's measurement |
+| Related work: the 2026 papers found on 17 October (`analysis_plan.md`, Records of 17 October) | ADD to Related Work; none reports the paper's attribution result |
 | "every number can be recomputed"; predictions and records released | needs the Zenodo deposit, including the new weights and step norms |
 | AI-assistance statement | as agreed with the authors |

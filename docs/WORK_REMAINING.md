@@ -42,8 +42,8 @@ planned on it.
 | 8 | Cover letter and declarations | ⬜ data and code availability, no conflicts, no funding (cluster access acknowledged), AI-use disclosure. No overlap disclosure: the conference draft was never submitted or published (confirmed 14 Oct) |
 | 9 | Code release: README rewritten to the journal's findings; conference figures and logs moved to `legacy/conference/` with a note; README claims checked mechanically (`scripts/v51_release_tidy.py`). Left: repository visibility (public now, or at acceptance) and the paper/figures conference PDFs, removed with the manuscript rewrite | ✅ v51, except visibility |
 | 10 | Data release: per-sample predictions, bootstrap caches, run records and E8 latents in a citable archive (e.g. Zenodo DOI), named in the data-availability statement | ⬜ at submission |
-| 11 | Barren-plateau table (`MATH_VERIFICATION.md` §7): no script in the repo produced it. Either recompute it from the `quantum_grad_var` that `loop.py` logs in every quantum run's history (backup shards), or leave it out of the paper | ⬜ |
-| 12 | Literature re-check in the week of submission | ⬜ |
+| 11 | Barren-plateau table (`MATH_VERIFICATION.md` §7): no script produced it, and the logged `quantum_grad_var` is a different quantity. Withdrawn 17 Oct; replaced by Amendment 24 (`scripts/barren_plateau.py`) | ⬜ run after wave 1 |
+| 12 | Literature re-check in the week of submission | ◐ done 17 Oct (`analysis_plan.md`, Records of 17 October; nothing pre-empts the paper); arXiv:2610.16153 still to read; repeat in the submission week |
 
 Captions to write with the manuscript: figure 2 must say its run is more
 saturated than typical and how its plane was chosen (`RESULTS.md` §6.7); every

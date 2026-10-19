@@ -90,16 +90,20 @@ def identity(ctx):
     out("=" * 100)
     p1_bad, need_u, n_missing = 0, {}, [0]
     cache_tab = {}
-    for src in SOURCES:
-        rec, rep = load(ctx, src), load(ctx, "R_" + src)
+    # The CPU re-execution of the CPU-recorded full-data runs (C_) is an identity
+    # test like every R_; the GPU one (R_17) is not.
+    entries = [(src, "R_" + src) for src in SOURCES] + [("17_fulldata", "C_17_fulldata")]
+    for src, ns in entries:
+        cross = src in CROSS_DEVICE and ns.startswith("R_")
+        rec, rep = load(ctx, src), load(ctx, ns)
         verdicts = collections.Counter()
         diffs = []
         for key, r in rep.items():
             rc = r.get("replay_check", {})
             v = rc.get("verdict", "?")
             verdicts[v.split(" ")[0]] += 1
-            if src not in CROSS_DEVICE:
-                ct = cache_tab.setdefault(src, collections.Counter())
+            if not cross:
+                ct = cache_tab.setdefault(ns, collections.Counter())
                 ct[(rc.get("predicted_cache") or "no log line", rc.get("cache", "warm"),
                     v.split(" ")[0])] += 1
                 ci = rc.get("cold_info")
@@ -109,14 +113,14 @@ def identity(ctx):
                 diffs.append((dict(key).get("arm"), dict(key).get("dataset"), dict(key).get("regime"),
                               dict(key).get("seed"), r["replay_check"].get("first_difference"),
                               r["replay_check"].get("predictions")))
-        tag = "  (cross-device: identity not expected)" if src in CROSS_DEVICE else ""
+        tag = "  (GPU re-execution of a CPU run: identity not expected)" if cross else ""
         inc = "" if len(rep) == len(rec) else f"  INCOMPLETE ({len(rec) - len(rep)} not yet re-executed)"
-        out(f"{src:24s} recorded {len(rec):5d}  re-executed {len(rep):5d}  identical "
+        out(f"{ns:26s} recorded {len(rec):5d}  re-executed {len(rep):5d}  identical "
             f"{verdicts['IDENTICAL']:5d}  different {verdicts['DIFFERENT']:5d}{tag}{inc}")
         n_missing[0] += len(rec) - len(rep)
         for d in diffs:
             out(f"      e.g. {d}")
-        if src not in CROSS_DEVICE:
+        if not cross:
             p1_bad += verdicts["DIFFERENT"]
     out("")
     out("Feature-cache state (docs/cold_cache_prediction.json, written from the original logs "
@@ -139,15 +143,15 @@ def identity(ctx):
     out("2. STEP RECORDS (pre-clip norm of every optimisation step, original trajectories)")
     out("=" * 100)
     p2_bad = 0
-    for src in SOURCES:
-        rep = load(ctx, "R_" + src)
+    for src, ns in entries:
+        rep = load(ctx, ns)
         if not rep:
             continue
         tab = collections.defaultdict(list)
         for key, r in rep.items():
             k = dict(key)
             tab[(k["arm"], config_label(key))].append((k["dataset"], k["regime"], r.get("recorded", {}), key))
-        out(f"\n{src}")
+        out(f"\n{ns}")
         out(f"  {'arm':24s} {'config':44s} {'runs':>5s} {'any>20':>7s} {'steps>20':>18s} "
             f"{'max step':>9s} {'nonfinite':>9s}")
         for (arm, cfg), rows in sorted(tab.items()):
@@ -161,8 +165,9 @@ def identity(ctx):
                 f"{mx:9.3f} {nf:9d}")
             if arm in CIRCUITS and anyx:
                 p2_bad += len(anyx)
-            for x in anyx:
-                need_u.setdefault(src, []).append(x[3])
+            if ns.startswith("R_"):              # U_ runs pair with R_ (same device)
+                for x in anyx:
+                    need_u.setdefault(src, []).append(x[3])
     out("")
     out("P2 HOLDS: no step of any circuit run exceeded 20." if p2_bad == 0
         else f"P2 FAILS: {p2_bad} circuit runs had a step above 20.")
@@ -215,8 +220,9 @@ def results(ctx, B, workers):
     out("=" * 100)
     changed, ready, ident = {}, {}, {}
     for src in SOURCES:
-        if src in CROSS_DEVICE:
-            continue
+        # 17_fulldata is included: its R_ runs (GPU) never reproduce the CPU
+        # records, so its clipped side is R_ by the rule below, which pairs it
+        # with U_ on the same GPU.
         rec, rep, unc = load(ctx, src), load(ctx, "R_" + src), load(ctx, "U_" + src)
         flagged = [k for k, r in rep.items()
                    if (r.get("recorded", {}).get("above_threshold") or 0) > 0
@@ -365,8 +371,6 @@ def results(ctx, B, workers):
     out("8. OTHER SOURCES")
     out("=" * 100)
     for src in SOURCES:
-        if src in CROSS_DEVICE:
-            continue
         n = changed.get(src, 0)
         if ready.get(src) != "ok":
             out(f"  {src:24s} {ready.get(src)}")

@@ -1519,3 +1519,175 @@ Wave 1 runs with J = 4. A job killed for memory is marked FAIL in
 built the feature cache drew the head's initialisation after the backbone's
 constructor had consumed random numbers; the replay script reproduces them by
 rebuilding the cache (Section X: n of n runs re-executed bit for bit)."
+
+---
+
+## Records of 17 October 2026 — wave 1 under way; amendments written before their runs
+
+**Wave 1, interim** (`analyse_replay.py identity`, 17 October 00:30 IST; 311 jobs
+finished, 8 marked FAIL and under diagnosis):
+- `01_frozen_tuned`: **4,000 of 4,000 re-executions bit-identical** to their
+  records, every metric and every stored test probability. The 600 runs the
+  logs show building their feature cache were reproduced in that state, every
+  one; the 3,395 the logs show reading it, in that state; 5 with no log line,
+  warm.
+- Every other source re-executed so far (813 runs): identical. P0 and P1 hold
+  so far.
+- `17_fulldata` on GPU differs from its CPU records, as Amendment 21 expected.
+
+### Amendment 25 — the full-data runs re-executed on the device that recorded them
+
+**Why.** `17_fulldata` ran on CPU. Its GPU re-execution cannot be bit-identical,
+so it cannot show the step norms of the reported full-data runs themselves.
+Re-executed on CPU, it can.
+
+**Design.** `replay.py` run with CUDA hidden (`CUDA_VISIBLE_DEVICES=`) trains on
+CPU and writes `C_17_fulldata`. The planner adds these 80 runs as tier 7, plus a
+gate check (`gate_cpu_*`). Cache state as predicted by the logs (20 runs built
+their cache: the first arm, `quantum_vqc`, of each dataset and seed).
+
+**Prediction.** Every `C_17_fulldata` run is bit-identical to its record.
+- **If it holds:** the full-data runs join the identity count, and their step
+  record is that of the reported runs.
+- **If it fails:** `17_fulldata` stays as Amendment 21 treats it, a GPU
+  comparison. Its clipping contrast is `U_17` against `R_17`, both on the GPU.
+
+**Unchanged:** the budget check's partner for full data stays `R_17` (same GPU).
+
+### Amendment 22 — analysis details fixed before any analysis
+`scripts/analyse_trained_heads.py`.
+- **Faithful rebuild.** Each model is rebuilt with the code of the commit that
+  trained it, and its weights are loaded.
+- **Integrity check.** A run is used only if the rebuilt model reproduces the
+  test probabilities its re-execution stored:
+  - within 1e-5 for `R_15` and `R_16`, which stored them from the same cached
+    features;
+  - within 1e-4 for `R_03`, which stored them from images, so only the
+    floating-point order differs.
+  Runs that fail are listed and excluded, never repaired.
+- **Pairing.**
+  - `R_03`: `quantum_vqc` with `matched_param_fullrank`.
+  - `R_15` and `R_16`: `quantum_vqc` with `low_rank`, the parity control
+    defined at every d.
+- **Pooled ratio.** The geometric mean over runs of S(VQC)/S(partner), with the
+  share of runs above 1, per input set and per n.
+
+### Amendment 23 — analysis details fixed before any analysis
+`scripts/analyse_hardware_tuned.py`.
+- **Simulator convention check.** Before the trained weights exist,
+  `scripts/check_simulator.py` checks the NumPy simulator against PennyLane on
+  random weights, noise-free and with per-layer depolarising noise. It must
+  agree within 1e-6 on both.
+- **Per-run requirement, unchanged.** On each trained model, the simulator must
+  agree with the PennyLane head within 1e-6.
+- **Weight-consistency partner.** The `R_01_frozen_tuned` `quantum_vqc` run with
+  the same dataset, n and seed, at `lrh = lrq = 1e-2`, frozen backbone, learned
+  projection and default settings.
+- **Prediction (iii) is evaluated on cell means**, as worded.
+- **Two further outputs.**
+  - The simulator's end-of-circuit AUC against 07's recorded AUC, as a sanity
+    check.
+  - The original 1e-3 cells beside the tuned ones, descriptively.
+
+### Amendment 24 — gradient variance at initialisation (barren plateaus)
+**Why.**
+- The table in `MATH_VERIFICATION.md` §7 has no producing script. It is
+  withdrawn there.
+- The loop's logged `quantum_grad_var` is the variance across one circuit's
+  parameters within a step, which is not the barren-plateau quantity.
+
+**Design** (`scripts/barren_plateau.py`).
+- The quantity: the variance over initialisations of the derivatives of a cost
+  with respect to the circuit parameters.
+- The head: the project's `VQCHead` at d ∈ {4, 8, 16} and L ∈ {1, 2, 4}.
+- Initialisations, 200 draws each:
+  - the project's N(0, 0.1²);
+  - uniform on [0, 2π).
+- Inputs: one fixed batch of 32 latents drawn uniformly from the head's
+  operating range.
+- Cost: the batch mean of ⟨X₀⟩.
+
+**Predictions.**
+- **P1.** Under uniform initialisation at L = 4, the variance is lower at
+  d = 16 than at d = 4.
+- **P2.** The project's initialisation gives a larger variance than uniform
+  initialisation at every (d, L).
+
+**Status.** Exploratory; reported only as context for the d = 16 results.
+
+### Corrections
+- **Fig. 2 fit residual.** It is 2.15×10⁻¹⁵ at the fit points and 2.33×10⁻¹⁵ on
+  the plotted grid (`figure_data.json`). The text says "below 3×10⁻¹⁵", not
+  "≤ 2×10⁻¹⁵".
+
+### Literature check of 17 October
+
+**Method.** Web search over 2025–2026 for hybrid quantum heads on medical
+images, matched classical baselines, dequantization and inductive-bias
+explanations. Each item was read from its abstract or record page, except one
+the server refused (below).
+
+**Newly found, to cite and position against.** None reports this paper's
+result: an advantage attributed, under exact parameter parity and
+function-class controls, to the learned projection rather than the circuit.
+
+| Item | What it reports | How it relates to this paper |
+|---|---|---|
+| arXiv:2607.21186 (Rubiños Rodríguez et al., Jul 2026), "Do emulated quantum circuits change what CNNs look at?" | Parameter-matched hybrid vs CNN on retinal OCT and OASIS-1 MRI; the hybrid leads at about 800–2,000 images, the lead narrows and reverses with more data; removing entanglement changes little; "inductive bias" offered as an untested interpretation | The closest empirical pattern (an advantage that shrinks with data). This paper tests the attribution with function-class controls and frozen-projection controls instead of offering it as interpretation. |
+| arXiv:2610.17722 (Yamaoka, Chan, Mitarai, 13 Oct 2026), "Representation Geometry and Inductive Biases in Quantum Classifiers across Classical Visual Benchmarks" | Quantum classifiers on strong classical feature extractors; effectiveness depends on input-representation geometry and data scale | The closest conceptual neighbour. It does not report parameter-parity or function-class controls in its abstract. |
+| arXiv:2609.24666 (Anthony et al., Sep 2026) | QCNN in the small-data regime, digits and BreastMNIST; a parameter-matched CNN near chance on digits; on BreastMNIST every classical baseline beats the QCNN | Agrees that low parameter count alone does not explain generalisation, and that generalisation is not quantum advantage. |
+| *Electronics* 15(20) 4723 (Oct 2026), "Two methodological pitfalls in matched-parameter quantum–classical benchmarking" | Class-imbalance collapse; readout offset at initialisation that no circuit parameter can recentre | Both are already controlled here: balanced n-shot training sets, class weights, AUC as the primary metric, and a shared classifier with a bias term after every head. To be stated in Methods. |
+| *Quantum Mach. Intell.* 8:96 (2026), Barbato et al. | Knowledge distillation into a 233-parameter hybrid student, MNIST/Fashion-MNIST; gains attributed to Hilbert-space embedding without a function-class control | An example of the attribution this paper's controls test. |
+| Zenodo 10.5281/zenodo.23207872 (Oct 2026) | Code for "dressed quantum heads on frozen biomedical transformers", text classification, pre-registered protocol | Convergent practice; different modality. No results on the record page. |
+
+**Not read.** arXiv:2610.16153, "Architectural Robustness to Label Noise Using
+Variational Quantum Circuits for Medical Image Classification" (Oct 2026). The
+server refused the request (rate limit). It must be read before submission.
+
+**Verdict.** Nothing found makes the paper unpublishable or pre-empts its
+contribution.
+- The field is converging on matched baselines, so "we matched parameters" is
+  not a contribution.
+- The distinct parts remain:
+  - exact parity at three dimensions;
+  - function-class controls for both encodings;
+  - capacity accounting and the frozen-projection result;
+  - one pre-registered confirmatory family;
+  - every reported run re-executed bit for bit.
+- The check is repeated in the week of submission (`WORK_REMAINING.md` item 12).
+
+---
+
+## Records of 20 October 2026 — wave 1 status; how the remaining runs are scheduled
+
+**Wave 1 so far.**
+- Every `R_` source except full data is complete: 20,120 of 20,120
+  re-executions bit-identical to their records.
+- P0 holds for every source. All 699 runs the logs predicted to have built
+  their cache were reproduced in that state.
+- The 8 FAIL lines in `logs_v57/status.txt` are from the first gate run of
+  15 October, when 8 parallel jobs exceeded the memory limit. Every one of those
+  checks passed when re-run; no wave job has failed.
+
+**The hardware runs (Amendment 23) stalled.**
+- One run took 1,039 minutes. The same cell took about 15 minutes in the
+  original 07 run (`logs_hwnoise.txt`: 20 runs in about 5 hours).
+- Four ran at once, each with 257 threads, and the pod's memory stood at 16.4
+  of 17.2 GB.
+- These jobs are stopped. Nothing they would have written exists yet, so
+  nothing is lost.
+- The full-data jobs queued behind them had not started.
+
+**From now on, each kind of run has its own job list** (`launch_v57.sh` modes):
+- `wave1`: the remaining `R_` and `B_` runs, on GPU.
+- `cpu17`: Amendment 25, on CPU, one process at a time, as the original ran.
+  Its thread count is left at the default, because the original's was.
+- `hardware`: Amendment 23, with 8 threads per job (`OMP_NUM_THREADS=8`).
+  - The thread count changes only the floating-point order of the CPU
+    evaluation.
+  - No identity is tested for these runs: they train at a different rate by
+    design.
+  - The setting is recorded here before the runs.
+- `wave2`: the unclipped runs, after wave 1.
+
+No design, prediction or analysis changes.

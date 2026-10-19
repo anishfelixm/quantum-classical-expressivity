@@ -189,6 +189,14 @@ correct handling, but this warrants a direct check.
 
 ## 7. Barren plateaus
 
+> **WITHDRAWN 17 October 2026.** No script in the repository produced the table
+> below, and the quantity the training loop logs (`quantum_grad_var`) is the
+> variance across one circuit's parameters within a step, not the variance over
+> initialisations that defines a barren plateau. Nothing in this section may be
+> cited. Its replacement is Amendment 24 (`scripts/barren_plateau.py`), measured
+> on the project's own head, with predictions written before the run.
+
+
 Measured quantum-weight gradient variance (batch 32, `default.qubit`, backprop, GPU):
 
 | n | L=1 | L=2 | L=4 |

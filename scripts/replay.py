@@ -59,7 +59,9 @@ SOURCES AND HOW EACH IS CALLED
   10_capacity        src/10_capacity_sweep.py          run_cell; module EXPERIMENT set to target
   12_bottleneck      src/12_bottleneck_ablation.py     run_cell; module EXPERIMENT set to target
 
-17_fulldata ran on CPU; this machine trains on GPU, so its replay is NOT
+17_fulldata ran on CPU. Run with CUDA hidden (CUDA_VISIBLE_DEVICES=), the
+replay of it trains on CPU like the original, writes to C_17_fulldata, and is an
+ordinary identity test. On GPU (R_17_fulldata) its replay is NOT
 expected to be bit-identical (different floating-point order). It is marked
 "cross-device" and its identity verdict is reported but not used as a
 determinism test.
@@ -155,7 +157,14 @@ SOURCES.update({"03_robustness_v2": "03_robustness_evaluation.py",
                 "09_lr_selection": "09_lr_selection.py",
                 "10_capacity": "10_capacity_sweep.py",
                 "12_bottleneck": "12_bottleneck_ablation.py"})
-CROSS_DEVICE = {"17_fulldata"}
+CROSS_DEVICE = {"17_fulldata"}      # recorded on CPU
+
+
+def cross_device(source):
+    """True when this execution cannot be bit-identical by construction: a source
+    recorded on CPU, re-executed here on GPU. Re-executed on CPU it is an ordinary
+    identity test (target C_<source>)."""
+    return source in CROSS_DEVICE and config.DEVICE.type != "cpu"
 HW_SOURCE, HW_TARGET, TUNED_RATE = "07_hardware_noise", "33_hardware_tuned", 1e-2
 VOLATILE = ("time", "timestamp", "git_sha", "experiment", "recorded", "replay_check",
             "wall")
@@ -482,7 +491,7 @@ def check(source, target, rec, path):
     pred, worst = compare_predictions(source, target, rec["keys"])
     same = diff is None and pred in ("identical", "none stored")
     verdict = "IDENTICAL" if same else "DIFFERENT"
-    if source in CROSS_DEVICE:
+    if cross_device(source):
         verdict += " (cross-device: CPU original, GPU replay)"
     return new, {"verdict": verdict, "first_difference": diff, "predictions": pred,
                  "max_abs_prob_diff": worst, "top_level_fields_in_only_one": only,
@@ -553,6 +562,11 @@ def main():
         source = args.source
         clip = 20.0 if args.clip == "20" else float("inf")
         target = ("R_" if args.clip == "20" else "U_") + source
+        if source in CROSS_DEVICE and config.DEVICE.type == "cpu" and args.clip == "20" \
+                and not args.budget:
+            # Same device as the original: a separate namespace, so the GPU
+            # re-execution R_ (the budget check's partner) is never overwritten.
+            target = "C_" + source
         fname = SOURCES[source]
         if args.budget:
             if args.clip != "20":
@@ -561,7 +575,7 @@ def main():
             config.MAX_EPOCHS, config.PATIENCE = me, pa
             assert loop.config is config
             target = "B_" + source
-    assert target != source and (target.startswith(("R_", "U_", "B_")) or target == HW_TARGET)
+    assert target != source and (target.startswith(("R_", "U_", "B_", "C_")) or target == HW_TARGET)
     if clip != config.GRAD_CLIP_NORM:
         config.GRAD_CLIP_NORM = clip
     assert loop.config is config and config.GRAD_CLIP_NORM == clip
@@ -582,7 +596,9 @@ def main():
 
     cold_ok = (not args.hardware_tuned) and install_cold_cache(mod)
     table = pcr.load_table()
-    kind = "H" if args.hardware_tuned else target[0]          # R, U or B
+    kind = "H" if args.hardware_tuned else target[0]          # R, U, B or C
+    if kind == "C":
+        kind = "R"                     # an identity test like R_, on the original device
 
     def ok(v):
         x = v.get("verdict", "")
@@ -613,7 +629,7 @@ def main():
 
     def conditions(rec):
         """Cache states to try, in order (see FEATURE-CACHE STATE above)."""
-        if kind == "H" or not cold_ok or source in CROSS_DEVICE:
+        if kind == "H" or not cold_ok or cross_device(source):
             return ["warm"]
         if kind == "U":
             rpath = shards.shard_path("R_" + source, **rec["keys"])
@@ -679,7 +695,7 @@ def main():
             print(f"QUICK CHECK PASSED (smoke test: {len(rs)} runs completed and recorded; "
                   f"no identity expected)")
         else:
-            bad = (n_diff > 0 and source not in CROSS_DEVICE) or (n_same + n_diff) < len(rs) \
+            bad = (n_diff > 0 and not cross_device(source)) or (n_same + n_diff) < len(rs) \
                 or len(rs) == 0
             print("QUICK CHECK " + ("FAILED: a re-execution at the original protocol differs from "
                                     "its record. Do not launch; send this output."

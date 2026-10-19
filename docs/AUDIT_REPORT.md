@@ -203,6 +203,12 @@ reviewer would find.
 | *Mathematics* 14(16) 2865 (2026) | parameter-matched frozen-DenseNet121 head ablation | convergent practice |
 | *Quantum Reports* 8(2) 54 (2026) | survey calling for matched baselines and ablations | the gap this paper fills |
 | *Sci. Rep.* 16, 9017 (2026) | MedMNIST on 127-qubit hardware | complementary; no classical network |
+| arXiv:2607.21186 (Jul 2026) | parameter-matched hybrid vs CNN, retinal OCT and MRI; lead at small n narrows and reverses; "inductive bias" untested | closest empirical pattern; we test the attribution |
+| arXiv:2610.17722 (Oct 2026) | quantum classifiers on classical feature extractors; geometry and data scale | closest conceptual neighbour; no parity or function-class controls in its abstract |
+| arXiv:2609.24666 (Sep 2026) | QCNN small-data generalisation, BreastMNIST; classical baselines win | agrees: generalisation is not quantum advantage |
+| *Electronics* 15(20) 4723 (Oct 2026) | pitfalls of matched-parameter benchmarking: imbalance collapse, readout offset | both controlled here (balanced sets, AUC, classifier bias); state in Methods |
+| *Quantum Mach. Intell.* 8:96 (2026) | hybrid KD student; Hilbert-space attribution without function-class control | an instance of the attribution our controls test |
+| arXiv:2610.16153 (Oct 2026) | VQC label-noise robustness, medical images | NOT YET READ (server refused, 17 Oct) |
 
 **Positioning.** Matched classical baselines are becoming standard in 2026, so
 "we matched parameters" is not new. What remains distinctive: exact parity at

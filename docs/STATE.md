@@ -1,6 +1,6 @@
 # Project State
 
-**Updated:** 16 October 2026. Keep this current — it is the handoff document.
+**Updated:** 20 October 2026. Keep this current — it is the handoff document.
 
 Read `docs/MASTER_RESEARCH_DOCUMENT.md` first, then `docs/RESULTS.md` (every
 number), `docs/analysis_plan.md` (binding; amendments; records at the end) and
@@ -85,16 +85,29 @@ commit. Re-run the gate; launch wave 1 only if every check passes.
 | Manuscript draft (model text) | outside the repository, by design |
 | Backups | `backup_2026-10-10/` on the pod, `C:\Users\Anish\quantum-classical-expressivity-remote-backup`, Google Drive; the two 15 Oct archives (`5d89ac77…`, `d9acd367…`) |
 
-## Next, in order
+## Next, in order (runbook; revised 20 October)
 
-1. Gate → wave 1 → wave 2.
-2. `python scripts/analyse_replay.py identity`, then
-   `python scripts/analyse_replay.py results`.
-3. `python scripts/analyse_budget.py`.
-4. Write the Amendment 22 (trained-head sensitivity) and Amendment 23(b)
-   (per-layer noise) analyses on the saved weights, exactly as specified.
-5. Record every result in `analysis_plan.md`, `RESULTS.md` and this file, as
-   the amendments say.
-6. Back up shards, predictions, step norms, weights and logs, with SHA-256.
-7. Manuscript v4 from the ledger.
-8. Release items, citation check, cover letter.
+1. Stop the stalled hardware jobs and the wave-1 launcher (`analysis_plan.md`,
+   Records of 20 October).
+2. `git pull` (v60).
+3. `python scripts/check_simulator.py`: must print `SIMULATOR CHECK PASSED`.
+4. `bash scripts/launch_v57.sh gate 3`: every check must pass, including the
+   new `gate_cpu_17_fulldata_*`.
+5. `bash scripts/launch_v57.sh wave1 3` (the remaining full-data GPU runs and
+   their 1,000-epoch partners) and `bash scripts/launch_v57.sh cpu17 1`, at the
+   same time.
+6. When wave 1 has ended: `bash scripts/launch_v57.sh hardware 2` and
+   `bash scripts/launch_v57.sh wave2 2`.
+7. CPU only, any time after step 2: `python scripts/barren_plateau.py`.
+8. Analyses, in this order:
+   - `python scripts/analyse_replay.py identity`
+   - `python scripts/analyse_replay.py results --workers 4`
+   - `python scripts/analyse_budget.py --workers 4`
+   - `python scripts/analyse_trained_heads.py run --namespace R_03_robustness_v2 --code-at bd833baa`
+   - the same for `R_15_dim8` and `R_16_dim16`, with `--code-at 141a7111`
+   - `python scripts/analyse_trained_heads.py summary`
+   - `python scripts/analyse_hardware_tuned.py run --code-at HEAD` (every commit whose src/ equals HEAD is used)
+   - `python scripts/analyse_hardware_tuned.py summary`
+9. Record every result in `analysis_plan.md`, `RESULTS.md` and here; back up
+   with SHA-256.
+10. Only then: manuscript v4 from the ledger.

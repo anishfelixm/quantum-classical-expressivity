@@ -23,6 +23,10 @@ longest first, which minimises the time to finish a tier for a fixed J)
           29_compression_frozen, 09_lr_selection
   tier 5  33_hardware_tuned       Amendment 23: 07's cells at the tuned rate
   tier 6  R_17_fulldata, then B_17_fulldata (quantum_vqc and the matched head)
+  tier 7  C_17_fulldata           the full-data runs re-executed on CPU, the device
+                                  they were recorded on (added 17 October): an
+                                  identity test like every R_, launched with CUDA
+                                  hidden
   wave 2  U_<source>              clipping removed, for runs whose R_ record has a
                                   step above 20 (known only after wave 1)
 
@@ -71,6 +75,7 @@ TIERS = [
     (5, "H", ["07_hardware_noise"]),
     (6, "R", ["17_fulldata"]),
     (6, "B", ["17_fulldata"]),
+    (7, "C", ["17_fulldata"]),
 ]
 B_ARMS = {"01_frozen_tuned": None, "17_fulldata": {"quantum_vqc", "matched_param_fullrank"}}
 BUDGET = "1000:200"
@@ -116,8 +121,21 @@ def main():
     p.add_argument("--write", default=None)
     p.add_argument("--wave", type=int, default=1, choices=[1, 2])
     p.add_argument("--target", type=float, default=1.0, help="max planning hours per job")
+    p.add_argument("--kinds", default="R,B,H,C",
+                   help="wave 1 only: which kinds go into the job list (R, B, H, C); the "
+                        "gate is always written from all of them")
+    p.add_argument("--tag", default=None,
+                   help="name of the job list (default wave1 / wave2): jobs_<tag>.txt")
     args = p.parse_args()
+    tag = args.tag or f"wave{args.wave}"
+    kinds = set(args.kinds.split(",")) if args.wave == 1 else {"U"}
     py = "python -u scripts/replay.py"
+    # Hardware runs evaluate density matrices on CPU, one image at a time. With
+    # torch's default of one thread per core (256 here) four such jobs crawled:
+    # 17 h for one run that took 15 min alone (17 October). Their numbers do not
+    # depend on the thread count beyond floating-point order, and no identity is
+    # tested for them, so they run with a small, fixed thread count.
+    HW_ENV = "OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 "
 
     # ---- GPU cost per image-epoch, per arm, from the primary runs (for 17_fulldata)
     pri = load("01_frozen_tuned")
@@ -162,11 +180,11 @@ def main():
                         continue
                     if kind == "B" and src == "01_frozen_tuned" and int(k["seed"]) not in ALL_SEEDS:
                         continue
-                    tgt = {"R": "R_", "B": "B_", "H": ""}[kind] + (src if kind != "H" else "33_hardware_tuned")
+                    tgt = {"R": "R_", "B": "B_", "C": "C_", "H": ""}[kind] + (src if kind != "H" else "33_hardware_tuned")
                     done = os.path.exists(os.path.join(SHARDS, tgt, name(tgt, k)))
                     h = run_hours(r)
                     m = r.get("metrics", {}) if isinstance(r.get("metrics"), dict) else {}
-                    if src == "17_fulldata":
+                    if src == "17_fulldata" and kind != "C":
                         nt = r.get("meta", {}).get("n_train", 0)
                         per = gpu_rate.get(k["arm"])
                         h = (per * m.get("epochs_run", 100) * (nt + VAL_FULL.get(k["dataset"], 0)) / 3600
@@ -221,7 +239,7 @@ def main():
     # ---- jobs: per (tier, kind, src, sha, arm, dataset, regime), chunked by seeds
     groups = collections.OrderedDict()
     for u in units:
-        if u["done"]:
+        if u["done"] or u["kind"] not in kinds:
             continue
         k = u["keys"]
         g = (u["tier"], u["kind"], u["src"], u["sha"], k["arm"], k["dataset"], str(k["regime"]))
@@ -254,7 +272,7 @@ def main():
     if not args.write:
         return
     os.makedirs(args.write, exist_ok=True)
-    jd = os.path.join(args.write, f"jobs_wave{args.wave}")
+    jd = os.path.join(args.write, f"jobs_{tag}")
     os.makedirs(jd, exist_ok=True)
     status = os.path.join(args.write, "status.txt")
     lines = []
@@ -277,29 +295,37 @@ def main():
         where = f"--where arm={arm} dataset={ds} regime={reg}"
         sd = "--seeds " + " ".join(map(str, seeds))
         if kind == "H":
-            cmd = f"{py} --hardware-tuned {where} {sd}"
+            cmd = f"{HW_ENV}{py} --hardware-tuned {where} {sd}"
         elif kind == "B":
             cmd = f"{py} --source {src} --code-at {sha} --budget {BUDGET} {where} {sd}"
         elif kind == "U":
             cmd = f"{py} --source {src} --code-at {sha} --clip inf {where} {sd}"
+        elif kind == "C":
+            cmd = f"CUDA_VISIBLE_DEVICES= {py} --source {src} --code-at {sha} --clip 20 {where} {sd}"
         else:
             cmd = f"{py} --source {src} --code-at {sha} --clip 20 {where} {sd}"
         fname = f"{i:04d}_t{tier}{kind}_{src[:2]}_{arm}_{ds}_n{reg}_{len(seeds)}s"
         note = (f"planning {sum(u['plan'] for u in cu):.2f} h, upper {sum(u['hi'] for u in cu):.2f} h, "
                 f"{len(cu)} runs, commit {sha[:8]}")
         lines.append(script(fname, cmd, note))
-    with open(os.path.join(args.write, f"jobs_wave{args.wave}.txt"), "w", encoding="utf-8") as f:
+    with open(os.path.join(args.write, f"jobs_{tag}.txt"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
-    with open(os.path.join(args.write, f"commits_wave{args.wave}.txt"), "w", encoding="utf-8") as f:
+    with open(os.path.join(args.write, f"commits_{tag}.txt"), "w", encoding="utf-8") as f:
         f.write("\n".join(shas) + "\n")
 
     if args.wave == 1:
         gate = []
         seen = set()
         for u in units:
-            if u["kind"] != "R" or (u["src"], u["sha"]) in seen:
+            if u["kind"] not in ("R", "C") or (u["src"], u["sha"], u["kind"]) in seen:
                 continue
-            seen.add((u["src"], u["sha"]))
+            if u["kind"] == "C":
+                seen.add((u["src"], u["sha"], "C"))
+                gate.append(script(f"gate_cpu_{u['src']}_{u['sha'][:8]}",
+                                   f"CUDA_VISIBLE_DEVICES= {py} --source {u['src']} --code-at {u['sha']} --quick",
+                                   "CPU re-execution of a CPU-recorded source: must be bit-identical"))
+                continue
+            seen.add((u["src"], u["sha"], "R"))
             fname = f"gate_{u['src']}_{u['sha'][:8]}"
             gate.append(script(fname, f"{py} --source {u['src']} --code-at {u['sha']} --quick",
                                "quick check: re-executions must be bit-identical"))
@@ -324,7 +350,7 @@ def main():
             gate.append(script(f"gate_cold_{src}_{sha[:8]}",
                                f"{py} --source {src} --code-at {sha} --from-list {lst} --gate",
                                "a run the logs show built its feature cache: must be bit-identical"))
-        gate.append(script("gate_hardware_tuned", f"{py} --hardware-tuned --quick",
+        gate.append(script("gate_hardware_tuned", f"{HW_ENV}{py} --hardware-tuned --quick",
                            "smoke test of the Amendment 23 path"))
         b01 = sorted({u["sha"] for u in units if u["kind"] == "B" and u["src"] == "01_frozen_tuned"})
         if b01:
