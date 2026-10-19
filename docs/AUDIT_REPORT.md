@@ -208,7 +208,7 @@ reviewer would find.
 | arXiv:2609.24666 (Sep 2026) | QCNN small-data generalisation, BreastMNIST; classical baselines win | agrees: generalisation is not quantum advantage |
 | *Electronics* 15(20) 4723 (Oct 2026) | pitfalls of matched-parameter benchmarking: imbalance collapse, readout offset | both controlled here (balanced sets, AUC, classifier bias); state in Methods |
 | *Quantum Mach. Intell.* 8:96 (2026) | hybrid KD student; Hilbert-space attribution without function-class control | an instance of the attribution our controls test |
-| arXiv:2610.16153 (Oct 2026) | VQC label-noise robustness, medical images | NOT YET READ (server refused, 17 Oct) |
+| arXiv:2610.16153 (Epa et al., 12 Oct 2026) | frozen ViT-B/16 → 768→8 bottleneck → 8-qubit single-encoding VQC; label noise on six MedMNIST sets; vs a ReLU head at matched size: equal on clean labels, more stable under noise; attributed to restricted frequency support, explicitly untested against classical restricted-spectrum heads (their stated future work) | closest work; our function-class and re-uploading controls are the tests it calls for; read in full 20 Oct (`analysis_plan.md`, literature addendum) |
 
 **Positioning.** Matched classical baselines are becoming standard in 2026, so
 "we matched parameters" is not new. What remains distinctive: exact parity at

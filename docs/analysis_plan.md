@@ -1691,3 +1691,52 @@ contribution.
 - `wave2`: the unclipped runs, after wave 1.
 
 No design, prediction or analysis changes.
+
+### Literature addendum — 20 October 2026: arXiv:2610.16153, read in full
+
+Epa et al., "Architectural Robustness to Label Noise Using Variational Quantum
+Circuits for Medical Image Classification", arXiv:2610.16153v1 (12 October
+2026, AAAI format).
+
+**What it does.**
+- A frozen ViT-B/16 feeds a trainable 768 → 8 linear bottleneck, then an
+  arctan squashing, then an 8-qubit VQC (single angle encoding, L = 4, ⟨X⟩ and
+  ⟨Z⟩ readout), then a linear classifier.
+- Six MedMNIST multi-class sets with symmetric and instance-dependent label
+  noise; three seeds; no significance tests.
+- The control shares everything and replaces only the 8 → 16 map with a ReLU
+  layer, at about the same parameter count.
+
+**What it finds.**
+- On clean labels the two heads are indistinguishable.
+- Under label noise the VQC head degrades less, by 10.8 points on PathMNIST at
+  50% noise.
+- The authors explain this by the single-encoding circuit's restricted
+  frequency support, {−1, 0, 1} per coordinate. They state that they do not
+  test whether it is quantum: "isolating that question against
+  smoothness-matched classical heads is the direct extension of this work".
+  Their future work names exactly two tests:
+  - whether "other restricted-spectrum heads reproduce it classically";
+  - whether data re-uploading erodes it.
+
+**Relation to this paper.**
+- It is the closest work found. It does not pre-empt this paper; it argues the
+  same mechanism and leaves open the test this paper runs.
+  - This paper's function-class controls (`fourier_rff`, `fourier_exact`,
+    `fourier_rff_r2`) are the classical restricted-spectrum heads it calls for.
+  - The re-uploading arm and E7 are its second test.
+- The settings differ: data scarcity here, label noise there. Both point to
+  the restricted function class rather than quantum computation.
+- It should be cited in the introduction and Related Work as independent,
+  concurrent support for the attribution, with the difference in what was
+  tested stated plainly.
+- **Sensitivity.** It reports the trained VQC head as two to four times *less*
+  sensitive than its ReLU control, by a ratio of output change to input
+  change. That ratio is not normalised by output range. This paper's
+  initialisation result, normalised by output range, finds the VQC *more*
+  sensitive, and `08_lipschitz.py` explains why the unnormalised ratio is not
+  comparable across heads. Amendment 22 measures trained heads under both
+  views (L_max and |out|max are both stored per run), so the paper can report
+  both and say why they differ.
+  - This is reported, not used to change Amendment 22: its prediction and
+    statistic stay as written.
