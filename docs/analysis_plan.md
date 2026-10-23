@@ -1740,3 +1740,95 @@ Circuits for Medical Image Classification", arXiv:2610.16153v1 (12 October
   both and say why they differ.
   - This is reported, not used to change Amendment 22: its prediction and
     statistic stay as written.
+
+---
+
+## Records of 22–23 October 2026 — analyses after the pod was withdrawn
+
+The pod was taken away on 21 October. The analyses ran on Google Colab (CPU,
+High-RAM) from the backups on Drive (`replay_backup_2026-10-21.tgz`, SHA-256
+`16b3bf8b…2fdb2c68`; `repo_2026-10-21.bundle`). Nothing was trained except
+where stated. Nothing above this line is edited.
+
+**Count correction.** The Records of 20 October say "20,120 of 20,120
+re-executions bit-identical". The complete identity table
+(`logs_stats_replay_identity.txt`) gives **20,220 of 20,220** for every source
+except full data, and **20,300** recorded runs in all, including the 80
+full-data runs. The earlier figure was a summing error. The manuscript uses
+20,220 and 20,300.
+
+**Amendment 21 — outcomes.**
+- P0 holds (all 699 predicted cache-building runs reproduced cold). P1 holds
+  for every GPU-recorded source (20,220 of 20,220).
+- `C_17_fulldata` (Amendment 25): 4 of 80 re-executed, 4 identical. The rest
+  are to be run on Colab CPU; see the schedule below.
+- P2 fails: 59 circuit runs had a step above 20 (largest norm 134.9, in a
+  `quantum_vqc` run with the backbone's layer3 trainable).
+- Clipping acted in 1,998 of 20,300 runs, mostly of Fourier heads; in the primary
+  namespace in 677 of 800 `fourier_rff_r2` runs.
+- P3 holds: 0 of 23 confirmatory verdicts change. H-S4 moves from −0.0048
+  (p_adj 0.121) to −0.0089 (p_adj 0.055), still not supported; every other
+  family estimate moves by at most 0.0002.
+- P4 fails: E7 without clipping is +0.0278*, +0.0176*, +0.0083*, +0.0019,
+  −0.0035* at n = 5…100 (recorded: +0.0150*, +0.0148*, +0.0029, −0.0002,
+  −0.0038*). The change at n = 20 makes the interval exclude zero.
+- P6 holds: no selected learning rate changes.
+- P5 (Amendment 18 outcomes) and item 6 ("everything else"): computed by
+  `scripts/part3_colab.py` (13, 14, 15 and the plot script on two mirrored
+  artifact folders, clipped and unclipped) and `scripts/part2_colab.py` with
+  `scripts/fast04.py` (the five 04 tables the manuscript uses: depth ×2, angle,
+  tanh, compression). Results to be recorded when they arrive.
+
+**Amendment 20 — outcomes.**
+- P0: every `B_01` run (1,000) and every `B_17` run (40 of 40, checked on
+  22 October against `R_17`) repeats its partner bit for bit over the
+  partner's epochs.
+- P1 fails for `fourier_rff_r2` (+0.0174 at n = 10, +0.0102 at n = 50); holds
+  for every other arm and n.
+- P2 holds. P3 holds (slope −0.00681 at 1,000 epochs).
+- **P4 fails on its point estimates.** Pooled full-data VQC − matched is
+  +0.0004 [−0.0081, +0.0131] at 100 epochs and +0.0074 [−0.0009, +0.0199] at
+  1,000 (GPU, 5 seeds). As the amendment specified, "absent with full data"
+  is withdrawn; the manuscript says "not detected".
+- Recorded on CPU, the same 80 runs gave −0.0068 [−0.0175, +0.0053]. The
+  device alone moved this five-seed estimate by 0.007.
+
+**Amendment 22 — prediction holds** (pooled ratios: d = 4 (a) 2.743, (b) 1.820;
+d = 8 2.523, 2.584; d = 16 2.223, 2.027).
+
+**Amendment 23.** (i) holds (0.9877–0.9995). (ii) fails on strict equality:
+binary AUC changed in 4 of 20 runs, by at most 1.11×10⁻¹⁶ (per-run values in
+`analysis_part2.tgz`, part_c.txt). (iii) holds. Weights identical to `R_01` in
+21 of 21.
+
+**Amendment 24.** P1 holds; P2 fails (the project's initialisation gives the
+smaller variance in 8 of 9 configurations).
+
+**Errors in the Colab analysis of 22–23 October, and what was kept.**
+- Part 2 recomputed 04's per-cell tables for 17 sources. Most of those tables
+  are not where the manuscript's numbers come from; those come from 13, 14,
+  15 and the plot script. Only five 04 tables are used (depth ×2, angle, tanh,
+  compression). Part 3 and part 3b replace part 2's section A.
+- 18 of part 2's 04 outputs were cut off by two Colab restarts, and the
+  runner still marked them done. Those files are not used. The runner now
+  counts a file as done only if 04 exited with code 0.
+- Kept from part 2: B (above) and C (above), and three complete 04 outputs
+  (d8, d16, full data), which are exploratory.
+- **Exploratory observation (found by looking, not tested):** at d = 8,
+  VQC − `fourier_rff` grows without clipping (BloodMNIST n = 5: +0.135 →
+  +0.201). Clipping acted in all 200 `fourier_rff` runs at d = 8.
+
+**fast04.** `scripts/fast04.py` runs 04 unchanged except for the AUC inside its
+two bootstrap loops, which is computed from the resample's weights (exact
+weighted Mann–Whitney; differs from scikit-learn only in the last rounding,
+≤ 3.3×10⁻¹⁶ on test data). Same random draws. On a synthetic namespace its
+output was identical line for line to 04's (B = 200). Every call checks its
+first replicate against scikit-learn (tolerance 1e-12). It changes how fast
+the statistic is computed, not the statistic.
+
+**Schedule.**
+- The `C_17_fulldata` re-execution (76 runs) starts 24 October on Colab CPU.
+  It begins with a one-hour pilot: re-run one of the 4 runs already identical
+  on the pod, in the recorded environment (Python 3.10, torch 2.4.1, numpy
+  1.26.4). If the pilot is not bit-identical, Colab cannot test Amendment 25,
+  and the manuscript states 4 of 80 with the reason.
