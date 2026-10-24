@@ -1832,3 +1832,95 @@ the statistic is computed, not the statistic.
   on the pod, in the recorded environment (Python 3.10, torch 2.4.1, numpy
   1.26.4). If the pilot is not bit-identical, Colab cannot test Amendment 25,
   and the manuscript states 4 of 80 with the reason.
+
+### Part 3b — the five 04 tables, recorded and unclipped (23 October, 16:26 IST)
+
+`analysis_part3b.tgz`; `scripts/part2_colab.py` with `PART2_ONLY=angle,tanh,
+depth_4v2,depth_1v2,compression` and `scripts/fast04.py`. All 10 outputs exited
+0; no seed-level fallback; fast04's per-call AUC check passed in every call and
+its three function checks found no difference from 04.
+
+**Reproduction of the reported logs (clipped side).** 209 rows compared with
+`logs_stats_angle_v2`, `logs_stats_tanh_v2`, `logs_stats_depth` (both halves)
+and `logs_stats_compression_frozen`. Estimate, interval and verdict are identical
+in all 209. In 30 rows the p-value differs by 0.001 (one bootstrap replicate;
+adjusted values by up to 0.004): a replicate whose delta is exactly zero under
+the exact rank AUC is ±10⁻¹⁷ under scikit-learn's trapezoid. No verdict depends
+on it.
+
+**Unclipped vs clipped (exploratory).**
+- Depth (L = 4 − L = 2, L = 1 − L = 2): identical verdicts; cell means change
+  by less than 0.0001.
+- Angle scale: π helps the VQC in 3 cells either way; it hurts the matched
+  head in 6 cells unclipped (5 recorded): PathMNIST n = 50 becomes −0.0300
+  [−0.0657, −0.0004]. Largest change in a cell mean 0.0046.
+- tanh: one change, `fourier_rff` PneumoniaMNIST n = 20 becomes "no tanh
+  better (negligible)", +0.0050. The manuscript's statements (MLP and
+  low-rank heads helped on the multi-class sets, matched head mostly
+  unaffected) are unchanged.
+- Compression (Amendment 18), unclipped: BloodMNIST +0.0559, +0.0207, +0.0205,
+  +0.0237, +0.0211, +0.0214 (all significant); PathMNIST +0.0232, +0.0179,
+  +0.0126 (significant), +0.0042, +0.0030, +0.0019; BreastMNIST +0.0308,
+  −0.0083, +0.0001, −0.0038, +0.0022, +0.0115; PneumoniaMNIST +0.0036,
+  +0.0027, −0.0049, −0.0000, −0.0001, −0.0012 (n = 5, 10, 20, 50, 100, full).
+  Means +0.0284, +0.0082, +0.0071, +0.0060, +0.0065. One verdict changes:
+  PathMNIST n = 50 is no longer significant (+0.0046 → +0.0042).
+- **Amendment 21 P5 holds:** Amendment 18's P1 still fails on BloodMNIST
+  (0.0211 and 0.0214 > 0.02) and holds elsewhere; P2 still fails (mean cost
+  positive at every n ≤ 20).
+
+### Part 3 — the reporting scripts on the clipped and unclipped folders (24 October)
+
+`analysis_part3.tgz` (clipped folder) and `analysis_part3u_1.tgz` (unclipped
+folder); `scripts/part3_colab.py`. Steps 13, 14 and 15 exited 0 on both. The plot
+script failed on both (exit 1): it reads 13's per-cell caches, which lived on the
+Colab machine and were lost when it restarted overnight; only 13's log was on
+Drive. That is a fault of the runner, not of any statistic. In its place, 13's
+`primary` group was recomputed on both folders (`scope_clip.json`,
+`scope_unclip.json`), and the per-dataset and leave-one-out values were taken
+from those caches with the plot script's own `Group` class. (The "not supported"
+H-P1 line in `*_13_primary.txt` is an artefact of computing one group alone:
+BH there runs over 2 computed tests with m = 23. The family verdicts are those
+of the full 13 runs.)
+
+**Reproduction of the published numbers (clipped folder).** Identical, with
+zero difference, wherever the published files exist: the per-dataset Δ(n) and
+pooled rows of `paper/figures/figure_data.json` (fig. 5); every value of
+`paper/tables/noise_metrics.csv` and `effect_sizes.csv`; `capacity.csv`; and
+every row of `absolute_auc.csv` except the 16 full-data rows, whose clipped side
+is the GPU re-execution R_17 by design. The leave-one-out values equal those in
+`RESULTS.md` §3. The family table (13, clipped) equals `family_table.json`.
+
+**Unclipped vs clipped (exploratory; the confirmatory family is in part 1).**
+- Per dataset, Δ(n): one estimate moves, PathMNIST n = 50, −0.0203 → −0.0199;
+  no interval changes side of zero. Leave-one-out at n = 5: identical.
+- Absolute AUC: the primary arms at n = 5 are identical to four decimals. The
+  largest changes are in Fourier heads (d = 8: up to −0.066 at BloodMNIST
+  n = 5) and in the encoder sweep with layer3 trainable (VQC PathMNIST n = 100
+  0.9064 → 0.8754).
+- Noise table: every value within 0.0024. The VQC keeps the largest G at every
+  σ; its ECE is the lowest or within 0.005 of the lowest at every σ.
+- F1-selected sensitivity: Δ(5) +0.0168 in both; largest change 0.0004 (n = 100).
+- Effect sizes d_z: unchanged to two decimals except H-S4 (−0.93 → −0.99, not
+  shown in the manuscript's table).
+- Nested d = 8, d = 16, full data (15's statistic): identical estimates and
+  intervals except one bound (d = 8, n = 100: upper −0.0002 → −0.0001).
+- Exploratory table (14): identical to part 1's recorded and unclipped values.
+  The re-upload − matched contrast at n = 100 keeps its interval above zero
+  ([+0.0001, +0.0059] either way), but its within-analysis BH p moves from
+  0.049 to 0.052. E7 as recorded in Records of 22–23 October; its slope moves
+  from −0.0048 to −0.0071.
+
+**Correction to what was said on 24 October.** The note that "at d = 8, n = 100
+the interval now excludes zero without clipping" was wrong: it excludes zero on
+both folders under 15's statistic ([−0.0093, −0.0002] clipped). The manuscript's
+d = 8 table came from 04's pooled bootstrap (`logs_stats_d8.txt`: n = 100,
+[−0.0094, +0.0003]), a different implementation with different draws. The cell
+is on the boundary under either; clipping does not change it. Which implementation
+the manuscript cites for this table is to be stated, and the boundary noted.
+
+**Device dependence (exploratory).** Full data, clipped GPU re-execution vs
+recorded CPU runs: the VQC's AUC moves from 0.9362 to 0.9572 on BloodMNIST and
+0.9612 to 0.9685 on PathMNIST; every classical head moves by at most 0.0007.
+
+**Amendment 21 item 6 is now complete**, except `C_17_fulldata` (Amendment 25).

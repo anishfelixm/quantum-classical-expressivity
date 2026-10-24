@@ -206,7 +206,10 @@ def main():
     out("\n" + "=" * 100)
     out("2. THE FOUR SCRIPTS ON EACH FOLDER")
     out("=" * 100)
+    only = os.environ.get("PART3_ONLY")          # "clip" or "unclip": run one folder only
     for m, root in roots.items():
+        if only and m != only:
+            continue
         run(m, root, "13_family", [py, "src/13_family_table.py", "--recompute", "--workers", W])
         run(m, root, "14_explor", [py, "src/14_exploratory_table.py", "--recompute", "--workers", W])
         run(m, root, "15_report", [py, "src/15_reporting_tables.py", "--artifacts", root,
