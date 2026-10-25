@@ -1924,3 +1924,47 @@ recorded CPU runs: the VQC's AUC moves from 0.9362 to 0.9572 on BloodMNIST and
 0.9612 to 0.9685 on PathMNIST; every classical head moves by at most 0.0007.
 
 **Amendment 21 item 6 is now complete**, except `C_17_fulldata` (Amendment 25).
+
+### Reporting decisions for the manuscript (24 October 2026)
+
+Recorded before the co-authors' review; no statistic is recomputed.
+
+- **The d = 8 table cites 15's nested statistic** (`15_reporting_tables.py
+  --nested`), not 04's pooled bootstrap. Reason: it is the statistic of the
+  confirmatory family (13), and the d = 16 and full-data rows of the same table
+  already use it, so the table then uses one method throughout. The choice is
+  made by method. Both results are known: under 15, n = 100 is
+  −0.0050 [−0.0093, −0.0002] (excludes zero); under 04, [−0.0094, +0.0003]
+  (does not). The manuscript bolds the cell, marks it as a boundary case and
+  gives both intervals. The direction is against the VQC either way; d = 8
+  stays exploratory (Amendment 12).
+- **Full data:** "not detected", as Amendment 20 P4 requires.
+- **Amendment 25 in the draft:** draft v5 stated the CPU re-execution of the
+  80 full-data runs as complete and identical, in red, before it was measured.
+  It was measured the same day (below), and v6 states the measured outcome.
+
+### Amendment 25 — outcome (24 October 2026)
+
+Colab CPU (High-RAM), `CUDA_VISIBLE_DEVICES=''`, code at `e07459a5`
+(`git worktree`), output `C_17_fulldata` on Drive (`cpu17_out`). Pilot
+(`--quick`, 4 runs): QUICK CHECK PASSED. Full run: "identical 80, different 0,
+of 80" (the 4 pilot shards were found and kept). Cache state matched the logs'
+prediction in all 80 (20 cold: the `quantum_vqc` runs; 60 warm).
+
+- **The prediction holds.** All 20,300 reported runs are reproduced bit for bit
+  on the device that recorded them (20,220 on GPU, 80 on CPU).
+- **The step record of the reported full-data runs** (CPU): clipping acted in
+  6 of 80 — `fourier_rff` BloodMNIST s2026 (1 step, max 21.9);
+  `matched_param_fullrank` BloodMNIST s2026 (1 step, max 31.8) and s888
+  (3 steps, max 25.5); `quantum_vqc` BloodMNIST s2026 (1 step, max 24.9),
+  PathMNIST s123 (1 step, max 31.6) and s2026 (1 step, max 24.3). On GPU
+  (`R_17`) it acted in 4 (`fourier_rff` 1, `quantum_vqc` 3).
+- **Count of runs in which clipping acted, on the reported runs:** 1,998 − 4 +
+  6 = 2,000 of 20,300. The unclipped re-executions remain 1,998 (the full-data
+  ones on GPU).
+- **Not done:** the 6 CPU runs were not re-executed without clipping on CPU.
+  Amendment 25 did not specify it, and `replay.py` with `--clip inf` writes
+  `U_` regardless of device, where the GPU unclipped runs already are. The
+  full-data clipping contrast therefore stays the GPU one (`U_17` against
+  `R_17`), where the nested full-data estimate is unchanged (part 3). The
+  manuscript states this.
