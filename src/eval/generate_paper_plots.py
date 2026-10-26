@@ -459,7 +459,7 @@ def fig_overview(plt, arch, out, record):
     for w in range(d):
         yy = d - 1 - w
         axc.plot([-0.5, end], [yy, yy], color=INK2, lw=0.7, zorder=0)
-        axc.text(-0.7, yy, f"z{w + 1}", ha="right", va="center", fontsize=7)
+        axc.text(-0.7, yy, rf"$\tilde{{z}}_{{{w + 1}}}$", ha="right", va="center", fontsize=7)
 
     def gate(xc, yy, txt, ec, wdt=0.8):
         axc.add_patch(FancyBboxPatch((xc - wdt / 2, yy - 0.28), wdt, 0.56,
@@ -586,7 +586,7 @@ def fig_function_class_3d(plt, path, out, record):
             ax.contourf(Xc, Yc, H / H.max(), zdir="z", offset=-lim, levels=[0.02, 0.15, 0.4, 1.01],
                         colors=["#e1e0d9", "#c3c2b7", "#898781"], alpha=0.9)
         ax.set_zlim(-lim, lim)
-        ax.set_xlabel(f"z{sub(ci)}", labelpad=-9); ax.set_ylabel(f"z{sub(cj)}", labelpad=-9)
+        ax.set_xlabel(rf"$\tilde{{z}}_{{{ci + 1}}}$", labelpad=-9); ax.set_ylabel(rf"$\tilde{{z}}_{{{cj + 1}}}$", labelpad=-9)
         ax.set_xticks([]); ax.set_yticks([])
         ax.zaxis.set_major_locator(__import__("matplotlib").ticker.MaxNLocator(3))
         ax.tick_params(axis="z", pad=1, labelsize=6)
@@ -600,7 +600,7 @@ def fig_function_class_3d(plt, path, out, record):
     im = ax.imshow(diff, origin="lower", extent=[-a, a, -a, a],
                    cmap="Greys", aspect="equal")
     ax.set_title("(c) |(a) − (b)|", fontsize=7.3)
-    ax.set_xlabel(f"z{sub(ci)}"); ax.set_ylabel(f"z{sub(cj)}", labelpad=1)
+    ax.set_xlabel(rf"$\tilde{{z}}_{{{ci + 1}}}$"); ax.set_ylabel(rf"$\tilde{{z}}_{{{cj + 1}}}$", labelpad=1)
     cb = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
     cb.formatter.set_powerlimits((0, 0)); cb.update_ticks(); cb.ax.tick_params(labelsize=6)
     meta = {"cell": json.loads(str(z["cell"])), "auc_recorded": float(z["auc_recorded"]),
