@@ -576,7 +576,8 @@ def fig_function_class_3d(plt, path, out, record):
     Xc, Yc = np.meshgrid((xe[:-1] + xe[1:]) / 2, (ye[:-1] + ye[1:]) / 2, indexing="ij")
 
     fig = plt.figure(figsize=(COL2, 2.75))
-    gs = fig.add_gridspec(1, 3, width_ratios=[1, 1, 0.8], wspace=0.32)
+    # A narrow empty column between (b) and (c) keeps (b)'s z-tick labels clear of (c)'s axis label.
+    gs = fig.add_gridspec(1, 4, width_ratios=[1, 1, 0.12, 0.8], wspace=0.32)
     for k2, (S, title) in enumerate([(Q, "(a) trained VQC head, ⟨X₁⟩ (PennyLane)"),
                                      (Fsurf, f"(b) sum of {n_terms} sines and cosines")]):
         ax = fig.add_subplot(gs[0, k2], projection="3d")
@@ -594,7 +595,7 @@ def fig_function_class_3d(plt, path, out, record):
         for ax_ in (ax.xaxis, ax.yaxis, ax.zaxis):
             ax_.pane.set_facecolor((1, 1, 1, 0)); ax_.pane.set_edgecolor(GRID)
         ax.set_title(title, fontsize=7.3, pad=0)
-    ax = fig.add_subplot(gs[0, 2])
+    ax = fig.add_subplot(gs[0, 3])
     im = ax.imshow(diff, origin="lower", extent=[-a, a, -a, a],
                    cmap="Greys", aspect="equal")
     ax.set_title("(c) |(a) − (b)|", fontsize=7.3)
