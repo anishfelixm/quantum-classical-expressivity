@@ -1207,6 +1207,10 @@ their GPU re-execution, so that the two budgets differ in nothing else.
 - (4) Full data: AUC per arm and dataset under each budget, and pooled
   VQC − matched under each (descriptive).
 
+**Integrity checks before the analysis.** All 2,400 shards present, each with
+its predictions file; one git SHA across all of them; the analysis log must not
+contain `SEED-LEVEL FALLBACK IN USE`.
+
 **Predictions.**
 - **P1.** For every arm at every n, |pooled change| < 0.01.
 - **P2.** Wherever a contrast's 100-epoch interval on these ten seeds excludes
@@ -1314,6 +1318,10 @@ It changes no confirmatory verdict, and is reported in full whatever it shows.
 6. **Everything else.** For every other source, the number of changed runs.
    Where any changed, its reported numbers are recomputed on the view by the
    script that produced them.
+
+**Integrity checks before the analysis.** All 2,400 shards present, each with
+its predictions file; one git SHA across all of them; the analysis log must not
+contain `SEED-LEVEL FALLBACK IN USE`.
 
 **Predictions.**
 - **P1.** Every re-execution except `17_fulldata` is bit-identical to its
@@ -1606,6 +1614,10 @@ their cache: the first arm, `quantum_vqc`, of each dataset and seed).
 - Inputs: one fixed batch of 32 latents drawn uniformly from the head's
   operating range.
 - Cost: the batch mean of ⟨X₀⟩.
+
+**Integrity checks before the analysis.** All 2,400 shards present, each with
+its predictions file; one git SHA across all of them; the analysis log must not
+contain `SEED-LEVEL FALLBACK IN USE`.
 
 **Predictions.**
 - **P1.** Under uniform initialisation at L = 4, the variance is lower at
@@ -1968,3 +1980,101 @@ prediction in all 80 (20 cold: the `quantum_vqc` runs; 60 warm).
   full-data clipping contrast therefore stays the GPU one (`U_17` against
   `R_17`), where the nested full-data estimate is unchanged (part 3). The
   manuscript states this.
+
+## Amendment 26 — written 31 October 2026, before any run. The entangling range of the re-uploading circuit.
+
+**Why.** Found on 31 October 2026 by reading the code, not by looking at a
+result. PennyLane's `StronglyEntanglingLayers` sets the CNOT range of layer l
+to (l mod (d − 1)) + 1 when `ranges` is not given, and restarts the count at
+every call. `quantum_vqc` calls it once with two layers (ranges 1, 2);
+`quantum_reupload` calls it once per encoding block with one layer
+(ranges 1, 1). At d = 4 the second layer's CNOTs are 0→2, 1→3, 2→0, 3→1 in
+`quantum_vqc` and 0→1, 1→2, 2→3, 3→0 in `quantum_reupload`. The spectrum and
+the parameter count are unaffected. So the five H-S1 tests compare re-uploading
+together with a different entangling pattern; the module docstring's claim that
+re-uploading was the only difference was wrong.
+
+**What is already known.** The H-S1 results (recorded). Nothing about the new
+arm below.
+
+**Unchanged.** The five H-S1 verdicts are fixed: they compare the two circuits
+as built. The manuscript discloses the difference whatever this experiment
+finds. Every other confirmatory test uses `quantum_vqc` against a classical
+head, `quantum_rich` against `quantum_rich_padded` (same circuit), or classical
+heads only, and is unaffected.
+
+**Design.** New arm `quantum_vqc_range1`: the single-encoding VQC with ranges
+(1, 1), 24 parameters, the same 3^d spectrum. New arm name, so no existing shard
+key changes; `ranges` is passed only by this arm, so every existing circuit is
+built exactly as before.
+
+| Axis | Value |
+|---|---|
+| Namespace | `31_entangling_range` |
+| Arms | `quantum_vqc`, `quantum_vqc_range1`, `quantum_reupload` |
+| Cells | 4 datasets × n ∈ {5, 10, 20, 50, 100}, d = 4 |
+| Seeds | `config.CONFIRMATORY_SEEDS` (40) |
+| Rate | `--lr-head 1e-2 --lr-quantum 1e-2` for every arm: the rate both circuit arms of `01_frozen_tuned` trained at, so the shard keys match the recorded runs |
+| Everything else | the primary protocol: frozen backbone, learned projection, no augmentation |
+| Runs | 3 × 20 × 40 = 2,400 |
+
+- **All three arms of a seed on one machine.** The recorded runs are on another
+  device, and circuit heads moved by up to 0.021 AUC between devices
+  (Records of 24 October). If the work is split across Colab sessions, it is
+  split by seed, never by arm: each session runs all three arms for its own
+  seeds, so every paired difference is computed on one machine. Every session
+  uses the same runtime type (CPU); the first session records its device and
+  later sessions stop if theirs differs. Every contrast below is between arms
+  run here.
+- **Warm feature cache for every run.** A run that builds its own cache draws
+  its initialisation after the backbone constructor has consumed random
+  numbers (the 699-run issue). The caches are restored from the 10 October
+  backup, or built in a separate step, before any training, so all three arms
+  of a seed start from the same draws. The pre-run check stops if any of the
+  800 cache files is missing.
+- **Gates before the long run.** `tests/test_entangling_ranges.py`,
+  `tests/test_parity.py`, `tests/test_fourier_equivalence.py`,
+  `tests/test_reupload_spectrum.py` and `scripts/audit_arm_pairs.py` must pass,
+  the three arms must report 24 head parameters at d = 4, and the
+  circuit of each arm is drawn with `qml.draw` and kept with the logs. A pilot
+  (one timed PathMNIST n = 100 run per arm, seed 42, in the scratch
+  namespace `31_pilot`, never analysed) comes before the full run; the runtime estimate is revised from
+  it, never from BreastMNIST.
+
+**Analysis** (`scripts/analyse_entangling_range.py`; the engine of
+`14_exploratory_table.py`, unchanged; B = 2000; BH within each analysis,
+m = 5). Exploratory throughout.
+
+| Analysis | Contrast | Changes only |
+|---|---|---|
+| `range_effect` | vqc_range1 − vqc | the second layer's range |
+| `reupload_effect` | reupload − vqc_range1 | the second encoding |
+| `hs1_same_device` | reupload − vqc | as H-S1, on one machine (descriptive) |
+
+Device check (descriptive): new `quantum_vqc` minus recorded `quantum_vqc`,
+seed by seed, per cell.
+
+**Integrity checks before the analysis.** All 2,400 shards present, each with
+its predictions file; one git SHA across all of them; the analysis log must not
+contain `SEED-LEVEL FALLBACK IN USE`.
+
+**Predictions.**
+- **P1.** |pooled `range_effect`| < 0.005 AUC at every n.
+- **P2.** `reupload_effect` > 0 with its 95% interval above zero at n = 50 and
+  n = 100, the cells where H-S1 was supported.
+
+**What each outcome means for the manuscript.**
+- P1 and P2 hold: the H-S1 paragraph stands, with the range difference
+  disclosed and this check reported.
+- P1 fails: the entangling pattern matters by itself; the manuscript reports
+  `range_effect`, and the re-uploading effect is `reupload_effect`.
+- P2 fails: the manuscript no longer attributes the H-S1 differences to
+  re-uploading; it reports them as differences between the two circuits as
+  built.
+
+**Also recorded here.** Above d = 4, `fourier_rff` is a random-feature
+approximation, not the full span: 1,024 frequency pairs (2,048 features),
+sampled without replacement from 3,280 at d = 8 and at random from about
+21.5 million at d = 16 (16,392 and 32,784 parameters). Those runs enter only the
+clipping counts, `absolute_auc.csv` and one exploratory note; no reported
+contrast uses them. Any mention must say so.

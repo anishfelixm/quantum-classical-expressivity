@@ -40,11 +40,11 @@ ARM_NAMES = ["linear", "mlp", "deep_funnel", "matched_param",
              "fourier_rff", "fourier_exact",
              "quantum_vqc", "quantum_reupload",
              "quantum_rich", "quantum_rich_padded",
-             "quantum_basic", "fourier_rff_r2"]
+             "quantum_basic", "fourier_rff_r2", "quantum_vqc_range1"]
 
 QUANTUM_ARMS = ("quantum_vqc", "quantum_reupload",
                 "quantum_rich", "quantum_rich_padded",
-                "quantum_basic")
+                "quantum_basic", "quantum_vqc_range1")
 BOTTLENECK_POLICIES = ("learned", "pca", "random")
 
 
@@ -366,6 +366,15 @@ def build_arm(arm, d, num_classes, n_layers=2, seed=42,
         head = VQCHead(d, n_layers=n_layers, n_uploads=1,
                        device_name=device_name, diff_method=diff_method,
                        ansatz="basic")
+    elif arm == "quantum_vqc_range1":
+        # Amendment 26. The single-encoding circuit with CNOT range 1 in EVERY
+        # entangling layer - the pattern quantum_reupload gets from PennyLane's
+        # per-call defaults. vqc_range1 - vqc isolates the entangling range;
+        # reupload - vqc_range1 isolates re-uploading. Same 24 parameters, same
+        # 3^d spectrum. New arm name, so no existing shard key changes.
+        head = VQCHead(d, n_layers=n_layers, n_uploads=1,
+                       device_name=device_name, diff_method=diff_method,
+                       ranges=(1,) * n_layers)
     elif arm == "quantum_reupload":
         # R=2 by default: spectrum {-2..2}^d, 5^d basis functions, SAME parameter
         # count as quantum_vqc. Isolates spectral richness from quantum-ness.

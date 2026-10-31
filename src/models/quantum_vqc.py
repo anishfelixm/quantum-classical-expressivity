@@ -28,9 +28,30 @@ THE PARAMETER BUDGET IS DELIBERATELY IDENTICAL
     quantum_vqc      R=1, 2 layers          ->  3*2*d = 24 params, 3^d =  81 basis
     quantum_reupload R=2, 1 layer per block ->  3*2*d = 24 params, 5^d = 625 basis
 
-Same trainable parameters, same readout width, same everything else. The only
-difference is spectral richness. That is what makes this a clean control rather
-than another confounded comparison.
+Same trainable parameters and the same readout width. The intended difference
+is spectral richness.
+
+CORRECTION, 31 October 2026 (Amendment 26). The two circuits ALSO differ in
+their second entangling layer, which the line above used to deny. PennyLane's
+StronglyEntanglingLayers sets the CNOT range of layer l to (l mod (d-1)) + 1
+when `ranges` is not given, and the count starts again at every call:
+
+    quantum_vqc      one call, 2 layers           ->  ranges (1, 2)
+    quantum_reupload two calls, 1 layer per block ->  ranges (1), (1)
+
+At d=4 the second layer's CNOTs are 0->2, 1->3, 2->0, 3->1 in quantum_vqc and
+0->1, 1->2, 2->3, 3->0 in quantum_reupload. The spectrum and the parameter count
+are unaffected (both are fixed by the encoding and by 3*L*d), but the
+reachable coefficient manifold may differ, so reupload - vqc is not a pure
+re-uploading contrast. quantum_vqc_range1 (below) is the single-encoding
+circuit with ranges (1, 1): reupload - vqc_range1 differs ONLY in the second
+encoding, and vqc_range1 - vqc ONLY in the second layer's range.
+
+WHY `ranges` IS OPTIONAL AND OFF BY DEFAULT
+-------------------------------------------
+When ranges is None the template is called exactly as before, with no ranges
+argument, so every existing arm builds a bit-identical circuit and all recorded
+runs stay reproducible. Only an arm that passes ranges explicitly changes.
 
 WHY THE READOUT IS ITS OWN CONTROLLED AXIS
 -------------------------------------------
@@ -135,13 +156,16 @@ class VQCHead(nn.Module):
         d:          qubits == bottleneck dimension
         n_layers:   total StronglyEntanglingLayers, split evenly across uploads
         n_uploads:  R. 1 reproduces the original single-encoding circuit exactly.
+        ranges:     CNOT range of every StronglyEntanglingLayers layer, in circuit
+                    order (length n_layers). None keeps PennyLane's default,
+                    restarted at each encoding block (see the module docstring).
     """
 
     def __init__(self, d: int, n_layers: int = 2, n_uploads: int = 1,
                  device_name: str = "default.qubit",
                  diff_method: str = "backprop",
                  init_std: float = 0.1, readout: str = "single",
-                 ansatz: str = "strong"):
+                 ansatz: str = "strong", ranges=None):
         super().__init__()
         if readout not in ("single", "pairs", "padded"):
             raise ValueError(
@@ -191,6 +215,24 @@ class VQCHead(nn.Module):
         layers_per_block = circuit_layers // n_uploads
         entangler = (qml.StronglyEntanglingLayers if ansatz == "strong"
                      else qml.BasicEntanglerLayers)
+
+        if ranges is not None:
+            ranges = tuple(int(r) for r in ranges)
+            if ansatz != "strong":
+                raise ValueError("ranges applies to StronglyEntanglingLayers only")
+            if len(ranges) != circuit_layers:
+                raise ValueError(f"ranges has {len(ranges)} entries; the circuit "
+                                 f"has {circuit_layers} entangling layers")
+            if d > 1 and not all(1 <= r <= d - 1 for r in ranges):
+                raise ValueError(f"every range must lie in 1..{d - 1}, got {ranges}")
+        self.ranges = ranges
+        # The ranges each layer actually uses, in circuit order. Recorded so an
+        # audit can compare circuits without re-deriving PennyLane's defaults.
+        if ansatz == "strong":
+            block = [(l % (d - 1)) + 1 if d > 1 else 0 for l in range(layers_per_block)]
+            self.effective_ranges = ranges if ranges is not None else tuple(block * n_uploads)
+        else:
+            self.effective_ranges = None
         dev = qml.device(device_name, wires=d)
 
         @qml.qnode(dev, interface="torch", diff_method=diff_method)
@@ -198,7 +240,11 @@ class VQCHead(nn.Module):
             for r in range(n_uploads):
                 qml.AngleEmbedding(inputs, wires=range(d), rotation="Y")
                 lo = r * layers_per_block
-                entangler(weights[lo:lo + layers_per_block], wires=range(d))
+                if ranges is None:
+                    entangler(weights[lo:lo + layers_per_block], wires=range(d))
+                else:
+                    entangler(weights[lo:lo + layers_per_block], wires=range(d),
+                              ranges=ranges[lo:lo + layers_per_block])
             singles = [qml.expval(qml.PauliX(i)) for i in range(d)]
             if readout != "pairs":
                 # "padded" is widened in forward(), not here: the extra columns
@@ -242,6 +288,9 @@ class VQCHead(nn.Module):
             "out_dim": self.out_dim,
             "max_frequency": self.n_uploads,
             "spectrum_size": self.spectrum_size,
+            # Present only when ranges were set explicitly, so the description
+            # of every existing arm is unchanged.
+            **({"entangling_ranges": list(self.ranges)} if self.ranges is not None else {}),
         }
 
     @torch.no_grad()

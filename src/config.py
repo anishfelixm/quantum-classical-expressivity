@@ -102,7 +102,10 @@ ARMS = [
 ]
 QUANTUM_ARMS = ["quantum_vqc", "quantum_reupload",
                 "quantum_rich", "quantum_rich_padded",
-                "quantum_basic"]
+                "quantum_basic", "quantum_vqc_range1"]
+# quantum_vqc_range1 (Amendment 26) is deliberately NOT in ARMS above: ARMS is
+# the default arm list when --arms is omitted, and adding to it would change
+# what an old default command runs. It is used only with an explicit --arms.
 
 # ANSATZ COMPARISON (H-S8). Published QCNN work reports that performance
 # "varies significantly depending on the quantum circuit", so a study testing
@@ -149,6 +152,7 @@ ARM_DISPLAY_NAMES = {
     "quantum_rich_padded":    "VQC (2-local readout, padded control)",
     "quantum_basic":          "VQC (basic entangler ansatz)",
     "fourier_rff_r2":         "Random Fourier features, re-upload spectrum",
+    "quantum_vqc_range1":     "VQC (single encoding, CNOT range 1 in both layers)",
     "pca_svm":                "PCA + SVM",
 }
 
@@ -174,6 +178,7 @@ LR_INHERITANCE = {
     "quantum_basic":       "quantum_vqc",
     "low_rank":            "matched_param_fullrank",
     "fourier_rff_r2":      "fourier_rff",
+    "quantum_vqc_range1":  "quantum_vqc",    # Amendment 26: same circuit family
 }
 
 PRIMARY_COMPARISON = ("quantum_vqc", "matched_param_fullrank")  # Q1, H-P
