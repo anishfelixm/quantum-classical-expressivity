@@ -413,7 +413,7 @@ def fig_overview(plt, arch, out, record):
     # ---- (a) the pipeline
     ax = fig.add_subplot(gs[0, :])
     ax.set_xlim(0, 100); ax.set_ylim(0, 34); ax.axis("off")
-    ax.set_title("(a) the hybrid pipeline; only the head differs between arms", fontsize=7.5)
+    ax.set_title("(a) model structure; the arms differ only in the head", fontsize=7.5)
 
     def box(x, w, title, sub, y=8, h=17, fill="#ffffff", edge=AXIS, bold=False, fs=7.2):
         ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.3,rounding_size=1.0",
@@ -434,7 +434,7 @@ def fig_overview(plt, arch, out, record):
     arrow(28.2, 30.2)
     box(30.5, 15.5, f"projection\n{F} → {d}", f"learned\n{v['bottleneck']:,} parameters",
         fill=TINT_BLUE, edge=BLUE, bold=True)
-    ax.text(38.25, 4.2, f"{100 * share:.0f}% of trainable parameters", ha="center",
+    ax.text(38.25, 4.2, f"{100 * share:.0f}% of trainable parameters (C = {C})", ha="center",
             fontsize=6.6, color=BLUE, fontweight="bold")
     if fz is not None:
         ax.text(38.25, 28.5, f"control: frozen PCA or random,\n{fz['bottleneck']} trainable",
@@ -589,9 +589,7 @@ def fig_function_class_3d(plt, path, out, record):
         ax.set_xlabel(rf"$\tilde{{z}}_{{{ci + 1}}}$", labelpad=-9); ax.set_ylabel(rf"$\tilde{{z}}_{{{cj + 1}}}$", labelpad=-9)
         ax.set_xticks([]); ax.set_yticks([])
         ax.zaxis.set_major_locator(__import__("matplotlib").ticker.MaxNLocator(3))
-        ax.tick_params(axis="z", pad=1, labelsize=6)
-        if k2 == 1:
-            ax.set_zticklabels([])                           # same scale as (a)
+        ax.tick_params(axis="z", pad=1, labelsize=6)          # same z-limits and ticks in (a) and (b)
         ax.view_init(28, -55)
         for ax_ in (ax.xaxis, ax.yaxis, ax.zaxis):
             ax_.pane.set_facecolor((1, 1, 1, 0)); ax_.pane.set_edgecolor(GRID)
