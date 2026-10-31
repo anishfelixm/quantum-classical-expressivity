@@ -22,7 +22,13 @@ and lists every structural difference:
                  the CNOT pairs layer by layer, and the measured observables
 
 Each pair declares the differences it is SUPPOSED to have. Anything else is
-printed as UNEXPECTED and the script exits with code 1. A new contrast must be
+printed as UNEXPECTED and the script exits with code 1.
+
+Circuit fields are compared only when BOTH arms are circuits. When one arm is a
+classical head, it has no circuit at all, so every circuit field differs; that
+is the declared "head type" difference, not a second one. (The first version
+flagged these and failed on its first run, 1 November 2026; nothing else was
+changed.) A new contrast must be
 added here before it is run; a new library version is re-checked by re-running
 this file.
 
@@ -45,6 +51,7 @@ except ImportError:                                             # classical-only
     qml = None
 
 BASIC_OPS = {"CNOT", "Rot", "RY", "RX", "RZ"}
+CIRCUIT_FIELDS = {"encodings", "rotation gates", "entangling pattern", "observables"}
 
 # Differences that are NOT intended but are known and disclosed in the
 # manuscript. Printed as "disclosed", not failed, so the audit stays usable as a
@@ -148,11 +155,17 @@ def main():
     bad = 0
     for name, (arm_a, kw_a), (arm_b, kw_b), d, intended, what in PAIRS:
         pa, pb = profile(build(arm_a, kw_a, d)), profile(build(arm_b, kw_b, d))
-        diffs = sorted(k for k in set(pa) | set(pb) if pa.get(k) != pb.get(k))
+        both_circuits = CIRCUIT_FIELDS <= set(pa) and CIRCUIT_FIELDS <= set(pb)
+        keys = set(pa) | set(pb)
+        if not both_circuits:                 # circuit vs classical: covered by "head type"
+            keys -= CIRCUIT_FIELDS
+        diffs = sorted(k for k in keys if pa.get(k) != pb.get(k))
         unexpected = [k for k in diffs if k not in intended and (name, k) not in DISCLOSED]
         missing = [k for k in intended if k not in diffs]
         status = "UNEXPECTED DIFFERENCE" if unexpected else "ok"
         print(f"\n[{status}] {name}: {arm_a}{kw_a or ''} vs {arm_b}{kw_b or ''}, d={d}  ({what})")
+        if not both_circuits and (CIRCUIT_FIELDS & (set(pa) | set(pb))):
+            print("    (one arm has no circuit: circuit fields are part of the head-type difference)")
         for k in diffs:
             tag = ("intended  " if k in intended else
                    "disclosed " if (name, k) in DISCLOSED else "UNEXPECTED")
