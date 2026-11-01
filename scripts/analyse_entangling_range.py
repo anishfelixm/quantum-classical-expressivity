@@ -2,6 +2,7 @@
 AMENDMENT 26 - THE ENTANGLING-RANGE CONTROL. Exploratory.
 
     python scripts/analyse_entangling_range.py --workers 7
+    python scripts/analyse_entangling_range.py --device-check-only     # seconds
 
 WHAT IT ANSWERS
 ---------------
@@ -27,8 +28,9 @@ PREDICTIONS (Amendment 26, written before any run of experiment 31)
     reappears on this machine.
 
 DEVICE CHECK (descriptive). The new quantum_vqc runs are compared with the
-recorded quantum_vqc runs of 01_frozen_tuned, seed by seed, to show how far the
-change of machine moves the same arm. It is reported, not tested.
+recorded quantum_vqc runs of 01_frozen_tuned, configuration by configuration,
+to show how far the change of machine moves the same arm. It is reported, not
+tested.
 
 METHOD
 ------
@@ -37,6 +39,14 @@ used unchanged: nested bootstrap over test images and seeds within each cell,
 equal weight per cell, B = 2000, +1-corrected p-values, BH within each
 analysis. Results go to entangling_range.json and their own cache folder, so
 no existing output is touched.
+
+HISTORY
+-------
+2 November 2026: the first run (commit 58852d84) printed no device check. The
+check matched runs through 04's analysis cells, which keep only the keys every
+arm of a namespace carries; all three arms here carry lrq, the classical arms of
+01_frozen_tuned do not, so no cell matched. It now matches on the complete shard
+key. The bootstrap analyses and the predictions are unchanged.
 """
 import argparse
 import importlib
@@ -52,6 +62,7 @@ ex = importlib.import_module("14_exploratory_table")
 ft = ex.ft
 
 NS = "31_entangling_range"
+RECORDED = "01_frozen_tuned"
 GROUPS = {
     "range_effect": (
         NS, lambda c, e: ft.load_pairs(c, e, "quantum_vqc_range1", "quantum_vqc"),
@@ -66,52 +77,59 @@ GROUPS = {
 
 
 def device_check(ctx):
-    """New quantum_vqc minus recorded quantum_vqc, per cell, over common seeds."""
-    s04 = ctx.s04
-    new, old = s04.collect(NS), s04.collect("01_frozen_tuned")
-    rows = []
-    for cell in sorted(new):
-        a = new[cell].get("quantum_vqc", {})
-        b = old.get(cell, {}).get("quantum_vqc", {})
-        seeds = sorted(set(a) & set(b))
-        if not seeds:
+    """
+    New quantum_vqc minus recorded quantum_vqc, run by run.
+
+    A pair is the same configuration trained twice, once on each machine: runs
+    are matched on their COMPLETE shard key (dataset, n, d, freeze policy, seed,
+    arm, both learning rates). Matching through 04's analysis cells does not
+    work across these two namespaces (see HISTORY above).
+    """
+    import shards
+
+    def runs(ns):
+        return {json.dumps(r["keys"], sort_keys=True): r
+                for r in shards.load_all(ns) if r["keys"].get("arm") == "quantum_vqc"}
+
+    new, old = runs(NS), runs(RECORDED)
+    metric = ctx.s04._metric_of
+    unmatched = [k for k in new if k not in old]
+    by_cell = {}
+    for k, r in new.items():
+        if k not in old:
             continue
-        m = s04._metric_of
-        d = [m(a[s], "auc") - m(b[s], "auc") for s in seeds
-             if m(a[s], "auc") is not None and m(b[s], "auc") is not None]
-        if d:
-            cd = dict(cell)
-            rows.append({"dataset": cd["dataset"], "regime": cd["regime"],
-                         "seeds": len(d), "mean_diff": float(np.mean(d)),
-                         "max_abs_diff": float(np.max(np.abs(d)))})
+        a, b = metric(r, "auc"), metric(old[k], "auc")
+        if a is not None and b is not None:
+            cell = (r["keys"]["dataset"], str(r["keys"]["regime"]))
+            by_cell.setdefault(cell, []).append(a - b)
+
+    print(f"\nDEVICE CHECK: {len(new)} new quantum_vqc runs, "
+          f"{len(new) - len(unmatched)} with a recorded twin, {len(unmatched)} without")
+    if unmatched:
+        print(f"    example unmatched key: {unmatched[0]}")
+        if old:
+            print(f"    example recorded key:  {next(iter(old))}")
+
+    order = {d: i for i, d in enumerate(ctx.config.DATASETS)}
+    rows = []
+    for (ds, n), d in sorted(by_cell.items(),
+                             key=lambda kv: (order.get(kv[0][0], 99), int(kv[0][1]))):
+        d = np.asarray(d, dtype=float)
+        rows.append({"dataset": ds, "regime": n, "seeds": int(d.size),
+                     "mean_diff": float(d.mean()), "max_abs_diff": float(np.abs(d).max()),
+                     "identical": int((d == 0).sum())})
+    if rows:
+        allv = np.concatenate([np.asarray(v, dtype=float) for v in by_cell.values()])
+        print("DEVICE CHECK (descriptive): new quantum_vqc - recorded quantum_vqc, same configuration")
+        for r in rows:
+            print(f"    {r['dataset']:15s} n={r['regime']:>4s}  mean {r['mean_diff']:+.4f}  "
+                  f"max |diff| {r['max_abs_diff']:.4f}  identical {r['identical']}/{r['seeds']}")
+        print(f"    all runs: mean {allv.mean():+.4f}, mean |diff| {np.abs(allv).mean():.4f}, "
+              f"max |diff| {np.abs(allv).max():.4f}, identical {int((allv == 0).sum())}/{allv.size}")
     return rows
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) - 1))
-    ap.add_argument("--recompute", action="store_true")
-    ap.add_argument("--B", type=int, default=ft.B_DEFAULT,
-                    help=f"testing only; reported analyses use {ft.B_DEFAULT}")
-    args = ap.parse_args()
-
-    ex.GROUPS.update(GROUPS)           # the same engine, three more contrasts
-    ctx = ft.Ctx()
-    cache_dir = os.path.join(ctx.config.ARTIFACT_ROOT, "entangling_cache")
-    print(f"AMENDMENT 26 (exploratory) | workers={args.workers} | B={args.B} | "
-          f"sha={ctx.config.git_sha()[:8]}", flush=True)
-    if args.B != ft.B_DEFAULT:
-        print(f"!!! B={args.B}: TESTING ONLY - do not quote these numbers !!!")
-
-    results, rows = {}, []
-    for g in GROUPS:
-        r = ex.run_group(ctx, g, args.B, args.workers, cache_dir, args.recompute)
-        if r:
-            results[g] = r
-    for g in GROUPS:
-        if g in results:
-            rows += ex.summarise(g, results[g], args.B)
-
+def report_predictions(rows):
     print("\n" + "=" * 78)
     print("PREDICTIONS (Amendment 26)")
     print("=" * 78)
@@ -133,12 +151,43 @@ def main():
     else:
         print("P2  not evaluable: reupload_effect incomplete")
 
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) - 1))
+    ap.add_argument("--recompute", action="store_true")
+    ap.add_argument("--device-check-only", action="store_true",
+                    help="only the descriptive device check (seconds; no bootstrap)")
+    ap.add_argument("--B", type=int, default=ft.B_DEFAULT,
+                    help=f"testing only; reported analyses use {ft.B_DEFAULT}")
+    args = ap.parse_args()
+
+    ex.GROUPS.update(GROUPS)           # the same engine, three more contrasts
+    ctx = ft.Ctx()
+    print(f"AMENDMENT 26 (exploratory) | workers={args.workers} | B={args.B} | "
+          f"sha={ctx.config.git_sha()[:8]}", flush=True)
+
+    if args.device_check_only:
+        dev = device_check(ctx)
+        out = os.path.join(ctx.config.ARTIFACT_ROOT, "entangling_device_check.json")
+        with open(out, "w") as f:
+            json.dump({"device_check": dev}, f, indent=1)
+        print(f"\nWritten: {out}")
+        return
+
+    if args.B != ft.B_DEFAULT:
+        print(f"!!! B={args.B}: TESTING ONLY - do not quote these numbers !!!")
+    cache_dir = os.path.join(ctx.config.ARTIFACT_ROOT, "entangling_cache")
+    results, rows = {}, []
+    for g in GROUPS:
+        r = ex.run_group(ctx, g, args.B, args.workers, cache_dir, args.recompute)
+        if r:
+            results[g] = r
+    for g in GROUPS:
+        if g in results:
+            rows += ex.summarise(g, results[g], args.B)
+    report_predictions(rows)
     dev = device_check(ctx)
-    if dev:
-        print("\nDEVICE CHECK (descriptive): new quantum_vqc - recorded quantum_vqc")
-        for r in dev:
-            print(f"    {r['dataset']:15s} n={r['regime']:>4s}  mean {r['mean_diff']:+.4f}  "
-                  f"max |diff| {r['max_abs_diff']:.4f}  ({r['seeds']} seeds)")
 
     out = os.path.join(ctx.config.ARTIFACT_ROOT, "entangling_range.json")
     with open(out, "w") as f:

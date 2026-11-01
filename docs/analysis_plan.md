@@ -2078,3 +2078,51 @@ sampled without replacement from 3,280 at d = 8 and at random from about
 21.5 million at d = 16 (16,392 and 32,784 parameters). Those runs enter only the
 clipping counts, `absolute_auc.csv` and one exploratory note; no reported
 contrast uses them. Any mention must say so.
+
+
+---
+
+## Records of 2 November 2026 — Amendment 26 outcome
+
+Recorded after the analysis; nothing above is edited. Experiment
+`31_entangling_range`: 2,400 runs (3 arms × 800), commit `58852d84`, Colab CPU
+(High-RAM), two sessions split by seed (seeds `[0::2]` and `[1::2]` of
+`CONFIRMATORY_SEEDS`; all three arms of a seed in one session). The 800 feature
+caches were restored from the 10 October backup; none was rebuilt. Gates before
+the run: 46 tests passed; all five circuit and matched arms at 24 head
+parameters; arm-pair audit 17 pairs, 0 unexpected (H-S1's entangling pattern
+shown as disclosed). Integrity: 800 shards per arm, a predictions file for every
+run, one commit, no seed-level fallback. Exploratory throughout; BH within each
+analysis, m = 5.
+
+| n | `range_effect` (range1 − vqc) | `reupload_effect` (reupload − range1) | `hs1_same_device` (reupload − vqc) | recorded H-S1 (`01_frozen_tuned`) |
+|---|---|---|---|---|
+| 5 | +0.0027 [−0.0047, +0.0100] | −0.0001 [−0.0073, +0.0071] | +0.0026 [−0.0053, +0.0106] | +0.0039 [−0.0059, +0.0133] |
+| 10 | +0.0024 [−0.0031, +0.0080] | +0.0067 [+0.0012, +0.0122] | +0.0091 [+0.0027, +0.0150] | +0.0090 [+0.0029, +0.0154] |
+| 20 | +0.0020 [−0.0029, +0.0063] | +0.0092 [+0.0052, +0.0139] | +0.0112 [+0.0071, +0.0150] | +0.0125 [+0.0077, +0.0175] |
+| 50 | +0.0012 [−0.0034, +0.0062] | +0.0087 [+0.0046, +0.0127] | +0.0099 [+0.0058, +0.0138] | +0.0102 [+0.0060, +0.0140] |
+| 100 | +0.0022 [−0.0013, +0.0060] | +0.0086 [+0.0061, +0.0115] | +0.0109 [+0.0082, +0.0141] | +0.0103 [+0.0078, +0.0132] |
+| slope | −0.00019 [−0.00183, +0.00138] | +0.00172 [+0.00014, +0.00321] | +0.00154 [−0.00008, +0.00314] | — |
+
+`range_effect`: no interval excludes zero (p_adj 0.59 at every n).
+`reupload_effect`: intervals exclude zero at n = 10, 20, 50 and 100
+(p_adj 0.0175, 0.0025, 0.0033, 0.0025), not at n = 5 (p_adj 0.95).
+
+**P1 holds** (largest |`range_effect`| 0.0027 < 0.005). **P2 holds**
+(`reupload_effect` intervals above zero at n = 50 and 100).
+
+**What this means, as pre-written in Amendment 26.** The H-S1 paragraph stands,
+with the entangling-range difference disclosed and this check reported. The
+second encoding, with the wiring held fixed, accounts for most of the recorded
+H-S1 difference (+0.007 to +0.009 AUC at n ≥ 10); changing only the wiring
+moved AUC by +0.001 to +0.003, with no interval excluding zero. The point
+estimates of `range_effect` are all positive, and at n = 5 its interval reaches
+±0.010, so a wiring effect of that size is not excluded there. The same-device
+re-run reproduces the recorded H-S1 pattern: null at n = 5, positive from
+n = 10, each estimate within 0.0014 of the recorded one.
+
+**Device check.** Not printed by the first run: the check matched runs through
+04's analysis cells, and no cell matched across the two namespaces (all arms
+here carry `lrq`; the classical arms of `01_frozen_tuned` do not). Fixed to
+match on the complete shard key and re-run with `--device-check-only`; the
+result is descriptive and is recorded below when run.
