@@ -2126,3 +2126,18 @@ n = 10, each estimate within 0.0014 of the recorded one.
 here carry `lrq`; the classical arms of `01_frozen_tuned` do not). Fixed to
 match on the complete shard key and re-run with `--device-check-only`; the
 result is descriptive and is recorded below when run.
+
+**Device check, run 2 November 2026** (commit `5b8e47f9`,
+`--device-check-only`; descriptive). Every one of the 800 new `quantum_vqc` runs
+has a recorded twin with the same shard key in `01_frozen_tuned`. New minus
+recorded test AUC, over all 800 pairs: mean +0.0004, mean |difference| 0.0155,
+largest |difference| 0.2224 (BreastMNIST, n = 10); 100 of 800 identical. Per-cell
+means lie between −0.0065 and +0.0066. Identical runs: 9–10 of 40 per cell on
+BreastMNIST, 7–10 on PneumoniaMNIST, 0–2 on BloodMNIST and 0 on PathMNIST.
+
+Reading: the same configuration on another machine gives a different individual
+run, often by several hundredths of AUC, while the average over 40 seeds stays
+put. A single run is not reproducible across machines; a 40-seed mean is. This is
+why every contrast in experiment 31 pairs arms trained on one machine, and why
+the recorded contrasts pair arms trained on the same machine type. It
+agrees with the full-data device difference recorded on 24 October.
