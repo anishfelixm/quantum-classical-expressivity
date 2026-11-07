@@ -66,6 +66,21 @@ expected to be bit-identical (different floating-point order). It is marked
 "cross-device" and its identity verdict is reported but not used as a
 determinism test.
 
+CPU-RECORDED SOURCES (Amendments 27 and 28, 7 November 2026)
+------------------------------------------------------------
+31_entangling_range (Amendment 26), 32_squash (Amendment 28) and
+34_lr_inherited (Amendment 29) were recorded on Colab CPU, like 17_fulldata. On CPU their identity re-execution writes
+C_<source>; on GPU it would be cross-device. Each CPU process used a fixed
+number of intra-op threads (OMP_NUM_THREADS), which the launcher must set to
+the same value for the re-execution: the order of floating-point sums can
+depend on it.
+
+Clipping removed on CPU (--clip inf, run on CPU, for a CPU-recorded source)
+writes CU_<source>, and its reference is the CPU re-execution C_<source>, not
+the GPU R_<source>. Before 7 November it wrote U_ regardless of device, so the
+six 17_fulldata runs in which clipping acted on CPU had no unclipped CPU
+counterpart (Amendment 25, "Not done"). Amendment 27 closes that.
+
 FEATURE-CACHE STATE (added 16 October 2026, before wave 1)
 -------------------------------------------------------------
 A run on the cached path that found no feature cache built it first, and
@@ -147,17 +162,31 @@ import train.loop as loop          # noqa: E402
 import recorders                   # noqa: E402
 import predict_cold_runs as pcr    # noqa: E402
 
-QUANTUM = ("quantum_vqc", "quantum_reupload", "quantum_rich", "quantum_rich_padded", "quantum_basic")
+QUANTUM = ("quantum_vqc", "quantum_reupload", "quantum_rich", "quantum_rich_padded", "quantum_basic",
+           "quantum_vqc_range1")
 SCRIPT_01 = "01_frozen_backbone_ablation.py"
 SOURCES = {ns: SCRIPT_01 for ns in (
     "01_frozen_tuned", "14_readout", "15_dim8", "16_dim16", "17_fulldata", "18_depth",
     "19_angle", "20_tanh", "21_ansatz", "25_encoder", "26_bottleneck_tuned",
-    "27_capacity_tuned", "29_compression_frozen")}
+    "27_capacity_tuned", "29_compression_frozen", "31_entangling_range", "32_squash")}
 SOURCES.update({"03_robustness_v2": "03_robustness_evaluation.py",
                 "09_lr_selection": "09_lr_selection.py",
+                "34_lr_inherited": "09_lr_selection.py",        # Amendment 29
                 "10_capacity": "10_capacity_sweep.py",
                 "12_bottleneck": "12_bottleneck_ablation.py"})
-CROSS_DEVICE = {"17_fulldata"}      # recorded on CPU
+CROSS_DEVICE = {"17_fulldata", "31_entangling_range", "32_squash", "34_lr_inherited"}   # recorded on CPU
+
+
+def on_cpu_original(source):
+    """True when this execution runs on the device that recorded the source:
+    a CPU-recorded source, re-executed on CPU."""
+    return source in CROSS_DEVICE and config.DEVICE.type == "cpu"
+
+
+def unclipped_reference(source):
+    """The clipped re-execution an unclipped one is checked against: C_ for a
+    CPU-recorded source re-executed on CPU, R_ otherwise."""
+    return ("C_" if on_cpu_original(source) else "R_") + source
 
 
 def cross_device(source):
@@ -302,7 +331,8 @@ def run_one(mod, source, target, rec):
     elif fname == "09_lr_selection.py":
         mod.EXPERIMENT = target
         mod.run_cell(k["dataset"], int(k["regime"]), int(k["seed"]), k["arm"], float(k["lr"]),
-                     dim=int(k["dim"]))
+                     dim=int(k["dim"]),
+                     **({"head_rank": int(k["rank"])} if "rank" in k else {}))
     elif fname == "10_capacity_sweep.py":
         mod.EXPERIMENT = target
         mod.run_cell(k["dataset"], int(k["regime"]), int(k["seed"]), int(k["rank"]),
@@ -447,14 +477,15 @@ def check_unclipped(source, rec, new):
     exceeded 20 (clip_grad_norm_ scales by exactly 1.0 below the threshold, so the
     two computations coincide until then)."""
     import numpy as np_
-    path = shards.shard_path("R_" + source, **rec["keys"])
+    ref_ns = unclipped_reference(source)
+    path = shards.shard_path(ref_ns, **rec["keys"])
     with open(path, encoding="utf-8") as f:
         ref = json.load(f)
     rr = ref.get("recorded", {})
     sfile = os.path.join(config.ARTIFACT_ROOT, rr.get("step_norms_file", ""))
     E = epochs_of(ref)
     if not rr.get("step_norms_file") or not os.path.exists(sfile) or not E:
-        return {"verdict": "not compared (R_ step record or epoch count missing)"}
+        return {"verdict": f"not compared ({ref_ns} step record or epoch count missing)"}
     with np_.load(sfile) as z:
         norms = z["norms"]
     if len(norms) % E:
@@ -462,14 +493,14 @@ def check_unclipped(source, rec, new):
     spe = len(norms) // E
     bad = [i for i, x in enumerate(norms) if not np_.isfinite(x) or x > recorders.THRESHOLD]
     if not bad:
-        return {"verdict": "not compared (no step above 20 in the R_ run)"}
+        return {"verdict": f"not compared (no step above 20 in the {ref_ns} run)"}
     e_star = bad[0] // spe
     if e_star == 0:
         return {"verdict": "PREFIX IDENTICAL (0 epochs: a step above 20 in epoch 1)",
                 "first_clipped_epoch": 0}
     v, d = prefix_compare(ref, new, e_star)
     return {"verdict": v, "first_difference": d, "first_clipped_epoch": e_star,
-            "reference": "R_" + source}
+            "reference": ref_ns}
 
 
 def check(source, target, rec, path):
@@ -481,7 +512,7 @@ def check(source, target, rec, path):
         v = check_budget(source, rec, new)
         v.update({"replayed_at": config.git_sha(), "recorded_at": rec.get("git_sha")})
         return new, v
-    if target.startswith("U_"):
+    if target.startswith(("U_", "CU_")):
         v = check_unclipped(source, rec, new)
         v.update({"replayed_at": config.git_sha(), "recorded_at": rec.get("git_sha")})
         return new, v
@@ -562,11 +593,11 @@ def main():
         source = args.source
         clip = 20.0 if args.clip == "20" else float("inf")
         target = ("R_" if args.clip == "20" else "U_") + source
-        if source in CROSS_DEVICE and config.DEVICE.type == "cpu" and args.clip == "20" \
-                and not args.budget:
+        if on_cpu_original(source) and not args.budget:
             # Same device as the original: a separate namespace, so the GPU
-            # re-execution R_ (the budget check's partner) is never overwritten.
-            target = "C_" + source
+            # re-executions R_ and U_ (the budget check's partner) are never
+            # overwritten. Clipped: C_; unclipped: CU_ (Amendment 27).
+            target = ("C_" if args.clip == "20" else "CU_") + source
         fname = SOURCES[source]
         if args.budget:
             if args.clip != "20":
@@ -575,7 +606,7 @@ def main():
             config.MAX_EPOCHS, config.PATIENCE = me, pa
             assert loop.config is config
             target = "B_" + source
-    assert target != source and (target.startswith(("R_", "U_", "B_", "C_")) or target == HW_TARGET)
+    assert target != source and (target.startswith(("R_", "U_", "B_", "C_", "CU_")) or target == HW_TARGET)
     if clip != config.GRAD_CLIP_NORM:
         config.GRAD_CLIP_NORM = clip
     assert loop.config is config and config.GRAD_CLIP_NORM == clip
@@ -597,7 +628,9 @@ def main():
     cold_ok = (not args.hardware_tuned) and install_cold_cache(mod)
     table = pcr.load_table()
     kind = "H" if args.hardware_tuned else target[0]          # R, U, B or C
-    if kind == "C":
+    if target.startswith("CU_"):
+        kind = "U"                     # unclipped, checked against C_ (Amendment 27)
+    elif kind == "C":
         kind = "R"                     # an identity test like R_, on the original device
 
     def ok(v):
@@ -632,9 +665,10 @@ def main():
         if kind == "H" or not cold_ok or cross_device(source):
             return ["warm"]
         if kind == "U":
-            rpath = shards.shard_path("R_" + source, **rec["keys"])
+            rpath = shards.shard_path(unclipped_reference(source), **rec["keys"])
             if not os.path.exists(rpath):
-                raise RuntimeError(f"U_ needs the R_ re-execution first: {rpath}")
+                raise RuntimeError(f"{target} needs the {unclipped_reference(source)} "
+                                   f"re-execution first: {rpath}")
             with open(rpath, encoding="utf-8") as f:
                 return [json.load(f).get("replay_check", {}).get("cache", "warm")]
         if args.cache != "auto":

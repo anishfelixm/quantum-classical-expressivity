@@ -71,6 +71,21 @@ USAGE
     python src/09_lr_selection.py --quick      # 2 datasets, sanity
     python src/09_lr_selection.py
     python src/09_lr_selection.py --summary-only
+
+THE INHERITED-RATE CHECK (Amendment 29, 8 November 2026)
+--------------------------------------------------------
+Arms added after tuning inherited the rate of the arm they are built from
+(config.LR_INHERITANCE). Amendment 29 runs THIS procedure, unchanged, for those
+arms, in its own namespace:
+
+    python src/09_lr_selection.py --experiment 34_lr_inherited --arms quantum_reupload
+    python src/09_lr_selection.py --experiment 34_lr_inherited --arms low_rank --head-rank 0
+
+--experiment writes the runs to another namespace and never writes
+lr_selection.json (the reported selection stays as it is). --head-rank builds
+low_rank at a given rank; it enters the run's key as `rank`. Both are optional
+and absent from every earlier run, so existing keys and their re-execution are
+unchanged. The analysis is scripts/analyse_lr_inherited.py.
 """
 import argparse
 import json
@@ -115,9 +130,11 @@ if _overlap:
         f"would then be made on splits the confirmatory sweep evaluates on.")
 
 
-def run_cell(dataset, n_per_class, seed, arm, lr, dim=4, force=False):
+def run_cell(dataset, n_per_class, seed, arm, lr, dim=4, force=False, head_rank=None):
     keys = dict(dataset=dataset, regime=n_per_class, dim=dim, seed=seed,
                 arm=arm, lr=f"{lr:.0e}")
+    if head_rank is not None:          # Amendment 29 only; absent from every earlier key
+        keys["rank"] = int(head_rank)
     if not force and shards.exists(EXPERIMENT, **keys):
         return None
 
@@ -127,7 +144,8 @@ def run_cell(dataset, n_per_class, seed, arm, lr, dim=4, force=False):
 
     loaders, _ = get_cached_features(dataset, str(n_per_class), seed)
     model = build_arm(arm, d=dim, num_classes=C, n_layers=config.VQC_LAYERS,
-                      seed=seed, build_backbone=False)
+                      seed=seed, build_backbone=False,
+                      **({"head_rank": int(head_rank)} if head_rank is not None else {}))
 
     # Passed as arguments, never by mutating config. The quantum group is empty
     # for classical arms, so setting both is harmless and keeps the grid
@@ -294,6 +312,7 @@ def summarise(write=True):
 
 
 def main():
+    global EXPERIMENT
     p = argparse.ArgumentParser()
     p.add_argument("--datasets", nargs="+", default=config.DATASETS)
     p.add_argument("--regimes", nargs="+", type=int, default=TUNING_REGIMES)
@@ -306,9 +325,22 @@ def main():
     p.add_argument("--summary-only", action="store_true")
     p.add_argument("--no-write", action="store_true",
                    help="print the table without writing lr_selection.json")
+    p.add_argument("--experiment", default=EXPERIMENT,
+                   help="namespace for the runs (Amendment 29: 34_lr_inherited); any value "
+                        "other than the default never writes lr_selection.json")
+    p.add_argument("--head-rank", type=int, default=None,
+                   help="build low_rank at this rank (Amendment 29)")
     args = p.parse_args()
 
+    other_namespace = args.experiment != EXPERIMENT
+    EXPERIMENT = args.experiment
+    if other_namespace:
+        args.no_write = True           # the reported selection is never overwritten
+
     if args.summary_only:
+        if other_namespace:
+            print(f"{EXPERIMENT}: use scripts/analyse_lr_inherited.py for the summary.")
+            return
         summarise(write=not args.no_write)
         return
 
@@ -331,7 +363,7 @@ def main():
                     for lr in args.lrs:
                         done += 1
                         out = run_cell(ds, n, seed, arm, lr, dim=args.dim,
-                                       force=args.force)
+                                       force=args.force, head_rank=args.head_rank)
                         if out is None:
                             continue
                         eta = (time.time() - t0) / done * (total - done) / 3600
@@ -339,6 +371,9 @@ def main():
                               f"lr={lr:.0e} val_auc={out['val_auc']:.4f} "
                               f"ETA {eta:.1f}h", flush=True)
 
+    if other_namespace:
+        print(f"\n{EXPERIMENT}: done. Summary: scripts/analyse_lr_inherited.py")
+        return
     summarise(write=not args.no_write)
 
 

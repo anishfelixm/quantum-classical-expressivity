@@ -2141,3 +2141,210 @@ put. A single run is not reproducible across machines; a 40-seed mean is. This i
 why every contrast in experiment 31 pairs arms trained on one machine, and why
 the recorded contrasts pair arms trained on the same machine type. It
 agrees with the full-data device difference recorded on 24 October.
+
+
+## Amendment 27 — written 7 November 2026, before any run. CPU re-execution of the Amendment 26 runs; the six full-data runs without clipping, on CPU.
+
+**Status.** A reproducibility audit, like Amendments 21 and 25. It changes no
+result and no verdict, and is reported whatever it shows.
+
+**Why.**
+- The manuscript states that every reported run was re-executed and reproduced
+  bit for bit (20,300 runs). The 2,400 runs of Amendment 26
+  (`31_entangling_range`, Colab CPU, commit `58852d84`) were run once.
+- Amendment 25 left one gap ("Not done"): the six `17_fulldata` runs in which
+  clipping acted on CPU were never re-executed without clipping on CPU, because
+  `replay.py --clip inf` wrote `U_` regardless of device. The manuscript's
+  full-data clipping contrast is therefore the GPU one.
+
+**Code change, made before any run.** `scripts/replay.py` treats
+`31_entangling_range` and `32_squash` (Amendment 28) as CPU-recorded sources,
+like `17_fulldata`. On CPU, a clipped re-execution writes `C_<source>`, and an
+unclipped one writes `CU_<source>` and is checked against `C_<source>` (not
+the GPU `R_<source>`). Nothing else in the re-execution changes.
+
+**Design.**
+
+| Block | Source | Command | Target | Runs |
+|---|---|---|---|---|
+| A | `31_entangling_range` | `replay.py --clip 20 --code-at 58852d84` | `C_31_entangling_range` | 2,400 |
+| B | `17_fulldata` | `replay.py --clip inf --code-at e07459a5`, runs whose `C_17_fulldata` step record has a step above 20 | `CU_17_fulldata` | 6 (predicted) |
+
+- Colab CPU (High-RAM), as the originals.
+- **Threads.** Block A repeats each original session: the same seeds
+  (`CONFIRMATORY_SEEDS[k::2]` for session k), the three arms side by side, and
+  the same number of threads per process, `max(1, cores // 3)` with the core
+  count that `exp31/logs/sessions.txt` records for that session. Block B uses
+  PyTorch's default thread count, as Amendment 25 did; that count was not
+  recorded then, which is a stated limitation of B's prefix check.
+- Feature caches: the 10 October backup, as in the originals. The cache state
+  (warm first, cold once on a difference) follows `replay.py`'s rules and is
+  recorded per run.
+- The six runs B is predicted to select (Amendment 25): `fourier_rff`
+  BloodMNIST seed 2026; `matched_param_fullrank` BloodMNIST seeds 2026 and 888;
+  `quantum_vqc` BloodMNIST seed 2026, PathMNIST seeds 123 and 2026.
+
+**Predictions.**
+- **P1.** All 2,400 `C_31_entangling_range` runs are identical to their records
+  (every number and every stored test probability).
+- **P2.** Block B selects exactly the six runs listed above, and each
+  `CU_17_fulldata` run repeats its `C_17_fulldata` run bit for bit up to the
+  first epoch in which a step exceeded 20.
+- **Descriptive (B).** Per run, the change in test AUC when clipping is
+  removed; and the mean full-data VQC − matched difference over the 20
+  (dataset, seed) pairs, with those runs clipped (as recorded) and unclipped.
+
+**What each outcome means for the manuscript.**
+- P1 holds: the reproducibility statement covers the 2,400 runs (22,700 runs
+  in all: 20,220 on GPU, 2,480 on CPU), plus the Amendment 28 runs if they also
+  reproduce.
+- P1 fails: the manuscript states how many of the 2,400 reproduced and the
+  largest difference, and keeps the 2,400 outside the bit-for-bit statement.
+- P2 and the descriptive result replace the sentence that the six CPU runs
+  "were not repeated without clipping on CPU". If P2 fails, the manuscript says
+  so and the GPU clipping contrast remains the reported one.
+
+
+## Amendment 28 — written 7 November 2026, before any run. Does the squash handicap the matched head?
+
+**Status.** Exploratory. Not a member of the confirmatory family; changes no
+verdict in it; reported in full whatever it shows. Its motivation is a pattern
+in data already seen (the tanh ablation), which is why it is exploratory.
+
+**Why.** Every head receives z̃ = (π/2)·tanh(z). The circuit needs the bound;
+the classical heads receive it so that every arm sees the same input. In the
+exploratory tanh ablation (`20_tanh`, d = 4, 10 seeds), removing the squash
+raised the matched head's AUC at n = 5 on all four datasets (BloodMNIST +0.032,
+BreastMNIST +0.018, PneumoniaMNIST +0.014, PathMNIST +0.012; none significant
+after correction). Their simple mean, +0.019, is about the size of the primary
+advantage, Δ(5) = +0.0142. Amendment 14 declined to run a primary comparison
+without the squash because it would have been chosen after seeing that pattern;
+`docs/RESULTS.md` and draft v6 then summarised the matched head as "mostly
+unaffected", which understated the n = 5 pattern (found 7 November in
+manuscript verification). This amendment runs the comparison, labelled
+exploratory, with predictions written now.
+
+**Design.** Namespace `32_squash`. `src/01_frozen_backbone_ablation.py`,
+unchanged.
+
+| Axis | Value |
+|---|---|
+| Arm | `matched_param_fullrank`, with the squash (`--with-tanh`, key `notanh=0`) and without it (`--no-tanh`, key `notanh=1`) |
+| Cells | 4 datasets × n ∈ {5, 10, 20, 50, 100}, d = 4 |
+| Seeds | `config.CONFIRMATORY_SEEDS` (40) |
+| Rate | `--lr-head 1e-2` for both variants (the tuned rate, selected with the squash; not re-tuned without it) |
+| Everything else | the primary protocol: frozen backbone, learned projection, no augmentation |
+| Machine | Colab CPU (High-RAM); two processes side by side, one per variant, `OMP_NUM_THREADS = 2` each |
+| Runs | 2 × 20 × 40 = 1,600 |
+
+- The squash has no parameters, so the two variants of a seed start from the
+  same weights and see the same batches.
+- The VQC side is `quantum_vqc` from `31_entangling_range` (Amendment 26): the
+  same 40 seeds, cells, rate, feature caches and machine type. Runs are matched
+  on (dataset, n, seed); test labels are checked equal. If Amendment 27 P1 holds,
+  those VQC runs reproduce exactly in another Colab CPU session, so this pairing
+  is as good as one machine; if not, it adds noise to each pair but, by the
+  device check of 2 November, no shift in the mean.
+- The first two seeds are run first and timed; the estimate for the rest is
+  scaled from them (they include PathMNIST). A smoke test then checks that all
+  three contrasts can be computed, without printing any estimate.
+- **Re-execution.** After the run, every `32_squash` run is re-executed on CPU
+  (`replay.py --source 32_squash --clip 20`, target `C_32_squash`) with the same
+  thread setting. Prediction: all 1,600 identical.
+
+**Analysis** (`scripts/analyse_squash.py`; the engine of
+`14_exploratory_table.py`, unchanged; B = 2000; BH within each analysis,
+m = 5).
+
+| Analysis | Contrast |
+|---|---|
+| `squash_cost` | matched without squash − matched with squash |
+| `primary_cpu` | VQC − matched with squash (the primary contrast, on CPU; descriptive) |
+| `primary_nosquash` | VQC − matched without squash |
+
+**Integrity checks before the analysis.** 1,600 shards, each with its
+predictions file; one git SHA; no `SEED-LEVEL FALLBACK IN USE`.
+
+**Predictions.**
+- **P1.** `squash_cost` at n = 5 is positive, with its 95% interval above zero.
+- **P2.** `primary_nosquash` at n = 5 is not positive: its interval includes
+  zero or lies below it.
+
+**What each outcome means for the manuscript.**
+- **P2 holds:** the manuscript states, in the Results, the Limitations, the
+  Conclusion and the Abstract, that against a matched head without the squash
+  the n = 5 advantage is not detected, so it cannot be separated from the
+  squash's cost to the classical head. The confirmatory verdict H-P1 stands as
+  computed under the declared protocol and is reported beside this result with
+  the same prominence.
+- **P2 fails** (interval above zero): the manuscript states that the n = 5
+  advantage survives a matched head without the squash.
+- **P1 fails:** the ablation's n = 5 pattern for the matched head did not
+  replicate with 40 seeds; the Limitations sentence says so.
+- Whatever the outcome, Methods states that the squash is applied to every
+  head and reports this check.
+
+**Stated limitations.** The rate is not re-tuned without the squash; d = 4
+only; the other classical heads (low-rank, Fourier, identity) are not re-run.
+
+
+## Amendment 29 — written 8 November 2026, before any run. Were the inherited learning rates the ones tuning would pick?
+
+**Status.** Exploratory. Changes no result and no verdict; reported whatever it
+shows. It checks a choice made before the confirmatory run, prompted by the
+manuscript's Limitations, not by any result.
+
+**Why.** Four arms were tuned (Amendments 3 and 3a). Every arm added later took
+the rate of the arm it is built from (`config.LR_INHERITANCE`), and that choice
+was never checked. In the tuning sweep a threefold change in rate moved the
+VQC's validation AUC by up to 0.013, about the size of the re-uploading,
+readout and restriction effects. The d = 8 comparisons also use rates tuned at
+d = 4.
+
+**Design.** `src/09_lr_selection.py`, unchanged in procedure; two optional
+arguments added before any run (`--experiment`, which writes to another
+namespace and never writes `lr_selection.json`; `--head-rank`, which builds
+`low_rank` at a given rank and adds `rank` to the key). Existing keys and their
+re-execution are unchanged. Namespace `34_lr_inherited`.
+
+| Axis | Value |
+|---|---|
+| Arms, d = 4 | `quantum_reupload`, `quantum_vqc_range1`, `quantum_rich`, `quantum_rich_padded`, `quantum_basic`, `low_rank` at ranks 0, 2 and 8, `fourier_rff_r2` |
+| Arms, d = 8 | `quantum_vqc`, `low_rank` rank 2 |
+| Grid | {3e-4, 1e-3, 3e-3, 1e-2, 3e-2, 1e-1}, as Amendment 3a |
+| Seeds | tuning seeds 90001–90005 (disjoint from the confirmatory seeds) |
+| Cells | 4 datasets × n ∈ {5, 20, 100} |
+| Criterion | the grid point with the highest mean validation AUC over all tuning runs of the arm; test metrics never used |
+| Machine | Colab CPU (High-RAM); arms split across sessions by arm (each arm's selection is self-contained); `OMP_NUM_THREADS = 2` per process |
+| Runs | 11 × 360 = 3,960 |
+
+- Feature caches for the tuning seeds come from the 10 October backup; any
+  missing file is built in a separate process before training.
+- The first tuning seed is run first and timed for every arm in a session; the
+  estimate for the rest is scaled from it (it includes PathMNIST).
+- **Re-execution.** If time allows, every run is re-executed on CPU
+  (`replay.py --source 34_lr_inherited --clip 20`, target `C_34_lr_inherited`)
+  with the same thread setting. If it is not run, the manuscript says the
+  inherited-rate check was run once.
+
+**Analysis.** `scripts/analyse_lr_inherited.py`: per arm, the full curve, the
+selected rate, and the gap in mean validation AUC between the selected and the
+inherited rate; per-n choices descriptive. No selection is made on an
+incomplete grid.
+
+**Predictions.**
+- **P1.** For every checked arm, the procedure selects the inherited rate
+  (10⁻²).
+- **P2.** For every checked arm, the mean validation AUC at the inherited rate
+  is within 0.005 of the best grid point.
+
+**What each outcome means for the manuscript.**
+- P1 holds: Limitations replaces "the inherited rates were not checked" with
+  "a check with the tuning procedure selected the inherited rate for every
+  arm".
+- P1 fails but P2 holds: the manuscript names the arms whose selected rate
+  differs and states that the inherited rate gives up less than 0.005
+  validation AUC.
+- P2 fails: the manuscript names each such arm, its selected rate and the gap,
+  and says which reported comparisons involve it. No comparison is re-run at
+  the new rate, because that rate was chosen after the data.
