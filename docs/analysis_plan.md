@@ -2460,3 +2460,101 @@ every run, which the tuning runs never store (it no longer does for
 and the notebook's run list dropped its last name when the script's two output
 streams shared a line (fixed by reading standard output only). Neither changes
 a run or a statistic.
+
+
+## Amendment 31 — written 9 November 2026, before any run. Each arm at its own tuned rate; the circuit without the squash.
+
+**Status.** Exploratory. Changes no confirmatory verdict. Every original result
+it revisits stays reported; these runs are reported beside it.
+
+**Why.** Three comparisons left one arm at a disadvantage the study can remove.
+1. Amendment 28 removed the squash from the matched head only, at the rate
+   tuned with the squash. The circuit was never run without the squash, and
+   neither arm had a rate tuned for raw z. Freinberger and Moser found that
+   omitting a scaled tanh improved angle-encoded circuits, so the check was
+   one-sided.
+2. The restriction follow-up ran `low_rank` k = 8 at 1e-2; Amendment 29 selected
+   3e-3 for it (gap 0.0092) and 1e-2 for k = 0.
+3. The re-upload function-class control ran `fourier_rff_r2` at 1e-2; Amendment
+   29 selected 3e-3 for it (gap 0.0053) and 1e-2 for the re-upload circuit.
+
+Amendment 29 said no comparison would be re-run at a new rate, because the rate
+was chosen after the data. That rule is replaced here, for these two arms, for
+this reason: the rates were chosen by the study's tuning procedure (tuning
+seeds, validation AUC only; no test metric of any comparison was read), which
+is how every main arm received its rate. The decision to re-run was made after
+seeing Amendment 29's outcome, so the re-runs are exploratory and the original
+runs stay in the paper. The rates are Amendment 29's selections (with clipping
+at 20, as every tuning run), fixed now; Amendment 30's unclipped selection is
+reported beside them whatever it shows.
+
+**Code change, before any run.** `registry.build_arm(allow_unbounded_angles=…)`,
+off by default: a circuit arm may take raw z only when it is set.
+`01_frozen_backbone_ablation.py --unbounded-angles` (with `--no-tanh`) and
+`09_lr_selection.py --no-tanh` set it. Keys are the usual `notanh=1`, so every
+earlier run keeps its name and its re-execution. `tests/test_unbounded_angles.py`
+checks that the default still refuses, and that parity is 24 at d = 4.
+
+**Design.** Colab CPU (High-RAM); threads per process fixed and recorded.
+
+| Stage | Namespace | Runs | What |
+|---|---|---|---|
+| 1 | `35_lr_nosquash` | 720 | `09_lr_selection.py --no-tanh`, arms `quantum_vqc` and `matched_param_fullrank`, grid and tuning seeds of Amendment 3a, d = 4, 2 threads |
+| 2 | `36_nosquash` | 800 (+800) | `quantum_vqc` on raw z at its stage-1 rate, 40 confirmatory seeds, 20 cells; `matched_param_fullrank` on raw z at its stage-1 rate if that is not 1e-2 (otherwise the Amendment 28 runs are its runs); 2 threads |
+| 3 | `37_rate_gaps` | 4,000 | `low_rank` k = 0 at 1e-2, k = 8 at 1e-2 and at 3e-3; `fourier_rff_r2` at 1e-2 and at 3e-3; with the squash, 40 confirmatory seeds, 20 cells; 1 thread |
+
+- If a stage-1 selection lies on the edge of the grid, the grid is extended by
+  one point in that direction with the same seeds before stage 2 (as Amendment
+  3a).
+- Stage 3 also runs the inherited 1e-2 on CPU, so the change of rate is
+  separated from the change of device (the originals ran on GPU).
+- The circuit side of the re-upload contrasts, and the squashed VQC of the
+  descriptive contrast, are the CPU runs of `31_entangling_range`.
+- **Re-execution.** Every run is re-executed on CPU with the same threads
+  (`replay.py --clip 20`, targets `C_35_lr_nosquash`, `C_36_nosquash`,
+  `C_37_rate_gaps`). Prediction: all identical.
+
+**Analysis.** `scripts/analyse_amendment31.py` (`select` after stage 1;
+`contrasts` after stages 2 and 3). The engine of `14_exploratory_table.py`,
+unchanged; B = 2000; BH within each analysis (m = 5); runs paired on
+(dataset, n, seed), test labels checked equal.
+
+| Analysis | Contrast |
+|---|---|
+| `nosquash_fair` | VQC raw z (own rate) − matched raw z (own rate) |
+| `vqc_squash_cost` | VQC raw z (own rate) − VQC squashed (1e-2); descriptive |
+| `restriction_cpu_inherited` | k = 0 (1e-2) − k = 8 (1e-2) |
+| `restriction_tuned` | k = 0 (1e-2) − k = 8 (3e-3) |
+| `reupload_fc_cpu_inherited` | re-upload VQC (1e-2) − `fourier_rff_r2` (1e-2) |
+| `reupload_fc_tuned` | re-upload VQC (1e-2) − `fourier_rff_r2` (3e-3) |
+
+**Predictions.**
+- **P1.** `nosquash_fair` at n = 5 is not positive: its interval includes zero
+  or lies below it.
+- **P2.** `restriction_tuned` at n = 5 has an interval including zero, and an
+  estimate below `restriction_cpu_inherited` at n = 5.
+- **P3.** `reupload_fc_tuned` at n = 5 has an estimate below
+  `reupload_fc_cpu_inherited` at n = 5.
+- **P4 (re-execution).** Every run identical.
+
+**What each outcome means for the manuscript.**
+- `nosquash_fair` becomes the squash comparison the Abstract, Results and
+  Conclusion report, beside H-P1 and Amendment 28: each arm on raw z at its own
+  tuned rate. If P1 fails (the VQC leads), that is stated with the same
+  prominence.
+- The restriction and re-upload paragraphs report the tuned-rate contrast
+  beside the original, and the Limitations item on inherited rates is replaced
+  by these results.
+- If P4 fails for any run, that run is named and the bit-for-bit statement
+  excludes it.
+
+**Amendment 30, second note — 9 November 2026, before any analysis of block C.**
+The step-level check (P1) passed for blocks A and B (9 and 100 runs, 129,217
+steps identical) and failed for 277 of the 349 block C runs, from step 1, by
+about one part in 10⁷. A difference before any update can only come from the
+machine: `logs/sessions.txt` shows that block C ran on an Intel Xeon session,
+while every original, every `C_` re-execution and blocks A and B ran on AMD EPYC
+7B12. Block C is therefore repeated on AMD EPYC 7B12; the Intel runs are kept,
+unanalysed, in `quarantine/CU_34_lr_inherited_intel_20261109`. From now on every
+notebook stops at its device cell unless the session's processor is AMD EPYC
+7B12. Amendment 31's runs follow the same rule.

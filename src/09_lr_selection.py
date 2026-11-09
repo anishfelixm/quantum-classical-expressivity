@@ -86,6 +86,16 @@ lr_selection.json (the reported selection stays as it is). --head-rank builds
 low_rank at a given rank; it enters the run's key as `rank`. Both are optional
 and absent from every earlier run, so existing keys and their re-execution are
 unchanged. The analysis is scripts/analyse_lr_inherited.py.
+
+WITHOUT THE SQUASH (Amendment 31, 9 November 2026)
+--------------------------------------------------
+--no-tanh tunes an arm on raw z instead of (pi/2) tanh(z), circuit arms
+included (registry.build_arm(allow_unbounded_angles=True)). Amendment 28 ran the
+matched head without the squash at the rate tuned WITH it; this gives each arm
+its own rate for its own input, by this procedure, unchanged. The key gains
+notanh=1 only when the flag is set, so every earlier run keeps its name.
+
+    python src/09_lr_selection.py --experiment 35_lr_nosquash --arms quantum_vqc --no-tanh
 """
 import argparse
 import json
@@ -130,11 +140,14 @@ if _overlap:
         f"would then be made on splits the confirmatory sweep evaluates on.")
 
 
-def run_cell(dataset, n_per_class, seed, arm, lr, dim=4, force=False, head_rank=None):
+def run_cell(dataset, n_per_class, seed, arm, lr, dim=4, force=False, head_rank=None,
+             use_tanh=True):
     keys = dict(dataset=dataset, regime=n_per_class, dim=dim, seed=seed,
                 arm=arm, lr=f"{lr:.0e}")
     if head_rank is not None:          # Amendment 29 only; absent from every earlier key
         keys["rank"] = int(head_rank)
+    if not use_tanh:                   # Amendment 31 only; absent from every earlier key
+        keys["notanh"] = 1
     if not force and shards.exists(EXPERIMENT, **keys):
         return None
 
@@ -145,7 +158,9 @@ def run_cell(dataset, n_per_class, seed, arm, lr, dim=4, force=False, head_rank=
     loaders, _ = get_cached_features(dataset, str(n_per_class), seed)
     model = build_arm(arm, d=dim, num_classes=C, n_layers=config.VQC_LAYERS,
                       seed=seed, build_backbone=False,
-                      **({"head_rank": int(head_rank)} if head_rank is not None else {}))
+                      **({"head_rank": int(head_rank)} if head_rank is not None else {}),
+                      **({"use_tanh": False, "allow_unbounded_angles": True}
+                         if not use_tanh else {}))
 
     # Passed as arguments, never by mutating config. The quantum group is empty
     # for classical arms, so setting both is harmless and keeps the grid
@@ -311,6 +326,11 @@ def summarise(write=True):
     print("tuning seeds and these results BEFORE the confirmatory sweep runs.")
 
 
+def other_namespace_ok(experiment):
+    """--no-tanh never writes into 09_lr_selection, whose runs fix the reported rates."""
+    return experiment != "09_lr_selection"
+
+
 def main():
     global EXPERIMENT
     p = argparse.ArgumentParser()
@@ -330,7 +350,11 @@ def main():
                         "other than the default never writes lr_selection.json")
     p.add_argument("--head-rank", type=int, default=None,
                    help="build low_rank at this rank (Amendment 29)")
+    p.add_argument("--no-tanh", action="store_true",
+                   help="tune on raw z, circuit arms included (Amendment 31); key notanh=1")
     args = p.parse_args()
+    if args.no_tanh and not other_namespace_ok(args.experiment):
+        p.error("--no-tanh writes only to another namespace (e.g. 35_lr_nosquash)")
 
     other_namespace = args.experiment != EXPERIMENT
     EXPERIMENT = args.experiment
@@ -363,7 +387,8 @@ def main():
                     for lr in args.lrs:
                         done += 1
                         out = run_cell(ds, n, seed, arm, lr, dim=args.dim,
-                                       force=args.force, head_rank=args.head_rank)
+                                       force=args.force, head_rank=args.head_rank,
+                                       use_tanh=not args.no_tanh)
                         if out is None:
                             continue
                         eta = (time.time() - t0) / done * (total - done) / 3600

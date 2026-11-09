@@ -295,17 +295,34 @@ def build_arm(arm, d, num_classes, n_layers=2, seed=42,
               freeze_policy="layer3_only", build_backbone=True,
               device_name="default.qubit", diff_method="backprop",
               angle_scale=None, n_uploads=None, use_tanh=None,
-              head_rank=None, bottleneck_policy=None, bottleneck_seed=None):
+              head_rank=None, bottleneck_policy=None, bottleneck_seed=None,
+              allow_unbounded_angles=False):
+    """
+    allow_unbounded_angles (Amendment 31, 9 November 2026): let a circuit arm
+    take raw z as rotation angles, without the squash. Off by default, so every
+    earlier run is built exactly as before.
+
+    Why it exists. The squash was applied to every head so that all arms see
+    the same input, and Amendment 28 found that it costs the matched head AUC.
+    The fair question then runs both ways: does the circuit do better or worse
+    without it? Freinberger and Moser found that omitting a scaled tanh
+    IMPROVED angle-encoded circuits. Without the bound the encoding is periodic,
+    so latents 2*pi apart give the same state; the learned projection can still
+    place the data inside one period. Whether that helps or hurts the circuit
+    is an empirical question, and refusing to run it would leave the squash
+    check one-sided.
+    """
     if arm not in ARM_NAMES:
         raise ValueError(f"unknown arm '{arm}'; expected one of {ARM_NAMES}")
 
     # Checked BEFORE constructing anything: building a VQC only to reject it
     # wastes a device allocation, and the error should name the real problem.
-    if use_tanh is False and arm in QUANTUM_ARMS:
+    if use_tanh is False and arm in QUANTUM_ARMS and not allow_unbounded_angles:
         raise ValueError(
             f"use_tanh=False is invalid for '{arm}': RY encoding is 2*pi-periodic, "
             "so unbounded z collapses distinct latents onto identical quantum "
-            "states. The no-tanh ablation is for classical arms only.")
+            "states. The no-tanh ablation is for classical arms only, unless "
+            "allow_unbounded_angles=True (Amendment 31).")
 
     deep_encoder = None
 

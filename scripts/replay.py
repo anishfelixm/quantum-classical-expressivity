@@ -66,10 +66,11 @@ expected to be bit-identical (different floating-point order). It is marked
 "cross-device" and its identity verdict is reported but not used as a
 determinism test.
 
-CPU-RECORDED SOURCES (Amendments 27 and 28, 7 November 2026)
+CPU-RECORDED SOURCES (Amendments 27 and 28, 7 November 2026; 31, 9 November)
 ------------------------------------------------------------
-31_entangling_range (Amendment 26), 32_squash (Amendment 28) and
-34_lr_inherited (Amendment 29) were recorded on Colab CPU, like 17_fulldata. On CPU their identity re-execution writes
+31_entangling_range (Amendment 26), 32_squash (Amendment 28),
+34_lr_inherited (Amendment 29), and 35_lr_nosquash, 36_nosquash and 37_rate_gaps
+(Amendment 31) were recorded on Colab CPU, like 17_fulldata. On CPU their identity re-execution writes
 C_<source>; on GPU it would be cross-device. Each CPU process used a fixed
 number of intra-op threads (OMP_NUM_THREADS), which the launcher must set to
 the same value for the re-execution: the order of floating-point sums can
@@ -168,13 +169,16 @@ SCRIPT_01 = "01_frozen_backbone_ablation.py"
 SOURCES = {ns: SCRIPT_01 for ns in (
     "01_frozen_tuned", "14_readout", "15_dim8", "16_dim16", "17_fulldata", "18_depth",
     "19_angle", "20_tanh", "21_ansatz", "25_encoder", "26_bottleneck_tuned",
-    "27_capacity_tuned", "29_compression_frozen", "31_entangling_range", "32_squash")}
+    "27_capacity_tuned", "29_compression_frozen", "31_entangling_range", "32_squash",
+    "36_nosquash", "37_rate_gaps")}                    # 36, 37: Amendment 31
 SOURCES.update({"03_robustness_v2": "03_robustness_evaluation.py",
                 "09_lr_selection": "09_lr_selection.py",
                 "34_lr_inherited": "09_lr_selection.py",        # Amendment 29
+                "35_lr_nosquash": "09_lr_selection.py",         # Amendment 31
                 "10_capacity": "10_capacity_sweep.py",
                 "12_bottleneck": "12_bottleneck_ablation.py"})
-CROSS_DEVICE = {"17_fulldata", "31_entangling_range", "32_squash", "34_lr_inherited"}   # recorded on CPU
+CROSS_DEVICE = {"17_fulldata", "31_entangling_range", "32_squash", "34_lr_inherited",
+                "35_lr_nosquash", "36_nosquash", "37_rate_gaps"}             # recorded on CPU
 
 
 def on_cpu_original(source):
@@ -288,7 +292,10 @@ def call_args_01(rec):
                 lr_quantum=lrq,
                 bottleneck=k.get("bn"),
                 head_rank=int(k["rank"]) if "rank" in k else None,
-                tanh_explicit="notanh" in k)
+                tanh_explicit="notanh" in k,
+                # Amendment 31: a circuit arm on raw z was built with permission;
+                # dropped below for any commit whose run_cell lacks the argument.
+                allow_unbounded_angles=quantum and str(k.get("notanh")) == "1")
 
 
 def run_one(mod, source, target, rec):
@@ -303,6 +310,8 @@ def run_one(mod, source, target, rec):
         accepted = inspect.signature(mod.run_cell).parameters
         if args["tanh_explicit"] and "tanh_explicit" not in accepted:
             raise RuntimeError(f"{k} carries a notanh key but this commit's run_cell has no tanh_explicit")
+        if args["allow_unbounded_angles"] and "allow_unbounded_angles" not in accepted:
+            raise RuntimeError(f"{k} is a circuit on raw z but this commit's run_cell cannot build one")
         args = {a: v for a, v in args.items() if a in accepted}
         if hasattr(mod, "_shard_keys"):
             kp = inspect.signature(mod._shard_keys).parameters
@@ -332,7 +341,8 @@ def run_one(mod, source, target, rec):
         mod.EXPERIMENT = target
         mod.run_cell(k["dataset"], int(k["regime"]), int(k["seed"]), k["arm"], float(k["lr"]),
                      dim=int(k["dim"]),
-                     **({"head_rank": int(k["rank"])} if "rank" in k else {}))
+                     **({"head_rank": int(k["rank"])} if "rank" in k else {}),
+                     **({"use_tanh": False} if str(k.get("notanh")) == "1" else {}))
     elif fname == "10_capacity_sweep.py":
         mod.EXPERIMENT = target
         mod.run_cell(k["dataset"], int(k["regime"]), int(k["seed"]), int(k["rank"]),

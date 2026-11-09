@@ -74,6 +74,8 @@ OPTIONAL AXES
 --head-rank   rank of the low_rank head (capacity axis; rank=2 == VQC params)
 --bottleneck  learned | pca | random
 --no-tanh     feed raw z to the head; CLASSICAL ARMS ONLY (see registry.py)
+--unbounded-angles  with --no-tanh, also run circuit arms on raw z (Amendment 31);
+                    the key is the usual notanh=1, so nothing earlier changes
 --angle-scale the tanh scale; swept because it was never tuned
 --lr-head     LR for non-quantum trainable parameters
 --lr-quantum  LR for the VQC rotation angles
@@ -315,7 +317,8 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
              augment=False, force=False, n_layers=None, use_tanh=True,
              angle_scale=None, save_predictions=True,
              lr_head=None, lr_quantum=None, experiment=EXPERIMENT,
-             bottleneck=None, head_rank=None, tanh_explicit=False):
+             bottleneck=None, head_rank=None, tanh_explicit=False,
+             allow_unbounded_angles=False):
     """
     freeze_policy=FROZEN   -> cached features, no backbone constructed at all
     freeze_policy=ADAPTIVE -> full end-to-end training through layer3
@@ -363,7 +366,8 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
         model = build_arm(arm, d=dim, num_classes=C, n_layers=effective_layers,
                           seed=seed, build_backbone=False,
                           use_tanh=use_tanh, angle_scale=angle_scale,
-                          bottleneck_policy=bn_policy, head_rank=head_rank)
+                          bottleneck_policy=bn_policy, head_rank=head_rank,
+                          allow_unbounded_angles=allow_unbounded_angles)
         if bn_policy == "pca":
             # Unlabelled training POOL, not the n-shot subset. See
             # get_pool_features() for why, and for the measured artifact this
@@ -379,7 +383,8 @@ def run_cell(dataset, regime, dim, seed, arm, freeze_policy=FROZEN,
         model = build_arm(arm, d=dim, num_classes=C, n_layers=effective_layers,
                           seed=seed, freeze_policy=freeze_policy,
                           use_tanh=use_tanh, angle_scale=angle_scale,
-                          bottleneck_policy=bn_policy, head_rank=head_rank)
+                          bottleneck_policy=bn_policy, head_rank=head_rank,
+                          allow_unbounded_angles=allow_unbounded_angles)
 
     capacity = model.capacity_report()
 
@@ -689,6 +694,8 @@ def main():
                    help="the tanh baseline, keyed explicitly so it shares a "
                         "namespace with --no-tanh and both sides of the "
                         "ablation land in comparable cells")
+    p.add_argument("--unbounded-angles", action="store_true",
+                   help="with --no-tanh, run circuit arms on raw z too (Amendment 31)")
     p.add_argument("--angle-scale", type=float, default=None,
                    help="tanh scale; default config.ANGLE_SCALE")
     p.add_argument("--lr-head", type=float, default=None,
@@ -730,6 +737,8 @@ def main():
 
     if args.no_tanh and args.with_tanh:
         p.error("--no-tanh and --with-tanh are mutually exclusive")
+    if args.unbounded_angles and not args.no_tanh:
+        p.error("--unbounded-angles only applies with --no-tanh")
     use_tanh = not args.no_tanh
     tanh_explicit = args.no_tanh or args.with_tanh
     save_preds = not args.no_predictions
@@ -790,7 +799,7 @@ def main():
     # The no-tanh ablation is mathematically invalid for quantum arms: RY is
     # 2*pi-periodic, so unbounded z destroys injectivity. Drop them loudly rather
     # than letting build_arm raise 900 runs in.
-    if not use_tanh:
+    if not use_tanh and not args.unbounded_angles:
         dropped = [a for a in arms if a in QUANTUM_ARMS]
         if dropped:
             print(f"--no-tanh: dropping quantum arms {dropped} "
@@ -816,7 +825,8 @@ def main():
         m = build_arm(arm, d=args.dims[0], num_classes=2, seed=42,
                       build_backbone=False, n_layers=preflight_layers,
                       use_tanh=use_tanh, angle_scale=args.angle_scale,
-                      bottleneck_policy=bn_policy, head_rank=args.head_rank)
+                      bottleneck_policy=bn_policy, head_rank=args.head_rank,
+                      allow_unbounded_angles=args.unbounded_angles)
         c = m.capacity_report()
         print(f"  {arm:24s} bottleneck={c['bottleneck']:>5d} head={c['head']:>4d} "
               f"clf={c['classifier']:>3d} total={c['total']:>5d} "
@@ -825,7 +835,8 @@ def main():
             build_arm(arm, d=args.dims[0], num_classes=2, seed=42,
                       freeze_policy=ADAPTIVE, n_layers=preflight_layers,
                       use_tanh=use_tanh, angle_scale=args.angle_scale,
-                      bottleneck_policy=bn_policy, head_rank=args.head_rank)
+                      bottleneck_policy=bn_policy, head_rank=args.head_rank,
+                      allow_unbounded_angles=args.unbounded_angles)
 
     total = sum(len(args.seeds or config.seeds_for(dim)) * len(arms)
                 for _ in args.datasets for _ in args.regimes
@@ -858,7 +869,8 @@ def main():
                                          experiment=args.experiment,
                                          bottleneck=args.bottleneck,
                                          head_rank=args.head_rank,
-                                         tanh_explicit=tanh_explicit)
+                                         tanh_explicit=tanh_explicit,
+                                         allow_unbounded_angles=args.unbounded_angles)
                             if m is None:
                                 continue
                             eta = (time.time() - t0) / done * (total - done) / 3600
