@@ -4,6 +4,8 @@ Exploratory.
 
     python scripts/analyse_amendment31.py select                 # after 35_lr_nosquash (seconds)
     python scripts/analyse_amendment31.py contrasts --workers 7  # after 36 and 37 (B = 2000)
+    python scripts/analyse_amendment31.py select --unclipped     # after the unclipped stage
+    python scripts/analyse_amendment31.py contrasts --unclipped --workers 7
 
 WHY
 ---
@@ -49,6 +51,18 @@ PREDICTIONS (Amendment 31, written before any run)
     P3  reupload_fc_tuned at n = 5: its estimate is below
         reupload_fc_cpu_inherited's at n = 5.
 
+WITHOUT CLIPPING (Amendment 31, addition of 9 November 2026, before any result)
+-------------------------------------------------------------------------------
+Every result of the study is also reported with clipping removed wherever it
+acted. --unclipped repeats both stages on the views X_<namespace>
+(scripts/build_unclipped_view.py): every run, with its unclipped CPU
+re-execution CU_ in place where clipping acted, for 31, 32, 35, 36 and 37.
+`select --unclipped` reports the selection without clipping beside the one made
+with it; `contrasts --unclipped` uses the rates of the procedure as specified
+(with clipping, nosquash_rates.json) so that each contrast differs from its
+recorded twin only in clipping. Group names, and so the bootstrap draws, are
+unchanged. Outputs: nosquash_rates_unclipped.json, amendment31_unclipped.json.
+
 METHOD
 ------
 The engine of 14_exploratory_table.py, unchanged: nested bootstrap over test
@@ -80,12 +94,18 @@ RATES_FILE = "nosquash_rates.json"
 
 
 # ------------------------------------------------------------------ select
-def select(ctx):
+def view(ns, unclipped):
+    return "X_" + ns if unclipped else ns
+
+
+def select(ctx, unclipped=False):
     """Amendment 31 stage 1: each arm's rate on raw z, by 09's rule (highest
     mean validation AUC over all tuning runs; test metrics never read)."""
-    rows = ctx.shards.load_all(NS_TUNE)
+    ns = view(NS_TUNE, unclipped)
+    rows = ctx.shards.load_all(ns)
     shas = sorted({r.get("git_sha", "?")[:8] for r in rows})
-    print(f"AMENDMENT 31, STAGE 1 (exploratory) | {NS_TUNE} | {len(rows)} runs | commits {shas}")
+    tag = "WITHOUT CLIPPING" if unclipped else ""
+    print(f"AMENDMENT 31, STAGE 1 {tag} (exploratory) | {ns} | {len(rows)} runs | commits {shas}")
     by = defaultdict(list)
     for r in rows:
         k = r["keys"]
@@ -107,6 +127,20 @@ def select(ctx):
         print(f"{arm:24s} " + " ".join(f"{curve[g]:8.4f}" for g in GRID)
               + f"  {best:>8s}  {curve[best] - curve[INHERITED]:+.4f}" + ("  EDGE" if edge else ""))
         out[arm] = {"selected": best, "curve": curve, "edge": edge}
+    if unclipped:
+        path = os.path.join(ctx.config.ARTIFACT_ROOT, RATES_FILE)
+        if os.path.exists(path):
+            with open(path) as f:
+                rec = json.load(f)
+            print("\nSelection with clipping (the procedure) and without it:")
+            for arm in TUNE_ARMS:
+                print(f"  {arm:24s} clipped {rec[arm]['selected']}   unclipped {out[arm]['selected']}"
+                      + ("" if rec[arm]["selected"] == out[arm]["selected"] else "   CHANGED"))
+        path = os.path.join(ctx.config.ARTIFACT_ROOT, "nosquash_rates_unclipped.json")
+        with open(path, "w") as f:
+            json.dump(out, f, indent=1)
+        print(f"\nWritten: {path}")
+        return
     if any(v["edge"] for v in out.values()):
         print("\nSTOP: a selection lies on the edge of the grid. Amendment 31 extends the grid by one "
               "point in that direction (as Amendment 3a) before any 40-seed run.")
@@ -156,21 +190,22 @@ def arm_is(arm, **kv):
     return want
 
 
-def make_groups(rates):
+def make_groups(rates, unclipped=False):
     rv, rm = rates["quantum_vqc"]["selected"], rates["matched_param_fullrank"]["selected"]
-    vqc_raw = (NS_NOSQ, arm_is("quantum_vqc", notanh=1, lrh=rv, lrq=rv))
+    nosq, sq32, vqc31, gaps = (view(n, unclipped) for n in (NS_NOSQ, NS_SQ32, NS_VQC31, NS_GAPS))
+    vqc_raw = (nosq, arm_is("quantum_vqc", notanh=1, lrh=rv, lrq=rv))
     # The matched head on raw z at 1e-2 already exists (Amendment 28); at any other
     # selected rate it is run in 36_nosquash.
-    matched_raw = ((NS_SQ32, arm_is("matched_param_fullrank", notanh=1, lrh=INHERITED))
+    matched_raw = ((sq32, arm_is("matched_param_fullrank", notanh=1, lrh=INHERITED))
                    if rm == INHERITED else
-                   (NS_NOSQ, arm_is("matched_param_fullrank", notanh=1, lrh=rm)))
-    vqc_sq = (NS_VQC31, arm_is("quantum_vqc", lrh=INHERITED, lrq=INHERITED))
-    reup = (NS_VQC31, arm_is("quantum_reupload", lrh=INHERITED, lrq=INHERITED))
-    k0 = (NS_GAPS, arm_is("low_rank", rank=0, lrh=INHERITED))
-    k8_inh = (NS_GAPS, arm_is("low_rank", rank=8, lrh=INHERITED))
-    k8_tun = (NS_GAPS, arm_is("low_rank", rank=8, lrh=K8_RATE))
-    fc_inh = (NS_GAPS, arm_is("fourier_rff_r2", lrh=INHERITED))
-    fc_tun = (NS_GAPS, arm_is("fourier_rff_r2", lrh=FC_RATE))
+                   (nosq, arm_is("matched_param_fullrank", notanh=1, lrh=rm)))
+    vqc_sq = (vqc31, arm_is("quantum_vqc", lrh=INHERITED, lrq=INHERITED))
+    reup = (vqc31, arm_is("quantum_reupload", lrh=INHERITED, lrq=INHERITED))
+    k0 = (gaps, arm_is("low_rank", rank=0, lrh=INHERITED))
+    k8_inh = (gaps, arm_is("low_rank", rank=8, lrh=INHERITED))
+    k8_tun = (gaps, arm_is("low_rank", rank=8, lrh=K8_RATE))
+    fc_inh = (gaps, arm_is("fourier_rff_r2", lrh=INHERITED))
+    fc_tun = (gaps, arm_is("fourier_rff_r2", lrh=FC_RATE))
 
     def g(a, b, label):
         return (f"{a[0]}x{b[0]}", lambda c, e, a=a, b=b: pair(c, a, b), "diff", True, 40, label)
@@ -215,6 +250,22 @@ def report_predictions(rows):
           "re-upload function class n=5 +0.0150 [+0.0022,+0.0279].")
 
 
+def side_by_side(rows, recorded_path):
+    """Recorded and unclipped estimates of the same rows, same bootstrap draws (descriptive)."""
+    if not os.path.exists(recorded_path):
+        print(f"\n(no {os.path.basename(recorded_path)} here: recorded side not shown)")
+        return
+    with open(recorded_path) as f:
+        rec = {(r["analysis"], r["row"]): r for r in json.load(f)["rows"]}
+    print("\nRECORDED vs UNCLIPPED (same bootstrap draws)")
+    for r in rows:
+        a = rec.get((r["analysis"], r["row"]))
+        if a is not None:
+            print(f"    {r['analysis']:26s} {r['row']:6s} recorded {a['estimate']:+.4f} "
+                  f"[{a['ci_lo']:+.4f},{a['ci_hi']:+.4f}]   unclipped {r['estimate']:+.4f} "
+                  f"[{r['ci_lo']:+.4f},{r['ci_hi']:+.4f}]")
+
+
 def contrasts(ctx, args):
     path = os.path.join(ctx.config.ARTIFACT_ROOT, RATES_FILE)
     if not os.path.exists(path):
@@ -223,14 +274,16 @@ def contrasts(ctx, args):
         rates = json.load(f)
     if any(v["edge"] for v in rates.values()):
         sys.exit("a stage-1 selection is on the grid edge: extend the grid first (Amendment 31)")
-    groups = make_groups(rates)
+    groups = make_groups(rates, args.unclipped)
     ex.GROUPS.update(groups)
-    print(f"AMENDMENT 31 (exploratory) | workers={args.workers} | B={args.B} | "
+    tag = "AMENDMENT 31, WITHOUT CLIPPING" if args.unclipped else "AMENDMENT 31"
+    print(f"{tag} (exploratory) | workers={args.workers} | B={args.B} | "
           f"sha={ctx.config.git_sha()[:8]} | rates on raw z: VQC {rates['quantum_vqc']['selected']}, "
           f"matched {rates['matched_param_fullrank']['selected']}", flush=True)
     if args.B != ft.B_DEFAULT:
         print(f"!!! B={args.B}: TESTING ONLY - do not quote these numbers !!!")
-    cache_dir = os.path.join(ctx.config.ARTIFACT_ROOT, "amendment31_cache")
+    suffix = "_unclipped" if args.unclipped else ""
+    cache_dir = os.path.join(ctx.config.ARTIFACT_ROOT, "amendment31_cache" + suffix)
     results, rows = {}, []
     for g in groups:
         r = ex.run_group(ctx, g, args.B, args.workers, cache_dir, args.recompute)
@@ -240,7 +293,9 @@ def contrasts(ctx, args):
         if g in results:
             rows += ex.summarise(g, results[g], args.B)
     report_predictions(rows)
-    out = os.path.join(ctx.config.ARTIFACT_ROOT, "amendment31.json")
+    if args.unclipped:
+        side_by_side(rows, os.path.join(ctx.config.ARTIFACT_ROOT, "amendment31.json"))
+    out = os.path.join(ctx.config.ARTIFACT_ROOT, f"amendment31{suffix}.json")
     with open(out, "w") as f:
         json.dump({"rates": rates, "rows": rows}, f, indent=1)
     print(f"\nWritten: {out}")
@@ -253,10 +308,12 @@ def main():
     ap.add_argument("--recompute", action="store_true")
     ap.add_argument("--B", type=int, default=ft.B_DEFAULT,
                     help=f"testing only; reported analyses use {ft.B_DEFAULT}")
+    ap.add_argument("--unclipped", action="store_true",
+                    help="on the views X_<namespace>: clipping removed wherever it acted")
     args = ap.parse_args()
     ctx = ft.Ctx()
     if args.stage == "select":
-        select(ctx)
+        select(ctx, args.unclipped)
     else:
         contrasts(ctx, args)
 

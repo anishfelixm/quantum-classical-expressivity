@@ -2558,3 +2558,26 @@ while every original, every `C_` re-execution and blocks A and B ran on AMD EPYC
 unanalysed, in `quarantine/CU_34_lr_inherited_intel_20261109`. From now on every
 notebook stops at its device cell unless the session's processor is AMD EPYC
 7B12. Amendment 31's runs follow the same rule.
+
+**Amendment 31, addition — 9 November 2026, before any Amendment 31 result.
+Without clipping.** Every result of the study is also reported with clipping
+removed wherever it acted, and Amendment 31's design omitted that stage. It is
+added now, while stage 1 is still running and before any result exists.
+- After the re-execution (`C_35_lr_nosquash`, `C_36_nosquash`,
+  `C_37_rate_gaps`), every run whose `C_` record shows a step above 20 or a
+  non-finite step is re-executed with clipping removed (`replay.py --clip inf`,
+  targets `CU_35_lr_nosquash`, `CU_36_nosquash`, `CU_37_rate_gaps`), on AMD EPYC
+  7B12, with the threads of the clipped re-execution.
+- Views `X_31`, `X_32`, `X_35`, `X_36`, `X_37` (`build_unclipped_view.py`, which
+  requires every `CU_` run to pass the step-level prefix check).
+- `analyse_amendment31.py select --unclipped` reports the selection without
+  clipping beside the one made with it. `contrasts --unclipped` repeats the six
+  analyses with the rates of the procedure as specified (with clipping), so each
+  differs from its recorded twin only in clipping; the bootstrap draws are the
+  same.
+- **P5.** Every `CU_` run passes the step-level prefix check.
+- **P6.** Without clipping, each stage-1 arm selects the same rate.
+- **P7.** P1–P3 give the same verdicts without clipping.
+- Outcome: the manuscript reports the unclipped values beside the recorded
+  ones, as for the main study. A changed selection or verdict is stated with the
+  same prominence as the recorded one.

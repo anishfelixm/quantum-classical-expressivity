@@ -66,7 +66,9 @@ sys.path.insert(0, os.path.join(HERE, "..", "src"))
 import config                                                   # noqa: E402
 import shards                                                   # noqa: E402
 
-SOURCES = ("31_entangling_range", "32_squash", "34_lr_inherited")
+SOURCES = ("31_entangling_range", "32_squash", "34_lr_inherited",
+           "35_lr_nosquash", "36_nosquash", "37_rate_gaps")      # 35-37: Amendment 31
+NO_PREDICTIONS = ("34_lr_inherited", "35_lr_nosquash")   # tuning runs store none (09_lr_selection.py)
 THRESHOLD = 20.0          # recorders.THRESHOLD, the clip norm of every reported run
 NO_HISTORY = "not compared (no per-epoch history in the record)"
 
@@ -204,7 +206,7 @@ def build(source):
             os.symlink(os.path.realpath(pp), os.path.join(pdir, os.path.basename(pp)))
             n_p += 1
     # 09_lr_selection runs store no predictions; the selection reads val_auc from the shard.
-    need_pred = source != "34_lr_inherited"
+    need_pred = source not in NO_PREDICTIONS
     print(f"{view}: {len(rec)} runs, {n_u} of them unclipped re-executions, "
           f"{n_p} prediction files. VIEW BUILT")
     return n_p == len(rec) or not need_pred
