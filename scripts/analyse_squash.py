@@ -3,6 +3,7 @@ AMENDMENT 28 - DOES THE SQUASH HANDICAP THE MATCHED HEAD? Exploratory.
 
     python scripts/analyse_squash.py --workers 7
     python scripts/analyse_squash.py --smoke          # after the first seeds: does the pipeline work?
+    python scripts/analyse_squash.py --unclipped --workers 7   # Amendment 30
 
 WHY THIS EXISTS
 ---------------
@@ -48,6 +49,17 @@ PREDICTIONS (Amendment 28, written before any run of 32_squash)
         or lies below it.
     primary_cpu is descriptive: whether the recorded n = 5 advantage
     (+0.0142, GPU) reappears on CPU against the same control.
+
+WITHOUT CLIPPING (Amendment 30, 9 November 2026)
+------------------------------------------------
+--unclipped runs the same three contrasts on the views X_32_squash and
+X_31_entangling_range (scripts/build_unclipped_view.py): every run, with its
+unclipped CPU re-execution in place where clipping acted (100 matched-head runs
+of 32_squash, 2 quantum_vqc runs of 31_entangling_range). Group names, and so
+every bootstrap seed, are unchanged: recorded and unclipped estimates use
+identical draws. Results go to squash_check_unclipped.json and
+squash_cache_unclipped; the recorded rows are printed beside them when
+squash_check.json is present.
 
 METHOD
 ------
@@ -146,17 +158,41 @@ def load_squash_pairs(ctx, experiment, arm):
     return cells
 
 
-GROUPS = {
-    "squash_cost": (
-        NS_SQUASH, lambda c, e: load_squash_pairs(c, e, MATCHED),
-        "diff", True, 40, "matched without squash - matched with squash"),
-    "primary_cpu": (
-        f"{NS_VQC}x{NS_SQUASH}", lambda c, e: load_across(c, NS_VQC, "quantum_vqc", NS_SQUASH, MATCHED, "0"),
-        "diff", True, 40, "VQC - matched with squash (the primary contrast, on CPU)"),
-    "primary_nosquash": (
-        f"{NS_VQC}x{NS_SQUASH}", lambda c, e: load_across(c, NS_VQC, "quantum_vqc", NS_SQUASH, MATCHED, "1"),
-        "diff", True, 40, "VQC - matched without squash"),
-}
+def make_groups(ns_vqc, ns_squash):
+    """The three contrasts on the given namespaces (recorded, or their unclipped views)."""
+    return {
+        "squash_cost": (
+            ns_squash, lambda c, e: load_squash_pairs(c, e, MATCHED),
+            "diff", True, 40, "matched without squash - matched with squash"),
+        "primary_cpu": (
+            f"{ns_vqc}x{ns_squash}",
+            lambda c, e: load_across(c, ns_vqc, "quantum_vqc", ns_squash, MATCHED, "0"),
+            "diff", True, 40, "VQC - matched with squash (the primary contrast, on CPU)"),
+        "primary_nosquash": (
+            f"{ns_vqc}x{ns_squash}",
+            lambda c, e: load_across(c, ns_vqc, "quantum_vqc", ns_squash, MATCHED, "1"),
+            "diff", True, 40, "VQC - matched without squash"),
+    }
+
+
+GROUPS = make_groups(NS_VQC, NS_SQUASH)
+
+
+def side_by_side(rows, recorded_path):
+    """Recorded and unclipped estimates of the same rows (Amendment 30, descriptive)."""
+    if not os.path.exists(recorded_path):
+        print(f"\n(no {os.path.basename(recorded_path)} here: recorded side not shown)")
+        return
+    with open(recorded_path) as f:
+        rec = {(r["analysis"], r["row"]): r for r in json.load(f)["rows"]}
+    print("\nRECORDED vs UNCLIPPED (same bootstrap draws)")
+    for r in rows:
+        a = rec.get((r["analysis"], r["row"]))
+        if a is None:
+            continue
+        print(f"    {r['analysis']:18s} {r['row']:6s} recorded {a['estimate']:+.4f} "
+              f"[{a['ci_lo']:+.4f},{a['ci_hi']:+.4f}]   unclipped {r['estimate']:+.4f} "
+              f"[{r['ci_lo']:+.4f},{r['ci_hi']:+.4f}]   change {r['estimate'] - a['estimate']:+.4f}")
 
 
 def report_predictions(rows):
@@ -194,23 +230,30 @@ def main():
     ap.add_argument("--smoke", action="store_true",
                     help="pipeline test on the seeds done so far: any equal seed count, "
                          "B = 50, nothing written. Never quoted.")
+    ap.add_argument("--unclipped", action="store_true",
+                    help="Amendment 30: the same contrasts on the unclipped views X_32_squash, "
+                         "X_31_entangling_range")
     args = ap.parse_args()
+    if args.unclipped and args.smoke:
+        ap.error("--smoke and --unclipped do not combine")
 
-    groups = GROUPS
+    groups = make_groups("X_" + NS_VQC, "X_" + NS_SQUASH) if args.unclipped else GROUPS
     if args.smoke:
         args.B = 50
         groups = {g: v[:4] + (None,) + v[5:] for g, v in GROUPS.items()}
     ex.GROUPS.update(groups)           # the same engine, three more contrasts
     ctx = ft.Ctx()
+    suffix = "_unclipped" if args.unclipped else ""
     cache_dir = os.path.join(ctx.config.ARTIFACT_ROOT,
-                             "squash_cache_smoke" if args.smoke else "squash_cache")
-    print(f"AMENDMENT 28 (exploratory) | workers={args.workers} | B={args.B} | "
+                             "squash_cache_smoke" if args.smoke else "squash_cache" + suffix)
+    tag = "AMENDMENT 30, WITHOUT CLIPPING" if args.unclipped else "AMENDMENT 28"
+    print(f"{tag} (exploratory) | workers={args.workers} | B={args.B} | "
           f"sha={ctx.config.git_sha()[:8]}", flush=True)
     if args.B != ft.B_DEFAULT:
         print(f"!!! B={args.B}: TESTING ONLY - do not quote these numbers !!!")
 
     results, rows = {}, []
-    for g in GROUPS:
+    for g in groups:
         r = ex.run_group(ctx, g, args.B, args.workers, cache_dir, args.recompute)
         if r:
             results[g] = r
@@ -218,17 +261,19 @@ def main():
         # No estimate is printed: looking at a contrast on a few seeds, while the
         # run is still going, is a peek at the outcome. Only whether each contrast
         # can be computed is shown.
-        ok = all(g in results for g in GROUPS)
-        print(f"\nSMOKE TEST: {len(results)} of {len(GROUPS)} contrasts computed "
+        ok = all(g in results for g in groups)
+        print(f"\nSMOKE TEST: {len(results)} of {len(groups)} contrasts computed "
               f"({', '.join(sorted(results)) or 'none'}). No estimates shown. "
               f"{'OK' if ok else 'FAILED'}")
         sys.exit(0 if ok else 1)
-    for g in GROUPS:
+    for g in groups:
         if g in results:
             rows += ex.summarise(g, results[g], args.B)
     report_predictions(rows)
+    if args.unclipped:
+        side_by_side(rows, os.path.join(ctx.config.ARTIFACT_ROOT, "squash_check.json"))
 
-    out = os.path.join(ctx.config.ARTIFACT_ROOT, "squash_check.json")
+    out = os.path.join(ctx.config.ARTIFACT_ROOT, f"squash_check{suffix}.json")
     with open(out, "w") as f:
         json.dump({"rows": rows}, f, indent=1)
     print(f"\nWritten: {out}")

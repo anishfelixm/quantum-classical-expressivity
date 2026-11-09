@@ -2348,3 +2348,96 @@ incomplete grid.
 - P2 fails: the manuscript names each such arm, its selected rate and the gap,
   and says which reported comparisons involve it. No comparison is re-run at
   the new rate, because that rate was chosen after the data.
+
+
+## Outcomes of Amendments 27, 28 and 29 — recorded 9 November 2026
+
+All runs at commit `56a09feb`, Colab CPU (High-RAM). Logs in `cpu_reruns/logs/`
+on Drive (`stats_squash.txt`, `stats_lr_inherited.txt`, `replay*_*.txt`).
+
+**Amendment 27.** P1 holds: all 2,400 `C_31_entangling_range` runs IDENTICAL.
+P2 holds: block B selected exactly the six predicted runs, and all six
+`CU_17_fulldata` runs are PREFIX IDENTICAL to `C_17_fulldata`. Descriptive: the
+mean full-data VQC − matched difference over the 20 (dataset, seed) pairs moved
+from −0.0068 (clipped) to −0.0069 (unclipped).
+
+**Amendment 28.** 1,600 runs, one commit, every run with predictions, no
+seed-level fallback. P1 holds: `squash_cost` n = 5 +0.0153 [+0.0092, +0.0221].
+P2 holds: `primary_nosquash` n = 5 +0.0002 [−0.0099, +0.0104]. `primary_cpu`
+n = 5 +0.0155 [+0.0040, +0.0279] (GPU, recorded: +0.0142 [+0.0025, +0.0256]).
+Full tables: `squash_check.json`. All 1,600 `C_32_squash` runs IDENTICAL.
+Clipping acted in 100 runs (all `matched_param_fullrank`, 153 steps, largest
+norm 48.5); in `C_31_entangling_range` it acted in 9 runs (`quantum_reupload`
+6, `quantum_vqc_range1` 1, `quantum_vqc` 2; one step each, largest 26.8).
+
+**Amendment 29.** 3,960 runs, one commit. P1 fails: `low_rank` rank 2 and rank 8
+(d = 4) and `fourier_rff_r2` selected 3e-3. P2 fails: `low_rank` rank 8 gap
+0.0092, `fourier_rff_r2` gap 0.0053 (`low_rank` rank 2: 0.0046). Every circuit
+arm and both d = 8 arms selected the inherited 1e-2. Full curves:
+`lr_inherited.json`. All 3,960 `C_34_lr_inherited` runs IDENTICAL. Clipping
+acted in 349 runs (`fourier_rff_r2` 305 of 360, at every rate; `low_rank` 38;
+circuits 6, one step each); 127 of them at 1e-2 or 3e-3.
+
+**Re-execution total.** 28,260 reported runs re-executed and identical: 20,220
+on GPU, 8,040 on CPU.
+
+
+## Amendment 30 — written 9 November 2026, before any run. The three CPU checks without clipping.
+
+**Status.** A sensitivity analysis, like Amendment 21. Exploratory, because the
+three checks it covers are. It changes no confirmatory verdict and is reported
+whatever it shows.
+
+**Why.** Every reported analysis of the main study was recomputed with the runs
+in which clipping acted replaced by unclipped re-executions (Amendments 21 and
+25). The three checks run on CPU (Amendments 26, 28 and 29) were not: clipping
+acted in 9 + 100 + 349 = 458 of their runs. In 305 of the 360 tuning runs of
+`fourier_rff_r2` it acted, at every rate, so that arm's selection rests on
+clipped training. This amendment closes the gap with the same procedure.
+
+**Design.**
+
+| Block | Source | Command | Target | Runs |
+|---|---|---|---|---|
+| A | `31_entangling_range` | `replay.py --clip inf --code-at 58852d84 --from-list` | `CU_31_entangling_range` | 9 |
+| B | `32_squash` | `replay.py --clip inf --code-at 56a09feb --from-list` | `CU_32_squash` | 100 |
+| C | `34_lr_inherited` | `replay.py --clip inf --code-at 56a09feb --from-list` | `CU_34_lr_inherited` | 349 |
+
+- The runs are exactly those whose `C_<source>` record shows a step above 20
+  or a non-finite step (`recorded.above_threshold` or `recorded.nonfinite`).
+- Colab CPU (High-RAM), the threads of the clipped re-execution: block A
+  `max(1, cores // 3)` with the cores of the original session (as Amendment 27
+  block A), blocks B and C 2 per process.
+- The unclipped condition of a source is the view `X_<source>`: every recorded
+  run, with its `CU_` re-execution in place where clipping acted. A run in
+  which no step exceeded 20 is the same computation with and without clipping,
+  and its `C_` re-execution reproduced it. Built by
+  `scripts/build_unclipped_view.py`, which refuses an incomplete view.
+- The analyses are the unchanged scripts with `--unclipped`: the same groups,
+  the same bootstrap seeds (B = 2000), so each recorded and unclipped estimate
+  is computed on identical draws. Outputs: `*_unclipped.json`, own caches.
+
+**Predictions.**
+- **P1.** Every `CU_` run is PREFIX IDENTICAL to its `C_` run up to the first
+  epoch with a step above 20 (458 runs).
+- **P2 (Amendment 29 without clipping).** Every checked arm selects the same
+  rate as with clipping. `fourier_rff_r2` is the arm at risk; the prediction is
+  the same for it.
+- **P3 (Amendment 28 without clipping).** `squash_cost` at n = 5 keeps its
+  interval above zero; `primary_nosquash` at n = 5 keeps its interval including
+  zero or below it.
+- **P4 (Amendment 26 without clipping).** |`range_effect`| < 0.005 at every n;
+  `reupload_effect` keeps its interval above zero at n = 50 and 100.
+- Descriptive: every estimate and interval, recorded and unclipped, side by
+  side.
+
+**What each outcome means for the manuscript.**
+- All hold: the statement "every result was recomputed with clipping removed
+  wherever it acted" applies to the whole study, with no exception.
+- P2 fails: the manuscript reports the unclipped selection and gap for each arm
+  that changes, and says which comparisons involve it. No comparison is re-run
+  at a new rate (Amendment 29's rule).
+- P3 or P4 fails: the manuscript reports the unclipped estimates beside the
+  clipped ones, as for the main study, and states which conclusion changes.
+- P1 fails for a run: that run is named, and the analyses are reported with and
+  without it.

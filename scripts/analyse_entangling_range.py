@@ -3,6 +3,7 @@ AMENDMENT 26 - THE ENTANGLING-RANGE CONTROL. Exploratory.
 
     python scripts/analyse_entangling_range.py --workers 7
     python scripts/analyse_entangling_range.py --device-check-only     # seconds
+    python scripts/analyse_entangling_range.py --unclipped --workers 7 # Amendment 30
 
 WHAT IT ANSWERS
 ---------------
@@ -40,6 +41,17 @@ equal weight per cell, B = 2000, +1-corrected p-values, BH within each
 analysis. Results go to entangling_range.json and their own cache folder, so
 no existing output is touched.
 
+WITHOUT CLIPPING (Amendment 30, 9 November 2026)
+------------------------------------------------
+--unclipped runs the same three contrasts on X_31_entangling_range (built by
+scripts/build_unclipped_view.py): every run of experiment 31, with its unclipped
+CPU re-execution in place where clipping acted (9 of 2,400 runs). Group names,
+and therefore every bootstrap seed, are unchanged, so the recorded and the
+unclipped estimates are computed on identical draws. Results go to
+entangling_range_unclipped.json and entangling_cache_unclipped; the recorded
+results are printed beside them when entangling_range.json is present. The
+device check is not repeated: it concerns the recorded runs only.
+
 HISTORY
 -------
 2 November 2026: the first run (commit 58852d84) printed no device check. The
@@ -63,17 +75,41 @@ ft = ex.ft
 
 NS = "31_entangling_range"
 RECORDED = "01_frozen_tuned"
-GROUPS = {
-    "range_effect": (
-        NS, lambda c, e: ft.load_pairs(c, e, "quantum_vqc_range1", "quantum_vqc"),
-        "diff", True, 40, "VQC ranges (1,1) - VQC ranges (1,2): the entangling range alone"),
-    "reupload_effect": (
-        NS, lambda c, e: ft.load_pairs(c, e, "quantum_reupload", "quantum_vqc_range1"),
-        "diff", True, 40, "re-upload VQC - VQC ranges (1,1): re-uploading alone"),
-    "hs1_same_device": (
-        NS, lambda c, e: ft.load_pairs(c, e, "quantum_reupload", "quantum_vqc"),
-        "diff", True, 40, "re-upload VQC - VQC: the H-S1 contrast, re-run on one machine"),
-}
+
+
+def make_groups(ns):
+    """The three contrasts on namespace ns (the recorded runs, or their unclipped view)."""
+    return {
+        "range_effect": (
+            ns, lambda c, e: ft.load_pairs(c, e, "quantum_vqc_range1", "quantum_vqc"),
+            "diff", True, 40, "VQC ranges (1,1) - VQC ranges (1,2): the entangling range alone"),
+        "reupload_effect": (
+            ns, lambda c, e: ft.load_pairs(c, e, "quantum_reupload", "quantum_vqc_range1"),
+            "diff", True, 40, "re-upload VQC - VQC ranges (1,1): re-uploading alone"),
+        "hs1_same_device": (
+            ns, lambda c, e: ft.load_pairs(c, e, "quantum_reupload", "quantum_vqc"),
+            "diff", True, 40, "re-upload VQC - VQC: the H-S1 contrast, re-run on one machine"),
+    }
+
+
+GROUPS = make_groups(NS)
+
+
+def side_by_side(rows, recorded_path):
+    """Recorded and unclipped estimates of the same rows (Amendment 30, descriptive)."""
+    if not os.path.exists(recorded_path):
+        print(f"\n(no {os.path.basename(recorded_path)} here: recorded side not shown)")
+        return
+    with open(recorded_path) as f:
+        rec = {(r["analysis"], r["row"]): r for r in json.load(f)["rows"]}
+    print("\nRECORDED vs UNCLIPPED (same bootstrap draws)")
+    for r in rows:
+        a = rec.get((r["analysis"], r["row"]))
+        if a is None:
+            continue
+        print(f"    {r['analysis']:18s} {r['row']:6s} recorded {a['estimate']:+.4f} "
+              f"[{a['ci_lo']:+.4f},{a['ci_hi']:+.4f}]   unclipped {r['estimate']:+.4f} "
+              f"[{r['ci_lo']:+.4f},{r['ci_hi']:+.4f}]   change {r['estimate'] - a['estimate']:+.4f}")
 
 
 def device_check(ctx):
@@ -160,13 +196,19 @@ def main():
                     help="only the descriptive device check (seconds; no bootstrap)")
     ap.add_argument("--B", type=int, default=ft.B_DEFAULT,
                     help=f"testing only; reported analyses use {ft.B_DEFAULT}")
+    ap.add_argument("--unclipped", action="store_true",
+                    help="Amendment 30: the same contrasts on the unclipped view X_31_entangling_range")
     args = ap.parse_args()
 
-    ex.GROUPS.update(GROUPS)           # the same engine, three more contrasts
+    groups = make_groups("X_" + NS) if args.unclipped else GROUPS
+    ex.GROUPS.update(groups)           # the same engine, three more contrasts
     ctx = ft.Ctx()
-    print(f"AMENDMENT 26 (exploratory) | workers={args.workers} | B={args.B} | "
+    tag = "AMENDMENT 30, WITHOUT CLIPPING" if args.unclipped else "AMENDMENT 26"
+    print(f"{tag} (exploratory) | workers={args.workers} | B={args.B} | "
           f"sha={ctx.config.git_sha()[:8]}", flush=True)
 
+    if args.device_check_only and args.unclipped:
+        ap.error("--device-check-only concerns the recorded runs; drop --unclipped")
     if args.device_check_only:
         dev = device_check(ctx)
         out = os.path.join(ctx.config.ARTIFACT_ROOT, "entangling_device_check.json")
@@ -177,19 +219,24 @@ def main():
 
     if args.B != ft.B_DEFAULT:
         print(f"!!! B={args.B}: TESTING ONLY - do not quote these numbers !!!")
-    cache_dir = os.path.join(ctx.config.ARTIFACT_ROOT, "entangling_cache")
+    suffix = "_unclipped" if args.unclipped else ""
+    cache_dir = os.path.join(ctx.config.ARTIFACT_ROOT, "entangling_cache" + suffix)
     results, rows = {}, []
-    for g in GROUPS:
+    for g in groups:
         r = ex.run_group(ctx, g, args.B, args.workers, cache_dir, args.recompute)
         if r:
             results[g] = r
-    for g in GROUPS:
+    for g in groups:
         if g in results:
             rows += ex.summarise(g, results[g], args.B)
     report_predictions(rows)
-    dev = device_check(ctx)
+    if args.unclipped:
+        side_by_side(rows, os.path.join(ctx.config.ARTIFACT_ROOT, "entangling_range.json"))
+        dev = None
+    else:
+        dev = device_check(ctx)
 
-    out = os.path.join(ctx.config.ARTIFACT_ROOT, "entangling_range.json")
+    out = os.path.join(ctx.config.ARTIFACT_ROOT, f"entangling_range{suffix}.json")
     with open(out, "w") as f:
         json.dump({"rows": rows, "device_check": dev}, f, indent=1)
     print(f"\nWritten: {out}")

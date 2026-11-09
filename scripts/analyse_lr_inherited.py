@@ -4,6 +4,7 @@ Exploratory.
 
     python scripts/analyse_lr_inherited.py              # after the runs
     python scripts/analyse_lr_inherited.py --partial    # progress only: counts, no AUC
+    python scripts/analyse_lr_inherited.py --unclipped  # Amendment 30: on X_34_lr_inherited
 
 WHY
 ---
@@ -27,6 +28,16 @@ PREDICTIONS (Amendment 29, written before any run)
     P2  For every checked arm, the mean validation AUC at the inherited rate is
         within 0.005 of the best grid point.
     The per-n choices and the curves are descriptive.
+
+WITHOUT CLIPPING (Amendment 30, 9 November 2026)
+------------------------------------------------
+Clipping acted in 349 of the 3,960 tuning runs, in 305 of the 360 runs of
+fourier_rff_r2 at every rate. --unclipped repeats the same selection on
+X_34_lr_inherited (scripts/build_unclipped_view.py): every run, with its
+unclipped CPU re-execution in place where clipping acted. It writes
+lr_inherited_unclipped.json and, when lr_inherited.json is present, prints each
+arm's selection with and without clipping.
+    Amendment 30 P2: every checked arm selects the same rate as with clipping.
 
 WHAT IT CAN AND CANNOT DO
 -------------------------
@@ -84,18 +95,22 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--partial", action="store_true",
                     help="print run counts only (no AUC is shown while runs are going)")
+    ap.add_argument("--unclipped", action="store_true",
+                    help="Amendment 30: the same selection on the unclipped view X_34_lr_inherited")
     args = ap.parse_args()
+    ns = "X_" + NS if args.unclipped else NS
 
-    rows = shards.load_all(NS)
+    rows = shards.load_all(ns)
     by = defaultdict(list)
     for r in rows:
         k = r["keys"]
         rank = int(k["rank"]) if "rank" in k else None
         by[(k["arm"], rank, int(k["dim"]))].append(r)
 
-    print(f"AMENDMENT 29 (exploratory) | {len(rows)} runs | sha={config.git_sha()[:8]}")
+    tag = "AMENDMENT 30, WITHOUT CLIPPING" if args.unclipped else "AMENDMENT 29"
+    print(f"{tag} (exploratory) | {ns} | {len(rows)} runs | sha={config.git_sha()[:8]}")
     shas = sorted({r.get("git_sha", "?")[:8] for r in rows})
-    print(f"commits in {NS}: {shas}")
+    print(f"commits in {ns}: {shas}")
     complete = True
     for arm, rank, d, _, _ in CHECKED:
         n = len(by.get((arm, rank, d), []))
@@ -106,7 +121,7 @@ def main():
     if not complete:
         sys.exit("not complete: no selection is made on a partial grid")
     if len(shas) != 1:
-        sys.exit(f"more than one commit in {NS}: {shas}")
+        sys.exit(f"more than one commit in {ns}: {shas}")
 
     out, p1, p2 = [], True, True
     print("\nMean validation AUC by learning rate (all tuning runs pooled; test never used)")
@@ -154,7 +169,27 @@ def main():
         if o["gap"] >= THRESHOLD:
             print(f"      {label(o['arm'], o['rank'], o['d'])}: gap {o['gap']:+.4f}")
 
-    path = os.path.join(config.ARTIFACT_ROOT, "lr_inherited.json")
+    if args.unclipped:
+        rec_path = os.path.join(config.ARTIFACT_ROOT, "lr_inherited.json")
+        if os.path.exists(rec_path):
+            with open(rec_path) as f:
+                rec = {(a["arm"], a["rank"], a["d"]): a for a in json.load(f)["arms"]}
+            same = True
+            print("\nAMENDMENT 30 P2: selection with clipping (recorded) and without it")
+            for o in out:
+                a = rec.get((o["arm"], o["rank"], o["d"]))
+                if a is None:
+                    continue
+                same &= a["selected"] == o["selected"]
+                print(f"  {label(o['arm'], o['rank'], o['d']):40s} clipped {a['selected']} "
+                      f"(gap {a['gap']:+.4f})   unclipped {o['selected']} (gap {o['gap']:+.4f})"
+                      + ("" if a["selected"] == o["selected"] else "   CHANGED"))
+            print(f"P2  every arm selects the same rate without clipping: {'HOLDS' if same else 'FAILS'}")
+        else:
+            print(f"\n(no lr_inherited.json here: Amendment 30 P2 not evaluated)")
+
+    path = os.path.join(config.ARTIFACT_ROOT,
+                        "lr_inherited_unclipped.json" if args.unclipped else "lr_inherited.json")
     with open(path, "w") as f:
         json.dump({"threshold": THRESHOLD, "arms": out}, f, indent=1)
     print(f"\nWritten: {path}")
