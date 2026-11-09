@@ -2441,3 +2441,22 @@ clipped training. This amendment closes the gap with the same procedure.
   clipped ones, as for the main study, and states which conclusion changes.
 - P1 fails for a run: that run is named, and the analyses are reported with and
   without it.
+
+**Note, 9 November 2026, after block C ran and before any analysis of its
+runs.** All 349 block C runs completed. The tuning runs (`09_lr_selection.py`)
+store no per-epoch history, so `replay.py`'s epoch-level prefix check returned
+"not compared (no per-epoch history in the record)" for 148 of them; for the
+other 201, clipping first acted in epoch 1, so that check covered zero epochs.
+Blocks A and B passed the epoch-level check (9 and 100 PREFIX IDENTICAL).
+P1 is therefore evaluated at step level, for all 458 runs of the three blocks:
+the pre-clip gradient norm of every step, up to and including the first step
+above 20, must be bit-identical between the `CU_` and the `C_` run
+(`scripts/build_unclipped_view.py --check-steps`). Until that step both runs
+perform the same updates, so this is finer than the epoch check, and the view
+now requires it. Two defects found in the same session, both before any
+unclipped analysis of block C: the view builder required a prediction file for
+every run, which the tuning runs never store (it no longer does for
+`34_lr_inherited`, whose selection reads the validation AUC from the shard);
+and the notebook's run list dropped its last name when the script's two output
+streams shared a line (fixed by reading standard output only). Neither changes
+a run or a statistic.
