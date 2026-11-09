@@ -2581,3 +2581,78 @@ added now, while stage 1 is still running and before any result exists.
 - Outcome: the manuscript reports the unclipped values beside the recorded
   ones, as for the main study. A changed selection or verdict is stated with the
   same prominence as the recorded one.
+
+
+## Outcome of Amendment 31, main stage — recorded 9 November 2026
+
+Commit `10ce9593`, Colab CPU (AMD EPYC 7B12). Log `stats_amendment31.txt`; full
+rows in `amendment31.json`. Stage 1 selected, on raw z, 3e-2 for `quantum_vqc`
+(gap +0.0137 over 1e-2) and 1e-2 for `matched_param_fullrank`, so the Amendment
+28 runs are the matched head's runs. `C_37_rate_gaps`: 4,000 of 4,000 IDENTICAL.
+
+- **P1 fails.** `nosquash_fair` n = 5 +0.0198 [+0.0104, +0.0307], p_adj 0.005;
+  n = 10 +0.0093 [+0.0027, +0.0164]; not detected from n = 20; slope −0.0040
+  [−0.0061, −0.0021]. `vqc_squash_cost` is positive at every n (+0.0130 to
+  +0.0197, every p_adj 0.001): the squash cost the circuit more than it cost the
+  matched head. Amendment 28's reading (the lead is not detected without the
+  squash) holds only when the squash is removed from the matched head alone.
+- **P2 fails.** `restriction_tuned` n = 5 +0.0131 [+0.0039, +0.0217], p_adj
+  0.040, above the inherited-rate +0.0097 [+0.0002, +0.0189]; slope −0.0039
+  [−0.0057, −0.0020]; −0.0052 at n = 50.
+- **P3 fails.** `reupload_fc_tuned` n = 5 +0.0159 [+0.0047, +0.0266], not below
+  the inherited-rate +0.0150 [+0.0008, +0.0287]; at n = 100 −0.0026 (not
+  detected) against −0.0037 (detected).
+- The CPU runs at the inherited rates reproduce the GPU originals at n = 5
+  (+0.0097 and +0.0150, as recorded).
+
+
+## Amendment 32 — written 9 November 2026, after Amendment 31's results and before any run. The sine–cosine model on raw z.
+
+**Status.** Exploratory. Prompted by Amendment 31: the circuit gained 0.013–0.020
+AUC on raw z, and the function-class comparison (H-S2) was made only on
+squashed z. Whether the circuit's own classical function class gains likewise is
+open. Changes no confirmatory verdict.
+
+**Why the comparison stays meaningful on raw z.** For any input, the circuit's
+output is a combination of the same 81 sines and cosines of its input angles
+(the decomposition does not use the bound), so `fourier_rff` on raw z is the
+circuit's function class on raw z, exactly as on squashed z.
+
+**Design.** Colab CPU, AMD EPYC 7B12 only.
+
+| Stage | Namespace | Runs | What |
+|---|---|---|---|
+| 1 | `38_lr_fourier_nosquash` | 360 | `09_lr_selection.py --no-tanh --arms fourier_rff`, grid and tuning seeds of Amendment 3a, d = 4, 2 threads |
+| 2 | `39_fourier_cpu` | 800 | `fourier_rff` on raw z at its stage-1 rate, 40 confirmatory seeds, 20 cells, 1 thread |
+| 2 | `39_fourier_cpu` | 800 | `fourier_rff` WITH the squash at its tuned rate 1e-2, same seeds and cells, 1 thread (the CPU twin of the primary experiment's Fourier arm, so every contrast pairs CPU runs) |
+
+The edge rule of Amendment 31 applies to stage 1. Every run is re-executed
+(`C_38`, `C_39`; P4 below), and every run in which clipping acts is repeated
+without clipping (`CU_38`, `CU_39`), with the step-level prefix check and the
+`--unclipped` analyses, as in Amendment 31's addition.
+
+**Analysis.** `scripts/analyse_amendment32.py`, the engine of
+`14_exploratory_table.py` unchanged, B = 2000, BH within each analysis (m = 5).
+
+| Analysis | Contrast |
+|---|---|
+| `fc_nosquash` | VQC raw z (3e-2, `36_nosquash`) − `fourier_rff` raw z (own rate) |
+| `fc_squashed_cpu` | VQC squashed (1e-2, `31_entangling_range`) − `fourier_rff` squashed (1e-2): H-S2 on CPU |
+| `fourier_squash_cost` | `fourier_rff` raw z (own rate) − `fourier_rff` squashed (1e-2); descriptive |
+
+**Predictions.**
+- **P1.** `fc_nosquash` is not positive at any n: no interval lies above zero.
+- **P2.** `fc_squashed_cpu` reproduces H-S2's direction: estimate ≤ 0 at
+  n = 10, 20, 50 and 100.
+- **P3.** `fourier_squash_cost` at n = 5 is positive (estimate above zero): the
+  circuit's function class also gains from raw z.
+- **P4.** Every re-executed run identical; **P5** every unclipped run passes the
+  step-level prefix check.
+
+**What each outcome means for the manuscript.**
+- P1 holds: the function-class result stands on raw z, and the paper says so
+  where it states that the gain is not quantum.
+- P1 fails (the circuit beats its own function class on raw z at some n): stated
+  with the same prominence beside H-S2, in the Abstract if at n = 5, with the
+  caveat that the 324-parameter model and the 24-parameter circuit differ in
+  size, which the paper already discusses.

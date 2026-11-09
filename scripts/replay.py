@@ -170,15 +170,18 @@ SOURCES = {ns: SCRIPT_01 for ns in (
     "01_frozen_tuned", "14_readout", "15_dim8", "16_dim16", "17_fulldata", "18_depth",
     "19_angle", "20_tanh", "21_ansatz", "25_encoder", "26_bottleneck_tuned",
     "27_capacity_tuned", "29_compression_frozen", "31_entangling_range", "32_squash",
-    "36_nosquash", "37_rate_gaps")}                    # 36, 37: Amendment 31
+    "36_nosquash", "37_rate_gaps",                     # 36, 37: Amendment 31
+    "39_fourier_cpu")}                                 # 39: Amendment 32
 SOURCES.update({"03_robustness_v2": "03_robustness_evaluation.py",
                 "09_lr_selection": "09_lr_selection.py",
                 "34_lr_inherited": "09_lr_selection.py",        # Amendment 29
                 "35_lr_nosquash": "09_lr_selection.py",         # Amendment 31
+                "38_lr_fourier_nosquash": "09_lr_selection.py", # Amendment 32
                 "10_capacity": "10_capacity_sweep.py",
                 "12_bottleneck": "12_bottleneck_ablation.py"})
 CROSS_DEVICE = {"17_fulldata", "31_entangling_range", "32_squash", "34_lr_inherited",
-                "35_lr_nosquash", "36_nosquash", "37_rate_gaps"}             # recorded on CPU
+                "35_lr_nosquash", "36_nosquash", "37_rate_gaps",
+                "38_lr_fourier_nosquash", "39_fourier_cpu"}                  # recorded on CPU
 
 
 def on_cpu_original(source):

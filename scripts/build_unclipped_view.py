@@ -67,8 +67,10 @@ import config                                                   # noqa: E402
 import shards                                                   # noqa: E402
 
 SOURCES = ("31_entangling_range", "32_squash", "34_lr_inherited",
-           "35_lr_nosquash", "36_nosquash", "37_rate_gaps")      # 35-37: Amendment 31
-NO_PREDICTIONS = ("34_lr_inherited", "35_lr_nosquash")   # tuning runs store none (09_lr_selection.py)
+           "35_lr_nosquash", "36_nosquash", "37_rate_gaps",      # 35-37: Amendment 31
+           "38_lr_fourier_nosquash", "39_fourier_cpu")           # 38-39: Amendment 32
+NO_PREDICTIONS = ("34_lr_inherited", "35_lr_nosquash",   # tuning runs store none (09_lr_selection.py)
+                  "38_lr_fourier_nosquash")
 THRESHOLD = 20.0          # recorders.THRESHOLD, the clip norm of every reported run
 NO_HISTORY = "not compared (no per-epoch history in the record)"
 
