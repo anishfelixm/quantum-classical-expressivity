@@ -158,12 +158,12 @@ H-P attribution with *both* H-S5 runs · exploratory results with the word
 | "Only 4 qubits" | Parity at d = 4, 8, 16 |
 | "Simulation only" | Shot and depolarising analysis; stated as feasibility |
 | "28×28 images" | Limitation; native-resolution replication proposed as future work |
-| "Conference overlap" | Disclosed; the journal version tests the conference claims and withdraws those its controls refute |
+| "Overlap with earlier work" | None to disclose: the earlier draft was never submitted or published. The journal study re-tested its claims and kept none that its controls refuted |
 
 ## 8. Remaining work
 
 1. `generate_paper_plots.py` — the figures above, from the bootstrap caches.
-2. Manuscript, in the IEEE Access template, rewritten from the conference
+2. Manuscript, in the IEEE Access template, rewritten from the earlier, unsubmitted draft's
    `main.tex` (see `WORK_REMAINING.md` for what must not carry over).
 3. Citation check against the published record.
-4. Cover letter: conference disclosure, data and code availability.
+4. Cover letter: data and code availability (no prior-publication disclosure is needed; the earlier draft was never submitted).

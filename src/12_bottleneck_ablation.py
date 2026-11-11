@@ -58,7 +58,7 @@ WHAT TO LOOK FOR
    if it only exists with a learned projection, that must be said plainly.
 3. How much absolute AUC is lost by freezing? Large loss means the learned
    projection was doing most of the work all along - itself a finding worth
-   reporting, and one the conference paper implicitly relied on without knowing.
+   reporting, and one the earlier, unsubmitted draft implicitly relied on without knowing.
 
 PREDICTION, RECORDED BEFORE THE RUN
 ------------------------------------

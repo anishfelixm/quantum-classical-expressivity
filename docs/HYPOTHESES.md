@@ -3,7 +3,7 @@
 > **Historical — drafted August 2026, statuses as of 12 August.** Superseded by
 > `docs/analysis_plan.md` (the binding plan) and `docs/RESULTS.md` (outcomes).
 > Statuses, run counts and "prior signal" readings below are not current. In
-> particular, the "calibration failure" reading of the conference noise result
+> particular, the "calibration failure" reading of the earlier, unsubmitted draft's noise result
 > is not supported (`docs/RESULTS.md` §3). H0 is reported there as the
 > compression premise check.
 
@@ -41,7 +41,7 @@ nothing.
 **Interpretation.** *Compression to d=4 costs little in absolute AUC and nothing on binary
 tasks, but roughly doubles residual error on multi-class tasks.*
 
-**What this kills.** The conference paper's "topological collapse", the "Bottleneck Gap",
+**What this kills.** The earlier, unsubmitted draft's "topological collapse", the "Bottleneck Gap",
 and the edge-compression motivation. All contradicted by the project's own control.
 
 **Update, 15 October 2026 — the above holds only in the end-to-end setting.** This
@@ -160,15 +160,15 @@ level.
 original three arms: plain "quantum vs classical noise robustness on MedMNIST" is already
 published, so only the *differential* comparison against matched controls is novel.
 
-**Prior signal.** The conference "Zombie State" — AUC 0.6118 with probability standard
+**Prior signal.** The earlier draft's "Zombie State" — AUC 0.6118 with probability standard
 deviation 0.0057 — is the signature of a **calibration** failure, not a decision-boundary
 failure. If AUC holds while F1 collapses, the finding is threshold drift, which is a
-narrower and more accurate claim than the conference version made.
+narrower and more accurate claim than the earlier draft made.
 
 **Existing contradiction in the literature.** One published paper reports VQCs as more
 noise-fragile than classical models on MedMNIST; another reports them as more robust.
 Nobody has explained the discrepancy. Data scarcity is a plausible resolving variable, and
-the conference results already hint at it.
+the earlier draft's results already hint at it.
 
 ---
 

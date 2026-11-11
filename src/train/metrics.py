@@ -3,7 +3,7 @@ Metrics.
 
 WHY CALIBRATION IS MEASURED HERE
 --------------------------------
-The conference "Precision Paradox" reported F1 collapsing to 0.145 under noise
+The earlier, unsubmitted draft's "Precision Paradox" reported F1 collapsing to 0.145 under noise
 while AUC held at 0.612 with a probability standard deviation of 0.0057. That
 combination is the signature of a CALIBRATION failure - the probability mass
 collapsing toward a single point so argmax stops discriminating - not of the

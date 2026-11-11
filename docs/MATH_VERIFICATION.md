@@ -36,7 +36,7 @@ All amplitudes are **real**. The state occupies a real `2^n`-dimensional submani
 
 **Manuscript correction required.** Describing the encoding as mapping into a
 "complex Hilbert space of dimension 2^n" overstates what happens here — with real
-amplitudes and Pauli-X readout, no complex phase is ever used. The conference draft
+amplitudes and Pauli-X readout, no complex phase is ever used. The earlier, unsubmitted draft
 made this claim; it should not survive into the journal version.
 
 ---
@@ -255,7 +255,7 @@ intervals.
 4. re-normalize:       x' = (x_noisy − μ) / σ
 ```
 
-**Status: VERIFIED.** Ordering is essential and now correct. The conference version
+**Status: VERIFIED.** Ordering is essential and now correct. The earlier draft's code
 clamped in *normalized* coordinates, where `[0,1]` is not a physical bound — normalized
 pixels span roughly `[−2.1, 2.6]` — so that clamp destroyed signal rather than modelling a
 sensor floor and ceiling. Numbers produced under the old protocol are not comparable to

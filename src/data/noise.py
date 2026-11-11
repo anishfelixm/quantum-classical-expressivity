@@ -4,7 +4,7 @@ Analog sensor noise (AWGN).
 THE ORDERING IS THE WHOLE POINT
 -------------------------------
 Noise must be injected in PHYSICAL PIXEL SPACE, not in ImageNet-normalized
-space. The conference version clamped normalized tensors to [0,1], which is
+space. The earlier, unsubmitted draft clamped normalized tensors to [0,1], which is
 not a physical bound - normalized pixels live roughly in [-2.1, 2.6] - so the
 clamp silently destroyed signal rather than modelling a sensor floor/ceiling.
 Numbers produced under that protocol are not comparable to these.

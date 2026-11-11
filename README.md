@@ -32,15 +32,17 @@ written before they ran. **Exploratory**: everything else.
 |---|---|---|
 | 1 | At 5 labelled images per class, the VQC head beats the parameter-matched classical head: ΔAUC **+0.0142** [+0.0025, +0.0256], p_adj = 0.026. | confirmatory |
 | 2 | The advantage shrinks with data: slope **−0.0046** per doubling of n [−0.0070, −0.0022], p_adj = 0.002. At n ≥ 50 the matched head is ahead (descriptive). | confirmatory |
-| 3 | BloodMNIST carries the advantage. Without it, Δ(5) = +0.0041 [−0.0071, +0.0155]. It reverses at d = 8, is null at d = 16 and is absent with full training data. | exploratory |
+| 3 | BloodMNIST carries the advantage. Without it, Δ(5) = +0.0041 [−0.0071, +0.0155]. It reverses at d = 8, is null at d = 16 and is not detected with full training data. | exploratory |
 | 4 | It exists **only with a learned projection**. With the projection frozen (PCA or random), the VQC head is worse than the matched head at every n: −0.0301 and −0.0190 at n = 5. | pre-specified follow-up |
-| 5 | Function-class **restriction** as the cause is neither established nor excluded. A smaller classical head shows no scarcity-dependent benefit in two runs. | confirmatory + follow-up |
-| 6 | A direct fit over the VQC's own function class (the 81-term trigonometric basis) beats the VQC at n ≥ 10, by 0.016–0.021 AUC. | confirmatory |
+| 5 | Function-class **restriction** as the cause: not supported in the confirmatory run or the follow-up. With the larger classical head at its own selected learning rate, the smaller head leads at n = 5 and 10 and falls behind at n = 50 (slope −0.0039 [−0.0057, −0.0020]); that pattern depends on the larger head's rate. Consistent with regularisation, not established. | confirmatory + follow-up + exploratory |
+| 6 | A direct fit over the VQC's own function class (the 81-term trigonometric basis) beats the VQC at n ≥ 10, by 0.016–0.021 AUC. On CPU and on raw z the VQC never significantly beats it either. | confirmatory; exploratory (CPU, raw z) |
 | 7 | Data re-uploading (a wider frequency spectrum) helps at n ≥ 10. At n = 10 this is the **opposite** of the prediction written before the run. | confirmatory |
 | 8 | Reading out two-qubit correlators ⟨XᵢXⱼ⟩ as well as ⟨Xᵢ⟩ helps (+0.011). | confirmatory |
 | 9 | Under sensor noise, macro-F1 collapses while AUC holds for **every** small head, classical or quantum. The cause is the decision threshold, not miscalibration: the VQC's calibration error is among the lowest of seven heads. | confirmatory + descriptive |
 | 10 | With frozen features, compressing the 256 features to d = 4 costs AUC on BloodMNIST at every n (+0.018 to +0.055) and on PathMNIST at small n (+0.023 at n = 5), and nothing detectable on the two binary sets. Both pre-written predictions failed. | exploratory (Amendment 18, 10 seeds) |
 | 11 | Under the VQC head, the projection leaves about one fewer of four latent coordinates unsaturated at n = 5, at the same learning rate. This does not track the advantage. | exploratory |
+| 12 | The tanh·π/2 squash applied to every head does **not** explain the advantage. It costs the VQC +0.013 to +0.020 AUC at every n, more than it costs the matched head; with both heads on raw z, each at its own tuned rate, the VQC's lead at n = 5 is **+0.0198** [+0.0104, +0.0307]. Removing it from the matched head alone gives +0.0002, which is why both sides were tested. | exploratory (Amendments 28, 31, 32) |
+| 13 | The 24-parameter re-uploading circuit beats a 2,500-parameter fit of its own function class at n = 5 and 10 in all six versions run (GPU/CPU, with/without clipping, inherited/selected rate), and is behind at n = 100. | exploratory, not parameter-matched |
 
 Of the 23 confirmatory tests, 14 were supported, 1 came out opposite to its
 prediction, 1 showed a difference where none was predicted, and 7 were not
@@ -58,8 +60,10 @@ supported. Every number, with its interval, is in
 
 **In one sentence.** A small, confirmatory, scarcity-dependent advantage of a
 VQC head over a parameter-matched classical head exists, but only when a learned
-projection adapts upstream of it. Its cause is not identified, and the head
-itself computes a classical function.
+projection adapts upstream of it; the head computes a classical function and
+never significantly beats a classical model of that function, and the pattern
+of small learners beating large ones at small n is consistent with
+regularisation (exploratory), not with quantum advantage.
 
 ---
 
@@ -143,13 +147,15 @@ hidden an effect.
 | Confound | Fix |
 |---|---|
 | The first "parameter-matched" control was rank-limited | `matched_param_fullrank`, plus `low_rank`, whose parity identity holds at every d |
-| Gradient clipping at 1.0 bound on classical arms and never on the VQC, acting as a per-arm learning-rate multiplier | clip at 20.0, with pre-clip norms logged. The logs show 20.0 still binds on the Fourier heads (epoch means above 20 in 1,053 of 70,673 epochs for the re-uploading Fourier head) and never on a circuit. Every reported run is being re-executed with every step recorded, and without clipping where it acted (Amendment 21) |
+| Gradient clipping at 1.0 bound on classical arms and never on the VQC, acting as a per-arm learning-rate multiplier | clip at 20.0, with every step's pre-clip norm recorded. 20.0 still acted in about one run in ten, mostly in Fourier heads (and in 59 circuit runs). Every run in which it acted was re-run without clipping, and every result is reported both ways (Amendments 21, 27, 30–32) |
 | Checkpoints selected on macro-F1 while AUC was reported | selection on validation AUC (Amendment 2); F1-selected results reported as a sensitivity check |
 | One shared learning rate, while gradient scales differ about 5× across arms | per-arm rates tuned on validation, on seeds disjoint from the confirmatory seeds (`09`) |
 | Duplicated Fourier frequencies (both ω and −ω) | one representative per ±ω pair |
 | Weight decay applied to classical arms only | identical weight decay for every arm, quantum parameters included |
 | Sensor noise clamped in normalised coordinates, and added after upsampling | noise added at native resolution, in physical pixel space: inverse-normalise, add, clamp to [0, 1], re-normalise |
 | BH correction too lenient if more tests were computed than declared | m = max(declared, computed); m = 23 |
+| The tanh·π/2 squash was chosen for the circuit but applied to every head | the VQC, matched and Fourier heads were also trained on raw z, each at a rate tuned for raw z (Amendments 28, 31, 32) |
+| Arms added after tuning used an inherited learning rate | the tuning procedure was re-run for 11 such configurations; the comparisons where a rate was below the best were re-run at the selected rate (Amendments 29, 31) |
 
 Other design choices:
 - **Scarcity is absolute** (n ∈ {5, 10, 20, 50, 100} per class), never a
@@ -182,6 +188,9 @@ Other design choices:
   |ΔAUC| < 0.01.
 - **Seeds.** 40 confirmatory seeds, with learning rates selected on 5 disjoint
   tuning seeds.
+- **Re-execution.** Every reported run (35,740: 20,220 on GPU, 15,520 on CPU)
+  was executed again with the code of the commit that recorded it, and
+  reproduced its stored results bit for bit on the device type that recorded it.
 
 ---
 
@@ -313,7 +322,7 @@ literature, which is why the controls are worth reporting:
 | "Latent Reshaping": quantum gradients reshape the encoder favourably | not supported (H-S4) |
 | "Precision Paradox": the hybrid's F1 collapses under noise while AUC holds | the same happens to the classical control; a decision-threshold effect common to every small head |
 | "Zombie State", exclusive to the hybrid and caused by tanh saturation | tanh·π/2 is applied to every arm here; the effect is not exclusive |
-| Data abundance regularises the VQC | no VQC advantage at full data |
+| Data abundance regularises the VQC | no VQC advantage detected at full data |
 
 The protocol changed as well:
 - **Learning rates:** per-arm tuned rates replaced fixed ones.
@@ -334,7 +343,7 @@ of this study.
 ## Environment
 
 Python 3.10 · torch 2.4.1+cu118 · PennyLane 0.42.3 · NumPy 1.26.4 · medmnist 3.0.2.
-Simulator: `default.qubit`, `diff_method="backprop"` (agrees with adjoint to 3e-7).
+Simulator: `default.qubit`, `diff_method="backprop"` (agrees with adjoint to a relative 4e-7).
 
 ```bash
 conda create -n qml_v2 python=3.10 -y && conda activate qml_v2
@@ -355,7 +364,10 @@ MedMNIST is downloaded automatically into `artifacts/` on first use.
 - **Data:** 28×28 MedMNIST images, upsampled; four datasets.
 - **Model:** one backbone.
 - **Mechanism:** the cause of the n = 5 advantage is not identified beyond its
-  need for a learned projection.
+  need for a learned projection; the regularisation reading rests on exploratory
+  checks.
+- **Squash and tuned-rate checks:** d = 4 only, on CPU; one learning rate per
+  arm, pooled over n.
 
 ## References
 

@@ -144,7 +144,7 @@ Parity identities: `MatchedParamFullRank` d² + 2d = 6d ⟺ d = 4 only;
 - Single-encoding VQC output in the 3^d span, residual 1e-16; wrong-frequency
   control fails (0.908). Re-upload output in the {−2..2}^d span (< 1e-8 test
   suite; 2.21e-7 `verify_v40`); truncated basis fails (0.469).
-- Encoded amplitudes are **real**. The conference "ℂ¹⁶" claim must not reach the draft.
+- Encoded amplitudes are **real**. The earlier, unsubmitted draft's "ℂ¹⁶" claim must not reach the manuscript.
 - `diff_method="backprop"`; adjoint agrees to 3e-7.
 - Frozen backbone: 0 parameters, 0 buffers changed; negative control without
   `set_bn_eval()` drifts 45 buffers. Adaptive: backbone gradient non-zero for
@@ -182,7 +182,7 @@ Each of these was believed at some point and is now withdrawn:
 
 | Withdrawn | Replaced by |
 |---|---|
-| Conference: Hilbert-space expressivity, Latent Reshaping, Precision Paradox, Glass Cannon, Zombie State, data abundance as regulariser | see `WORK_REMAINING.md` §3 |
+| Earlier, unsubmitted draft: Hilbert-space expressivity, Latent Reshaping, Precision Paradox, Glass Cannon, Zombie State, data abundance as regulariser | see `WORK_REMAINING.md` §3 |
 | v3.0 (Aug): "the advantage is an artifact; no parameter-efficiency advantage" | H-P1, H-P2 supported |
 | Outline v2.0: Lipschitz bound as lead result | scale artifact (§5) |
 | 4 Oct: "restriction refuted" | not established, not excluded (Amendment 17) |
@@ -242,8 +242,9 @@ Exact parity at three dimensions, function-class controls for both encodings,
 capacity accounting, powered frozen-projection controls, a 23-test family under
 one correction, the squash tested on every main head at tuned rates, 35,740
 runs re-executed bit for bit, per-sample predictions released — together these are stronger
-than the subfield's norm. A paper that withdraws its own conference claims
-using controls it built reads as careful.
+than the subfield's norm. The earlier draft was never submitted or
+published, so nothing is retracted; the paper reports a study whose controls
+were built to test claims of that kind.
 
 **Against.** The effect is small and carried by one dataset. The cause is not
 identified; the regularisation reading is exploratory. Simulation only, 28×28

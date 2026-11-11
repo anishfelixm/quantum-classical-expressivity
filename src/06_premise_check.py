@@ -11,7 +11,7 @@ If d=4 performs as well as d=256, that premise is empty. There is no
 compression penalty to bypass, and the paper is about data scarcity only - a
 different, narrower claim.
 
-This is not a hypothetical worry. The conference manuscript reported 0.9046 AUC
+This is not a hypothetical worry. The earlier, unsubmitted draft reported 0.9046 AUC
 on BreastMNIST at d=4 with 100% data, which is close to published unbottlenecked
 ResNet-18 MedMNIST benchmark territory. And in that same table the classical
 LINEAR head won at 100% data, which is exactly what you would see if the

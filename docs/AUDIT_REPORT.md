@@ -138,7 +138,7 @@ reviewer would find.
 | Untuned experiments | `10_capacity`, `12_bottleneck` and `07_hardware_noise` ran at the 1e-3 default; `12_bottleneck` with 5 seeds, `10_capacity` with 10. The two mechanism tests were rerun at 1e-2 with 40 seeds (Amendments 16, 17) |
 | Statistical scope | nested bootstrap treats seeds and test images as random, datasets as fixed |
 | Image resolution | 28×28 upsampled to 224; MedMNIST+ now offers native 224×224 |
-| Single backbone | ResNet-18 truncated at layer3 — inherited from the conference paper; state why |
+| Single backbone | ResNet-18 truncated at layer3 — inherited from the earlier, unsubmitted draft; state why |
 | Simulation only | shot and depolarising noise as feasibility; depolarising AUC-invariance proven for binary tasks |
 | Follow-up learning rate | tuned under a learned bottleneck; reused, not re-tuned, for frozen ones |
 | Readout basis | Pauli-X rather than the common Pauli-Z; immaterial because the variational layer applies arbitrary rotations |
@@ -230,7 +230,7 @@ repo snapshot, environment; SHA-256 verified; second copy on Google Drive).
 
 1. Commit these document corrections.
 2. `generate_paper_plots.py` — figures from the bootstrap caches, no GPU needed.
-3. Manuscript from the conference `main.tex`, per `PAPER_OUTLINE.md` v3.1.
+3. Manuscript from the earlier, unsubmitted draft's `main.tex`, per `PAPER_OUTLINE.md` v3.1.
 4. Citation check; cover letter.
 5. Update `LowRankHead`'s docstring (§2.5) — a docstring-only change; rerun the
    24-parameter parity check afterwards anyway.

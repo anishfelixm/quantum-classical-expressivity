@@ -51,7 +51,7 @@ WHAT IS REPORTED AT EVERY NOISE LEVEL
 AUC, Macro-F1, balanced accuracy, average precision, sensitivity, specificity,
 ECE and predicted-probability spread.
 
-Reporting all of them is the point. The conference paper's "Zombie State" - AUC
+Reporting all of them is the point. The earlier, unsubmitted draft's "Zombie State" - AUC
 0.6118 with probability standard deviation 0.0057 - is the signature of a
 CALIBRATION failure, not a decision-boundary failure. If AUC holds while F1
 collapses, the model still ranks cases correctly and only the threshold has

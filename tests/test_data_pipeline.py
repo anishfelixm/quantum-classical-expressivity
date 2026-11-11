@@ -3,7 +3,7 @@ Data pipeline tests.
 
 These guard the three loader properties the scarcity claim depends on:
 every class present, validation subsampled, sampling reproducible from seed.
-Plus the noise round-trip, where an ordering mistake in the conference version
+Plus the noise round-trip, where an ordering mistake in the earlier, unsubmitted draft's code
 made sigma=0 non-identity.
 
 Run:  python -m pytest tests/test_data_pipeline.py -v -s
@@ -82,7 +82,7 @@ def test_noise_zero_sigma_is_identity():
 def test_noise_respects_physical_bounds():
     """
     After the four-step round trip, de-normalized pixels must lie in [0,1].
-    The conference version clamped in NORMALIZED space, where [0,1] is not a
+    The earlier draft's code clamped in NORMALIZED space, where [0,1] is not a
     physical bound - that clamp destroyed signal instead of modelling a sensor.
     """
     mean = torch.tensor(config.NORM_MEAN).view(1, 3, 1, 1)

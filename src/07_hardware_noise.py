@@ -62,7 +62,7 @@ predicted probabilities collapse toward uniform: CALIBRATION degrades while
 RANKING survives. ECE, Macro-F1 and probability spread are where it shows, and
 they are printed alongside AUC for exactly that reason.
 
-The conference paper described a similar pattern under SENSOR noise (its
+The earlier, unsubmitted draft described a similar pattern under SENSOR noise (its
 "Zombie State"). That observation does not carry over: under sensor noise the
 journal's controls find the F1 collapse in every small head, with the VQC's
 calibration error among the lowest (docs/RESULTS.md section 3). The mechanism
