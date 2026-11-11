@@ -2656,3 +2656,126 @@ without clipping (`CU_38`, `CU_39`), with the step-level prefix check and the
   with the same prominence beside H-S2, in the Abstract if at n = 5, with the
   caveat that the 324-parameter model and the 24-parameter circuit differ in
   size, which the paper already discusses.
+
+
+## Outcomes of Amendments 30, 31 (addition) and 32 — recorded 11 November 2026
+
+Nothing above this line is edited. Every run was made on Colab CPU (High-RAM),
+on AMD EPYC 7B12, apart from the quarantined Intel session named in the
+second Amendment 30 note. Outputs (`*.json`, `stats_*.txt`, replay and step
+logs) are in `cpu_reruns/` on Drive.
+
+**Amendment 30 (final).** Block C was repeated on AMD EPYC 7B12. Analyses at
+commit `88d14745`.
+- **P1 holds** at step level for all 458 runs (`build_unclipped_view.py
+  --check-steps`):
+  - `31_entangling_range`: 9 of 9 (13,948 steps compared);
+  - `32_squash`: 100 of 100 (115,269 steps);
+  - `34_lr_inherited`: 349 of 349 (75,161 steps).
+
+  In all, 204,378 steps were compared. At epoch level, block C gave 201 PREFIX
+  IDENTICAL and 148 "not compared" (no per-epoch history).
+- **P2 holds.** Without clipping, every arm selects the same rate. The gap of
+  `fourier_rff_r2` grows from 0.0053 to 0.0125. Every other gap is unchanged.
+  Output: `lr_inherited_unclipped.json`.
+- **P3 holds.** `squash_cost` n = 5 is +0.0153 [+0.0092, +0.0221] and
+  `primary_nosquash` n = 5 is +0.0002 [−0.0099, +0.0104], both unchanged.
+  No estimate of the Amendment 28 analysis moves by more than 0.0001.
+  Output: `squash_check_unclipped.json`.
+- **P4 holds.** The largest |`range_effect`| is 0.0027. `reupload_effect` is
+  +0.0087 [+0.0046, +0.0127] at n = 50 and +0.0086 [+0.0061, +0.0115] at
+  n = 100. No estimate changes at four decimals. Output:
+  `entangling_range_unclipped.json`.
+- Meaning: the statement "every result was recomputed with clipping removed
+  wherever it acted" now covers the checks of Amendments 26, 28 and 29.
+
+**Amendment 31, P4 (re-execution).** P4 holds: every run identical.
+- `C_35_lr_nosquash`: 720 of 720 IDENTICAL.
+- `C_36_nosquash`: 800 of 800.
+- `C_37_rate_gaps`: 4,000 of 4,000 (recorded 9 November).
+
+**Amendment 31, addition (without clipping).** Analyses at commit `260d11f5`.
+- Clipping acted in:
+  - `35_lr_nosquash`: 15 of 720 runs;
+  - `36_nosquash`: 0 of 800;
+  - `37_rate_gaps`: 1,602 of 4,000 (`low_rank` 249, `fourier_rff_r2` 1,353).
+- **P5 holds.**
+  - `35`: 15 of 15 step-level identical (9,352 steps).
+  - `37`: 1,602 of 1,602 (306,753 steps).
+- **P6 holds.** On raw z, without clipping, the selections are again VQC 3e-2
+  and matched 1e-2.
+- **P7 fails for P3. P1 and P2 keep their verdicts.**
+  - **P1** still fails: `nosquash_fair` n = 5 is +0.0198 [+0.0104, +0.0307],
+    unchanged.
+  - **P2** still fails: `restriction_tuned` n = 5 is +0.0131
+    [+0.0039, +0.0217], against the unclipped inherited value of +0.0096
+    [+0.0000, +0.0188].
+  - **P3 changes verdict.** Without clipping, `reupload_fc_tuned` n = 5 is
+    +0.0151 [+0.0041, +0.0259]. That is below the unclipped inherited value of
+    +0.0278 [+0.0128, +0.0430], so P3 holds without clipping. It failed with
+    clipping.
+- Other contrasts without clipping:
+  - `nosquash_fair`, `vqc_squash_cost`, `restriction_cpu_inherited` and
+    `restriction_tuned` move by at most 0.0002.
+  - `reupload_fc_cpu_inherited` becomes +0.0278, +0.0176, +0.0083, +0.0019,
+    −0.0035 (n = 5…100), with slope −0.0071 [−0.0102, −0.0040]. These are the
+    GPU values of Amendment 21 P4 to four decimals.
+  - `reupload_fc_tuned` becomes +0.0151, +0.0109, +0.0061, −0.0050, −0.0029.
+  - In all six versions of the re-upload function-class contrast (GPU and CPU;
+    recorded and unclipped; inherited and selected rate), the circuit leads at
+    n = 5 and 10 with intervals above zero, and the estimate at n = 100 is
+    negative.
+- Output: `amendment31_unclipped.json`, `nosquash_rates_unclipped.json`.
+
+**Correction to "Outcome of Amendment 31, main stage".** The slope interval of
+`nosquash_fair` is printed by the analysis as [−0.0061, −0.0020] (upper bound
+−0.00205 before rounding). The record above says −0.0021; use −0.0020.
+
+**Amendment 32.** Commit `260d11f5`.
+- **Stage 1.** `fourier_rff` on raw z selected 1e-2: mean validation AUC
+  0.9034, against 0.9016 at 3e-2. That is not on the edge of the grid.
+  Without clipping it again selects 1e-2. Outputs:
+  `fourier_nosquash_rate.json` and `fourier_nosquash_rate_unclipped.json`.
+- **P4 holds.** `C_38_lr_fourier_nosquash` 360 of 360 IDENTICAL;
+  `C_39_fourier_cpu` 1,600 of 1,600.
+- **P1 holds.** `fc_nosquash`:
+
+  | n | estimate | 95% CI |
+  |---|---|---|
+  | 5 | +0.0063 | [−0.0044, +0.0176] |
+  | 10 | −0.0055 | [−0.0116, +0.0012] |
+  | 20 | −0.0069 | [−0.0121, −0.0018] |
+  | 50 | −0.0075 | [−0.0112, −0.0041] |
+  | 100 | −0.0049 | [−0.0078, −0.0022] |
+
+  Slope −0.0022 [−0.0043, −0.0002]. No interval lies above zero, so the
+  function-class result stands on raw z.
+- **P2 holds.** `fc_squashed_cpu`:
+  - n = 5: −0.0082 [−0.0179, +0.0015], not detected;
+  - n = 10, 20, 50, 100: −0.0188, −0.0199, −0.0200, −0.0167, every p_adj
+    0.0012.
+
+  The GPU values of H-S2 are −0.0095, −0.0187, −0.0212, −0.0203, −0.0161.
+- **P3 holds, on the estimate only.** `fourier_squash_cost` n = 5 is +0.0052
+  [−0.0019, +0.0127]; at n = 10, 20, 50 and 100 it is +0.0028, +0.0014,
+  +0.0018 and +0.0013. Nothing is detected at any n. The squash did not
+  detectably cost the circuit's function class, while it cost the circuit
+  +0.0130 to +0.0197 (Amendment 31).
+- **P5 holds.** Clipping acted in:
+  - `38`: 49 of 360 runs, step-level identical 49 of 49 (32,939 steps);
+  - `39`: 356 of 1,600 runs, step-level identical 356 of 356 (252,347 steps).
+- Without clipping, P1–P3 keep their verdicts, and no estimate moves by more
+  than 0.0002. Output: `amendment32.json`, `amendment32_unclipped.json`.
+
+**Re-execution total (11 November 2026).**
+- **35,740** reported runs are reproduced bit for bit on the device type that
+  recorded them.
+  - GPU: 20,220.
+  - CPU: 15,520 = 80 (full data) + 2,400 (`31`) + 1,600 (`32`) + 3,960 (`34`)
+    + 720 (`35`) + 800 (`36`) + 4,000 (`37`) + 360 (`38`) + 1,600 (`39`).
+- Unclipped re-runs in Amendments 30–32: **2,480** runs (458 + 1,617 + 405).
+  - Every one passed the step-level prefix check.
+  - **805,769** steps were compared: 204,378 + 316,105 + 285,286.
+
+**Experiments frozen.** No further runs are planned. Any later run needs a new
+amendment, written before it runs.

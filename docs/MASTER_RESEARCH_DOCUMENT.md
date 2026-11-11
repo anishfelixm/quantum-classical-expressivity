@@ -2,17 +2,13 @@
 
 **Project:** Quantum–Classical Expressivity Under Extreme Latent Compression
 **Repository:** `github.com/anishfelixm/quantum-classical-expressivity`, branch `feature/journal-expansion`
-**Version 5.2 — 15 October 2026** (v5.1, 13 October, plus Amendments 18–19,
-the run-record verification and its corrections; Amendments 20–21 pending). Supersedes v3.0 (26 August), whose thesis ("the advantage is an
-artifact"; "no parameter-efficiency advantage") was written before the
-confirmatory run and is contradicted by it.
-**Target venue:** IEEE Access. **Status:** writing. Pre-registered runs are
-pending:
-- Amendment 20: a 1,000-epoch budget at every n, and with full data.
-- Amendment 21: every reported run re-executed with every step recorded and
-  its weights saved, and repeated without clipping where clipping acted.
-- Amendment 22: sensitivity of the trained heads.
-- Amendment 23: hardware feasibility of the models as trained.
+**Version 6.0 — 11 November 2026** (v5.2 of 15 October plus Amendments 20–32,
+all run and recorded). Supersedes v3.0 (26 August), whose thesis ("the
+advantage is an artifact"; "no parameter-efficiency advantage") was written
+before the confirmatory run and is contradicted by it.
+**Target venue:** IEEE Access. **Status:** experiments finished and frozen;
+manuscript being revised to `PAPER_PLAN_2026-11-11.md` (kept with the
+manuscript, outside the repository).
 
 See `docs/CLAIMS_LEDGER.md` for the status of every manuscript claim.
 
@@ -25,19 +21,27 @@ See `docs/CLAIMS_LEDGER.md` for the status of every manuscript claim.
 ## 1. The finding
 
 > **A VQC head shows a small, confirmatory, scarcity-dependent advantage over a
-> parameter-matched classical head — but only when a learned projection adapts
-> upstream of it. Isolate the head and it loses at every data level. What
-> causes the advantage is not established: restriction was tested twice and
-> neither confirmed nor excluded.**
+> parameter-matched classical head, but only when a learned projection adapts
+> upstream of it. Isolate the head and it loses at every data level. The
+> circuit never significantly beats a classical model of its own function
+> class. The shared squash does not explain the advantage: with both heads on
+> raw z the lead is larger. In exploratory checks, smaller learners beat larger
+> ones over the same function class at small n, which is consistent with
+> regularisation but does not establish it.**
 
 | Claim | Evidence | Tier |
 |---|---|---|
 | Advantage at n=5: Δ(5) = +0.0142 [+0.0025, +0.0256], p_adj 0.026 | H-P1 | confirmatory |
 | It shrinks with data: slope −0.0046 per doubling, p_adj 0.002 | H-P2 | confirmatory |
-| Carried by BloodMNIST (without it +0.0041 [−0.0071, +0.0155]); reverses at d=8; null at d=16; absent at full data | leave-one-out, d=8/16, full | exploratory |
+| Carried by BloodMNIST (without it +0.0041 [−0.0071, +0.0155]); reverses at d=8; null at d=16; not detected with full data | leave-one-out, d=8/16, full | exploratory |
 | Needs the learned projection: frozen PCA −0.0301, frozen random −0.0190 at n=5, negative at every n | H-S6 follow-up (Am. 16) | pre-specified follow-up |
 | Restriction: no scarcity dependence in either run; a constant smaller-head benefit up to ~0.019 not established, not excluded | H-S5, H-S5 follow-up (Am. 17) | confirmatory + follow-up |
+| Restriction at selected rates (k = 8 at 3e-3): +0.0131 [+0.0039, +0.0217] at n=5, −0.0052 at n=50, slope −0.0039 [−0.0057, −0.0020]; the pattern depends on the k = 8 rate | Am. 31 | exploratory |
+| Re-upload VQC (24) vs fit of its 5^d class (2,500): leads at n=5 and 10 in all six versions (GPU/CPU, clipped/unclipped, inherited/selected rate); negative at n=100 | Am. 16b, 21, 31 | exploratory |
+| Squash cost: matched +0.0153 at n=5; VQC +0.0130 to +0.0197 at every n; `fourier_rff` none detected (+0.0013 to +0.0052) | Am. 28, 31, 32 | exploratory |
+| Both heads on raw z, each at its tuned rate (VQC 3e-2, matched 1e-2): +0.0198 [+0.0104, +0.0307] at n=5; squash removed from the matched head only: +0.0002 [−0.0099, +0.0104] | Am. 31, 28 | exploratory |
 | The VQC loses to a direct fit over its own function class at n ≥ 10 | H-S2 | confirmatory |
+| Same on CPU (−0.0082 ns at n=5; −0.0167 to −0.0200 at n ≥ 10) and on raw z (+0.0063 [−0.0044, +0.0176] at n=5; negative from n=20) | Am. 32 | exploratory |
 | Its output is classical: 3^d trigonometric span, residual 1e-16 | dequantization test | proof + numerics |
 | Bounded output is not robustness; F1 collapse under noise is generic | H-S3, Lipschitz, paired gap | confirmatory + exploratory |
 | With frozen features, compression to d=4 costs AUC on BloodMNIST at every n (+0.018 to +0.055) and on PathMNIST at small n (+0.023 at n=5); nothing detectable on the binary sets. Both predictions failed. (The pre-plan end-to-end check, layer3 trainable, found +0.0018 mean at n=100/full; it does not transfer.) | Amendment 18, 10 seeds | exploratory |
@@ -45,7 +49,8 @@ See `docs/CLAIMS_LEDGER.md` for the status of every manuscript claim.
 
 **Wording.** "An advantage of the VQC head over a parameter-matched classical
 head." Never "quantum advantage". Never "restriction refuted" or "restriction
-explains".
+explains". Never "the squash explains the advantage". "Consistent with
+regularisation", labelled exploratory.
 
 **Title caution.** The manuscript title is about where the advantage comes
 from, not about compression. Amendment 18 shows d=4 is a real constraint with
@@ -67,7 +72,7 @@ image (28x28, upsampled 224x224)
   -> ResNet-18 truncated after layer3, ImageNet-pretrained
   -> global pool -> h (256-d)
   -> bottleneck Linear(256, d)   [learned | frozen PCA | frozen random]
-  -> z_tilde = tanh(z) * pi/2    applied to EVERY arm
+  -> z_tilde = tanh(z) * pi/2    applied to EVERY arm (raw z in Am. 28, 31, 32)
   -> HEAD                        the only thing that varies
   -> Linear(out, C) classifier   shared by every arm
 ```
@@ -186,6 +191,10 @@ Each of these was believed at some point and is now withdrawn:
 | "Compression to d=4 is nearly free" (pre-plan end-to-end check) | false with frozen features on BloodMNIST and on PathMNIST at small n (Amendment 18) |
 | "Per-layer noise reorders 24 of 1,770 pairs" | 7 of 1,770 for the test's readout; median 10 over 1,000 readouts (15 Oct) |
 | "Clipping never binds" | binds on Fourier heads, never on circuits (15 Oct records); Amendment 21 |
+| "Clipping never acts on circuits" | it acted in 59 circuit runs (Amendment 21 P2) |
+| "Without the squash the VQC's lead is not detected" (Amendment 28) | holds only when the squash is removed from the matched head alone; with both on raw z the lead is +0.0198 (Amendment 31) |
+| "Inherited rates are the ones tuning would pick" | false for `low_rank` k = 2, k = 8 and `fourier_rff_r2` (Amendment 29); affected comparisons re-run (Amendment 31) |
+| "Full data: advantage absent" | "not detected" (Amendment 20 P4) |
 | Clip threshold "2× the p95 of 9.62 (`deep_funnel`), max 15.87" | set before run records existed (git `7be3dcf`, 10 Aug 19:30); replaced by measured step norms (Amendment 21) |
 | Pre-tuning gradient norms "0.48–0.76 / 0.97–2.55" | Amendment 3's figures; being recomputed from the diagnostic records (`verify_claims.py` C) before any use |
 
@@ -194,9 +203,11 @@ binding on classical arms only (threshold raised to 20 on 10 August); F1-based c
 frequencies; shared learning rate across arms with ~5× different gradient
 scales; noise injected after upsampling (v1, disclosed); BH anti-conservative
 when computed family > declared; unstratified pooling across angle scales;
-mechanism tests run off the primary's protocol. Found 15 October and being
-tested: clipping at 20 still binding on Fourier heads (Amendment 21); the
-100-epoch cap reached by most runs (Amendment 20).
+mechanism tests run off the primary's protocol; clipping at 20 still binding on
+Fourier heads (Amendment 21); the 100-epoch cap (Amendment 20); the CNOT wiring
+of the re-upload circuit (Amendment 26); the squash chosen for the circuit but
+applied to every head (Amendments 28, 31, 32); inherited learning rates
+(Amendments 29, 31). Sixteen in the manuscript's confound table.
 
 ---
 
@@ -208,7 +219,11 @@ conda env: qml_v2   (exported: conda_env_qml_v2.yml, pip_freeze.txt)
 GPU: A100-SXM4-40GB MIG 3g.20gb (RVCE Kubeflow pod; available on
      15 October for Amendments 20–21)
 simulator: default.qubit + backprop
+CPU (Amendments 25–32): Google Colab Pro, High-RAM, AMD EPYC 7B12 only
+     (an Intel Xeon session diverged at step 1; quarantined)
 ```
+
+Runs since 21 October live on Google Drive, `QML-backup-run/cpu_reruns/`.
 
 Backup dated 2026-10-10 at `C:\Users\Anish\quantum-classical-expressivity-remote-backup`
 and on Google Drive: results (shards, predictions, bootstrap caches, tables,
@@ -225,14 +240,19 @@ the local backup and Google Drive.
 **In favour.** IEEE Access reviews for soundness and welcomes negative results.
 Exact parity at three dimensions, function-class controls for both encodings,
 capacity accounting, powered frozen-projection controls, a 23-test family under
-one correction, per-sample predictions released — together these are stronger
+one correction, the squash tested on every main head at tuned rates, 35,740
+runs re-executed bit for bit, per-sample predictions released — together these are stronger
 than the subfield's norm. A paper that withdraws its own conference claims
 using controls it built reads as careful.
 
 **Against.** The effect is small and carried by one dataset. The cause is not
-identified. Simulation only, 28×28 images, one backbone. The broad point that
-classical baselines usually match VQCs is already published (Bowles et al.
-2024); novelty rests on attribution in the hybrid medical setting.
+identified; the regularisation reading is exploratory. Simulation only, 28×28
+images, one backbone. 32 amendments, which the scorecard of 19 pre-written
+predictions (8 failed) must answer. The broad point that classical baselines
+usually match VQCs is already published (Bowles et al. 2024), and Duong et al.
+(Diagnostics, Oct 2026) already used a Fourier surrogate of a circuit head on
+brain MRI and found the circuit worse. Novelty rests on tracing a confirmed
+positive result to its source in the hybrid medical setting.
 
 **Cannot be promised.** The controls earn a serious hearing; acceptance depends
 on the manuscript and the reviewers.

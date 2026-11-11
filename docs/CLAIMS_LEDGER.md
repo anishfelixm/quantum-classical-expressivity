@@ -18,6 +18,28 @@ text unless its status here is VERIFIED or it is changed to the corrected value.
 Logs named here are in the repository root. "Records" means the shard records.
 `check_paper_facts` refers to `logs_paper_facts.txt` (pod, 15 October).
 
+## Changes of 11 November 2026 (Amendments 26–32) — read first
+
+The tables below are from 15 October and were written against manuscript v3.
+Where a row below conflicts with this section, this section wins. The
+manuscript text that replaces these claims is in
+`PAPER_PLAN_2026-11-11.md`, kept with the manuscript outside the
+repository.
+
+| Claim | Source | Status |
+|---|---|---|
+| "the gain could not be told apart from the shared bound" (draft Abstract, contributions) | Amendments 28, 31 | **WITHDRAWN.** It holds only when the squash is removed from the matched head alone. With both on raw z: +0.0198 [+0.0104, +0.0307] |
+| the squash costs the VQC +0.0130 to +0.0197 at every n, the matched head +0.0153 at n = 5, `fourier_rff` nothing detected | Amendments 28, 31, 32 | VERIFIED (exploratory) |
+| the VQC never significantly beats its function class, on CPU and on raw z | Amendment 32 | VERIFIED (exploratory). Write "never significantly", never "never" |
+| restriction: confirmatory not supported; follow-up not supported after correction; at selected rates a scarcity-dependent pattern (slope −0.0039 [−0.0057, −0.0020]) | Amendments 17, 31 | VERIFIED. Write "consistent with regularisation", labelled exploratory |
+| re-upload circuit leads its 2,500-parameter fit at n = 5 and 10 in six versions | Amendments 16b, 21, 31 | VERIFIED (exploratory) |
+| inherited rates were never checked | Amendment 29 | **REPLACE.** Checked: 8 of 11 selected; the affected comparisons were re-run (Amendment 31) |
+| 28,260 runs re-executed (20,220 GPU, 8,040 CPU) | Records of 11 November | **CORRECTED: 35,740 (20,220 GPU, 15,520 CPU)** |
+| every result recomputed without clipping | Amendments 21, 27, 30, 31, 32 | VERIFIED. Clipping acted in 2,480 runs of the later checks; every one was re-run and is step-level identical (805,769 steps) |
+| fifteen or sixteen confounds | confound table | **sixteen** once the squash row is added |
+| 19 exploratory checks with pre-written predictions: 8 held, 8 failed, 3 in part | `PAPER_PLAN` `tab:checks` | VERIFIED against the plan's records; check each prediction's wording before submission |
+| related work up to date | literature check of 11 November (`PAPER_PLAN` Part 1) | ADD Duong et al. 2026, Cruz et al. 2026, Gillani et al. 2026 |
+
 ## Abstract and introduction
 
 | Claim | Source | Status |

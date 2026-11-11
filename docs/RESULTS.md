@@ -4,9 +4,10 @@
 latent-saturation reproduction (§3) and the pre-plan compression check (§3).
 Added 15 October: the compression check in the study's own frozen setting
 (Amendment 18), the n = 5 training-budget check (Amendment 19), the run-record
-facts and corrections (§3, "Protocol checks"). Amendments 20 (budget at every n)
-and 21 (clipping removed) are pre-registered and pending; their results go in
-the same section.**
+facts and corrections (§3, "Protocol checks"). Added 11 November: §8, the results of Amendments 20–32 (budget,
+clipping, re-execution, trained heads, hardware, gradients, wiring, the squash,
+learning rates, raw z), and a revised §5. Where §1–§7 and §8 differ, §8 is
+current. The full records are in `analysis_plan.md`.**
 Supersedes the
 4 October version, which called the restriction mechanism "refuted" — the
 powered follow-up (Amendment 17) does not support that word (§2).
@@ -461,37 +462,47 @@ dataset-level patterns give no support to that reading.
 
 ---
 
-## 5. The findings, in one list
+## 5. The findings, in one list (revised 11 November 2026)
 
 1. A small advantage of the VQC head over a parameter-matched classical head at
-   five labels per class, shrinking with data — **confirmatory**.
-2. It is carried by one dataset, reverses at d=8, is null at d=16 and absent at
-   full data — **exploratory scope**.
+   five labels per class, shrinking with data — **confirmatory**
+   (+0.0142 [+0.0025, +0.0256]; slope −0.0046).
+2. It is carried by one dataset, reverses at d=8, is null at d=16 and not
+   detected with full data — **exploratory scope**.
 3. It exists only with a learned projection; frozen, the VQC head loses at every
    n — **pre-specified follow-up**.
-4. Restriction as its cause: not established, not excluded; no scarcity
-   dependence — **confirmatory + pre-specified follow-up**.
+4. The squash shared by every head does not explain it. The squash cost the VQC
+   +0.0130 to +0.0197 at every n, more than it cost the matched head. With both
+   on raw z, each at its tuned rate, the lead is +0.0198 [+0.0104, +0.0307].
+   Removing the squash from the matched head alone gives +0.0002 — **exploratory
+   (Amendments 28, 31)**.
 5. The VQC loses to a direct fit over its own function class at n ≥ 10 —
-   **confirmatory**.
-6. Re-uploading helps at n ≥ 10 (opposite to its pre-written prediction) —
-   **confirmatory**; it beats a 2,500-parameter fit of its own class at 5–10
-   shots and loses at 100 — **follow-up, not parameter-matched**.
-7. Richer readout helps — **confirmatory**.
-8. Under sensor noise F1 collapses while AUC holds, for every small head; the
+   **confirmatory**. On CPU and on raw z it never significantly beats that fit —
+   **exploratory (Amendment 32)**. The squash did not detectably cost the fit.
+6. Restriction: not supported in the confirmatory run or the follow-up. With
+   k = 8 at its selected rate, the smaller head leads at n = 5 and 10 and falls
+   behind at n = 50 (slope −0.0039 [−0.0057, −0.0020]). The pattern depends on
+   the k = 8 rate — **confirmatory + follow-up + exploratory (Amendment 31)**.
+7. Re-uploading helps at n ≥ 10 (opposite to its pre-written prediction) —
+   **confirmatory**. The 24-parameter re-upload circuit beats a 2,500-parameter
+   fit of its own class at n = 5 and 10 in all six versions, and is behind at
+   n = 100 — **exploratory, not parameter-matched**. The wiring does not explain
+   re-uploading's gain (Amendment 26).
+8. Richer readout helps — **confirmatory**.
+9. Under sensor noise F1 collapses while AUC holds, for every small head; the
    VQC's excess is modest — **confirmatory + exploratory**. It is a
-   decision-threshold effect, not miscalibration: the VQC's ECE is among the
-   lowest of seven heads — **descriptive**. Bounded output is not robustness —
-   **exploratory**.
-9. The projection trained through the VQC head leaves about one fewer of four
-   latent coordinates unsaturated at n=5 than under the matched head, at an
-   identical learning rate; this does not track the AUC advantage. Both
-   pre-written predictions were wrong — **exploratory (E8)**.
-10. With frozen features, compressing the 256 features to d=4 costs AUC on
-    BloodMNIST at every n (+0.018 to +0.055) and on PathMNIST at small n
-    (+0.023 at n=5), and nothing detectable on the two binary sets. Both
-    pre-written predictions failed — **exploratory, Amendment 18, 10 seeds**.
-    The earlier end-to-end check (trainable layer3), which found almost no
-    cost at n=100 and full data, does not transfer to the frozen setting.
+   decision-threshold effect, not miscalibration — **descriptive**. The trained
+   VQC is more sensitive than the matched head (200/200, 174/200) —
+   **exploratory (Amendment 22)**.
+10. The projection trained through the VQC head leaves about one fewer of four
+    latent coordinates unsaturated at n=5; this does not track the advantage —
+    **exploratory (E8)**.
+11. With frozen features, compression to d=4 costs AUC on BloodMNIST at every n
+    — **exploratory, Amendment 18**.
+12. Taken together, findings 6 and 7 (small learners beat large ones over the
+    same class at small n), with findings 3 and 5, are consistent with
+    regularisation by a small head trained with its projection. They do not
+    establish it — **interpretation of exploratory results**.
 
 ---
 
@@ -594,6 +605,11 @@ Amendments 4–8 by **ec5cae6, 27 Aug**; unchanged until bd833ba, 30 Sep.
 | H-S6 follow-up, E7 | 4,000 | 3 Oct 11:18 | 30e57d9 | 1–16 (Amendment 16) |
 | H-S5 follow-up | 1,600 | 6 Oct 14:42:28 | 17506e8 | 1–17 (Amendment 17, committed 14:42:01) |
 
+Experiments after 6 October (Amendments 18–32) are not in this table. Each
+ran on a commit whose plan already contained its amendment (see the records in
+`analysis_plan.md`); their first-run dates are to be read from the run records
+for the manuscript's provenance table.
+
 Every experiment ran on a commit whose analysis plan already contained its
 hypothesis and, for the follow-ups, its written prediction. Two qualifications
 belong in the paper: the primary crossover was first noticed in diagnostic data
@@ -624,3 +640,115 @@ at 1e-2 in the follow-ups) · `12_bottleneck` 5 seeds, `10_capacity` 10 seeds ·
 datasets treated as fixed in the nested bootstrap · 28×28 images upsampled to
 224 · one backbone (ResNet-18 to layer3) · simulation only · follow-up rate
 tuned under a learned bottleneck · Pauli-X readout.
+
+---
+
+## 8. Results of Amendments 20–32 (recorded 22 October – 11 November 2026)
+
+Full records, with predictions and verdicts, are in `analysis_plan.md`. All
+contrasts are pooled AUC differences, 40 seeds, nested bootstrap B = 2000,
+unless stated. "Exploratory" applies to everything in this section.
+
+### 8.1 Reproduction and clipping
+
+- **Re-execution:** 35,740 reported runs are reproduced bit for bit on the
+  device type that recorded them.
+  - GPU: 20,220.
+  - CPU: 15,520 = full data 80 + `31` 2,400 + `32` 1,600 + `34` 3,960 + `35` 720
+    + `36` 800 + `37` 4,000 + `38` 360 + `39` 1,600.
+- **Clipping in the main study:** it acted in 2,000 of 20,300 runs. Each was
+  re-run without it (the full-data runs on GPU; the six CPU full-data runs also
+  on CPU, Amendment 27).
+  - 0 of 23 confirmatory verdicts change.
+  - H-S4 moves from −0.0048 to −0.0089, still not supported.
+  - E7 changes (§8.5).
+- **Clipping in Amendments 26–32:** it acted in 2,480 runs. Each was re-run
+  without clipping and is step-level identical up to the first clipped step
+  (805,769 steps). Selections and verdicts are unchanged, except Amendment 31 P3
+  (§8.5).
+- **Device:** all CPU runs are on AMD EPYC 7B12. An Intel Xeon session diverged
+  at step 1 and is quarantined.
+
+### 8.2 Budget (Amendment 20)
+
+- Full data, VQC − matched (5 seeds):
+  - GPU, 100 epochs: +0.0004 [−0.0081, +0.0131];
+  - GPU, 1,000 epochs: +0.0074 [−0.0009, +0.0199];
+  - recorded on CPU: −0.0068 [−0.0175, +0.0053].
+- Say "not detected", never "absent".
+- At 1,000 epochs (10 seeds), the slope of the primary contrast is −0.0068.
+
+### 8.3 The squash (Amendments 28, 31, 32)
+
+All on CPU. Rates: VQC 1e-2 with the squash, 3e-2 on raw z; matched head
+1e-2; `fourier_rff` 1e-2.
+
+| Contrast | n = 5 | 10 | 20 | 50 | 100 |
+|---|---|---|---|---|---|
+| Matched: raw − squashed | **+0.0153** [+0.0092, +0.0221] | **+0.0070** | **+0.0053** | +0.0028 | **+0.0050** |
+| VQC: raw (3e-2) − squashed (1e-2) | **+0.0197** [+0.0125, +0.0263] | **+0.0162** | **+0.0144** | **+0.0143** | **+0.0130** |
+| `fourier_rff`: raw − squashed | +0.0052 [−0.0019, +0.0127] | +0.0028 | +0.0014 | +0.0018 | +0.0013 |
+| VQC − matched, both squashed | **+0.0155** [+0.0040, +0.0279] | +0.0001 | −0.0037 | **−0.0077** | **−0.0078** |
+| VQC squashed − matched raw | +0.0002 [−0.0099, +0.0104] | −0.0069 | **−0.0091** | **−0.0105** | **−0.0127** |
+| VQC − matched, both raw | **+0.0198** [+0.0104, +0.0307] | **+0.0093** | +0.0054 | +0.0039 | +0.0003 |
+| VQC − `fourier_rff`, both squashed | −0.0082 [−0.0179, +0.0015] | **−0.0188** | **−0.0199** | **−0.0200** | **−0.0167** |
+| VQC − `fourier_rff`, both raw | +0.0063 [−0.0044, +0.0176] | −0.0055 | **−0.0069** | **−0.0075** | **−0.0049** |
+
+- Bold: p_adj ≤ 0.05, BH within each row (m = 5).
+- Without clipping, no value moves by more than 0.0002.
+
+### 8.4 Learning rates (Amendments 29, 31, 32)
+
+- **Inherited rates:** 8 of 11 configurations select their inherited 1e-2.
+  - `low_rank` k = 2: selects 3e-3, gap 0.0046.
+  - `low_rank` k = 8: 3e-3, gap 0.0092.
+  - `fourier_rff_r2`: 3e-3, gap 0.0053 (0.0125 without clipping).
+- **Raw z:** VQC 3e-2 (the gap of 1e-2 is 0.0137); matched 1e-2;
+  `fourier_rff` 1e-2.
+- Without clipping, every selection is the same.
+
+### 8.5 Restriction and the re-upload function class (Amendments 21, 31)
+
+**Δ₀ = k = 0 − k = 8:**
+
+| Version | n = 5 | 10 | 20 | 50 | 100 | slope |
+|---|---|---|---|---|---|---|
+| Follow-up, both 1e-2, GPU | +0.0097 [+0.0007, +0.0187] | +0.0118 | +0.0041 | +0.0019 | +0.0059 | −0.0016 |
+| Both 1e-2, CPU | +0.0097 | +0.0118 | +0.0040 | +0.0018 | +0.0063 | −0.0015 |
+| k = 8 at 3e-3, CPU | **+0.0131** [+0.0039, +0.0217] | **+0.0074** | −0.0027 | **−0.0052** | −0.0023 | −0.0039 [−0.0057, −0.0020] |
+
+**Re-upload VQC − `fourier_rff_r2`:**
+
+| Version | n = 5 | 10 | 20 | 50 | 100 |
+|---|---|---|---|---|---|
+| Inherited, GPU, recorded | +0.0150 | +0.0148 | +0.0029 | −0.0002 | −0.0038 |
+| Inherited, GPU, unclipped | +0.0278 | +0.0176 | +0.0083 | +0.0019 | −0.0035 |
+| Inherited, CPU, recorded | +0.0150 | +0.0147 | +0.0030 | −0.0002 | −0.0037 |
+| Inherited, CPU, unclipped | +0.0278 | +0.0176 | +0.0083 | +0.0019 | −0.0035 |
+| Fit at 3e-3, CPU, recorded | +0.0159 | +0.0112 | +0.0065 | −0.0045 | −0.0026 |
+| Fit at 3e-3, CPU, unclipped | +0.0151 | +0.0109 | +0.0061 | −0.0050 | −0.0029 |
+
+- In every version the circuit leads at n = 5 and 10 with intervals above zero.
+- Amendment 31 P3 (the selected-rate lead below the inherited one) fails as
+  recorded and holds without clipping.
+
+### 8.6 Wiring (Amendment 26)
+
+- Range-1 VQC − VQC is +0.001 to +0.003 at every n, with every interval
+  including zero.
+- Re-upload − range-1 VQC is +0.007 to +0.009 at n ≥ 10, intervals above zero.
+  At n = 5: −0.0001.
+- Without clipping, no estimate changes.
+
+### 8.7 Trained heads, hardware, gradients (Amendments 22–24)
+
+- **Trained-head sensitivity:** VQC / matched ratio 2.74 (uniform inputs,
+  200/200) and 1.82 (test latents, 174/200). The ratio against `low_rank` at
+  d = 8 and 16 is 2.03 to 2.58.
+- **Hardware (tuned models):**
+  - 1,024 shots retain 0.988–0.9995 of exact AUC;
+  - end-of-circuit depolarising noise changes binary AUC by ≤ 1.1×10⁻¹⁶;
+  - per-layer noise at p ≤ 0.01 changes AUC by ≤ 0.0001.
+- **Gradient variance:** the project's near-identity initialisation gives the
+  smaller variance in 8 of 9 (d, L).
+
