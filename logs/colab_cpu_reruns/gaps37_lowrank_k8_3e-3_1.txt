@@ -1,0 +1,479 @@
+
+Trainable capacity at d=4, bottleneck=learned:
+  low_rank                 bottleneck= 1028 head=  72 clf= 10 total= 1110 head=6.5%
+
+Experiment 1 | 400 cells | ns=37_rate_gaps | device=cpu | sha=10ce9593
+  augment=False L=2 use_tanh=True bottleneck=learned angle_scale=1.5708 save_predictions=True
+[1/400] breastmnist r=5 d=4 froz s=123 low_rank                 auc=0.6990 f1=0.5510 ETA 0.1h
+[2/400] breastmnist r=5 d=4 froz s=777 low_rank                 auc=0.4279 f1=0.3138 ETA 0.1h
+[3/400] breastmnist r=5 d=4 froz s=31337 low_rank                 auc=0.7141 f1=0.6490 ETA 0.1h
+[4/400] breastmnist r=5 d=4 froz s=271828 low_rank                 auc=0.6032 f1=0.6090 ETA 0.1h
+[5/400] breastmnist r=5 d=4 froz s=1414 low_rank                 auc=0.6518 f1=0.6196 ETA 0.1h
+[6/400] breastmnist r=5 d=4 froz s=1729 low_rank                 auc=0.6201 f1=0.4222 ETA 0.1h
+[7/400] breastmnist r=5 d=4 froz s=2718281 low_rank                 auc=0.3868 f1=0.2592 ETA 0.1h
+[8/400] breastmnist r=5 d=4 froz s=1000003 low_rank                 auc=0.5714 f1=0.4616 ETA 0.1h
+[9/400] breastmnist r=5 d=4 froz s=4321 low_rank                 auc=0.7047 f1=0.2732 ETA 0.1h
+[10/400] breastmnist r=5 d=4 froz s=13 low_rank                 auc=0.7063 f1=0.5969 ETA 0.1h
+[11/400] breastmnist r=5 d=4 froz s=555 low_rank                 auc=0.6631 f1=0.6248 ETA 0.1h
+[12/400] breastmnist r=5 d=4 froz s=314159 low_rank                 auc=0.6980 f1=0.5610 ETA 0.1h
+[13/400] breastmnist r=5 d=4 froz s=77777 low_rank                 auc=0.7341 f1=0.6521 ETA 0.1h
+[14/400] breastmnist r=5 d=4 froz s=33 low_rank                 auc=0.5576 f1=0.2178 ETA 0.1h
+[15/400] breastmnist r=5 d=4 froz s=121393 low_rank                 auc=0.6017 f1=0.5533 ETA 0.1h
+[16/400] breastmnist r=5 d=4 froz s=496 low_rank                 auc=0.5541 f1=0.4454 ETA 0.1h
+[17/400] breastmnist r=5 d=4 froz s=28657 low_rank                 auc=0.6289 f1=0.2121 ETA 0.1h
+[18/400] breastmnist r=5 d=4 froz s=46341 low_rank                 auc=0.6188 f1=0.5687 ETA 0.1h
+[19/400] breastmnist r=5 d=4 froz s=720720 low_rank                 auc=0.6170 f1=0.5553 ETA 0.1h
+[20/400] breastmnist r=5 d=4 froz s=10007 low_rank                 auc=0.7304 f1=0.6389 ETA 0.1h
+[21/400] breastmnist r=10 d=4 froz s=123 low_rank                 auc=0.7231 f1=0.6184 ETA 0.1h
+[22/400] breastmnist r=10 d=4 froz s=777 low_rank                 auc=0.7243 f1=0.6923 ETA 0.1h
+[23/400] breastmnist r=10 d=4 froz s=31337 low_rank                 auc=0.7456 f1=0.6348 ETA 0.1h
+[24/400] breastmnist r=10 d=4 froz s=271828 low_rank                 auc=0.6767 f1=0.6247 ETA 0.1h
+[25/400] breastmnist r=10 d=4 froz s=1414 low_rank                 auc=0.6410 f1=0.5615 ETA 0.1h
+[26/400] breastmnist r=10 d=4 froz s=1729 low_rank                 auc=0.7191 f1=0.6449 ETA 0.1h
+[27/400] breastmnist r=10 d=4 froz s=2718281 low_rank                 auc=0.6821 f1=0.4864 ETA 0.1h
+[28/400] breastmnist r=10 d=4 froz s=1000003 low_rank                 auc=0.4768 f1=0.4417 ETA 0.1h
+[29/400] breastmnist r=10 d=4 froz s=4321 low_rank                 auc=0.7212 f1=0.6318 ETA 0.1h
+[30/400] breastmnist r=10 d=4 froz s=13 low_rank                 auc=0.7178 f1=0.6509 ETA 0.1h
+[31/400] breastmnist r=10 d=4 froz s=555 low_rank                 auc=0.7352 f1=0.6727 ETA 0.1h
+[32/400] breastmnist r=10 d=4 froz s=314159 low_rank                 auc=0.6811 f1=0.6470 ETA 0.1h
+[33/400] breastmnist r=10 d=4 froz s=77777 low_rank                 auc=0.7652 f1=0.7432 ETA 0.1h
+[34/400] breastmnist r=10 d=4 froz s=33 low_rank                 auc=0.7199 f1=0.6097 ETA 0.1h
+[35/400] breastmnist r=10 d=4 froz s=121393 low_rank                 auc=0.7857 f1=0.7071 ETA 0.1h
+[36/400] breastmnist r=10 d=4 froz s=496 low_rank                 auc=0.7556 f1=0.6594 ETA 0.1h
+[37/400] breastmnist r=10 d=4 froz s=28657 low_rank                 auc=0.6316 f1=0.2121 ETA 0.1h
+[38/400] breastmnist r=10 d=4 froz s=46341 low_rank                 auc=0.6951 f1=0.6455 ETA 0.1h
+[39/400] breastmnist r=10 d=4 froz s=720720 low_rank                 auc=0.6291 f1=0.5651 ETA 0.1h
+[40/400] breastmnist r=10 d=4 froz s=10007 low_rank                 auc=0.7500 f1=0.7049 ETA 0.1h
+[41/400] breastmnist r=20 d=4 froz s=123 low_rank                 auc=0.7500 f1=0.6350 ETA 0.1h
+[42/400] breastmnist r=20 d=4 froz s=777 low_rank                 auc=0.7120 f1=0.6300 ETA 0.1h
+[43/400] breastmnist r=20 d=4 froz s=31337 low_rank                 auc=0.7726 f1=0.4226 ETA 0.1h
+[44/400] breastmnist r=20 d=4 froz s=271828 low_rank                 auc=0.6717 f1=0.5600 ETA 0.1h
+[45/400] breastmnist r=20 d=4 froz s=1414 low_rank                 auc=0.7028 f1=0.5693 ETA 0.1h
+[46/400] breastmnist r=20 d=4 froz s=1729 low_rank                 auc=0.7151 f1=0.5937 ETA 0.1h
+[47/400] breastmnist r=20 d=4 froz s=2718281 low_rank                 auc=0.6965 f1=0.5966 ETA 0.1h
+[48/400] breastmnist r=20 d=4 froz s=1000003 low_rank                 auc=0.7141 f1=0.5976 ETA 0.1h
+[49/400] breastmnist r=20 d=4 froz s=4321 low_rank                 auc=0.7561 f1=0.7049 ETA 0.1h
+[50/400] breastmnist r=20 d=4 froz s=13 low_rank                 auc=0.7249 f1=0.5595 ETA 0.1h
+[51/400] breastmnist r=20 d=4 froz s=555 low_rank                 auc=0.7352 f1=0.6295 ETA 0.1h
+[52/400] breastmnist r=20 d=4 froz s=314159 low_rank                 auc=0.7135 f1=0.6373 ETA 0.1h
+[53/400] breastmnist r=20 d=4 froz s=77777 low_rank                 auc=0.7281 f1=0.6748 ETA 0.1h
+[54/400] breastmnist r=20 d=4 froz s=33 low_rank                 auc=0.7638 f1=0.6827 ETA 0.1h
+[55/400] breastmnist r=20 d=4 froz s=121393 low_rank                 auc=0.7270 f1=0.5615 ETA 0.1h
+[56/400] breastmnist r=20 d=4 froz s=496 low_rank                 auc=0.7243 f1=0.6695 ETA 0.1h
+[57/400] breastmnist r=20 d=4 froz s=28657 low_rank                 auc=0.7467 f1=0.6627 ETA 0.1h
+[58/400] breastmnist r=20 d=4 froz s=46341 low_rank                 auc=0.7264 f1=0.6239 ETA 0.1h
+[59/400] breastmnist r=20 d=4 froz s=720720 low_rank                 auc=0.7086 f1=0.6665 ETA 0.1h
+[60/400] breastmnist r=20 d=4 froz s=10007 low_rank                 auc=0.7494 f1=0.5037 ETA 0.1h
+[61/400] breastmnist r=50 d=4 froz s=123 low_rank                 auc=0.7840 f1=0.5735 ETA 0.1h
+[62/400] breastmnist r=50 d=4 froz s=777 low_rank                 auc=0.7504 f1=0.6404 ETA 0.1h
+[63/400] breastmnist r=50 d=4 froz s=31337 low_rank                 auc=0.7813 f1=0.6733 ETA 0.1h
+[64/400] breastmnist r=50 d=4 froz s=271828 low_rank                 auc=0.7508 f1=0.6582 ETA 0.1h
+[65/400] breastmnist r=50 d=4 froz s=1414 low_rank                 auc=0.7268 f1=0.6017 ETA 0.1h
+[66/400] breastmnist r=50 d=4 froz s=1729 low_rank                 auc=0.7264 f1=0.6665 ETA 0.1h
+[67/400] breastmnist r=50 d=4 froz s=2718281 low_rank                 auc=0.7759 f1=0.6707 ETA 0.1h
+[68/400] breastmnist r=50 d=4 froz s=1000003 low_rank                 auc=0.7974 f1=0.6819 ETA 0.1h
+[69/400] breastmnist r=50 d=4 froz s=4321 low_rank                 auc=0.7865 f1=0.7051 ETA 0.1h
+[70/400] breastmnist r=50 d=4 froz s=13 low_rank                 auc=0.7642 f1=0.7033 ETA 0.1h
+[71/400] breastmnist r=50 d=4 froz s=555 low_rank                 auc=0.7782 f1=0.7155 ETA 0.1h
+[72/400] breastmnist r=50 d=4 froz s=314159 low_rank                 auc=0.7790 f1=0.6933 ETA 0.1h
+[73/400] breastmnist r=50 d=4 froz s=77777 low_rank                 auc=0.7753 f1=0.6869 ETA 0.1h
+[74/400] breastmnist r=50 d=4 froz s=33 low_rank                 auc=0.7782 f1=0.6215 ETA 0.1h
+[75/400] breastmnist r=50 d=4 froz s=121393 low_rank                 auc=0.7446 f1=0.6714 ETA 0.1h
+[76/400] breastmnist r=50 d=4 froz s=496 low_rank                 auc=0.7590 f1=0.6599 ETA 0.1h
+[77/400] breastmnist r=50 d=4 froz s=28657 low_rank                 auc=0.7611 f1=0.6819 ETA 0.1h
+[78/400] breastmnist r=50 d=4 froz s=46341 low_rank                 auc=0.7517 f1=0.6252 ETA 0.1h
+[79/400] breastmnist r=50 d=4 froz s=720720 low_rank                 auc=0.7761 f1=0.5054 ETA 0.1h
+[80/400] breastmnist r=50 d=4 froz s=10007 low_rank                 auc=0.7345 f1=0.6227 ETA 0.1h
+[81/400] breastmnist r=100 d=4 froz s=123 low_rank                 auc=0.7901 f1=0.7343 ETA 0.1h
+[82/400] breastmnist r=100 d=4 froz s=777 low_rank                 auc=0.8043 f1=0.7434 ETA 0.1h
+[83/400] breastmnist r=100 d=4 froz s=31337 low_rank                 auc=0.8396 f1=0.7051 ETA 0.1h
+[84/400] breastmnist r=100 d=4 froz s=271828 low_rank                 auc=0.8166 f1=0.5854 ETA 0.1h
+[85/400] breastmnist r=100 d=4 froz s=1414 low_rank                 auc=0.7268 f1=0.3537 ETA 0.1h
+[86/400] breastmnist r=100 d=4 froz s=1729 low_rank                 auc=0.8214 f1=0.7503 ETA 0.1h
+[87/400] breastmnist r=100 d=4 froz s=2718281 low_rank                 auc=0.7788 f1=0.6739 ETA 0.1h
+[88/400] breastmnist r=100 d=4 froz s=1000003 low_rank                 auc=0.8120 f1=0.6729 ETA 0.1h
+[89/400] breastmnist r=100 d=4 froz s=4321 low_rank                 auc=0.8135 f1=0.6760 ETA 0.1h
+[90/400] breastmnist r=100 d=4 froz s=13 low_rank                 auc=0.7843 f1=0.6950 ETA 0.1h
+[91/400] breastmnist r=100 d=4 froz s=555 low_rank                 auc=0.7845 f1=0.6800 ETA 0.1h
+[92/400] breastmnist r=100 d=4 froz s=314159 low_rank                 auc=0.8523 f1=0.7555 ETA 0.1h
+[93/400] breastmnist r=100 d=4 froz s=77777 low_rank                 auc=0.8001 f1=0.7225 ETA 0.1h
+[94/400] breastmnist r=100 d=4 froz s=33 low_rank                 auc=0.8129 f1=0.7882 ETA 0.1h
+[95/400] breastmnist r=100 d=4 froz s=121393 low_rank                 auc=0.8133 f1=0.7519 ETA 0.2h
+[96/400] breastmnist r=100 d=4 froz s=496 low_rank                 auc=0.7836 f1=0.6571 ETA 0.2h
+[97/400] breastmnist r=100 d=4 froz s=28657 low_rank                 auc=0.8062 f1=0.7259 ETA 0.2h
+[98/400] breastmnist r=100 d=4 froz s=46341 low_rank                 auc=0.7932 f1=0.7155 ETA 0.2h
+[99/400] breastmnist r=100 d=4 froz s=720720 low_rank                 auc=0.8147 f1=0.7327 ETA 0.2h
+[100/400] breastmnist r=100 d=4 froz s=10007 low_rank                 auc=0.7782 f1=0.6930 ETA 0.2h
+[101/400] pneumoniamnist r=5 d=4 froz s=123 low_rank                 auc=0.9051 f1=0.2982 ETA 0.2h
+[102/400] pneumoniamnist r=5 d=4 froz s=777 low_rank                 auc=0.9084 f1=0.8041 ETA 0.2h
+[103/400] pneumoniamnist r=5 d=4 froz s=31337 low_rank                 auc=0.9176 f1=0.8449 ETA 0.1h
+[104/400] pneumoniamnist r=5 d=4 froz s=271828 low_rank                 auc=0.9072 f1=0.8318 ETA 0.1h
+[105/400] pneumoniamnist r=5 d=4 froz s=1414 low_rank                 auc=0.8214 f1=0.6471 ETA 0.1h
+[106/400] pneumoniamnist r=5 d=4 froz s=1729 low_rank                 auc=0.9097 f1=0.4589 ETA 0.1h
+[107/400] pneumoniamnist r=5 d=4 froz s=2718281 low_rank                 auc=0.8623 f1=0.2898 ETA 0.1h
+[108/400] pneumoniamnist r=5 d=4 froz s=1000003 low_rank                 auc=0.8901 f1=0.8001 ETA 0.1h
+[109/400] pneumoniamnist r=5 d=4 froz s=4321 low_rank                 auc=0.8869 f1=0.7794 ETA 0.1h
+[110/400] pneumoniamnist r=5 d=4 froz s=13 low_rank                 auc=0.8955 f1=0.5790 ETA 0.1h
+[111/400] pneumoniamnist r=5 d=4 froz s=555 low_rank                 auc=0.8466 f1=0.5764 ETA 0.1h
+[112/400] pneumoniamnist r=5 d=4 froz s=314159 low_rank                 auc=0.8480 f1=0.7340 ETA 0.1h
+[113/400] pneumoniamnist r=5 d=4 froz s=77777 low_rank                 auc=0.9176 f1=0.8277 ETA 0.1h
+[114/400] pneumoniamnist r=5 d=4 froz s=33 low_rank                 auc=0.9053 f1=0.8291 ETA 0.1h
+[115/400] pneumoniamnist r=5 d=4 froz s=121393 low_rank                 auc=0.9069 f1=0.4435 ETA 0.1h
+[116/400] pneumoniamnist r=5 d=4 froz s=496 low_rank                 auc=0.9015 f1=0.6444 ETA 0.1h
+[117/400] pneumoniamnist r=5 d=4 froz s=28657 low_rank                 auc=0.9090 f1=0.8202 ETA 0.1h
+[118/400] pneumoniamnist r=5 d=4 froz s=46341 low_rank                 auc=0.8436 f1=0.4207 ETA 0.1h
+[119/400] pneumoniamnist r=5 d=4 froz s=720720 low_rank                 auc=0.8962 f1=0.7990 ETA 0.1h
+[120/400] pneumoniamnist r=5 d=4 froz s=10007 low_rank                 auc=0.9156 f1=0.5662 ETA 0.1h
+[121/400] pneumoniamnist r=10 d=4 froz s=123 low_rank                 auc=0.9085 f1=0.6884 ETA 0.1h
+[122/400] pneumoniamnist r=10 d=4 froz s=777 low_rank                 auc=0.8907 f1=0.8114 ETA 0.1h
+[123/400] pneumoniamnist r=10 d=4 froz s=31337 low_rank                 auc=0.9171 f1=0.8385 ETA 0.1h
+[124/400] pneumoniamnist r=10 d=4 froz s=271828 low_rank                 auc=0.9232 f1=0.8273 ETA 0.1h
+[125/400] pneumoniamnist r=10 d=4 froz s=1414 low_rank                 auc=0.9234 f1=0.8277 ETA 0.1h
+[126/400] pneumoniamnist r=10 d=4 froz s=1729 low_rank                 auc=0.9023 f1=0.6854 ETA 0.1h
+[127/400] pneumoniamnist r=10 d=4 froz s=2718281 low_rank                 auc=0.8811 f1=0.4580 ETA 0.1h
+[128/400] pneumoniamnist r=10 d=4 froz s=1000003 low_rank                 auc=0.9179 f1=0.8353 ETA 0.1h
+[129/400] pneumoniamnist r=10 d=4 froz s=4321 low_rank                 auc=0.9174 f1=0.7371 ETA 0.1h
+[130/400] pneumoniamnist r=10 d=4 froz s=13 low_rank                 auc=0.9058 f1=0.8055 ETA 0.1h
+[131/400] pneumoniamnist r=10 d=4 froz s=555 low_rank                 auc=0.9203 f1=0.8104 ETA 0.1h
+[132/400] pneumoniamnist r=10 d=4 froz s=314159 low_rank                 auc=0.9032 f1=0.7997 ETA 0.1h
+[133/400] pneumoniamnist r=10 d=4 froz s=77777 low_rank                 auc=0.9154 f1=0.7176 ETA 0.1h
+[134/400] pneumoniamnist r=10 d=4 froz s=33 low_rank                 auc=0.9240 f1=0.8058 ETA 0.1h
+[135/400] pneumoniamnist r=10 d=4 froz s=121393 low_rank                 auc=0.9196 f1=0.8414 ETA 0.1h
+[136/400] pneumoniamnist r=10 d=4 froz s=496 low_rank                 auc=0.9182 f1=0.8161 ETA 0.1h
+[137/400] pneumoniamnist r=10 d=4 froz s=28657 low_rank                 auc=0.9169 f1=0.7935 ETA 0.1h
+[138/400] pneumoniamnist r=10 d=4 froz s=46341 low_rank                 auc=0.9214 f1=0.8361 ETA 0.1h
+[139/400] pneumoniamnist r=10 d=4 froz s=720720 low_rank                 auc=0.9274 f1=0.8385 ETA 0.1h
+[140/400] pneumoniamnist r=10 d=4 froz s=10007 low_rank                 auc=0.9048 f1=0.8382 ETA 0.1h
+[141/400] pneumoniamnist r=20 d=4 froz s=123 low_rank                 auc=0.9226 f1=0.7859 ETA 0.1h
+[142/400] pneumoniamnist r=20 d=4 froz s=777 low_rank                 auc=0.9249 f1=0.7924 ETA 0.1h
+[143/400] pneumoniamnist r=20 d=4 froz s=31337 low_rank                 auc=0.9354 f1=0.8442 ETA 0.1h
+[144/400] pneumoniamnist r=20 d=4 froz s=271828 low_rank                 auc=0.9222 f1=0.7993 ETA 0.1h
+[145/400] pneumoniamnist r=20 d=4 froz s=1414 low_rank                 auc=0.9287 f1=0.8605 ETA 0.1h
+[146/400] pneumoniamnist r=20 d=4 froz s=1729 low_rank                 auc=0.9173 f1=0.7147 ETA 0.1h
+[147/400] pneumoniamnist r=20 d=4 froz s=2718281 low_rank                 auc=0.9442 f1=0.8819 ETA 0.1h
+[148/400] pneumoniamnist r=20 d=4 froz s=1000003 low_rank                 auc=0.9194 f1=0.8365 ETA 0.1h
+[149/400] pneumoniamnist r=20 d=4 froz s=4321 low_rank                 auc=0.9169 f1=0.7898 ETA 0.1h
+[150/400] pneumoniamnist r=20 d=4 froz s=13 low_rank                 auc=0.9168 f1=0.8322 ETA 0.1h
+[151/400] pneumoniamnist r=20 d=4 froz s=555 low_rank                 auc=0.9104 f1=0.6968 ETA 0.1h
+[152/400] pneumoniamnist r=20 d=4 froz s=314159 low_rank                 auc=0.9077 f1=0.8276 ETA 0.1h
+[153/400] pneumoniamnist r=20 d=4 froz s=77777 low_rank                 auc=0.9230 f1=0.8246 ETA 0.1h
+[154/400] pneumoniamnist r=20 d=4 froz s=33 low_rank                 auc=0.9277 f1=0.8573 ETA 0.1h
+[155/400] pneumoniamnist r=20 d=4 froz s=121393 low_rank                 auc=0.9167 f1=0.8360 ETA 0.1h
+[156/400] pneumoniamnist r=20 d=4 froz s=496 low_rank                 auc=0.9185 f1=0.6146 ETA 0.1h
+[157/400] pneumoniamnist r=20 d=4 froz s=28657 low_rank                 auc=0.9187 f1=0.8484 ETA 0.1h
+[158/400] pneumoniamnist r=20 d=4 froz s=46341 low_rank                 auc=0.9399 f1=0.8200 ETA 0.1h
+[159/400] pneumoniamnist r=20 d=4 froz s=720720 low_rank                 auc=0.9375 f1=0.8609 ETA 0.1h
+[160/400] pneumoniamnist r=20 d=4 froz s=10007 low_rank                 auc=0.9208 f1=0.8376 ETA 0.1h
+[161/400] pneumoniamnist r=50 d=4 froz s=123 low_rank                 auc=0.9224 f1=0.6495 ETA 0.1h
+[162/400] pneumoniamnist r=50 d=4 froz s=777 low_rank                 auc=0.9176 f1=0.8379 ETA 0.1h
+[163/400] pneumoniamnist r=50 d=4 froz s=31337 low_rank                 auc=0.9253 f1=0.7906 ETA 0.1h
+[164/400] pneumoniamnist r=50 d=4 froz s=271828 low_rank                 auc=0.9355 f1=0.8465 ETA 0.1h
+[165/400] pneumoniamnist r=50 d=4 froz s=1414 low_rank                 auc=0.9335 f1=0.7725 ETA 0.1h
+[166/400] pneumoniamnist r=50 d=4 froz s=1729 low_rank                 auc=0.9332 f1=0.8237 ETA 0.1h
+[167/400] pneumoniamnist r=50 d=4 froz s=2718281 low_rank                 auc=0.9051 f1=0.8193 ETA 0.1h
+[168/400] pneumoniamnist r=50 d=4 froz s=1000003 low_rank                 auc=0.9358 f1=0.8546 ETA 0.1h
+[169/400] pneumoniamnist r=50 d=4 froz s=4321 low_rank                 auc=0.9359 f1=0.7742 ETA 0.1h
+[170/400] pneumoniamnist r=50 d=4 froz s=13 low_rank                 auc=0.9356 f1=0.8245 ETA 0.1h
+[171/400] pneumoniamnist r=50 d=4 froz s=555 low_rank                 auc=0.9063 f1=0.8026 ETA 0.1h
+[172/400] pneumoniamnist r=50 d=4 froz s=314159 low_rank                 auc=0.9301 f1=0.8024 ETA 0.1h
+[173/400] pneumoniamnist r=50 d=4 froz s=77777 low_rank                 auc=0.9122 f1=0.8023 ETA 0.1h
+[174/400] pneumoniamnist r=50 d=4 froz s=33 low_rank                 auc=0.9274 f1=0.7735 ETA 0.1h
+[175/400] pneumoniamnist r=50 d=4 froz s=121393 low_rank                 auc=0.9332 f1=0.8246 ETA 0.1h
+[176/400] pneumoniamnist r=50 d=4 froz s=496 low_rank                 auc=0.9283 f1=0.8462 ETA 0.1h
+[177/400] pneumoniamnist r=50 d=4 froz s=28657 low_rank                 auc=0.9234 f1=0.7771 ETA 0.1h
+[178/400] pneumoniamnist r=50 d=4 froz s=46341 low_rank                 auc=0.9287 f1=0.7858 ETA 0.1h
+[179/400] pneumoniamnist r=50 d=4 froz s=720720 low_rank                 auc=0.9221 f1=0.8354 ETA 0.1h
+[180/400] pneumoniamnist r=50 d=4 froz s=10007 low_rank                 auc=0.9336 f1=0.8086 ETA 0.1h
+[181/400] pneumoniamnist r=100 d=4 froz s=123 low_rank                 auc=0.9085 f1=0.8306 ETA 0.1h
+[182/400] pneumoniamnist r=100 d=4 froz s=777 low_rank                 auc=0.9258 f1=0.8317 ETA 0.1h
+[183/400] pneumoniamnist r=100 d=4 froz s=31337 low_rank                 auc=0.9364 f1=0.8519 ETA 0.1h
+[184/400] pneumoniamnist r=100 d=4 froz s=271828 low_rank                 auc=0.9507 f1=0.8439 ETA 0.1h
+[185/400] pneumoniamnist r=100 d=4 froz s=1414 low_rank                 auc=0.9416 f1=0.8555 ETA 0.1h
+[186/400] pneumoniamnist r=100 d=4 froz s=1729 low_rank                 auc=0.9383 f1=0.7251 ETA 0.1h
+[187/400] pneumoniamnist r=100 d=4 froz s=2718281 low_rank                 auc=0.9196 f1=0.8315 ETA 0.1h
+[188/400] pneumoniamnist r=100 d=4 froz s=1000003 low_rank                 auc=0.9387 f1=0.8538 ETA 0.1h
+[189/400] pneumoniamnist r=100 d=4 froz s=4321 low_rank                 auc=0.9364 f1=0.8660 ETA 0.1h
+[190/400] pneumoniamnist r=100 d=4 froz s=13 low_rank                 auc=0.9387 f1=0.8275 ETA 0.1h
+[191/400] pneumoniamnist r=100 d=4 froz s=555 low_rank                 auc=0.9130 f1=0.8154 ETA 0.1h
+[192/400] pneumoniamnist r=100 d=4 froz s=314159 low_rank                 auc=0.9334 f1=0.8422 ETA 0.1h
+[193/400] pneumoniamnist r=100 d=4 froz s=77777 low_rank                 auc=0.9469 f1=0.8353 ETA 0.1h
+[194/400] pneumoniamnist r=100 d=4 froz s=33 low_rank                 auc=0.9528 f1=0.8735 ETA 0.1h
+[195/400] pneumoniamnist r=100 d=4 froz s=121393 low_rank                 auc=0.9399 f1=0.8055 ETA 0.1h
+[196/400] pneumoniamnist r=100 d=4 froz s=496 low_rank                 auc=0.9399 f1=0.8567 ETA 0.1h
+[197/400] pneumoniamnist r=100 d=4 froz s=28657 low_rank                 auc=0.9184 f1=0.7649 ETA 0.1h
+[198/400] pneumoniamnist r=100 d=4 froz s=46341 low_rank                 auc=0.9431 f1=0.8671 ETA 0.1h
+[199/400] pneumoniamnist r=100 d=4 froz s=720720 low_rank                 auc=0.9313 f1=0.8179 ETA 0.1h
+[200/400] pneumoniamnist r=100 d=4 froz s=10007 low_rank                 auc=0.9385 f1=0.8155 ETA 0.1h
+[201/400] bloodmnist r=5 d=4 froz s=123 low_rank                 auc=0.6679 f1=0.1185 ETA 0.1h
+[202/400] bloodmnist r=5 d=4 froz s=777 low_rank                 auc=0.7703 f1=0.2617 ETA 0.1h
+[203/400] bloodmnist r=5 d=4 froz s=31337 low_rank                 auc=0.7306 f1=0.2108 ETA 0.1h
+[204/400] bloodmnist r=5 d=4 froz s=271828 low_rank                 auc=0.7972 f1=0.3258 ETA 0.1h
+[205/400] bloodmnist r=5 d=4 froz s=1414 low_rank                 auc=0.8140 f1=0.1766 ETA 0.1h
+[206/400] bloodmnist r=5 d=4 froz s=1729 low_rank                 auc=0.8458 f1=0.2936 ETA 0.1h
+[207/400] bloodmnist r=5 d=4 froz s=2718281 low_rank                 auc=0.7175 f1=0.1701 ETA 0.1h
+[208/400] bloodmnist r=5 d=4 froz s=1000003 low_rank                 auc=0.7647 f1=0.2269 ETA 0.1h
+[209/400] bloodmnist r=5 d=4 froz s=4321 low_rank                 auc=0.8014 f1=0.2926 ETA 0.1h
+[210/400] bloodmnist r=5 d=4 froz s=13 low_rank                 auc=0.7633 f1=0.2520 ETA 0.1h
+[211/400] bloodmnist r=5 d=4 froz s=555 low_rank                 auc=0.7884 f1=0.2031 ETA 0.1h
+[212/400] bloodmnist r=5 d=4 froz s=314159 low_rank                 auc=0.7747 f1=0.2462 ETA 0.1h
+[213/400] bloodmnist r=5 d=4 froz s=77777 low_rank                 auc=0.7379 f1=0.3123 ETA 0.1h
+[214/400] bloodmnist r=5 d=4 froz s=33 low_rank                 auc=0.7522 f1=0.2781 ETA 0.1h
+[215/400] bloodmnist r=5 d=4 froz s=121393 low_rank                 auc=0.7908 f1=0.2497 ETA 0.1h
+[216/400] bloodmnist r=5 d=4 froz s=496 low_rank                 auc=0.7833 f1=0.2099 ETA 0.1h
+[217/400] bloodmnist r=5 d=4 froz s=28657 low_rank                 auc=0.7585 f1=0.0902 ETA 0.1h
+[218/400] bloodmnist r=5 d=4 froz s=46341 low_rank                 auc=0.8647 f1=0.3812 ETA 0.1h
+[219/400] bloodmnist r=5 d=4 froz s=720720 low_rank                 auc=0.7375 f1=0.2411 ETA 0.1h
+[220/400] bloodmnist r=5 d=4 froz s=10007 low_rank                 auc=0.8085 f1=0.2754 ETA 0.1h
+[221/400] bloodmnist r=10 d=4 froz s=123 low_rank                 auc=0.8705 f1=0.4737 ETA 0.1h
+[222/400] bloodmnist r=10 d=4 froz s=777 low_rank                 auc=0.8366 f1=0.4294 ETA 0.1h
+[223/400] bloodmnist r=10 d=4 froz s=31337 low_rank                 auc=0.8567 f1=0.3763 ETA 0.1h
+[224/400] bloodmnist r=10 d=4 froz s=271828 low_rank                 auc=0.8480 f1=0.3482 ETA 0.1h
+[225/400] bloodmnist r=10 d=4 froz s=1414 low_rank                 auc=0.8496 f1=0.4478 ETA 0.1h
+[226/400] bloodmnist r=10 d=4 froz s=1729 low_rank                 auc=0.8695 f1=0.4728 ETA 0.1h
+[227/400] bloodmnist r=10 d=4 froz s=2718281 low_rank                 auc=0.8274 f1=0.3783 ETA 0.1h
+[228/400] bloodmnist r=10 d=4 froz s=1000003 low_rank                 auc=0.8238 f1=0.4032 ETA 0.1h
+[229/400] bloodmnist r=10 d=4 froz s=4321 low_rank                 auc=0.8507 f1=0.4199 ETA 0.1h
+[230/400] bloodmnist r=10 d=4 froz s=13 low_rank                 auc=0.7964 f1=0.1662 ETA 0.1h
+[231/400] bloodmnist r=10 d=4 froz s=555 low_rank                 auc=0.8319 f1=0.4035 ETA 0.1h
+[232/400] bloodmnist r=10 d=4 froz s=314159 low_rank                 auc=0.8478 f1=0.4222 ETA 0.1h
+[233/400] bloodmnist r=10 d=4 froz s=77777 low_rank                 auc=0.8342 f1=0.4534 ETA 0.1h
+[234/400] bloodmnist r=10 d=4 froz s=33 low_rank                 auc=0.8194 f1=0.3089 ETA 0.1h
+[235/400] bloodmnist r=10 d=4 froz s=121393 low_rank                 auc=0.8010 f1=0.3282 ETA 0.1h
+[236/400] bloodmnist r=10 d=4 froz s=496 low_rank                 auc=0.8687 f1=0.4620 ETA 0.1h
+[237/400] bloodmnist r=10 d=4 froz s=28657 low_rank                 auc=0.8875 f1=0.4628 ETA 0.1h
+[238/400] bloodmnist r=10 d=4 froz s=46341 low_rank                 auc=0.8965 f1=0.4828 ETA 0.1h
+[239/400] bloodmnist r=10 d=4 froz s=720720 low_rank                 auc=0.7558 f1=0.2983 ETA 0.1h
+[240/400] bloodmnist r=10 d=4 froz s=10007 low_rank                 auc=0.8833 f1=0.4751 ETA 0.1h
+[241/400] bloodmnist r=20 d=4 froz s=123 low_rank                 auc=0.8835 f1=0.5214 ETA 0.1h
+[242/400] bloodmnist r=20 d=4 froz s=777 low_rank                 auc=0.8667 f1=0.4987 ETA 0.1h
+[243/400] bloodmnist r=20 d=4 froz s=31337 low_rank                 auc=0.9001 f1=0.5617 ETA 0.1h
+[244/400] bloodmnist r=20 d=4 froz s=271828 low_rank                 auc=0.9025 f1=0.5334 ETA 0.1h
+[245/400] bloodmnist r=20 d=4 froz s=1414 low_rank                 auc=0.8858 f1=0.4859 ETA 0.1h
+[246/400] bloodmnist r=20 d=4 froz s=1729 low_rank                 auc=0.8899 f1=0.4781 ETA 0.1h
+[247/400] bloodmnist r=20 d=4 froz s=2718281 low_rank                 auc=0.8885 f1=0.5138 ETA 0.1h
+[248/400] bloodmnist r=20 d=4 froz s=1000003 low_rank                 auc=0.8691 f1=0.4096 ETA 0.1h
+[249/400] bloodmnist r=20 d=4 froz s=4321 low_rank                 auc=0.8806 f1=0.5345 ETA 0.1h
+[250/400] bloodmnist r=20 d=4 froz s=13 low_rank                 auc=0.8483 f1=0.4401 ETA 0.1h
+[251/400] bloodmnist r=20 d=4 froz s=555 low_rank                 auc=0.8733 f1=0.5041 ETA 0.1h
+[252/400] bloodmnist r=20 d=4 froz s=314159 low_rank                 auc=0.8776 f1=0.4574 ETA 0.1h
+[253/400] bloodmnist r=20 d=4 froz s=77777 low_rank                 auc=0.8770 f1=0.4941 ETA 0.1h
+[254/400] bloodmnist r=20 d=4 froz s=33 low_rank                 auc=0.8668 f1=0.4483 ETA 0.1h
+[255/400] bloodmnist r=20 d=4 froz s=121393 low_rank                 auc=0.8744 f1=0.4794 ETA 0.1h
+[256/400] bloodmnist r=20 d=4 froz s=496 low_rank                 auc=0.8936 f1=0.5312 ETA 0.1h
+[257/400] bloodmnist r=20 d=4 froz s=28657 low_rank                 auc=0.9114 f1=0.5611 ETA 0.1h
+[258/400] bloodmnist r=20 d=4 froz s=46341 low_rank                 auc=0.9044 f1=0.5488 ETA 0.1h
+[259/400] bloodmnist r=20 d=4 froz s=720720 low_rank                 auc=0.8452 f1=0.4492 ETA 0.1h
+[260/400] bloodmnist r=20 d=4 froz s=10007 low_rank                 auc=0.8731 f1=0.4594 ETA 0.1h
+[261/400] bloodmnist r=50 d=4 froz s=123 low_rank                 auc=0.9123 f1=0.5715 ETA 0.1h
+[262/400] bloodmnist r=50 d=4 froz s=777 low_rank                 auc=0.9236 f1=0.6222 ETA 0.1h
+[263/400] bloodmnist r=50 d=4 froz s=31337 low_rank                 auc=0.9297 f1=0.6329 ETA 0.1h
+[264/400] bloodmnist r=50 d=4 froz s=271828 low_rank                 auc=0.9236 f1=0.5955 ETA 0.1h
+[265/400] bloodmnist r=50 d=4 froz s=1414 low_rank                 auc=0.9222 f1=0.5808 ETA 0.1h
+[266/400] bloodmnist r=50 d=4 froz s=1729 low_rank                 auc=0.9329 f1=0.6432 ETA 0.1h
+[267/400] bloodmnist r=50 d=4 froz s=2718281 low_rank                 auc=0.9316 f1=0.6324 ETA 0.1h
+[268/400] bloodmnist r=50 d=4 froz s=1000003 low_rank                 auc=0.9306 f1=0.6294 ETA 0.1h
+[269/400] bloodmnist r=50 d=4 froz s=4321 low_rank                 auc=0.9232 f1=0.6058 ETA 0.1h
+[270/400] bloodmnist r=50 d=4 froz s=13 low_rank                 auc=0.9186 f1=0.6067 ETA 0.1h
+[271/400] bloodmnist r=50 d=4 froz s=555 low_rank                 auc=0.9290 f1=0.6150 ETA 0.1h
+[272/400] bloodmnist r=50 d=4 froz s=314159 low_rank                 auc=0.9055 f1=0.5462 ETA 0.1h
+[273/400] bloodmnist r=50 d=4 froz s=77777 low_rank                 auc=0.9268 f1=0.5835 ETA 0.1h
+[274/400] bloodmnist r=50 d=4 froz s=33 low_rank                 auc=0.8978 f1=0.5376 ETA 0.1h
+[275/400] bloodmnist r=50 d=4 froz s=121393 low_rank                 auc=0.9090 f1=0.5670 ETA 0.1h
+[276/400] bloodmnist r=50 d=4 froz s=496 low_rank                 auc=0.9185 f1=0.5883 ETA 0.1h
+[277/400] bloodmnist r=50 d=4 froz s=28657 low_rank                 auc=0.9167 f1=0.5392 ETA 0.1h
+[278/400] bloodmnist r=50 d=4 froz s=46341 low_rank                 auc=0.9325 f1=0.6293 ETA 0.1h
+[279/400] bloodmnist r=50 d=4 froz s=720720 low_rank                 auc=0.8958 f1=0.5228 ETA 0.1h
+[280/400] bloodmnist r=50 d=4 froz s=10007 low_rank                 auc=0.9229 f1=0.5861 ETA 0.1h
+[281/400] bloodmnist r=100 d=4 froz s=123 low_rank                 auc=0.9420 f1=0.6537 ETA 0.1h
+[282/400] bloodmnist r=100 d=4 froz s=777 low_rank                 auc=0.9323 f1=0.6571 ETA 0.1h
+[283/400] bloodmnist r=100 d=4 froz s=31337 low_rank                 auc=0.9452 f1=0.6684 ETA 0.1h
+[284/400] bloodmnist r=100 d=4 froz s=271828 low_rank                 auc=0.9391 f1=0.6337 ETA 0.1h
+[285/400] bloodmnist r=100 d=4 froz s=1414 low_rank                 auc=0.9327 f1=0.6211 ETA 0.1h
+[286/400] bloodmnist r=100 d=4 froz s=1729 low_rank                 auc=0.9474 f1=0.6777 ETA 0.1h
+[287/400] bloodmnist r=100 d=4 froz s=2718281 low_rank                 auc=0.9478 f1=0.6760 ETA 0.1h
+[288/400] bloodmnist r=100 d=4 froz s=1000003 low_rank                 auc=0.9438 f1=0.6721 ETA 0.1h
+[289/400] bloodmnist r=100 d=4 froz s=4321 low_rank                 auc=0.9453 f1=0.6545 ETA 0.1h
+[290/400] bloodmnist r=100 d=4 froz s=13 low_rank                 auc=0.9450 f1=0.6854 ETA 0.1h
+[291/400] bloodmnist r=100 d=4 froz s=555 low_rank                 auc=0.9440 f1=0.6782 ETA 0.1h
+[292/400] bloodmnist r=100 d=4 froz s=314159 low_rank                 auc=0.9421 f1=0.6481 ETA 0.1h
+[293/400] bloodmnist r=100 d=4 froz s=77777 low_rank                 auc=0.9571 f1=0.7006 ETA 0.1h
+[294/400] bloodmnist r=100 d=4 froz s=33 low_rank                 auc=0.9360 f1=0.6335 ETA 0.1h
+[295/400] bloodmnist r=100 d=4 froz s=121393 low_rank                 auc=0.9418 f1=0.6492 ETA 0.1h
+[296/400] bloodmnist r=100 d=4 froz s=496 low_rank                 auc=0.9369 f1=0.6363 ETA 0.1h
+[297/400] bloodmnist r=100 d=4 froz s=28657 low_rank                 auc=0.9441 f1=0.6538 ETA 0.1h
+[298/400] bloodmnist r=100 d=4 froz s=46341 low_rank                 auc=0.9465 f1=0.6642 ETA 0.1h
+[299/400] bloodmnist r=100 d=4 froz s=720720 low_rank                 auc=0.9464 f1=0.6674 ETA 0.1h
+[300/400] bloodmnist r=100 d=4 froz s=10007 low_rank                 auc=0.9298 f1=0.6223 ETA 0.1h
+[301/400] pathmnist r=5 d=4 froz s=123 low_rank                 auc=0.8601 f1=0.3009 ETA 0.1h
+[302/400] pathmnist r=5 d=4 froz s=777 low_rank                 auc=0.8172 f1=0.3514 ETA 0.1h
+[303/400] pathmnist r=5 d=4 froz s=31337 low_rank                 auc=0.8368 f1=0.3968 ETA 0.1h
+[304/400] pathmnist r=5 d=4 froz s=271828 low_rank                 auc=0.8801 f1=0.3865 ETA 0.1h
+[305/400] pathmnist r=5 d=4 froz s=1414 low_rank                 auc=0.8313 f1=0.2130 ETA 0.1h
+[306/400] pathmnist r=5 d=4 froz s=1729 low_rank                 auc=0.8030 f1=0.2691 ETA 0.1h
+[307/400] pathmnist r=5 d=4 froz s=2718281 low_rank                 auc=0.8757 f1=0.4712 ETA 0.1h
+[308/400] pathmnist r=5 d=4 froz s=1000003 low_rank                 auc=0.8743 f1=0.4944 ETA 0.1h
+[309/400] pathmnist r=5 d=4 froz s=4321 low_rank                 auc=0.8793 f1=0.4636 ETA 0.1h
+[310/400] pathmnist r=5 d=4 froz s=13 low_rank                 auc=0.7672 f1=0.1638 ETA 0.1h
+[311/400] pathmnist r=5 d=4 froz s=555 low_rank                 auc=0.8291 f1=0.3964 ETA 0.1h
+[312/400] pathmnist r=5 d=4 froz s=314159 low_rank                 auc=0.8414 f1=0.4124 ETA 0.1h
+[313/400] pathmnist r=5 d=4 froz s=77777 low_rank                 auc=0.8027 f1=0.2230 ETA 0.1h
+[314/400] pathmnist r=5 d=4 froz s=33 low_rank                 auc=0.8153 f1=0.4178 ETA 0.1h
+[315/400] pathmnist r=5 d=4 froz s=121393 low_rank                 auc=0.8516 f1=0.4381 ETA 0.1h
+[316/400] pathmnist r=5 d=4 froz s=496 low_rank                 auc=0.8045 f1=0.2734 ETA 0.1h
+[317/400] pathmnist r=5 d=4 froz s=28657 low_rank                 auc=0.8400 f1=0.3997 ETA 0.1h
+[318/400] pathmnist r=5 d=4 froz s=46341 low_rank                 auc=0.8757 f1=0.4019 ETA 0.1h
+[319/400] pathmnist r=5 d=4 froz s=720720 low_rank                 auc=0.8760 f1=0.4979 ETA 0.1h
+[320/400] pathmnist r=5 d=4 froz s=10007 low_rank                 auc=0.8414 f1=0.4532 ETA 0.1h
+[321/400] pathmnist r=10 d=4 froz s=123 low_rank                 auc=0.8774 f1=0.3863 ETA 0.1h
+[322/400] pathmnist r=10 d=4 froz s=777 low_rank                 auc=0.8780 f1=0.5213 ETA 0.1h
+[323/400] pathmnist r=10 d=4 froz s=31337 low_rank                 auc=0.8909 f1=0.5636 ETA 0.1h
+[324/400] pathmnist r=10 d=4 froz s=271828 low_rank                 auc=0.8723 f1=0.4731 ETA 0.1h
+[325/400] pathmnist r=10 d=4 froz s=1414 low_rank                 auc=0.8742 f1=0.4186 ETA 0.1h
+[326/400] pathmnist r=10 d=4 froz s=1729 low_rank                 auc=0.8476 f1=0.4820 ETA 0.1h
+[327/400] pathmnist r=10 d=4 froz s=2718281 low_rank                 auc=0.9231 f1=0.5830 ETA 0.1h
+[328/400] pathmnist r=10 d=4 froz s=1000003 low_rank                 auc=0.9281 f1=0.6046 ETA 0.1h
+[329/400] pathmnist r=10 d=4 froz s=4321 low_rank                 auc=0.9188 f1=0.5351 ETA 0.1h
+[330/400] pathmnist r=10 d=4 froz s=13 low_rank                 auc=0.8199 f1=0.4619 ETA 0.1h
+[331/400] pathmnist r=10 d=4 froz s=555 low_rank                 auc=0.8561 f1=0.4488 ETA 0.1h
+[332/400] pathmnist r=10 d=4 froz s=314159 low_rank                 auc=0.9027 f1=0.4804 ETA 0.1h
+[333/400] pathmnist r=10 d=4 froz s=77777 low_rank                 auc=0.8994 f1=0.5372 ETA 0.1h
+[334/400] pathmnist r=10 d=4 froz s=33 low_rank                 auc=0.8714 f1=0.5031 ETA 0.1h
+[335/400] pathmnist r=10 d=4 froz s=121393 low_rank                 auc=0.8729 f1=0.5245 ETA 0.1h
+[336/400] pathmnist r=10 d=4 froz s=496 low_rank                 auc=0.8643 f1=0.4984 ETA 0.1h
+[337/400] pathmnist r=10 d=4 froz s=28657 low_rank                 auc=0.8993 f1=0.5001 ETA 0.1h
+[338/400] pathmnist r=10 d=4 froz s=46341 low_rank                 auc=0.9062 f1=0.5182 ETA 0.1h
+[339/400] pathmnist r=10 d=4 froz s=720720 low_rank                 auc=0.8859 f1=0.5496 ETA 0.1h
+[340/400] pathmnist r=10 d=4 froz s=10007 low_rank                 auc=0.8764 f1=0.5303 ETA 0.1h
+[341/400] pathmnist r=20 d=4 froz s=123 low_rank                 auc=0.9532 f1=0.6824 ETA 0.1h
+[342/400] pathmnist r=20 d=4 froz s=777 low_rank                 auc=0.9123 f1=0.5938 ETA 0.1h
+[343/400] pathmnist r=20 d=4 froz s=31337 low_rank                 auc=0.9238 f1=0.5107 ETA 0.1h
+[344/400] pathmnist r=20 d=4 froz s=271828 low_rank                 auc=0.9289 f1=0.6385 ETA 0.1h
+[345/400] pathmnist r=20 d=4 froz s=1414 low_rank                 auc=0.9260 f1=0.6378 ETA 0.1h
+[346/400] pathmnist r=20 d=4 froz s=1729 low_rank                 auc=0.8929 f1=0.5285 ETA 0.1h
+[347/400] pathmnist r=20 d=4 froz s=2718281 low_rank                 auc=0.9253 f1=0.5844 ETA 0.0h
+[348/400] pathmnist r=20 d=4 froz s=1000003 low_rank                 auc=0.9460 f1=0.6551 ETA 0.0h
+[349/400] pathmnist r=20 d=4 froz s=4321 low_rank                 auc=0.9265 f1=0.6332 ETA 0.0h
+[350/400] pathmnist r=20 d=4 froz s=13 low_rank                 auc=0.8924 f1=0.5137 ETA 0.0h
+[351/400] pathmnist r=20 d=4 froz s=555 low_rank                 auc=0.9021 f1=0.5499 ETA 0.0h
+[352/400] pathmnist r=20 d=4 froz s=314159 low_rank                 auc=0.8983 f1=0.5145 ETA 0.0h
+[353/400] pathmnist r=20 d=4 froz s=77777 low_rank                 auc=0.8931 f1=0.5770 ETA 0.0h
+[354/400] pathmnist r=20 d=4 froz s=33 low_rank                 auc=0.9020 f1=0.5986 ETA 0.0h
+[355/400] pathmnist r=20 d=4 froz s=121393 low_rank                 auc=0.9247 f1=0.5998 ETA 0.0h
+[356/400] pathmnist r=20 d=4 froz s=496 low_rank                 auc=0.9081 f1=0.6410 ETA 0.0h
+[357/400] pathmnist r=20 d=4 froz s=28657 low_rank                 auc=0.9348 f1=0.6322 ETA 0.0h
+[358/400] pathmnist r=20 d=4 froz s=46341 low_rank                 auc=0.9373 f1=0.5827 ETA 0.0h
+[359/400] pathmnist r=20 d=4 froz s=720720 low_rank                 auc=0.8994 f1=0.6118 ETA 0.0h
+[360/400] pathmnist r=20 d=4 froz s=10007 low_rank                 auc=0.9328 f1=0.6511 ETA 0.0h
+[361/400] pathmnist r=50 d=4 froz s=123 low_rank                 auc=0.9682 f1=0.7433 ETA 0.0h
+[362/400] pathmnist r=50 d=4 froz s=777 low_rank                 auc=0.9309 f1=0.6122 ETA 0.0h
+[363/400] pathmnist r=50 d=4 froz s=31337 low_rank                 auc=0.9646 f1=0.7228 ETA 0.0h
+[364/400] pathmnist r=50 d=4 froz s=271828 low_rank                 auc=0.9517 f1=0.6800 ETA 0.0h
+[365/400] pathmnist r=50 d=4 froz s=1414 low_rank                 auc=0.9431 f1=0.6698 ETA 0.0h
+[366/400] pathmnist r=50 d=4 froz s=1729 low_rank                 auc=0.9496 f1=0.6741 ETA 0.0h
+[367/400] pathmnist r=50 d=4 froz s=2718281 low_rank                 auc=0.9497 f1=0.6645 ETA 0.0h
+[368/400] pathmnist r=50 d=4 froz s=1000003 low_rank                 auc=0.9505 f1=0.6403 ETA 0.0h
+[369/400] pathmnist r=50 d=4 froz s=4321 low_rank                 auc=0.9775 f1=0.7843 ETA 0.0h
+[370/400] pathmnist r=50 d=4 froz s=13 low_rank                 auc=0.8891 f1=0.4956 ETA 0.0h
+[371/400] pathmnist r=50 d=4 froz s=555 low_rank                 auc=0.9586 f1=0.7036 ETA 0.0h
+[372/400] pathmnist r=50 d=4 froz s=314159 low_rank                 auc=0.9235 f1=0.5675 ETA 0.0h
+[373/400] pathmnist r=50 d=4 froz s=77777 low_rank                 auc=0.9354 f1=0.6078 ETA 0.0h
+[374/400] pathmnist r=50 d=4 froz s=33 low_rank                 auc=0.9465 f1=0.6778 ETA 0.0h
+[375/400] pathmnist r=50 d=4 froz s=121393 low_rank                 auc=0.9645 f1=0.6724 ETA 0.0h
+[376/400] pathmnist r=50 d=4 froz s=496 low_rank                 auc=0.9642 f1=0.7317 ETA 0.0h
+[377/400] pathmnist r=50 d=4 froz s=28657 low_rank                 auc=0.9636 f1=0.7356 ETA 0.0h
+[378/400] pathmnist r=50 d=4 froz s=46341 low_rank                 auc=0.9568 f1=0.7234 ETA 0.0h
+[379/400] pathmnist r=50 d=4 froz s=720720 low_rank                 auc=0.9545 f1=0.7077 ETA 0.0h
+[380/400] pathmnist r=50 d=4 froz s=10007 low_rank                 auc=0.9392 f1=0.6906 ETA 0.0h
+[381/400] pathmnist r=100 d=4 froz s=123 low_rank                 auc=0.9751 f1=0.7713 ETA 0.0h
+[382/400] pathmnist r=100 d=4 froz s=777 low_rank                 auc=0.9599 f1=0.6786 ETA 0.0h
+[383/400] pathmnist r=100 d=4 froz s=31337 low_rank                 auc=0.9759 f1=0.7620 ETA 0.0h
+[384/400] pathmnist r=100 d=4 froz s=271828 low_rank                 auc=0.9650 f1=0.7620 ETA 0.0h
+[385/400] pathmnist r=100 d=4 froz s=1414 low_rank                 auc=0.9597 f1=0.7183 ETA 0.0h
+[386/400] pathmnist r=100 d=4 froz s=1729 low_rank                 auc=0.9675 f1=0.6930 ETA 0.0h
+[387/400] pathmnist r=100 d=4 froz s=2718281 low_rank                 auc=0.9599 f1=0.6917 ETA 0.0h
+[388/400] pathmnist r=100 d=4 froz s=1000003 low_rank                 auc=0.9658 f1=0.7402 ETA 0.0h
+[389/400] pathmnist r=100 d=4 froz s=4321 low_rank                 auc=0.9704 f1=0.7641 ETA 0.0h
+[390/400] pathmnist r=100 d=4 froz s=13 low_rank                 auc=0.9555 f1=0.7120 ETA 0.0h
+[391/400] pathmnist r=100 d=4 froz s=555 low_rank                 auc=0.9684 f1=0.7272 ETA 0.0h
+[392/400] pathmnist r=100 d=4 froz s=314159 low_rank                 auc=0.9425 f1=0.7273 ETA 0.0h
+[393/400] pathmnist r=100 d=4 froz s=77777 low_rank                 auc=0.9704 f1=0.7660 ETA 0.0h
+[394/400] pathmnist r=100 d=4 froz s=33 low_rank                 auc=0.9631 f1=0.7085 ETA 0.0h
+[395/400] pathmnist r=100 d=4 froz s=121393 low_rank                 auc=0.9089 f1=0.6897 ETA 0.0h
+[396/400] pathmnist r=100 d=4 froz s=496 low_rank                 auc=0.9540 f1=0.7366 ETA 0.0h
+[397/400] pathmnist r=100 d=4 froz s=28657 low_rank                 auc=0.9709 f1=0.7529 ETA 0.0h
+[398/400] pathmnist r=100 d=4 froz s=46341 low_rank                 auc=0.9611 f1=0.7436 ETA 0.0h
+[399/400] pathmnist r=100 d=4 froz s=720720 low_rank                 auc=0.9125 f1=0.7237 ETA 0.0h
+[400/400] pathmnist r=100 d=4 froz s=10007 low_rank                 auc=0.9672 f1=0.7394 ETA 0.0h
+
+=== AUC by cell (mean +- sd over seeds) ===
+dataset           reg   d   encoder       low_rank   fourier_rff_
+------------------------------------------------------------------
+bloodmnist         10   4    frozen  0.8401+-0.029  0.8492+-0.024
+bloodmnist        100   4    frozen  0.9409+-0.010  0.9585+-0.004
+bloodmnist         20   4    frozen  0.8771+-0.019  0.8995+-0.014
+bloodmnist          5   4    frozen  0.7752+-0.042  0.7877+-0.037
+bloodmnist         50   4    frozen  0.9184+-0.011  0.9394+-0.007
+breastmnist        10   4    frozen  0.7040+-0.060  0.6698+-0.068
+breastmnist       100   4    frozen  0.7965+-0.027  0.7995+-0.034
+breastmnist        20   4    frozen  0.7305+-0.031  0.7029+-0.052
+breastmnist         5   4    frozen  0.6497+-0.083  0.6213+-0.092
+breastmnist        50   4    frozen  0.7657+-0.020  0.7682+-0.035
+pathmnist          10   4    frozen  0.8847+-0.029  0.9028+-0.026
+pathmnist         100   4    frozen  0.9599+-0.014  0.9616+-0.010
+pathmnist          20   4    frozen  0.9202+-0.021  0.9277+-0.016
+pathmnist           5   4    frozen  0.8426+-0.026  0.8525+-0.033
+pathmnist          50   4    frozen  0.9491+-0.017  0.9540+-0.013
+pneumoniamnist     10   4    frozen  0.9110+-0.013  0.8993+-0.019
+pneumoniamnist    100   4    frozen  0.9340+-0.010  0.9337+-0.013
+pneumoniamnist     20   4    frozen  0.9219+-0.008  0.9200+-0.014
+pneumoniamnist      5   4    frozen  0.8902+-0.033  0.8738+-0.041
+pneumoniamnist     50   4    frozen  0.9251+-0.010  0.9246+-0.012
+
+=== PRIMARY (Q1, efficiency at equal parameters): quantum_vqc - matched_param_fullrank (auc) ===
+Both arms have 24 head parameters and full rank at d=4.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== SECONDARY (Q2, dequantization): quantum_vqc - fourier_rff (auc) ===
+Basis-matched, NOT parameter-matched (324 vs 24). Asks whether
+the VQC exploits its own function class as well as a direct fit.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== DIAGNOSTIC (rank-limited control): quantum_vqc - matched_param (auc) ===
+matched_param is rank-limited to width 3; superseded by
+matched_param_fullrank. Retained for reproducibility only.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== Q3: frozen - adaptive, per arm (auc) ===
+The premise check showed compression is nearly free WITH an adaptive
+encoder. A large negative delta here means the encoder was absorbing
+the constraint - the reframed 'Latent Reshaping' claim.
+dataset           reg   d                      arm     delta    n
+------------------------------------------------------------------------
+
+=== Trainable capacity by component ===
+If the head's share is small, the experiment is not isolating the head.
+
+arm                        d bottleneck   bneck   head   clf   total  head %
+------------------------------------------------------------------------------
+fourier_rff_r2             4    learned    1028   2500    10    3538   70.7%
+low_rank                   4    learned    1028     72    10    1110    6.5%
+
+=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===
+frozen: backbone must be '-' (no gradient reaches it).
+adaptive: backbone must be non-zero for EVERY arm, quantum included.
+
+arm                        encoder  runs    backbone  bottleneck        head  verdict
+--------------------------------------------------------------------------------------------
+fourier_rff_r2              frozen  1600           -      5.6938      3.0976  OK
+low_rank                    frozen  2400           -      1.3782      0.3245  OK
+
+Predictions: 4000/4000 claimed files are retrievable on disk; 0 shards predate prediction saving.
+
+DIAGNOSTIC OUTPUT - every interval above is a normal approximation
+over seeds. Confirmatory statistics come from 04_statistical_analysis.py.

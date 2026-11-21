@@ -1,0 +1,70 @@
+
+$ /content/env/bin/python -u scripts/analyse_lr_inherited.py --unclipped
+AMENDMENT 30, WITHOUT CLIPPING (exploratory) | X_34_lr_inherited | 3960 runs | sha=10ce9593
+commits in X_34_lr_inherited: ['56a09feb']
+  quantum_reupload, d = 4                   360 of 360
+  quantum_vqc_range1, d = 4                 360 of 360
+  quantum_rich, d = 4                       360 of 360
+  quantum_rich_padded, d = 4                360 of 360
+  quantum_basic, d = 4                      360 of 360
+  low_rank (rank 0), d = 4                  360 of 360
+  low_rank (rank 2), d = 4                  360 of 360
+  low_rank (rank 8), d = 4                  360 of 360
+  fourier_rff_r2, d = 4                     360 of 360
+  quantum_vqc, d = 8                        360 of 360
+  low_rank (rank 2), d = 8                  360 of 360
+
+Mean validation AUC by learning rate (all tuning runs pooled; test never used)
+arm                                         3e-04    1e-03    3e-03    1e-02    3e-02    1e-01  selected inherited    gap
+quantum_reupload, d = 4                    0.7857   0.8359   0.8744   0.8881   0.8418   0.7840     1e-02     1e-02 +0.0000
+quantum_vqc_range1, d = 4                  0.7869   0.8347   0.8684   0.8803   0.8624   0.8018     1e-02     1e-02 +0.0000
+quantum_rich, d = 4                        0.8115   0.8561   0.8768   0.8865   0.8855   0.8141     1e-02     1e-02 +0.0000
+quantum_rich_padded, d = 4                 0.8024   0.8479   0.8712   0.8795   0.8720   0.7804     1e-02     1e-02 +0.0000
+quantum_basic, d = 4                       0.7788   0.8292   0.8534   0.8685   0.8500   0.7761     1e-02     1e-02 +0.0000
+low_rank (rank 0), d = 4                   0.8129   0.8596   0.8863   0.8895   0.7874   0.7714     1e-02     1e-02 +0.0000
+low_rank (rank 2), d = 4                   0.7937   0.8528   0.8819   0.8774   0.7868   0.7395     3e-03     1e-02 +0.0046
+low_rank (rank 8), d = 4                   0.7986   0.8559   0.8842   0.8750   0.7970   0.7564     3e-03     1e-02 +0.0092
+fourier_rff_r2, d = 4                      0.8432   0.8780   0.8913   0.8788   0.7110   0.6278     3e-03     1e-02 +0.0125
+quantum_vqc, d = 8                         0.8152   0.8484   0.8711   0.8865   0.8782   0.8396     1e-02     1e-02 +0.0000
+low_rank (rank 2), d = 8                   0.8221   0.8773   0.8964   0.8966   0.8487   0.8117     1e-02     1e-02 +0.0000
+
+Per-n choices (descriptive):
+  quantum_reupload, d = 4                  n=5:1e-02  n=20:1e-02  n=100:1e-02
+  quantum_vqc_range1, d = 4                n=5:1e-02  n=20:1e-02  n=100:1e-02
+  quantum_rich, d = 4                      n=5:1e-02  n=20:3e-02  n=100:1e-02
+  quantum_rich_padded, d = 4               n=5:1e-02  n=20:1e-02  n=100:3e-03
+  quantum_basic, d = 4                     n=5:1e-02  n=20:1e-02  n=100:1e-02
+  low_rank (rank 0), d = 4                 n=5:1e-02  n=20:3e-03  n=100:1e-02
+  low_rank (rank 2), d = 4                 n=5:3e-03  n=20:3e-03  n=100:3e-03
+  low_rank (rank 8), d = 4                 n=5:3e-03  n=20:3e-03  n=100:3e-03
+  fourier_rff_r2, d = 4                    n=5:3e-03  n=20:3e-03  n=100:3e-03
+  quantum_vqc, d = 8                       n=5:1e-02  n=20:1e-02  n=100:1e-02
+  low_rank (rank 2), d = 8                 n=5:1e-02  n=20:1e-02  n=100:3e-03
+
+==============================================================================
+PREDICTIONS (Amendment 29)
+==============================================================================
+P1  every checked arm selects its inherited rate: FAILS
+      low_rank (rank 2), d = 4: selected 3e-03 (inherited 1e-02)
+      low_rank (rank 8), d = 4: selected 3e-03 (inherited 1e-02)
+      fourier_rff_r2, d = 4: selected 3e-03 (inherited 1e-02)
+P2  inherited rate within 0.005 validation AUC of the best: FAILS
+      low_rank (rank 8), d = 4: gap +0.0092
+      fourier_rff_r2, d = 4: gap +0.0125
+
+AMENDMENT 30 P2: selection with clipping (recorded) and without it
+  quantum_reupload, d = 4                  clipped 1e-02 (gap +0.0000)   unclipped 1e-02 (gap +0.0000)
+  quantum_vqc_range1, d = 4                clipped 1e-02 (gap +0.0000)   unclipped 1e-02 (gap +0.0000)
+  quantum_rich, d = 4                      clipped 1e-02 (gap +0.0000)   unclipped 1e-02 (gap +0.0000)
+  quantum_rich_padded, d = 4               clipped 1e-02 (gap +0.0000)   unclipped 1e-02 (gap +0.0000)
+  quantum_basic, d = 4                     clipped 1e-02 (gap +0.0000)   unclipped 1e-02 (gap +0.0000)
+  low_rank (rank 0), d = 4                 clipped 1e-02 (gap +0.0000)   unclipped 1e-02 (gap +0.0000)
+  low_rank (rank 2), d = 4                 clipped 3e-03 (gap +0.0046)   unclipped 3e-03 (gap +0.0046)
+  low_rank (rank 8), d = 4                 clipped 3e-03 (gap +0.0092)   unclipped 3e-03 (gap +0.0092)
+  fourier_rff_r2, d = 4                    clipped 3e-03 (gap +0.0053)   unclipped 3e-03 (gap +0.0125)
+  quantum_vqc, d = 8                       clipped 1e-02 (gap +0.0000)   unclipped 1e-02 (gap +0.0000)
+  low_rank (rank 2), d = 8                 clipped 1e-02 (gap +0.0000)   unclipped 1e-02 (gap +0.0000)
+P2  every arm selects the same rate without clipping: HOLDS
+
+Written: /content/art/lr_inherited_unclipped.json
+exit code 0

@@ -1,0 +1,43 @@
+
+$ /content/env/bin/python -u scripts/analyse_squash.py --workers 7
+AMENDMENT 28 (exploratory) | workers=7 | B=2000 | sha=56a09feb
+  squash_cost                  computed (20 cells, 40 seeds) in 1901s
+  primary_cpu                  computed (20 cells, 40 seeds) in 2343s
+  primary_nosquash             computed (20 cells, 40 seeds) in 2017s
+
+--- squash_cost: matched without squash - matched with squash
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0153 [+0.0092,+0.0221]  0.0010  0.0025  CI excludes 0
+    n=10         +0.0070 [+0.0020,+0.0124]  0.0090  0.0150  CI excludes 0
+    n=20         +0.0053 [+0.0005,+0.0112]  0.0270  0.0337  CI excludes 0
+    n=50         +0.0028 [-0.0006,+0.0061]  0.1219  0.1219  
+    n=100        +0.0050 [+0.0025,+0.0077]  0.0010  0.0025  CI excludes 0
+    slope       -0.00224 [-0.00360,-0.00088]  (descriptive)
+
+--- primary_cpu: VQC - matched with squash (the primary contrast, on CPU)
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0155 [+0.0040,+0.0279]  0.0110  0.0183  CI excludes 0
+    n=10         +0.0001 [-0.0077,+0.0079]  0.9935  0.9935  
+    n=20         -0.0037 [-0.0095,+0.0029]  0.2539  0.3173  
+    n=50         -0.0077 [-0.0121,-0.0032]  0.0020  0.0050  CI excludes 0
+    n=100        -0.0078 [-0.0116,-0.0039]  0.0010  0.0050  CI excludes 0
+    slope       -0.00488 [-0.00721,-0.00243]  (descriptive)
+
+--- primary_nosquash: VQC - matched without squash
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0002 [-0.0099,+0.0104]  0.9805  0.9805  
+    n=10         -0.0069 [-0.0134,-0.0002]  0.0450  0.0562  CI excludes 0
+    n=20         -0.0091 [-0.0134,-0.0047]  0.0020  0.0033  CI excludes 0
+    n=50         -0.0105 [-0.0148,-0.0057]  0.0010  0.0025  CI excludes 0
+    n=100        -0.0127 [-0.0161,-0.0095]  0.0010  0.0025  CI excludes 0
+    slope       -0.00264 [-0.00472,-0.00068]  (descriptive)
+
+==============================================================================
+PREDICTIONS (Amendment 28)
+==============================================================================
+P1  squash_cost(5) interval above zero: +0.0153 [+0.0092,+0.0221]  ->  HOLDS
+P2  primary_nosquash(5) not positive (interval includes or lies below zero): +0.0002 [-0.0099,+0.0104]  ->  HOLDS
+    primary_cpu(5), descriptive: +0.0155 [+0.0040,+0.0279]  (recorded on GPU: +0.0142 [+0.0025,+0.0256])
+
+Written: /content/art/squash_check.json
+exit code 0

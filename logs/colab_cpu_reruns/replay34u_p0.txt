@@ -1,0 +1,90 @@
+replay | source=34_lr_inherited -> CU_34_lr_inherited | clip=inf | runs=87 | code=56a09feb (/content/replay_trees/56a09feb) | device=cpu
+[1/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=164 max=114.592  | bloodmnist n=100 s=90002 fourier_rff_r2 | 0.3 min
+[2/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=14 max=50.960  | bloodmnist n=20 s=90001 fourier_rff_r2 | 0.4 min
+[3/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=11 max=45.827  | bloodmnist n=20 s=90005 fourier_rff_r2 | 0.4 min
+[4/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=20 max=48.395  | bloodmnist n=5 s=90004 fourier_rff_r2 | 0.4 min
+[5/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=15 max=61.623  | bloodmnist n=100 s=90003 fourier_rff_r2 | 0.7 min
+[6/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=3 max=26.649  | bloodmnist n=20 s=90002 fourier_rff_r2 | 0.8 min
+[7/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=2 max=44.687  | bloodmnist n=5 s=90001 fourier_rff_r2 | 0.9 min
+[8/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=3 max=31.853  | bloodmnist n=5 s=90005 fourier_rff_r2 | 0.9 min
+[9/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=297 max=46.581  | bloodmnist n=100 s=90004 fourier_rff_r2 | 1.2 min
+[10/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=37 max=35.424  | bloodmnist n=20 s=90003 fourier_rff_r2 | 1.2 min
+[11/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=4 max=33.338  | bloodmnist n=5 s=90002 fourier_rff_r2 | 1.3 min
+[12/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=2 max=27.708  | bloodmnist n=100 s=90001 fourier_rff_r2 | 1.4 min
+[13/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=6 max=35.812  | bloodmnist n=100 s=90005 fourier_rff_r2 | 1.5 min
+[14/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=6 max=37.130  | bloodmnist n=20 s=90004 fourier_rff_r2 | 1.6 min
+[15/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=14 max=37.005  | bloodmnist n=5 s=90003 fourier_rff_r2 | 1.7 min
+[16/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=317 max=47.709  | bloodmnist n=100 s=90002 fourier_rff_r2 | 1.9 min
+[17/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=94 max=55.537  | bloodmnist n=20 s=90001 fourier_rff_r2 | 2.0 min
+[18/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=72 max=43.624  | bloodmnist n=20 s=90005 fourier_rff_r2 | 2.1 min
+[19/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=22 max=30.428  | bloodmnist n=5 s=90004 fourier_rff_r2 | 2.2 min
+[20/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=94 max=36.762  | bloodmnist n=100 s=90003 fourier_rff_r2 | 2.4 min
+[21/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=4 max=32.052  | bloodmnist n=20 s=90002 fourier_rff_r2 | 2.6 min
+[22/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=5 max=33.338  | bloodmnist n=5 s=90002 fourier_rff_r2 | 2.7 min
+[23/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=12 max=55.225  | breastmnist n=100 s=90002 fourier_rff_r2 | 2.7 min
+[24/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=3 max=36.209  | breastmnist n=20 s=90001 fourier_rff_r2 | 2.7 min
+[25/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=14 max=41.353  | breastmnist n=20 s=90005 fourier_rff_r2 | 2.8 min
+[26/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=16 max=43.577  | breastmnist n=5 s=90004 fourier_rff_r2 | 2.8 min
+[27/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=1 max=22.267  | breastmnist n=100 s=90003 fourier_rff_r2 | 2.9 min
+[28/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=20.764  | breastmnist n=20 s=90003 fourier_rff_r2 | 2.9 min
+[29/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=11 max=45.422  | breastmnist n=5 s=90005 fourier_rff_r2 | 2.9 min
+[30/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=84 max=49.035  | breastmnist n=100 s=90005 fourier_rff_r2 | 3.0 min
+[31/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=10 max=38.800  | breastmnist n=20 s=90005 fourier_rff_r2 | 3.0 min
+[32/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=1 max=21.502  | breastmnist n=100 s=90004 fourier_rff_r2 | 3.1 min
+[33/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=8 max=36.950  | breastmnist n=20 s=90005 fourier_rff_r2 | 3.1 min
+[34/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=100 max=40.471  | breastmnist n=100 s=90002 fourier_rff_r2 | 3.2 min
+[35/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=24 max=48.150  | breastmnist n=20 s=90002 fourier_rff_r2 | 3.2 min
+[36/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=12 max=31.095  | breastmnist n=5 s=90002 fourier_rff_r2 | 3.2 min
+[37/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=28 max=40.255  | breastmnist n=100 s=90005 fourier_rff_r2 | 3.3 min
+[38/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=2 max=31.095  | breastmnist n=5 s=90002 fourier_rff_r2 | 3.4 min
+[39/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=146 max=199.031  | pathmnist n=100 s=90004 fourier_rff_r2 | 3.6 min
+[40/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=13 max=39.311  | pathmnist n=20 s=90003 fourier_rff_r2 | 3.6 min
+[41/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=18 max=47.992  | pathmnist n=5 s=90002 fourier_rff_r2 | 3.7 min
+[42/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=14 max=29.669  | pathmnist n=100 s=90001 fourier_rff_r2 | 4.0 min
+[43/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=16 max=40.836  | pathmnist n=100 s=90005 fourier_rff_r2 | 4.3 min
+[44/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=18 max=38.782  | pathmnist n=20 s=90004 fourier_rff_r2 | 4.4 min
+[45/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=3 max=47.271  | pathmnist n=5 s=90003 fourier_rff_r2 | 4.5 min
+[46/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=150 max=74.749  | pathmnist n=100 s=90002 fourier_rff_r2 | 4.8 min
+[47/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=4 max=25.221  | pathmnist n=20 s=90001 fourier_rff_r2 | 4.9 min
+[48/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=26 max=37.923  | pathmnist n=20 s=90005 fourier_rff_r2 | 5.0 min
+[49/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=1 max=21.977  | pathmnist n=5 s=90005 fourier_rff_r2 | 5.1 min
+[50/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=13 max=37.819  | pathmnist n=100 s=90004 fourier_rff_r2 | 5.3 min
+[51/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=6 max=51.936  | pathmnist n=20 s=90003 fourier_rff_r2 | 5.4 min
+[52/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=6 max=55.378  | pathmnist n=5 s=90002 fourier_rff_r2 | 5.4 min
+[53/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=156 max=46.594  | pathmnist n=100 s=90001 fourier_rff_r2 | 5.7 min
+[54/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=115 max=56.618  | pathmnist n=100 s=90005 fourier_rff_r2 | 6.0 min
+[55/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=99 max=46.198  | pathmnist n=20 s=90004 fourier_rff_r2 | 6.2 min
+[56/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=4 max=27.296  | pathmnist n=5 s=90003 fourier_rff_r2 | 6.2 min
+[57/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=64 max=61.568  | pathmnist n=100 s=90002 fourier_rff_r2 | 6.6 min
+[58/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=1 max=21.832  | pathmnist n=20 s=90002 fourier_rff_r2 | 6.7 min
+[59/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=2 max=22.246  | pathmnist n=5 s=90005 fourier_rff_r2 | 6.8 min
+[60/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=17 max=48.608  | pneumoniamnist n=100 s=90004 fourier_rff_r2 | 6.8 min
+[61/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=20 max=50.664  | pneumoniamnist n=20 s=90003 fourier_rff_r2 | 6.8 min
+[62/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=11 max=33.086  | pneumoniamnist n=5 s=90002 fourier_rff_r2 | 6.9 min
+[63/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=2 max=21.824  | pneumoniamnist n=100 s=90003 fourier_rff_r2 | 6.9 min
+[64/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=21 max=48.824  | pneumoniamnist n=20 s=90002 fourier_rff_r2 | 7.0 min
+[65/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=20.501  | pneumoniamnist n=5 s=90003 fourier_rff_r2 | 7.0 min
+[66/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=84 max=60.474  | pneumoniamnist n=100 s=90002 fourier_rff_r2 | 7.1 min
+[67/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=3 max=27.142  | pneumoniamnist n=20 s=90001 fourier_rff_r2 | 7.2 min
+[68/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=5 max=37.349  | pneumoniamnist n=20 s=90005 fourier_rff_r2 | 7.2 min
+[69/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=1 max=20.324  | pneumoniamnist n=100 s=90004 fourier_rff_r2 | 7.3 min
+[70/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=27.627  | pneumoniamnist n=20 s=90003 fourier_rff_r2 | 7.3 min
+[71/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=26.822  | pneumoniamnist n=5 s=90003 fourier_rff_r2 | 7.4 min
+[72/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=10 max=48.612  | pneumoniamnist n=100 s=90003 fourier_rff_r2 | 7.5 min
+[73/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=21 max=50.208  | pneumoniamnist n=20 s=90002 fourier_rff_r2 | 7.5 min
+[74/87] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=9 max=31.770  | pneumoniamnist n=5 s=90002 fourier_rff_r2 | 7.5 min
+[75/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=4 max=31.720  | pneumoniamnist n=100 s=90004 fourier_rff_r2 | 7.6 min
+[76/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=2 max=24.820  | pneumoniamnist n=20 s=90004 fourier_rff_r2 | 7.7 min
+[77/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=0 max=4.492  | bloodmnist n=100 s=90003 low_rank | 7.9 min
+[78/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=28.477  | bloodmnist n=20 s=90002 low_rank | 8.1 min
+[79/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=2 max=20.211  | bloodmnist n=100 s=90001 low_rank | 8.6 min
+[80/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=20.700  | bloodmnist n=100 s=90003 low_rank | 8.8 min
+[81/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=0 max=10.590  | pathmnist n=100 s=90003 low_rank | 9.0 min
+[82/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=26.224  | pathmnist n=100 s=90005 low_rank | 9.3 min
+[83/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=22.266  | pathmnist n=100 s=90003 low_rank | 9.6 min
+[84/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=23.012  | pathmnist n=100 s=90004 low_rank | 9.9 min
+[85/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=3 max=24.599  | pathmnist n=100 s=90003 low_rank | 10.3 min
+[86/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=21.488  | pathmnist n=100 s=90002 low_rank | 10.6 min
+[87/87] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=20.461  | breastmnist n=100 s=90004 quantum_rich | 11.5 min
+
+replay summary 34_lr_inherited -> CU_34_lr_inherited: done 87, other 0, of 87

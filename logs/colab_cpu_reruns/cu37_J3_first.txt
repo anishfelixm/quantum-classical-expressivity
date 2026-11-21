@@ -1,0 +1,9 @@
+
+$ OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /content/env/bin/python -u scripts/replay.py --source 37_rate_gaps --clip inf --code-at 10ce9593 --from-list /content/cu37_J3_first.txt
+Preparing worktree (detached HEAD 10ce959)
+HEAD is now at 10ce959 Amendment 30: processor note and AMD-only check; Amendment 31: each arm at its tuned rate, the circuit without the squash
+replay | source=37_rate_gaps -> CU_37_rate_gaps | clip=inf | runs=1 | code=10ce9593 (/content/replay_trees/10ce9593) | device=cpu
+[1/1] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=3 max=25.738  | bloodmnist n=100 s=1000003 fourier_rff_r2 | 0.1 min
+
+replay summary 37_rate_gaps -> CU_37_rate_gaps: done 1, other 0, of 1
+exit code 0

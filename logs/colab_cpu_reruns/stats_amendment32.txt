@@ -1,0 +1,43 @@
+
+$ /content/env/bin/python -u scripts/analyse_amendment32.py contrasts --workers 7
+AMENDMENT 32 (exploratory) | workers=7 | B=2000 | sha=260d11f5 | rates: fourier_rff raw z 1e-02, VQC raw z 3e-02
+  fc_nosquash                  computed (20 cells, 40 seeds) in 2707s
+  fc_squashed_cpu              computed (20 cells, 40 seeds) in 3153s
+  fourier_squash_cost          computed (20 cells, 40 seeds) in 2130s
+
+--- fc_nosquash: VQC raw z (3e-02) - fourier_rff raw z (1e-02)
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0063 [-0.0044,+0.0176]  0.2179  0.2179  
+    n=10         -0.0055 [-0.0116,+0.0012]  0.0930  0.1162  
+    n=20         -0.0069 [-0.0121,-0.0018]  0.0120  0.0200  CI excludes 0
+    n=50         -0.0075 [-0.0112,-0.0041]  0.0010  0.0050  CI excludes 0
+    n=100        -0.0049 [-0.0078,-0.0022]  0.0040  0.0100  CI excludes 0
+    slope       -0.00217 [-0.00432,-0.00016]  (descriptive)
+
+--- fc_squashed_cpu: VQC squashed (1e-02) - fourier_rff squashed (1e-02), CPU
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          -0.0082 [-0.0179,+0.0015]  0.0970  0.0970  
+    n=10         -0.0188 [-0.0257,-0.0126]  0.0010  0.0012  CI excludes 0
+    n=20         -0.0199 [-0.0245,-0.0149]  0.0010  0.0012  CI excludes 0
+    n=50         -0.0200 [-0.0241,-0.0163]  0.0010  0.0012  CI excludes 0
+    n=100        -0.0167 [-0.0201,-0.0131]  0.0010  0.0012  CI excludes 0
+    slope       -0.00160 [-0.00358,+0.00046]  (descriptive)
+
+--- fourier_squash_cost: fourier_rff raw z (1e-02) - fourier_rff squashed (1e-02)
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0052 [-0.0019,+0.0127]  0.1479  0.3698  
+    n=10         +0.0028 [-0.0027,+0.0078]  0.3048  0.3811  
+    n=20         +0.0014 [-0.0024,+0.0049]  0.4198  0.4198  
+    n=50         +0.0018 [-0.0006,+0.0044]  0.1279  0.3698  
+    n=100        +0.0013 [-0.0011,+0.0037]  0.2609  0.3811  
+    slope       -0.00079 [-0.00222,+0.00067]  (descriptive)
+
+==============================================================================
+PREDICTIONS (Amendment 32)
+==============================================================================
+P1  fc_nosquash: no interval above zero: n=5 +0.0063 [-0.0044,+0.0176], n=10 -0.0055 [-0.0116,+0.0012], n=20 -0.0069 [-0.0121,-0.0018], n=50 -0.0075 [-0.0112,-0.0041], n=100 -0.0049 [-0.0078,-0.0022]  ->  HOLDS
+P2  fc_squashed_cpu <= 0 at n >= 10: n=10 -0.0188, n=20 -0.0199, n=50 -0.0200, n=100 -0.0167  ->  HOLDS
+P3  fourier_squash_cost(5) above zero: +0.0052 [-0.0019,+0.0127]  ->  HOLDS
+
+Written: /content/art/amendment32.json
+exit code 0

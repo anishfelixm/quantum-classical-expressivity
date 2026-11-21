@@ -1,0 +1,7 @@
+replay | source=35_lr_nosquash -> CU_35_lr_nosquash | clip=inf | runs=4 | code=10ce9593 (/content/replay_trees/10ce9593) | device=cpu
+[1/4] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=24.183  | bloodmnist n=5 s=90004 matched_param_fullrank | 0.1 min
+[2/4] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=1 max=25.730  | pathmnist n=100 s=90004 matched_param_fullrank | 0.1 min
+[3/4] not compared (no per-epoch h cache=warm (logs: -) steps>20=2 max=44.700  | pathmnist n=100 s=90003 matched_param_fullrank | 0.3 min
+[4/4] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=23.041  | pathmnist n=100 s=90003 matched_param_fullrank | 0.4 min
+
+replay summary 35_lr_nosquash -> CU_35_lr_nosquash: done 4, other 0, of 4

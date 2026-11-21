@@ -1,0 +1,6 @@
+2026-10-31 19:16 session 0/1 device=cpu cpu='Intel(R) Xeon(R) CPU @ 2.20GHz' cores=2 sha=87b5b278
+2026-10-31 19:21 session 0/1 device=cpu cpu='Intel(R) Xeon(R) CPU @ 2.20GHz' cores=2 sha=cbaa4560
+2026-11-01 05:38 session 0/1 device=cpu cpu='AMD EPYC 7B12' cores=8 sha=58852d84
+2026-11-01 05:55 session 1/2 device=cpu cpu='AMD EPYC 7B12' cores=8 sha=58852d84
+2026-11-01 18:19 session 0/2 device=cpu cpu='AMD EPYC 7B12' cores=8 sha=58852d84
+2026-11-01 20:47 session 0/1 device=cpu cpu='Intel(R) Xeon(R) CPU @ 2.20GHz' cores=8 sha=5b8e47f9

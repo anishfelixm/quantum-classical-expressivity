@@ -1,0 +1,11 @@
+
+$ OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /content/env/bin/python -u scripts/replay.py --source 37_rate_gaps --clip 20 --code-at 10ce9593 --quick --where arm=fourier_rff_r2 --seeds 42 161803 65537 11235 8128
+Preparing worktree (detached HEAD 10ce959)
+HEAD is now at 10ce959 Amendment 30: processor note and AMD-only check; Amendment 31: each arm at its tuned rate, the circuit without the squash
+replay | source=37_rate_gaps -> C_37_rate_gaps | clip=20.0 | runs=2 | code=10ce9593 (/content/replay_trees/10ce9593) | device=cpu
+[1/2] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.847  | breastmnist n=5 s=42 fourier_rff_r2 | 0.0 min
+[2/2] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.971  | breastmnist n=5 s=42 fourier_rff_r2 | 0.0 min
+
+replay summary 37_rate_gaps -> C_37_rate_gaps: identical 2, different 0, of 2
+QUICK CHECK PASSED
+exit code 0

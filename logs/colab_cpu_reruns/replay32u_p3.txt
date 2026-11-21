@@ -1,0 +1,27 @@
+replay | source=32_squash -> CU_32_squash | clip=inf | runs=24 | code=56a09feb (/content/replay_trees/56a09feb) | device=cpu
+[1/24] PREFIX IDENTICAL (98 epochs) cache=warm (logs: -) steps>20=1 max=20.243  | bloodmnist n=100 s=777 matched_param_fullrank | 0.1 min
+[2/24] PREFIX IDENTICAL (71 epochs) cache=warm (logs: -) steps>20=1 max=24.082  | bloodmnist n=10 s=1414 matched_param_fullrank | 0.2 min
+[3/24] PREFIX IDENTICAL (96 epochs) cache=warm (logs: -) steps>20=1 max=21.728  | bloodmnist n=50 s=1597 matched_param_fullrank | 0.3 min
+[4/24] PREFIX IDENTICAL (69 epochs) cache=warm (logs: -) steps>20=2 max=26.292  | bloodmnist n=50 s=6174 matched_param_fullrank | 0.4 min
+[5/24] PREFIX IDENTICAL (95 epochs) cache=warm (logs: -) steps>20=1 max=20.799  | bloodmnist n=20 s=4321 matched_param_fullrank | 0.5 min
+[6/24] PREFIX IDENTICAL (85 epochs) cache=warm (logs: -) steps>20=1 max=22.485  | breastmnist n=100 s=888 matched_param_fullrank | 0.6 min
+[7/24] PREFIX IDENTICAL (53 epochs) cache=warm (logs: -) steps>20=3 max=26.088  | pathmnist n=100 s=1000003 matched_param_fullrank | 0.7 min
+[8/24] PREFIX IDENTICAL (31 epochs) cache=warm (logs: -) steps>20=2 max=22.563  | pathmnist n=100 s=2026 matched_param_fullrank | 0.9 min
+[9/24] PREFIX IDENTICAL (37 epochs) cache=warm (logs: -) steps>20=1 max=39.061  | pathmnist n=100 s=496 matched_param_fullrank | 1.0 min
+[10/24] PREFIX IDENTICAL (35 epochs) cache=warm (logs: -) steps>20=2 max=22.984  | pathmnist n=100 s=8 matched_param_fullrank | 1.3 min
+[11/24] PREFIX IDENTICAL (17 epochs) cache=warm (logs: -) steps>20=2 max=30.782  | pathmnist n=50 s=1000003 matched_param_fullrank | 1.5 min
+[12/24] PREFIX IDENTICAL (27 epochs) cache=warm (logs: -) steps>20=4 max=25.876  | pathmnist n=50 s=123 matched_param_fullrank | 1.6 min
+[13/24] PREFIX IDENTICAL (65 epochs) cache=warm (logs: -) steps>20=1 max=31.042  | pathmnist n=50 s=1729 matched_param_fullrank | 1.7 min
+[14/24] PREFIX IDENTICAL (78 epochs) cache=warm (logs: -) steps>20=1 max=21.175  | pathmnist n=50 s=31337 matched_param_fullrank | 1.8 min
+[15/24] PREFIX IDENTICAL (86 epochs) cache=warm (logs: -) steps>20=1 max=22.565  | pathmnist n=50 s=42 matched_param_fullrank | 1.9 min
+[16/24] PREFIX IDENTICAL (93 epochs) cache=warm (logs: -) steps>20=1 max=26.707  | pathmnist n=50 s=555 matched_param_fullrank | 2.1 min
+[17/24] PREFIX IDENTICAL (65 epochs) cache=warm (logs: -) steps>20=1 max=23.553  | pathmnist n=50 s=777 matched_param_fullrank | 2.2 min
+[18/24] PREFIX IDENTICAL (64 epochs) cache=warm (logs: -) steps>20=2 max=31.878  | pathmnist n=50 s=888 matched_param_fullrank | 2.3 min
+[19/24] PREFIX IDENTICAL (85 epochs) cache=warm (logs: -) steps>20=1 max=26.938  | pathmnist n=100 s=2520 matched_param_fullrank | 2.5 min
+[20/24] PREFIX IDENTICAL (88 epochs) cache=warm (logs: -) steps>20=1 max=20.196  | pathmnist n=100 s=77777 matched_param_fullrank | 2.7 min
+[21/24] PREFIX IDENTICAL (93 epochs) cache=warm (logs: -) steps>20=1 max=24.278  | pathmnist n=50 s=1597 matched_param_fullrank | 2.8 min
+[22/24] PREFIX IDENTICAL (32 epochs) cache=warm (logs: -) steps>20=2 max=31.977  | pathmnist n=50 s=2718281 matched_param_fullrank | 2.9 min
+[23/24] PREFIX IDENTICAL (86 epochs) cache=warm (logs: -) steps>20=1 max=20.089  | pathmnist n=50 s=6174 matched_param_fullrank | 3.0 min
+[24/24] PREFIX IDENTICAL (86 epochs) cache=warm (logs: -) steps>20=1 max=20.105  | pathmnist n=50 s=8128 matched_param_fullrank | 3.1 min
+
+replay summary 32_squash -> CU_32_squash: done 24, other 0, of 24

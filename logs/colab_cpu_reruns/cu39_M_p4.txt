@@ -1,0 +1,47 @@
+replay | source=39_fourier_cpu -> CU_39_fourier_cpu | clip=inf | runs=44 | code=260d11f5 (/content/replay_trees/260d11f5) | device=cpu
+[1/44] PREFIX IDENTICAL (94 epochs) cache=warm (logs: -) steps>20=2 max=21.095  | bloodmnist n=100 s=28657 fourier_rff | 0.2 min
+[2/44] PREFIX IDENTICAL (82 epochs) cache=warm (logs: -) steps>20=2 max=22.844  | bloodmnist n=10 s=2718281 fourier_rff | 0.3 min
+[3/44] PREFIX IDENTICAL (78 epochs) cache=warm (logs: -) steps>20=1 max=24.403  | bloodmnist n=20 s=1597 fourier_rff | 0.4 min
+[4/44] PREFIX IDENTICAL (60 epochs) cache=warm (logs: -) steps>20=1 max=22.912  | bloodmnist n=50 s=123 fourier_rff | 0.6 min
+[5/44] PREFIX IDENTICAL (33 epochs) cache=warm (logs: -) steps>20=1 max=20.824  | bloodmnist n=50 s=5040 fourier_rff | 0.7 min
+[6/44] PREFIX IDENTICAL (78 epochs) cache=warm (logs: -) steps>20=3 max=25.740  | bloodmnist n=5 s=46341 fourier_rff | 0.8 min
+[7/44] PREFIX IDENTICAL (40 epochs) cache=warm (logs: -) steps>20=4 max=21.941  | bloodmnist n=100 s=1597 fourier_rff | 1.0 min
+[8/44] PREFIX IDENTICAL (20 epochs) cache=warm (logs: -) steps>20=3 max=24.656  | bloodmnist n=100 s=33 fourier_rff | 1.3 min
+[9/44] PREFIX IDENTICAL (62 epochs) cache=warm (logs: -) steps>20=1 max=20.911  | bloodmnist n=100 s=65537 fourier_rff | 1.5 min
+[10/44] PREFIX IDENTICAL (72 epochs) cache=warm (logs: -) steps>20=2 max=21.479  | bloodmnist n=10 s=13 fourier_rff | 1.6 min
+[11/44] PREFIX IDENTICAL (77 epochs) cache=warm (logs: -) steps>20=2 max=23.455  | bloodmnist n=10 s=28657 fourier_rff | 1.7 min
+[12/44] PREFIX IDENTICAL (70 epochs) cache=warm (logs: -) steps>20=5 max=24.813  | bloodmnist n=10 s=8 fourier_rff | 1.8 min
+[13/44] PREFIX IDENTICAL (35 epochs) cache=warm (logs: -) steps>20=2 max=25.183  | bloodmnist n=20 s=2026 fourier_rff | 1.9 min
+[14/44] PREFIX IDENTICAL (65 epochs) cache=warm (logs: -) steps>20=2 max=30.285  | bloodmnist n=20 s=65537 fourier_rff | 2.0 min
+[15/44] PREFIX IDENTICAL (28 epochs) cache=warm (logs: -) steps>20=3 max=22.757  | bloodmnist n=50 s=13 fourier_rff | 2.1 min
+[16/44] PREFIX IDENTICAL (65 epochs) cache=warm (logs: -) steps>20=2 max=22.501  | bloodmnist n=50 s=271828 fourier_rff | 2.3 min
+[17/44] PREFIX IDENTICAL (65 epochs) cache=warm (logs: -) steps>20=7 max=29.331  | bloodmnist n=50 s=496 fourier_rff | 2.4 min
+[18/44] PREFIX IDENTICAL (61 epochs) cache=warm (logs: -) steps>20=2 max=23.193  | bloodmnist n=50 s=8128 fourier_rff | 2.6 min
+[19/44] PREFIX IDENTICAL (89 epochs) cache=warm (logs: -) steps>20=1 max=20.326  | bloodmnist n=5 s=28657 fourier_rff | 2.6 min
+[20/44] PREFIX IDENTICAL (53 epochs) cache=warm (logs: -) steps>20=2 max=24.569  | bloodmnist n=5 s=987654 fourier_rff | 2.7 min
+[21/44] PREFIX IDENTICAL (89 epochs) cache=warm (logs: -) steps>20=1 max=20.654  | breastmnist n=100 s=121393 fourier_rff | 2.8 min
+[22/44] PREFIX IDENTICAL (55 epochs) cache=warm (logs: -) steps>20=1 max=21.855  | breastmnist n=20 s=40 fourier_rff | 2.8 min
+[23/44] PREFIX IDENTICAL (17 epochs) cache=warm (logs: -) steps>20=1 max=20.021  | pathmnist n=100 s=10007 fourier_rff | 3.0 min
+[24/44] PREFIX IDENTICAL (49 epochs) cache=warm (logs: -) steps>20=3 max=21.379  | pathmnist n=100 s=28657 fourier_rff | 3.3 min
+[25/44] PREFIX IDENTICAL (41 epochs) cache=warm (logs: -) steps>20=1 max=23.634  | pathmnist n=100 s=777 fourier_rff | 3.5 min
+[26/44] PREFIX IDENTICAL (80 epochs) cache=warm (logs: -) steps>20=1 max=20.892  | pathmnist n=20 s=1729 fourier_rff | 3.6 min
+[27/44] PREFIX IDENTICAL (13 epochs) cache=warm (logs: -) steps>20=5 max=37.726  | pathmnist n=50 s=1414 fourier_rff | 3.8 min
+[28/44] PREFIX IDENTICAL (84 epochs) cache=warm (logs: -) steps>20=2 max=22.585  | pathmnist n=50 s=271828 fourier_rff | 3.9 min
+[29/44] PREFIX IDENTICAL (47 epochs) cache=warm (logs: -) steps>20=2 max=27.187  | pathmnist n=50 s=46341 fourier_rff | 4.1 min
+[30/44] PREFIX IDENTICAL (28 epochs) cache=warm (logs: -) steps>20=3 max=26.372  | pathmnist n=50 s=8 fourier_rff | 4.2 min
+[31/44] PREFIX IDENTICAL (71 epochs) cache=warm (logs: -) steps>20=1 max=23.752  | pathmnist n=100 s=121393 fourier_rff | 4.4 min
+[32/44] PREFIX IDENTICAL (83 epochs) cache=warm (logs: -) steps>20=1 max=27.321  | pathmnist n=100 s=2026 fourier_rff | 4.7 min
+[33/44] PREFIX IDENTICAL (44 epochs) cache=warm (logs: -) steps>20=1 max=20.155  | pathmnist n=100 s=40 fourier_rff | 4.9 min
+[34/44] PREFIX IDENTICAL (21 epochs) cache=warm (logs: -) steps>20=2 max=20.980  | pathmnist n=100 s=65537 fourier_rff | 5.2 min
+[35/44] PREFIX IDENTICAL (27 epochs) cache=warm (logs: -) steps>20=1 max=21.878  | pathmnist n=100 s=987654 fourier_rff | 5.4 min
+[36/44] PREFIX IDENTICAL (67 epochs) cache=warm (logs: -) steps>20=2 max=25.942  | pathmnist n=20 s=1597 fourier_rff | 5.5 min
+[37/44] PREFIX IDENTICAL (57 epochs) cache=warm (logs: -) steps>20=1 max=20.484  | pathmnist n=20 s=8 fourier_rff | 5.6 min
+[38/44] PREFIX IDENTICAL (31 epochs) cache=warm (logs: -) steps>20=3 max=23.284  | pathmnist n=50 s=121393 fourier_rff | 5.8 min
+[39/44] PREFIX IDENTICAL (62 epochs) cache=warm (logs: -) steps>20=3 max=35.893  | pathmnist n=50 s=2026 fourier_rff | 5.9 min
+[40/44] PREFIX IDENTICAL (38 epochs) cache=warm (logs: -) steps>20=3 max=32.618  | pathmnist n=50 s=33 fourier_rff | 6.1 min
+[41/44] PREFIX IDENTICAL (44 epochs) cache=warm (logs: -) steps>20=2 max=27.316  | pathmnist n=50 s=60221 fourier_rff | 6.2 min
+[42/44] PREFIX IDENTICAL (16 epochs) cache=warm (logs: -) steps>20=4 max=31.115  | pathmnist n=50 s=8191 fourier_rff | 6.4 min
+[43/44] PREFIX IDENTICAL (60 epochs) cache=warm (logs: -) steps>20=1 max=20.310  | pneumoniamnist n=50 s=33 fourier_rff | 6.4 min
+[44/44] PREFIX IDENTICAL (36 epochs) cache=warm (logs: -) steps>20=7 max=26.787  | pneumoniamnist n=100 s=555 fourier_rff | 6.5 min
+
+replay summary 39_fourier_cpu -> CU_39_fourier_cpu: done 44, other 0, of 44

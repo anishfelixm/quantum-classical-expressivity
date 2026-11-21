@@ -1,0 +1,34 @@
+replay | source=37_rate_gaps -> CU_37_rate_gaps | clip=inf | runs=31 | code=10ce9593 (/content/replay_trees/10ce9593) | device=cpu
+[1/31] PREFIX IDENTICAL (74 epochs) cache=warm (logs: -) steps>20=1 max=20.408  | bloodmnist n=10 s=271828 low_rank | 0.1 min
+[2/31] PREFIX IDENTICAL (69 epochs) cache=warm (logs: -) steps>20=1 max=23.815  | bloodmnist n=20 s=10007 low_rank | 0.2 min
+[3/31] PREFIX IDENTICAL (60 epochs) cache=warm (logs: -) steps>20=1 max=22.016  | bloodmnist n=50 s=1000003 low_rank | 0.3 min
+[4/31] PREFIX IDENTICAL (48 epochs) cache=warm (logs: -) steps>20=1 max=21.055  | bloodmnist n=50 s=720720 low_rank | 0.5 min
+[5/31] PREFIX IDENTICAL (73 epochs) cache=warm (logs: -) steps>20=4 max=24.661  | bloodmnist n=100 s=10007 low_rank | 0.7 min
+[6/31] PREFIX IDENTICAL (60 epochs) cache=warm (logs: -) steps>20=2 max=22.899  | bloodmnist n=100 s=28657 low_rank | 0.9 min
+[7/31] PREFIX IDENTICAL (57 epochs) cache=warm (logs: -) steps>20=5 max=24.063  | bloodmnist n=100 s=65537 low_rank | 1.1 min
+[8/31] PREFIX IDENTICAL (98 epochs) cache=warm (logs: -) steps>20=1 max=20.468  | bloodmnist n=50 s=1000003 low_rank | 1.3 min
+[9/31] PREFIX IDENTICAL (86 epochs) cache=warm (logs: -) steps>20=1 max=26.706  | bloodmnist n=50 s=65537 low_rank | 1.4 min
+[10/31] PREFIX IDENTICAL (75 epochs) cache=warm (logs: -) steps>20=4 max=34.003  | breastmnist n=100 s=28657 low_rank | 1.5 min
+[11/31] PREFIX IDENTICAL (87 epochs) cache=warm (logs: -) steps>20=1 max=22.730  | pathmnist n=100 s=9001 low_rank | 1.7 min
+[12/31] PREFIX IDENTICAL (77 epochs) cache=warm (logs: -) steps>20=1 max=20.797  | pathmnist n=50 s=2718281 low_rank | 1.9 min
+[13/31] PREFIX IDENTICAL (43 epochs) cache=warm (logs: -) steps>20=1 max=21.620  | pathmnist n=100 s=10007 low_rank | 2.1 min
+[14/31] PREFIX IDENTICAL (28 epochs) cache=warm (logs: -) steps>20=3 max=22.412  | pathmnist n=100 s=28657 low_rank | 2.4 min
+[15/31] PREFIX IDENTICAL (76 epochs) cache=warm (logs: -) steps>20=2 max=24.254  | pathmnist n=100 s=8 low_rank | 2.6 min
+[16/31] PREFIX IDENTICAL (54 epochs) cache=warm (logs: -) steps>20=1 max=29.035  | pathmnist n=20 s=11235 low_rank | 2.8 min
+[17/31] PREFIX IDENTICAL (17 epochs) cache=warm (logs: -) steps>20=1 max=20.922  | pathmnist n=50 s=1000003 low_rank | 2.9 min
+[18/31] PREFIX IDENTICAL (14 epochs) cache=warm (logs: -) steps>20=4 max=24.178  | pathmnist n=50 s=2026 low_rank | 3.1 min
+[19/31] PREFIX IDENTICAL (86 epochs) cache=warm (logs: -) steps>20=1 max=20.126  | pathmnist n=50 s=42 low_rank | 3.3 min
+[20/31] PREFIX IDENTICAL (86 epochs) cache=warm (logs: -) steps>20=1 max=23.516  | pathmnist n=50 s=8 low_rank | 3.4 min
+[21/31] PREFIX IDENTICAL (70 epochs) cache=warm (logs: -) steps>20=2 max=24.982  | pathmnist n=100 s=1000003 low_rank | 3.7 min
+[22/31] PREFIX IDENTICAL (47 epochs) cache=warm (logs: -) steps>20=8 max=32.184  | pathmnist n=100 s=17 low_rank | 4.0 min
+[23/31] PREFIX IDENTICAL (64 epochs) cache=warm (logs: -) steps>20=1 max=22.708  | pathmnist n=100 s=314159 low_rank | 4.2 min
+[24/31] PREFIX IDENTICAL (81 epochs) cache=warm (logs: -) steps>20=2 max=29.837  | pathmnist n=100 s=6174 low_rank | 4.5 min
+[25/31] PREFIX IDENTICAL (84 epochs) cache=warm (logs: -) steps>20=1 max=23.858  | pathmnist n=100 s=888 low_rank | 4.7 min
+[26/31] PREFIX IDENTICAL (35 epochs) cache=warm (logs: -) steps>20=2 max=35.592  | pathmnist n=50 s=121393 low_rank | 4.9 min
+[27/31] PREFIX IDENTICAL (54 epochs) cache=warm (logs: -) steps>20=5 max=31.967  | pathmnist n=50 s=2027 low_rank | 5.1 min
+[28/31] PREFIX IDENTICAL (42 epochs) cache=warm (logs: -) steps>20=4 max=33.310  | pathmnist n=50 s=40 low_rank | 5.2 min
+[29/31] PREFIX IDENTICAL (52 epochs) cache=warm (logs: -) steps>20=3 max=31.075  | pathmnist n=50 s=6174 low_rank | 5.4 min
+[30/31] PREFIX IDENTICAL (57 epochs) cache=warm (logs: -) steps>20=2 max=27.458  | pathmnist n=50 s=888 low_rank | 5.5 min
+[31/31] PREFIX IDENTICAL (97 epochs) cache=warm (logs: -) steps>20=1 max=23.488  | pneumoniamnist n=100 s=42 low_rank | 5.5 min
+
+replay summary 37_rate_gaps -> CU_37_rate_gaps: done 31, other 0, of 31

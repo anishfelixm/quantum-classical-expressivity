@@ -1,0 +1,15 @@
+
+$ OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 /content/env/bin/python -u scripts/replay.py --source 34_lr_inherited --clip 20 --code-at 56a09feb --quick --where arm=quantum_reupload
+Preparing worktree (detached HEAD 56a09fe)
+HEAD is now at 56a09fe Amendments 27-29: CPU re-execution of the Amendment 26 runs and six unclipped full-data runs; squash check; inherited learning-rate check
+replay | source=34_lr_inherited -> C_34_lr_inherited | clip=20.0 | runs=6 | code=56a09feb (/content/replay_trees/56a09feb) | device=cpu
+[1/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.377  | breastmnist n=5 s=90001 quantum_reupload | 0.0 min
+[2/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.072  | breastmnist n=5 s=90001 quantum_reupload | 0.1 min
+[3/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.289  | breastmnist n=5 s=90001 quantum_reupload | 0.2 min
+[4/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.867  | breastmnist n=5 s=90001 quantum_reupload | 0.2 min
+[5/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.409  | breastmnist n=5 s=90001 quantum_reupload | 0.3 min
+[6/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.212  | breastmnist n=5 s=90001 quantum_reupload | 0.3 min
+
+replay summary 34_lr_inherited -> C_34_lr_inherited: identical 6, different 0, of 6
+QUICK CHECK PASSED
+exit code 0

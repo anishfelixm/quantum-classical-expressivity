@@ -1,0 +1,9 @@
+
+$ OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 /content/env/bin/python -u scripts/replay.py --source 35_lr_nosquash --clip inf --code-at 10ce9593 --from-list /content/cu35_J1_first.txt
+Preparing worktree (detached HEAD 10ce959)
+HEAD is now at 10ce959 Amendment 30: processor note and AMD-only check; Amendment 31: each arm at its tuned rate, the circuit without the squash
+replay | source=35_lr_nosquash -> CU_35_lr_nosquash | clip=inf | runs=1 | code=10ce9593 (/content/replay_trees/10ce9593) | device=cpu
+[1/1] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=1 max=20.778  | bloodmnist n=20 s=90003 matched_param_fullrank | 0.0 min
+
+replay summary 35_lr_nosquash -> CU_35_lr_nosquash: done 1, other 0, of 1
+exit code 0

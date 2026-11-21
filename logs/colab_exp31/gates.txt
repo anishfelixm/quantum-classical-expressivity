@@ -1,0 +1,488 @@
+
+$ /content/env/bin/python -c "import torch, pennylane, numpy; print('torch', torch.__version__, '| pennylane', pennylane.__version__, '| numpy', numpy.__version__)"
+torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4
+exit code 0
+
+$ /content/env/bin/python -m pytest -q -s tests/test_entangling_ranges.py tests/test_parity.py tests/test_fourier_equivalence.py tests/test_reupload_spectrum.py
+
+  d=4 quantum_vqc            CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (1, 3), (2, 0), (3, 1)]
+
+  d=4 quantum_reupload       CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 1), (1, 2), (2, 3), (3, 0)]
+
+  d=4 quantum_vqc_range1     CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 1), (1, 2), (2, 3), (3, 0)]
+
+  d=4 quantum_rich           CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (1, 3), (2, 0), (3, 1)]
+
+  d=4 quantum_rich_padded    CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (1, 3), (2, 0), (3, 1)]
+.
+  d=8 quantum_vqc            CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 2), (1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 0), (7, 1)]
+
+  d=8 quantum_reupload       CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0)]
+
+  d=8 quantum_vqc_range1     CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0)]
+
+  d=8 quantum_rich           CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 2), (1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 0), (7, 1)]
+
+  d=8 quantum_rich_padded    CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 2), (1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 0), (7, 1)]
+...
+  quantum_vqc_range1 d=4: 24 head parameters
+.
+  quantum_vqc_range1 d=8: 48 head parameters
+.
+  quantum_vqc_range1 d=16: 96 head parameters
+.
+  quantum_vqc_range1 in the 3^d span: max |residual| = 4.44e-16
+.
+  quantum_vqc              d=4  head params = 24
+.
+  quantum_reupload         d=4  head params = 24
+.
+  matched_param_fullrank   d=4  head params = 24
+.
+  low_rank                 d=4  head params = 24
+.
+  matched_param            d=4  head params = 24
+.
+  quantum_vqc=24  quantum_reupload=24  matched_param_fullrank=24  low_rank=24  matched_param=24
+.
+  low_rank rank=2 d=4   params=24 target=24
+.
+  low_rank rank=2 d=8   params=48 target=48
+.
+  low_rank rank=2 d=16  params=96 target=96
+.
+  matched_param_fullrank d=8   params=80 target=48 (mismatch expected)
+
+  matched_param_fullrank d=16  params=288 target=96 (mismatch expected)
+.
+  low_rank rank=0  d=4  params=8
+.
+  low_rank rank=1  d=4  params=16
+.
+  low_rank rank=2  d=4  params=24
+.
+  low_rank rank=4  d=4  params=40
+.
+  low_rank rank=8  d=4  params=72
+..
+  matched_param d=4 hidden_width=3 rank_limited=True
+.
+  quantum_vqc      params=24 spectrum=81
+  quantum_reupload params=24 spectrum=625
+.
+  learned bottleneck: head 2.3% of 1062 trainable
+  frozen  bottleneck: head 70.6% of 34 trainable
+.
+  d=2 L=1: basis=     9  max|residual|=8.882e-16  max|v|=0.913  quantum_params=6
+.
+  d=2 L=3: basis=     9  max|residual|=5.551e-16  max|v|=0.588  quantum_params=18
+.
+  d=3 L=2: basis=    27  max|residual|=6.106e-16  max|v|=0.773  quantum_params=18
+.
+  d=4 L=1: basis=    81  max|residual|=8.882e-16  max|v|=0.869  quantum_params=12
+.
+  d=4 L=2: basis=    81  max|residual|=2.387e-15  max|v|=0.978  quantum_params=24
+.
+  d=4 L=4: basis=    81  max|residual|=6.106e-16  max|v|=0.690  quantum_params=48
+.
+  wrong-frequency basis: max|residual|=9.084e-01 (expected large)
+..
+  d=2 L=2 R=1: basis=     9 max|residual|=2.109e-15  max|v|=0.992  params=12
+.
+  d=2 L=2 R=2: basis=    25 max|residual|=2.720e-15  max|v|=0.999  params=12
+.
+  d=2 L=4 R=2: basis=    25 max|residual|=2.942e-15  max|v|=0.988  params=24
+.
+  d=3 L=2 R=2: basis=   125 max|residual|=3.622e-15  max|v|=0.973  params=18
+.
+  d=2 L=3 R=3: basis=    49 max|residual|=3.442e-15  max|v|=0.956  params=18
+.
+  d=2 R=2 fitted with max_freq=1: max|residual|=6.378e-01 (expected LARGE)
+.
+  d=2 R=3 fitted with max_freq=2: max|residual|=1.894e-01 (expected LARGE)
+.
+  d=3 R=2 fitted with max_freq=1: max|residual|=7.609e-01 (expected LARGE)
+.
+  R=1 reproducibility: max|diff|=0.000e+00
+.
+  R=1: 24 params, spectrum 81
+  R=2: 24 params, spectrum 625
+..
+46 passed in 6.62s
+exit code 0
+
+$ /content/env/bin/python /content/parity.py
+quantum_vqc              {}  head parameters at d=4: 24
+matched_param_fullrank   {}  head parameters at d=4: 24
+low_rank                 {'head_rank': 2}  head parameters at d=4: 24
+quantum_vqc_range1       {}  head parameters at d=4: 24
+quantum_reupload         {}  head parameters at d=4: 24
+exit code 0
+
+$ /content/env/bin/python -c "import torch, pennylane, numpy; print('torch', torch.__version__, '| pennylane', pennylane.__version__, '| numpy', numpy.__version__)"
+torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4
+exit code 0
+
+$ /content/env/bin/python -m pytest -q -s tests/test_entangling_ranges.py tests/test_parity.py tests/test_fourier_equivalence.py tests/test_reupload_spectrum.py
+
+  d=4 quantum_vqc            CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (1, 3), (2, 0), (3, 1)]
+
+  d=4 quantum_reupload       CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 1), (1, 2), (2, 3), (3, 0)]
+
+  d=4 quantum_vqc_range1     CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 1), (1, 2), (2, 3), (3, 0)]
+
+  d=4 quantum_rich           CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (1, 3), (2, 0), (3, 1)]
+
+  d=4 quantum_rich_padded    CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (1, 3), (2, 0), (3, 1)]
+.
+  d=8 quantum_vqc            CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 2), (1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 0), (7, 1)]
+
+  d=8 quantum_reupload       CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0)]
+
+  d=8 quantum_vqc_range1     CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0)]
+
+  d=8 quantum_rich           CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 2), (1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 0), (7, 1)]
+
+  d=8 quantum_rich_padded    CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 2), (1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 0), (7, 1)]
+...
+  quantum_vqc_range1 d=4: 24 head parameters
+.
+  quantum_vqc_range1 d=8: 48 head parameters
+.
+  quantum_vqc_range1 d=16: 96 head parameters
+.
+  quantum_vqc_range1 in the 3^d span: max |residual| = 4.44e-16
+.
+  quantum_vqc              d=4  head params = 24
+.
+  quantum_reupload         d=4  head params = 24
+.
+  matched_param_fullrank   d=4  head params = 24
+.
+  low_rank                 d=4  head params = 24
+.
+  matched_param            d=4  head params = 24
+.
+  quantum_vqc=24  quantum_reupload=24  matched_param_fullrank=24  low_rank=24  matched_param=24
+.
+  low_rank rank=2 d=4   params=24 target=24
+.
+  low_rank rank=2 d=8   params=48 target=48
+.
+  low_rank rank=2 d=16  params=96 target=96
+.
+  matched_param_fullrank d=8   params=80 target=48 (mismatch expected)
+
+  matched_param_fullrank d=16  params=288 target=96 (mismatch expected)
+.
+  low_rank rank=0  d=4  params=8
+.
+  low_rank rank=1  d=4  params=16
+.
+  low_rank rank=2  d=4  params=24
+.
+  low_rank rank=4  d=4  params=40
+.
+  low_rank rank=8  d=4  params=72
+..
+  matched_param d=4 hidden_width=3 rank_limited=True
+.
+  quantum_vqc      params=24 spectrum=81
+  quantum_reupload params=24 spectrum=625
+.
+  learned bottleneck: head 2.3% of 1062 trainable
+  frozen  bottleneck: head 70.6% of 34 trainable
+.
+  d=2 L=1: basis=     9  max|residual|=6.661e-16  max|v|=0.913  quantum_params=6
+.
+  d=2 L=3: basis=     9  max|residual|=6.106e-16  max|v|=0.588  quantum_params=18
+.
+  d=3 L=2: basis=    27  max|residual|=6.384e-16  max|v|=0.773  quantum_params=18
+.
+  d=4 L=1: basis=    81  max|residual|=8.882e-16  max|v|=0.869  quantum_params=12
+.
+  d=4 L=2: basis=    81  max|residual|=2.387e-15  max|v|=0.978  quantum_params=24
+.
+  d=4 L=4: basis=    81  max|residual|=6.106e-16  max|v|=0.690  quantum_params=48
+.
+  wrong-frequency basis: max|residual|=9.084e-01 (expected large)
+..
+  d=2 L=2 R=1: basis=     9 max|residual|=2.109e-15  max|v|=0.992  params=12
+.
+  d=2 L=2 R=2: basis=    25 max|residual|=2.720e-15  max|v|=0.999  params=12
+.
+  d=2 L=4 R=2: basis=    25 max|residual|=2.942e-15  max|v|=0.988  params=24
+.
+  d=3 L=2 R=2: basis=   125 max|residual|=3.622e-15  max|v|=0.973  params=18
+.
+  d=2 L=3 R=3: basis=    49 max|residual|=3.442e-15  max|v|=0.956  params=18
+.
+  d=2 R=2 fitted with max_freq=1: max|residual|=6.378e-01 (expected LARGE)
+.
+  d=2 R=3 fitted with max_freq=2: max|residual|=1.894e-01 (expected LARGE)
+.
+  d=3 R=2 fitted with max_freq=1: max|residual|=7.609e-01 (expected LARGE)
+.
+  R=1 reproducibility: max|diff|=0.000e+00
+.
+  R=1: 24 params, spectrum 81
+  R=2: 24 params, spectrum 625
+..
+46 passed in 6.78s
+exit code 0
+
+$ /content/env/bin/python /content/parity.py
+quantum_vqc              {}  head parameters at d=4: 24
+matched_param_fullrank   {}  head parameters at d=4: 24
+low_rank                 {'head_rank': 2}  head parameters at d=4: 24
+quantum_vqc_range1       {}  head parameters at d=4: 24
+quantum_reupload         {}  head parameters at d=4: 24
+exit code 0
+
+$ /content/env/bin/python -c "import torch, pennylane, numpy; print('torch', torch.__version__, '| pennylane', pennylane.__version__, '| numpy', numpy.__version__)"
+torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4
+exit code 0
+
+$ /content/env/bin/python -m pytest -q -s tests/test_entangling_ranges.py tests/test_parity.py tests/test_fourier_equivalence.py tests/test_reupload_spectrum.py
+
+  d=4 quantum_vqc            CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (1, 3), (2, 0), (3, 1)]
+
+  d=4 quantum_reupload       CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 1), (1, 2), (2, 3), (3, 0)]
+
+  d=4 quantum_vqc_range1     CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 1), (1, 2), (2, 3), (3, 0)]
+
+  d=4 quantum_rich           CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (1, 3), (2, 0), (3, 1)]
+
+  d=4 quantum_rich_padded    CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (1, 3), (2, 0), (3, 1)]
+.
+  d=8 quantum_vqc            CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 2), (1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 0), (7, 1)]
+
+  d=8 quantum_reupload       CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0)]
+
+  d=8 quantum_vqc_range1     CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0)]
+
+  d=8 quantum_rich           CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 2), (1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 0), (7, 1)]
+
+  d=8 quantum_rich_padded    CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 2), (1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 0), (7, 1)]
+...
+  quantum_vqc_range1 d=4: 24 head parameters
+.
+  quantum_vqc_range1 d=8: 48 head parameters
+.
+  quantum_vqc_range1 d=16: 96 head parameters
+.
+  quantum_vqc_range1 in the 3^d span: max |residual| = 6.66e-16
+.
+  quantum_vqc              d=4  head params = 24
+.
+  quantum_reupload         d=4  head params = 24
+.
+  matched_param_fullrank   d=4  head params = 24
+.
+  low_rank                 d=4  head params = 24
+.
+  matched_param            d=4  head params = 24
+.
+  quantum_vqc=24  quantum_reupload=24  matched_param_fullrank=24  low_rank=24  matched_param=24
+.
+  low_rank rank=2 d=4   params=24 target=24
+.
+  low_rank rank=2 d=8   params=48 target=48
+.
+  low_rank rank=2 d=16  params=96 target=96
+.
+  matched_param_fullrank d=8   params=80 target=48 (mismatch expected)
+
+  matched_param_fullrank d=16  params=288 target=96 (mismatch expected)
+.
+  low_rank rank=0  d=4  params=8
+.
+  low_rank rank=1  d=4  params=16
+.
+  low_rank rank=2  d=4  params=24
+.
+  low_rank rank=4  d=4  params=40
+.
+  low_rank rank=8  d=4  params=72
+..
+  matched_param d=4 hidden_width=3 rank_limited=True
+.
+  quantum_vqc      params=24 spectrum=81
+  quantum_reupload params=24 spectrum=625
+.
+  learned bottleneck: head 2.3% of 1062 trainable
+  frozen  bottleneck: head 70.6% of 34 trainable
+.
+  d=2 L=1: basis=     9  max|residual|=6.106e-16  max|v|=0.913  quantum_params=6
+.
+  d=2 L=3: basis=     9  max|residual|=6.106e-16  max|v|=0.588  quantum_params=18
+.
+  d=3 L=2: basis=    27  max|residual|=5.551e-16  max|v|=0.773  quantum_params=18
+.
+  d=4 L=1: basis=    81  max|residual|=9.992e-16  max|v|=0.869  quantum_params=12
+.
+  d=4 L=2: basis=    81  max|residual|=2.054e-15  max|v|=0.978  quantum_params=24
+.
+  d=4 L=4: basis=    81  max|residual|=8.327e-16  max|v|=0.690  quantum_params=48
+.
+  wrong-frequency basis: max|residual|=9.084e-01 (expected large)
+..
+  d=2 L=2 R=1: basis=     9 max|residual|=2.442e-15  max|v|=0.992  params=12
+.
+  d=2 L=2 R=2: basis=    25 max|residual|=2.331e-15  max|v|=0.999  params=12
+.
+  d=2 L=4 R=2: basis=    25 max|residual|=2.831e-15  max|v|=0.988  params=24
+.
+  d=3 L=2 R=2: basis=   125 max|residual|=3.171e-15  max|v|=0.973  params=18
+.
+  d=2 L=3 R=3: basis=    49 max|residual|=2.720e-15  max|v|=0.956  params=18
+.
+  d=2 R=2 fitted with max_freq=1: max|residual|=6.378e-01 (expected LARGE)
+.
+  d=2 R=3 fitted with max_freq=2: max|residual|=1.894e-01 (expected LARGE)
+.
+  d=3 R=2 fitted with max_freq=1: max|residual|=7.609e-01 (expected LARGE)
+.
+  R=1 reproducibility: max|diff|=0.000e+00
+.
+  R=1: 24 params, spectrum 81
+  R=2: 24 params, spectrum 625
+..
+46 passed in 4.43s
+exit code 0
+
+$ /content/env/bin/python /content/parity.py
+quantum_vqc              {}  head parameters at d=4: 24
+matched_param_fullrank   {}  head parameters at d=4: 24
+low_rank                 {'head_rank': 2}  head parameters at d=4: 24
+quantum_vqc_range1       {}  head parameters at d=4: 24
+quantum_reupload         {}  head parameters at d=4: 24
+exit code 0
+
+$ /content/env/bin/python -c "import torch, pennylane, numpy; print('torch', torch.__version__, '| pennylane', pennylane.__version__, '| numpy', numpy.__version__)"
+torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4
+exit code 0
+
+$ /content/env/bin/python -m pytest -q -s tests/test_entangling_ranges.py tests/test_parity.py tests/test_fourier_equivalence.py tests/test_reupload_spectrum.py
+
+  d=4 quantum_vqc            CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (1, 3), (2, 0), (3, 1)]
+
+  d=4 quantum_reupload       CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 1), (1, 2), (2, 3), (3, 0)]
+
+  d=4 quantum_vqc_range1     CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 1), (1, 2), (2, 3), (3, 0)]
+
+  d=4 quantum_rich           CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (1, 3), (2, 0), (3, 1)]
+
+  d=4 quantum_rich_padded    CNOTs [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (1, 3), (2, 0), (3, 1)]
+.
+  d=8 quantum_vqc            CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 2), (1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 0), (7, 1)]
+
+  d=8 quantum_reupload       CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0)]
+
+  d=8 quantum_vqc_range1     CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0)]
+
+  d=8 quantum_rich           CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 2), (1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 0), (7, 1)]
+
+  d=8 quantum_rich_padded    CNOTs [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 2), (1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 0), (7, 1)]
+...
+  quantum_vqc_range1 d=4: 24 head parameters
+.
+  quantum_vqc_range1 d=8: 48 head parameters
+.
+  quantum_vqc_range1 d=16: 96 head parameters
+.
+  quantum_vqc_range1 in the 3^d span: max |residual| = 6.11e-16
+.
+  quantum_vqc              d=4  head params = 24
+.
+  quantum_reupload         d=4  head params = 24
+.
+  matched_param_fullrank   d=4  head params = 24
+.
+  low_rank                 d=4  head params = 24
+.
+  matched_param            d=4  head params = 24
+.
+  quantum_vqc=24  quantum_reupload=24  matched_param_fullrank=24  low_rank=24  matched_param=24
+.
+  low_rank rank=2 d=4   params=24 target=24
+.
+  low_rank rank=2 d=8   params=48 target=48
+.
+  low_rank rank=2 d=16  params=96 target=96
+.
+  matched_param_fullrank d=8   params=80 target=48 (mismatch expected)
+
+  matched_param_fullrank d=16  params=288 target=96 (mismatch expected)
+.
+  low_rank rank=0  d=4  params=8
+.
+  low_rank rank=1  d=4  params=16
+.
+  low_rank rank=2  d=4  params=24
+.
+  low_rank rank=4  d=4  params=40
+.
+  low_rank rank=8  d=4  params=72
+..
+  matched_param d=4 hidden_width=3 rank_limited=True
+.
+  quantum_vqc      params=24 spectrum=81
+  quantum_reupload params=24 spectrum=625
+.
+  learned bottleneck: head 2.3% of 1062 trainable
+  frozen  bottleneck: head 70.6% of 34 trainable
+.
+  d=2 L=1: basis=     9  max|residual|=6.661e-16  max|v|=0.913  quantum_params=6
+.
+  d=2 L=3: basis=     9  max|residual|=6.106e-16  max|v|=0.588  quantum_params=18
+.
+  d=3 L=2: basis=    27  max|residual|=6.661e-16  max|v|=0.773  quantum_params=18
+.
+  d=4 L=1: basis=    81  max|residual|=9.992e-16  max|v|=0.869  quantum_params=12
+.
+  d=4 L=2: basis=    81  max|residual|=2.054e-15  max|v|=0.978  quantum_params=24
+.
+  d=4 L=4: basis=    81  max|residual|=8.327e-16  max|v|=0.690  quantum_params=48
+.
+  wrong-frequency basis: max|residual|=9.084e-01 (expected large)
+..
+  d=2 L=2 R=1: basis=     9 max|residual|=2.442e-15  max|v|=0.992  params=12
+.
+  d=2 L=2 R=2: basis=    25 max|residual|=2.331e-15  max|v|=0.999  params=12
+.
+  d=2 L=4 R=2: basis=    25 max|residual|=2.831e-15  max|v|=0.988  params=24
+.
+  d=3 L=2 R=2: basis=   125 max|residual|=3.171e-15  max|v|=0.973  params=18
+.
+  d=2 L=3 R=3: basis=    49 max|residual|=2.720e-15  max|v|=0.956  params=18
+.
+  d=2 R=2 fitted with max_freq=1: max|residual|=6.378e-01 (expected LARGE)
+.
+  d=2 R=3 fitted with max_freq=2: max|residual|=1.894e-01 (expected LARGE)
+.
+  d=3 R=2 fitted with max_freq=1: max|residual|=7.609e-01 (expected LARGE)
+.
+  R=1 reproducibility: max|diff|=0.000e+00
+.
+  R=1: 24 params, spectrum 81
+  R=2: 24 params, spectrum 625
+..
+46 passed in 4.26s
+exit code 0
+
+$ /content/env/bin/python /content/parity.py
+quantum_vqc              {}  head parameters at d=4: 24
+matched_param_fullrank   {}  head parameters at d=4: 24
+low_rank                 {'head_rank': 2}  head parameters at d=4: 24
+quantum_vqc_range1       {}  head parameters at d=4: 24
+quantum_reupload         {}  head parameters at d=4: 24
+exit code 0
+
+$ /content/env/bin/python -c "import torch, pennylane, numpy; print('torch', torch.__version__, '| pennylane', pennylane.__version__, '| numpy', numpy.__version__)"
+torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4
+exit code 0
+
+$ /content/env/bin/python -c "import torch, pennylane, numpy; print('torch', torch.__version__, '| pennylane', pennylane.__version__, '| numpy', numpy.__version__)"
+torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4
+exit code 0

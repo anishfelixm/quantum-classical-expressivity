@@ -1,0 +1,14 @@
+
+$ /content/env/bin/python -u scripts/build_unclipped_view.py --build 31_entangling_range 32_squash 35_lr_nosquash 36_nosquash 37_rate_gaps
+31_entangling_range: 2400 runs, clipped 9; CU_ verdicts: epoch prefix identical 9, no per-epoch history 0; step-level prefix identical 9 of 9 (13948 steps compared)
+X_31_entangling_range: 2400 runs, 9 of them unclipped re-executions, 2400 prediction files. VIEW BUILT
+32_squash: 1600 runs, clipped 100; CU_ verdicts: epoch prefix identical 100, no per-epoch history 0; step-level prefix identical 100 of 100 (115269 steps compared)
+X_32_squash: 1600 runs, 100 of them unclipped re-executions, 1600 prediction files. VIEW BUILT
+35_lr_nosquash: 720 runs, clipped 15; CU_ verdicts: epoch prefix identical 4, no per-epoch history 11; step-level prefix identical 15 of 15 (9352 steps compared)
+X_35_lr_nosquash: 720 runs, 15 of them unclipped re-executions, 0 prediction files. VIEW BUILT
+36_nosquash: 800 runs, clipped 0; CU_ verdicts: epoch prefix identical 0, no per-epoch history 0; step-level prefix identical 0 of 0 (0 steps compared)
+X_36_nosquash: 800 runs, 0 of them unclipped re-executions, 800 prediction files. VIEW BUILT
+37_rate_gaps: 4000 runs, clipped 1602; CU_ verdicts: epoch prefix identical 1602, no per-epoch history 0; step-level prefix identical 1602 of 1602 (306753 steps compared)
+X_37_rate_gaps: 4000 runs, 1602 of them unclipped re-executions, 4000 prediction files. VIEW BUILT
+ALL VIEWS BUILT
+exit code 0

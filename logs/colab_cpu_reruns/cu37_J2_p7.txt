@@ -1,0 +1,34 @@
+replay | source=37_rate_gaps -> CU_37_rate_gaps | clip=inf | runs=31 | code=10ce9593 (/content/replay_trees/10ce9593) | device=cpu
+[1/31] PREFIX IDENTICAL (72 epochs) cache=warm (logs: -) steps>20=1 max=20.090  | bloodmnist n=10 s=2718281 low_rank | 0.1 min
+[2/31] PREFIX IDENTICAL (88 epochs) cache=warm (logs: -) steps>20=2 max=21.654  | bloodmnist n=20 s=11235 low_rank | 0.2 min
+[3/31] PREFIX IDENTICAL (74 epochs) cache=warm (logs: -) steps>20=2 max=21.122  | bloodmnist n=50 s=121393 low_rank | 0.3 min
+[4/31] PREFIX IDENTICAL (71 epochs) cache=warm (logs: -) steps>20=1 max=24.063  | bloodmnist n=50 s=8 low_rank | 0.5 min
+[5/31] PREFIX IDENTICAL (75 epochs) cache=warm (logs: -) steps>20=6 max=28.238  | bloodmnist n=100 s=11235 low_rank | 0.7 min
+[6/31] PREFIX IDENTICAL (64 epochs) cache=warm (logs: -) steps>20=6 max=23.914  | bloodmnist n=100 s=31337 low_rank | 0.9 min
+[7/31] PREFIX IDENTICAL (85 epochs) cache=warm (logs: -) steps>20=2 max=22.603  | bloodmnist n=100 s=720720 low_rank | 1.1 min
+[8/31] PREFIX IDENTICAL (83 epochs) cache=warm (logs: -) steps>20=3 max=29.060  | bloodmnist n=50 s=10007 low_rank | 1.3 min
+[9/31] PREFIX IDENTICAL (56 epochs) cache=warm (logs: -) steps>20=1 max=20.304  | bloodmnist n=50 s=777 low_rank | 1.4 min
+[10/31] PREFIX IDENTICAL (84 epochs) cache=warm (logs: -) steps>20=1 max=20.889  | breastmnist n=100 s=33 low_rank | 1.5 min
+[11/31] PREFIX IDENTICAL (88 epochs) cache=warm (logs: -) steps>20=1 max=24.269  | pathmnist n=50 s=10007 low_rank | 1.6 min
+[12/31] PREFIX IDENTICAL (39 epochs) cache=warm (logs: -) steps>20=2 max=25.547  | pathmnist n=50 s=28657 low_rank | 1.8 min
+[13/31] PREFIX IDENTICAL (88 epochs) cache=warm (logs: -) steps>20=1 max=20.879  | pathmnist n=100 s=11235 low_rank | 2.0 min
+[14/31] PREFIX IDENTICAL (51 epochs) cache=warm (logs: -) steps>20=3 max=23.005  | pathmnist n=100 s=31337 low_rank | 2.3 min
+[15/31] PREFIX IDENTICAL (38 epochs) cache=warm (logs: -) steps>20=1 max=21.382  | pathmnist n=100 s=888 low_rank | 2.5 min
+[16/31] PREFIX IDENTICAL (77 epochs) cache=warm (logs: -) steps>20=1 max=29.989  | pathmnist n=20 s=13 low_rank | 2.6 min
+[17/31] PREFIX IDENTICAL (32 epochs) cache=warm (logs: -) steps>20=5 max=26.670  | pathmnist n=50 s=10007 low_rank | 2.8 min
+[18/31] PREFIX IDENTICAL (64 epochs) cache=warm (logs: -) steps>20=2 max=28.767  | pathmnist n=50 s=2027 low_rank | 3.0 min
+[19/31] PREFIX IDENTICAL (68 epochs) cache=warm (logs: -) steps>20=2 max=22.889  | pathmnist n=50 s=46341 low_rank | 3.1 min
+[20/31] PREFIX IDENTICAL (4 epochs)  cache=warm (logs: -) steps>20=5 max=25.029  | pathmnist n=50 s=8128 low_rank | 3.3 min
+[21/31] PREFIX IDENTICAL (51 epochs) cache=warm (logs: -) steps>20=4 max=22.914  | pathmnist n=100 s=10007 low_rank | 3.5 min
+[22/31] PREFIX IDENTICAL (60 epochs) cache=warm (logs: -) steps>20=1 max=29.660  | pathmnist n=100 s=1729 low_rank | 3.8 min
+[23/31] PREFIX IDENTICAL (40 epochs) cache=warm (logs: -) steps>20=13 max=28.500  | pathmnist n=100 s=33 low_rank | 4.0 min
+[24/31] PREFIX IDENTICAL (52 epochs) cache=warm (logs: -) steps>20=4 max=30.097  | pathmnist n=100 s=65537 low_rank | 4.3 min
+[25/31] PREFIX IDENTICAL (53 epochs) cache=warm (logs: -) steps>20=1 max=26.207  | pathmnist n=100 s=9001 low_rank | 4.6 min
+[26/31] PREFIX IDENTICAL (85 epochs) cache=warm (logs: -) steps>20=2 max=27.444  | pathmnist n=50 s=13 low_rank | 4.7 min
+[27/31] PREFIX IDENTICAL (62 epochs) cache=warm (logs: -) steps>20=5 max=32.281  | pathmnist n=50 s=2520 low_rank | 4.9 min
+[28/31] PREFIX IDENTICAL (75 epochs) cache=warm (logs: -) steps>20=3 max=39.698  | pathmnist n=50 s=42 low_rank | 5.0 min
+[29/31] PREFIX IDENTICAL (53 epochs) cache=warm (logs: -) steps>20=2 max=28.980  | pathmnist n=50 s=65537 low_rank | 5.2 min
+[30/31] PREFIX IDENTICAL (55 epochs) cache=warm (logs: -) steps>20=2 max=22.433  | pathmnist n=50 s=9001 low_rank | 5.3 min
+[31/31] PREFIX IDENTICAL (93 epochs) cache=warm (logs: -) steps>20=2 max=26.298  | pneumoniamnist n=50 s=2026 low_rank | 5.4 min
+
+replay summary 37_rate_gaps -> CU_37_rate_gaps: done 31, other 0, of 31

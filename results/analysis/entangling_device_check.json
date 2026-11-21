@@ -1,0 +1,164 @@
+{
+ "device_check": [
+  {
+   "dataset": "breastmnist",
+   "regime": "5",
+   "seeds": 40,
+   "mean_diff": -0.00647974101921472,
+   "max_abs_diff": 0.10902255639097741,
+   "identical": 10
+  },
+  {
+   "dataset": "breastmnist",
+   "regime": "10",
+   "seeds": 40,
+   "mean_diff": 5.2213868003334055e-05,
+   "max_abs_diff": 0.22243107769423553,
+   "identical": 10
+  },
+  {
+   "dataset": "breastmnist",
+   "regime": "20",
+   "seeds": 40,
+   "mean_diff": 0.0024279448621553875,
+   "max_abs_diff": 0.1771094402673351,
+   "identical": 10
+  },
+  {
+   "dataset": "breastmnist",
+   "regime": "50",
+   "seeds": 40,
+   "mean_diff": -0.000757101086048459,
+   "max_abs_diff": 0.0992063492063493,
+   "identical": 10
+  },
+  {
+   "dataset": "breastmnist",
+   "regime": "100",
+   "seeds": 40,
+   "mean_diff": -0.0033939014202172242,
+   "max_abs_diff": 0.06746031746031755,
+   "identical": 9
+  },
+  {
+   "dataset": "pneumoniamnist",
+   "regime": "5",
+   "seeds": 40,
+   "mean_diff": 0.006601879246110012,
+   "max_abs_diff": 0.17386587771203144,
+   "identical": 10
+  },
+  {
+   "dataset": "pneumoniamnist",
+   "regime": "10",
+   "seeds": 40,
+   "mean_diff": -0.0003681788297173139,
+   "max_abs_diff": 0.1609686609686608,
+   "identical": 9
+  },
+  {
+   "dataset": "pneumoniamnist",
+   "regime": "20",
+   "seeds": 40,
+   "mean_diff": -3.259916721456979e-05,
+   "max_abs_diff": 0.017313171159324958,
+   "identical": 10
+  },
+  {
+   "dataset": "pneumoniamnist",
+   "regime": "50",
+   "seeds": 40,
+   "mean_diff": 0.000558021038790299,
+   "max_abs_diff": 0.008722331799254968,
+   "identical": 7
+  },
+  {
+   "dataset": "pneumoniamnist",
+   "regime": "100",
+   "seeds": 40,
+   "mean_diff": -9.409927679157604e-05,
+   "max_abs_diff": 0.005840455840455894,
+   "identical": 9
+  },
+  {
+   "dataset": "bloodmnist",
+   "regime": "5",
+   "seeds": 40,
+   "mean_diff": 0.003078227571388867,
+   "max_abs_diff": 0.20128465132781048,
+   "identical": 2
+  },
+  {
+   "dataset": "bloodmnist",
+   "regime": "10",
+   "seeds": 40,
+   "mean_diff": 0.006046337433961815,
+   "max_abs_diff": 0.0954375620230472,
+   "identical": 2
+  },
+  {
+   "dataset": "bloodmnist",
+   "regime": "20",
+   "seeds": 40,
+   "mean_diff": 0.006434813177141574,
+   "max_abs_diff": 0.0672035038854828,
+   "identical": 2
+  },
+  {
+   "dataset": "bloodmnist",
+   "regime": "50",
+   "seeds": 40,
+   "mean_diff": 0.005071601537600887,
+   "max_abs_diff": 0.07637769515397508,
+   "identical": 0
+  },
+  {
+   "dataset": "bloodmnist",
+   "regime": "100",
+   "seeds": 40,
+   "mean_diff": -0.0012094067810437675,
+   "max_abs_diff": 0.08375008973742504,
+   "identical": 0
+  },
+  {
+   "dataset": "pathmnist",
+   "regime": "5",
+   "seeds": 40,
+   "mean_diff": 0.0019932749286970253,
+   "max_abs_diff": 0.06297053653455287,
+   "identical": 0
+  },
+  {
+   "dataset": "pathmnist",
+   "regime": "10",
+   "seeds": 40,
+   "mean_diff": -0.0062088839085895796,
+   "max_abs_diff": 0.09943487975217935,
+   "identical": 0
+  },
+  {
+   "dataset": "pathmnist",
+   "regime": "20",
+   "seeds": 40,
+   "mean_diff": -0.0036557790600337953,
+   "max_abs_diff": 0.055980692605192006,
+   "identical": 0
+  },
+  {
+   "dataset": "pathmnist",
+   "regime": "50",
+   "seeds": 40,
+   "mean_diff": -0.0038373507577642045,
+   "max_abs_diff": 0.08786673859027272,
+   "identical": 0
+  },
+  {
+   "dataset": "pathmnist",
+   "regime": "100",
+   "seeds": 40,
+   "mean_diff": 0.0022778852506846804,
+   "max_abs_diff": 0.03831621115049688,
+   "identical": 0
+  }
+ ]
+}

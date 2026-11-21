@@ -1,0 +1,10 @@
+
+$ OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 /content/env/bin/python -u scripts/replay.py --source 31_entangling_range --clip inf --code-at 58852d84 --from-list /content/cu31_s0.txt
+Preparing worktree (detached HEAD 58852d8)
+HEAD is now at 58852d8 Audit: compare circuit fields only when both arms are circuits; notebook cell 9: always restore the backed-up feature cache
+replay | source=31_entangling_range -> CU_31_entangling_range | clip=inf | runs=2 | code=58852d84 (/content/replay_trees/58852d84) | device=cpu
+[1/2] PREFIX IDENTICAL (79 epochs) cache=warm (logs: -) steps>20=1 max=20.647  | pathmnist n=50 s=2027 quantum_reupload | 2.1 min
+[2/2] PREFIX IDENTICAL (94 epochs) cache=warm (logs: -) steps>20=1 max=20.729  | pneumoniamnist n=50 s=2026 quantum_vqc_range1 | 2.5 min
+
+replay summary 31_entangling_range -> CU_31_entangling_range: done 2, other 0, of 2
+exit code 0

@@ -1,0 +1,63 @@
+
+$ /content/env/bin/python -u scripts/analyse_amendment32.py contrasts --unclipped --workers 7
+AMENDMENT 32, WITHOUT CLIPPING (exploratory) | workers=7 | B=2000 | sha=260d11f5 | rates: fourier_rff raw z 1e-02, VQC raw z 3e-02
+  fc_nosquash                  computed (20 cells, 40 seeds) in 2448s
+  fc_squashed_cpu              computed (20 cells, 40 seeds) in 2347s
+  fourier_squash_cost          computed (20 cells, 40 seeds) in 1956s
+
+--- fc_nosquash: VQC raw z (3e-02) - fourier_rff raw z (1e-02)
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0063 [-0.0044,+0.0176]  0.2189  0.2189  
+    n=10         -0.0053 [-0.0114,+0.0014]  0.1000  0.1249  
+    n=20         -0.0069 [-0.0121,-0.0018]  0.0120  0.0200  CI excludes 0
+    n=50         -0.0077 [-0.0114,-0.0042]  0.0010  0.0050  CI excludes 0
+    n=100        -0.0050 [-0.0078,-0.0022]  0.0040  0.0100  CI excludes 0
+    slope       -0.00220 [-0.00436,-0.00020]  (descriptive)
+
+--- fc_squashed_cpu: VQC squashed (1e-02) - fourier_rff squashed (1e-02), CPU
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          -0.0082 [-0.0179,+0.0014]  0.0950  0.0950  
+    n=10         -0.0187 [-0.0255,-0.0125]  0.0010  0.0012  CI excludes 0
+    n=20         -0.0197 [-0.0243,-0.0148]  0.0010  0.0012  CI excludes 0
+    n=50         -0.0201 [-0.0242,-0.0163]  0.0010  0.0012  CI excludes 0
+    n=100        -0.0168 [-0.0202,-0.0132]  0.0010  0.0012  CI excludes 0
+    slope       -0.00164 [-0.00362,+0.00041]  (descriptive)
+
+--- fourier_squash_cost: fourier_rff raw z (1e-02) - fourier_rff squashed (1e-02)
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0052 [-0.0019,+0.0127]  0.1499  0.3718  
+    n=10         +0.0028 [-0.0026,+0.0077]  0.3048  0.3718  
+    n=20         +0.0016 [-0.0022,+0.0051]  0.3718  0.3718  
+    n=50         +0.0019 [-0.0005,+0.0044]  0.1099  0.3718  
+    n=100        +0.0012 [-0.0011,+0.0036]  0.2869  0.3718  
+    slope       -0.00079 [-0.00222,+0.00067]  (descriptive)
+
+==============================================================================
+PREDICTIONS (Amendment 32)
+==============================================================================
+P1  fc_nosquash: no interval above zero: n=5 +0.0063 [-0.0044,+0.0176], n=10 -0.0053 [-0.0114,+0.0014], n=20 -0.0069 [-0.0121,-0.0018], n=50 -0.0077 [-0.0114,-0.0042], n=100 -0.0050 [-0.0078,-0.0022]  ->  HOLDS
+P2  fc_squashed_cpu <= 0 at n >= 10: n=10 -0.0187, n=20 -0.0197, n=50 -0.0201, n=100 -0.0168  ->  HOLDS
+P3  fourier_squash_cost(5) above zero: +0.0052 [-0.0019,+0.0127]  ->  HOLDS
+
+RECORDED vs UNCLIPPED (same bootstrap draws)
+    fc_nosquash                n=5    recorded +0.0063 [-0.0044,+0.0176]   unclipped +0.0063 [-0.0044,+0.0176]
+    fc_nosquash                n=10   recorded -0.0055 [-0.0116,+0.0012]   unclipped -0.0053 [-0.0114,+0.0014]
+    fc_nosquash                n=20   recorded -0.0069 [-0.0121,-0.0018]   unclipped -0.0069 [-0.0121,-0.0018]
+    fc_nosquash                n=50   recorded -0.0075 [-0.0112,-0.0041]   unclipped -0.0077 [-0.0114,-0.0042]
+    fc_nosquash                n=100  recorded -0.0049 [-0.0078,-0.0022]   unclipped -0.0050 [-0.0078,-0.0022]
+    fc_nosquash                slope  recorded -0.0022 [-0.0043,-0.0002]   unclipped -0.0022 [-0.0044,-0.0002]
+    fc_squashed_cpu            n=5    recorded -0.0082 [-0.0179,+0.0015]   unclipped -0.0082 [-0.0179,+0.0014]
+    fc_squashed_cpu            n=10   recorded -0.0188 [-0.0257,-0.0126]   unclipped -0.0187 [-0.0255,-0.0125]
+    fc_squashed_cpu            n=20   recorded -0.0199 [-0.0245,-0.0149]   unclipped -0.0197 [-0.0243,-0.0148]
+    fc_squashed_cpu            n=50   recorded -0.0200 [-0.0241,-0.0163]   unclipped -0.0201 [-0.0242,-0.0163]
+    fc_squashed_cpu            n=100  recorded -0.0167 [-0.0201,-0.0131]   unclipped -0.0168 [-0.0202,-0.0132]
+    fc_squashed_cpu            slope  recorded -0.0016 [-0.0036,+0.0005]   unclipped -0.0016 [-0.0036,+0.0004]
+    fourier_squash_cost        n=5    recorded +0.0052 [-0.0019,+0.0127]   unclipped +0.0052 [-0.0019,+0.0127]
+    fourier_squash_cost        n=10   recorded +0.0028 [-0.0027,+0.0078]   unclipped +0.0028 [-0.0026,+0.0077]
+    fourier_squash_cost        n=20   recorded +0.0014 [-0.0024,+0.0049]   unclipped +0.0016 [-0.0022,+0.0051]
+    fourier_squash_cost        n=50   recorded +0.0018 [-0.0006,+0.0044]   unclipped +0.0019 [-0.0005,+0.0044]
+    fourier_squash_cost        n=100  recorded +0.0013 [-0.0011,+0.0037]   unclipped +0.0012 [-0.0011,+0.0036]
+    fourier_squash_cost        slope  recorded -0.0008 [-0.0022,+0.0007]   unclipped -0.0008 [-0.0022,+0.0007]
+
+Written: /content/art/amendment32_unclipped.json
+exit code 0

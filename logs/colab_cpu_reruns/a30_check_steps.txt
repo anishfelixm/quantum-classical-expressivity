@@ -1,0 +1,41 @@
+
+$ /content/env/bin/python -u scripts/build_unclipped_view.py --check-steps 31_entangling_range 32_squash 34_lr_inherited
+31_entangling_range: 2400 runs, clipped 9; CU_ verdicts: epoch prefix identical 9, no per-epoch history 0; step-level prefix identical 9 of 9 (13948 steps compared)
+32_squash: 1600 runs, clipped 100; CU_ verdicts: epoch prefix identical 100, no per-epoch history 0; step-level prefix identical 100 of 100 (115269 steps compared)
+34_lr_inherited: 3960 runs, clipped 349; CU_ verdicts: epoch prefix identical 201, no per-epoch history 148; step-level prefix identical 72 of 349 (90 steps compared); 277 PROBLEM(S)
+    step-level prefix check failed (step 1 differs (30.070228576660156 vs 30.07023048400879); first clipped step 1): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 100, "seed": 90002}
+    step-level prefix check failed (step 1 differs (17.329315185546875 vs 17.329313278198242); first clipped step 2): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 100, "seed": 90003}
+    step-level prefix check failed (step 1 differs (21.713491439819336 vs 21.71348762512207); first clipped step 1): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 20, "seed": 90001}
+    step-level prefix check failed (step 1 differs (9.70797348022461 vs 9.707975387573242); first clipped step 3): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 20, "seed": 90004}
+    step-level prefix check failed (step 1 differs (17.90501594543457 vs 17.905017852783203); first clipped step 3): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 20, "seed": 90005}
+    step-level prefix check failed (step 1 differs (20.597126007080078 vs 20.59712791442871); first clipped step 1): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 5, "seed": 90001}
+    step-level prefix check failed (step 1 differs (33.33841323852539 vs 33.338417053222656); first clipped step 1): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 5, "seed": 90002}
+    step-level prefix check failed (step 1 differs (9.21585464477539 vs 9.215852737426758); first clipped step 4): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 5, "seed": 90004}
+    step-level prefix check failed (step 1 differs (30.070228576660156 vs 30.07023048400879); first clipped step 1): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-02", "regime": 100, "seed": 90002}
+    step-level prefix check failed (step 1 differs (17.329315185546875 vs 17.329313278198242); first clipped step 2): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-02", "regime": 100, "seed": 90003}
+P1 (step level) FAILS: 277 problem(s) listed above
+exit code 1
+
+$ /content/env/bin/python -u scripts/build_unclipped_view.py --check-steps 31_entangling_range 32_squash 34_lr_inherited
+31_entangling_range: 2400 runs, clipped 9; CU_ verdicts: epoch prefix identical 9, no per-epoch history 0; step-level prefix identical 9 of 9 (13948 steps compared)
+32_squash: 1600 runs, clipped 100; CU_ verdicts: epoch prefix identical 100, no per-epoch history 0; step-level prefix identical 100 of 100 (115269 steps compared)
+34_lr_inherited: 3960 runs, clipped 349; CU_ verdicts: epoch prefix identical 201, no per-epoch history 148; step-level prefix identical 72 of 349 (90 steps compared); 277 PROBLEM(S)
+    step-level prefix check failed (step 1 differs (30.070228576660156 vs 30.07023048400879); first clipped step 1): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 100, "seed": 90002}
+    step-level prefix check failed (step 1 differs (17.329315185546875 vs 17.329313278198242); first clipped step 2): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 100, "seed": 90003}
+    step-level prefix check failed (step 1 differs (21.713491439819336 vs 21.71348762512207); first clipped step 1): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 20, "seed": 90001}
+    step-level prefix check failed (step 1 differs (9.70797348022461 vs 9.707975387573242); first clipped step 3): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 20, "seed": 90004}
+    step-level prefix check failed (step 1 differs (17.90501594543457 vs 17.905017852783203); first clipped step 3): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 20, "seed": 90005}
+    step-level prefix check failed (step 1 differs (20.597126007080078 vs 20.59712791442871); first clipped step 1): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 5, "seed": 90001}
+    step-level prefix check failed (step 1 differs (33.33841323852539 vs 33.338417053222656); first clipped step 1): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 5, "seed": 90002}
+    step-level prefix check failed (step 1 differs (9.21585464477539 vs 9.215852737426758); first clipped step 4): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-01", "regime": 5, "seed": 90004}
+    step-level prefix check failed (step 1 differs (30.070228576660156 vs 30.07023048400879); first clipped step 1): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-02", "regime": 100, "seed": 90002}
+    step-level prefix check failed (step 1 differs (17.329315185546875 vs 17.329313278198242); first clipped step 2): {"arm": "fourier_rff_r2", "dataset": "bloodmnist", "dim": 4, "lr": "1e-02", "regime": 100, "seed": 90003}
+P1 (step level) FAILS: 277 problem(s) listed above
+exit code 1
+
+$ /content/env/bin/python -u scripts/build_unclipped_view.py --check-steps 31_entangling_range 32_squash 34_lr_inherited
+31_entangling_range: 2400 runs, clipped 9; CU_ verdicts: epoch prefix identical 9, no per-epoch history 0; step-level prefix identical 9 of 9 (13948 steps compared)
+32_squash: 1600 runs, clipped 100; CU_ verdicts: epoch prefix identical 100, no per-epoch history 0; step-level prefix identical 100 of 100 (115269 steps compared)
+34_lr_inherited: 3960 runs, clipped 349; CU_ verdicts: epoch prefix identical 201, no per-epoch history 148; step-level prefix identical 349 of 349 (75161 steps compared)
+P1 (step level) HOLDS for every unclipped run
+exit code 0

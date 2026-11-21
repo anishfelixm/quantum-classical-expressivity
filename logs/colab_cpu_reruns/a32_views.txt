@@ -1,0 +1,12 @@
+
+$ /content/env/bin/python -u scripts/build_unclipped_view.py --build 31_entangling_range 36_nosquash 38_lr_fourier_nosquash 39_fourier_cpu
+31_entangling_range: 2400 runs, clipped 9; CU_ verdicts: epoch prefix identical 9, no per-epoch history 0; step-level prefix identical 9 of 9 (13948 steps compared)
+X_31_entangling_range: 2400 runs, 9 of them unclipped re-executions, 2400 prediction files. VIEW BUILT
+36_nosquash: 800 runs, clipped 0; CU_ verdicts: epoch prefix identical 0, no per-epoch history 0; step-level prefix identical 0 of 0 (0 steps compared)
+X_36_nosquash: 800 runs, 0 of them unclipped re-executions, 800 prediction files. VIEW BUILT
+38_lr_fourier_nosquash: 360 runs, clipped 49; CU_ verdicts: epoch prefix identical 10, no per-epoch history 39; step-level prefix identical 49 of 49 (32939 steps compared)
+X_38_lr_fourier_nosquash: 360 runs, 49 of them unclipped re-executions, 0 prediction files. VIEW BUILT
+39_fourier_cpu: 1600 runs, clipped 356; CU_ verdicts: epoch prefix identical 356, no per-epoch history 0; step-level prefix identical 356 of 356 (252347 steps compared)
+X_39_fourier_cpu: 1600 runs, 356 of them unclipped re-executions, 1600 prediction files. VIEW BUILT
+ALL VIEWS BUILT
+exit code 0

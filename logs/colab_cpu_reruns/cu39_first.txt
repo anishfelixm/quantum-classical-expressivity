@@ -1,0 +1,7 @@
+
+$ OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /content/env/bin/python -u scripts/replay.py --source 39_fourier_cpu --clip inf --code-at 260d11f5 --from-list /content/cu39_first.txt
+replay | source=39_fourier_cpu -> CU_39_fourier_cpu | clip=inf | runs=1 | code=260d11f5 (/content/replay_trees/260d11f5) | device=cpu
+[1/1] PREFIX IDENTICAL (33 epochs) cache=warm (logs: -) steps>20=1 max=21.055  | bloodmnist n=100 s=1000003 fourier_rff | 0.1 min
+
+replay summary 39_fourier_cpu -> CU_39_fourier_cpu: done 1, other 0, of 1
+exit code 0

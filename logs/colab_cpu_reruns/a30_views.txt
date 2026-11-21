@@ -1,0 +1,17 @@
+
+$ /content/env/bin/python -u scripts/build_unclipped_view.py --build 31_entangling_range
+X_31_entangling_range: 2400 runs, 9 of them unclipped re-executions, 2400 prediction files. VIEW BUILT
+ALL VIEWS BUILT
+exit code 0
+
+$ /content/env/bin/python -u scripts/build_unclipped_view.py --build 31_entangling_range 32_squash
+X_31_entangling_range: 2400 runs, 9 of them unclipped re-executions, 2400 prediction files. VIEW BUILT
+X_32_squash: 1600 runs, 100 of them unclipped re-executions, 1600 prediction files. VIEW BUILT
+ALL VIEWS BUILT
+exit code 0
+
+$ /content/env/bin/python -u scripts/build_unclipped_view.py --build 34_lr_inherited
+34_lr_inherited: 3960 runs, clipped 349; CU_ verdicts: epoch prefix identical 201, no per-epoch history 148; step-level prefix identical 349 of 349 (75161 steps compared)
+X_34_lr_inherited: 3960 runs, 349 of them unclipped re-executions, 0 prediction files. VIEW BUILT
+ALL VIEWS BUILT
+exit code 0

@@ -2779,3 +2779,70 @@ commit `88d14745`.
 
 **Experiments frozen.** No further runs are planned. Any later run needs a new
 amendment, written before it runs.
+
+---
+
+## Record of 21 November 2026 — submission and repository clean-up (no runs; no analysis changed)
+
+**Submission.** The manuscript was submitted to IEEE Access on 21 November
+2026. The repository state at submission is the tag `submitted-2026-11-21`
+(commit `ca5e12d`). The submitted LaTeX source is in `paper/`.
+
+**Clean-up.** One commit, made after the tag, moves and removes files only. No
+code path changed.
+- **Logs:** the `logs_*.txt` files named in this plan moved unchanged from the
+  repository root to `logs/`, under the same names.
+- **Added from Google Drive:**
+  - the Colab logs of Amendments 26–32, in `logs/colab_exp31/` and
+    `logs/colab_cpu_reruns/`;
+  - the October analysis logs of Amendments 20–24 (`logs_stats_budget.txt`,
+    `logs_stats_trained_heads.txt`, `logs_stats_hardware_tuned.txt`,
+    `logs_barren_plateau.txt`, `logs_stats_replay_identity.txt`,
+    `logs_stats_replay_results.txt`), in `logs/`;
+  - the analysis JSON files, in `results/analysis/`;
+  - `scripts/cpu17_colab.ipynb`, the notebook of Amendment 25, with its outputs
+    removed.
+- **Removed** (they remain in git history):
+  - the earlier, unsubmitted draft's files (`legacy/conference/`, the old
+    `paper/main.tex` and `paper/references.bib`, figures `fig01`–`fig03`);
+  - two figures the paper no longer uses (`fig4_restriction`,
+    `fig6_function_class`);
+  - three one-time text-edit scripts (`v50_text_fixes.py`,
+    `v51_release_tidy.py`, `patch_lowrank_docstring.py`);
+  - `docs/PAPER_OUTLINE.md` and `docs/WORK_REMAINING.md`. The reference to
+    `WORK_REMAINING.md` item 12 above points to its last version in history.
+
+**Correction to the Records of 22–23 October 2026.** The SHA-256 of
+`replay_backup_2026-10-21.tgz` was recorded in shortened form as
+`16b3bf8b…2fdb2c68`. The full value, computed from the archive on 20 November
+2026, is:
+
+`16b3bf8bc9731a8efbc4059bb1fec69be1b6ced65d70216a0338bf760fdb2c68`
+
+The shortened form differs in one character (`2fdb2c68` against `0fdb2c68`).
+This is read as a copying error, because a different archive would differ in
+almost every character. The archive's contents match the records:
+- 20,300 `R_` runs;
+- the 1,998 runs in which clipping acted, each with its `U_` re-run.
+
+The `U_` folders also hold 524 runs that the selection rule did not select:
+
+| Source | Runs |
+|---|---|
+| 09 | 87 |
+| 10 | 41 |
+| 12 | 4 |
+| 18 | 4 |
+| 19 | 36 |
+| 20 | 73 |
+| 25 | 63 |
+| 27 | 104 |
+| 29 | 112 |
+
+No analysis reads them. Their origin is recorded with the data deposit.
+
+**Open.** The processor of the original full-data runs (`17_fulldata`,
+recorded on the GPU server's CPU, 11–16 September 2026) is not in the run
+records. The manuscript states AMD EPYC 7B12. That model is confirmed for
+their Colab re-execution (`C_17_fulldata`, `lscpu` in the saved output of
+`cpu17_colab.ipynb`), which reproduced all 80 runs bit for bit.

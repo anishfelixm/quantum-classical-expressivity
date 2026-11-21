@@ -1,0 +1,15 @@
+
+$ OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 /content/env/bin/python -u scripts/replay.py --source 35_lr_nosquash --clip 20 --code-at 10ce9593 --quick --where arm=quantum_vqc --seeds 90001 90002 90003
+Preparing worktree (detached HEAD 10ce959)
+HEAD is now at 10ce959 Amendment 30: processor note and AMD-only check; Amendment 31: each arm at its tuned rate, the circuit without the squash
+replay | source=35_lr_nosquash -> C_35_lr_nosquash | clip=20.0 | runs=6 | code=10ce9593 (/content/replay_trees/10ce9593) | device=cpu
+[1/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.583  | breastmnist n=5 s=90001 quantum_vqc | 0.1 min
+[2/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.398  | breastmnist n=5 s=90001 quantum_vqc | 0.1 min
+[3/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.168  | breastmnist n=5 s=90001 quantum_vqc | 0.2 min
+[4/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.879  | breastmnist n=5 s=90001 quantum_vqc | 0.3 min
+[5/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.250  | breastmnist n=5 s=90001 quantum_vqc | 0.3 min
+[6/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.109  | breastmnist n=5 s=90001 quantum_vqc | 0.4 min
+
+replay summary 35_lr_nosquash -> C_35_lr_nosquash: identical 6, different 0, of 6
+QUICK CHECK PASSED
+exit code 0

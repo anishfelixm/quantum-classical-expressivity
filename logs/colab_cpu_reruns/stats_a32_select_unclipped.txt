@@ -1,0 +1,10 @@
+
+$ /content/env/bin/python -u scripts/analyse_amendment32.py select --unclipped
+AMENDMENT 32, STAGE 1 WITHOUT CLIPPING (exploratory) | X_38_lr_fourier_nosquash | 360 of 360 runs | commits ['260d11f5']
+fourier_rff (raw z)         3e-04    1e-03    3e-03    1e-02    3e-02    1e-01  selected  gap vs 1e-02
+                           0.7918   0.8620   0.8927   0.9034   0.9012   0.8931     1e-02  +0.0000
+
+Selection with clipping (the procedure) 1e-02, without it 1e-02
+
+Written: /content/art/fourier_nosquash_rate_unclipped.json
+exit code 0

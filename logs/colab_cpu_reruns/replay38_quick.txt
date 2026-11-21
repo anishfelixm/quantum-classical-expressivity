@@ -1,0 +1,15 @@
+
+$ OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 /content/env/bin/python -u scripts/replay.py --source 38_lr_fourier_nosquash --clip 20 --code-at 260d11f5 --quick --seeds 90001 90004
+Preparing worktree (detached HEAD 260d11f)
+HEAD is now at 260d11f Outcome of Amendment 31; Amendment 32: the sine-cosine model on raw z, written before any run
+replay | source=38_lr_fourier_nosquash -> C_38_lr_fourier_nosquash | clip=20.0 | runs=6 | code=260d11f5 (/content/replay_trees/260d11f5) | device=cpu
+[1/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.324  | breastmnist n=5 s=90001 fourier_rff | 0.0 min
+[2/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.455  | breastmnist n=5 s=90001 fourier_rff | 0.0 min
+[3/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.455  | breastmnist n=5 s=90001 fourier_rff | 0.0 min
+[4/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.980  | breastmnist n=5 s=90001 fourier_rff | 0.0 min
+[5/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.455  | breastmnist n=5 s=90001 fourier_rff | 0.0 min
+[6/6] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.455  | breastmnist n=5 s=90001 fourier_rff | 0.1 min
+
+replay summary 38_lr_fourier_nosquash -> C_38_lr_fourier_nosquash: identical 6, different 0, of 6
+QUICK CHECK PASSED
+exit code 0

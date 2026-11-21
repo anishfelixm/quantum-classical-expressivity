@@ -1,0 +1,177 @@
+
+Trainable capacity at d=4, bottleneck=learned:
+  fourier_rff              bottleneck= 1028 head= 324 clf= 10 total= 1362 head=23.8%
+
+Experiment 1 | 100 cells | ns=39_fourier_cpu | device=cpu | sha=260d11f5
+  augment=False L=2 use_tanh=True bottleneck=learned angle_scale=1.5708 save_predictions=True
+[1/100] breastmnist r=5 d=4 froz s=271828 fourier_rff              auc=0.6145 f1=0.4222 ETA 0.0h
+[2/100] breastmnist r=5 d=4 froz s=1000003 fourier_rff              auc=0.5499 f1=0.4222 ETA 0.0h
+[3/100] breastmnist r=5 d=4 froz s=314159 fourier_rff              auc=0.6234 f1=0.2121 ETA 0.0h
+[4/100] breastmnist r=5 d=4 froz s=496 fourier_rff              auc=0.6241 f1=0.4222 ETA 0.0h
+[5/100] breastmnist r=5 d=4 froz s=10007 fourier_rff              auc=0.7162 f1=0.6706 ETA 0.0h
+[6/100] breastmnist r=10 d=4 froz s=271828 fourier_rff              auc=0.7258 f1=0.6541 ETA 0.0h
+[7/100] breastmnist r=10 d=4 froz s=1000003 fourier_rff              auc=0.5349 f1=0.4222 ETA 0.0h
+[8/100] breastmnist r=10 d=4 froz s=314159 fourier_rff              auc=0.6704 f1=0.6015 ETA 0.0h
+[9/100] breastmnist r=10 d=4 froz s=496 fourier_rff              auc=0.7373 f1=0.6379 ETA 0.0h
+[10/100] breastmnist r=10 d=4 froz s=10007 fourier_rff              auc=0.7607 f1=0.6963 ETA 0.0h
+[11/100] breastmnist r=20 d=4 froz s=271828 fourier_rff              auc=0.6711 f1=0.5761 ETA 0.0h
+[12/100] breastmnist r=20 d=4 froz s=1000003 fourier_rff              auc=0.7076 f1=0.3566 ETA 0.0h
+[13/100] breastmnist r=20 d=4 froz s=314159 fourier_rff              auc=0.7187 f1=0.5837 ETA 0.0h
+[14/100] breastmnist r=20 d=4 froz s=496 fourier_rff              auc=0.7379 f1=0.6784 ETA 0.0h
+[15/100] breastmnist r=20 d=4 froz s=10007 fourier_rff              auc=0.7947 f1=0.7249 ETA 0.0h
+[16/100] breastmnist r=50 d=4 froz s=271828 fourier_rff              auc=0.7533 f1=0.6294 ETA 0.0h
+[17/100] breastmnist r=50 d=4 froz s=1000003 fourier_rff              auc=0.7916 f1=0.6686 ETA 0.0h
+[18/100] breastmnist r=50 d=4 froz s=314159 fourier_rff              auc=0.7807 f1=0.7170 ETA 0.0h
+[19/100] breastmnist r=50 d=4 froz s=496 fourier_rff              auc=0.7492 f1=0.6685 ETA 0.0h
+[20/100] breastmnist r=50 d=4 froz s=10007 fourier_rff              auc=0.7667 f1=0.7166 ETA 0.0h
+[21/100] breastmnist r=100 d=4 froz s=271828 fourier_rff              auc=0.8271 f1=0.7684 ETA 0.0h
+[22/100] breastmnist r=100 d=4 froz s=1000003 fourier_rff              auc=0.8179 f1=0.7494 ETA 0.0h
+[23/100] breastmnist r=100 d=4 froz s=314159 fourier_rff              auc=0.8615 f1=0.6672 ETA 0.0h
+[24/100] breastmnist r=100 d=4 froz s=496 fourier_rff              auc=0.7694 f1=0.6841 ETA 0.0h
+[25/100] breastmnist r=100 d=4 froz s=10007 fourier_rff              auc=0.7815 f1=0.7043 ETA 0.0h
+[26/100] pneumoniamnist r=5 d=4 froz s=271828 fourier_rff              auc=0.8971 f1=0.6012 ETA 0.0h
+[27/100] pneumoniamnist r=5 d=4 froz s=1000003 fourier_rff              auc=0.8870 f1=0.7834 ETA 0.0h
+[28/100] pneumoniamnist r=5 d=4 froz s=314159 fourier_rff              auc=0.9124 f1=0.8321 ETA 0.0h
+[29/100] pneumoniamnist r=5 d=4 froz s=496 fourier_rff              auc=0.8928 f1=0.2727 ETA 0.0h
+[30/100] pneumoniamnist r=5 d=4 froz s=10007 fourier_rff              auc=0.8664 f1=0.7571 ETA 0.0h
+[31/100] pneumoniamnist r=10 d=4 froz s=271828 fourier_rff              auc=0.9206 f1=0.8271 ETA 0.0h
+[32/100] pneumoniamnist r=10 d=4 froz s=1000003 fourier_rff              auc=0.9176 f1=0.8341 ETA 0.0h
+[33/100] pneumoniamnist r=10 d=4 froz s=314159 fourier_rff              auc=0.9011 f1=0.7935 ETA 0.0h
+[34/100] pneumoniamnist r=10 d=4 froz s=496 fourier_rff              auc=0.9162 f1=0.8025 ETA 0.0h
+[35/100] pneumoniamnist r=10 d=4 froz s=10007 fourier_rff              auc=0.9023 f1=0.8075 ETA 0.0h
+[36/100] pneumoniamnist r=20 d=4 froz s=271828 fourier_rff              auc=0.9015 f1=0.2813 ETA 0.0h
+[37/100] pneumoniamnist r=20 d=4 froz s=1000003 fourier_rff              auc=0.9244 f1=0.8508 ETA 0.0h
+[38/100] pneumoniamnist r=20 d=4 froz s=314159 fourier_rff              auc=0.9112 f1=0.8044 ETA 0.0h
+[39/100] pneumoniamnist r=20 d=4 froz s=496 fourier_rff              auc=0.9196 f1=0.8360 ETA 0.0h
+[40/100] pneumoniamnist r=20 d=4 froz s=10007 fourier_rff              auc=0.9147 f1=0.8389 ETA 0.0h
+[41/100] pneumoniamnist r=50 d=4 froz s=271828 fourier_rff              auc=0.9309 f1=0.8615 ETA 0.0h
+[42/100] pneumoniamnist r=50 d=4 froz s=1000003 fourier_rff              auc=0.9397 f1=0.8197 ETA 0.0h
+[43/100] pneumoniamnist r=50 d=4 froz s=314159 fourier_rff              auc=0.9375 f1=0.8433 ETA 0.0h
+[44/100] pneumoniamnist r=50 d=4 froz s=496 fourier_rff              auc=0.9229 f1=0.8393 ETA 0.0h
+[45/100] pneumoniamnist r=50 d=4 froz s=10007 fourier_rff              auc=0.9302 f1=0.8630 ETA 0.0h
+[46/100] pneumoniamnist r=100 d=4 froz s=271828 fourier_rff              auc=0.9542 f1=0.8840 ETA 0.0h
+[47/100] pneumoniamnist r=100 d=4 froz s=1000003 fourier_rff              auc=0.9449 f1=0.8512 ETA 0.0h
+[48/100] pneumoniamnist r=100 d=4 froz s=314159 fourier_rff              auc=0.9299 f1=0.8451 ETA 0.0h
+[49/100] pneumoniamnist r=100 d=4 froz s=496 fourier_rff              auc=0.9343 f1=0.8377 ETA 0.0h
+[50/100] pneumoniamnist r=100 d=4 froz s=10007 fourier_rff              auc=0.9356 f1=0.8648 ETA 0.0h
+[51/100] bloodmnist r=5 d=4 froz s=271828 fourier_rff              auc=0.8329 f1=0.3400 ETA 0.0h
+[52/100] bloodmnist r=5 d=4 froz s=1000003 fourier_rff              auc=0.7995 f1=0.2960 ETA 0.0h
+[53/100] bloodmnist r=5 d=4 froz s=314159 fourier_rff              auc=0.6308 f1=0.1220 ETA 0.0h
+[54/100] bloodmnist r=5 d=4 froz s=496 fourier_rff              auc=0.8195 f1=0.3339 ETA 0.0h
+[55/100] bloodmnist r=5 d=4 froz s=10007 fourier_rff              auc=0.8748 f1=0.4704 ETA 0.0h
+[56/100] bloodmnist r=10 d=4 froz s=271828 fourier_rff              auc=0.8909 f1=0.4773 ETA 0.0h
+[57/100] bloodmnist r=10 d=4 froz s=1000003 fourier_rff              auc=0.8704 f1=0.5129 ETA 0.0h
+[58/100] bloodmnist r=10 d=4 froz s=314159 fourier_rff              auc=0.8416 f1=0.4141 ETA 0.0h
+[59/100] bloodmnist r=10 d=4 froz s=496 fourier_rff              auc=0.8884 f1=0.5376 ETA 0.0h
+[60/100] bloodmnist r=10 d=4 froz s=10007 fourier_rff              auc=0.8941 f1=0.5336 ETA 0.0h
+[61/100] bloodmnist r=20 d=4 froz s=271828 fourier_rff              auc=0.8886 f1=0.4907 ETA 0.0h
+[62/100] bloodmnist r=20 d=4 froz s=1000003 fourier_rff              auc=0.9084 f1=0.5759 ETA 0.0h
+[63/100] bloodmnist r=20 d=4 froz s=314159 fourier_rff              auc=0.8598 f1=0.4776 ETA 0.0h
+[64/100] bloodmnist r=20 d=4 froz s=496 fourier_rff              auc=0.9203 f1=0.6157 ETA 0.0h
+[65/100] bloodmnist r=20 d=4 froz s=10007 fourier_rff              auc=0.9111 f1=0.5787 ETA 0.0h
+[66/100] bloodmnist r=50 d=4 froz s=271828 fourier_rff              auc=0.9481 f1=0.6648 ETA 0.0h
+[67/100] bloodmnist r=50 d=4 froz s=1000003 fourier_rff              auc=0.9414 f1=0.6719 ETA 0.0h
+[68/100] bloodmnist r=50 d=4 froz s=314159 fourier_rff              auc=0.9339 f1=0.6333 ETA 0.0h
+[69/100] bloodmnist r=50 d=4 froz s=496 fourier_rff              auc=0.9526 f1=0.6909 ETA 0.0h
+[70/100] bloodmnist r=50 d=4 froz s=10007 fourier_rff              auc=0.9533 f1=0.6958 ETA 0.0h
+[71/100] bloodmnist r=100 d=4 froz s=271828 fourier_rff              auc=0.9598 f1=0.7116 ETA 0.0h
+[72/100] bloodmnist r=100 d=4 froz s=1000003 fourier_rff              auc=0.9645 f1=0.7504 ETA 0.0h
+[73/100] bloodmnist r=100 d=4 froz s=314159 fourier_rff              auc=0.9489 f1=0.6728 ETA 0.0h
+[74/100] bloodmnist r=100 d=4 froz s=496 fourier_rff              auc=0.9641 f1=0.7336 ETA 0.0h
+[75/100] bloodmnist r=100 d=4 froz s=10007 fourier_rff              auc=0.9660 f1=0.7494 ETA 0.0h
+[76/100] pathmnist r=5 d=4 froz s=271828 fourier_rff              auc=0.8798 f1=0.5168 ETA 0.0h
+[77/100] pathmnist r=5 d=4 froz s=1000003 fourier_rff              auc=0.9064 f1=0.5715 ETA 0.0h
+[78/100] pathmnist r=5 d=4 froz s=314159 fourier_rff              auc=0.8626 f1=0.5006 ETA 0.0h
+[79/100] pathmnist r=5 d=4 froz s=496 fourier_rff              auc=0.8451 f1=0.4627 ETA 0.0h
+[80/100] pathmnist r=5 d=4 froz s=10007 fourier_rff              auc=0.8853 f1=0.5189 ETA 0.0h
+[81/100] pathmnist r=10 d=4 froz s=271828 fourier_rff              auc=0.9077 f1=0.5805 ETA 0.0h
+[82/100] pathmnist r=10 d=4 froz s=1000003 fourier_rff              auc=0.9384 f1=0.6347 ETA 0.0h
+[83/100] pathmnist r=10 d=4 froz s=314159 fourier_rff              auc=0.9406 f1=0.6520 ETA 0.0h
+[84/100] pathmnist r=10 d=4 froz s=496 fourier_rff              auc=0.9344 f1=0.6526 ETA 0.0h
+[85/100] pathmnist r=10 d=4 froz s=10007 fourier_rff              auc=0.9339 f1=0.6268 ETA 0.0h
+[86/100] pathmnist r=20 d=4 froz s=271828 fourier_rff              auc=0.9313 f1=0.6294 ETA 0.0h
+[87/100] pathmnist r=20 d=4 froz s=1000003 fourier_rff              auc=0.9513 f1=0.6681 ETA 0.0h
+[88/100] pathmnist r=20 d=4 froz s=314159 fourier_rff              auc=0.9408 f1=0.6581 ETA 0.0h
+[89/100] pathmnist r=20 d=4 froz s=496 fourier_rff              auc=0.9515 f1=0.6953 ETA 0.0h
+[90/100] pathmnist r=20 d=4 froz s=10007 fourier_rff              auc=0.9417 f1=0.6628 ETA 0.0h
+[91/100] pathmnist r=50 d=4 froz s=271828 fourier_rff              auc=0.9534 f1=0.7038 ETA 0.0h
+[92/100] pathmnist r=50 d=4 froz s=1000003 fourier_rff              auc=0.9659 f1=0.7182 ETA 0.0h
+[93/100] pathmnist r=50 d=4 froz s=314159 fourier_rff              auc=0.9661 f1=0.7278 ETA 0.0h
+[94/100] pathmnist r=50 d=4 froz s=496 fourier_rff              auc=0.9722 f1=0.7433 ETA 0.0h
+[95/100] pathmnist r=50 d=4 froz s=10007 fourier_rff              auc=0.9642 f1=0.7428 ETA 0.0h
+[96/100] pathmnist r=100 d=4 froz s=271828 fourier_rff              auc=0.9679 f1=0.7512 ETA 0.0h
+[97/100] pathmnist r=100 d=4 froz s=1000003 fourier_rff              auc=0.9549 f1=0.7387 ETA 0.0h
+[98/100] pathmnist r=100 d=4 froz s=314159 fourier_rff              auc=0.9638 f1=0.7312 ETA 0.0h
+[99/100] pathmnist r=100 d=4 froz s=496 fourier_rff              auc=0.9671 f1=0.7472 ETA 0.0h
+[100/100] pathmnist r=100 d=4 froz s=10007 fourier_rff              auc=0.9665 f1=0.7408 ETA 0.0h
+
+=== AUC by cell (mean +- sd over seeds) ===
+dataset           reg   d   encoder    fourier_rff
+---------------------------------------------------
+bloodmnist         10   4    frozen  0.8736+-0.018
+bloodmnist        100   4    frozen  0.9605+-0.006
+bloodmnist         20   4    frozen  0.9114+-0.012
+bloodmnist          5   4    frozen  0.8094+-0.050
+bloodmnist         50   4    frozen  0.9450+-0.007
+breastmnist        10   4    frozen  0.7024+-0.057
+breastmnist       100   4    frozen  0.8032+-0.027
+breastmnist        20   4    frozen  0.7308+-0.040
+breastmnist         5   4    frozen  0.6527+-0.079
+breastmnist        50   4    frozen  0.7759+-0.021
+pathmnist          10   4    frozen  0.9219+-0.019
+pathmnist         100   4    frozen  0.9661+-0.007
+pathmnist          20   4    frozen  0.9460+-0.013
+pathmnist           5   4    frozen  0.8723+-0.027
+pathmnist          50   4    frozen  0.9614+-0.010
+pneumoniamnist     10   4    frozen  0.9070+-0.015
+pneumoniamnist    100   4    frozen  0.9361+-0.011
+pneumoniamnist     20   4    frozen  0.9226+-0.013
+pneumoniamnist      5   4    frozen  0.8868+-0.044
+pneumoniamnist     50   4    frozen  0.9264+-0.010
+
+=== PRIMARY (Q1, efficiency at equal parameters): quantum_vqc - matched_param_fullrank (auc) ===
+Both arms have 24 head parameters and full rank at d=4.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== SECONDARY (Q2, dequantization): quantum_vqc - fourier_rff (auc) ===
+Basis-matched, NOT parameter-matched (324 vs 24). Asks whether
+the VQC exploits its own function class as well as a direct fit.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== DIAGNOSTIC (rank-limited control): quantum_vqc - matched_param (auc) ===
+matched_param is rank-limited to width 3; superseded by
+matched_param_fullrank. Retained for reproducibility only.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== Q3: frozen - adaptive, per arm (auc) ===
+The premise check showed compression is nearly free WITH an adaptive
+encoder. A large negative delta here means the encoder was absorbing
+the constraint - the reframed 'Latent Reshaping' claim.
+dataset           reg   d                      arm     delta    n
+------------------------------------------------------------------------
+
+=== Trainable capacity by component ===
+If the head's share is small, the experiment is not isolating the head.
+
+arm                        d bottleneck   bneck   head   clf   total  head %
+------------------------------------------------------------------------------
+fourier_rff                4    learned    1028    324    10    1362   23.8%
+
+=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===
+frozen: backbone must be '-' (no gradient reaches it).
+adaptive: backbone must be non-zero for EVERY arm, quantum included.
+
+arm                        encoder  runs    backbone  bottleneck        head  verdict
+--------------------------------------------------------------------------------------------
+fourier_rff                 frozen   796           -      2.6591      1.0982  OK
+
+Predictions: 796/796 claimed files are retrievable on disk; 0 shards predate prediction saving.
+
+DIAGNOSTIC OUTPUT - every interval above is a normal approximation
+over seeds. Confirmatory statistics come from 04_statistical_analysis.py.

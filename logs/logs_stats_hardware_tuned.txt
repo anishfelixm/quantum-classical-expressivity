@@ -1,0 +1,36 @@
+Amendment 23 - hardware feasibility at the tuned rate (exploratory; no classical counterpart)
+33_hardware_tuned: 21 runs; 07_hardware_noise (rate 1e-3): 21 runs
+
+(a) shot noise, cell-mean AUC (tuned rate)   [07 at 1e-3: exact]
+  dataset             n runs    exact     8192     1024      256       64  1024/exact  07 exact
+  bloodmnist        100    1   0.9162   0.9162   0.9149   0.9141   0.9038      0.9985    0.8382
+  breastmnist       100    5   0.8002   0.8016   0.7961   0.7973   0.7758      0.9949    0.7780
+  breastmnist         5    5   0.6636   0.6679   0.6554   0.6439   0.6585      0.9877    0.6417
+  pneumoniamnist    100    5   0.9272   0.9272   0.9267   0.9256   0.9144      0.9995    0.9263
+  pneumoniamnist      5    5   0.9052   0.9047   0.9016   0.8950   0.8573      0.9961    0.9006
+
+(a) end-of-circuit depolarising, cell-mean AUC (07's own evaluation)
+  dataset             n    0.000    0.001    0.005    0.010    0.050
+  bloodmnist        100   0.9162   0.9163   0.9163   0.9164   0.9167
+  breastmnist       100   0.8002   0.8002   0.8002   0.8002   0.8002
+  breastmnist         5   0.6636   0.6636   0.6636   0.6636   0.6636
+  pneumoniamnist    100   0.9272   0.9272   0.9272   0.9272   0.9272
+  pneumoniamnist      5   0.9052   0.9052   0.9052   0.9052   0.9052
+
+(b) per-layer depolarising (independent NumPy simulator): 21 runs used; not used 0
+  simulator vs PennyLane head outputs: max |diff| 6.4e-07 (required < 1e-6)
+  rebuilt exact AUC vs recorded exact AUC: max |diff| 0.0e+00
+  weights vs R_01_frozen_tuned (same dataset, n, seed): 21 pairs, max |diff| 0.00e+00, identical in 21
+  sanity: simulator end-of-circuit AUC vs 07's recorded AUC, max |diff| 0.0e+00
+
+  dataset             n runs    0.000    0.001    0.005    0.010    0.050   change at 0.010
+  bloodmnist        100    1   0.9162   0.9163   0.9165   0.9167   0.9178   +0.0005
+  breastmnist       100    5   0.8002   0.8002   0.8003   0.8002   0.7999   +0.0000
+  breastmnist         5    5   0.6636   0.6635   0.6635   0.6635   0.6634   -0.0001
+  pneumoniamnist    100    5   0.9272   0.9272   0.9272   0.9272   0.9272   -0.0000
+  pneumoniamnist      5    5   0.9052   0.9052   0.9052   0.9052   0.9052   +0.0000
+
+Predictions (Amendment 23)
+  (i)   1,024 shots within 0.98-1.02 of exact in every cell: HOLDS  (range 0.9877-0.9995)
+  (ii)  end-of-circuit noise leaves binary AUC exactly unchanged: FAILS
+  (iii) per-layer p <= 0.01 changes cell-mean binary AUC by < 0.005 in every cell: HOLDS

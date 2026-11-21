@@ -1,0 +1,220 @@
+Amendment 21 analysis (results) | sha=78c15b04 | B=2000
+====================================================================================================
+4. VIEWS OF THE UNCLIPPED CONDITION
+====================================================================================================
+X_01_frozen_tuned             4000 runs, of which   984 are unclipped re-executions; clipped side 01_frozen_tuned
+X_03_robustness_v2            1400 runs, of which    96 are unclipped re-executions; clipped side 03_robustness_v2
+X_09_lr_selection             1440 runs, of which   160 are unclipped re-executions; clipped side 09_lr_selection
+X_10_capacity                 1000 runs, of which    60 are unclipped re-executions; clipped side 10_capacity
+X_12_bottleneck                900 runs, of which     6 are unclipped re-executions; clipped side 12_bottleneck
+X_14_readout                   600 runs, of which     5 are unclipped re-executions; clipped side 14_readout
+X_15_dim8                      800 runs, of which   215 are unclipped re-executions; clipped side 15_dim8
+X_16_dim16                     200 runs, of which    51 are unclipped re-executions; clipped side 16_dim16
+X_17_fulldata                   80 runs, of which     4 are unclipped re-executions; clipped side R_17_fulldata
+X_18_depth                     600 runs, of which     6 are unclipped re-executions; clipped side 18_depth
+X_19_angle                     800 runs, of which   106 are unclipped re-executions; clipped side 19_angle
+X_20_tanh                     2000 runs, of which   206 are unclipped re-executions; clipped side 20_tanh
+X_21_ansatz                    400 runs, of which     3 are unclipped re-executions; clipped side 21_ansatz
+X_25_encoder                   800 runs, of which   164 are unclipped re-executions; clipped side 25_encoder
+X_26_bottleneck_tuned         3200 runs, of which     0 are unclipped re-executions; clipped side 26_bottleneck_tuned
+X_27_capacity_tuned           1600 runs, of which   232 are unclipped re-executions; clipped side 27_capacity_tuned
+X_29_compression_frozen        480 runs, of which   224 are unclipped re-executions; clipped side 29_compression_frozen
+
+====================================================================================================
+5-6. CONFIRMATORY FAMILY (13_family_table) - RECORDED vs UNCLIPPED, identical draws
+====================================================================================================
+
+  primary
+    n=5       recorded +0.0142 [+0.0025,+0.0256]*  unclipped +0.0142 [+0.0025,+0.0256]*  change +0.0000 [+0.0000,+0.0000] 
+    n=10      recorded +0.0002 [-0.0072,+0.0078]   unclipped +0.0002 [-0.0072,+0.0078]   change +0.0000 [-0.0000,+0.0000] 
+    n=20      recorded -0.0050 [-0.0114,+0.0016]   unclipped -0.0050 [-0.0114,+0.0016]   change +0.0000 [+0.0000,+0.0000] 
+    n=50      recorded -0.0080 [-0.0124,-0.0032]*  unclipped -0.0079 [-0.0123,-0.0031]*  change +0.0001 [-0.0001,+0.0003] 
+    n=100     recorded -0.0074 [-0.0110,-0.0038]*  unclipped -0.0074 [-0.0110,-0.0038]*  change -0.0000 [-0.0001,+0.0001] 
+
+  hs1
+    n=5       recorded +0.0039 [-0.0059,+0.0133]   unclipped +0.0039 [-0.0059,+0.0133]   change +0.0000 [+0.0000,+0.0000] 
+    n=10      recorded +0.0090 [+0.0029,+0.0154]*  unclipped +0.0090 [+0.0029,+0.0154]*  change +0.0000 [+0.0000,+0.0000] 
+    n=20      recorded +0.0125 [+0.0077,+0.0175]*  unclipped +0.0125 [+0.0077,+0.0175]*  change +0.0000 [+0.0000,+0.0000] 
+    n=50      recorded +0.0102 [+0.0060,+0.0140]*  unclipped +0.0102 [+0.0060,+0.0140]*  change +0.0000 [-0.0000,+0.0000] 
+    n=100     recorded +0.0103 [+0.0078,+0.0132]*  unclipped +0.0103 [+0.0077,+0.0132]*  change -0.0000 [-0.0001,+0.0000] 
+
+  hs2
+    n=5       recorded -0.0095 [-0.0193,+0.0003]   unclipped -0.0095 [-0.0193,+0.0004]   change -0.0000 [-0.0002,+0.0001] 
+    n=10      recorded -0.0187 [-0.0249,-0.0123]*  unclipped -0.0186 [-0.0248,-0.0122]*  change +0.0002 [-0.0000,+0.0004] 
+    n=20      recorded -0.0212 [-0.0261,-0.0157]*  unclipped -0.0210 [-0.0261,-0.0155]*  change +0.0002 [-0.0001,+0.0005] 
+    n=50      recorded -0.0203 [-0.0239,-0.0166]*  unclipped -0.0204 [-0.0240,-0.0167]*  change -0.0001 [-0.0003,+0.0002] 
+    n=100     recorded -0.0161 [-0.0194,-0.0127]*  unclipped -0.0162 [-0.0194,-0.0128]*  change -0.0001 [-0.0003,+0.0001] 
+
+  hs3
+    index 0   recorded +0.3560 [+0.3292,+0.3818]*  unclipped +0.3560 [+0.3292,+0.3818]*  change -0.0000 [-0.0002,+0.0001] 
+    index 1   recorded +0.4008 [+0.3736,+0.4248]*  unclipped +0.4007 [+0.3735,+0.4246]*  change -0.0001 [-0.0003,+0.0000] 
+    index 2   recorded +0.3822 [+0.3530,+0.4082]*  unclipped +0.3822 [+0.3530,+0.4082]*  change -0.0000 [-0.0001,+0.0000] 
+    index 3   recorded +0.3650 [+0.3401,+0.3873]*  unclipped +0.3650 [+0.3401,+0.3874]*  change -0.0000 [-0.0001,+0.0000] 
+
+  hs4
+    index 0   recorded -0.0048 [-0.0188,+0.0014]   unclipped -0.0089 [-0.0217,-0.0006]*  change -0.0041 [-0.0061,+0.0007] 
+
+  hs5
+    n=5       recorded -0.0124 [-0.0380,+0.0114]   unclipped -0.0124 [-0.0380,+0.0114]   change +0.0000 [+0.0000,+0.0000] 
+    n=10      recorded +0.0007 [-0.0128,+0.0158]   unclipped +0.0007 [-0.0128,+0.0158]   change +0.0000 [+0.0000,+0.0000] 
+    n=20      recorded +0.0015 [-0.0084,+0.0124]   unclipped +0.0015 [-0.0084,+0.0124]   change +0.0000 [+0.0000,+0.0000] 
+    n=50      recorded +0.0024 [-0.0045,+0.0104]   unclipped +0.0025 [-0.0045,+0.0104]   change +0.0001 [-0.0000,+0.0002] 
+    n=100     recorded +0.0031 [-0.0059,+0.0121]   unclipped +0.0031 [-0.0059,+0.0121]   change +0.0000 [-0.0000,+0.0000] 
+
+  hs6_pca
+    n=5       recorded -0.0283 [-0.1085,+0.0479]   unclipped -0.0283 [-0.1085,+0.0479]   change +0.0000 [+0.0000,+0.0000] 
+    n=10      recorded -0.0251 [-0.1021,+0.0444]   unclipped -0.0251 [-0.1021,+0.0444]   change +0.0000 [+0.0000,+0.0000] 
+    n=20      recorded -0.0384 [-0.0938,+0.0125]   unclipped -0.0384 [-0.0938,+0.0125]   change +0.0000 [+0.0000,+0.0000] 
+    n=50      recorded -0.0433 [-0.0803,-0.0129]*  unclipped -0.0433 [-0.0803,-0.0129]*  change +0.0000 [+0.0000,+0.0000] 
+    n=100     recorded -0.0347 [-0.0606,-0.0162]*  unclipped -0.0347 [-0.0606,-0.0162]*  change +0.0000 [+0.0000,+0.0000] 
+
+  hs6_random
+    n=5       recorded -0.0545 [-0.1232,+0.0153]   unclipped -0.0545 [-0.1232,+0.0153]   change +0.0000 [+0.0000,+0.0000] 
+    n=10      recorded -0.0753 [-0.1298,-0.0209]*  unclipped -0.0753 [-0.1298,-0.0209]*  change +0.0000 [+0.0000,+0.0000] 
+    n=20      recorded -0.0442 [-0.1251,+0.0348]   unclipped -0.0442 [-0.1251,+0.0348]   change +0.0000 [+0.0000,+0.0000] 
+    n=50      recorded -0.0514 [-0.1239,+0.0142]   unclipped -0.0514 [-0.1239,+0.0142]   change +0.0000 [+0.0000,+0.0000] 
+    n=100     recorded -0.0395 [-0.0864,-0.0006]*  unclipped -0.0395 [-0.0864,-0.0006]*  change +0.0000 [+0.0000,+0.0000] 
+
+  hs7a
+    index 0   recorded +0.0114 [+0.0065,+0.0163]*  unclipped +0.0114 [+0.0065,+0.0163]*  change +0.0000 [-0.0000,+0.0000] 
+
+  hs7b
+    index 0   recorded +0.0111 [+0.0065,+0.0156]*  unclipped +0.0111 [+0.0065,+0.0156]*  change +0.0000 [-0.0000,+0.0000] 
+
+Anchor: recorded-side family REPRODUCES family_table.json
+
+  test         estimate rec p_adj rec            verdict recorded | estimate unc p_adj unc           verdict unclipped
+  H-P1              +0.0142    0.0259                   SUPPORTED |      +0.0142    0.0259                   SUPPORTED
+  H-P2              -0.0046    0.0016                   SUPPORTED |      -0.0046    0.0016                   SUPPORTED
+  H-S1 n=5          +0.0039    0.4075               not supported |      +0.0039    0.4075               not supported
+  H-S1 n=10         +0.0090    0.0061      OPPOSITE to prediction |      +0.0090    0.0061      OPPOSITE to prediction
+  H-S1 n=20         +0.0125    0.0016  difference (no prediction) |      +0.0125    0.0016  difference (no prediction)
+  H-S1 n=50         +0.0102    0.0016                   SUPPORTED |      +0.0102    0.0016                   SUPPORTED
+  H-S1 n=100        +0.0103    0.0016                   SUPPORTED |      +0.0103    0.0016                   SUPPORTED
+  H-S2 n=5          -0.0095    0.0838               not supported |      -0.0095    0.0792               not supported
+  H-S2 n=10         -0.0187    0.0016                   SUPPORTED |      -0.0186    0.0016                   SUPPORTED
+  H-S2 n=20         -0.0212    0.0016                   SUPPORTED |      -0.0210    0.0016                   SUPPORTED
+  H-S2 n=50         -0.0203    0.0016                   SUPPORTED |      -0.0204    0.0016                   SUPPORTED
+  H-S2 n=100        -0.0161    0.0016                   SUPPORTED |      -0.0162    0.0016                   SUPPORTED
+  H-S3 s=0.05       +0.3560    0.0016                   SUPPORTED |      +0.3560    0.0016                   SUPPORTED
+  H-S3 s=0.10       +0.4008    0.0016                   SUPPORTED |      +0.4007    0.0016                   SUPPORTED
+  H-S3 s=0.15       +0.3822    0.0016                   SUPPORTED |      +0.3822    0.0016                   SUPPORTED
+  H-S3 s=0.20       +0.3650    0.0016                   SUPPORTED |      +0.3650    0.0016                   SUPPORTED
+  H-S4              -0.0048    0.1213               not supported |      -0.0089    0.0554               not supported
+  H-S5a             -0.0124    0.3372               not supported |      -0.0124    0.3372               not supported
+  H-S5b             +0.0029    0.2632               not supported |      +0.0029    0.2598               not supported
+  H-S6 pca          -0.0283    0.5077               not supported |      -0.0283    0.5077               not supported
+  H-S6 random       -0.0545    0.1537               not supported |      -0.0545    0.1537               not supported
+  H-S7a             +0.0114    0.0016                   SUPPORTED |      +0.0114    0.0016                   SUPPORTED
+  H-S7b             +0.0111    0.0016                   SUPPORTED |      +0.0111    0.0016                   SUPPORTED
+
+P3 HOLDS: 0 of 23 verdicts change.
+
+====================================================================================================
+5. EXPLORATORY AND FOLLOW-UP ANALYSES (14_exploratory_table) - RECORDED vs UNCLIPPED
+====================================================================================================
+
+  reupload_vs_control
+    n=5       recorded +0.0181 [+0.0065,+0.0306]*  unclipped +0.0181 [+0.0065,+0.0306]*  change +0.0000 [+0.0000,+0.0000] 
+    n=10      recorded +0.0092 [+0.0017,+0.0165]*  unclipped +0.0092 [+0.0017,+0.0165]*  change +0.0000 [-0.0000,+0.0000] 
+    n=20      recorded +0.0074 [+0.0016,+0.0134]*  unclipped +0.0074 [+0.0016,+0.0134]*  change +0.0000 [+0.0000,+0.0000] 
+    n=50      recorded +0.0022 [-0.0017,+0.0062]   unclipped +0.0023 [-0.0016,+0.0063]   change +0.0001 [-0.0001,+0.0003] 
+    n=100     recorded +0.0029 [+0.0001,+0.0059]*  unclipped +0.0029 [+0.0001,+0.0059]*  change -0.0000 [-0.0001,+0.0001] 
+
+  ansatz
+    n=5       recorded -0.0190 [-0.0353,-0.0027]*  unclipped -0.0190 [-0.0353,-0.0027]*  change +0.0000 [+0.0000,+0.0000] 
+    n=10      recorded -0.0081 [-0.0180,+0.0007]   unclipped -0.0081 [-0.0180,+0.0007]   change +0.0000 [+0.0000,+0.0000] 
+    n=20      recorded -0.0091 [-0.0191,+0.0002]   unclipped -0.0091 [-0.0191,+0.0002]   change +0.0000 [+0.0000,+0.0000] 
+    n=50      recorded -0.0117 [-0.0221,-0.0010]*  unclipped -0.0117 [-0.0222,-0.0010]*  change +0.0000 [-0.0000,+0.0000] 
+    n=100     recorded -0.0180 [-0.0251,-0.0111]*  unclipped -0.0180 [-0.0251,-0.0111]*  change +0.0000 [-0.0000,+0.0000] 
+
+  gap_control
+    index 0   recorded +0.3026 [+0.2761,+0.3254]*  unclipped +0.3029 [+0.2765,+0.3258]*  change +0.0004 [-0.0005,+0.0015] 
+    index 1   recorded +0.3353 [+0.3038,+0.3626]*  unclipped +0.3352 [+0.3037,+0.3623]*  change -0.0002 [-0.0011,+0.0006] 
+    index 2   recorded +0.3386 [+0.3095,+0.3662]*  unclipped +0.3380 [+0.3085,+0.3658]*  change -0.0006 [-0.0019,+0.0002] 
+    index 3   recorded +0.3173 [+0.2908,+0.3430]*  unclipped +0.3174 [+0.2911,+0.3431]*  change +0.0001 [-0.0010,+0.0011] 
+
+  gap_vqc_minus_control
+    index 0   recorded +0.0534 [+0.0245,+0.0846]*  unclipped +0.0530 [+0.0238,+0.0846]*  change -0.0004 [-0.0015,+0.0005] 
+    index 1   recorded +0.0655 [+0.0313,+0.1019]*  unclipped +0.0655 [+0.0315,+0.1023]*  change +0.0001 [-0.0007,+0.0010] 
+    index 2   recorded +0.0436 [+0.0102,+0.0786]*  unclipped +0.0442 [+0.0107,+0.0791]*  change +0.0006 [-0.0002,+0.0019] 
+    index 3   recorded +0.0477 [+0.0160,+0.0807]*  unclipped +0.0475 [+0.0164,+0.0805]*  change -0.0001 [-0.0011,+0.0011] 
+
+  reupload_vs_fourier_r2
+    n=5       recorded +0.0150 [+0.0022,+0.0279]*  unclipped +0.0278 [+0.0138,+0.0426]*  change +0.0128 [+0.0068,+0.0199]*
+    n=10      recorded +0.0148 [+0.0038,+0.0264]*  unclipped +0.0176 [+0.0054,+0.0302]*  change +0.0028 [-0.0017,+0.0075] 
+    n=20      recorded +0.0029 [-0.0041,+0.0105]   unclipped +0.0083 [+0.0006,+0.0175]*  change +0.0054 [+0.0022,+0.0094]*
+    n=50      recorded -0.0002 [-0.0067,+0.0071]   unclipped +0.0019 [-0.0049,+0.0097]   change +0.0020 [-0.0011,+0.0056] 
+    n=100     recorded -0.0038 [-0.0063,-0.0013]*  unclipped -0.0035 [-0.0059,-0.0009]*  change +0.0003 [-0.0010,+0.0017] 
+
+  hs5_followup
+    n=5       recorded +0.0097 [+0.0007,+0.0187]*  unclipped +0.0096 [+0.0006,+0.0187]*  change -0.0001 [-0.0003,+0.0000] 
+    n=10      recorded +0.0118 [+0.0035,+0.0205]*  unclipped +0.0119 [+0.0036,+0.0206]*  change +0.0001 [-0.0000,+0.0003] 
+    n=20      recorded +0.0041 [-0.0031,+0.0111]   unclipped +0.0041 [-0.0030,+0.0111]   change -0.0000 [-0.0002,+0.0001] 
+    n=50      recorded +0.0019 [-0.0040,+0.0076]   unclipped +0.0020 [-0.0039,+0.0077]   change +0.0001 [-0.0001,+0.0003] 
+    n=100     recorded +0.0059 [+0.0016,+0.0102]*  unclipped +0.0062 [+0.0018,+0.0104]*  change +0.0003 [-0.0000,+0.0007] 
+  hs6_followup_pca             26_bottleneck_tuned  unchanged: no run had a step above 20
+  hs6_followup_random          26_bottleneck_tuned  unchanged: no run had a step above 20
+
+  bottleneck_learned_reference
+    n=5       recorded +0.0297 [-0.0201,+0.0880]   unclipped +0.0297 [-0.0201,+0.0880]   change +0.0000 [+0.0000,+0.0000] 
+    n=10      recorded +0.0362 [-0.0086,+0.0901]   unclipped +0.0362 [-0.0086,+0.0901]   change +0.0000 [+0.0000,+0.0000] 
+    n=20      recorded -0.0144 [-0.0332,+0.0051]   unclipped -0.0144 [-0.0332,+0.0051]   change +0.0000 [+0.0000,+0.0000] 
+    n=50      recorded -0.0225 [-0.0323,-0.0118]*  unclipped -0.0225 [-0.0323,-0.0118]*  change +0.0000 [+0.0000,+0.0000] 
+    n=100     recorded -0.0208 [-0.0300,-0.0115]*  unclipped -0.0208 [-0.0300,-0.0115]*  change +0.0000 [+0.0000,+0.0000] 
+
+====================================================================================================
+7. LEARNING-RATE SELECTION (09) - RECORDED vs UNCLIPPED
+====================================================================================================
+  recorded:
+    fourier_rff              3e-04:0.7975  1e-03:0.8610  3e-03:0.8875  1e-02:0.8979  3e-02:0.7644  1e-01:0.6378   selected 1e-02
+    linear                   3e-04:0.7986  1e-03:0.8602  3e-03:0.8873  1e-02:0.9010  3e-02:0.9048  1e-01:0.7584   selected 3e-02
+    matched_param_fullrank   3e-04:0.7985  1e-03:0.8523  3e-03:0.8816  1e-02:0.8845  3e-02:0.8234  1e-01:0.7202   selected 1e-02
+    quantum_vqc              3e-04:0.8137  1e-03:0.8418  3e-03:0.8653  1e-02:0.8785  3e-02:0.8690  1e-01:0.8007   selected 1e-02
+  re-executed (R_):
+    fourier_rff              3e-04:0.7975  1e-03:0.8610  3e-03:0.8875  1e-02:0.8979  3e-02:0.7644  1e-01:0.6378   selected 1e-02
+    linear                   3e-04:0.7986  1e-03:0.8602  3e-03:0.8873  1e-02:0.9010  3e-02:0.9048  1e-01:0.7584   selected 3e-02
+    matched_param_fullrank   3e-04:0.7985  1e-03:0.8523  3e-03:0.8816  1e-02:0.8845  3e-02:0.8234  1e-01:0.7202   selected 1e-02
+    quantum_vqc              3e-04:0.8137  1e-03:0.8418  3e-03:0.8653  1e-02:0.8785  3e-02:0.8690  1e-01:0.8007   selected 1e-02
+  unclipped:
+    fourier_rff              3e-04:0.7975  1e-03:0.8610  3e-03:0.8876  1e-02:0.8979  3e-02:0.7645  1e-01:0.6378   selected 1e-02
+    linear                   3e-04:0.7986  1e-03:0.8602  3e-03:0.8873  1e-02:0.9010  3e-02:0.9048  1e-01:0.7584   selected 3e-02
+    matched_param_fullrank   3e-04:0.7985  1e-03:0.8523  3e-03:0.8816  1e-02:0.8845  3e-02:0.8234  1e-01:0.7199   selected 1e-02
+    quantum_vqc              3e-04:0.8137  1e-03:0.8418  3e-03:0.8653  1e-02:0.8785  3e-02:0.8690  1e-01:0.8007   selected 1e-02
+
+====================================================================================================
+8. OTHER SOURCES
+====================================================================================================
+  01_frozen_tuned          984 runs changed. Recompute its reported numbers on X_01_frozen_tuned, e.g.
+      python src/04_statistical_analysis.py --experiment X_01_frozen_tuned
+  03_robustness_v2         96 runs changed. Recompute its reported numbers on X_03_robustness_v2, e.g.
+      python src/04_statistical_analysis.py --experiment X_03_robustness_v2
+  09_lr_selection          160 runs changed. Recompute its reported numbers on X_09_lr_selection, e.g.
+      python src/04_statistical_analysis.py --experiment X_09_lr_selection
+  10_capacity              60 runs changed. Recompute its reported numbers on X_10_capacity, e.g.
+      python src/04_statistical_analysis.py --experiment X_10_capacity
+  12_bottleneck            6 runs changed. Recompute its reported numbers on X_12_bottleneck, e.g.
+      python src/04_statistical_analysis.py --experiment X_12_bottleneck
+  14_readout               5 runs changed. Recompute its reported numbers on X_14_readout, e.g.
+      python src/04_statistical_analysis.py --experiment X_14_readout
+  15_dim8                  215 runs changed. Recompute its reported numbers on X_15_dim8, e.g.
+      python src/04_statistical_analysis.py --experiment X_15_dim8
+  16_dim16                 51 runs changed. Recompute its reported numbers on X_16_dim16, e.g.
+      python src/04_statistical_analysis.py --experiment X_16_dim16
+  17_fulldata              4 runs changed. Recompute its reported numbers on X_17_fulldata, e.g.
+      python src/04_statistical_analysis.py --experiment X_17_fulldata
+  18_depth                 6 runs changed. Recompute its reported numbers on X_18_depth, e.g.
+      python src/04_statistical_analysis.py --experiment X_18_depth
+  19_angle                 106 runs changed. Recompute its reported numbers on X_19_angle, e.g.
+      python src/04_statistical_analysis.py --experiment X_19_angle
+  20_tanh                  206 runs changed. Recompute its reported numbers on X_20_tanh, e.g.
+      python src/04_statistical_analysis.py --experiment X_20_tanh
+  21_ansatz                3 runs changed. Recompute its reported numbers on X_21_ansatz, e.g.
+      python src/04_statistical_analysis.py --experiment X_21_ansatz
+  25_encoder               164 runs changed. Recompute its reported numbers on X_25_encoder, e.g.
+      python src/04_statistical_analysis.py --experiment X_25_encoder
+  26_bottleneck_tuned      no run had a step above 20: every number from it is unchanged
+  27_capacity_tuned        232 runs changed. Recompute its reported numbers on X_27_capacity_tuned, e.g.
+      python src/04_statistical_analysis.py --experiment X_27_capacity_tuned
+  29_compression_frozen    224 runs changed. Recompute its reported numbers on X_29_compression_frozen, e.g.
+      python src/04_statistical_analysis.py --experiment X_29_compression_frozen

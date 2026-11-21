@@ -1,0 +1,15 @@
+replay | source=38_lr_fourier_nosquash -> CU_38_lr_fourier_nosquash | clip=inf | runs=12 | code=260d11f5 (/content/replay_trees/260d11f5) | device=cpu
+[1/12] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=1 max=20.388  | bloodmnist n=100 s=90003 fourier_rff | 0.1 min
+[2/12] not compared (no per-epoch h cache=warm (logs: -) steps>20=4 max=25.680  | bloodmnist n=100 s=90002 fourier_rff | 0.3 min
+[3/12] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=1 max=20.724  | bloodmnist n=5 s=90003 fourier_rff | 0.3 min
+[4/12] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=23.707  | breastmnist n=5 s=90005 fourier_rff | 0.3 min
+[5/12] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=3 max=26.414  | pathmnist n=100 s=90003 fourier_rff | 0.5 min
+[6/12] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=23.088  | pathmnist n=5 s=90003 fourier_rff | 0.6 min
+[7/12] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=25.402  | pathmnist n=100 s=90005 fourier_rff | 0.7 min
+[8/12] not compared (no per-epoch h cache=warm (logs: -) steps>20=2 max=20.810  | pathmnist n=100 s=90005 fourier_rff | 0.9 min
+[9/12] not compared (no per-epoch h cache=warm (logs: -) steps>20=4 max=25.731  | pathmnist n=100 s=90003 fourier_rff | 1.0 min
+[10/12] not compared (no per-epoch h cache=warm (logs: -) steps>20=2 max=23.525  | pneumoniamnist n=100 s=90001 fourier_rff | 1.1 min
+[11/12] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=23.883  | pneumoniamnist n=20 s=90003 fourier_rff | 1.1 min
+[12/12] not compared (no per-epoch h cache=warm (logs: -) steps>20=1 max=20.552  | pneumoniamnist n=20 s=90005 fourier_rff | 1.1 min
+
+replay summary 38_lr_fourier_nosquash -> CU_38_lr_fourier_nosquash: done 12, other 0, of 12

@@ -1,0 +1,589 @@
+replay | source=37_rate_gaps -> C_37_rate_gaps | clip=20.0 | runs=360 | code=10ce9593 (/content/replay_trees/10ce9593) | device=cpu
+[1/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.277  | bloodmnist n=100 s=121393 low_rank | 0.2 min
+[2/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.202  | bloodmnist n=100 s=1729 low_rank | 0.3 min
+[3/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.685  | bloodmnist n=100 s=31337 low_rank | 0.5 min
+[4/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.972  | bloodmnist n=100 s=314159 low_rank | 0.6 min
+[5/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.868  | bloodmnist n=100 s=4321 low_rank | 0.8 min
+[6/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.528  | bloodmnist n=100 s=46341 low_rank | 1.0 min
+[7/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.121  | bloodmnist n=10 s=121393 low_rank | 1.1 min
+[8/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.413  | bloodmnist n=10 s=1729 low_rank | 1.1 min
+[9/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.678  | bloodmnist n=10 s=31337 low_rank | 1.2 min
+[10/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.279  | bloodmnist n=10 s=314159 low_rank | 1.2 min
+[11/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.637  | bloodmnist n=10 s=4321 low_rank | 1.3 min
+[12/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.808  | bloodmnist n=10 s=46341 low_rank | 1.4 min
+[13/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.632  | bloodmnist n=20 s=121393 low_rank | 1.4 min
+[14/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.762  | bloodmnist n=20 s=1729 low_rank | 1.5 min
+[15/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.750  | bloodmnist n=20 s=31337 low_rank | 1.6 min
+[16/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.466  | bloodmnist n=20 s=314159 low_rank | 1.7 min
+[17/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.855  | bloodmnist n=20 s=4321 low_rank | 1.7 min
+[18/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.703  | bloodmnist n=20 s=46341 low_rank | 1.8 min
+[19/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.990  | bloodmnist n=50 s=121393 low_rank | 1.9 min
+[20/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.343  | bloodmnist n=50 s=1729 low_rank | 2.0 min
+[21/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.554  | bloodmnist n=50 s=31337 low_rank | 2.1 min
+[22/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.303  | bloodmnist n=50 s=314159 low_rank | 2.2 min
+[23/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.761  | bloodmnist n=50 s=4321 low_rank | 2.3 min
+[24/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=15.143  | bloodmnist n=50 s=46341 low_rank | 2.4 min
+[25/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.648  | bloodmnist n=5 s=121393 low_rank | 2.5 min
+[26/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.117  | bloodmnist n=5 s=1729 low_rank | 2.5 min
+[27/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.221  | bloodmnist n=5 s=31337 low_rank | 2.6 min
+[28/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.177  | bloodmnist n=5 s=314159 low_rank | 2.6 min
+[29/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.611  | bloodmnist n=5 s=4321 low_rank | 2.7 min
+[30/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.868  | bloodmnist n=5 s=46341 low_rank | 2.7 min
+[31/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=17.768  | bloodmnist n=100 s=121393 low_rank | 2.9 min
+[32/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.118  | bloodmnist n=100 s=1729 low_rank | 3.1 min
+[33/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.687  | bloodmnist n=100 s=31337 low_rank | 3.2 min
+[34/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.606  | bloodmnist n=100 s=314159 low_rank | 3.3 min
+[35/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=17.143  | bloodmnist n=100 s=4321 low_rank | 3.5 min
+[36/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=17.907  | bloodmnist n=100 s=46341 low_rank | 3.7 min
+[37/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=15.888  | bloodmnist n=10 s=121393 low_rank | 3.7 min
+[38/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.730  | bloodmnist n=10 s=1729 low_rank | 3.8 min
+[39/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=15.313  | bloodmnist n=10 s=31337 low_rank | 3.8 min
+[40/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.985  | bloodmnist n=10 s=314159 low_rank | 3.9 min
+[41/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=22.133  | bloodmnist n=10 s=4321 low_rank | 3.9 min
+[42/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=23.259  | bloodmnist n=10 s=46341 low_rank | 4.0 min
+[43/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=14.075  | bloodmnist n=20 s=121393 low_rank | 4.1 min
+[44/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.685  | bloodmnist n=20 s=1729 low_rank | 4.1 min
+[45/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=17.918  | bloodmnist n=20 s=31337 low_rank | 4.2 min
+[46/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.860  | bloodmnist n=20 s=314159 low_rank | 4.3 min
+[47/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.314  | bloodmnist n=20 s=4321 low_rank | 4.5 min
+[48/360] IDENTICAL                    cache=warm (logs: -) steps>20=2 max=29.737  | bloodmnist n=20 s=46341 low_rank | 4.6 min
+[49/360] IDENTICAL                    cache=warm (logs: -) steps>20=2 max=21.354  | bloodmnist n=50 s=121393 low_rank | 4.7 min
+[50/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.965  | bloodmnist n=50 s=1729 low_rank | 4.8 min
+[51/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.772  | bloodmnist n=50 s=31337 low_rank | 4.9 min
+[52/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.982  | bloodmnist n=50 s=314159 low_rank | 5.0 min
+[53/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.818  | bloodmnist n=50 s=4321 low_rank | 5.1 min
+[54/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=21.494  | bloodmnist n=50 s=46341 low_rank | 5.2 min
+[55/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.310  | bloodmnist n=5 s=121393 low_rank | 5.3 min
+[56/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.184  | bloodmnist n=5 s=1729 low_rank | 5.3 min
+[57/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.233  | bloodmnist n=5 s=31337 low_rank | 5.4 min
+[58/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.596  | bloodmnist n=5 s=314159 low_rank | 5.4 min
+[59/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=25.100  | bloodmnist n=5 s=4321 low_rank | 5.5 min
+[60/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.188  | bloodmnist n=5 s=46341 low_rank | 5.5 min
+[61/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=20.333  | bloodmnist n=100 s=121393 low_rank | 5.7 min
+[62/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=17.497  | bloodmnist n=100 s=1729 low_rank | 5.8 min
+[63/360] IDENTICAL                    cache=warm (logs: -) steps>20=5 max=23.296  | bloodmnist n=100 s=31337 low_rank | 6.0 min
+[64/360] IDENTICAL                    cache=warm (logs: -) steps>20=5 max=23.464  | bloodmnist n=100 s=314159 low_rank | 6.2 min
+[65/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=21.781  | bloodmnist n=100 s=4321 low_rank | 6.4 min
+[66/360] IDENTICAL                    cache=warm (logs: -) steps>20=4 max=22.753  | bloodmnist n=100 s=46341 low_rank | 6.5 min
+[67/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.224  | bloodmnist n=10 s=121393 low_rank | 6.6 min
+[68/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.332  | bloodmnist n=10 s=1729 low_rank | 6.7 min
+[69/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.155  | bloodmnist n=10 s=31337 low_rank | 6.7 min
+[70/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.105  | bloodmnist n=10 s=314159 low_rank | 6.8 min
+[71/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.606  | bloodmnist n=10 s=4321 low_rank | 6.9 min
+[72/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.661  | bloodmnist n=10 s=46341 low_rank | 6.9 min
+[73/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=19.916  | bloodmnist n=20 s=121393 low_rank | 7.0 min
+[74/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.507  | bloodmnist n=20 s=1729 low_rank | 7.1 min
+[75/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=18.030  | bloodmnist n=20 s=31337 low_rank | 7.2 min
+[76/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=14.920  | bloodmnist n=20 s=314159 low_rank | 7.2 min
+[77/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.695  | bloodmnist n=20 s=4321 low_rank | 7.3 min
+[78/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.665  | bloodmnist n=20 s=46341 low_rank | 7.5 min
+[79/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.950  | bloodmnist n=50 s=121393 low_rank | 7.6 min
+[80/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.177  | bloodmnist n=50 s=1729 low_rank | 7.7 min
+[81/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=17.707  | bloodmnist n=50 s=31337 low_rank | 7.8 min
+[82/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=14.370  | bloodmnist n=50 s=314159 low_rank | 7.9 min
+[83/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=26.424  | bloodmnist n=50 s=4321 low_rank | 8.0 min
+[84/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=28.051  | bloodmnist n=50 s=46341 low_rank | 8.1 min
+[85/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.316  | bloodmnist n=5 s=121393 low_rank | 8.2 min
+[86/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.027  | bloodmnist n=5 s=1729 low_rank | 8.2 min
+[87/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.152  | bloodmnist n=5 s=31337 low_rank | 8.3 min
+[88/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.904  | bloodmnist n=5 s=314159 low_rank | 8.4 min
+[89/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.271  | bloodmnist n=5 s=4321 low_rank | 8.4 min
+[90/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.664  | bloodmnist n=5 s=46341 low_rank | 8.5 min
+[91/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.502  | breastmnist n=100 s=121393 low_rank | 8.5 min
+[92/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.387  | breastmnist n=100 s=1729 low_rank | 8.6 min
+[93/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.882  | breastmnist n=100 s=31337 low_rank | 8.6 min
+[94/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.815  | breastmnist n=100 s=314159 low_rank | 8.7 min
+[95/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.960  | breastmnist n=100 s=4321 low_rank | 8.7 min
+[96/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.977  | breastmnist n=100 s=46341 low_rank | 8.8 min
+[97/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.815  | breastmnist n=10 s=121393 low_rank | 8.8 min
+[98/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.316  | breastmnist n=10 s=1729 low_rank | 8.8 min
+[99/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.247  | breastmnist n=10 s=31337 low_rank | 8.8 min
+[100/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.258  | breastmnist n=10 s=314159 low_rank | 8.9 min
+[101/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.201  | breastmnist n=10 s=4321 low_rank | 8.9 min
+[102/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.566  | breastmnist n=10 s=46341 low_rank | 8.9 min
+[103/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.415  | breastmnist n=20 s=121393 low_rank | 8.9 min
+[104/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.817  | breastmnist n=20 s=1729 low_rank | 9.0 min
+[105/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.020  | breastmnist n=20 s=31337 low_rank | 9.0 min
+[106/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.473  | breastmnist n=20 s=314159 low_rank | 9.0 min
+[107/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.937  | breastmnist n=20 s=4321 low_rank | 9.0 min
+[108/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.185  | breastmnist n=20 s=46341 low_rank | 9.1 min
+[109/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.293  | breastmnist n=50 s=121393 low_rank | 9.1 min
+[110/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.391  | breastmnist n=50 s=1729 low_rank | 9.1 min
+[111/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.159  | breastmnist n=50 s=31337 low_rank | 9.2 min
+[112/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.989  | breastmnist n=50 s=314159 low_rank | 9.2 min
+[113/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.245  | breastmnist n=50 s=4321 low_rank | 9.2 min
+[114/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.155  | breastmnist n=50 s=46341 low_rank | 9.3 min
+[115/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.831  | breastmnist n=5 s=121393 low_rank | 9.3 min
+[116/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.497  | breastmnist n=5 s=1729 low_rank | 9.3 min
+[117/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.256  | breastmnist n=5 s=31337 low_rank | 9.3 min
+[118/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.310  | breastmnist n=5 s=314159 low_rank | 9.4 min
+[119/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.364  | breastmnist n=5 s=4321 low_rank | 9.4 min
+[120/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.578  | breastmnist n=5 s=46341 low_rank | 9.4 min
+[121/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.129  | breastmnist n=100 s=121393 low_rank | 9.5 min
+[122/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.157  | breastmnist n=100 s=1729 low_rank | 9.5 min
+[123/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.713  | breastmnist n=100 s=31337 low_rank | 9.5 min
+[124/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.237  | breastmnist n=100 s=314159 low_rank | 9.6 min
+[125/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=19.284  | breastmnist n=100 s=4321 low_rank | 9.6 min
+[126/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.248  | breastmnist n=100 s=46341 low_rank | 9.7 min
+[127/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.201  | breastmnist n=10 s=121393 low_rank | 9.7 min
+[128/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.251  | breastmnist n=10 s=1729 low_rank | 9.7 min
+[129/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.282  | breastmnist n=10 s=31337 low_rank | 9.7 min
+[130/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.438  | breastmnist n=10 s=314159 low_rank | 9.8 min
+[131/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.667  | breastmnist n=10 s=4321 low_rank | 9.8 min
+[132/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.779  | breastmnist n=10 s=46341 low_rank | 9.8 min
+[133/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.459  | breastmnist n=20 s=121393 low_rank | 9.8 min
+[134/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.549  | breastmnist n=20 s=1729 low_rank | 9.9 min
+[135/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.172  | breastmnist n=20 s=31337 low_rank | 9.9 min
+[136/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.405  | breastmnist n=20 s=314159 low_rank | 9.9 min
+[137/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.031  | breastmnist n=20 s=4321 low_rank | 9.9 min
+[138/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.688  | breastmnist n=20 s=46341 low_rank | 10.0 min
+[139/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.570  | breastmnist n=50 s=121393 low_rank | 10.0 min
+[140/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.786  | breastmnist n=50 s=1729 low_rank | 10.0 min
+[141/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.223  | breastmnist n=50 s=31337 low_rank | 10.1 min
+[142/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.559  | breastmnist n=50 s=314159 low_rank | 10.1 min
+[143/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.169  | breastmnist n=50 s=4321 low_rank | 10.1 min
+[144/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.806  | breastmnist n=50 s=46341 low_rank | 10.2 min
+[145/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.137  | breastmnist n=5 s=121393 low_rank | 10.2 min
+[146/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.385  | breastmnist n=5 s=1729 low_rank | 10.2 min
+[147/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.362  | breastmnist n=5 s=31337 low_rank | 10.2 min
+[148/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.398  | breastmnist n=5 s=314159 low_rank | 10.2 min
+[149/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.909  | breastmnist n=5 s=4321 low_rank | 10.3 min
+[150/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.187  | breastmnist n=5 s=46341 low_rank | 10.3 min
+[151/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=14.450  | breastmnist n=100 s=121393 low_rank | 10.3 min
+[152/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.376  | breastmnist n=100 s=1729 low_rank | 10.4 min
+[153/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=15.812  | breastmnist n=100 s=31337 low_rank | 10.4 min
+[154/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=18.715  | breastmnist n=100 s=314159 low_rank | 10.5 min
+[155/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.135  | breastmnist n=100 s=4321 low_rank | 10.5 min
+[156/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.555  | breastmnist n=100 s=46341 low_rank | 10.6 min
+[157/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.201  | breastmnist n=10 s=121393 low_rank | 10.6 min
+[158/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.347  | breastmnist n=10 s=1729 low_rank | 10.6 min
+[159/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.261  | breastmnist n=10 s=31337 low_rank | 10.6 min
+[160/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.192  | breastmnist n=10 s=314159 low_rank | 10.7 min
+[161/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.667  | breastmnist n=10 s=4321 low_rank | 10.7 min
+[162/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.212  | breastmnist n=10 s=46341 low_rank | 10.7 min
+[163/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.447  | breastmnist n=20 s=121393 low_rank | 10.8 min
+[164/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.543  | breastmnist n=20 s=1729 low_rank | 10.8 min
+[165/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.828  | breastmnist n=20 s=31337 low_rank | 10.8 min
+[166/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.525  | breastmnist n=20 s=314159 low_rank | 10.8 min
+[167/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.327  | breastmnist n=20 s=4321 low_rank | 10.9 min
+[168/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.718  | breastmnist n=20 s=46341 low_rank | 10.9 min
+[169/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.698  | breastmnist n=50 s=121393 low_rank | 10.9 min
+[170/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.757  | breastmnist n=50 s=1729 low_rank | 11.0 min
+[171/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.574  | breastmnist n=50 s=31337 low_rank | 11.0 min
+[172/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.171  | breastmnist n=50 s=314159 low_rank | 11.0 min
+[173/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=14.289  | breastmnist n=50 s=4321 low_rank | 11.1 min
+[174/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.094  | breastmnist n=50 s=46341 low_rank | 11.1 min
+[175/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.137  | breastmnist n=5 s=121393 low_rank | 11.1 min
+[176/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.385  | breastmnist n=5 s=1729 low_rank | 11.2 min
+[177/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.323  | breastmnist n=5 s=31337 low_rank | 11.2 min
+[178/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.309  | breastmnist n=5 s=314159 low_rank | 11.2 min
+[179/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.909  | breastmnist n=5 s=4321 low_rank | 11.2 min
+[180/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.187  | breastmnist n=5 s=46341 low_rank | 11.3 min
+[181/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.730  | pathmnist n=100 s=121393 low_rank | 11.4 min
+[182/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.280  | pathmnist n=100 s=1729 low_rank | 11.6 min
+[183/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=16.171  | pathmnist n=100 s=31337 low_rank | 11.8 min
+[184/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.444  | pathmnist n=100 s=314159 low_rank | 12.0 min
+[185/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=15.183  | pathmnist n=100 s=4321 low_rank | 12.2 min
+[186/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=14.852  | pathmnist n=100 s=46341 low_rank | 12.3 min
+[187/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.851  | pathmnist n=10 s=121393 low_rank | 12.4 min
+[188/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.140  | pathmnist n=10 s=1729 low_rank | 12.5 min
+[189/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.574  | pathmnist n=10 s=31337 low_rank | 12.5 min
+[190/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.038  | pathmnist n=10 s=314159 low_rank | 12.6 min
+[191/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.488  | pathmnist n=10 s=4321 low_rank | 12.7 min
+[192/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.510  | pathmnist n=10 s=46341 low_rank | 12.7 min
+[193/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.791  | pathmnist n=20 s=121393 low_rank | 12.8 min
+[194/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.939  | pathmnist n=20 s=1729 low_rank | 12.9 min
+[195/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.249  | pathmnist n=20 s=31337 low_rank | 13.0 min
+[196/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.196  | pathmnist n=20 s=314159 low_rank | 13.0 min
+[197/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.648  | pathmnist n=20 s=4321 low_rank | 13.1 min
+[198/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.545  | pathmnist n=20 s=46341 low_rank | 13.2 min
+[199/360] IDENTICAL                    cache=warm (logs: -) steps>20=2 max=22.067  | pathmnist n=50 s=121393 low_rank | 13.7 min
+[200/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=27.341  | pathmnist n=50 s=1729 low_rank | 13.9 min
+[201/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.506  | pathmnist n=50 s=31337 low_rank | 14.0 min
+[202/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.570  | pathmnist n=50 s=314159 low_rank | 14.1 min
+[203/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=15.897  | pathmnist n=50 s=4321 low_rank | 14.2 min
+[204/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.709  | pathmnist n=50 s=46341 low_rank | 14.3 min
+[205/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.670  | pathmnist n=5 s=121393 low_rank | 14.3 min
+[206/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.788  | pathmnist n=5 s=1729 low_rank | 14.7 min
+[207/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.407  | pathmnist n=5 s=31337 low_rank | 14.8 min
+[208/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.707  | pathmnist n=5 s=314159 low_rank | 15.2 min
+[209/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.936  | pathmnist n=5 s=4321 low_rank | 15.3 min
+[210/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.081  | pathmnist n=5 s=46341 low_rank | 15.4 min
+[211/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=19.588  | pathmnist n=100 s=121393 low_rank | 15.6 min
+Traceback (most recent call last):
+  File "/content/repo/scripts/replay.py", line 750, in <module>
+    main()
+  File "/content/repo/scripts/replay.py", line 710, in main
+    path, new, verdict = attempt(rec, cache)
+  File "/content/repo/scripts/replay.py", line 667, in attempt
+    new, v = check(source, target, rec, path)
+  File "/content/repo/scripts/replay.py", line 532, in check
+    pred, worst = compare_predictions(source, target, rec["keys"])
+  File "/content/repo/scripts/replay.py", line 256, in compare_predictions
+    with np.load(p0) as a, np.load(p1) as b:
+  File "/content/env/lib/python3.10/site-packages/numpy/lib/npyio.py", line 434, in load
+    magic = fid.read(N)
+OSError: [Errno 5] Input/output error
+replay | source=37_rate_gaps -> C_37_rate_gaps | clip=20.0 | runs=360 | code=10ce9593 (/content/replay_trees/10ce9593) | device=cpu
+[1/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed121393.json
+[2/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed1729.json
+[3/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed31337.json
+[4/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed314159.json
+[5/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed4321.json
+[6/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed46341.json
+[7/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed121393.json
+[8/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed1729.json
+[9/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed31337.json
+[10/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed314159.json
+[11/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed4321.json
+[12/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed46341.json
+[13/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed121393.json
+[14/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed1729.json
+[15/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed31337.json
+[16/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed314159.json
+[17/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed4321.json
+[18/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed46341.json
+[19/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed121393.json
+[20/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed1729.json
+[21/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed31337.json
+[22/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed314159.json
+[23/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed4321.json
+[24/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed46341.json
+[25/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed121393.json
+[26/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed1729.json
+[27/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed31337.json
+[28/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed314159.json
+[29/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed4321.json
+[30/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed46341.json
+[31/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime100__seed121393.json
+[32/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime100__seed1729.json
+[33/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime100__seed31337.json
+[34/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime100__seed314159.json
+[35/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime100__seed4321.json
+[36/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime100__seed46341.json
+[37/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime10__seed121393.json
+[38/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime10__seed1729.json
+[39/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime10__seed31337.json
+[40/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime10__seed314159.json
+[41/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime10__seed4321.json
+[42/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime10__seed46341.json
+[43/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime20__seed121393.json
+[44/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime20__seed1729.json
+[45/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime20__seed31337.json
+[46/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime20__seed314159.json
+[47/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime20__seed4321.json
+[48/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime20__seed46341.json
+[49/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime50__seed121393.json
+[50/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime50__seed1729.json
+[51/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime50__seed31337.json
+[52/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime50__seed314159.json
+[53/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime50__seed4321.json
+[54/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime50__seed46341.json
+[55/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime5__seed121393.json
+[56/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime5__seed1729.json
+[57/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime5__seed31337.json
+[58/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime5__seed314159.json
+[59/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime5__seed4321.json
+[60/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh1e-02__rank8__regime5__seed46341.json
+[61/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime100__seed121393.json
+[62/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime100__seed1729.json
+[63/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime100__seed31337.json
+[64/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime100__seed314159.json
+[65/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime100__seed4321.json
+[66/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime100__seed46341.json
+[67/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime10__seed121393.json
+[68/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime10__seed1729.json
+[69/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime10__seed31337.json
+[70/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime10__seed314159.json
+[71/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime10__seed4321.json
+[72/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime10__seed46341.json
+[73/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime20__seed121393.json
+[74/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime20__seed1729.json
+[75/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime20__seed31337.json
+[76/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime20__seed314159.json
+[77/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime20__seed4321.json
+[78/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime20__seed46341.json
+[79/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime50__seed121393.json
+[80/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime50__seed1729.json
+[81/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime50__seed31337.json
+[82/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime50__seed314159.json
+[83/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime50__seed4321.json
+[84/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime50__seed46341.json
+[85/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime5__seed121393.json
+[86/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime5__seed1729.json
+[87/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime5__seed31337.json
+[88/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime5__seed314159.json
+[89/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime5__seed4321.json
+[90/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbloodmnist__dim4__fpall__lrh3e-03__rank8__regime5__seed46341.json
+[91/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed121393.json
+[92/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed1729.json
+[93/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed31337.json
+[94/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed314159.json
+[95/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed4321.json
+[96/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed46341.json
+[97/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed121393.json
+[98/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed1729.json
+[99/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed31337.json
+[100/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed314159.json
+[101/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed4321.json
+[102/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed46341.json
+[103/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed121393.json
+[104/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed1729.json
+[105/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed31337.json
+[106/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed314159.json
+[107/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed4321.json
+[108/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed46341.json
+[109/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed121393.json
+[110/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed1729.json
+[111/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed31337.json
+[112/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed314159.json
+[113/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed4321.json
+[114/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed46341.json
+[115/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed121393.json
+[116/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed1729.json
+[117/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed31337.json
+[118/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed314159.json
+[119/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed4321.json
+[120/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed46341.json
+[121/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime100__seed121393.json
+[122/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime100__seed1729.json
+[123/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime100__seed31337.json
+[124/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime100__seed314159.json
+[125/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime100__seed4321.json
+[126/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime100__seed46341.json
+[127/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime10__seed121393.json
+[128/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime10__seed1729.json
+[129/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime10__seed31337.json
+[130/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime10__seed314159.json
+[131/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime10__seed4321.json
+[132/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime10__seed46341.json
+[133/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime20__seed121393.json
+[134/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime20__seed1729.json
+[135/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime20__seed31337.json
+[136/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime20__seed314159.json
+[137/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime20__seed4321.json
+[138/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime20__seed46341.json
+[139/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime50__seed121393.json
+[140/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime50__seed1729.json
+[141/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime50__seed31337.json
+[142/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime50__seed314159.json
+[143/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime50__seed4321.json
+[144/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime50__seed46341.json
+[145/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime5__seed121393.json
+[146/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime5__seed1729.json
+[147/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime5__seed31337.json
+[148/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime5__seed314159.json
+[149/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime5__seed4321.json
+[150/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh1e-02__rank8__regime5__seed46341.json
+[151/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime100__seed121393.json
+[152/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime100__seed1729.json
+[153/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime100__seed31337.json
+[154/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime100__seed314159.json
+[155/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime100__seed4321.json
+[156/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime100__seed46341.json
+[157/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime10__seed121393.json
+[158/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime10__seed1729.json
+[159/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime10__seed31337.json
+[160/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime10__seed314159.json
+[161/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime10__seed4321.json
+[162/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime10__seed46341.json
+[163/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime20__seed121393.json
+[164/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime20__seed1729.json
+[165/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime20__seed31337.json
+[166/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime20__seed314159.json
+[167/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime20__seed4321.json
+[168/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime20__seed46341.json
+[169/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime50__seed121393.json
+[170/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime50__seed1729.json
+[171/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime50__seed31337.json
+[172/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime50__seed314159.json
+[173/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime50__seed4321.json
+[174/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime50__seed46341.json
+[175/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime5__seed121393.json
+[176/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime5__seed1729.json
+[177/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime5__seed31337.json
+[178/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime5__seed314159.json
+[179/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime5__seed4321.json
+[180/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetbreastmnist__dim4__fpall__lrh3e-03__rank8__regime5__seed46341.json
+[181/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed121393.json
+[182/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed1729.json
+[183/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed31337.json
+[184/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed314159.json
+[185/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed4321.json
+[186/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime100__seed46341.json
+[187/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed121393.json
+[188/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed1729.json
+[189/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed31337.json
+[190/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed314159.json
+[191/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed4321.json
+[192/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime10__seed46341.json
+[193/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed121393.json
+[194/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed1729.json
+[195/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed31337.json
+[196/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed314159.json
+[197/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed4321.json
+[198/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime20__seed46341.json
+[199/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed121393.json
+[200/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed1729.json
+[201/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed31337.json
+[202/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed314159.json
+[203/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed4321.json
+[204/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime50__seed46341.json
+[205/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed121393.json
+[206/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed1729.json
+[207/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed31337.json
+[208/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed314159.json
+[209/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed4321.json
+[210/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank0__regime5__seed46341.json
+[211/360] exists  IDENTICAL  C_37_rate_gaps__armlow_rank__aug0__datasetpathmnist__dim4__fpall__lrh1e-02__rank8__regime100__seed121393.json
+[212/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=17.249  | pathmnist n=100 s=1729 low_rank | 0.3 min
+[213/360] IDENTICAL                    cache=warm (logs: -) steps>20=3 max=22.401  | pathmnist n=100 s=31337 low_rank | 0.5 min
+[214/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=18.199  | pathmnist n=100 s=314159 low_rank | 0.7 min
+[215/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.024  | pathmnist n=100 s=4321 low_rank | 0.9 min
+[216/360] IDENTICAL                    cache=warm (logs: -) steps>20=3 max=22.072  | pathmnist n=100 s=46341 low_rank | 1.1 min
+[217/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.367  | pathmnist n=10 s=121393 low_rank | 1.2 min
+[218/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.607  | pathmnist n=10 s=1729 low_rank | 1.3 min
+[219/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.112  | pathmnist n=10 s=31337 low_rank | 1.3 min
+[220/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.844  | pathmnist n=10 s=314159 low_rank | 1.4 min
+[221/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.971  | pathmnist n=10 s=4321 low_rank | 1.5 min
+[222/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=21.016  | pathmnist n=10 s=46341 low_rank | 1.5 min
+[223/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=18.008  | pathmnist n=20 s=121393 low_rank | 1.6 min
+[224/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=22.326  | pathmnist n=20 s=1729 low_rank | 1.7 min
+[225/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.020  | pathmnist n=20 s=31337 low_rank | 1.8 min
+[226/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.184  | pathmnist n=20 s=314159 low_rank | 1.9 min
+[227/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=15.657  | pathmnist n=20 s=4321 low_rank | 1.9 min
+[228/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=18.064  | pathmnist n=20 s=46341 low_rank | 2.0 min
+[229/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=16.297  | pathmnist n=50 s=121393 low_rank | 2.2 min
+[230/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=39.144  | pathmnist n=50 s=1729 low_rank | 2.3 min
+[231/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=22.256  | pathmnist n=50 s=31337 low_rank | 2.5 min
+[232/360] IDENTICAL                    cache=warm (logs: -) steps>20=3 max=26.025  | pathmnist n=50 s=314159 low_rank | 2.6 min
+[233/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=16.391  | pathmnist n=50 s=4321 low_rank | 2.7 min
+[234/360] IDENTICAL                    cache=warm (logs: -) steps>20=2 max=25.423  | pathmnist n=50 s=46341 low_rank | 2.8 min
+[235/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.134  | pathmnist n=5 s=121393 low_rank | 2.9 min
+[236/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.062  | pathmnist n=5 s=1729 low_rank | 3.0 min
+[237/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.758  | pathmnist n=5 s=31337 low_rank | 3.0 min
+[238/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=16.146  | pathmnist n=5 s=314159 low_rank | 3.0 min
+[239/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.152  | pathmnist n=5 s=4321 low_rank | 3.1 min
+[240/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.001  | pathmnist n=5 s=46341 low_rank | 3.2 min
+[241/360] IDENTICAL                    cache=warm (logs: -) steps>20=5 max=28.464  | pathmnist n=100 s=121393 low_rank | 3.4 min
+[242/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=29.660  | pathmnist n=100 s=1729 low_rank | 3.6 min
+[243/360] IDENTICAL                    cache=warm (logs: -) steps>20=4 max=34.034  | pathmnist n=100 s=31337 low_rank | 3.7 min
+[244/360] IDENTICAL                    cache=warm (logs: -) steps>20=2 max=22.708  | pathmnist n=100 s=314159 low_rank | 3.9 min
+[245/360] IDENTICAL                    cache=warm (logs: -) steps>20=1 max=20.339  | pathmnist n=100 s=4321 low_rank | 4.1 min
+[246/360] IDENTICAL                    cache=warm (logs: -) steps>20=7 max=44.413  | pathmnist n=100 s=46341 low_rank | 4.3 min
+[247/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.314  | pathmnist n=10 s=121393 low_rank | 4.4 min
+[248/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.892  | pathmnist n=10 s=1729 low_rank | 4.5 min
+[249/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.938  | pathmnist n=10 s=31337 low_rank | 4.6 min
+[250/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.222  | pathmnist n=10 s=314159 low_rank | 4.6 min
+[251/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.657  | pathmnist n=10 s=4321 low_rank | 4.7 min
+[252/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.838  | pathmnist n=10 s=46341 low_rank | 4.8 min
+[253/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=13.116  | pathmnist n=20 s=121393 low_rank | 4.9 min
+[254/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=14.202  | pathmnist n=20 s=1729 low_rank | 4.9 min
+[255/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.906  | pathmnist n=20 s=31337 low_rank | 5.0 min
+[256/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.117  | pathmnist n=20 s=314159 low_rank | 5.1 min
+[257/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.126  | pathmnist n=20 s=4321 low_rank | 5.2 min
+[258/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=14.272  | pathmnist n=20 s=46341 low_rank | 5.3 min
+[259/360] IDENTICAL                    cache=warm (logs: -) steps>20=2 max=35.592  | pathmnist n=50 s=121393 low_rank | 5.4 min
+[260/360] IDENTICAL                    cache=warm (logs: -) steps>20=2 max=23.144  | pathmnist n=50 s=1729 low_rank | 5.6 min
+[261/360] IDENTICAL                    cache=warm (logs: -) steps>20=2 max=21.714  | pathmnist n=50 s=31337 low_rank | 5.7 min
+[262/360] IDENTICAL                    cache=warm (logs: -) steps>20=7 max=39.660  | pathmnist n=50 s=314159 low_rank | 5.8 min
+[263/360] IDENTICAL                    cache=warm (logs: -) steps>20=2 max=36.909  | pathmnist n=50 s=4321 low_rank | 6.0 min
+[264/360] IDENTICAL                    cache=warm (logs: -) steps>20=5 max=31.516  | pathmnist n=50 s=46341 low_rank | 6.1 min
+[265/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.819  | pathmnist n=5 s=121393 low_rank | 6.2 min
+[266/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.631  | pathmnist n=5 s=1729 low_rank | 6.2 min
+[267/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.867  | pathmnist n=5 s=31337 low_rank | 6.3 min
+[268/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.388  | pathmnist n=5 s=314159 low_rank | 6.4 min
+[269/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.268  | pathmnist n=5 s=4321 low_rank | 6.5 min
+[270/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.994  | pathmnist n=5 s=46341 low_rank | 6.5 min
+[271/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.226  | pneumoniamnist n=100 s=121393 low_rank | 6.6 min
+[272/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.463  | pneumoniamnist n=100 s=1729 low_rank | 6.6 min
+[273/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.540  | pneumoniamnist n=100 s=31337 low_rank | 6.7 min
+[274/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.733  | pneumoniamnist n=100 s=314159 low_rank | 6.7 min
+[275/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.850  | pneumoniamnist n=100 s=4321 low_rank | 6.8 min
+[276/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.553  | pneumoniamnist n=100 s=46341 low_rank | 6.9 min
+[277/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.734  | pneumoniamnist n=10 s=121393 low_rank | 6.9 min
+[278/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.863  | pneumoniamnist n=10 s=1729 low_rank | 6.9 min
+[279/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.297  | pneumoniamnist n=10 s=31337 low_rank | 6.9 min
+[280/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.296  | pneumoniamnist n=10 s=314159 low_rank | 7.0 min
+[281/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.421  | pneumoniamnist n=10 s=4321 low_rank | 7.0 min
+[282/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.446  | pneumoniamnist n=10 s=46341 low_rank | 7.0 min
+[283/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.330  | pneumoniamnist n=20 s=121393 low_rank | 7.0 min
+[284/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.966  | pneumoniamnist n=20 s=1729 low_rank | 7.1 min
+[285/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.583  | pneumoniamnist n=20 s=31337 low_rank | 7.1 min
+[286/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.014  | pneumoniamnist n=20 s=314159 low_rank | 7.1 min
+[287/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.191  | pneumoniamnist n=20 s=4321 low_rank | 7.2 min
+[288/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.771  | pneumoniamnist n=20 s=46341 low_rank | 7.2 min
+[289/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.459  | pneumoniamnist n=50 s=121393 low_rank | 7.2 min
+[290/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.621  | pneumoniamnist n=50 s=1729 low_rank | 7.3 min
+[291/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.516  | pneumoniamnist n=50 s=31337 low_rank | 7.3 min
+[292/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.581  | pneumoniamnist n=50 s=314159 low_rank | 7.4 min
+[293/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.275  | pneumoniamnist n=50 s=4321 low_rank | 7.4 min
+[294/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.223  | pneumoniamnist n=50 s=46341 low_rank | 7.4 min
+[295/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.753  | pneumoniamnist n=5 s=121393 low_rank | 7.5 min
+[296/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.987  | pneumoniamnist n=5 s=1729 low_rank | 7.5 min
+[297/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.293  | pneumoniamnist n=5 s=31337 low_rank | 7.5 min
+[298/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.385  | pneumoniamnist n=5 s=314159 low_rank | 7.5 min
+[299/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.411  | pneumoniamnist n=5 s=4321 low_rank | 7.6 min
+[300/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.487  | pneumoniamnist n=5 s=46341 low_rank | 7.6 min
+[301/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.541  | pneumoniamnist n=100 s=121393 low_rank | 7.6 min
+[302/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.787  | pneumoniamnist n=100 s=1729 low_rank | 7.7 min
+[303/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.003  | pneumoniamnist n=100 s=31337 low_rank | 7.7 min
+[304/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.107  | pneumoniamnist n=100 s=314159 low_rank | 7.8 min
+[305/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.169  | pneumoniamnist n=100 s=4321 low_rank | 7.9 min
+[306/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.160  | pneumoniamnist n=100 s=46341 low_rank | 7.9 min
+[307/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.074  | pneumoniamnist n=10 s=121393 low_rank | 8.0 min
+[308/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.305  | pneumoniamnist n=10 s=1729 low_rank | 8.0 min
+[309/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.429  | pneumoniamnist n=10 s=31337 low_rank | 8.0 min
+[310/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.315  | pneumoniamnist n=10 s=314159 low_rank | 8.0 min
+[311/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.227  | pneumoniamnist n=10 s=4321 low_rank | 8.0 min
+[312/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.343  | pneumoniamnist n=10 s=46341 low_rank | 8.1 min
+[313/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.164  | pneumoniamnist n=20 s=121393 low_rank | 8.1 min
+[314/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.193  | pneumoniamnist n=20 s=1729 low_rank | 8.1 min
+[315/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=4.704  | pneumoniamnist n=20 s=31337 low_rank | 8.1 min
+[316/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.146  | pneumoniamnist n=20 s=314159 low_rank | 8.2 min
+[317/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.921  | pneumoniamnist n=20 s=4321 low_rank | 8.2 min
+[318/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.472  | pneumoniamnist n=20 s=46341 low_rank | 8.3 min
+[319/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.279  | pneumoniamnist n=50 s=121393 low_rank | 8.3 min
+[320/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.380  | pneumoniamnist n=50 s=1729 low_rank | 8.3 min
+[321/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.475  | pneumoniamnist n=50 s=31337 low_rank | 8.4 min
+[322/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.243  | pneumoniamnist n=50 s=314159 low_rank | 8.4 min
+[323/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.694  | pneumoniamnist n=50 s=4321 low_rank | 8.5 min
+[324/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.893  | pneumoniamnist n=50 s=46341 low_rank | 8.5 min
+[325/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.956  | pneumoniamnist n=5 s=121393 low_rank | 8.5 min
+[326/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.230  | pneumoniamnist n=5 s=1729 low_rank | 8.5 min
+[327/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.409  | pneumoniamnist n=5 s=31337 low_rank | 8.6 min
+[328/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.302  | pneumoniamnist n=5 s=314159 low_rank | 8.6 min
+[329/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.247  | pneumoniamnist n=5 s=4321 low_rank | 8.6 min
+[330/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.332  | pneumoniamnist n=5 s=46341 low_rank | 8.6 min
+[331/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=17.318  | pneumoniamnist n=100 s=121393 low_rank | 8.7 min
+[332/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=15.434  | pneumoniamnist n=100 s=1729 low_rank | 8.7 min
+[333/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.323  | pneumoniamnist n=100 s=31337 low_rank | 8.8 min
+[334/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.162  | pneumoniamnist n=100 s=314159 low_rank | 8.8 min
+[335/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.621  | pneumoniamnist n=100 s=4321 low_rank | 8.9 min
+[336/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.025  | pneumoniamnist n=100 s=46341 low_rank | 8.9 min
+[337/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.038  | pneumoniamnist n=10 s=121393 low_rank | 9.0 min
+[338/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.305  | pneumoniamnist n=10 s=1729 low_rank | 9.0 min
+[339/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.342  | pneumoniamnist n=10 s=31337 low_rank | 9.0 min
+[340/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.264  | pneumoniamnist n=10 s=314159 low_rank | 9.0 min
+[341/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.227  | pneumoniamnist n=10 s=4321 low_rank | 9.0 min
+[342/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.343  | pneumoniamnist n=10 s=46341 low_rank | 9.1 min
+[343/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=3.167  | pneumoniamnist n=20 s=121393 low_rank | 9.1 min
+[344/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.414  | pneumoniamnist n=20 s=1729 low_rank | 9.1 min
+[345/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.507  | pneumoniamnist n=20 s=31337 low_rank | 9.1 min
+[346/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=5.180  | pneumoniamnist n=20 s=314159 low_rank | 9.2 min
+[347/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=6.613  | pneumoniamnist n=20 s=4321 low_rank | 9.2 min
+[348/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=7.352  | pneumoniamnist n=20 s=46341 low_rank | 9.2 min
+[349/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.856  | pneumoniamnist n=50 s=121393 low_rank | 9.3 min
+[350/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.192  | pneumoniamnist n=50 s=1729 low_rank | 9.3 min
+[351/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=9.249  | pneumoniamnist n=50 s=31337 low_rank | 9.4 min
+[352/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=8.807  | pneumoniamnist n=50 s=314159 low_rank | 9.4 min
+[353/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=16.407  | pneumoniamnist n=50 s=4321 low_rank | 9.4 min
+[354/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=12.898  | pneumoniamnist n=50 s=46341 low_rank | 9.5 min
+[355/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.948  | pneumoniamnist n=5 s=121393 low_rank | 9.5 min
+[356/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.230  | pneumoniamnist n=5 s=1729 low_rank | 9.5 min
+[357/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.333  | pneumoniamnist n=5 s=31337 low_rank | 9.5 min
+[358/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.286  | pneumoniamnist n=5 s=314159 low_rank | 9.6 min
+[359/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=2.247  | pneumoniamnist n=5 s=4321 low_rank | 9.6 min
+[360/360] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=1.332  | pneumoniamnist n=5 s=46341 low_rank | 9.6 min
+
+replay summary 37_rate_gaps -> C_37_rate_gaps: identical 360, different 0, of 360

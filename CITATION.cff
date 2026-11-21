@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this code or these results, please cite the article below."
+title: "quantum-classical-expressivity: code, analysis plan and logs"
+type: software
+authors:
+  - family-names: Mathias
+    given-names: Anish Felix
+  - family-names: "P S"
+    given-names: Susham
+  - family-names: Shettar
+    given-names: Rajashree
+  - family-names: Kamasetty
+    given-names: Badarinath
+repository-code: "https://github.com/anishfelixm/quantum-classical-expressivity"
+license: MIT
+preferred-citation:
+  type: article
+  title: "Where Does a Variational Quantum Head's Advantage Come From? A Controlled Study of Medical Image Classification Under Data Scarcity"
+  authors:
+    - family-names: Mathias
+      given-names: Anish Felix
+    - family-names: "P S"
+      given-names: Susham
+    - family-names: Shettar
+      given-names: Rajashree
+    - family-names: Kamasetty
+      given-names: Badarinath
+  journal: "IEEE Access"
+  status: submitted
+  year: 2026

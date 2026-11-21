@@ -1,0 +1,8 @@
+
+$ /content/env/bin/python -u scripts/analyse_amendment32.py select
+AMENDMENT 32, STAGE 1 (exploratory) | 38_lr_fourier_nosquash | 360 of 360 runs | commits ['260d11f5']
+fourier_rff (raw z)         3e-04    1e-03    3e-03    1e-02    3e-02    1e-01  selected  gap vs 1e-02
+                           0.7919   0.8620   0.8927   0.9034   0.9016   0.8937     1e-02  +0.0000
+
+Written: /content/art/fourier_nosquash_rate.json
+exit code 0

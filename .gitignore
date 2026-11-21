@@ -222,7 +222,20 @@ latents/
 *.npy
 *.npz
 results/checkpoints*/
-'logs_*.txt' 
+
+# Run logs are tracked, in logs/ (see logs/README.md).
+
+# Manuscript: author photographs are not published; LaTeX build files
+paper/photo_*.jpg
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.bbl
+paper/*.blg
+paper/*.synctex.gz
+paper/*.fdb_latexmk
+paper/*.fls
+paper/main.pdf
 
 # Archives — artifact backups live on the PVC, not in git (GitHub caps files at 100 MB)
 *.tgz

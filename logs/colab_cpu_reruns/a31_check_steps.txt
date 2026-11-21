@@ -1,0 +1,9 @@
+
+$ /content/env/bin/python -u scripts/build_unclipped_view.py --check-steps 31_entangling_range 32_squash 35_lr_nosquash 36_nosquash 37_rate_gaps
+31_entangling_range: 2400 runs, clipped 9; CU_ verdicts: epoch prefix identical 9, no per-epoch history 0; step-level prefix identical 9 of 9 (13948 steps compared)
+32_squash: 1600 runs, clipped 100; CU_ verdicts: epoch prefix identical 100, no per-epoch history 0; step-level prefix identical 100 of 100 (115269 steps compared)
+35_lr_nosquash: 720 runs, clipped 15; CU_ verdicts: epoch prefix identical 4, no per-epoch history 11; step-level prefix identical 15 of 15 (9352 steps compared)
+36_nosquash: 800 runs, clipped 0; CU_ verdicts: epoch prefix identical 0, no per-epoch history 0; step-level prefix identical 0 of 0 (0 steps compared)
+37_rate_gaps: 4000 runs, clipped 1602; CU_ verdicts: epoch prefix identical 1602, no per-epoch history 0; step-level prefix identical 1602 of 1602 (306753 steps compared)
+P1 (step level) HOLDS for every unclipped run
+exit code 0

@@ -1,0 +1,9 @@
+
+$ OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 /content/env/bin/python -u scripts/replay.py --source 38_lr_fourier_nosquash --clip inf --code-at 260d11f5 --from-list /content/cu38_first.txt
+Preparing worktree (detached HEAD 260d11f)
+HEAD is now at 260d11f Outcome of Amendment 31; Amendment 32: the sine-cosine model on raw z, written before any run
+replay | source=38_lr_fourier_nosquash -> CU_38_lr_fourier_nosquash | clip=inf | runs=1 | code=260d11f5 (/content/replay_trees/260d11f5) | device=cpu
+[1/1] PREFIX IDENTICAL (0 epochs:  cache=warm (logs: -) steps>20=1 max=28.634  | bloodmnist n=100 s=90002 fourier_rff | 0.1 min
+
+replay summary 38_lr_fourier_nosquash -> CU_38_lr_fourier_nosquash: done 1, other 0, of 1
+exit code 0

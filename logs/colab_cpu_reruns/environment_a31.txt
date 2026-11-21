@@ -1,0 +1,60 @@
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 1
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 1
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | default threads 4
+exit code 0

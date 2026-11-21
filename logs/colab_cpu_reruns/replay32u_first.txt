@@ -1,0 +1,9 @@
+
+$ OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 /content/env/bin/python -u scripts/replay.py --source 32_squash --clip inf --code-at 56a09feb --from-list /content/replay32u_first.txt
+Preparing worktree (detached HEAD 56a09fe)
+HEAD is now at 56a09fe Amendments 27-29: CPU re-execution of the Amendment 26 runs and six unclipped full-data runs; squash check; inherited learning-rate check
+replay | source=32_squash -> CU_32_squash | clip=inf | runs=1 | code=56a09feb (/content/replay_trees/56a09feb) | device=cpu
+[1/1] PREFIX IDENTICAL (77 epochs) cache=warm (logs: -) steps>20=1 max=25.198  | bloodmnist n=100 s=10007 matched_param_fullrank | 0.1 min
+
+replay summary 32_squash -> CU_32_squash: done 1, other 0, of 1
+exit code 0

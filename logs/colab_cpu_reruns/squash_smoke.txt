@@ -1,0 +1,10 @@
+
+$ /content/env/bin/python -u scripts/analyse_squash.py --smoke --recompute --workers 7
+AMENDMENT 28 (exploratory) | workers=7 | B=50 | sha=56a09feb
+!!! B=50: TESTING ONLY - do not quote these numbers !!!
+  squash_cost                  computed (20 cells, 2 seeds) in 5s
+  primary_cpu                  computed (20 cells, 2 seeds) in 107s
+  primary_nosquash             computed (20 cells, 2 seeds) in 12s
+
+SMOKE TEST: 3 of 3 contrasts computed (primary_cpu, primary_nosquash, squash_cost). No estimates shown. OK
+exit code 0

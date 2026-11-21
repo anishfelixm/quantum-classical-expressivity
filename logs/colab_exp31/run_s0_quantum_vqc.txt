@@ -1,0 +1,481 @@
+
+Trainable capacity at d=4, bottleneck=learned:
+  quantum_vqc              bottleneck= 1028 head=  24 clf= 10 total= 1062 head=2.3%
+
+Experiment 1 | 400 cells | ns=31_entangling_range | device=cpu | sha=58852d84
+  augment=False L=2 use_tanh=True bottleneck=learned angle_scale=1.5708 save_predictions=True
+[1/400] breastmnist r=5 d=4 froz s=42 quantum_vqc              auc=0.7183 f1=0.4871 ETA 0.4h
+[2/400] breastmnist r=5 d=4 froz s=2026 quantum_vqc              auc=0.6569 f1=0.5989 ETA 0.4h
+[3/400] breastmnist r=5 d=4 froz s=888 quantum_vqc              auc=0.7448 f1=0.7141 ETA 0.4h
+[4/400] breastmnist r=5 d=4 froz s=8 quantum_vqc              auc=0.6074 f1=0.3077 ETA 0.4h
+[5/400] breastmnist r=5 d=4 froz s=161803 quantum_vqc              auc=0.6884 f1=0.4645 ETA 0.4h
+[6/400] breastmnist r=5 d=4 froz s=99 quantum_vqc              auc=0.7485 f1=0.6231 ETA 0.4h
+[7/400] breastmnist r=5 d=4 froz s=6174 quantum_vqc              auc=0.7009 f1=0.5120 ETA 0.4h
+[8/400] breastmnist r=5 d=4 froz s=40 quantum_vqc              auc=0.4419 f1=0.4222 ETA 0.4h
+[9/400] breastmnist r=5 d=4 froz s=65537 quantum_vqc              auc=0.7139 f1=0.6615 ETA 0.5h
+[10/400] breastmnist r=5 d=4 froz s=987654 quantum_vqc              auc=0.7402 f1=0.6695 ETA 0.5h
+[11/400] breastmnist r=5 d=4 froz s=2027 quantum_vqc              auc=0.7043 f1=0.6196 ETA 0.5h
+[12/400] breastmnist r=5 d=4 froz s=9001 quantum_vqc              auc=0.7483 f1=0.4659 ETA 0.5h
+[13/400] breastmnist r=5 d=4 froz s=11235 quantum_vqc              auc=0.7256 f1=0.6320 ETA 0.5h
+[14/400] breastmnist r=5 d=4 froz s=60221 quantum_vqc              auc=0.6105 f1=0.5197 ETA 0.5h
+[15/400] breastmnist r=5 d=4 froz s=8191 quantum_vqc              auc=0.6665 f1=0.2178 ETA 0.5h
+[16/400] breastmnist r=5 d=4 froz s=17 quantum_vqc              auc=0.5211 f1=0.4583 ETA 0.5h
+[17/400] breastmnist r=5 d=4 froz s=8128 quantum_vqc              auc=0.7168 f1=0.6539 ETA 0.5h
+[18/400] breastmnist r=5 d=4 froz s=1597 quantum_vqc              auc=0.6905 f1=0.5813 ETA 0.5h
+[19/400] breastmnist r=5 d=4 froz s=5040 quantum_vqc              auc=0.6759 f1=0.4708 ETA 0.4h
+[20/400] breastmnist r=5 d=4 froz s=2520 quantum_vqc              auc=0.6907 f1=0.4078 ETA 0.4h
+[21/400] breastmnist r=10 d=4 froz s=42 quantum_vqc              auc=0.6805 f1=0.2121 ETA 0.4h
+[22/400] breastmnist r=10 d=4 froz s=2026 quantum_vqc              auc=0.6917 f1=0.6106 ETA 0.4h
+[23/400] breastmnist r=10 d=4 froz s=888 quantum_vqc              auc=0.7101 f1=0.6523 ETA 0.4h
+[24/400] breastmnist r=10 d=4 froz s=8 quantum_vqc              auc=0.7421 f1=0.6294 ETA 0.4h
+[25/400] breastmnist r=10 d=4 froz s=161803 quantum_vqc              auc=0.7414 f1=0.4196 ETA 0.4h
+[26/400] breastmnist r=10 d=4 froz s=99 quantum_vqc              auc=0.6963 f1=0.4222 ETA 0.4h
+[27/400] breastmnist r=10 d=4 froz s=6174 quantum_vqc              auc=0.7510 f1=0.6665 ETA 0.4h
+[28/400] breastmnist r=10 d=4 froz s=40 quantum_vqc              auc=0.7178 f1=0.6629 ETA 0.5h
+[29/400] breastmnist r=10 d=4 froz s=65537 quantum_vqc              auc=0.6564 f1=0.5521 ETA 0.5h
+[30/400] breastmnist r=10 d=4 froz s=987654 quantum_vqc              auc=0.7314 f1=0.5237 ETA 0.5h
+[31/400] breastmnist r=10 d=4 froz s=2027 quantum_vqc              auc=0.6957 f1=0.5592 ETA 0.5h
+[32/400] breastmnist r=10 d=4 froz s=9001 quantum_vqc              auc=0.7680 f1=0.6706 ETA 0.5h
+[33/400] breastmnist r=10 d=4 froz s=11235 quantum_vqc              auc=0.7135 f1=0.4923 ETA 0.5h
+[34/400] breastmnist r=10 d=4 froz s=60221 quantum_vqc              auc=0.6372 f1=0.5647 ETA 0.5h
+[35/400] breastmnist r=10 d=4 froz s=8191 quantum_vqc              auc=0.6617 f1=0.4222 ETA 0.5h
+[36/400] breastmnist r=10 d=4 froz s=17 quantum_vqc              auc=0.7013 f1=0.6685 ETA 0.5h
+[37/400] breastmnist r=10 d=4 froz s=8128 quantum_vqc              auc=0.7410 f1=0.6373 ETA 0.5h
+[38/400] breastmnist r=10 d=4 froz s=1597 quantum_vqc              auc=0.6523 f1=0.5155 ETA 0.5h
+[39/400] breastmnist r=10 d=4 froz s=5040 quantum_vqc              auc=0.7304 f1=0.6504 ETA 0.5h
+[40/400] breastmnist r=10 d=4 froz s=2520 quantum_vqc              auc=0.7364 f1=0.5696 ETA 0.5h
+[41/400] breastmnist r=20 d=4 froz s=42 quantum_vqc              auc=0.7249 f1=0.2219 ETA 0.5h
+[42/400] breastmnist r=20 d=4 froz s=2026 quantum_vqc              auc=0.7433 f1=0.5985 ETA 0.5h
+[43/400] breastmnist r=20 d=4 froz s=888 quantum_vqc              auc=0.6836 f1=0.4865 ETA 0.5h
+[44/400] breastmnist r=20 d=4 froz s=8 quantum_vqc              auc=0.7847 f1=0.6601 ETA 0.5h
+[45/400] breastmnist r=20 d=4 froz s=161803 quantum_vqc              auc=0.7573 f1=0.6026 ETA 0.5h
+[46/400] breastmnist r=20 d=4 froz s=99 quantum_vqc              auc=0.7164 f1=0.5837 ETA 0.5h
+[47/400] breastmnist r=20 d=4 froz s=6174 quantum_vqc              auc=0.7143 f1=0.6691 ETA 0.5h
+[48/400] breastmnist r=20 d=4 froz s=40 quantum_vqc              auc=0.7646 f1=0.6789 ETA 0.5h
+[49/400] breastmnist r=20 d=4 froz s=65537 quantum_vqc              auc=0.7212 f1=0.6415 ETA 0.5h
+[50/400] breastmnist r=20 d=4 froz s=987654 quantum_vqc              auc=0.7602 f1=0.5322 ETA 0.5h
+[51/400] breastmnist r=20 d=4 froz s=2027 quantum_vqc              auc=0.7218 f1=0.6302 ETA 0.5h
+[52/400] breastmnist r=20 d=4 froz s=9001 quantum_vqc              auc=0.6449 f1=0.5388 ETA 0.6h
+[53/400] breastmnist r=20 d=4 froz s=11235 quantum_vqc              auc=0.7178 f1=0.6239 ETA 0.6h
+[54/400] breastmnist r=20 d=4 froz s=60221 quantum_vqc              auc=0.7874 f1=0.6753 ETA 0.6h
+[55/400] breastmnist r=20 d=4 froz s=8191 quantum_vqc              auc=0.7396 f1=0.6079 ETA 0.6h
+[56/400] breastmnist r=20 d=4 froz s=17 quantum_vqc              auc=0.7337 f1=0.6128 ETA 0.6h
+[57/400] breastmnist r=20 d=4 froz s=8128 quantum_vqc              auc=0.7268 f1=0.6553 ETA 0.6h
+[58/400] breastmnist r=20 d=4 froz s=1597 quantum_vqc              auc=0.7379 f1=0.2954 ETA 0.6h
+[59/400] breastmnist r=20 d=4 froz s=5040 quantum_vqc              auc=0.7554 f1=0.6803 ETA 0.6h
+[60/400] breastmnist r=20 d=4 froz s=2520 quantum_vqc              auc=0.7431 f1=0.6361 ETA 0.6h
+[61/400] breastmnist r=50 d=4 froz s=42 quantum_vqc              auc=0.7366 f1=0.2121 ETA 0.6h
+[62/400] breastmnist r=50 d=4 froz s=2026 quantum_vqc              auc=0.7738 f1=0.6320 ETA 0.6h
+[63/400] breastmnist r=50 d=4 froz s=888 quantum_vqc              auc=0.7650 f1=0.6963 ETA 0.6h
+[64/400] breastmnist r=50 d=4 froz s=8 quantum_vqc              auc=0.7398 f1=0.4222 ETA 0.6h
+[65/400] breastmnist r=50 d=4 froz s=161803 quantum_vqc              auc=0.7805 f1=0.6321 ETA 0.6h
+[66/400] breastmnist r=50 d=4 froz s=99 quantum_vqc              auc=0.8097 f1=0.7391 ETA 0.6h
+[67/400] breastmnist r=50 d=4 froz s=6174 quantum_vqc              auc=0.8053 f1=0.7442 ETA 0.7h
+[68/400] breastmnist r=50 d=4 froz s=40 quantum_vqc              auc=0.7721 f1=0.7013 ETA 0.7h
+[69/400] breastmnist r=50 d=4 froz s=65537 quantum_vqc              auc=0.7899 f1=0.6950 ETA 0.7h
+[70/400] breastmnist r=50 d=4 froz s=987654 quantum_vqc              auc=0.7410 f1=0.4222 ETA 0.7h
+[71/400] breastmnist r=50 d=4 froz s=2027 quantum_vqc              auc=0.7926 f1=0.7075 ETA 0.7h
+[72/400] breastmnist r=50 d=4 froz s=9001 quantum_vqc              auc=0.7531 f1=0.3294 ETA 0.7h
+[73/400] breastmnist r=50 d=4 froz s=11235 quantum_vqc              auc=0.7746 f1=0.6406 ETA 0.7h
+[74/400] breastmnist r=50 d=4 froz s=60221 quantum_vqc              auc=0.8026 f1=0.7232 ETA 0.7h
+[75/400] breastmnist r=50 d=4 froz s=8191 quantum_vqc              auc=0.7826 f1=0.7166 ETA 0.7h
+[76/400] breastmnist r=50 d=4 froz s=17 quantum_vqc              auc=0.7797 f1=0.6683 ETA 0.8h
+[77/400] breastmnist r=50 d=4 froz s=8128 quantum_vqc              auc=0.7176 f1=0.4222 ETA 0.7h
+[78/400] breastmnist r=50 d=4 froz s=1597 quantum_vqc              auc=0.7581 f1=0.6492 ETA 0.8h
+[79/400] breastmnist r=50 d=4 froz s=5040 quantum_vqc              auc=0.7588 f1=0.7022 ETA 0.8h
+[80/400] breastmnist r=50 d=4 froz s=2520 quantum_vqc              auc=0.7548 f1=0.4222 ETA 0.8h
+[81/400] breastmnist r=100 d=4 froz s=42 quantum_vqc              auc=0.7416 f1=0.6122 ETA 0.8h
+[82/400] breastmnist r=100 d=4 froz s=2026 quantum_vqc              auc=0.8202 f1=0.7438 ETA 0.8h
+[83/400] breastmnist r=100 d=4 froz s=888 quantum_vqc              auc=0.8340 f1=0.5623 ETA 0.8h
+[84/400] breastmnist r=100 d=4 froz s=8 quantum_vqc              auc=0.8066 f1=0.6193 ETA 0.8h
+[85/400] breastmnist r=100 d=4 froz s=161803 quantum_vqc              auc=0.8079 f1=0.7025 ETA 0.8h
+[86/400] breastmnist r=100 d=4 froz s=99 quantum_vqc              auc=0.7893 f1=0.7082 ETA 0.8h
+[87/400] breastmnist r=100 d=4 froz s=6174 quantum_vqc              auc=0.7794 f1=0.7151 ETA 0.8h
+[88/400] breastmnist r=100 d=4 froz s=40 quantum_vqc              auc=0.7602 f1=0.6041 ETA 0.8h
+[89/400] breastmnist r=100 d=4 froz s=65537 quantum_vqc              auc=0.8162 f1=0.7538 ETA 0.9h
+[90/400] breastmnist r=100 d=4 froz s=987654 quantum_vqc              auc=0.8344 f1=0.7654 ETA 0.9h
+[91/400] breastmnist r=100 d=4 froz s=2027 quantum_vqc              auc=0.8528 f1=0.7345 ETA 0.9h
+[92/400] breastmnist r=100 d=4 froz s=9001 quantum_vqc              auc=0.8022 f1=0.6884 ETA 0.9h
+[93/400] breastmnist r=100 d=4 froz s=11235 quantum_vqc              auc=0.8168 f1=0.7455 ETA 0.9h
+[94/400] breastmnist r=100 d=4 froz s=60221 quantum_vqc              auc=0.8277 f1=0.7292 ETA 0.9h
+[95/400] breastmnist r=100 d=4 froz s=8191 quantum_vqc              auc=0.7903 f1=0.7249 ETA 0.9h
+[96/400] breastmnist r=100 d=4 froz s=17 quantum_vqc              auc=0.8001 f1=0.6329 ETA 1.0h
+[97/400] breastmnist r=100 d=4 froz s=8128 quantum_vqc              auc=0.7895 f1=0.6611 ETA 1.0h
+[98/400] breastmnist r=100 d=4 froz s=1597 quantum_vqc              auc=0.7751 f1=0.7151 ETA 1.0h
+[99/400] breastmnist r=100 d=4 froz s=5040 quantum_vqc              auc=0.8062 f1=0.6462 ETA 1.0h
+[100/400] breastmnist r=100 d=4 froz s=2520 quantum_vqc              auc=0.7498 f1=0.7237 ETA 1.0h
+[101/400] pneumoniamnist r=5 d=4 froz s=42 quantum_vqc              auc=0.8937 f1=0.7899 ETA 1.0h
+[102/400] pneumoniamnist r=5 d=4 froz s=2026 quantum_vqc              auc=0.9160 f1=0.8077 ETA 1.0h
+[103/400] pneumoniamnist r=5 d=4 froz s=888 quantum_vqc              auc=0.9038 f1=0.8276 ETA 1.0h
+[104/400] pneumoniamnist r=5 d=4 froz s=8 quantum_vqc              auc=0.9170 f1=0.8144 ETA 1.0h
+[105/400] pneumoniamnist r=5 d=4 froz s=161803 quantum_vqc              auc=0.9044 f1=0.8131 ETA 0.9h
+[106/400] pneumoniamnist r=5 d=4 froz s=99 quantum_vqc              auc=0.8811 f1=0.3375 ETA 0.9h
+[107/400] pneumoniamnist r=5 d=4 froz s=6174 quantum_vqc              auc=0.9080 f1=0.8243 ETA 0.9h
+[108/400] pneumoniamnist r=5 d=4 froz s=40 quantum_vqc              auc=0.8888 f1=0.7798 ETA 0.9h
+[109/400] pneumoniamnist r=5 d=4 froz s=65537 quantum_vqc              auc=0.9034 f1=0.4390 ETA 0.9h
+[110/400] pneumoniamnist r=5 d=4 froz s=987654 quantum_vqc              auc=0.9114 f1=0.7964 ETA 0.9h
+[111/400] pneumoniamnist r=5 d=4 froz s=2027 quantum_vqc              auc=0.9199 f1=0.8322 ETA 0.9h
+[112/400] pneumoniamnist r=5 d=4 froz s=9001 quantum_vqc              auc=0.9214 f1=0.7889 ETA 0.9h
+[113/400] pneumoniamnist r=5 d=4 froz s=11235 quantum_vqc              auc=0.9043 f1=0.8229 ETA 0.9h
+[114/400] pneumoniamnist r=5 d=4 froz s=60221 quantum_vqc              auc=0.9127 f1=0.8253 ETA 0.9h
+[115/400] pneumoniamnist r=5 d=4 froz s=8191 quantum_vqc              auc=0.9126 f1=0.7623 ETA 0.9h
+[116/400] pneumoniamnist r=5 d=4 froz s=17 quantum_vqc              auc=0.8863 f1=0.7783 ETA 0.9h
+[117/400] pneumoniamnist r=5 d=4 froz s=8128 quantum_vqc              auc=0.8706 f1=0.2727 ETA 0.8h
+[118/400] pneumoniamnist r=5 d=4 froz s=1597 quantum_vqc              auc=0.9039 f1=0.8157 ETA 0.8h
+[119/400] pneumoniamnist r=5 d=4 froz s=5040 quantum_vqc              auc=0.8959 f1=0.8206 ETA 0.8h
+[120/400] pneumoniamnist r=5 d=4 froz s=2520 quantum_vqc              auc=0.8945 f1=0.7878 ETA 0.8h
+[121/400] pneumoniamnist r=10 d=4 froz s=42 quantum_vqc              auc=0.9232 f1=0.8353 ETA 0.8h
+[122/400] pneumoniamnist r=10 d=4 froz s=2026 quantum_vqc              auc=0.9098 f1=0.8218 ETA 0.8h
+[123/400] pneumoniamnist r=10 d=4 froz s=888 quantum_vqc              auc=0.9116 f1=0.8194 ETA 0.8h
+[124/400] pneumoniamnist r=10 d=4 froz s=8 quantum_vqc              auc=0.9187 f1=0.8262 ETA 0.8h
+[125/400] pneumoniamnist r=10 d=4 froz s=161803 quantum_vqc              auc=0.8636 f1=0.2727 ETA 0.8h
+[126/400] pneumoniamnist r=10 d=4 froz s=99 quantum_vqc              auc=0.9218 f1=0.8336 ETA 0.8h
+[127/400] pneumoniamnist r=10 d=4 froz s=6174 quantum_vqc              auc=0.9088 f1=0.7195 ETA 0.8h
+[128/400] pneumoniamnist r=10 d=4 froz s=40 quantum_vqc              auc=0.7543 f1=0.2756 ETA 0.8h
+[129/400] pneumoniamnist r=10 d=4 froz s=65537 quantum_vqc              auc=0.9202 f1=0.8077 ETA 0.8h
+[130/400] pneumoniamnist r=10 d=4 froz s=987654 quantum_vqc              auc=0.9187 f1=0.8294 ETA 0.8h
+[131/400] pneumoniamnist r=10 d=4 froz s=2027 quantum_vqc              auc=0.9165 f1=0.8315 ETA 0.8h
+[132/400] pneumoniamnist r=10 d=4 froz s=9001 quantum_vqc              auc=0.9210 f1=0.8464 ETA 0.8h
+[133/400] pneumoniamnist r=10 d=4 froz s=11235 quantum_vqc              auc=0.9022 f1=0.8123 ETA 0.8h
+[134/400] pneumoniamnist r=10 d=4 froz s=60221 quantum_vqc              auc=0.9019 f1=0.3463 ETA 0.7h
+[135/400] pneumoniamnist r=10 d=4 froz s=8191 quantum_vqc              auc=0.9235 f1=0.8398 ETA 0.7h
+[136/400] pneumoniamnist r=10 d=4 froz s=17 quantum_vqc              auc=0.9076 f1=0.7002 ETA 0.7h
+[137/400] pneumoniamnist r=10 d=4 froz s=8128 quantum_vqc              auc=0.9189 f1=0.8426 ETA 0.7h
+[138/400] pneumoniamnist r=10 d=4 froz s=1597 quantum_vqc              auc=0.9209 f1=0.8406 ETA 0.7h
+[139/400] pneumoniamnist r=10 d=4 froz s=5040 quantum_vqc              auc=0.9014 f1=0.7825 ETA 0.7h
+[140/400] pneumoniamnist r=10 d=4 froz s=2520 quantum_vqc              auc=0.9114 f1=0.8007 ETA 0.7h
+[141/400] pneumoniamnist r=20 d=4 froz s=42 quantum_vqc              auc=0.9243 f1=0.8304 ETA 0.7h
+[142/400] pneumoniamnist r=20 d=4 froz s=2026 quantum_vqc              auc=0.9374 f1=0.8607 ETA 0.7h
+[143/400] pneumoniamnist r=20 d=4 froz s=888 quantum_vqc              auc=0.9242 f1=0.8266 ETA 0.7h
+[144/400] pneumoniamnist r=20 d=4 froz s=8 quantum_vqc              auc=0.9376 f1=0.8410 ETA 0.7h
+[145/400] pneumoniamnist r=20 d=4 froz s=161803 quantum_vqc              auc=0.9216 f1=0.8495 ETA 0.7h
+[146/400] pneumoniamnist r=20 d=4 froz s=99 quantum_vqc              auc=0.9208 f1=0.7716 ETA 0.7h
+[147/400] pneumoniamnist r=20 d=4 froz s=6174 quantum_vqc              auc=0.9211 f1=0.8167 ETA 0.7h
+[148/400] pneumoniamnist r=20 d=4 froz s=40 quantum_vqc              auc=0.9161 f1=0.8331 ETA 0.7h
+[149/400] pneumoniamnist r=20 d=4 froz s=65537 quantum_vqc              auc=0.9204 f1=0.8379 ETA 0.7h
+[150/400] pneumoniamnist r=20 d=4 froz s=987654 quantum_vqc              auc=0.9332 f1=0.8713 ETA 0.7h
+[151/400] pneumoniamnist r=20 d=4 froz s=2027 quantum_vqc              auc=0.9410 f1=0.8572 ETA 0.7h
+[152/400] pneumoniamnist r=20 d=4 froz s=9001 quantum_vqc              auc=0.9262 f1=0.8439 ETA 0.7h
+[153/400] pneumoniamnist r=20 d=4 froz s=11235 quantum_vqc              auc=0.9229 f1=0.8443 ETA 0.7h
+[154/400] pneumoniamnist r=20 d=4 froz s=60221 quantum_vqc              auc=0.9298 f1=0.8419 ETA 0.7h
+[155/400] pneumoniamnist r=20 d=4 froz s=8191 quantum_vqc              auc=0.9074 f1=0.8248 ETA 0.7h
+[156/400] pneumoniamnist r=20 d=4 froz s=17 quantum_vqc              auc=0.9230 f1=0.7747 ETA 0.7h
+[157/400] pneumoniamnist r=20 d=4 froz s=8128 quantum_vqc              auc=0.9087 f1=0.6340 ETA 0.7h
+[158/400] pneumoniamnist r=20 d=4 froz s=1597 quantum_vqc              auc=0.9290 f1=0.8610 ETA 0.7h
+[159/400] pneumoniamnist r=20 d=4 froz s=5040 quantum_vqc              auc=0.9192 f1=0.8389 ETA 0.7h
+[160/400] pneumoniamnist r=20 d=4 froz s=2520 quantum_vqc              auc=0.9181 f1=0.8357 ETA 0.7h
+[161/400] pneumoniamnist r=50 d=4 froz s=42 quantum_vqc              auc=0.9176 f1=0.8319 ETA 0.7h
+[162/400] pneumoniamnist r=50 d=4 froz s=2026 quantum_vqc              auc=0.9312 f1=0.8394 ETA 0.7h
+[163/400] pneumoniamnist r=50 d=4 froz s=888 quantum_vqc              auc=0.9220 f1=0.8226 ETA 0.7h
+[164/400] pneumoniamnist r=50 d=4 froz s=8 quantum_vqc              auc=0.9299 f1=0.7564 ETA 0.7h
+[165/400] pneumoniamnist r=50 d=4 froz s=161803 quantum_vqc              auc=0.9254 f1=0.8349 ETA 0.7h
+[166/400] pneumoniamnist r=50 d=4 froz s=99 quantum_vqc              auc=0.9210 f1=0.8098 ETA 0.7h
+[167/400] pneumoniamnist r=50 d=4 froz s=6174 quantum_vqc              auc=0.9251 f1=0.8414 ETA 0.7h
+[168/400] pneumoniamnist r=50 d=4 froz s=40 quantum_vqc              auc=0.9242 f1=0.7961 ETA 0.7h
+[169/400] pneumoniamnist r=50 d=4 froz s=65537 quantum_vqc              auc=0.9016 f1=0.8018 ETA 0.7h
+[170/400] pneumoniamnist r=50 d=4 froz s=987654 quantum_vqc              auc=0.9213 f1=0.8383 ETA 0.7h
+[171/400] pneumoniamnist r=50 d=4 froz s=2027 quantum_vqc              auc=0.9408 f1=0.8369 ETA 0.7h
+[172/400] pneumoniamnist r=50 d=4 froz s=9001 quantum_vqc              auc=0.9300 f1=0.8425 ETA 0.7h
+[173/400] pneumoniamnist r=50 d=4 froz s=11235 quantum_vqc              auc=0.9163 f1=0.8320 ETA 0.7h
+[174/400] pneumoniamnist r=50 d=4 froz s=60221 quantum_vqc              auc=0.9183 f1=0.8389 ETA 0.7h
+[175/400] pneumoniamnist r=50 d=4 froz s=8191 quantum_vqc              auc=0.9337 f1=0.8527 ETA 0.7h
+[176/400] pneumoniamnist r=50 d=4 froz s=17 quantum_vqc              auc=0.9248 f1=0.8190 ETA 0.7h
+[177/400] pneumoniamnist r=50 d=4 froz s=8128 quantum_vqc              auc=0.9459 f1=0.8183 ETA 0.7h
+[178/400] pneumoniamnist r=50 d=4 froz s=1597 quantum_vqc              auc=0.9276 f1=0.8218 ETA 0.7h
+[179/400] pneumoniamnist r=50 d=4 froz s=5040 quantum_vqc              auc=0.9383 f1=0.8438 ETA 0.7h
+[180/400] pneumoniamnist r=50 d=4 froz s=2520 quantum_vqc              auc=0.9309 f1=0.8480 ETA 0.7h
+[181/400] pneumoniamnist r=100 d=4 froz s=42 quantum_vqc              auc=0.9361 f1=0.8493 ETA 0.7h
+[182/400] pneumoniamnist r=100 d=4 froz s=2026 quantum_vqc              auc=0.9228 f1=0.8229 ETA 0.7h
+[183/400] pneumoniamnist r=100 d=4 froz s=888 quantum_vqc              auc=0.9342 f1=0.8583 ETA 0.7h
+[184/400] pneumoniamnist r=100 d=4 froz s=8 quantum_vqc              auc=0.9361 f1=0.8383 ETA 0.8h
+[185/400] pneumoniamnist r=100 d=4 froz s=161803 quantum_vqc              auc=0.9291 f1=0.8382 ETA 0.8h
+[186/400] pneumoniamnist r=100 d=4 froz s=99 quantum_vqc              auc=0.9369 f1=0.8329 ETA 0.8h
+[187/400] pneumoniamnist r=100 d=4 froz s=6174 quantum_vqc              auc=0.9254 f1=0.7846 ETA 0.8h
+[188/400] pneumoniamnist r=100 d=4 froz s=40 quantum_vqc              auc=0.9460 f1=0.8523 ETA 0.8h
+[189/400] pneumoniamnist r=100 d=4 froz s=65537 quantum_vqc              auc=0.9371 f1=0.8452 ETA 0.8h
+[190/400] pneumoniamnist r=100 d=4 froz s=987654 quantum_vqc              auc=0.9468 f1=0.8668 ETA 0.8h
+[191/400] pneumoniamnist r=100 d=4 froz s=2027 quantum_vqc              auc=0.9333 f1=0.8249 ETA 0.8h
+[192/400] pneumoniamnist r=100 d=4 froz s=9001 quantum_vqc              auc=0.9370 f1=0.7742 ETA 0.8h
+[193/400] pneumoniamnist r=100 d=4 froz s=11235 quantum_vqc              auc=0.9552 f1=0.8674 ETA 0.8h
+[194/400] pneumoniamnist r=100 d=4 froz s=60221 quantum_vqc              auc=0.9437 f1=0.8581 ETA 0.8h
+[195/400] pneumoniamnist r=100 d=4 froz s=8191 quantum_vqc              auc=0.9420 f1=0.8183 ETA 0.8h
+[196/400] pneumoniamnist r=100 d=4 froz s=17 quantum_vqc              auc=0.9401 f1=0.8698 ETA 0.8h
+[197/400] pneumoniamnist r=100 d=4 froz s=8128 quantum_vqc              auc=0.9264 f1=0.8364 ETA 0.8h
+[198/400] pneumoniamnist r=100 d=4 froz s=1597 quantum_vqc              auc=0.9291 f1=0.8386 ETA 0.8h
+[199/400] pneumoniamnist r=100 d=4 froz s=5040 quantum_vqc              auc=0.9429 f1=0.8289 ETA 0.8h
+[200/400] pneumoniamnist r=100 d=4 froz s=2520 quantum_vqc              auc=0.9269 f1=0.8423 ETA 0.8h
+[201/400] bloodmnist r=5 d=4 froz s=42 quantum_vqc              auc=0.8094 f1=0.3381 ETA 0.8h
+[202/400] bloodmnist r=5 d=4 froz s=2026 quantum_vqc              auc=0.7966 f1=0.2332 ETA 0.8h
+[203/400] bloodmnist r=5 d=4 froz s=888 quantum_vqc              auc=0.8071 f1=0.1563 ETA 0.8h
+[204/400] bloodmnist r=5 d=4 froz s=8 quantum_vqc              auc=0.8203 f1=0.2777 ETA 0.8h
+[205/400] bloodmnist r=5 d=4 froz s=161803 quantum_vqc              auc=0.7493 f1=0.1251 ETA 0.8h
+[206/400] bloodmnist r=5 d=4 froz s=99 quantum_vqc              auc=0.7736 f1=0.1656 ETA 0.8h
+[207/400] bloodmnist r=5 d=4 froz s=6174 quantum_vqc              auc=0.7963 f1=0.3217 ETA 0.8h
+[208/400] bloodmnist r=5 d=4 froz s=40 quantum_vqc              auc=0.8141 f1=0.2997 ETA 0.8h
+[209/400] bloodmnist r=5 d=4 froz s=65537 quantum_vqc              auc=0.8344 f1=0.4110 ETA 0.8h
+[210/400] bloodmnist r=5 d=4 froz s=987654 quantum_vqc              auc=0.6699 f1=0.1862 ETA 0.8h
+[211/400] bloodmnist r=5 d=4 froz s=2027 quantum_vqc              auc=0.8235 f1=0.3697 ETA 0.8h
+[212/400] bloodmnist r=5 d=4 froz s=9001 quantum_vqc              auc=0.8097 f1=0.1606 ETA 0.8h
+[213/400] bloodmnist r=5 d=4 froz s=11235 quantum_vqc              auc=0.8012 f1=0.2289 ETA 0.8h
+[214/400] bloodmnist r=5 d=4 froz s=60221 quantum_vqc              auc=0.6408 f1=0.1184 ETA 0.8h
+[215/400] bloodmnist r=5 d=4 froz s=8191 quantum_vqc              auc=0.7169 f1=0.0615 ETA 0.8h
+[216/400] bloodmnist r=5 d=4 froz s=17 quantum_vqc              auc=0.8179 f1=0.2629 ETA 0.8h
+[217/400] bloodmnist r=5 d=4 froz s=8128 quantum_vqc              auc=0.8388 f1=0.3679 ETA 0.8h
+[218/400] bloodmnist r=5 d=4 froz s=1597 quantum_vqc              auc=0.7784 f1=0.3252 ETA 0.8h
+[219/400] bloodmnist r=5 d=4 froz s=5040 quantum_vqc              auc=0.7881 f1=0.3063 ETA 0.8h
+[220/400] bloodmnist r=5 d=4 froz s=2520 quantum_vqc              auc=0.8062 f1=0.3278 ETA 0.8h
+[221/400] bloodmnist r=10 d=4 froz s=42 quantum_vqc              auc=0.8273 f1=0.3982 ETA 0.7h
+[222/400] bloodmnist r=10 d=4 froz s=2026 quantum_vqc              auc=0.8375 f1=0.2936 ETA 0.7h
+[223/400] bloodmnist r=10 d=4 froz s=888 quantum_vqc              auc=0.8601 f1=0.4469 ETA 0.7h
+[224/400] bloodmnist r=10 d=4 froz s=8 quantum_vqc              auc=0.8208 f1=0.3257 ETA 0.7h
+[225/400] bloodmnist r=10 d=4 froz s=161803 quantum_vqc              auc=0.8113 f1=0.3221 ETA 0.7h
+[226/400] bloodmnist r=10 d=4 froz s=99 quantum_vqc              auc=0.8542 f1=0.3613 ETA 0.7h
+[227/400] bloodmnist r=10 d=4 froz s=6174 quantum_vqc              auc=0.8550 f1=0.4311 ETA 0.7h
+[228/400] bloodmnist r=10 d=4 froz s=40 quantum_vqc              auc=0.8574 f1=0.3948 ETA 0.7h
+[229/400] bloodmnist r=10 d=4 froz s=65537 quantum_vqc              auc=0.8768 f1=0.4412 ETA 0.7h
+[230/400] bloodmnist r=10 d=4 froz s=987654 quantum_vqc              auc=0.8364 f1=0.2690 ETA 0.7h
+[231/400] bloodmnist r=10 d=4 froz s=2027 quantum_vqc              auc=0.8873 f1=0.5293 ETA 0.7h
+[232/400] bloodmnist r=10 d=4 froz s=9001 quantum_vqc              auc=0.8333 f1=0.3870 ETA 0.7h
+[233/400] bloodmnist r=10 d=4 froz s=11235 quantum_vqc              auc=0.8643 f1=0.3792 ETA 0.7h
+[234/400] bloodmnist r=10 d=4 froz s=60221 quantum_vqc              auc=0.8464 f1=0.4242 ETA 0.7h
+[235/400] bloodmnist r=10 d=4 froz s=8191 quantum_vqc              auc=0.8437 f1=0.4400 ETA 0.7h
+[236/400] bloodmnist r=10 d=4 froz s=17 quantum_vqc              auc=0.8454 f1=0.3746 ETA 0.7h
+[237/400] bloodmnist r=10 d=4 froz s=8128 quantum_vqc              auc=0.8964 f1=0.5256 ETA 0.7h
+[238/400] bloodmnist r=10 d=4 froz s=1597 quantum_vqc              auc=0.8609 f1=0.4074 ETA 0.7h
+[239/400] bloodmnist r=10 d=4 froz s=5040 quantum_vqc              auc=0.8273 f1=0.3803 ETA 0.7h
+[240/400] bloodmnist r=10 d=4 froz s=2520 quantum_vqc              auc=0.8620 f1=0.4806 ETA 0.7h
+[241/400] bloodmnist r=20 d=4 froz s=42 quantum_vqc              auc=0.8900 f1=0.5164 ETA 0.7h
+[242/400] bloodmnist r=20 d=4 froz s=2026 quantum_vqc              auc=0.8379 f1=0.3259 ETA 0.7h
+[243/400] bloodmnist r=20 d=4 froz s=888 quantum_vqc              auc=0.9066 f1=0.5584 ETA 0.7h
+[244/400] bloodmnist r=20 d=4 froz s=8 quantum_vqc              auc=0.8442 f1=0.4023 ETA 0.7h
+[245/400] bloodmnist r=20 d=4 froz s=161803 quantum_vqc              auc=0.8992 f1=0.5256 ETA 0.7h
+[246/400] bloodmnist r=20 d=4 froz s=99 quantum_vqc              auc=0.9004 f1=0.5283 ETA 0.7h
+[247/400] bloodmnist r=20 d=4 froz s=6174 quantum_vqc              auc=0.8914 f1=0.5111 ETA 0.7h
+[248/400] bloodmnist r=20 d=4 froz s=40 quantum_vqc              auc=0.8874 f1=0.5157 ETA 0.7h
+[249/400] bloodmnist r=20 d=4 froz s=65537 quantum_vqc              auc=0.8900 f1=0.5360 ETA 0.7h
+[250/400] bloodmnist r=20 d=4 froz s=987654 quantum_vqc              auc=0.8659 f1=0.4623 ETA 0.7h
+[251/400] bloodmnist r=20 d=4 froz s=2027 quantum_vqc              auc=0.8979 f1=0.5245 ETA 0.7h
+[252/400] bloodmnist r=20 d=4 froz s=9001 quantum_vqc              auc=0.8310 f1=0.3453 ETA 0.7h
+[253/400] bloodmnist r=20 d=4 froz s=11235 quantum_vqc              auc=0.9031 f1=0.5214 ETA 0.7h
+[254/400] bloodmnist r=20 d=4 froz s=60221 quantum_vqc              auc=0.8470 f1=0.3816 ETA 0.7h
+[255/400] bloodmnist r=20 d=4 froz s=8191 quantum_vqc              auc=0.8782 f1=0.4749 ETA 0.7h
+[256/400] bloodmnist r=20 d=4 froz s=17 quantum_vqc              auc=0.8467 f1=0.3357 ETA 0.7h
+[257/400] bloodmnist r=20 d=4 froz s=8128 quantum_vqc              auc=0.8962 f1=0.4852 ETA 0.7h
+[258/400] bloodmnist r=20 d=4 froz s=1597 quantum_vqc              auc=0.8954 f1=0.5343 ETA 0.6h
+[259/400] bloodmnist r=20 d=4 froz s=5040 quantum_vqc              auc=0.8621 f1=0.4703 ETA 0.6h
+[260/400] bloodmnist r=20 d=4 froz s=2520 quantum_vqc              auc=0.8552 f1=0.4298 ETA 0.6h
+[261/400] bloodmnist r=50 d=4 froz s=42 quantum_vqc              auc=0.9236 f1=0.5779 ETA 0.6h
+[262/400] bloodmnist r=50 d=4 froz s=2026 quantum_vqc              auc=0.8876 f1=0.5409 ETA 0.7h
+[263/400] bloodmnist r=50 d=4 froz s=888 quantum_vqc              auc=0.8992 f1=0.5435 ETA 0.7h
+[264/400] bloodmnist r=50 d=4 froz s=8 quantum_vqc              auc=0.9181 f1=0.5943 ETA 0.7h
+[265/400] bloodmnist r=50 d=4 froz s=161803 quantum_vqc              auc=0.9183 f1=0.5960 ETA 0.7h
+[266/400] bloodmnist r=50 d=4 froz s=99 quantum_vqc              auc=0.9181 f1=0.5796 ETA 0.7h
+[267/400] bloodmnist r=50 d=4 froz s=6174 quantum_vqc              auc=0.9229 f1=0.5800 ETA 0.7h
+[268/400] bloodmnist r=50 d=4 froz s=40 quantum_vqc              auc=0.9164 f1=0.5641 ETA 0.7h
+[269/400] bloodmnist r=50 d=4 froz s=65537 quantum_vqc              auc=0.9176 f1=0.5667 ETA 0.7h
+[270/400] bloodmnist r=50 d=4 froz s=987654 quantum_vqc              auc=0.9010 f1=0.5065 ETA 0.7h
+[271/400] bloodmnist r=50 d=4 froz s=2027 quantum_vqc              auc=0.8499 f1=0.3713 ETA 0.7h
+[272/400] bloodmnist r=50 d=4 froz s=9001 quantum_vqc              auc=0.8559 f1=0.3848 ETA 0.7h
+[273/400] bloodmnist r=50 d=4 froz s=11235 quantum_vqc              auc=0.9066 f1=0.5631 ETA 0.7h
+[274/400] bloodmnist r=50 d=4 froz s=60221 quantum_vqc              auc=0.8918 f1=0.5125 ETA 0.7h
+[275/400] bloodmnist r=50 d=4 froz s=8191 quantum_vqc              auc=0.9067 f1=0.5372 ETA 0.7h
+[276/400] bloodmnist r=50 d=4 froz s=17 quantum_vqc              auc=0.8941 f1=0.5313 ETA 0.7h
+[277/400] bloodmnist r=50 d=4 froz s=8128 quantum_vqc              auc=0.9162 f1=0.5765 ETA 0.7h
+[278/400] bloodmnist r=50 d=4 froz s=1597 quantum_vqc              auc=0.8838 f1=0.4498 ETA 0.7h
+[279/400] bloodmnist r=50 d=4 froz s=5040 quantum_vqc              auc=0.9212 f1=0.5875 ETA 0.7h
+[280/400] bloodmnist r=50 d=4 froz s=2520 quantum_vqc              auc=0.9060 f1=0.5558 ETA 0.7h
+[281/400] bloodmnist r=100 d=4 froz s=42 quantum_vqc              auc=0.9273 f1=0.6008 ETA 0.7h
+[282/400] bloodmnist r=100 d=4 froz s=2026 quantum_vqc              auc=0.9150 f1=0.5661 ETA 0.7h
+[283/400] bloodmnist r=100 d=4 froz s=888 quantum_vqc              auc=0.9309 f1=0.6209 ETA 0.7h
+[284/400] bloodmnist r=100 d=4 froz s=8 quantum_vqc              auc=0.9339 f1=0.6399 ETA 0.7h
+[285/400] bloodmnist r=100 d=4 froz s=161803 quantum_vqc              auc=0.9217 f1=0.6203 ETA 0.7h
+[286/400] bloodmnist r=100 d=4 froz s=99 quantum_vqc              auc=0.9399 f1=0.6357 ETA 0.8h
+[287/400] bloodmnist r=100 d=4 froz s=6174 quantum_vqc              auc=0.9215 f1=0.5900 ETA 0.8h
+[288/400] bloodmnist r=100 d=4 froz s=40 quantum_vqc              auc=0.9280 f1=0.6312 ETA 0.8h
+[289/400] bloodmnist r=100 d=4 froz s=65537 quantum_vqc              auc=0.8607 f1=0.4046 ETA 0.8h
+[290/400] bloodmnist r=100 d=4 froz s=987654 quantum_vqc              auc=0.9104 f1=0.5542 ETA 0.8h
+[291/400] bloodmnist r=100 d=4 froz s=2027 quantum_vqc              auc=0.9294 f1=0.6156 ETA 0.8h
+[292/400] bloodmnist r=100 d=4 froz s=9001 quantum_vqc              auc=0.9247 f1=0.5934 ETA 0.8h
+[293/400] bloodmnist r=100 d=4 froz s=11235 quantum_vqc              auc=0.9338 f1=0.6424 ETA 0.8h
+[294/400] bloodmnist r=100 d=4 froz s=60221 quantum_vqc              auc=0.9294 f1=0.6117 ETA 0.8h
+[295/400] bloodmnist r=100 d=4 froz s=8191 quantum_vqc              auc=0.9320 f1=0.6241 ETA 0.8h
+[296/400] bloodmnist r=100 d=4 froz s=17 quantum_vqc              auc=0.8604 f1=0.4126 ETA 0.8h
+[297/400] bloodmnist r=100 d=4 froz s=8128 quantum_vqc              auc=0.9334 f1=0.6085 ETA 0.8h
+[298/400] bloodmnist r=100 d=4 froz s=1597 quantum_vqc              auc=0.9402 f1=0.6468 ETA 0.8h
+[299/400] bloodmnist r=100 d=4 froz s=5040 quantum_vqc              auc=0.8572 f1=0.4450 ETA 0.8h
+[300/400] bloodmnist r=100 d=4 froz s=2520 quantum_vqc              auc=0.9385 f1=0.6447 ETA 0.8h
+[301/400] pathmnist r=5 d=4 froz s=42 quantum_vqc              auc=0.8818 f1=0.3900 ETA 0.8h
+[302/400] pathmnist r=5 d=4 froz s=2026 quantum_vqc              auc=0.8330 f1=0.4168 ETA 0.8h
+[303/400] pathmnist r=5 d=4 froz s=888 quantum_vqc              auc=0.8292 f1=0.4111 ETA 0.8h
+[304/400] pathmnist r=5 d=4 froz s=8 quantum_vqc              auc=0.8671 f1=0.4098 ETA 0.8h
+[305/400] pathmnist r=5 d=4 froz s=161803 quantum_vqc              auc=0.7817 f1=0.2288 ETA 0.8h
+[306/400] pathmnist r=5 d=4 froz s=99 quantum_vqc              auc=0.8634 f1=0.4391 ETA 0.8h
+[307/400] pathmnist r=5 d=4 froz s=6174 quantum_vqc              auc=0.8480 f1=0.4230 ETA 0.7h
+[308/400] pathmnist r=5 d=4 froz s=40 quantum_vqc              auc=0.8669 f1=0.4966 ETA 0.7h
+[309/400] pathmnist r=5 d=4 froz s=65537 quantum_vqc              auc=0.8054 f1=0.3890 ETA 0.7h
+[310/400] pathmnist r=5 d=4 froz s=987654 quantum_vqc              auc=0.9090 f1=0.4829 ETA 0.7h
+[311/400] pathmnist r=5 d=4 froz s=2027 quantum_vqc              auc=0.9008 f1=0.4890 ETA 0.7h
+[312/400] pathmnist r=5 d=4 froz s=9001 quantum_vqc              auc=0.8963 f1=0.4961 ETA 0.7h
+[313/400] pathmnist r=5 d=4 froz s=11235 quantum_vqc              auc=0.8764 f1=0.3810 ETA 0.7h
+[314/400] pathmnist r=5 d=4 froz s=60221 quantum_vqc              auc=0.7914 f1=0.2575 ETA 0.7h
+[315/400] pathmnist r=5 d=4 froz s=8191 quantum_vqc              auc=0.8513 f1=0.3972 ETA 0.7h
+[316/400] pathmnist r=5 d=4 froz s=17 quantum_vqc              auc=0.7812 f1=0.3993 ETA 0.7h
+[317/400] pathmnist r=5 d=4 froz s=8128 quantum_vqc              auc=0.8461 f1=0.3264 ETA 0.7h
+[318/400] pathmnist r=5 d=4 froz s=1597 quantum_vqc              auc=0.8582 f1=0.3984 ETA 0.7h
+[319/400] pathmnist r=5 d=4 froz s=5040 quantum_vqc              auc=0.8701 f1=0.4424 ETA 0.6h
+[320/400] pathmnist r=5 d=4 froz s=2520 quantum_vqc              auc=0.8422 f1=0.3518 ETA 0.6h
+[321/400] pathmnist r=10 d=4 froz s=42 quantum_vqc              auc=0.8888 f1=0.4243 ETA 0.6h
+[322/400] pathmnist r=10 d=4 froz s=2026 quantum_vqc              auc=0.8817 f1=0.5205 ETA 0.6h
+[323/400] pathmnist r=10 d=4 froz s=888 quantum_vqc              auc=0.8493 f1=0.4395 ETA 0.6h
+[324/400] pathmnist r=10 d=4 froz s=8 quantum_vqc              auc=0.8988 f1=0.5040 ETA 0.6h
+[325/400] pathmnist r=10 d=4 froz s=161803 quantum_vqc              auc=0.8670 f1=0.4145 ETA 0.6h
+[326/400] pathmnist r=10 d=4 froz s=99 quantum_vqc              auc=0.8643 f1=0.5109 ETA 0.6h
+[327/400] pathmnist r=10 d=4 froz s=6174 quantum_vqc              auc=0.8648 f1=0.4344 ETA 0.6h
+[328/400] pathmnist r=10 d=4 froz s=40 quantum_vqc              auc=0.8700 f1=0.4871 ETA 0.6h
+[329/400] pathmnist r=10 d=4 froz s=65537 quantum_vqc              auc=0.9196 f1=0.4820 ETA 0.6h
+[330/400] pathmnist r=10 d=4 froz s=987654 quantum_vqc              auc=0.8541 f1=0.3973 ETA 0.6h
+[331/400] pathmnist r=10 d=4 froz s=2027 quantum_vqc              auc=0.8765 f1=0.4427 ETA 0.5h
+[332/400] pathmnist r=10 d=4 froz s=9001 quantum_vqc              auc=0.8261 f1=0.3643 ETA 0.5h
+[333/400] pathmnist r=10 d=4 froz s=11235 quantum_vqc              auc=0.9171 f1=0.5004 ETA 0.5h
+[334/400] pathmnist r=10 d=4 froz s=60221 quantum_vqc              auc=0.8934 f1=0.5125 ETA 0.5h
+[335/400] pathmnist r=10 d=4 froz s=8191 quantum_vqc              auc=0.8634 f1=0.4669 ETA 0.5h
+[336/400] pathmnist r=10 d=4 froz s=17 quantum_vqc              auc=0.9039 f1=0.4654 ETA 0.5h
+[337/400] pathmnist r=10 d=4 froz s=8128 quantum_vqc              auc=0.8528 f1=0.4370 ETA 0.5h
+[338/400] pathmnist r=10 d=4 froz s=1597 quantum_vqc              auc=0.8197 f1=0.4177 ETA 0.5h
+[339/400] pathmnist r=10 d=4 froz s=5040 quantum_vqc              auc=0.8250 f1=0.4476 ETA 0.5h
+[340/400] pathmnist r=10 d=4 froz s=2520 quantum_vqc              auc=0.8962 f1=0.5470 ETA 0.5h
+[341/400] pathmnist r=20 d=4 froz s=42 quantum_vqc              auc=0.9012 f1=0.4539 ETA 0.5h
+[342/400] pathmnist r=20 d=4 froz s=2026 quantum_vqc              auc=0.9251 f1=0.5998 ETA 0.5h
+[343/400] pathmnist r=20 d=4 froz s=888 quantum_vqc              auc=0.8691 f1=0.4261 ETA 0.5h
+[344/400] pathmnist r=20 d=4 froz s=8 quantum_vqc              auc=0.9001 f1=0.5737 ETA 0.4h
+[345/400] pathmnist r=20 d=4 froz s=161803 quantum_vqc              auc=0.8873 f1=0.5100 ETA 0.4h
+[346/400] pathmnist r=20 d=4 froz s=99 quantum_vqc              auc=0.8760 f1=0.5025 ETA 0.4h
+[347/400] pathmnist r=20 d=4 froz s=6174 quantum_vqc              auc=0.8895 f1=0.5315 ETA 0.4h
+[348/400] pathmnist r=20 d=4 froz s=40 quantum_vqc              auc=0.8848 f1=0.4845 ETA 0.4h
+[349/400] pathmnist r=20 d=4 froz s=65537 quantum_vqc              auc=0.9076 f1=0.4916 ETA 0.4h
+[350/400] pathmnist r=20 d=4 froz s=987654 quantum_vqc              auc=0.9150 f1=0.5372 ETA 0.4h
+[351/400] pathmnist r=20 d=4 froz s=2027 quantum_vqc              auc=0.9239 f1=0.5962 ETA 0.4h
+[352/400] pathmnist r=20 d=4 froz s=9001 quantum_vqc              auc=0.8826 f1=0.5611 ETA 0.4h
+[353/400] pathmnist r=20 d=4 froz s=11235 quantum_vqc              auc=0.8788 f1=0.4848 ETA 0.4h
+[354/400] pathmnist r=20 d=4 froz s=60221 quantum_vqc              auc=0.8797 f1=0.4256 ETA 0.4h
+[355/400] pathmnist r=20 d=4 froz s=8191 quantum_vqc              auc=0.9006 f1=0.5125 ETA 0.4h
+[356/400] pathmnist r=20 d=4 froz s=17 quantum_vqc              auc=0.8827 f1=0.4976 ETA 0.4h
+[357/400] pathmnist r=20 d=4 froz s=8128 quantum_vqc              auc=0.8971 f1=0.4670 ETA 0.4h
+[358/400] pathmnist r=20 d=4 froz s=1597 quantum_vqc              auc=0.9087 f1=0.5714 ETA 0.3h
+[359/400] pathmnist r=20 d=4 froz s=5040 quantum_vqc              auc=0.8820 f1=0.4576 ETA 0.3h
+[360/400] pathmnist r=20 d=4 froz s=2520 quantum_vqc              auc=0.8933 f1=0.5154 ETA 0.3h
+[361/400] pathmnist r=50 d=4 froz s=42 quantum_vqc              auc=0.9196 f1=0.5631 ETA 0.3h
+[362/400] pathmnist r=50 d=4 froz s=2026 quantum_vqc              auc=0.9405 f1=0.6460 ETA 0.3h
+[363/400] pathmnist r=50 d=4 froz s=888 quantum_vqc              auc=0.9540 f1=0.6742 ETA 0.3h
+[364/400] pathmnist r=50 d=4 froz s=8 quantum_vqc              auc=0.9505 f1=0.6712 ETA 0.3h
+[365/400] pathmnist r=50 d=4 froz s=161803 quantum_vqc              auc=0.9271 f1=0.6060 ETA 0.3h
+[366/400] pathmnist r=50 d=4 froz s=99 quantum_vqc              auc=0.9503 f1=0.6523 ETA 0.3h
+[367/400] pathmnist r=50 d=4 froz s=6174 quantum_vqc              auc=0.9340 f1=0.6562 ETA 0.3h
+[368/400] pathmnist r=50 d=4 froz s=40 quantum_vqc              auc=0.9118 f1=0.5534 ETA 0.3h
+[369/400] pathmnist r=50 d=4 froz s=65537 quantum_vqc              auc=0.9446 f1=0.6939 ETA 0.3h
+[370/400] pathmnist r=50 d=4 froz s=987654 quantum_vqc              auc=0.8923 f1=0.5897 ETA 0.3h
+[371/400] pathmnist r=50 d=4 froz s=2027 quantum_vqc              auc=0.9246 f1=0.6319 ETA 0.3h
+[372/400] pathmnist r=50 d=4 froz s=9001 quantum_vqc              auc=0.9309 f1=0.5528 ETA 0.2h
+[373/400] pathmnist r=50 d=4 froz s=11235 quantum_vqc              auc=0.9246 f1=0.6153 ETA 0.2h
+[374/400] pathmnist r=50 d=4 froz s=60221 quantum_vqc              auc=0.9434 f1=0.6304 ETA 0.2h
+[375/400] pathmnist r=50 d=4 froz s=8191 quantum_vqc              auc=0.9115 f1=0.5882 ETA 0.2h
+[376/400] pathmnist r=50 d=4 froz s=17 quantum_vqc              auc=0.9388 f1=0.5748 ETA 0.2h
+[377/400] pathmnist r=50 d=4 froz s=8128 quantum_vqc              auc=0.9295 f1=0.6242 ETA 0.2h
+[378/400] pathmnist r=50 d=4 froz s=1597 quantum_vqc              auc=0.9080 f1=0.5648 ETA 0.2h
+[379/400] pathmnist r=50 d=4 froz s=5040 quantum_vqc              auc=0.9281 f1=0.5710 ETA 0.2h
+[380/400] pathmnist r=50 d=4 froz s=2520 quantum_vqc              auc=0.9067 f1=0.5407 ETA 0.2h
+[381/400] pathmnist r=100 d=4 froz s=42 quantum_vqc              auc=0.9307 f1=0.6234 ETA 0.2h
+[382/400] pathmnist r=100 d=4 froz s=2026 quantum_vqc              auc=0.9548 f1=0.6878 ETA 0.2h
+[383/400] pathmnist r=100 d=4 froz s=888 quantum_vqc              auc=0.9444 f1=0.7089 ETA 0.2h
+[384/400] pathmnist r=100 d=4 froz s=8 quantum_vqc              auc=0.9510 f1=0.6699 ETA 0.2h
+[385/400] pathmnist r=100 d=4 froz s=161803 quantum_vqc              auc=0.9336 f1=0.6194 ETA 0.1h
+[386/400] pathmnist r=100 d=4 froz s=99 quantum_vqc              auc=0.9471 f1=0.6657 ETA 0.1h
+[387/400] pathmnist r=100 d=4 froz s=6174 quantum_vqc              auc=0.9567 f1=0.7131 ETA 0.1h
+[388/400] pathmnist r=100 d=4 froz s=40 quantum_vqc              auc=0.9602 f1=0.6841 ETA 0.1h
+[389/400] pathmnist r=100 d=4 froz s=65537 quantum_vqc              auc=0.9625 f1=0.6977 ETA 0.1h
+[390/400] pathmnist r=100 d=4 froz s=987654 quantum_vqc              auc=0.9553 f1=0.7111 ETA 0.1h
+[391/400] pathmnist r=100 d=4 froz s=2027 quantum_vqc              auc=0.9523 f1=0.7093 ETA 0.1h
+[392/400] pathmnist r=100 d=4 froz s=9001 quantum_vqc              auc=0.9574 f1=0.7172 ETA 0.1h
+[393/400] pathmnist r=100 d=4 froz s=11235 quantum_vqc              auc=0.9453 f1=0.7270 ETA 0.1h
+[394/400] pathmnist r=100 d=4 froz s=60221 quantum_vqc              auc=0.9625 f1=0.6666 ETA 0.1h
+[395/400] pathmnist r=100 d=4 froz s=8191 quantum_vqc              auc=0.9548 f1=0.7215 ETA 0.1h
+[396/400] pathmnist r=100 d=4 froz s=17 quantum_vqc              auc=0.9422 f1=0.6561 ETA 0.0h
+[397/400] pathmnist r=100 d=4 froz s=8128 quantum_vqc              auc=0.9490 f1=0.6758 ETA 0.0h
+[398/400] pathmnist r=100 d=4 froz s=1597 quantum_vqc              auc=0.9337 f1=0.6568 ETA 0.0h
+[399/400] pathmnist r=100 d=4 froz s=5040 quantum_vqc              auc=0.9391 f1=0.6045 ETA 0.0h
+[400/400] pathmnist r=100 d=4 froz s=2520 quantum_vqc              auc=0.9579 f1=0.6925 ETA 0.0h
+
+=== AUC by cell (mean +- sd over seeds) ===
+dataset           reg   d   encoder    quantum_vqc   quantum_reup
+------------------------------------------------------------------
+bloodmnist         10   4    frozen  0.8465+-0.022  0.8563+-0.026
+bloodmnist        100   4    frozen  0.9155+-0.027  0.9441+-0.011
+bloodmnist         20   4    frozen  0.8734+-0.024  0.8961+-0.019
+bloodmnist          5   4    frozen  0.7894+-0.044  0.7815+-0.058
+bloodmnist         50   4    frozen  0.9035+-0.021  0.9268+-0.012
+breastmnist        10   4    frozen  0.7073+-0.042  0.7097+-0.051
+breastmnist       100   4    frozen  0.8014+-0.029  0.8054+-0.025
+breastmnist        20   4    frozen  0.7342+-0.032  0.7315+-0.036
+breastmnist         5   4    frozen  0.6618+-0.077  0.6704+-0.058
+breastmnist        50   4    frozen  0.7713+-0.020  0.7689+-0.028
+pathmnist          10   4    frozen  0.8668+-0.027  0.8907+-0.027
+pathmnist         100   4    frozen  0.9459+-0.015  0.9549+-0.011
+pathmnist          20   4    frozen  0.8985+-0.019  0.9242+-0.018
+pathmnist           5   4    frozen  0.8358+-0.035  0.8515+-0.033
+pathmnist          50   4    frozen  0.9265+-0.021  0.9479+-0.014
+pneumoniamnist     10   4    frozen  0.9089+-0.027  0.9090+-0.015
+pneumoniamnist    100   4    frozen  0.9366+-0.010  0.9355+-0.011
+pneumoniamnist     20   4    frozen  0.9251+-0.009  0.9242+-0.011
+pneumoniamnist      5   4    frozen  0.9016+-0.015  0.8956+-0.028
+pneumoniamnist     50   4    frozen  0.9273+-0.010  0.9247+-0.012
+
+=== PRIMARY (Q1, efficiency at equal parameters): quantum_vqc - matched_param_fullrank (auc) ===
+Both arms have 24 head parameters and full rank at d=4.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== SECONDARY (Q2, dequantization): quantum_vqc - fourier_rff (auc) ===
+Basis-matched, NOT parameter-matched (324 vs 24). Asks whether
+the VQC exploits its own function class as well as a direct fit.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== DIAGNOSTIC (rank-limited control): quantum_vqc - matched_param (auc) ===
+matched_param is rank-limited to width 3; superseded by
+matched_param_fullrank. Retained for reproducibility only.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== Q3: frozen - adaptive, per arm (auc) ===
+The premise check showed compression is nearly free WITH an adaptive
+encoder. A large negative delta here means the encoder was absorbing
+the constraint - the reframed 'Latent Reshaping' claim.
+dataset           reg   d                      arm     delta    n
+------------------------------------------------------------------------
+
+=== Trainable capacity by component ===
+If the head's share is small, the experiment is not isolating the head.
+
+arm                        d bottleneck   bneck   head   clf   total  head %
+------------------------------------------------------------------------------
+quantum_reupload           4    learned    1028     24    10    1062    2.3%
+quantum_vqc                4    learned    1028     24    10    1062    2.3%
+quantum_vqc_range1         4    learned    1028     24    10    1062    2.3%
+
+=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===
+frozen: backbone must be '-' (no gradient reaches it).
+adaptive: backbone must be non-zero for EVERY arm, quantum included.
+
+arm                        encoder  runs    backbone  bottleneck        head  verdict
+--------------------------------------------------------------------------------------------
+quantum_reupload            frozen   773           -      1.0524      0.2648  OK
+quantum_vqc                 frozen   800           -      0.9853      0.2603  OK
+quantum_vqc_range1          frozen   797           -      1.0058      0.2658  OK
+
+Predictions: 2370/2370 claimed files are retrievable on disk; 0 shards predate prediction saving.
+
+DIAGNOSTIC OUTPUT - every interval above is a normal approximation
+over seeds. Confirmatory statistics come from 04_statistical_analysis.py.

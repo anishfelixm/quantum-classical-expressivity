@@ -1,0 +1,112 @@
+
+$ /content/env/bin/python -u scripts/analyse_amendment31.py contrasts --unclipped --workers 7
+AMENDMENT 31, WITHOUT CLIPPING (exploratory) | workers=7 | B=2000 | sha=260d11f5 | rates on raw z: VQC 3e-02, matched 1e-02
+  nosquash_fair                computed (20 cells, 40 seeds) in 2452s
+  vqc_squash_cost              computed (20 cells, 40 seeds) in 2262s
+  restriction_cpu_inherited    computed (20 cells, 40 seeds) in 2552s
+  restriction_tuned            computed (20 cells, 40 seeds) in 2218s
+  reupload_fc_cpu_inherited    computed (20 cells, 40 seeds) in 2457s
+  reupload_fc_tuned            computed (20 cells, 40 seeds) in 2220s
+
+--- nosquash_fair: VQC raw z (3e-02) - matched raw z (1e-02): each on raw z at its own rate
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0198 [+0.0104,+0.0307]  0.0010  0.0050  CI excludes 0
+    n=10         +0.0093 [+0.0027,+0.0164]  0.0070  0.0175  CI excludes 0
+    n=20         +0.0054 [-0.0002,+0.0103]  0.0570  0.0950  
+    n=50         +0.0039 [-0.0009,+0.0086]  0.1179  0.1474  
+    n=100        +0.0003 [-0.0028,+0.0035]  0.8226  0.8226  
+    slope       -0.00399 [-0.00613,-0.00204]  (descriptive)
+
+--- vqc_squash_cost: VQC raw z (3e-02) - VQC squashed (1e-02)
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0197 [+0.0125,+0.0263]  0.0010  0.0010  CI excludes 0
+    n=10         +0.0162 [+0.0111,+0.0215]  0.0010  0.0010  CI excludes 0
+    n=20         +0.0144 [+0.0095,+0.0193]  0.0010  0.0010  CI excludes 0
+    n=50         +0.0143 [+0.0096,+0.0188]  0.0010  0.0010  CI excludes 0
+    n=100        +0.0130 [+0.0095,+0.0168]  0.0010  0.0010  CI excludes 0
+    slope       -0.00135 [-0.00281,+0.00029]  (descriptive)
+
+--- restriction_cpu_inherited: low_rank k=0 (1e-02) - k=8 (1e-02), CPU
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0096 [+0.0000,+0.0188]  0.0500  0.0833  CI excludes 0
+    n=10         +0.0119 [+0.0039,+0.0204]  0.0050  0.0175  CI excludes 0
+    n=20         +0.0040 [-0.0033,+0.0109]  0.2749  0.3436  
+    n=50         +0.0020 [-0.0036,+0.0075]  0.4988  0.4988  
+    n=100        +0.0064 [+0.0019,+0.0109]  0.0070  0.0175  CI excludes 0
+    slope       -0.00149 [-0.00357,+0.00059]  (descriptive)
+
+--- restriction_tuned: low_rank k=0 (1e-02) - k=8 (3e-03), each at its tuned rate
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0131 [+0.0039,+0.0217]  0.0080  0.0400  CI excludes 0
+    n=10         +0.0074 [+0.0009,+0.0139]  0.0280  0.0466  CI excludes 0
+    n=20         -0.0027 [-0.0089,+0.0030]  0.3628  0.3628  
+    n=50         -0.0051 [-0.0094,-0.0008]  0.0220  0.0466  CI excludes 0
+    n=100        -0.0024 [-0.0065,+0.0012]  0.1809  0.2261  
+    slope       -0.00391 [-0.00566,-0.00205]  (descriptive)
+
+--- reupload_fc_cpu_inherited: re-upload VQC (1e-02) - fourier_rff_r2 (1e-02), CPU
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0278 [+0.0128,+0.0430]  0.0020  0.0100  CI excludes 0
+    n=10         +0.0176 [+0.0063,+0.0304]  0.0050  0.0125  CI excludes 0
+    n=20         +0.0083 [+0.0007,+0.0175]  0.0370  0.0462  CI excludes 0
+    n=50         +0.0019 [-0.0049,+0.0098]  0.6207  0.6207  
+    n=100        -0.0035 [-0.0060,-0.0010]  0.0090  0.0150  CI excludes 0
+    slope       -0.00711 [-0.01020,-0.00400]  (descriptive)
+
+--- reupload_fc_tuned: re-upload VQC (1e-02) - fourier_rff_r2 (3e-03), each at its tuned rate
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0151 [+0.0041,+0.0259]  0.0080  0.0250  CI excludes 0
+    n=10         +0.0109 [+0.0030,+0.0197]  0.0100  0.0250  CI excludes 0
+    n=20         +0.0061 [+0.0002,+0.0126]  0.0380  0.0537  CI excludes 0
+    n=50         -0.0050 [-0.0097,-0.0002]  0.0430  0.0537  CI excludes 0
+    n=100        -0.0029 [-0.0062,+0.0001]  0.0600  0.0600  
+    slope       -0.00478 [-0.00698,-0.00254]  (descriptive)
+
+==============================================================================
+PREDICTIONS (Amendment 31)
+==============================================================================
+P1  nosquash_fair(5) not positive: +0.0198 [+0.0104,+0.0307]  ->  FAILS
+P2  restriction_tuned(5) +0.0131 [+0.0039,+0.0217] includes zero and is below inherited +0.0096 [+0.0000,+0.0188]  ->  FAILS
+P3  reupload_fc_tuned(5) +0.0151 [+0.0041,+0.0259] below inherited +0.0278 [+0.0128,+0.0430]  ->  HOLDS
+Recorded on GPU, for reference: restriction follow-up n=5 +0.0097 [+0.0007,+0.0187]; re-upload function class n=5 +0.0150 [+0.0022,+0.0279].
+
+RECORDED vs UNCLIPPED (same bootstrap draws)
+    nosquash_fair              n=5    recorded +0.0198 [+0.0104,+0.0307]   unclipped +0.0198 [+0.0104,+0.0307]
+    nosquash_fair              n=10   recorded +0.0093 [+0.0027,+0.0164]   unclipped +0.0093 [+0.0027,+0.0164]
+    nosquash_fair              n=20   recorded +0.0054 [-0.0002,+0.0103]   unclipped +0.0054 [-0.0002,+0.0103]
+    nosquash_fair              n=50   recorded +0.0039 [-0.0009,+0.0085]   unclipped +0.0039 [-0.0009,+0.0086]
+    nosquash_fair              n=100  recorded +0.0003 [-0.0028,+0.0034]   unclipped +0.0003 [-0.0028,+0.0035]
+    nosquash_fair              slope  recorded -0.0040 [-0.0061,-0.0020]   unclipped -0.0040 [-0.0061,-0.0020]
+    vqc_squash_cost            n=5    recorded +0.0197 [+0.0125,+0.0263]   unclipped +0.0197 [+0.0125,+0.0263]
+    vqc_squash_cost            n=10   recorded +0.0162 [+0.0111,+0.0215]   unclipped +0.0162 [+0.0111,+0.0215]
+    vqc_squash_cost            n=20   recorded +0.0144 [+0.0095,+0.0193]   unclipped +0.0144 [+0.0095,+0.0193]
+    vqc_squash_cost            n=50   recorded +0.0143 [+0.0096,+0.0188]   unclipped +0.0143 [+0.0096,+0.0188]
+    vqc_squash_cost            n=100  recorded +0.0130 [+0.0095,+0.0168]   unclipped +0.0130 [+0.0095,+0.0168]
+    vqc_squash_cost            slope  recorded -0.0014 [-0.0028,+0.0003]   unclipped -0.0014 [-0.0028,+0.0003]
+    restriction_cpu_inherited  n=5    recorded +0.0097 [+0.0002,+0.0189]   unclipped +0.0096 [+0.0000,+0.0188]
+    restriction_cpu_inherited  n=10   recorded +0.0118 [+0.0038,+0.0203]   unclipped +0.0119 [+0.0039,+0.0204]
+    restriction_cpu_inherited  n=20   recorded +0.0040 [-0.0033,+0.0110]   unclipped +0.0040 [-0.0033,+0.0109]
+    restriction_cpu_inherited  n=50   recorded +0.0018 [-0.0039,+0.0073]   unclipped +0.0020 [-0.0036,+0.0075]
+    restriction_cpu_inherited  n=100  recorded +0.0063 [+0.0017,+0.0107]   unclipped +0.0064 [+0.0019,+0.0109]
+    restriction_cpu_inherited  slope  recorded -0.0015 [-0.0036,+0.0005]   unclipped -0.0015 [-0.0036,+0.0006]
+    restriction_tuned          n=5    recorded +0.0131 [+0.0039,+0.0217]   unclipped +0.0131 [+0.0039,+0.0217]
+    restriction_tuned          n=10   recorded +0.0074 [+0.0009,+0.0139]   unclipped +0.0074 [+0.0009,+0.0139]
+    restriction_tuned          n=20   recorded -0.0027 [-0.0089,+0.0030]   unclipped -0.0027 [-0.0089,+0.0030]
+    restriction_tuned          n=50   recorded -0.0052 [-0.0095,-0.0008]   unclipped -0.0051 [-0.0094,-0.0008]
+    restriction_tuned          n=100  recorded -0.0023 [-0.0064,+0.0012]   unclipped -0.0024 [-0.0065,+0.0012]
+    restriction_tuned          slope  recorded -0.0039 [-0.0057,-0.0020]   unclipped -0.0039 [-0.0057,-0.0021]
+    reupload_fc_cpu_inherited  n=5    recorded +0.0150 [+0.0008,+0.0287]   unclipped +0.0278 [+0.0128,+0.0430]
+    reupload_fc_cpu_inherited  n=10   recorded +0.0147 [+0.0038,+0.0266]   unclipped +0.0176 [+0.0063,+0.0304]
+    reupload_fc_cpu_inherited  n=20   recorded +0.0030 [-0.0037,+0.0110]   unclipped +0.0083 [+0.0007,+0.0175]
+    reupload_fc_cpu_inherited  n=50   recorded -0.0002 [-0.0068,+0.0070]   unclipped +0.0019 [-0.0049,+0.0098]
+    reupload_fc_cpu_inherited  n=100  recorded -0.0037 [-0.0062,-0.0013]   unclipped -0.0035 [-0.0060,-0.0010]
+    reupload_fc_cpu_inherited  slope  recorded -0.0048 [-0.0075,-0.0019]   unclipped -0.0071 [-0.0102,-0.0040]
+    reupload_fc_tuned          n=5    recorded +0.0159 [+0.0047,+0.0266]   unclipped +0.0151 [+0.0041,+0.0259]
+    reupload_fc_tuned          n=10   recorded +0.0112 [+0.0034,+0.0199]   unclipped +0.0109 [+0.0030,+0.0197]
+    reupload_fc_tuned          n=20   recorded +0.0065 [+0.0006,+0.0130]   unclipped +0.0061 [+0.0002,+0.0126]
+    reupload_fc_tuned          n=50   recorded -0.0045 [-0.0098,+0.0005]   unclipped -0.0050 [-0.0097,-0.0002]
+    reupload_fc_tuned          n=100  recorded -0.0026 [-0.0058,+0.0005]   unclipped -0.0029 [-0.0062,+0.0001]
+    reupload_fc_tuned          slope  recorded -0.0049 [-0.0071,-0.0026]   unclipped -0.0048 [-0.0070,-0.0025]
+
+Written: /content/art/amendment31_unclipped.json
+exit code 0

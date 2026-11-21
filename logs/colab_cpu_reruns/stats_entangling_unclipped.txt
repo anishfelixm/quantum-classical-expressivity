@@ -1,0 +1,62 @@
+
+$ /content/env/bin/python -u scripts/analyse_entangling_range.py --unclipped --workers 7
+AMENDMENT 30, WITHOUT CLIPPING (exploratory) | workers=7 | B=2000 | sha=88d14745
+  range_effect                 computed (20 cells, 40 seeds) in 3207s
+  reupload_effect              computed (20 cells, 40 seeds) in 2691s
+  hs1_same_device              computed (20 cells, 40 seeds) in 2063s
+
+--- range_effect: VQC ranges (1,1) - VQC ranges (1,2): the entangling range alone
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0027 [-0.0047,+0.0100]  0.4748  0.5907  
+    n=10         +0.0024 [-0.0031,+0.0080]  0.3788  0.5907  
+    n=20         +0.0020 [-0.0029,+0.0063]  0.3998  0.5907  
+    n=50         +0.0012 [-0.0034,+0.0062]  0.5907  0.5907  
+    n=100        +0.0022 [-0.0013,+0.0060]  0.2299  0.5907  
+    slope       -0.00019 [-0.00183,+0.00138]  (descriptive)
+
+--- reupload_effect: re-upload VQC - VQC ranges (1,1): re-uploading alone
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          -0.0001 [-0.0073,+0.0071]  0.9525  0.9525  
+    n=10         +0.0067 [+0.0012,+0.0122]  0.0140  0.0175  CI excludes 0
+    n=20         +0.0092 [+0.0052,+0.0139]  0.0010  0.0025  CI excludes 0
+    n=50         +0.0087 [+0.0046,+0.0127]  0.0020  0.0033  CI excludes 0
+    n=100        +0.0086 [+0.0061,+0.0115]  0.0010  0.0025  CI excludes 0
+    slope       +0.00172 [+0.00014,+0.00320]  (descriptive)
+
+--- hs1_same_device: re-upload VQC - VQC: the H-S1 contrast, re-run on one machine
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0026 [-0.0053,+0.0106]  0.5087  0.5087  
+    n=10         +0.0091 [+0.0027,+0.0150]  0.0060  0.0075  CI excludes 0
+    n=20         +0.0112 [+0.0071,+0.0150]  0.0010  0.0017  CI excludes 0
+    n=50         +0.0099 [+0.0058,+0.0138]  0.0010  0.0017  CI excludes 0
+    n=100        +0.0109 [+0.0082,+0.0141]  0.0010  0.0017  CI excludes 0
+    slope       +0.00153 [-0.00008,+0.00313]  (descriptive)
+
+==============================================================================
+PREDICTIONS (Amendment 26)
+==============================================================================
+P1  |range_effect| < 0.005 at every n: largest 0.0027  ->  HOLDS
+P2  reupload_effect interval above zero at n = 50 and 100: n=50 +0.0087 [+0.0046,+0.0127], n=100 +0.0086 [+0.0061,+0.0115]  ->  HOLDS
+
+RECORDED vs UNCLIPPED (same bootstrap draws)
+    range_effect       n=5    recorded +0.0027 [-0.0047,+0.0100]   unclipped +0.0027 [-0.0047,+0.0100]   change +0.0000
+    range_effect       n=10   recorded +0.0024 [-0.0031,+0.0080]   unclipped +0.0024 [-0.0031,+0.0080]   change +0.0000
+    range_effect       n=20   recorded +0.0020 [-0.0029,+0.0063]   unclipped +0.0020 [-0.0029,+0.0063]   change +0.0000
+    range_effect       n=50   recorded +0.0012 [-0.0034,+0.0062]   unclipped +0.0012 [-0.0034,+0.0062]   change +0.0000
+    range_effect       n=100  recorded +0.0022 [-0.0013,+0.0060]   unclipped +0.0022 [-0.0013,+0.0060]   change -0.0000
+    range_effect       slope  recorded -0.0002 [-0.0018,+0.0014]   unclipped -0.0002 [-0.0018,+0.0014]   change +0.0000
+    reupload_effect    n=5    recorded -0.0001 [-0.0073,+0.0071]   unclipped -0.0001 [-0.0073,+0.0071]   change +0.0000
+    reupload_effect    n=10   recorded +0.0067 [+0.0012,+0.0122]   unclipped +0.0067 [+0.0012,+0.0122]   change +0.0000
+    reupload_effect    n=20   recorded +0.0092 [+0.0052,+0.0139]   unclipped +0.0092 [+0.0052,+0.0139]   change +0.0000
+    reupload_effect    n=50   recorded +0.0087 [+0.0046,+0.0127]   unclipped +0.0087 [+0.0046,+0.0127]   change -0.0000
+    reupload_effect    n=100  recorded +0.0086 [+0.0061,+0.0115]   unclipped +0.0086 [+0.0061,+0.0115]   change -0.0000
+    reupload_effect    slope  recorded +0.0017 [+0.0001,+0.0032]   unclipped +0.0017 [+0.0001,+0.0032]   change -0.0000
+    hs1_same_device    n=5    recorded +0.0026 [-0.0053,+0.0106]   unclipped +0.0026 [-0.0053,+0.0106]   change +0.0000
+    hs1_same_device    n=10   recorded +0.0091 [+0.0027,+0.0150]   unclipped +0.0091 [+0.0027,+0.0150]   change +0.0000
+    hs1_same_device    n=20   recorded +0.0112 [+0.0071,+0.0150]   unclipped +0.0112 [+0.0071,+0.0150]   change +0.0000
+    hs1_same_device    n=50   recorded +0.0099 [+0.0058,+0.0138]   unclipped +0.0099 [+0.0058,+0.0138]   change -0.0000
+    hs1_same_device    n=100  recorded +0.0109 [+0.0082,+0.0141]   unclipped +0.0109 [+0.0082,+0.0141]   change -0.0000
+    hs1_same_device    slope  recorded +0.0015 [-0.0001,+0.0031]   unclipped +0.0015 [-0.0001,+0.0031]   change -0.0000
+
+Written: /content/art/entangling_range_unclipped.json
+exit code 0

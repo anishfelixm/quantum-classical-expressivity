@@ -1,0 +1,129 @@
+/content/env/lib/python3.10/site-packages/medmnist/info.py:17: UserWarning: Failed to setup default root.
+  warnings.warn("Failed to setup default root.")
+
+Trainable capacity at d=4, bottleneck=learned:
+  quantum_reupload         bottleneck= 1028 head=  24 clf= 10 total= 1062 head=2.3%
+
+Experiment 1 | 1 cells | ns=31_pilot | device=cpu | sha=58852d84
+  augment=False L=2 use_tanh=True bottleneck=learned angle_scale=1.5708 save_predictions=True
+[1/1] pathmnist r=100 d=4 froz s=42 quantum_reupload         auc=0.9434 f1=0.7416 ETA 0.0h
+
+=== AUC by cell (mean +- sd over seeds) ===
+dataset           reg   d   encoder    quantum_vqc   quantum_reup
+------------------------------------------------------------------
+pathmnist         100   4    frozen  0.9307+-0.000  0.9434+-0.000
+
+=== PRIMARY (Q1, efficiency at equal parameters): quantum_vqc - matched_param_fullrank (auc) ===
+Both arms have 24 head parameters and full rank at d=4.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== SECONDARY (Q2, dequantization): quantum_vqc - fourier_rff (auc) ===
+Basis-matched, NOT parameter-matched (324 vs 24). Asks whether
+the VQC exploits its own function class as well as a direct fit.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== DIAGNOSTIC (rank-limited control): quantum_vqc - matched_param (auc) ===
+matched_param is rank-limited to width 3; superseded by
+matched_param_fullrank. Retained for reproducibility only.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== Q3: frozen - adaptive, per arm (auc) ===
+The premise check showed compression is nearly free WITH an adaptive
+encoder. A large negative delta here means the encoder was absorbing
+the constraint - the reframed 'Latent Reshaping' claim.
+dataset           reg   d                      arm     delta    n
+------------------------------------------------------------------------
+
+=== Trainable capacity by component ===
+If the head's share is small, the experiment is not isolating the head.
+
+arm                        d bottleneck   bneck   head   clf   total  head %
+------------------------------------------------------------------------------
+quantum_reupload           4    learned    1028     24    45    1097    2.2%
+quantum_vqc                4    learned    1028     24    45    1097    2.2%
+quantum_vqc_range1         4    learned    1028     24    45    1097    2.2%
+
+=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===
+frozen: backbone must be '-' (no gradient reaches it).
+adaptive: backbone must be non-zero for EVERY arm, quantum included.
+
+arm                        encoder  runs    backbone  bottleneck        head  verdict
+--------------------------------------------------------------------------------------------
+quantum_reupload            frozen     1           -      2.0378      0.5010  OK
+quantum_vqc                 frozen     1           -      1.6299      0.4248  OK
+quantum_vqc_range1          frozen     1           -      1.8316      0.4902  OK
+
+Predictions: 3/3 claimed files are retrievable on disk; 0 shards predate prediction saving.
+
+DIAGNOSTIC OUTPUT - every interval above is a normal approximation
+over seeds. Confirmatory statistics come from 04_statistical_analysis.py.
+
+Trainable capacity at d=4, bottleneck=learned:
+  quantum_reupload         bottleneck= 1028 head=  24 clf= 10 total= 1062 head=2.3%
+
+Experiment 1 | 1 cells | ns=31_pilot | device=cpu | sha=58852d84
+  augment=False L=2 use_tanh=True bottleneck=learned angle_scale=1.5708 save_predictions=True
+[1/1] pathmnist r=5 d=4 froz s=42 quantum_reupload         auc=0.8725 f1=0.4891 ETA 0.0h
+
+=== AUC by cell (mean +- sd over seeds) ===
+dataset           reg   d   encoder    quantum_vqc   quantum_reup
+------------------------------------------------------------------
+pathmnist         100   4    frozen  0.9307+-0.000  0.9434+-0.000
+pathmnist           5   4    frozen  0.8818+-0.000  0.8725+-0.000
+
+=== PRIMARY (Q1, efficiency at equal parameters): quantum_vqc - matched_param_fullrank (auc) ===
+Both arms have 24 head parameters and full rank at d=4.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== SECONDARY (Q2, dequantization): quantum_vqc - fourier_rff (auc) ===
+Basis-matched, NOT parameter-matched (324 vs 24). Asks whether
+the VQC exploits its own function class as well as a direct fit.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== DIAGNOSTIC (rank-limited control): quantum_vqc - matched_param (auc) ===
+matched_param is rank-limited to width 3; superseded by
+matched_param_fullrank. Retained for reproducibility only.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== Q3: frozen - adaptive, per arm (auc) ===
+The premise check showed compression is nearly free WITH an adaptive
+encoder. A large negative delta here means the encoder was absorbing
+the constraint - the reframed 'Latent Reshaping' claim.
+dataset           reg   d                      arm     delta    n
+------------------------------------------------------------------------
+
+=== Trainable capacity by component ===
+If the head's share is small, the experiment is not isolating the head.
+
+arm                        d bottleneck   bneck   head   clf   total  head %
+------------------------------------------------------------------------------
+quantum_reupload           4    learned    1028     24    45    1097    2.2%
+quantum_vqc                4    learned    1028     24    45    1097    2.2%
+quantum_vqc_range1         4    learned    1028     24    45    1097    2.2%
+
+=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===
+frozen: backbone must be '-' (no gradient reaches it).
+adaptive: backbone must be non-zero for EVERY arm, quantum included.
+
+arm                        encoder  runs    backbone  bottleneck        head  verdict
+--------------------------------------------------------------------------------------------
+quantum_reupload            frozen     2           -      1.3776      0.3500  OK
+quantum_vqc                 frozen     2           -      1.1797      0.3128  OK
+quantum_vqc_range1          frozen     2           -      1.2136      0.3214  OK
+
+Predictions: 6/6 claimed files are retrievable on disk; 0 shards predate prediction saving.
+
+DIAGNOSTIC OUTPUT - every interval above is a normal approximation
+over seeds. Confirmatory statistics come from 04_statistical_analysis.py.

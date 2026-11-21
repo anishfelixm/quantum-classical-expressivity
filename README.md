@@ -6,7 +6,9 @@ arms: a 24-parameter variational quantum circuit (VQC), or classical heads
 matched to it on parameter count or on function class.
 
 **Status.** All experiments are complete and the results below are final. The
-journal manuscript (IEEE Access) is in preparation. This repository began as the
+manuscript was submitted to IEEE Access on 21 November 2026 and is under
+review. Its source is in [`paper/`](paper/), and the repository state at
+submission is the tag `submitted-2026-11-21`. This repository began as the
 code for an earlier draft written for a conference, which was never submitted
 or published. This study re-tested that draft's claims with stronger controls,
 and several did not survive
@@ -214,7 +216,10 @@ drawing anything if any row disagrees.
 ```bash
 python src/eval/generate_paper_plots.py --check-only
 python src/eval/generate_paper_plots.py                 # writes paper/figures/
+python scripts/fig_amendments.py --art results/analysis --out paper/figures   # Figs. 4, 6, 7
 ```
+
+Which file is which figure of the paper: [`paper/README.md`](paper/README.md).
 
 **2 — every statistic from the per-sample predictions** (CPU)
 
@@ -247,16 +252,18 @@ On the same hardware and software, retraining is bit-exact. `17` retrained 160
 confirmatory runs, and `16` retrained the function-class figure's run; every
 recorded test AUC matched, with a difference of 0.0. Other GPUs may differ in the last digits.
 
-**Released data.** Per-sample predictions, run records, bootstrap caches, latents
-and reporting tables: *archive DOI to be added at submission*. Extract it into
-`artifacts/` to run levels 1 and 2 without a GPU.
+**Released data.** Per-sample predictions, run records, step norms, trained
+weights, bootstrap caches, latents and reporting tables go to a Zenodo deposit,
+which is in preparation; its DOI will be added here. Extract it into
+`artifacts/` to run levels 1 and 2 without a GPU. The small analysis outputs of
+Amendments 26–32 are already in [`results/analysis/`](results/analysis/).
 
 ### Shard namespaces
 
 | Namespace | Contents |
 |---|---|
 | `01_frozen_tuned` | primary comparison and the other arms at tuned rates, 40 seeds |
-| `10_capacity_sweep`, `27_capacity_tuned` | H-S5 and its follow-up |
+| `10_capacity`, `27_capacity_tuned` | H-S5 and its follow-up |
 | `21_ansatz` | E1, ansatz check |
 | `25_encoder` | H-S4, frozen vs adaptive encoder |
 | `26_bottleneck_tuned` | H-S6 follow-up, frozen PCA and random projections |
@@ -291,16 +298,18 @@ src/
   eval/generate_paper_plots.py  every figure, verified against the tables first
 tests/                          parity, freezing, data pipeline, Fourier equivalence,
                                 re-upload spectrum, independent numpy re-derivation
-scripts/                        sweep runners, backup, maintenance and one-off patches
+scripts/                        sweep runners, re-execution, analyses of Amendments 20-32,
+                                Colab notebooks of the CPU runs, backup and maintenance
 docs/
-  RESULTS.md                    every number, by evidential tier
   analysis_plan.md              the binding plan and its dated amendments
+  RESULTS.md                    every number, by evidential tier
+  CLAIMS_LEDGER.md              the status of every manuscript claim
   MATH_VERIFICATION.md          derivations and theory alignment
-  PAPER_OUTLINE.md, AUDIT_REPORT.md, MASTER_RESEARCH_DOCUMENT.md, STATE.md, WORK_REMAINING.md
+  MASTER_RESEARCH_DOCUMENT.md, STATE.md, AUDIT_REPORT.md
   HYPOTHESES.md                 historical (August 2026), superseded by the plan
-paper/                          manuscript source, figures and tables
-logs_*.txt                      console output of every run, kept for provenance
-legacy/conference/              files from the earlier, unsubmitted draft (see below)
+paper/                          the manuscript as submitted, its figures and tables (paper/README.md)
+logs/                           console output of every run and analysis (logs/README.md)
+results/analysis/               analysis outputs of Amendments 26-32 (JSON)
 artifacts/                      git-ignored: data cache, features, shards, predictions, caches
 ```
 
@@ -334,9 +343,9 @@ The protocol changed as well:
 - **Baselines:** parameter-matched and function-class controls instead of Linear
   and MLP.
 
-The draft's figures and training logs are kept, unchanged, in
-[`legacy/conference/`](legacy/conference/) for provenance. They are not results
-of this study.
+The draft's figures and training logs were kept in `legacy/conference/` until
+21 November 2026. They remain in git history, for example at the tag
+`submitted-2026-11-21`. They are not results of this study.
 
 ---
 
@@ -378,5 +387,5 @@ MedMNIST is downloaded automatically into `artifacts/` on first use.
 
 ## Citation and licence
 
-Citation details for the journal article will be added on publication. Licence:
-see [`LICENSE`](LICENSE).
+The article is under review at IEEE Access; until it is published, cite it as
+in [`CITATION.cff`](CITATION.cff). Licence: see [`LICENSE`](LICENSE).

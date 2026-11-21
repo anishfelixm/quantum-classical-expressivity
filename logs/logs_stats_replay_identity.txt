@@ -1,0 +1,251 @@
+Amendment 21 analysis (identity) | sha=78c15b04 | B=2000
+====================================================================================================
+1. RE-EXECUTION AT THE ORIGINAL PROTOCOL (R_<source>): IDENTITY WITH THE RECORDED RUN
+====================================================================================================
+R_01_frozen_tuned          recorded  4000  re-executed  4000  identical  4000  different     0
+R_03_robustness_v2         recorded  1400  re-executed  1400  identical  1400  different     0
+R_09_lr_selection          recorded  1440  re-executed  1440  identical  1440  different     0
+R_10_capacity              recorded  1000  re-executed  1000  identical  1000  different     0
+R_12_bottleneck            recorded   900  re-executed   900  identical   900  different     0
+R_14_readout               recorded   600  re-executed   600  identical   600  different     0
+R_15_dim8                  recorded   800  re-executed   800  identical   800  different     0
+R_16_dim16                 recorded   200  re-executed   200  identical   200  different     0
+R_17_fulldata              recorded    80  re-executed    80  identical     0  different    80  (GPU re-execution of a CPU run: identity not expected)
+      e.g. ('fourier_rff', 'bloodmnist', 'full', '123', '/grad_flow/bottleneck/first: 4.159092823576794 vs 4.1590953240411626', 'different')
+      e.g. ('fourier_rff', 'bloodmnist', 'full', '2026', '/grad_flow/bottleneck/first: 3.4460975841510186 vs 3.4460986978717663', 'different')
+      e.g. ('fourier_rff', 'bloodmnist', 'full', '42', '/grad_flow/bottleneck/first: 2.4038257467109596 vs 2.4038306324824417', 'different')
+      e.g. ('fourier_rff', 'bloodmnist', 'full', '777', '/grad_flow/bottleneck/first: 2.804364323930642 vs 2.8043642896939085', 'different')
+      e.g. ('fourier_rff', 'bloodmnist', 'full', '888', '/grad_flow/bottleneck/first: 3.398895930860089 vs 3.398894893572509', 'different')
+R_18_depth                 recorded   600  re-executed   600  identical   600  different     0
+R_19_angle                 recorded   800  re-executed   800  identical   800  different     0
+R_20_tanh                  recorded  2000  re-executed  2000  identical  2000  different     0
+R_21_ansatz                recorded   400  re-executed   400  identical   400  different     0
+R_25_encoder               recorded   800  re-executed   800  identical   800  different     0
+R_26_bottleneck_tuned      recorded  3200  re-executed  3200  identical  3200  different     0
+R_27_capacity_tuned        recorded  1600  re-executed  1600  identical  1600  different     0
+R_29_compression_frozen    recorded   480  re-executed   480  identical   480  different     0
+C_17_fulldata              recorded    80  re-executed     4  identical     4  different     0  INCOMPLETE (76 not yet re-executed)
+
+Feature-cache state (docs/cold_cache_prediction.json, written from the original logs before wave 1): logs' prediction -> state that was used -> verdict
+  R_01_frozen_tuned        cold         -> cold  -> IDENTICAL     600
+  R_01_frozen_tuned        no log line  -> warm  -> IDENTICAL       5
+  R_01_frozen_tuned        warm         -> warm  -> IDENTICAL    3395
+  R_03_robustness_v2       no log line  -> warm  -> IDENTICAL       3
+  R_03_robustness_v2       warm         -> warm  -> IDENTICAL    1397
+  R_09_lr_selection        cold         -> cold  -> IDENTICAL      60
+  R_09_lr_selection        no log line  -> warm  -> IDENTICAL     495
+  R_09_lr_selection        warm         -> warm  -> IDENTICAL     885
+  R_10_capacity            no log line  -> warm  -> IDENTICAL       5
+  R_10_capacity            warm         -> warm  -> IDENTICAL     995
+  R_12_bottleneck          no log line  -> warm  -> IDENTICAL       9
+  R_12_bottleneck          warm         -> warm  -> IDENTICAL     891
+  R_14_readout             no log line  -> warm  -> IDENTICAL       3
+  R_14_readout             warm         -> warm  -> IDENTICAL     597
+  R_15_dim8                no log line  -> warm  -> IDENTICAL       4
+  R_15_dim8                warm         -> warm  -> IDENTICAL     796
+  R_16_dim16               no log line  -> warm  -> IDENTICAL       4
+  R_16_dim16               warm         -> warm  -> IDENTICAL     196
+  R_18_depth               no log line  -> warm  -> IDENTICAL       3
+  R_18_depth               warm         -> warm  -> IDENTICAL     597
+  R_19_angle               no log line  -> warm  -> IDENTICAL       4
+  R_19_angle               warm         -> warm  -> IDENTICAL     796
+  R_20_tanh                no log line  -> warm  -> IDENTICAL      10
+  R_20_tanh                warm         -> warm  -> IDENTICAL    1990
+  R_21_ansatz              no log line  -> warm  -> IDENTICAL       2
+  R_21_ansatz              warm         -> warm  -> IDENTICAL     398
+  R_25_encoder             no log line  -> warm  -> IDENTICAL       4
+  R_25_encoder             warm         -> warm  -> IDENTICAL     796
+  R_26_bottleneck_tuned    no log line  -> warm  -> IDENTICAL       4
+  R_26_bottleneck_tuned    warm         -> warm  -> IDENTICAL    3196
+  R_27_capacity_tuned      no log line  -> warm  -> IDENTICAL       2
+  R_27_capacity_tuned      warm         -> warm  -> IDENTICAL    1598
+  R_29_compression_frozen  cold         -> cold  -> IDENTICAL      19
+  R_29_compression_frozen  no log line  -> cold  -> IDENTICAL       1
+  R_29_compression_frozen  no log line  -> warm  -> IDENTICAL       2
+  R_29_compression_frozen  warm         -> warm  -> IDENTICAL     458
+  C_17_fulldata            cold         -> cold  -> IDENTICAL       1
+  C_17_fulldata            warm         -> warm  -> IDENTICAL       3
+P0 HOLDS: every reproduced run was reproduced in the cache state the logs predict.
+
+P1 HOLDS so far: every re-executed run is bit-identical to its record. 76 recorded runs are not yet re-executed.
+
+====================================================================================================
+2. STEP RECORDS (pre-clip norm of every optimisation step, original trajectories)
+====================================================================================================
+
+R_01_frozen_tuned
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  fourier_rff              aug=0 dim=4 fp=all lrh=1e-02                   800     234      704/507989       51.344         0
+  fourier_rff_r2           aug=0 dim=4 fp=all lrh=1e-02                   800     677     6868/512940       87.604         0
+  matched_param_fullrank   aug=0 dim=4 fp=all lrh=1e-02                   800      66      111/510305       43.946         0
+  quantum_reupload         aug=0 dim=4 fp=all lrh=1e-02 lrq=1e-02         800       6        6/511369       26.766         0
+  quantum_vqc              aug=0 dim=4 fp=all lrh=1e-02 lrq=1e-02         800       1        1/510916       23.929         0
+
+R_03_robustness_v2
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  fourier_rff              dim=4 lrh=1e-02                                200      56      181/125536       51.344         0
+  linear                   dim=4 lrh=3e-02                                200       0        0/127176       11.517         0
+  low_rank                 dim=4 lrh=1e-02                                200      15       18/126015       29.299         0
+  matched_param_fullrank   dim=4 lrh=1e-02                                200      20       26/127693       31.878         0
+  quantum_rich             dim=4 lrh=1e-02 lrq=1e-02                      200       1        1/125913       30.889         0
+  quantum_rich_padded      dim=4 lrh=1e-02 lrq=1e-02                      200       3        3/126198       27.179         0
+  quantum_vqc              dim=4 lrh=1e-02 lrq=1e-02                      200       1        1/126538       23.929         0
+
+R_09_lr_selection
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  fourier_rff              dim=4 lr=1e-01                                  60       0        0/25433        18.845         0
+  fourier_rff              dim=4 lr=1e-02                                  60      21       52/43098        37.618         0
+  fourier_rff              dim=4 lr=1e-03                                  60      12       41/43984        35.474         0
+  fourier_rff              dim=4 lr=3e-02                                  60       2        2/33438        24.052         0
+  fourier_rff              dim=4 lr=3e-03                                  60      17       97/43144        45.196         0
+  fourier_rff              dim=4 lr=3e-04                                  60       5        8/43624        28.263         0
+  linear                   dim=4 lr=1e-01                                  60       0        0/33350         9.646         0
+  linear                   dim=4 lr=1e-02                                  60       0        0/42242         9.260         0
+  linear                   dim=4 lr=1e-03                                  60       0        0/43001         7.035         0
+  linear                   dim=4 lr=3e-02                                  60       0        0/42933         8.172         0
+  linear                   dim=4 lr=3e-03                                  60       0        0/42610        11.220         0
+  linear                   dim=4 lr=3e-04                                  60       0        0/43925         6.539         0
+  matched_param_fullrank   dim=4 lr=1e-01                                  60       3        4/31483        57.391         0
+  matched_param_fullrank   dim=4 lr=1e-02                                  60       5        5/43192        25.501         0
+  matched_param_fullrank   dim=4 lr=1e-03                                  60       0        0/43395        17.926         0
+  matched_param_fullrank   dim=4 lr=3e-02                                  60       2        2/39206        21.163         0
+  matched_param_fullrank   dim=4 lr=3e-03                                  60       6       10/43525        26.528         0
+  matched_param_fullrank   dim=4 lr=3e-04                                  60       0        0/44128        12.813         0
+  quantum_vqc              dim=4 lr=1e-01                                  60       0        0/30820         8.849         0
+  quantum_vqc              dim=4 lr=1e-02                                  60       0        0/43158        13.747         0
+  quantum_vqc              dim=4 lr=1e-03                                  60       0        0/42478         8.238         0
+  quantum_vqc              dim=4 lr=3e-02                                  60       0        0/40564        19.641         0
+  quantum_vqc              dim=4 lr=3e-03                                  60       0        0/42366        14.741         0
+  quantum_vqc              dim=4 lr=3e-04                                  60       0        0/43792         7.536         0
+
+R_10_capacity
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  low_rank                 dim=4 rank=0                                   200       0        0/128781       12.933         0
+  low_rank                 dim=4 rank=1                                   200       3        3/130976       24.497         0
+  low_rank                 dim=4 rank=2                                   200       1        2/129778       23.224         0
+  low_rank                 dim=4 rank=4                                   200       4        6/129690       25.016         0
+  low_rank                 dim=4 rank=8                                   200      11       20/130471       37.708         0
+
+R_12_bottleneck
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  linear                   bn=learned dim=4                               100       0        0/64797         7.606         0
+  linear                   bn=pca dim=4                                   100       0        0/65667         1.652         0
+  linear                   bn=random dim=4                                100       0        0/61525         1.292         0
+  matched_param_fullrank   bn=learned dim=4                               100       2        2/64882        31.034         0
+  matched_param_fullrank   bn=pca dim=4                                   100       0        0/65817         3.563         0
+  matched_param_fullrank   bn=random dim=4                                100       0        0/61347         5.102         0
+  quantum_vqc              bn=learned dim=4                               100       0        0/65341        11.264         0
+  quantum_vqc              bn=pca dim=4                                   100       0        0/63869         2.063         0
+  quantum_vqc              bn=random dim=4                                100       0        0/60775         2.966         0
+
+R_14_readout
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  quantum_rich             aug=0 dim=4 fp=all lrh=1e-02 lrq=1e-02         200       1        1/125913       30.889         0
+  quantum_rich_padded      aug=0 dim=4 fp=all lrh=1e-02 lrq=1e-02         200       3        3/126198       27.179         0
+  quantum_vqc              aug=0 dim=4 fp=all lrh=1e-02 lrq=1e-02         200       1        1/126538       23.929         0
+
+R_15_dim8
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  fourier_rff              aug=0 dim=8 fp=all lrh=1e-02                   200     200     9142/127442      124.633         0
+  linear                   aug=0 dim=8 fp=all lrh=1e-02                   200       0        0/126120       14.910         0
+  low_rank                 aug=0 dim=8 fp=all lrh=1e-02                   200      14       16/126721       32.549         0
+  quantum_vqc              aug=0 dim=8 fp=all lrh=1e-02 lrq=1e-02         200       1        1/127670       21.377         0
+
+R_16_dim16
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  fourier_rff              aug=0 dim=16 fp=all lrh=1e-02                   50      50      788/12443       112.685         0
+  linear                   aug=0 dim=16 fp=all lrh=1e-02                   50       0        0/12808         8.193         0
+  low_rank                 aug=0 dim=16 fp=all lrh=1e-02                   50       1        1/12620        20.051         0
+  quantum_vqc              aug=0 dim=16 fp=all lrh=1e-02 lrq=1e-02         50       0        0/12083        16.262         0
+
+R_17_fulldata
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  fourier_rff              aug=0 dim=4 fp=all lrh=1e-02                    20       1        1/426122       21.876         0
+  linear                   aug=0 dim=4 fp=all lrh=1e-02                    20       0        0/426014       10.810         0
+  matched_param_fullrank   aug=0 dim=4 fp=all lrh=1e-02                    20       0        0/424070       17.199         0
+  quantum_vqc              aug=0 dim=4 fp=all lrh=1e-02 lrq=1e-02          20       3        3/423392       26.509         0
+
+R_18_depth
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  quantum_vqc              L=1 aug=0 dim=4 fp=all lrh=1e-02 lrq=1e-02     200       0        0/127514       16.309         0
+  quantum_vqc              L=2 aug=0 dim=4 fp=all lrh=1e-02 lrq=1e-02     200       1        1/126538       23.929         0
+  quantum_vqc              L=4 aug=0 dim=4 fp=all lrh=1e-02 lrq=1e-02     200       1        1/127261       22.863         0
+
+R_19_angle
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  matched_param_fullrank   as=1.5708 aug=0 dim=4 fp=all lrh=1e-02         200      20       26/127693       31.878         0
+  matched_param_fullrank   as=3.1416 aug=0 dim=4 fp=all lrh=1e-02         200      34       58/123688       56.478         0
+  quantum_vqc              as=1.5708 aug=0 dim=4 fp=all lrh=1e-02 lrq=1   200       1        1/126673       22.807         0
+  quantum_vqc              as=3.1416 aug=0 dim=4 fp=all lrh=1e-02 lrq=1   200      15       30/128137       30.191         0
+
+R_20_tanh
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  fourier_rff              aug=0 dim=4 fp=all lrh=1e-02 notanh=0          200      56      181/125536       51.344         0
+  fourier_rff              aug=0 dim=4 fp=all lrh=1e-02 notanh=1          200      31       70/127720       34.597         0
+  linear                   aug=0 dim=4 fp=all lrh=1e-02 notanh=0          200       0        0/127983       13.065         0
+  linear                   aug=0 dim=4 fp=all lrh=1e-02 notanh=1          200       0        0/127953       10.325         0
+  low_rank                 aug=0 dim=4 fp=all lrh=1e-02 notanh=0          200      15       18/126015       29.299         0
+  low_rank                 aug=0 dim=4 fp=all lrh=1e-02 notanh=1          200       2        2/126052       20.735         0
+  matched_param_fullrank   aug=0 dim=4 fp=all lrh=1e-02 notanh=0          200      20       26/127693       31.878         0
+  matched_param_fullrank   aug=0 dim=4 fp=all lrh=1e-02 notanh=1          200       9        9/127015       28.722         0
+  mlp                      aug=0 dim=4 fp=all lrh=1e-02 notanh=0          200       0        0/128099       10.135         0
+  mlp                      aug=0 dim=4 fp=all lrh=1e-02 notanh=1          200       0        0/126948        9.877         0
+
+R_21_ansatz
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  quantum_basic            aug=0 dim=4 fp=all lrh=1e-02 lrq=1e-02         200       2        2/126527       20.829         0
+  quantum_vqc              aug=0 dim=4 fp=all lrh=1e-02 lrq=1e-02         200       1        1/126538       23.929         0
+
+R_25_encoder
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  matched_param_fullrank   aug=0 dim=4 fp=all lrh=1e-02                   200      20       26/127693       31.878         0
+  matched_param_fullrank   aug=0 dim=4 fp=layer3_only lrh=1e-02           200      54      851/109397      184.778         0
+  quantum_vqc              aug=0 dim=4 fp=all lrh=1e-02 lrq=1e-02         200       1        1/126538       23.929         0
+  quantum_vqc              aug=0 dim=4 fp=layer3_only lrh=1e-02 lrq=1e-   200      26      452/112264      134.856         0
+
+R_26_bottleneck_tuned
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  matched_param_fullrank   aug=0 bn=pca dim=4 fp=all lrh=1e-02            800       0        0/469106       10.749         0
+  matched_param_fullrank   aug=0 bn=random dim=4 fp=all lrh=1e-02         800       0        0/493422       15.832         0
+  quantum_vqc              aug=0 bn=pca dim=4 fp=all lrh=1e-02 lrq=1e-0   800       0        0/489530        6.858         0
+  quantum_vqc              aug=0 bn=random dim=4 fp=all lrh=1e-02 lrq=1   800       0        0/455881       14.028         0
+
+R_27_capacity_tuned
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  low_rank                 aug=0 dim=4 fp=all lrh=1e-02 rank=0            800      19       25/508822       31.331         0
+  low_rank                 aug=0 dim=4 fp=all lrh=1e-02 rank=8            800     109      194/505386       44.980         0
+
+R_29_compression_frozen
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  linear                   aug=0 dim=256 fp=all lrh=3e-02                 240     112      426/975339       38.898         0
+  linear                   aug=0 dim=4 fp=all lrh=3e-02                   240       0        0/976990       11.517         0
+
+C_17_fulldata
+  arm                      config                                        runs  any>20           steps>20  max step nonfinite
+  fourier_rff              aug=0 dim=4 fp=all lrh=1e-02                     1       0        0/1800         19.512         0
+  linear                   aug=0 dim=4 fp=all lrh=1e-02                     1       0        0/1800         10.334         0
+  matched_param_fullrank   aug=0 dim=4 fp=all lrh=1e-02                     1       0        0/1278          5.354         0
+  quantum_vqc              aug=0 dim=4 fp=all lrh=1e-02 lrq=1e-02           1       0        0/1638         15.299         0
+
+P2 FAILS: 59 circuit runs had a step above 20.
+
+====================================================================================================
+3. RUNS IN WHICH CLIPPING ACTED, AND THEIR UNCLIPPED RE-EXECUTIONS (U_<source>)
+====================================================================================================
+01_frozen_tuned          runs with a step above 20:   984  re-executed unclipped:   984  {'fourier_rff': 234, 'fourier_rff_r2': 677, 'matched_param_fullrank': 66, 'quantum_reupload': 6, 'quantum_vqc': 1}
+03_robustness_v2         runs with a step above 20:    96  re-executed unclipped:    96  {'fourier_rff': 56, 'low_rank': 15, 'matched_param_fullrank': 20, 'quantum_rich': 1, 'quantum_rich_padded': 3, 'quantum_vqc': 1}
+09_lr_selection          runs with a step above 20:    73  re-executed unclipped:    73  {'fourier_rff': 57, 'matched_param_fullrank': 16}
+10_capacity              runs with a step above 20:    19  re-executed unclipped:    19  {'low_rank': 19}
+12_bottleneck            runs with a step above 20:     2  re-executed unclipped:     2  {'matched_param_fullrank': 2}
+14_readout               runs with a step above 20:     5  re-executed unclipped:     5  {'quantum_rich': 1, 'quantum_rich_padded': 3, 'quantum_vqc': 1}
+15_dim8                  runs with a step above 20:   215  re-executed unclipped:   215  {'fourier_rff': 200, 'low_rank': 14, 'quantum_vqc': 1}
+16_dim16                 runs with a step above 20:    51  re-executed unclipped:    51  {'fourier_rff': 50, 'low_rank': 1}
+17_fulldata              runs with a step above 20:     4  re-executed unclipped:     4  {'fourier_rff': 1, 'quantum_vqc': 3}
+18_depth                 runs with a step above 20:     2  re-executed unclipped:     2  {'quantum_vqc': 2}
+19_angle                 runs with a step above 20:    70  re-executed unclipped:    70  {'matched_param_fullrank': 54, 'quantum_vqc': 16}
+20_tanh                  runs with a step above 20:   133  re-executed unclipped:   133  {'fourier_rff': 87, 'low_rank': 17, 'matched_param_fullrank': 29}
+21_ansatz                runs with a step above 20:     3  re-executed unclipped:     3  {'quantum_basic': 2, 'quantum_vqc': 1}
+25_encoder               runs with a step above 20:   101  re-executed unclipped:   101  {'matched_param_fullrank': 74, 'quantum_vqc': 27}
+26_bottleneck_tuned      runs with a step above 20:     0  re-executed unclipped:     0  
+27_capacity_tuned        runs with a step above 20:   128  re-executed unclipped:   128  {'low_rank': 128}
+29_compression_frozen    runs with a step above 20:   112  re-executed unclipped:   112  {'linear': 112}

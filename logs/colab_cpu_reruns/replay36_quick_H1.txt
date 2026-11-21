@@ -1,0 +1,8 @@
+
+$ OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 /content/env/bin/python -u scripts/replay.py --source 36_nosquash --clip 20 --code-at 10ce9593 --quick --seeds 42 888 161803 6174 65537 2027 11235 8191 8128 5040
+replay | source=36_nosquash -> C_36_nosquash | clip=20.0 | runs=1 | code=10ce9593 (/content/replay_trees/10ce9593) | device=cpu
+[1/1] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.849  | breastmnist n=5 s=42 quantum_vqc | 0.1 min
+
+replay summary 36_nosquash -> C_36_nosquash: identical 1, different 0, of 1
+QUICK CHECK PASSED
+exit code 0

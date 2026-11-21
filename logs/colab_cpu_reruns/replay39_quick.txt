@@ -1,0 +1,9 @@
+
+$ OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /content/env/bin/python -u scripts/replay.py --source 39_fourier_cpu --clip 20 --code-at 260d11f5 --quick --seeds 42 161803 65537 11235 8128
+replay | source=39_fourier_cpu -> C_39_fourier_cpu | clip=20.0 | runs=2 | code=260d11f5 (/content/replay_trees/260d11f5) | device=cpu
+[1/2] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=10.061  | breastmnist n=5 s=42 fourier_rff | 0.0 min
+[2/2] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=11.567  | breastmnist n=5 s=42 fourier_rff | 0.0 min
+
+replay summary 39_fourier_cpu -> C_39_fourier_cpu: identical 2, different 0, of 2
+QUICK CHECK PASSED
+exit code 0

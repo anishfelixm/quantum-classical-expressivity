@@ -1,0 +1,481 @@
+
+Trainable capacity at d=4, bottleneck=learned:
+  quantum_reupload         bottleneck= 1028 head=  24 clf= 10 total= 1062 head=2.3%
+
+Experiment 1 | 400 cells | ns=31_entangling_range | device=cpu | sha=58852d84
+  augment=False L=2 use_tanh=True bottleneck=learned angle_scale=1.5708 save_predictions=True
+[1/400] breastmnist r=5 d=4 froz s=42 quantum_reupload         auc=0.7153 f1=0.5521 ETA 0.5h
+[2/400] breastmnist r=5 d=4 froz s=2026 quantum_reupload         auc=0.6435 f1=0.5822 ETA 0.5h
+[3/400] breastmnist r=5 d=4 froz s=888 quantum_reupload         auc=0.7423 f1=0.6545 ETA 0.5h
+[4/400] breastmnist r=5 d=4 froz s=8 quantum_reupload         auc=0.6454 f1=0.3590 ETA 0.5h
+[5/400] breastmnist r=5 d=4 froz s=161803 quantum_reupload         auc=0.7009 f1=0.6308 ETA 0.5h
+[6/400] breastmnist r=5 d=4 froz s=99 quantum_reupload         auc=0.6807 f1=0.6194 ETA 0.5h
+[7/400] breastmnist r=5 d=4 froz s=6174 quantum_reupload         auc=0.7086 f1=0.5250 ETA 0.5h
+[8/400] breastmnist r=5 d=4 froz s=40 quantum_reupload         auc=0.5036 f1=0.2121 ETA 0.5h
+[9/400] breastmnist r=5 d=4 froz s=65537 quantum_reupload         auc=0.7076 f1=0.5277 ETA 0.5h
+[10/400] breastmnist r=5 d=4 froz s=987654 quantum_reupload         auc=0.7208 f1=0.5965 ETA 0.5h
+[11/400] breastmnist r=5 d=4 froz s=2027 quantum_reupload         auc=0.7082 f1=0.6048 ETA 0.5h
+[12/400] breastmnist r=5 d=4 froz s=9001 quantum_reupload         auc=0.6961 f1=0.6046 ETA 0.5h
+[13/400] breastmnist r=5 d=4 froz s=11235 quantum_reupload         auc=0.7492 f1=0.6840 ETA 0.5h
+[14/400] breastmnist r=5 d=4 froz s=60221 quantum_reupload         auc=0.6078 f1=0.4701 ETA 0.5h
+[15/400] breastmnist r=5 d=4 froz s=8191 quantum_reupload         auc=0.6796 f1=0.6090 ETA 0.5h
+[16/400] breastmnist r=5 d=4 froz s=17 quantum_reupload         auc=0.5535 f1=0.4865 ETA 0.5h
+[17/400] breastmnist r=5 d=4 froz s=8128 quantum_reupload         auc=0.7162 f1=0.5901 ETA 0.5h
+[18/400] breastmnist r=5 d=4 froz s=1597 quantum_reupload         auc=0.6637 f1=0.5802 ETA 0.5h
+[19/400] breastmnist r=5 d=4 froz s=5040 quantum_reupload         auc=0.6408 f1=0.5170 ETA 0.5h
+[20/400] breastmnist r=5 d=4 froz s=2520 quantum_reupload         auc=0.7018 f1=0.5037 ETA 0.5h
+[21/400] breastmnist r=10 d=4 froz s=42 quantum_reupload         auc=0.6878 f1=0.5838 ETA 0.5h
+[22/400] breastmnist r=10 d=4 froz s=2026 quantum_reupload         auc=0.6276 f1=0.3194 ETA 0.5h
+[23/400] breastmnist r=10 d=4 froz s=888 quantum_reupload         auc=0.7178 f1=0.6017 ETA 0.5h
+[24/400] breastmnist r=10 d=4 froz s=8 quantum_reupload         auc=0.7408 f1=0.6175 ETA 0.5h
+[25/400] breastmnist r=10 d=4 froz s=161803 quantum_reupload         auc=0.7260 f1=0.6280 ETA 0.5h
+[26/400] breastmnist r=10 d=4 froz s=99 quantum_reupload         auc=0.7569 f1=0.6630 ETA 0.5h
+[27/400] breastmnist r=10 d=4 froz s=6174 quantum_reupload         auc=0.7508 f1=0.6565 ETA 0.5h
+[28/400] breastmnist r=10 d=4 froz s=40 quantum_reupload         auc=0.7139 f1=0.6620 ETA 0.5h
+[29/400] breastmnist r=10 d=4 froz s=65537 quantum_reupload         auc=0.5919 f1=0.4222 ETA 0.5h
+[30/400] breastmnist r=10 d=4 froz s=987654 quantum_reupload         auc=0.6782 f1=0.6046 ETA 0.5h
+[31/400] breastmnist r=10 d=4 froz s=2027 quantum_reupload         auc=0.6869 f1=0.6356 ETA 0.5h
+[32/400] breastmnist r=10 d=4 froz s=9001 quantum_reupload         auc=0.7732 f1=0.6852 ETA 0.5h
+[33/400] breastmnist r=10 d=4 froz s=11235 quantum_reupload         auc=0.7137 f1=0.6538 ETA 0.5h
+[34/400] breastmnist r=10 d=4 froz s=60221 quantum_reupload         auc=0.6324 f1=0.5543 ETA 0.5h
+[35/400] breastmnist r=10 d=4 froz s=8191 quantum_reupload         auc=0.6543 f1=0.5804 ETA 0.5h
+[36/400] breastmnist r=10 d=4 froz s=17 quantum_reupload         auc=0.7068 f1=0.6799 ETA 0.6h
+[37/400] breastmnist r=10 d=4 froz s=8128 quantum_reupload         auc=0.7517 f1=0.6465 ETA 0.6h
+[38/400] breastmnist r=10 d=4 froz s=1597 quantum_reupload         auc=0.7523 f1=0.6739 ETA 0.6h
+[39/400] breastmnist r=10 d=4 froz s=5040 quantum_reupload         auc=0.7343 f1=0.6876 ETA 0.6h
+[40/400] breastmnist r=10 d=4 froz s=2520 quantum_reupload         auc=0.7728 f1=0.6909 ETA 0.6h
+[41/400] breastmnist r=20 d=4 froz s=42 quantum_reupload         auc=0.7078 f1=0.4222 ETA 0.6h
+[42/400] breastmnist r=20 d=4 froz s=2026 quantum_reupload         auc=0.7329 f1=0.6119 ETA 0.6h
+[43/400] breastmnist r=20 d=4 froz s=888 quantum_reupload         auc=0.6813 f1=0.5037 ETA 0.6h
+[44/400] breastmnist r=20 d=4 froz s=8 quantum_reupload         auc=0.8051 f1=0.5771 ETA 0.6h
+[45/400] breastmnist r=20 d=4 froz s=161803 quantum_reupload         auc=0.7715 f1=0.7201 ETA 0.6h
+[46/400] breastmnist r=20 d=4 froz s=99 quantum_reupload         auc=0.7082 f1=0.5054 ETA 0.6h
+[47/400] breastmnist r=20 d=4 froz s=6174 quantum_reupload         auc=0.7304 f1=0.6763 ETA 0.6h
+[48/400] breastmnist r=20 d=4 froz s=40 quantum_reupload         auc=0.7502 f1=0.6068 ETA 0.6h
+[49/400] breastmnist r=20 d=4 froz s=65537 quantum_reupload         auc=0.7525 f1=0.6827 ETA 0.6h
+[50/400] breastmnist r=20 d=4 froz s=987654 quantum_reupload         auc=0.7663 f1=0.6432 ETA 0.7h
+[51/400] breastmnist r=20 d=4 froz s=2027 quantum_reupload         auc=0.6871 f1=0.6051 ETA 0.7h
+[52/400] breastmnist r=20 d=4 froz s=9001 quantum_reupload         auc=0.6748 f1=0.2219 ETA 0.7h
+[53/400] breastmnist r=20 d=4 froz s=11235 quantum_reupload         auc=0.7325 f1=0.4936 ETA 0.7h
+[54/400] breastmnist r=20 d=4 froz s=60221 quantum_reupload         auc=0.7135 f1=0.4222 ETA 0.7h
+[55/400] breastmnist r=20 d=4 froz s=8191 quantum_reupload         auc=0.7308 f1=0.6230 ETA 0.7h
+[56/400] breastmnist r=20 d=4 froz s=17 quantum_reupload         auc=0.7128 f1=0.4222 ETA 0.7h
+[57/400] breastmnist r=20 d=4 froz s=8128 quantum_reupload         auc=0.7387 f1=0.6320 ETA 0.7h
+[58/400] breastmnist r=20 d=4 froz s=1597 quantum_reupload         auc=0.7013 f1=0.4222 ETA 0.7h
+[59/400] breastmnist r=20 d=4 froz s=5040 quantum_reupload         auc=0.7291 f1=0.5600 ETA 0.7h
+[60/400] breastmnist r=20 d=4 froz s=2520 quantum_reupload         auc=0.7657 f1=0.6638 ETA 0.7h
+[61/400] breastmnist r=50 d=4 froz s=42 quantum_reupload         auc=0.6953 f1=0.4222 ETA 0.7h
+[62/400] breastmnist r=50 d=4 froz s=2026 quantum_reupload         auc=0.7220 f1=0.4222 ETA 0.7h
+[63/400] breastmnist r=50 d=4 froz s=888 quantum_reupload         auc=0.7590 f1=0.6763 ETA 0.7h
+[64/400] breastmnist r=50 d=4 froz s=8 quantum_reupload         auc=0.7245 f1=0.5976 ETA 0.7h
+[65/400] breastmnist r=50 d=4 froz s=161803 quantum_reupload         auc=0.7840 f1=0.4871 ETA 0.7h
+[66/400] breastmnist r=50 d=4 froz s=99 quantum_reupload         auc=0.7306 f1=0.2121 ETA 0.7h
+[67/400] breastmnist r=50 d=4 froz s=6174 quantum_reupload         auc=0.8150 f1=0.7370 ETA 0.8h
+[68/400] breastmnist r=50 d=4 froz s=40 quantum_reupload         auc=0.8091 f1=0.7189 ETA 0.8h
+[69/400] breastmnist r=50 d=4 froz s=65537 quantum_reupload         auc=0.7891 f1=0.6061 ETA 0.8h
+[70/400] breastmnist r=50 d=4 froz s=987654 quantum_reupload         auc=0.7874 f1=0.6991 ETA 0.8h
+[71/400] breastmnist r=50 d=4 froz s=2027 quantum_reupload         auc=0.7953 f1=0.7025 ETA 0.8h
+[72/400] breastmnist r=50 d=4 froz s=9001 quantum_reupload         auc=0.7953 f1=0.7225 ETA 0.8h
+[73/400] breastmnist r=50 d=4 froz s=11235 quantum_reupload         auc=0.7627 f1=0.6599 ETA 0.9h
+[74/400] breastmnist r=50 d=4 froz s=60221 quantum_reupload         auc=0.8045 f1=0.6272 ETA 0.9h
+[75/400] breastmnist r=50 d=4 froz s=8191 quantum_reupload         auc=0.7934 f1=0.7094 ETA 0.9h
+[76/400] breastmnist r=50 d=4 froz s=17 quantum_reupload         auc=0.7680 f1=0.7094 ETA 0.9h
+[77/400] breastmnist r=50 d=4 froz s=8128 quantum_reupload         auc=0.7730 f1=0.6492 ETA 0.9h
+[78/400] breastmnist r=50 d=4 froz s=1597 quantum_reupload         auc=0.7335 f1=0.5929 ETA 0.9h
+[79/400] breastmnist r=50 d=4 froz s=5040 quantum_reupload         auc=0.7487 f1=0.5647 ETA 0.9h
+[80/400] breastmnist r=50 d=4 froz s=2520 quantum_reupload         auc=0.8198 f1=0.6365 ETA 0.9h
+[81/400] breastmnist r=100 d=4 froz s=42 quantum_reupload         auc=0.7609 f1=0.6304 ETA 0.9h
+[82/400] breastmnist r=100 d=4 froz s=2026 quantum_reupload         auc=0.8225 f1=0.7471 ETA 0.9h
+[83/400] breastmnist r=100 d=4 froz s=888 quantum_reupload         auc=0.8388 f1=0.7438 ETA 1.0h
+[84/400] breastmnist r=100 d=4 froz s=8 quantum_reupload         auc=0.8139 f1=0.7237 ETA 1.0h
+[85/400] breastmnist r=100 d=4 froz s=161803 quantum_reupload         auc=0.8068 f1=0.7204 ETA 1.0h
+[86/400] breastmnist r=100 d=4 froz s=99 quantum_reupload         auc=0.7857 f1=0.6673 ETA 1.0h
+[87/400] breastmnist r=100 d=4 froz s=6174 quantum_reupload         auc=0.7930 f1=0.7083 ETA 1.0h
+[88/400] breastmnist r=100 d=4 froz s=40 quantum_reupload         auc=0.7462 f1=0.6698 ETA 1.0h
+[89/400] breastmnist r=100 d=4 froz s=65537 quantum_reupload         auc=0.8139 f1=0.3874 ETA 1.1h
+[90/400] breastmnist r=100 d=4 froz s=987654 quantum_reupload         auc=0.8404 f1=0.7503 ETA 1.1h
+[91/400] breastmnist r=100 d=4 froz s=2027 quantum_reupload         auc=0.8498 f1=0.6923 ETA 1.1h
+[92/400] breastmnist r=100 d=4 froz s=9001 quantum_reupload         auc=0.7907 f1=0.6627 ETA 1.1h
+[93/400] breastmnist r=100 d=4 froz s=11235 quantum_reupload         auc=0.8294 f1=0.7592 ETA 1.1h
+[94/400] breastmnist r=100 d=4 froz s=60221 quantum_reupload         auc=0.8212 f1=0.7592 ETA 1.1h
+[95/400] breastmnist r=100 d=4 froz s=8191 quantum_reupload         auc=0.8043 f1=0.6348 ETA 1.2h
+[96/400] breastmnist r=100 d=4 froz s=17 quantum_reupload         auc=0.7951 f1=0.6657 ETA 1.2h
+[97/400] breastmnist r=100 d=4 froz s=8128 quantum_reupload         auc=0.8102 f1=0.6999 ETA 1.2h
+[98/400] breastmnist r=100 d=4 froz s=1597 quantum_reupload         auc=0.7811 f1=0.6971 ETA 1.2h
+[99/400] breastmnist r=100 d=4 froz s=5040 quantum_reupload         auc=0.8005 f1=0.6417 ETA 1.2h
+[100/400] breastmnist r=100 d=4 froz s=2520 quantum_reupload         auc=0.7565 f1=0.6803 ETA 1.2h
+[101/400] pneumoniamnist r=5 d=4 froz s=42 quantum_reupload         auc=0.8764 f1=0.2727 ETA 1.2h
+[102/400] pneumoniamnist r=5 d=4 froz s=2026 quantum_reupload         auc=0.9139 f1=0.7778 ETA 1.2h
+[103/400] pneumoniamnist r=5 d=4 froz s=888 quantum_reupload         auc=0.9159 f1=0.8305 ETA 1.2h
+[104/400] pneumoniamnist r=5 d=4 froz s=8 quantum_reupload         auc=0.9192 f1=0.8463 ETA 1.2h
+[105/400] pneumoniamnist r=5 d=4 froz s=161803 quantum_reupload         auc=0.9169 f1=0.8273 ETA 1.2h
+[106/400] pneumoniamnist r=5 d=4 froz s=99 quantum_reupload         auc=0.8901 f1=0.8125 ETA 1.2h
+[107/400] pneumoniamnist r=5 d=4 froz s=6174 quantum_reupload         auc=0.9079 f1=0.8090 ETA 1.1h
+[108/400] pneumoniamnist r=5 d=4 froz s=40 quantum_reupload         auc=0.9067 f1=0.7762 ETA 1.1h
+[109/400] pneumoniamnist r=5 d=4 froz s=65537 quantum_reupload         auc=0.9050 f1=0.4523 ETA 1.1h
+[110/400] pneumoniamnist r=5 d=4 froz s=987654 quantum_reupload         auc=0.9099 f1=0.7976 ETA 1.1h
+[111/400] pneumoniamnist r=5 d=4 froz s=2027 quantum_reupload         auc=0.9098 f1=0.7705 ETA 1.1h
+[112/400] pneumoniamnist r=5 d=4 froz s=9001 quantum_reupload         auc=0.9187 f1=0.4337 ETA 1.1h
+[113/400] pneumoniamnist r=5 d=4 froz s=11235 quantum_reupload         auc=0.8925 f1=0.7579 ETA 1.1h
+[114/400] pneumoniamnist r=5 d=4 froz s=60221 quantum_reupload         auc=0.8992 f1=0.8163 ETA 1.1h
+[115/400] pneumoniamnist r=5 d=4 froz s=8191 quantum_reupload         auc=0.8914 f1=0.4727 ETA 1.1h
+[116/400] pneumoniamnist r=5 d=4 froz s=17 quantum_reupload         auc=0.8578 f1=0.7688 ETA 1.1h
+[117/400] pneumoniamnist r=5 d=4 froz s=8128 quantum_reupload         auc=0.8951 f1=0.3893 ETA 1.0h
+[118/400] pneumoniamnist r=5 d=4 froz s=1597 quantum_reupload         auc=0.8937 f1=0.7622 ETA 1.0h
+[119/400] pneumoniamnist r=5 d=4 froz s=5040 quantum_reupload         auc=0.9002 f1=0.8240 ETA 1.0h
+[120/400] pneumoniamnist r=5 d=4 froz s=2520 quantum_reupload         auc=0.8771 f1=0.7678 ETA 1.0h
+[121/400] pneumoniamnist r=10 d=4 froz s=42 quantum_reupload         auc=0.9265 f1=0.8567 ETA 1.0h
+[122/400] pneumoniamnist r=10 d=4 froz s=2026 quantum_reupload         auc=0.8844 f1=0.8178 ETA 1.0h
+[123/400] pneumoniamnist r=10 d=4 froz s=888 quantum_reupload         auc=0.9117 f1=0.8169 ETA 1.0h
+[124/400] pneumoniamnist r=10 d=4 froz s=8 quantum_reupload         auc=0.9252 f1=0.7874 ETA 1.0h
+[125/400] pneumoniamnist r=10 d=4 froz s=161803 quantum_reupload         auc=0.9080 f1=0.8082 ETA 1.0h
+[126/400] pneumoniamnist r=10 d=4 froz s=99 quantum_reupload         auc=0.9158 f1=0.8403 ETA 1.0h
+[127/400] pneumoniamnist r=10 d=4 froz s=6174 quantum_reupload         auc=0.9124 f1=0.7972 ETA 1.0h
+[128/400] pneumoniamnist r=10 d=4 froz s=40 quantum_reupload         auc=0.8782 f1=0.8118 ETA 1.0h
+[129/400] pneumoniamnist r=10 d=4 froz s=65537 quantum_reupload         auc=0.9194 f1=0.8079 ETA 1.0h
+[130/400] pneumoniamnist r=10 d=4 froz s=987654 quantum_reupload         auc=0.9169 f1=0.8143 ETA 0.9h
+[131/400] pneumoniamnist r=10 d=4 froz s=2027 quantum_reupload         auc=0.9038 f1=0.7782 ETA 0.9h
+[132/400] pneumoniamnist r=10 d=4 froz s=9001 quantum_reupload         auc=0.9127 f1=0.8200 ETA 0.9h
+[133/400] pneumoniamnist r=10 d=4 froz s=11235 quantum_reupload         auc=0.8927 f1=0.7793 ETA 0.9h
+[134/400] pneumoniamnist r=10 d=4 froz s=60221 quantum_reupload         auc=0.9009 f1=0.8260 ETA 0.9h
+[135/400] pneumoniamnist r=10 d=4 froz s=8191 quantum_reupload         auc=0.9256 f1=0.8193 ETA 0.9h
+[136/400] pneumoniamnist r=10 d=4 froz s=17 quantum_reupload         auc=0.9103 f1=0.8200 ETA 0.9h
+[137/400] pneumoniamnist r=10 d=4 froz s=8128 quantum_reupload         auc=0.9238 f1=0.5441 ETA 0.9h
+[138/400] pneumoniamnist r=10 d=4 froz s=1597 quantum_reupload         auc=0.9171 f1=0.8493 ETA 0.9h
+[139/400] pneumoniamnist r=10 d=4 froz s=5040 quantum_reupload         auc=0.9239 f1=0.8313 ETA 0.9h
+[140/400] pneumoniamnist r=10 d=4 froz s=2520 quantum_reupload         auc=0.9095 f1=0.7969 ETA 0.9h
+[141/400] pneumoniamnist r=20 d=4 froz s=42 quantum_reupload         auc=0.9260 f1=0.8265 ETA 0.9h
+[142/400] pneumoniamnist r=20 d=4 froz s=2026 quantum_reupload         auc=0.9337 f1=0.8540 ETA 0.9h
+[143/400] pneumoniamnist r=20 d=4 froz s=888 quantum_reupload         auc=0.9184 f1=0.8443 ETA 0.9h
+[144/400] pneumoniamnist r=20 d=4 froz s=8 quantum_reupload         auc=0.9377 f1=0.8411 ETA 0.9h
+[145/400] pneumoniamnist r=20 d=4 froz s=161803 quantum_reupload         auc=0.9187 f1=0.8303 ETA 0.9h
+[146/400] pneumoniamnist r=20 d=4 froz s=99 quantum_reupload         auc=0.9179 f1=0.7850 ETA 0.9h
+[147/400] pneumoniamnist r=20 d=4 froz s=6174 quantum_reupload         auc=0.9231 f1=0.8481 ETA 0.9h
+[148/400] pneumoniamnist r=20 d=4 froz s=40 quantum_reupload         auc=0.9100 f1=0.8290 ETA 0.9h
+[149/400] pneumoniamnist r=20 d=4 froz s=65537 quantum_reupload         auc=0.9228 f1=0.8238 ETA 0.9h
+[150/400] pneumoniamnist r=20 d=4 froz s=987654 quantum_reupload         auc=0.9368 f1=0.8618 ETA 0.9h
+[151/400] pneumoniamnist r=20 d=4 froz s=2027 quantum_reupload         auc=0.9376 f1=0.8376 ETA 0.9h
+[152/400] pneumoniamnist r=20 d=4 froz s=9001 quantum_reupload         auc=0.9236 f1=0.2727 ETA 0.9h
+[153/400] pneumoniamnist r=20 d=4 froz s=11235 quantum_reupload         auc=0.9218 f1=0.8464 ETA 0.8h
+[154/400] pneumoniamnist r=20 d=4 froz s=60221 quantum_reupload         auc=0.9313 f1=0.8081 ETA 0.8h
+[155/400] pneumoniamnist r=20 d=4 froz s=8191 quantum_reupload         auc=0.9016 f1=0.2727 ETA 0.8h
+[156/400] pneumoniamnist r=20 d=4 froz s=17 quantum_reupload         auc=0.9194 f1=0.8373 ETA 0.8h
+[157/400] pneumoniamnist r=20 d=4 froz s=8128 quantum_reupload         auc=0.9245 f1=0.5798 ETA 0.8h
+[158/400] pneumoniamnist r=20 d=4 froz s=1597 quantum_reupload         auc=0.9262 f1=0.8520 ETA 0.8h
+[159/400] pneumoniamnist r=20 d=4 froz s=5040 quantum_reupload         auc=0.9230 f1=0.8181 ETA 0.8h
+[160/400] pneumoniamnist r=20 d=4 froz s=2520 quantum_reupload         auc=0.9081 f1=0.8318 ETA 0.8h
+[161/400] pneumoniamnist r=50 d=4 froz s=42 quantum_reupload         auc=0.9094 f1=0.8141 ETA 0.8h
+[162/400] pneumoniamnist r=50 d=4 froz s=2026 quantum_reupload         auc=0.9325 f1=0.8385 ETA 0.8h
+[163/400] pneumoniamnist r=50 d=4 froz s=888 quantum_reupload         auc=0.9113 f1=0.8157 ETA 0.8h
+[164/400] pneumoniamnist r=50 d=4 froz s=8 quantum_reupload         auc=0.9326 f1=0.8423 ETA 0.8h
+[165/400] pneumoniamnist r=50 d=4 froz s=161803 quantum_reupload         auc=0.9250 f1=0.8452 ETA 0.8h
+[166/400] pneumoniamnist r=50 d=4 froz s=99 quantum_reupload         auc=0.9172 f1=0.8206 ETA 0.8h
+[167/400] pneumoniamnist r=50 d=4 froz s=6174 quantum_reupload         auc=0.9284 f1=0.8075 ETA 0.8h
+[168/400] pneumoniamnist r=50 d=4 froz s=40 quantum_reupload         auc=0.9176 f1=0.8362 ETA 0.9h
+[169/400] pneumoniamnist r=50 d=4 froz s=65537 quantum_reupload         auc=0.8780 f1=0.7736 ETA 0.9h
+[170/400] pneumoniamnist r=50 d=4 froz s=987654 quantum_reupload         auc=0.9236 f1=0.8143 ETA 0.9h
+[171/400] pneumoniamnist r=50 d=4 froz s=2027 quantum_reupload         auc=0.9414 f1=0.8721 ETA 0.9h
+[172/400] pneumoniamnist r=50 d=4 froz s=9001 quantum_reupload         auc=0.9248 f1=0.8424 ETA 0.9h
+[173/400] pneumoniamnist r=50 d=4 froz s=11235 quantum_reupload         auc=0.9081 f1=0.8318 ETA 0.9h
+[174/400] pneumoniamnist r=50 d=4 froz s=60221 quantum_reupload         auc=0.9093 f1=0.8389 ETA 0.9h
+[175/400] pneumoniamnist r=50 d=4 froz s=8191 quantum_reupload         auc=0.9294 f1=0.8350 ETA 0.9h
+[176/400] pneumoniamnist r=50 d=4 froz s=17 quantum_reupload         auc=0.9217 f1=0.8295 ETA 0.9h
+[177/400] pneumoniamnist r=50 d=4 froz s=8128 quantum_reupload         auc=0.9441 f1=0.8458 ETA 0.9h
+[178/400] pneumoniamnist r=50 d=4 froz s=1597 quantum_reupload         auc=0.9270 f1=0.8222 ETA 0.9h
+[179/400] pneumoniamnist r=50 d=4 froz s=5040 quantum_reupload         auc=0.9334 f1=0.8483 ETA 0.9h
+[180/400] pneumoniamnist r=50 d=4 froz s=2520 quantum_reupload         auc=0.9231 f1=0.8301 ETA 0.9h
+[181/400] pneumoniamnist r=100 d=4 froz s=42 quantum_reupload         auc=0.9386 f1=0.8620 ETA 0.9h
+[182/400] pneumoniamnist r=100 d=4 froz s=2026 quantum_reupload         auc=0.9160 f1=0.8363 ETA 0.9h
+[183/400] pneumoniamnist r=100 d=4 froz s=888 quantum_reupload         auc=0.9361 f1=0.8559 ETA 0.9h
+[184/400] pneumoniamnist r=100 d=4 froz s=8 quantum_reupload         auc=0.9344 f1=0.8529 ETA 0.9h
+[185/400] pneumoniamnist r=100 d=4 froz s=161803 quantum_reupload         auc=0.9295 f1=0.8430 ETA 0.9h
+[186/400] pneumoniamnist r=100 d=4 froz s=99 quantum_reupload         auc=0.9395 f1=0.8482 ETA 0.9h
+[187/400] pneumoniamnist r=100 d=4 froz s=6174 quantum_reupload         auc=0.9237 f1=0.7730 ETA 0.9h
+[188/400] pneumoniamnist r=100 d=4 froz s=40 quantum_reupload         auc=0.9439 f1=0.8565 ETA 1.0h
+[189/400] pneumoniamnist r=100 d=4 froz s=65537 quantum_reupload         auc=0.9386 f1=0.8662 ETA 1.0h
+[190/400] pneumoniamnist r=100 d=4 froz s=987654 quantum_reupload         auc=0.9474 f1=0.8613 ETA 1.0h
+[191/400] pneumoniamnist r=100 d=4 froz s=2027 quantum_reupload         auc=0.9319 f1=0.8442 ETA 1.0h
+[192/400] pneumoniamnist r=100 d=4 froz s=9001 quantum_reupload         auc=0.9308 f1=0.8249 ETA 1.0h
+[193/400] pneumoniamnist r=100 d=4 froz s=11235 quantum_reupload         auc=0.9560 f1=0.8629 ETA 1.0h
+[194/400] pneumoniamnist r=100 d=4 froz s=60221 quantum_reupload         auc=0.9410 f1=0.8308 ETA 1.0h
+[195/400] pneumoniamnist r=100 d=4 froz s=8191 quantum_reupload         auc=0.9387 f1=0.8389 ETA 1.0h
+[196/400] pneumoniamnist r=100 d=4 froz s=17 quantum_reupload         auc=0.9363 f1=0.8462 ETA 1.0h
+[197/400] pneumoniamnist r=100 d=4 froz s=8128 quantum_reupload         auc=0.9353 f1=0.7957 ETA 1.0h
+[198/400] pneumoniamnist r=100 d=4 froz s=1597 quantum_reupload         auc=0.9289 f1=0.8281 ETA 1.0h
+[199/400] pneumoniamnist r=100 d=4 froz s=5040 quantum_reupload         auc=0.9458 f1=0.8732 ETA 1.0h
+[200/400] pneumoniamnist r=100 d=4 froz s=2520 quantum_reupload         auc=0.9208 f1=0.8292 ETA 1.0h
+[201/400] bloodmnist r=5 d=4 froz s=42 quantum_reupload         auc=0.8228 f1=0.2890 ETA 1.0h
+[202/400] bloodmnist r=5 d=4 froz s=2026 quantum_reupload         auc=0.7955 f1=0.2636 ETA 1.0h
+[203/400] bloodmnist r=5 d=4 froz s=888 quantum_reupload         auc=0.8159 f1=0.3865 ETA 1.0h
+[204/400] bloodmnist r=5 d=4 froz s=8 quantum_reupload         auc=0.8171 f1=0.3247 ETA 1.0h
+[205/400] bloodmnist r=5 d=4 froz s=161803 quantum_reupload         auc=0.7913 f1=0.2319 ETA 1.0h
+[206/400] bloodmnist r=5 d=4 froz s=99 quantum_reupload         auc=0.8396 f1=0.2943 ETA 1.0h
+[207/400] bloodmnist r=5 d=4 froz s=6174 quantum_reupload         auc=0.7871 f1=0.3199 ETA 1.0h
+[208/400] bloodmnist r=5 d=4 froz s=40 quantum_reupload         auc=0.8312 f1=0.3644 ETA 0.9h
+[209/400] bloodmnist r=5 d=4 froz s=65537 quantum_reupload         auc=0.7728 f1=0.3507 ETA 0.9h
+[210/400] bloodmnist r=5 d=4 froz s=987654 quantum_reupload         auc=0.7165 f1=0.1252 ETA 0.9h
+[211/400] bloodmnist r=5 d=4 froz s=2027 quantum_reupload         auc=0.8214 f1=0.3248 ETA 0.9h
+[212/400] bloodmnist r=5 d=4 froz s=9001 quantum_reupload         auc=0.8423 f1=0.3745 ETA 0.9h
+[213/400] bloodmnist r=5 d=4 froz s=11235 quantum_reupload         auc=0.7700 f1=0.2325 ETA 0.9h
+[214/400] bloodmnist r=5 d=4 froz s=60221 quantum_reupload         auc=0.7362 f1=0.2547 ETA 0.9h
+[215/400] bloodmnist r=5 d=4 froz s=8191 quantum_reupload         auc=0.7788 f1=0.1734 ETA 0.9h
+[216/400] bloodmnist r=5 d=4 froz s=17 quantum_reupload         auc=0.8127 f1=0.3674 ETA 0.9h
+[217/400] bloodmnist r=5 d=4 froz s=8128 quantum_reupload         auc=0.8282 f1=0.3090 ETA 0.9h
+[218/400] bloodmnist r=5 d=4 froz s=1597 quantum_reupload         auc=0.7924 f1=0.3644 ETA 0.9h
+[219/400] bloodmnist r=5 d=4 froz s=5040 quantum_reupload         auc=0.7198 f1=0.2450 ETA 0.9h
+[220/400] bloodmnist r=5 d=4 froz s=2520 quantum_reupload         auc=0.7925 f1=0.3084 ETA 0.9h
+[221/400] bloodmnist r=10 d=4 froz s=42 quantum_reupload         auc=0.8281 f1=0.3448 ETA 0.9h
+[222/400] bloodmnist r=10 d=4 froz s=2026 quantum_reupload         auc=0.8513 f1=0.4116 ETA 0.9h
+[223/400] bloodmnist r=10 d=4 froz s=888 quantum_reupload         auc=0.8397 f1=0.3751 ETA 0.9h
+[224/400] bloodmnist r=10 d=4 froz s=8 quantum_reupload         auc=0.8390 f1=0.3222 ETA 0.9h
+[225/400] bloodmnist r=10 d=4 froz s=161803 quantum_reupload         auc=0.8634 f1=0.4392 ETA 0.9h
+[226/400] bloodmnist r=10 d=4 froz s=99 quantum_reupload         auc=0.8606 f1=0.4458 ETA 0.9h
+[227/400] bloodmnist r=10 d=4 froz s=6174 quantum_reupload         auc=0.8749 f1=0.4727 ETA 0.9h
+[228/400] bloodmnist r=10 d=4 froz s=40 quantum_reupload         auc=0.8547 f1=0.3844 ETA 0.9h
+[229/400] bloodmnist r=10 d=4 froz s=65537 quantum_reupload         auc=0.7629 f1=0.2959 ETA 0.9h
+[230/400] bloodmnist r=10 d=4 froz s=987654 quantum_reupload         auc=0.8403 f1=0.3594 ETA 0.8h
+[231/400] bloodmnist r=10 d=4 froz s=2027 quantum_reupload         auc=0.8824 f1=0.4397 ETA 0.8h
+[232/400] bloodmnist r=10 d=4 froz s=9001 quantum_reupload         auc=0.8607 f1=0.4590 ETA 0.8h
+[233/400] bloodmnist r=10 d=4 froz s=11235 quantum_reupload         auc=0.8590 f1=0.4647 ETA 0.8h
+[234/400] bloodmnist r=10 d=4 froz s=60221 quantum_reupload         auc=0.8706 f1=0.4573 ETA 0.8h
+[235/400] bloodmnist r=10 d=4 froz s=8191 quantum_reupload         auc=0.8397 f1=0.3963 ETA 0.8h
+[236/400] bloodmnist r=10 d=4 froz s=17 quantum_reupload         auc=0.8876 f1=0.4838 ETA 0.8h
+[237/400] bloodmnist r=10 d=4 froz s=8128 quantum_reupload         auc=0.9042 f1=0.5395 ETA 0.8h
+[238/400] bloodmnist r=10 d=4 froz s=1597 quantum_reupload         auc=0.8960 f1=0.5253 ETA 0.8h
+[239/400] bloodmnist r=10 d=4 froz s=5040 quantum_reupload         auc=0.8423 f1=0.4178 ETA 0.8h
+[240/400] bloodmnist r=10 d=4 froz s=2520 quantum_reupload         auc=0.8711 f1=0.4821 ETA 0.8h
+[241/400] bloodmnist r=20 d=4 froz s=42 quantum_reupload         auc=0.8954 f1=0.4878 ETA 0.8h
+[242/400] bloodmnist r=20 d=4 froz s=2026 quantum_reupload         auc=0.8710 f1=0.4894 ETA 0.8h
+[243/400] bloodmnist r=20 d=4 froz s=888 quantum_reupload         auc=0.8953 f1=0.5466 ETA 0.8h
+[244/400] bloodmnist r=20 d=4 froz s=8 quantum_reupload         auc=0.9020 f1=0.5213 ETA 0.8h
+[245/400] bloodmnist r=20 d=4 froz s=161803 quantum_reupload         auc=0.9100 f1=0.5711 ETA 0.8h
+[246/400] bloodmnist r=20 d=4 froz s=99 quantum_reupload         auc=0.9126 f1=0.5801 ETA 0.8h
+[247/400] bloodmnist r=20 d=4 froz s=6174 quantum_reupload         auc=0.8996 f1=0.5213 ETA 0.8h
+[248/400] bloodmnist r=20 d=4 froz s=40 quantum_reupload         auc=0.8748 f1=0.5025 ETA 0.8h
+[249/400] bloodmnist r=20 d=4 froz s=65537 quantum_reupload         auc=0.9174 f1=0.5934 ETA 0.8h
+[250/400] bloodmnist r=20 d=4 froz s=987654 quantum_reupload         auc=0.9198 f1=0.6005 ETA 0.8h
+[251/400] bloodmnist r=20 d=4 froz s=2027 quantum_reupload         auc=0.9067 f1=0.5695 ETA 0.8h
+[252/400] bloodmnist r=20 d=4 froz s=9001 quantum_reupload         auc=0.9059 f1=0.5197 ETA 0.8h
+[253/400] bloodmnist r=20 d=4 froz s=11235 quantum_reupload         auc=0.9197 f1=0.5724 ETA 0.8h
+[254/400] bloodmnist r=20 d=4 froz s=60221 quantum_reupload         auc=0.8865 f1=0.4918 ETA 0.8h
+[255/400] bloodmnist r=20 d=4 froz s=8191 quantum_reupload         auc=0.8983 f1=0.5379 ETA 0.8h
+[256/400] bloodmnist r=20 d=4 froz s=17 quantum_reupload         auc=0.9192 f1=0.6020 ETA 0.8h
+[257/400] bloodmnist r=20 d=4 froz s=8128 quantum_reupload         auc=0.9182 f1=0.5803 ETA 0.8h
+[258/400] bloodmnist r=20 d=4 froz s=1597 quantum_reupload         auc=0.9184 f1=0.5794 ETA 0.8h
+[259/400] bloodmnist r=20 d=4 froz s=5040 quantum_reupload         auc=0.8816 f1=0.5167 ETA 0.8h
+[260/400] bloodmnist r=20 d=4 froz s=2520 quantum_reupload         auc=0.8921 f1=0.5429 ETA 0.8h
+[261/400] bloodmnist r=50 d=4 froz s=42 quantum_reupload         auc=0.9411 f1=0.6677 ETA 0.8h
+[262/400] bloodmnist r=50 d=4 froz s=2026 quantum_reupload         auc=0.9298 f1=0.6361 ETA 0.8h
+[263/400] bloodmnist r=50 d=4 froz s=888 quantum_reupload         auc=0.8763 f1=0.4908 ETA 0.8h
+[264/400] bloodmnist r=50 d=4 froz s=8 quantum_reupload         auc=0.9215 f1=0.5966 ETA 0.8h
+[265/400] bloodmnist r=50 d=4 froz s=161803 quantum_reupload         auc=0.9292 f1=0.6061 ETA 0.8h
+[266/400] bloodmnist r=50 d=4 froz s=99 quantum_reupload         auc=0.9355 f1=0.6475 ETA 0.8h
+[267/400] bloodmnist r=50 d=4 froz s=6174 quantum_reupload         auc=0.9417 f1=0.6613 ETA 0.8h
+[268/400] bloodmnist r=50 d=4 froz s=40 quantum_reupload         auc=0.9379 f1=0.6665 ETA 0.8h
+[269/400] bloodmnist r=50 d=4 froz s=65537 quantum_reupload         auc=0.9274 f1=0.6020 ETA 0.8h
+[270/400] bloodmnist r=50 d=4 froz s=987654 quantum_reupload         auc=0.9312 f1=0.5878 ETA 0.8h
+[271/400] bloodmnist r=50 d=4 froz s=2027 quantum_reupload         auc=0.9303 f1=0.5994 ETA 0.8h
+[272/400] bloodmnist r=50 d=4 froz s=9001 quantum_reupload         auc=0.9241 f1=0.5998 ETA 0.8h
+[273/400] bloodmnist r=50 d=4 froz s=11235 quantum_reupload         auc=0.9381 f1=0.6522 ETA 0.8h
+[274/400] bloodmnist r=50 d=4 froz s=60221 quantum_reupload         auc=0.9435 f1=0.6714 ETA 0.8h
+[275/400] bloodmnist r=50 d=4 froz s=8191 quantum_reupload         auc=0.9298 f1=0.6473 ETA 0.8h
+[276/400] bloodmnist r=50 d=4 froz s=17 quantum_reupload         auc=0.9266 f1=0.6236 ETA 0.8h
+[277/400] bloodmnist r=50 d=4 froz s=8128 quantum_reupload         auc=0.9288 f1=0.6058 ETA 0.8h
+[278/400] bloodmnist r=50 d=4 froz s=1597 quantum_reupload         auc=0.9359 f1=0.6499 ETA 0.9h
+[279/400] bloodmnist r=50 d=4 froz s=5040 quantum_reupload         auc=0.9223 f1=0.5702 ETA 0.9h
+[280/400] bloodmnist r=50 d=4 froz s=2520 quantum_reupload         auc=0.9274 f1=0.6113 ETA 0.9h
+[281/400] bloodmnist r=100 d=4 froz s=42 quantum_reupload         auc=0.9422 f1=0.6681 ETA 0.9h
+[282/400] bloodmnist r=100 d=4 froz s=2026 quantum_reupload         auc=0.9588 f1=0.7200 ETA 0.9h
+[283/400] bloodmnist r=100 d=4 froz s=888 quantum_reupload         auc=0.9508 f1=0.6600 ETA 0.9h
+[284/400] bloodmnist r=100 d=4 froz s=8 quantum_reupload         auc=0.9472 f1=0.6882 ETA 0.9h
+[285/400] bloodmnist r=100 d=4 froz s=161803 quantum_reupload         auc=0.9465 f1=0.6824 ETA 0.9h
+[286/400] bloodmnist r=100 d=4 froz s=99 quantum_reupload         auc=0.9457 f1=0.6792 ETA 0.9h
+[287/400] bloodmnist r=100 d=4 froz s=6174 quantum_reupload         auc=0.9456 f1=0.6869 ETA 0.9h
+[288/400] bloodmnist r=100 d=4 froz s=40 quantum_reupload         auc=0.9377 f1=0.6621 ETA 0.9h
+[289/400] bloodmnist r=100 d=4 froz s=65537 quantum_reupload         auc=0.9430 f1=0.6619 ETA 0.9h
+[290/400] bloodmnist r=100 d=4 froz s=987654 quantum_reupload         auc=0.9441 f1=0.6715 ETA 0.9h
+[291/400] bloodmnist r=100 d=4 froz s=2027 quantum_reupload         auc=0.9446 f1=0.6593 ETA 0.9h
+[292/400] bloodmnist r=100 d=4 froz s=9001 quantum_reupload         auc=0.9434 f1=0.6691 ETA 0.9h
+[293/400] bloodmnist r=100 d=4 froz s=11235 quantum_reupload         auc=0.9587 f1=0.7115 ETA 0.9h
+[294/400] bloodmnist r=100 d=4 froz s=60221 quantum_reupload         auc=0.9418 f1=0.6785 ETA 1.0h
+[295/400] bloodmnist r=100 d=4 froz s=8191 quantum_reupload         auc=0.9314 f1=0.6425 ETA 1.0h
+[296/400] bloodmnist r=100 d=4 froz s=17 quantum_reupload         auc=0.9600 f1=0.7248 ETA 1.0h
+[297/400] bloodmnist r=100 d=4 froz s=8128 quantum_reupload         auc=0.9574 f1=0.7072 ETA 1.0h
+[298/400] bloodmnist r=100 d=4 froz s=1597 quantum_reupload         auc=0.9419 f1=0.6444 ETA 1.0h
+[299/400] bloodmnist r=100 d=4 froz s=5040 quantum_reupload         auc=0.9036 f1=0.5435 ETA 1.0h
+[300/400] bloodmnist r=100 d=4 froz s=2520 quantum_reupload         auc=0.9453 f1=0.6600 ETA 1.0h
+[301/400] pathmnist r=5 d=4 froz s=42 quantum_reupload         auc=0.8725 f1=0.4891 ETA 1.0h
+[302/400] pathmnist r=5 d=4 froz s=2026 quantum_reupload         auc=0.8818 f1=0.4879 ETA 1.0h
+[303/400] pathmnist r=5 d=4 froz s=888 quantum_reupload         auc=0.8299 f1=0.2860 ETA 0.9h
+[304/400] pathmnist r=5 d=4 froz s=8 quantum_reupload         auc=0.8529 f1=0.4330 ETA 0.9h
+[305/400] pathmnist r=5 d=4 froz s=161803 quantum_reupload         auc=0.8311 f1=0.4327 ETA 0.9h
+[306/400] pathmnist r=5 d=4 froz s=99 quantum_reupload         auc=0.8467 f1=0.4727 ETA 0.9h
+[307/400] pathmnist r=5 d=4 froz s=6174 quantum_reupload         auc=0.8820 f1=0.5029 ETA 0.9h
+[308/400] pathmnist r=5 d=4 froz s=40 quantum_reupload         auc=0.8014 f1=0.4364 ETA 0.9h
+[309/400] pathmnist r=5 d=4 froz s=65537 quantum_reupload         auc=0.8573 f1=0.4238 ETA 0.9h
+[310/400] pathmnist r=5 d=4 froz s=987654 quantum_reupload         auc=0.8709 f1=0.4205 ETA 0.9h
+[311/400] pathmnist r=5 d=4 froz s=2027 quantum_reupload         auc=0.9242 f1=0.5858 ETA 0.9h
+[312/400] pathmnist r=5 d=4 froz s=9001 quantum_reupload         auc=0.8495 f1=0.4770 ETA 0.8h
+[313/400] pathmnist r=5 d=4 froz s=11235 quantum_reupload         auc=0.8625 f1=0.4763 ETA 0.8h
+[314/400] pathmnist r=5 d=4 froz s=60221 quantum_reupload         auc=0.8404 f1=0.3543 ETA 0.8h
+[315/400] pathmnist r=5 d=4 froz s=8191 quantum_reupload         auc=0.8581 f1=0.4327 ETA 0.8h
+[316/400] pathmnist r=5 d=4 froz s=17 quantum_reupload         auc=0.8861 f1=0.4341 ETA 0.8h
+[317/400] pathmnist r=5 d=4 froz s=8128 quantum_reupload         auc=0.8520 f1=0.4733 ETA 0.8h
+[318/400] pathmnist r=5 d=4 froz s=1597 quantum_reupload         auc=0.8741 f1=0.4905 ETA 0.8h
+[319/400] pathmnist r=5 d=4 froz s=5040 quantum_reupload         auc=0.8961 f1=0.4705 ETA 0.8h
+[320/400] pathmnist r=5 d=4 froz s=2520 quantum_reupload         auc=0.8604 f1=0.4734 ETA 0.8h
+[321/400] pathmnist r=10 d=4 froz s=42 quantum_reupload         auc=0.9014 f1=0.5319 ETA 0.8h
+[322/400] pathmnist r=10 d=4 froz s=2026 quantum_reupload         auc=0.8734 f1=0.4979 ETA 0.7h
+[323/400] pathmnist r=10 d=4 froz s=888 quantum_reupload         auc=0.8924 f1=0.5475 ETA 0.7h
+[324/400] pathmnist r=10 d=4 froz s=8 quantum_reupload         auc=0.8612 f1=0.4924 ETA 0.7h
+[325/400] pathmnist r=10 d=4 froz s=161803 quantum_reupload         auc=0.9019 f1=0.5435 ETA 0.7h
+[326/400] pathmnist r=10 d=4 froz s=99 quantum_reupload         auc=0.8482 f1=0.4914 ETA 0.7h
+[327/400] pathmnist r=10 d=4 froz s=6174 quantum_reupload         auc=0.8753 f1=0.5347 ETA 0.7h
+[328/400] pathmnist r=10 d=4 froz s=40 quantum_reupload         auc=0.8683 f1=0.5250 ETA 0.7h
+[329/400] pathmnist r=10 d=4 froz s=65537 quantum_reupload         auc=0.9224 f1=0.5236 ETA 0.7h
+[330/400] pathmnist r=10 d=4 froz s=987654 quantum_reupload         auc=0.8796 f1=0.5457 ETA 0.7h
+[331/400] pathmnist r=10 d=4 froz s=2027 quantum_reupload         auc=0.9231 f1=0.5594 ETA 0.7h
+[332/400] pathmnist r=10 d=4 froz s=9001 quantum_reupload         auc=0.8527 f1=0.5080 ETA 0.6h
+[333/400] pathmnist r=10 d=4 froz s=11235 quantum_reupload         auc=0.9381 f1=0.6226 ETA 0.6h
+[334/400] pathmnist r=10 d=4 froz s=60221 quantum_reupload         auc=0.8783 f1=0.4797 ETA 0.6h
+[335/400] pathmnist r=10 d=4 froz s=8191 quantum_reupload         auc=0.8798 f1=0.5407 ETA 0.6h
+[336/400] pathmnist r=10 d=4 froz s=17 quantum_reupload         auc=0.8874 f1=0.4948 ETA 0.6h
+[337/400] pathmnist r=10 d=4 froz s=8128 quantum_reupload         auc=0.9017 f1=0.5724 ETA 0.6h
+[338/400] pathmnist r=10 d=4 froz s=1597 quantum_reupload         auc=0.8711 f1=0.5051 ETA 0.6h
+[339/400] pathmnist r=10 d=4 froz s=5040 quantum_reupload         auc=0.8824 f1=0.4754 ETA 0.6h
+[340/400] pathmnist r=10 d=4 froz s=2520 quantum_reupload         auc=0.9195 f1=0.5896 ETA 0.6h
+[341/400] pathmnist r=20 d=4 froz s=42 quantum_reupload         auc=0.9445 f1=0.6504 ETA 0.6h
+[342/400] pathmnist r=20 d=4 froz s=2026 quantum_reupload         auc=0.9634 f1=0.7173 ETA 0.6h
+[343/400] pathmnist r=20 d=4 froz s=888 quantum_reupload         auc=0.9317 f1=0.6646 ETA 0.5h
+[344/400] pathmnist r=20 d=4 froz s=8 quantum_reupload         auc=0.9314 f1=0.5938 ETA 0.5h
+[345/400] pathmnist r=20 d=4 froz s=161803 quantum_reupload         auc=0.9154 f1=0.5882 ETA 0.5h
+[346/400] pathmnist r=20 d=4 froz s=99 quantum_reupload         auc=0.8915 f1=0.5561 ETA 0.5h
+[347/400] pathmnist r=20 d=4 froz s=6174 quantum_reupload         auc=0.9248 f1=0.6226 ETA 0.5h
+[348/400] pathmnist r=20 d=4 froz s=40 quantum_reupload         auc=0.9125 f1=0.5425 ETA 0.5h
+[349/400] pathmnist r=20 d=4 froz s=65537 quantum_reupload         auc=0.9348 f1=0.6463 ETA 0.5h
+[350/400] pathmnist r=20 d=4 froz s=987654 quantum_reupload         auc=0.9002 f1=0.5520 ETA 0.5h
+[351/400] pathmnist r=20 d=4 froz s=2027 quantum_reupload         auc=0.9132 f1=0.5895 ETA 0.5h
+[352/400] pathmnist r=20 d=4 froz s=9001 quantum_reupload         auc=0.9290 f1=0.6040 ETA 0.5h
+[353/400] pathmnist r=20 d=4 froz s=11235 quantum_reupload         auc=0.9009 f1=0.5599 ETA 0.5h
+[354/400] pathmnist r=20 d=4 froz s=60221 quantum_reupload         auc=0.9135 f1=0.5418 ETA 0.4h
+[355/400] pathmnist r=20 d=4 froz s=8191 quantum_reupload         auc=0.9375 f1=0.6433 ETA 0.4h
+[356/400] pathmnist r=20 d=4 froz s=17 quantum_reupload         auc=0.8891 f1=0.5514 ETA 0.4h
+[357/400] pathmnist r=20 d=4 froz s=8128 quantum_reupload         auc=0.9332 f1=0.6548 ETA 0.4h
+[358/400] pathmnist r=20 d=4 froz s=1597 quantum_reupload         auc=0.9339 f1=0.5954 ETA 0.4h
+[359/400] pathmnist r=20 d=4 froz s=5040 quantum_reupload         auc=0.9006 f1=0.5756 ETA 0.4h
+[360/400] pathmnist r=20 d=4 froz s=2520 quantum_reupload         auc=0.8998 f1=0.5558 ETA 0.4h
+[361/400] pathmnist r=50 d=4 froz s=42 quantum_reupload         auc=0.9616 f1=0.7109 ETA 0.4h
+[362/400] pathmnist r=50 d=4 froz s=2026 quantum_reupload         auc=0.9494 f1=0.6987 ETA 0.4h
+[363/400] pathmnist r=50 d=4 froz s=888 quantum_reupload         auc=0.9617 f1=0.7277 ETA 0.4h
+[364/400] pathmnist r=50 d=4 froz s=8 quantum_reupload         auc=0.9580 f1=0.7140 ETA 0.4h
+[365/400] pathmnist r=50 d=4 froz s=161803 quantum_reupload         auc=0.9417 f1=0.6566 ETA 0.4h
+[366/400] pathmnist r=50 d=4 froz s=99 quantum_reupload         auc=0.9419 f1=0.7275 ETA 0.3h
+[367/400] pathmnist r=50 d=4 froz s=6174 quantum_reupload         auc=0.9351 f1=0.6713 ETA 0.3h
+[368/400] pathmnist r=50 d=4 froz s=40 quantum_reupload         auc=0.9491 f1=0.6834 ETA 0.3h
+[369/400] pathmnist r=50 d=4 froz s=65537 quantum_reupload         auc=0.9551 f1=0.6967 ETA 0.3h
+[370/400] pathmnist r=50 d=4 froz s=987654 quantum_reupload         auc=0.9525 f1=0.7290 ETA 0.3h
+[371/400] pathmnist r=50 d=4 froz s=2027 quantum_reupload         auc=0.9039 f1=0.6466 ETA 0.3h
+[372/400] pathmnist r=50 d=4 froz s=9001 quantum_reupload         auc=0.9128 f1=0.6401 ETA 0.3h
+[373/400] pathmnist r=50 d=4 froz s=11235 quantum_reupload         auc=0.9446 f1=0.6662 ETA 0.3h
+[374/400] pathmnist r=50 d=4 froz s=60221 quantum_reupload         auc=0.9490 f1=0.6458 ETA 0.3h
+[375/400] pathmnist r=50 d=4 froz s=8191 quantum_reupload         auc=0.9388 f1=0.6441 ETA 0.3h
+[376/400] pathmnist r=50 d=4 froz s=17 quantum_reupload         auc=0.9564 f1=0.6814 ETA 0.3h
+[377/400] pathmnist r=50 d=4 froz s=8128 quantum_reupload         auc=0.9571 f1=0.7201 ETA 0.2h
+[378/400] pathmnist r=50 d=4 froz s=1597 quantum_reupload         auc=0.9614 f1=0.7050 ETA 0.2h
+[379/400] pathmnist r=50 d=4 froz s=5040 quantum_reupload         auc=0.9592 f1=0.7077 ETA 0.2h
+[380/400] pathmnist r=50 d=4 froz s=2520 quantum_reupload         auc=0.9575 f1=0.6863 ETA 0.2h
+[381/400] pathmnist r=100 d=4 froz s=42 quantum_reupload         auc=0.9434 f1=0.7416 ETA 0.2h
+[382/400] pathmnist r=100 d=4 froz s=2026 quantum_reupload         auc=0.9503 f1=0.7155 ETA 0.2h
+[383/400] pathmnist r=100 d=4 froz s=888 quantum_reupload         auc=0.9611 f1=0.7550 ETA 0.2h
+[384/400] pathmnist r=100 d=4 froz s=8 quantum_reupload         auc=0.9613 f1=0.7535 ETA 0.2h
+[385/400] pathmnist r=100 d=4 froz s=161803 quantum_reupload         auc=0.9290 f1=0.6357 ETA 0.2h
+[386/400] pathmnist r=100 d=4 froz s=99 quantum_reupload         auc=0.9492 f1=0.7092 ETA 0.2h
+[387/400] pathmnist r=100 d=4 froz s=6174 quantum_reupload         auc=0.9513 f1=0.6884 ETA 0.2h
+[388/400] pathmnist r=100 d=4 froz s=40 quantum_reupload         auc=0.9611 f1=0.7276 ETA 0.1h
+[389/400] pathmnist r=100 d=4 froz s=65537 quantum_reupload         auc=0.9672 f1=0.7239 ETA 0.1h
+[390/400] pathmnist r=100 d=4 froz s=987654 quantum_reupload         auc=0.9718 f1=0.7488 ETA 0.1h
+[391/400] pathmnist r=100 d=4 froz s=2027 quantum_reupload         auc=0.9632 f1=0.7368 ETA 0.1h
+[392/400] pathmnist r=100 d=4 froz s=9001 quantum_reupload         auc=0.9621 f1=0.7511 ETA 0.1h
+[393/400] pathmnist r=100 d=4 froz s=11235 quantum_reupload         auc=0.9647 f1=0.7449 ETA 0.1h
+[394/400] pathmnist r=100 d=4 froz s=60221 quantum_reupload         auc=0.9771 f1=0.7796 ETA 0.1h
+[395/400] pathmnist r=100 d=4 froz s=8191 quantum_reupload         auc=0.9677 f1=0.7688 ETA 0.1h
+[396/400] pathmnist r=100 d=4 froz s=17 quantum_reupload         auc=0.9613 f1=0.7107 ETA 0.1h
+[397/400] pathmnist r=100 d=4 froz s=8128 quantum_reupload         auc=0.9662 f1=0.7280 ETA 0.0h
+[398/400] pathmnist r=100 d=4 froz s=1597 quantum_reupload         auc=0.9643 f1=0.7557 ETA 0.0h
+[399/400] pathmnist r=100 d=4 froz s=5040 quantum_reupload         auc=0.9648 f1=0.7224 ETA 0.0h
+[400/400] pathmnist r=100 d=4 froz s=2520 quantum_reupload         auc=0.9725 f1=0.7783 ETA 0.0h
+
+=== AUC by cell (mean +- sd over seeds) ===
+dataset           reg   d   encoder    quantum_vqc   quantum_reup
+------------------------------------------------------------------
+bloodmnist         10   4    frozen  0.8465+-0.022  0.8563+-0.026
+bloodmnist        100   4    frozen  0.9155+-0.027  0.9441+-0.011
+bloodmnist         20   4    frozen  0.8734+-0.024  0.8961+-0.019
+bloodmnist          5   4    frozen  0.7894+-0.044  0.7815+-0.058
+bloodmnist         50   4    frozen  0.9035+-0.021  0.9268+-0.012
+breastmnist        10   4    frozen  0.7073+-0.042  0.7097+-0.051
+breastmnist       100   4    frozen  0.8014+-0.029  0.8054+-0.025
+breastmnist        20   4    frozen  0.7342+-0.032  0.7315+-0.036
+breastmnist         5   4    frozen  0.6618+-0.077  0.6704+-0.058
+breastmnist        50   4    frozen  0.7713+-0.020  0.7689+-0.028
+pathmnist          10   4    frozen  0.8668+-0.027  0.8907+-0.027
+pathmnist         100   4    frozen  0.9459+-0.015  0.9578+-0.010
+pathmnist          20   4    frozen  0.8985+-0.019  0.9242+-0.018
+pathmnist           5   4    frozen  0.8358+-0.035  0.8515+-0.033
+pathmnist          50   4    frozen  0.9265+-0.021  0.9479+-0.014
+pneumoniamnist     10   4    frozen  0.9089+-0.027  0.9090+-0.015
+pneumoniamnist    100   4    frozen  0.9366+-0.010  0.9355+-0.011
+pneumoniamnist     20   4    frozen  0.9251+-0.009  0.9242+-0.011
+pneumoniamnist      5   4    frozen  0.9016+-0.015  0.8956+-0.028
+pneumoniamnist     50   4    frozen  0.9273+-0.010  0.9247+-0.012
+
+=== PRIMARY (Q1, efficiency at equal parameters): quantum_vqc - matched_param_fullrank (auc) ===
+Both arms have 24 head parameters and full rank at d=4.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== SECONDARY (Q2, dequantization): quantum_vqc - fourier_rff (auc) ===
+Basis-matched, NOT parameter-matched (324 vs 24). Asks whether
+the VQC exploits its own function class as well as a direct fit.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== DIAGNOSTIC (rank-limited control): quantum_vqc - matched_param (auc) ===
+matched_param is rank-limited to width 3; superseded by
+matched_param_fullrank. Retained for reproducibility only.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== Q3: frozen - adaptive, per arm (auc) ===
+The premise check showed compression is nearly free WITH an adaptive
+encoder. A large negative delta here means the encoder was absorbing
+the constraint - the reframed 'Latent Reshaping' claim.
+dataset           reg   d                      arm     delta    n
+------------------------------------------------------------------------
+
+=== Trainable capacity by component ===
+If the head's share is small, the experiment is not isolating the head.
+
+arm                        d bottleneck   bneck   head   clf   total  head %
+------------------------------------------------------------------------------
+quantum_reupload           4    learned    1028     24    10    1062    2.3%
+quantum_vqc                4    learned    1028     24    10    1062    2.3%
+quantum_vqc_range1         4    learned    1028     24    10    1062    2.3%
+
+=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===
+frozen: backbone must be '-' (no gradient reaches it).
+adaptive: backbone must be non-zero for EVERY arm, quantum included.
+
+arm                        encoder  runs    backbone  bottleneck        head  verdict
+--------------------------------------------------------------------------------------------
+quantum_reupload            frozen   800           -      1.0865      0.2725  OK
+quantum_vqc                 frozen   800           -      0.9853      0.2603  OK
+quantum_vqc_range1          frozen   800           -      1.0086      0.2667  OK
+
+Predictions: 2400/2400 claimed files are retrievable on disk; 0 shards predate prediction saving.
+
+DIAGNOSTIC OUTPUT - every interval above is a normal approximation
+over seeds. Confirmatory statistics come from 04_statistical_analysis.py.

@@ -1,0 +1,279 @@
+
+Trainable capacity at d=4, bottleneck=learned:
+  fourier_rff_r2           bottleneck= 1028 head=2500 clf= 10 total= 3538 head=70.7%
+
+Experiment 1 | 200 cells | ns=37_rate_gaps | device=cpu | sha=10ce9593
+  augment=False L=2 use_tanh=True bottleneck=learned angle_scale=1.5708 save_predictions=True
+[1/200] breastmnist r=5 d=4 froz s=42 fourier_rff_r2           auc=0.6669 f1=0.2121 ETA 0.1h
+[2/200] breastmnist r=5 d=4 froz s=888 fourier_rff_r2           auc=0.7001 f1=0.6213 ETA 0.1h
+[3/200] breastmnist r=5 d=4 froz s=161803 fourier_rff_r2           auc=0.7241 f1=0.6857 ETA 0.1h
+[4/200] breastmnist r=5 d=4 froz s=6174 fourier_rff_r2           auc=0.6932 f1=0.2121 ETA 0.1h
+[5/200] breastmnist r=5 d=4 froz s=65537 fourier_rff_r2           auc=0.6660 f1=0.5675 ETA 0.1h
+[6/200] breastmnist r=5 d=4 froz s=2027 fourier_rff_r2           auc=0.6786 f1=0.4865 ETA 0.1h
+[7/200] breastmnist r=5 d=4 froz s=11235 fourier_rff_r2           auc=0.7364 f1=0.6041 ETA 0.1h
+[8/200] breastmnist r=5 d=4 froz s=8191 fourier_rff_r2           auc=0.6577 f1=0.4222 ETA 0.1h
+[9/200] breastmnist r=5 d=4 froz s=8128 fourier_rff_r2           auc=0.6349 f1=0.5705 ETA 0.1h
+[10/200] breastmnist r=5 d=4 froz s=5040 fourier_rff_r2           auc=0.6099 f1=0.2121 ETA 0.1h
+[11/200] breastmnist r=10 d=4 froz s=42 fourier_rff_r2           auc=0.6796 f1=0.2121 ETA 0.1h
+[12/200] breastmnist r=10 d=4 froz s=888 fourier_rff_r2           auc=0.6980 f1=0.6335 ETA 0.1h
+[13/200] breastmnist r=10 d=4 froz s=161803 fourier_rff_r2           auc=0.5982 f1=0.4222 ETA 0.1h
+[14/200] breastmnist r=10 d=4 froz s=6174 fourier_rff_r2           auc=0.7149 f1=0.2121 ETA 0.1h
+[15/200] breastmnist r=10 d=4 froz s=65537 fourier_rff_r2           auc=0.6974 f1=0.3538 ETA 0.1h
+[16/200] breastmnist r=10 d=4 froz s=2027 fourier_rff_r2           auc=0.6982 f1=0.2121 ETA 0.1h
+[17/200] breastmnist r=10 d=4 froz s=11235 fourier_rff_r2           auc=0.7279 f1=0.4222 ETA 0.1h
+[18/200] breastmnist r=10 d=4 froz s=8191 fourier_rff_r2           auc=0.5863 f1=0.4222 ETA 0.1h
+[19/200] breastmnist r=10 d=4 froz s=8128 fourier_rff_r2           auc=0.7884 f1=0.6630 ETA 0.1h
+[20/200] breastmnist r=10 d=4 froz s=5040 fourier_rff_r2           auc=0.6873 f1=0.5911 ETA 0.1h
+[21/200] breastmnist r=20 d=4 froz s=42 fourier_rff_r2           auc=0.6750 f1=0.2121 ETA 0.1h
+[22/200] breastmnist r=20 d=4 froz s=888 fourier_rff_r2           auc=0.6510 f1=0.4222 ETA 0.1h
+[23/200] breastmnist r=20 d=4 froz s=161803 fourier_rff_r2           auc=0.7444 f1=0.6810 ETA 0.1h
+[24/200] breastmnist r=20 d=4 froz s=6174 fourier_rff_r2           auc=0.6763 f1=0.2121 ETA 0.1h
+[25/200] breastmnist r=20 d=4 froz s=65537 fourier_rff_r2           auc=0.7375 f1=0.7142 ETA 0.1h
+[26/200] breastmnist r=20 d=4 froz s=2027 fourier_rff_r2           auc=0.7521 f1=0.4708 ETA 0.1h
+[27/200] breastmnist r=20 d=4 froz s=11235 fourier_rff_r2           auc=0.6865 f1=0.5828 ETA 0.1h
+[28/200] breastmnist r=20 d=4 froz s=8191 fourier_rff_r2           auc=0.7540 f1=0.6158 ETA 0.1h
+[29/200] breastmnist r=20 d=4 froz s=8128 fourier_rff_r2           auc=0.7634 f1=0.6695 ETA 0.1h
+[30/200] breastmnist r=20 d=4 froz s=5040 fourier_rff_r2           auc=0.7226 f1=0.6784 ETA 0.1h
+[31/200] breastmnist r=50 d=4 froz s=42 fourier_rff_r2           auc=0.8256 f1=0.7500 ETA 0.1h
+[32/200] breastmnist r=50 d=4 froz s=888 fourier_rff_r2           auc=0.7419 f1=0.6375 ETA 0.1h
+[33/200] breastmnist r=50 d=4 froz s=161803 fourier_rff_r2           auc=0.7855 f1=0.6133 ETA 0.1h
+[34/200] breastmnist r=50 d=4 froz s=6174 fourier_rff_r2           auc=0.7431 f1=0.4040 ETA 0.1h
+[35/200] breastmnist r=50 d=4 froz s=65537 fourier_rff_r2           auc=0.8083 f1=0.7200 ETA 0.1h
+[36/200] breastmnist r=50 d=4 froz s=2027 fourier_rff_r2           auc=0.7607 f1=0.6578 ETA 0.1h
+[37/200] breastmnist r=50 d=4 froz s=11235 fourier_rff_r2           auc=0.7726 f1=0.4936 ETA 0.1h
+[38/200] breastmnist r=50 d=4 froz s=8191 fourier_rff_r2           auc=0.7997 f1=0.6933 ETA 0.1h
+[39/200] breastmnist r=50 d=4 froz s=8128 fourier_rff_r2           auc=0.7797 f1=0.6601 ETA 0.1h
+[40/200] breastmnist r=50 d=4 froz s=5040 fourier_rff_r2           auc=0.6940 f1=0.6444 ETA 0.1h
+[41/200] breastmnist r=100 d=4 froz s=42 fourier_rff_r2           auc=0.7258 f1=0.4222 ETA 0.1h
+[42/200] breastmnist r=100 d=4 froz s=888 fourier_rff_r2           auc=0.8056 f1=0.7034 ETA 0.1h
+[43/200] breastmnist r=100 d=4 froz s=161803 fourier_rff_r2           auc=0.8051 f1=0.5814 ETA 0.1h
+[44/200] breastmnist r=100 d=4 froz s=6174 fourier_rff_r2           auc=0.7807 f1=0.6536 ETA 0.1h
+[45/200] breastmnist r=100 d=4 froz s=65537 fourier_rff_r2           auc=0.8133 f1=0.6827 ETA 0.1h
+[46/200] breastmnist r=100 d=4 froz s=2027 fourier_rff_r2           auc=0.8523 f1=0.7249 ETA 0.1h
+[47/200] breastmnist r=100 d=4 froz s=11235 fourier_rff_r2           auc=0.8241 f1=0.6231 ETA 0.1h
+[48/200] breastmnist r=100 d=4 froz s=8191 fourier_rff_r2           auc=0.7985 f1=0.7034 ETA 0.1h
+[49/200] breastmnist r=100 d=4 froz s=8128 fourier_rff_r2           auc=0.8271 f1=0.7377 ETA 0.1h
+[50/200] breastmnist r=100 d=4 froz s=5040 fourier_rff_r2           auc=0.7546 f1=0.6571 ETA 0.1h
+[51/200] pneumoniamnist r=5 d=4 froz s=42 fourier_rff_r2           auc=0.8947 f1=0.8070 ETA 0.1h
+[52/200] pneumoniamnist r=5 d=4 froz s=888 fourier_rff_r2           auc=0.8917 f1=0.7923 ETA 0.1h
+[53/200] pneumoniamnist r=5 d=4 froz s=161803 fourier_rff_r2           auc=0.8075 f1=0.3064 ETA 0.1h
+[54/200] pneumoniamnist r=5 d=4 froz s=6174 fourier_rff_r2           auc=0.8852 f1=0.8014 ETA 0.1h
+[55/200] pneumoniamnist r=5 d=4 froz s=65537 fourier_rff_r2           auc=0.8757 f1=0.4804 ETA 0.1h
+[56/200] pneumoniamnist r=5 d=4 froz s=2027 fourier_rff_r2           auc=0.8796 f1=0.8060 ETA 0.1h
+[57/200] pneumoniamnist r=5 d=4 froz s=11235 fourier_rff_r2           auc=0.8829 f1=0.7987 ETA 0.1h
+[58/200] pneumoniamnist r=5 d=4 froz s=8191 fourier_rff_r2           auc=0.8801 f1=0.7058 ETA 0.1h
+[59/200] pneumoniamnist r=5 d=4 froz s=8128 fourier_rff_r2           auc=0.8797 f1=0.7099 ETA 0.1h
+[60/200] pneumoniamnist r=5 d=4 froz s=5040 fourier_rff_r2           auc=0.8913 f1=0.7920 ETA 0.1h
+[61/200] pneumoniamnist r=10 d=4 froz s=42 fourier_rff_r2           auc=0.9129 f1=0.8051 ETA 0.1h
+[62/200] pneumoniamnist r=10 d=4 froz s=888 fourier_rff_r2           auc=0.8960 f1=0.8098 ETA 0.1h
+[63/200] pneumoniamnist r=10 d=4 froz s=161803 fourier_rff_r2           auc=0.8876 f1=0.8187 ETA 0.1h
+[64/200] pneumoniamnist r=10 d=4 froz s=6174 fourier_rff_r2           auc=0.8704 f1=0.7755 ETA 0.1h
+[65/200] pneumoniamnist r=10 d=4 froz s=65537 fourier_rff_r2           auc=0.8698 f1=0.2727 ETA 0.1h
+[66/200] pneumoniamnist r=10 d=4 froz s=2027 fourier_rff_r2           auc=0.8960 f1=0.7941 ETA 0.1h
+[67/200] pneumoniamnist r=10 d=4 froz s=11235 fourier_rff_r2           auc=0.9076 f1=0.8167 ETA 0.1h
+[68/200] pneumoniamnist r=10 d=4 froz s=8191 fourier_rff_r2           auc=0.8964 f1=0.6054 ETA 0.1h
+[69/200] pneumoniamnist r=10 d=4 froz s=8128 fourier_rff_r2           auc=0.9128 f1=0.8208 ETA 0.1h
+[70/200] pneumoniamnist r=10 d=4 froz s=5040 fourier_rff_r2           auc=0.8947 f1=0.7792 ETA 0.1h
+[71/200] pneumoniamnist r=20 d=4 froz s=42 fourier_rff_r2           auc=0.9287 f1=0.8170 ETA 0.1h
+[72/200] pneumoniamnist r=20 d=4 froz s=888 fourier_rff_r2           auc=0.9051 f1=0.7935 ETA 0.1h
+[73/200] pneumoniamnist r=20 d=4 froz s=161803 fourier_rff_r2           auc=0.9150 f1=0.8379 ETA 0.1h
+[74/200] pneumoniamnist r=20 d=4 froz s=6174 fourier_rff_r2           auc=0.9152 f1=0.8338 ETA 0.1h
+[75/200] pneumoniamnist r=20 d=4 froz s=65537 fourier_rff_r2           auc=0.8878 f1=0.2813 ETA 0.1h
+[76/200] pneumoniamnist r=20 d=4 froz s=2027 fourier_rff_r2           auc=0.9438 f1=0.8702 ETA 0.1h
+[77/200] pneumoniamnist r=20 d=4 froz s=11235 fourier_rff_r2           auc=0.9213 f1=0.8364 ETA 0.1h
+[78/200] pneumoniamnist r=20 d=4 froz s=8191 fourier_rff_r2           auc=0.9018 f1=0.8194 ETA 0.1h
+[79/200] pneumoniamnist r=20 d=4 froz s=8128 fourier_rff_r2           auc=0.9074 f1=0.8080 ETA 0.1h
+[80/200] pneumoniamnist r=20 d=4 froz s=5040 fourier_rff_r2           auc=0.9174 f1=0.8261 ETA 0.1h
+[81/200] pneumoniamnist r=50 d=4 froz s=42 fourier_rff_r2           auc=0.9140 f1=0.8348 ETA 0.1h
+[82/200] pneumoniamnist r=50 d=4 froz s=888 fourier_rff_r2           auc=0.9177 f1=0.8168 ETA 0.1h
+[83/200] pneumoniamnist r=50 d=4 froz s=161803 fourier_rff_r2           auc=0.9218 f1=0.8270 ETA 0.1h
+[84/200] pneumoniamnist r=50 d=4 froz s=6174 fourier_rff_r2           auc=0.9137 f1=0.8320 ETA 0.1h
+[85/200] pneumoniamnist r=50 d=4 froz s=65537 fourier_rff_r2           auc=0.8996 f1=0.6954 ETA 0.1h
+[86/200] pneumoniamnist r=50 d=4 froz s=2027 fourier_rff_r2           auc=0.9371 f1=0.8655 ETA 0.1h
+[87/200] pneumoniamnist r=50 d=4 froz s=11235 fourier_rff_r2           auc=0.9147 f1=0.7997 ETA 0.1h
+[88/200] pneumoniamnist r=50 d=4 froz s=8191 fourier_rff_r2           auc=0.9329 f1=0.8327 ETA 0.1h
+[89/200] pneumoniamnist r=50 d=4 froz s=8128 fourier_rff_r2           auc=0.9492 f1=0.8658 ETA 0.1h
+[90/200] pneumoniamnist r=50 d=4 froz s=5040 fourier_rff_r2           auc=0.9333 f1=0.8424 ETA 0.1h
+[91/200] pneumoniamnist r=100 d=4 froz s=42 fourier_rff_r2           auc=0.9364 f1=0.8312 ETA 0.1h
+[92/200] pneumoniamnist r=100 d=4 froz s=888 fourier_rff_r2           auc=0.9291 f1=0.8305 ETA 0.1h
+[93/200] pneumoniamnist r=100 d=4 froz s=161803 fourier_rff_r2           auc=0.9339 f1=0.8332 ETA 0.1h
+[94/200] pneumoniamnist r=100 d=4 froz s=6174 fourier_rff_r2           auc=0.9160 f1=0.6095 ETA 0.1h
+[95/200] pneumoniamnist r=100 d=4 froz s=65537 fourier_rff_r2           auc=0.9303 f1=0.8648 ETA 0.1h
+[96/200] pneumoniamnist r=100 d=4 froz s=2027 fourier_rff_r2           auc=0.9292 f1=0.8325 ETA 0.1h
+[97/200] pneumoniamnist r=100 d=4 froz s=11235 fourier_rff_r2           auc=0.9574 f1=0.8639 ETA 0.1h
+[98/200] pneumoniamnist r=100 d=4 froz s=8191 fourier_rff_r2           auc=0.9398 f1=0.8442 ETA 0.1h
+[99/200] pneumoniamnist r=100 d=4 froz s=8128 fourier_rff_r2           auc=0.9291 f1=0.8023 ETA 0.1h
+[100/200] pneumoniamnist r=100 d=4 froz s=5040 fourier_rff_r2           auc=0.9426 f1=0.8462 ETA 0.1h
+[101/200] bloodmnist r=5 d=4 froz s=42 fourier_rff_r2           auc=0.7938 f1=0.3654 ETA 0.1h
+[102/200] bloodmnist r=5 d=4 froz s=888 fourier_rff_r2           auc=0.8281 f1=0.3859 ETA 0.1h
+[103/200] bloodmnist r=5 d=4 froz s=161803 fourier_rff_r2           auc=0.7529 f1=0.2863 ETA 0.1h
+[104/200] bloodmnist r=5 d=4 froz s=6174 fourier_rff_r2           auc=0.7468 f1=0.3081 ETA 0.1h
+[105/200] bloodmnist r=5 d=4 froz s=65537 fourier_rff_r2           auc=0.7357 f1=0.2186 ETA 0.1h
+[106/200] bloodmnist r=5 d=4 froz s=2027 fourier_rff_r2           auc=0.8413 f1=0.4313 ETA 0.1h
+[107/200] bloodmnist r=5 d=4 froz s=11235 fourier_rff_r2           auc=0.8008 f1=0.3160 ETA 0.1h
+[108/200] bloodmnist r=5 d=4 froz s=8191 fourier_rff_r2           auc=0.7924 f1=0.3416 ETA 0.1h
+[109/200] bloodmnist r=5 d=4 froz s=8128 fourier_rff_r2           auc=0.8092 f1=0.3438 ETA 0.1h
+[110/200] bloodmnist r=5 d=4 froz s=5040 fourier_rff_r2           auc=0.8206 f1=0.3482 ETA 0.1h
+[111/200] bloodmnist r=10 d=4 froz s=42 fourier_rff_r2           auc=0.8431 f1=0.4439 ETA 0.1h
+[112/200] bloodmnist r=10 d=4 froz s=888 fourier_rff_r2           auc=0.8684 f1=0.4720 ETA 0.1h
+[113/200] bloodmnist r=10 d=4 froz s=161803 fourier_rff_r2           auc=0.8609 f1=0.4642 ETA 0.1h
+[114/200] bloodmnist r=10 d=4 froz s=6174 fourier_rff_r2           auc=0.8297 f1=0.4453 ETA 0.1h
+[115/200] bloodmnist r=10 d=4 froz s=65537 fourier_rff_r2           auc=0.8573 f1=0.4567 ETA 0.1h
+[116/200] bloodmnist r=10 d=4 froz s=2027 fourier_rff_r2           auc=0.8671 f1=0.4565 ETA 0.1h
+[117/200] bloodmnist r=10 d=4 froz s=11235 fourier_rff_r2           auc=0.8717 f1=0.4804 ETA 0.1h
+[118/200] bloodmnist r=10 d=4 froz s=8191 fourier_rff_r2           auc=0.8318 f1=0.3889 ETA 0.1h
+[119/200] bloodmnist r=10 d=4 froz s=8128 fourier_rff_r2           auc=0.8637 f1=0.4830 ETA 0.1h
+[120/200] bloodmnist r=10 d=4 froz s=5040 fourier_rff_r2           auc=0.8772 f1=0.4781 ETA 0.1h
+[121/200] bloodmnist r=20 d=4 froz s=42 fourier_rff_r2           auc=0.8972 f1=0.5353 ETA 0.1h
+[122/200] bloodmnist r=20 d=4 froz s=888 fourier_rff_r2           auc=0.9029 f1=0.5182 ETA 0.1h
+[123/200] bloodmnist r=20 d=4 froz s=161803 fourier_rff_r2           auc=0.8884 f1=0.5248 ETA 0.1h
+[124/200] bloodmnist r=20 d=4 froz s=6174 fourier_rff_r2           auc=0.9146 f1=0.5606 ETA 0.1h
+[125/200] bloodmnist r=20 d=4 froz s=65537 fourier_rff_r2           auc=0.9285 f1=0.6004 ETA 0.1h
+[126/200] bloodmnist r=20 d=4 froz s=2027 fourier_rff_r2           auc=0.9155 f1=0.5690 ETA 0.1h
+[127/200] bloodmnist r=20 d=4 froz s=11235 fourier_rff_r2           auc=0.9109 f1=0.5817 ETA 0.1h
+[128/200] bloodmnist r=20 d=4 froz s=8191 fourier_rff_r2           auc=0.8835 f1=0.5010 ETA 0.1h
+[129/200] bloodmnist r=20 d=4 froz s=8128 fourier_rff_r2           auc=0.8997 f1=0.5440 ETA 0.1h
+[130/200] bloodmnist r=20 d=4 froz s=5040 fourier_rff_r2           auc=0.9167 f1=0.5778 ETA 0.1h
+[131/200] bloodmnist r=50 d=4 froz s=42 fourier_rff_r2           auc=0.9310 f1=0.6121 ETA 0.1h
+[132/200] bloodmnist r=50 d=4 froz s=888 fourier_rff_r2           auc=0.9398 f1=0.6458 ETA 0.1h
+[133/200] bloodmnist r=50 d=4 froz s=161803 fourier_rff_r2           auc=0.9355 f1=0.6479 ETA 0.1h
+[134/200] bloodmnist r=50 d=4 froz s=6174 fourier_rff_r2           auc=0.9373 f1=0.6474 ETA 0.1h
+[135/200] bloodmnist r=50 d=4 froz s=65537 fourier_rff_r2           auc=0.9470 f1=0.6799 ETA 0.1h
+[136/200] bloodmnist r=50 d=4 froz s=2027 fourier_rff_r2           auc=0.9345 f1=0.6261 ETA 0.1h
+[137/200] bloodmnist r=50 d=4 froz s=11235 fourier_rff_r2           auc=0.9368 f1=0.6601 ETA 0.1h
+[138/200] bloodmnist r=50 d=4 froz s=8191 fourier_rff_r2           auc=0.9307 f1=0.6343 ETA 0.1h
+[139/200] bloodmnist r=50 d=4 froz s=8128 fourier_rff_r2           auc=0.9408 f1=0.6376 ETA 0.1h
+[140/200] bloodmnist r=50 d=4 froz s=5040 fourier_rff_r2           auc=0.9366 f1=0.6497 ETA 0.1h
+[141/200] bloodmnist r=100 d=4 froz s=42 fourier_rff_r2           auc=0.9542 f1=0.7026 ETA 0.1h
+[142/200] bloodmnist r=100 d=4 froz s=888 fourier_rff_r2           auc=0.9546 f1=0.6932 ETA 0.1h
+[143/200] bloodmnist r=100 d=4 froz s=161803 fourier_rff_r2           auc=0.9620 f1=0.7403 ETA 0.1h
+[144/200] bloodmnist r=100 d=4 froz s=6174 fourier_rff_r2           auc=0.9583 f1=0.7085 ETA 0.1h
+[145/200] bloodmnist r=100 d=4 froz s=65537 fourier_rff_r2           auc=0.9650 f1=0.7338 ETA 0.1h
+[146/200] bloodmnist r=100 d=4 froz s=2027 fourier_rff_r2           auc=0.9625 f1=0.7181 ETA 0.1h
+[147/200] bloodmnist r=100 d=4 froz s=11235 fourier_rff_r2           auc=0.9571 f1=0.7178 ETA 0.1h
+[148/200] bloodmnist r=100 d=4 froz s=8191 fourier_rff_r2           auc=0.9552 f1=0.7171 ETA 0.1h
+[149/200] bloodmnist r=100 d=4 froz s=8128 fourier_rff_r2           auc=0.9624 f1=0.7273 ETA 0.1h
+[150/200] bloodmnist r=100 d=4 froz s=5040 fourier_rff_r2           auc=0.9615 f1=0.7368 ETA 0.1h
+[151/200] pathmnist r=5 d=4 froz s=42 fourier_rff_r2           auc=0.8240 f1=0.4559 ETA 0.1h
+[152/200] pathmnist r=5 d=4 froz s=888 fourier_rff_r2           auc=0.8857 f1=0.5389 ETA 0.1h
+[153/200] pathmnist r=5 d=4 froz s=161803 fourier_rff_r2           auc=0.8639 f1=0.4859 ETA 0.1h
+[154/200] pathmnist r=5 d=4 froz s=6174 fourier_rff_r2           auc=0.8550 f1=0.4342 ETA 0.0h
+[155/200] pathmnist r=5 d=4 froz s=65537 fourier_rff_r2           auc=0.8230 f1=0.4283 ETA 0.0h
+[156/200] pathmnist r=5 d=4 froz s=2027 fourier_rff_r2           auc=0.8361 f1=0.4112 ETA 0.0h
+[157/200] pathmnist r=5 d=4 froz s=11235 fourier_rff_r2           auc=0.8823 f1=0.4730 ETA 0.0h
+[158/200] pathmnist r=5 d=4 froz s=8191 fourier_rff_r2           auc=0.8303 f1=0.4250 ETA 0.0h
+[159/200] pathmnist r=5 d=4 froz s=8128 fourier_rff_r2           auc=0.8656 f1=0.4794 ETA 0.0h
+[160/200] pathmnist r=5 d=4 froz s=5040 fourier_rff_r2           auc=0.8691 f1=0.5038 ETA 0.0h
+[161/200] pathmnist r=10 d=4 froz s=42 fourier_rff_r2           auc=0.9193 f1=0.5635 ETA 0.0h
+[162/200] pathmnist r=10 d=4 froz s=888 fourier_rff_r2           auc=0.9000 f1=0.5953 ETA 0.0h
+[163/200] pathmnist r=10 d=4 froz s=161803 fourier_rff_r2           auc=0.8833 f1=0.5234 ETA 0.0h
+[164/200] pathmnist r=10 d=4 froz s=6174 fourier_rff_r2           auc=0.8701 f1=0.5047 ETA 0.0h
+[165/200] pathmnist r=10 d=4 froz s=65537 fourier_rff_r2           auc=0.8817 f1=0.5568 ETA 0.0h
+[166/200] pathmnist r=10 d=4 froz s=2027 fourier_rff_r2           auc=0.9074 f1=0.5407 ETA 0.0h
+[167/200] pathmnist r=10 d=4 froz s=11235 fourier_rff_r2           auc=0.9092 f1=0.5662 ETA 0.0h
+[168/200] pathmnist r=10 d=4 froz s=8191 fourier_rff_r2           auc=0.8741 f1=0.5141 ETA 0.0h
+[169/200] pathmnist r=10 d=4 froz s=8128 fourier_rff_r2           auc=0.8844 f1=0.5118 ETA 0.0h
+[170/200] pathmnist r=10 d=4 froz s=5040 fourier_rff_r2           auc=0.8888 f1=0.5410 ETA 0.0h
+[171/200] pathmnist r=20 d=4 froz s=42 fourier_rff_r2           auc=0.9100 f1=0.5883 ETA 0.0h
+[172/200] pathmnist r=20 d=4 froz s=888 fourier_rff_r2           auc=0.9322 f1=0.6258 ETA 0.0h
+[173/200] pathmnist r=20 d=4 froz s=161803 fourier_rff_r2           auc=0.9226 f1=0.5950 ETA 0.0h
+[174/200] pathmnist r=20 d=4 froz s=6174 fourier_rff_r2           auc=0.9102 f1=0.5778 ETA 0.0h
+[175/200] pathmnist r=20 d=4 froz s=65537 fourier_rff_r2           auc=0.9360 f1=0.6395 ETA 0.0h
+[176/200] pathmnist r=20 d=4 froz s=2027 fourier_rff_r2           auc=0.8986 f1=0.5847 ETA 0.0h
+[177/200] pathmnist r=20 d=4 froz s=11235 fourier_rff_r2           auc=0.9371 f1=0.6372 ETA 0.0h
+[178/200] pathmnist r=20 d=4 froz s=8191 fourier_rff_r2           auc=0.9314 f1=0.6137 ETA 0.0h
+[179/200] pathmnist r=20 d=4 froz s=8128 fourier_rff_r2           auc=0.9335 f1=0.6275 ETA 0.0h
+[180/200] pathmnist r=20 d=4 froz s=5040 fourier_rff_r2           auc=0.8996 f1=0.5692 ETA 0.0h
+[181/200] pathmnist r=50 d=4 froz s=42 fourier_rff_r2           auc=0.9636 f1=0.7171 ETA 0.0h
+[182/200] pathmnist r=50 d=4 froz s=888 fourier_rff_r2           auc=0.9507 f1=0.6880 ETA 0.0h
+[183/200] pathmnist r=50 d=4 froz s=161803 fourier_rff_r2           auc=0.9021 f1=0.7003 ETA 0.0h
+[184/200] pathmnist r=50 d=4 froz s=6174 fourier_rff_r2           auc=0.9589 f1=0.7110 ETA 0.0h
+[185/200] pathmnist r=50 d=4 froz s=65537 fourier_rff_r2           auc=0.9639 f1=0.7480 ETA 0.0h
+[186/200] pathmnist r=50 d=4 froz s=2027 fourier_rff_r2           auc=0.9541 f1=0.7251 ETA 0.0h
+[187/200] pathmnist r=50 d=4 froz s=11235 fourier_rff_r2           auc=0.9557 f1=0.7059 ETA 0.0h
+[188/200] pathmnist r=50 d=4 froz s=8191 fourier_rff_r2           auc=0.9549 f1=0.7027 ETA 0.0h
+[189/200] pathmnist r=50 d=4 froz s=8128 fourier_rff_r2           auc=0.9516 f1=0.7064 ETA 0.0h
+[190/200] pathmnist r=50 d=4 froz s=5040 fourier_rff_r2           auc=0.9381 f1=0.6830 ETA 0.0h
+[191/200] pathmnist r=100 d=4 froz s=42 fourier_rff_r2           auc=0.9729 f1=0.7635 ETA 0.0h
+[192/200] pathmnist r=100 d=4 froz s=888 fourier_rff_r2           auc=0.9736 f1=0.7576 ETA 0.0h
+[193/200] pathmnist r=100 d=4 froz s=161803 fourier_rff_r2           auc=0.9321 f1=0.7257 ETA 0.0h
+[194/200] pathmnist r=100 d=4 froz s=6174 fourier_rff_r2           auc=0.9549 f1=0.7215 ETA 0.0h
+[195/200] pathmnist r=100 d=4 froz s=65537 fourier_rff_r2           auc=0.9720 f1=0.7604 ETA 0.0h
+[196/200] pathmnist r=100 d=4 froz s=2027 fourier_rff_r2           auc=0.9633 f1=0.7456 ETA 0.0h
+[197/200] pathmnist r=100 d=4 froz s=11235 fourier_rff_r2           auc=0.9450 f1=0.7341 ETA 0.0h
+[198/200] pathmnist r=100 d=4 froz s=8191 fourier_rff_r2           auc=0.9553 f1=0.7298 ETA 0.0h
+[199/200] pathmnist r=100 d=4 froz s=8128 fourier_rff_r2           auc=0.9547 f1=0.7454 ETA 0.0h
+[200/200] pathmnist r=100 d=4 froz s=5040 fourier_rff_r2           auc=0.9614 f1=0.7428 ETA 0.0h
+
+=== AUC by cell (mean +- sd over seeds) ===
+dataset           reg   d   encoder       low_rank   fourier_rff_
+------------------------------------------------------------------
+bloodmnist         10   4    frozen  0.8401+-0.029  0.8492+-0.024
+bloodmnist        100   4    frozen  0.9409+-0.010  0.9585+-0.004
+bloodmnist         20   4    frozen  0.8771+-0.019  0.8995+-0.014
+bloodmnist          5   4    frozen  0.7752+-0.042  0.7877+-0.037
+bloodmnist         50   4    frozen  0.9184+-0.011  0.9394+-0.007
+breastmnist        10   4    frozen  0.7040+-0.060  0.6698+-0.068
+breastmnist       100   4    frozen  0.7965+-0.027  0.7995+-0.034
+breastmnist        20   4    frozen  0.7305+-0.031  0.7029+-0.052
+breastmnist         5   4    frozen  0.6497+-0.083  0.6213+-0.092
+breastmnist        50   4    frozen  0.7657+-0.020  0.7682+-0.035
+pathmnist          10   4    frozen  0.8847+-0.029  0.9028+-0.026
+pathmnist         100   4    frozen  0.9580+-0.007  0.9616+-0.010
+pathmnist          20   4    frozen  0.9202+-0.021  0.9277+-0.016
+pathmnist           5   4    frozen  0.8426+-0.026  0.8525+-0.033
+pathmnist          50   4    frozen  0.9487+-0.017  0.9540+-0.013
+pneumoniamnist     10   4    frozen  0.9110+-0.013  0.8993+-0.019
+pneumoniamnist    100   4    frozen  0.9340+-0.010  0.9337+-0.013
+pneumoniamnist     20   4    frozen  0.9219+-0.008  0.9200+-0.014
+pneumoniamnist      5   4    frozen  0.8902+-0.033  0.8738+-0.041
+pneumoniamnist     50   4    frozen  0.9251+-0.010  0.9246+-0.012
+
+=== PRIMARY (Q1, efficiency at equal parameters): quantum_vqc - matched_param_fullrank (auc) ===
+Both arms have 24 head parameters and full rank at d=4.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== SECONDARY (Q2, dequantization): quantum_vqc - fourier_rff (auc) ===
+Basis-matched, NOT parameter-matched (324 vs 24). Asks whether
+the VQC exploits its own function class as well as a direct fit.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== DIAGNOSTIC (rank-limited control): quantum_vqc - matched_param (auc) ===
+matched_param is rank-limited to width 3; superseded by
+matched_param_fullrank. Retained for reproducibility only.
+dataset           reg   d   encoder     delta                95% CI    n  verdict
+----------------------------------------------------------------------------------------------------
+  (no cells with both arms present)
+
+=== Q3: frozen - adaptive, per arm (auc) ===
+The premise check showed compression is nearly free WITH an adaptive
+encoder. A large negative delta here means the encoder was absorbing
+the constraint - the reframed 'Latent Reshaping' claim.
+dataset           reg   d                      arm     delta    n
+------------------------------------------------------------------------
+
+=== Trainable capacity by component ===
+If the head's share is small, the experiment is not isolating the head.
+
+arm                        d bottleneck   bneck   head   clf   total  head %
+------------------------------------------------------------------------------
+fourier_rff_r2             4    learned    1028   2500    10    3538   70.7%
+low_rank                   4    learned    1028     72    10    1110    6.5%
+
+=== Gradient flow (mean per-epoch L2 norm, pre-clip) ===
+frozen: backbone must be '-' (no gradient reaches it).
+adaptive: backbone must be non-zero for EVERY arm, quantum included.
+
+arm                        encoder  runs    backbone  bottleneck        head  verdict
+--------------------------------------------------------------------------------------------
+fourier_rff_r2              frozen  1599           -      5.6920      3.0983  OK
+low_rank                    frozen  2283           -      1.2974      0.3050  OK
+
+Predictions: 3882/3882 claimed files are retrievable on disk; 0 shards predate prediction saving.
+
+DIAGNOSTIC OUTPUT - every interval above is a normal approximation
+over seeds. Confirmatory statistics come from 04_statistical_analysis.py.

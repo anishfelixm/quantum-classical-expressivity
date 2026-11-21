@@ -1,0 +1,12 @@
+
+$ /content/env/bin/python -u scripts/analyse_amendment31.py select
+AMENDMENT 31, STAGE 1 (exploratory) | 35_lr_nosquash | 720 runs | commits ['10ce9593']
+  quantum_vqc               360 of 360
+  matched_param_fullrank    360 of 360
+
+arm (raw z)                 3e-04    1e-03    3e-03    1e-02    3e-02    1e-01  selected  gap vs 1e-02
+quantum_vqc                0.8071   0.8419   0.8671   0.8860   0.8997   0.8813     3e-02  +0.0137
+matched_param_fullrank     0.7996   0.8511   0.8805   0.8889   0.8558   0.7557     1e-02  +0.0000
+
+Written: /content/art/nosquash_rates.json
+exit code 0

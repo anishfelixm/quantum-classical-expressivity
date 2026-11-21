@@ -1,0 +1,34 @@
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| scikit-learn', v('scikit-learn'), '| medmnist', v('medmnist'), '| default threads', torch.get_num_threads())"
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'torch'
+exit code 1
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| scikit-learn', v('scikit-learn'), '| medmnist', v('medmnist'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | scikit-learn 1.7.2 | medmnist 3.0.2 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| scikit-learn', v('scikit-learn'), '| medmnist', v('medmnist'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | scikit-learn 1.7.2 | medmnist 3.0.2 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| scikit-learn', v('scikit-learn'), '| medmnist', v('medmnist'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | scikit-learn 1.7.2 | medmnist 3.0.2 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| scikit-learn', v('scikit-learn'), '| medmnist', v('medmnist'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | scikit-learn 1.7.2 | medmnist 3.0.2 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| scikit-learn', v('scikit-learn'), '| medmnist', v('medmnist'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | scikit-learn 1.7.2 | medmnist 3.0.2 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| scikit-learn', v('scikit-learn'), '| medmnist', v('medmnist'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | scikit-learn 1.7.2 | medmnist 3.0.2 | default threads 4
+exit code 0
+
+$ /content/env/bin/python -c "import sys, torch; from importlib.metadata import version as v; print('python', sys.version.split()[0], '| torch', torch.__version__, '| pennylane', v('pennylane'), '| numpy', v('numpy'), '| scikit-learn', v('scikit-learn'), '| medmnist', v('medmnist'), '| default threads', torch.get_num_threads())"
+python 3.10.22 | torch 2.4.1+cu118 | pennylane 0.42.3 | numpy 1.26.4 | scikit-learn 1.7.2 | medmnist 3.0.2 | default threads 4
+exit code 0

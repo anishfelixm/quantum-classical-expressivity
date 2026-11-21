@@ -1,0 +1,12 @@
+
+$ OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 /content/env/bin/python -u scripts/replay.py --source 31_entangling_range --clip 20 --code-at 58852d84 --quick --seeds 42 2026 888 8 161803 99 6174 40 65537 987654 2027 9001 11235 60221 8191 17 8128 1597 5040 2520
+Preparing worktree (detached HEAD 58852d8)
+HEAD is now at 58852d8 Audit: compare circuit fields only when both arms are circuits; notebook cell 9: always restore the backed-up feature cache
+replay | source=31_entangling_range -> C_31_entangling_range | clip=20.0 | runs=3 | code=58852d84 (/content/replay_trees/58852d84) | device=cpu
+[1/3] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.229  | breastmnist n=5 s=42 quantum_reupload | 0.2 min
+[2/3] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.325  | breastmnist n=5 s=42 quantum_vqc | 0.2 min
+[3/3] IDENTICAL                    cache=warm (logs: -) steps>20=0 max=0.504  | breastmnist n=5 s=42 quantum_vqc_range1 | 0.3 min
+
+replay summary 31_entangling_range -> C_31_entangling_range: identical 3, different 0, of 3
+QUICK CHECK PASSED
+exit code 0

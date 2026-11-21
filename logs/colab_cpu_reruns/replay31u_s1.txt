@@ -1,0 +1,13 @@
+
+$ OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 /content/env/bin/python -u scripts/replay.py --source 31_entangling_range --clip inf --code-at 58852d84 --from-list /content/cu31_s1.txt
+replay | source=31_entangling_range -> CU_31_entangling_range | clip=inf | runs=7 | code=58852d84 (/content/replay_trees/58852d84) | device=cpu
+[1/7] PREFIX IDENTICAL (96 epochs) cache=warm (logs: -) steps>20=1 max=20.002  | pathmnist n=100 s=314159 quantum_reupload | 3.0 min
+[2/7] PREFIX IDENTICAL (71 epochs) cache=warm (logs: -) steps>20=1 max=20.612  | pathmnist n=100 s=496 quantum_reupload | 5.8 min
+[3/7] PREFIX IDENTICAL (93 epochs) cache=warm (logs: -) steps>20=1 max=22.234  | pathmnist n=50 s=777 quantum_reupload | 7.4 min
+[4/7] PREFIX IDENTICAL (89 epochs) cache=warm (logs: -) steps>20=1 max=20.390  | pathmnist n=50 s=77777 quantum_reupload | 8.9 min
+[5/7] PREFIX IDENTICAL (89 epochs) cache=warm (logs: -) steps>20=1 max=26.766  | pneumoniamnist n=100 s=2718281 quantum_reupload | 9.5 min
+[6/7] PREFIX IDENTICAL (92 epochs) cache=warm (logs: -) steps>20=1 max=21.924  | pathmnist n=100 s=1000003 quantum_vqc | 12.2 min
+[7/7] PREFIX IDENTICAL (92 epochs) cache=warm (logs: -) steps>20=1 max=23.926  | pathmnist n=50 s=31337 quantum_vqc | 13.5 min
+
+replay summary 31_entangling_range -> CU_31_entangling_range: done 7, other 0, of 7
+exit code 0

@@ -6,15 +6,16 @@
 all run and recorded). Supersedes v3.0 (26 August), whose thesis ("the
 advantage is an artifact"; "no parameter-efficiency advantage") was written
 before the confirmatory run and is contradicted by it.
-**Target venue:** IEEE Access. **Status:** experiments finished and frozen;
-manuscript being revised to `PAPER_PLAN_2026-11-11.md` (kept with the
-manuscript, outside the repository).
+**Target venue:** IEEE Access. **Status:** submitted on 21 November 2026,
+under review. Experiments finished and frozen. The submitted source is in
+`paper/`; the repository state at submission is the tag
+`submitted-2026-11-21`.
 
 See `docs/CLAIMS_LEDGER.md` for the status of every manuscript claim.
 
 > Read this first. Then `docs/RESULTS.md` (every number, by evidential tier),
 > `docs/analysis_plan.md` (binding; amendments; follow-up results at the end),
-> `docs/PAPER_OUTLINE.md` (v3.1) and `docs/STATE.md`.
+> `paper/main.tex` (the submitted manuscript) and `docs/STATE.md`.
 
 ---
 
@@ -248,7 +249,7 @@ were built to test claims of that kind.
 
 **Against.** The effect is small and carried by one dataset. The cause is not
 identified; the regularisation reading is exploratory. Simulation only, 28×28
-images, one backbone. 32 amendments, which the scorecard of 19 pre-written
+images, one backbone. 33 amendments, which the scorecard of 19 pre-written
 predictions (8 failed) must answer. The broad point that classical baselines
 usually match VQCs is already published (Bowles et al. 2024), and Duong et al.
 (Diagnostics, Oct 2026) already used a Fourier surrogate of a circuit head on

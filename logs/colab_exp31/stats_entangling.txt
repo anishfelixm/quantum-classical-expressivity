@@ -1,0 +1,72 @@
+
+$ /content/env/bin/python -u scripts/analyse_entangling_range.py --workers 7
+AMENDMENT 26 (exploratory) | workers=7 | B=2000 | sha=58852d84
+  range_effect                 computed (20 cells, 40 seeds) in 2624s
+  reupload_effect              computed (20 cells, 40 seeds) in 2305s
+  hs1_same_device              computed (20 cells, 40 seeds) in 1929s
+
+--- range_effect: VQC ranges (1,1) - VQC ranges (1,2): the entangling range alone
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0027 [-0.0047,+0.0100]  0.4748  0.5897  
+    n=10         +0.0024 [-0.0031,+0.0080]  0.3788  0.5897  
+    n=20         +0.0020 [-0.0029,+0.0063]  0.3998  0.5897  
+    n=50         +0.0012 [-0.0034,+0.0062]  0.5897  0.5897  
+    n=100        +0.0022 [-0.0013,+0.0060]  0.2299  0.5897  
+    slope       -0.00019 [-0.00183,+0.00138]  (descriptive)
+
+--- reupload_effect: re-upload VQC - VQC ranges (1,1): re-uploading alone
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          -0.0001 [-0.0073,+0.0071]  0.9525  0.9525  
+    n=10         +0.0067 [+0.0012,+0.0122]  0.0140  0.0175  CI excludes 0
+    n=20         +0.0092 [+0.0052,+0.0139]  0.0010  0.0025  CI excludes 0
+    n=50         +0.0087 [+0.0046,+0.0127]  0.0020  0.0033  CI excludes 0
+    n=100        +0.0086 [+0.0061,+0.0115]  0.0010  0.0025  CI excludes 0
+    slope       +0.00172 [+0.00014,+0.00321]  (descriptive)
+
+--- hs1_same_device: re-upload VQC - VQC: the H-S1 contrast, re-run on one machine
+                estimate                95% CI       p   p_adj  (BH within this analysis, m=5)
+    n=5          +0.0026 [-0.0053,+0.0106]  0.5087  0.5087  
+    n=10         +0.0091 [+0.0027,+0.0150]  0.0060  0.0075  CI excludes 0
+    n=20         +0.0112 [+0.0071,+0.0150]  0.0010  0.0017  CI excludes 0
+    n=50         +0.0099 [+0.0058,+0.0138]  0.0010  0.0017  CI excludes 0
+    n=100        +0.0109 [+0.0082,+0.0141]  0.0010  0.0017  CI excludes 0
+    slope       +0.00154 [-0.00008,+0.00314]  (descriptive)
+
+==============================================================================
+PREDICTIONS (Amendment 26)
+==============================================================================
+P1  |range_effect| < 0.005 at every n: largest 0.0027  ->  HOLDS
+P2  reupload_effect interval above zero at n = 50 and 100: n=50 +0.0087 [+0.0046,+0.0127], n=100 +0.0086 [+0.0061,+0.0115]  ->  HOLDS
+
+Written: /content/art/entangling_range.json
+exit code 0
+
+$ /content/env/bin/python -u scripts/analyse_entangling_range.py --device-check-only
+AMENDMENT 26 (exploratory) | workers=7 | B=2000 | sha=5b8e47f9
+
+DEVICE CHECK: 800 new quantum_vqc runs, 800 with a recorded twin, 0 without
+DEVICE CHECK (descriptive): new quantum_vqc - recorded quantum_vqc, same configuration
+    breastmnist     n=   5  mean -0.0065  max |diff| 0.1090  identical 10/40
+    breastmnist     n=  10  mean +0.0001  max |diff| 0.2224  identical 10/40
+    breastmnist     n=  20  mean +0.0024  max |diff| 0.1771  identical 10/40
+    breastmnist     n=  50  mean -0.0008  max |diff| 0.0992  identical 10/40
+    breastmnist     n= 100  mean -0.0034  max |diff| 0.0675  identical 9/40
+    pneumoniamnist  n=   5  mean +0.0066  max |diff| 0.1739  identical 10/40
+    pneumoniamnist  n=  10  mean -0.0004  max |diff| 0.1610  identical 9/40
+    pneumoniamnist  n=  20  mean -0.0000  max |diff| 0.0173  identical 10/40
+    pneumoniamnist  n=  50  mean +0.0006  max |diff| 0.0087  identical 7/40
+    pneumoniamnist  n= 100  mean -0.0001  max |diff| 0.0058  identical 9/40
+    bloodmnist      n=   5  mean +0.0031  max |diff| 0.2013  identical 2/40
+    bloodmnist      n=  10  mean +0.0060  max |diff| 0.0954  identical 2/40
+    bloodmnist      n=  20  mean +0.0064  max |diff| 0.0672  identical 2/40
+    bloodmnist      n=  50  mean +0.0051  max |diff| 0.0764  identical 0/40
+    bloodmnist      n= 100  mean -0.0012  max |diff| 0.0838  identical 0/40
+    pathmnist       n=   5  mean +0.0020  max |diff| 0.0630  identical 0/40
+    pathmnist       n=  10  mean -0.0062  max |diff| 0.0994  identical 0/40
+    pathmnist       n=  20  mean -0.0037  max |diff| 0.0560  identical 0/40
+    pathmnist       n=  50  mean -0.0038  max |diff| 0.0879  identical 0/40
+    pathmnist       n= 100  mean +0.0023  max |diff| 0.0383  identical 0/40
+    all runs: mean +0.0004, mean |diff| 0.0155, max |diff| 0.2224, identical 100/800
+
+Written: /content/art/entangling_device_check.json
+exit code 0
