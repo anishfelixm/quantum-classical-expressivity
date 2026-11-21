@@ -413,7 +413,7 @@ def fig_overview(plt, arch, out, record):
     # ---- (a) the pipeline
     ax = fig.add_subplot(gs[0, :])
     ax.set_xlim(0, 100); ax.set_ylim(0, 34); ax.axis("off")
-    ax.set_title("(a) model structure; the arms differ only in the head", fontsize=7.5)
+    ax.set_title("(a) architecture pipeline; the arms differ only in the head", fontsize=7.5)
 
     def box(x, w, title, sub, y=8, h=17, fill="#ffffff", edge=AXIS, bold=False, fs=7.2):
         ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.3,rounding_size=1.0",
@@ -595,6 +595,8 @@ def fig_function_class_3d(plt, path, out, record):
         for ax_ in (ax.xaxis, ax.yaxis, ax.zaxis):
             ax_.pane.set_facecolor((1, 1, 1, 0)); ax_.pane.set_edgecolor(GRID)
         ax.set_title(title, fontsize=7.3, pad=0)
+        if k2 == 0:
+            ax_a = ax
     ax = fig.add_subplot(gs[0, 3])
     im = ax.imshow(diff, origin="lower", extent=[-a, a, -a, a],
                    cmap="Greys", aspect="equal")
@@ -602,6 +604,13 @@ def fig_function_class_3d(plt, path, out, record):
     ax.set_xlabel(rf"$\tilde{{z}}_{{{ci + 1}}}$"); ax.set_ylabel(rf"$\tilde{{z}}_{{{cj + 1}}}$", labelpad=1)
     cb = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
     cb.formatter.set_powerlimits((0, 0)); cb.update_ticks(); cb.ax.tick_params(labelsize=6)
+    # The image in (c) keeps a square aspect, so its axes are shorter than the 3D
+    # axes of (a) and (b), and set_title alone left its title lower. Once the
+    # layout is final (colorbar included), raise it to the baseline of (a)'s title.
+    fig.canvas.draw()
+    baseline = lambda t: t.get_transform().transform(t.get_position())[1]
+    lift = (baseline(ax_a.title) - baseline(ax.title)) / ax.bbox.height
+    ax.set_title("(c) |(a) − (b)|", fontsize=7.3, y=1.0 + lift)
     meta = {"cell": json.loads(str(z["cell"])), "auc_recorded": float(z["auc_recorded"]),
             "auc_reproduced": float(z["auc_reproduced"]), "max_prob_diff": float(z["max_prob_diff"]),
             "device": str(z["device"]), "n_basis": n_terms, "d": d,
