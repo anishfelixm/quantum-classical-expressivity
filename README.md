@@ -1,57 +1,152 @@
-# Variational quantum vs. parameter-matched classical heads under data scarcity
+<h1 align="center">Where Does a Variational Quantum Head's Advantage Come From?</h1>
+<h3 align="center">A Controlled Study of Medical Image Classification Under Data Scarcity</h3>
 
-A controlled attribution study on MedMNIST. A frozen ResNet-18 feeds a learned
-4-dimensional projection, and only the classification head changes between
-arms: a 24-parameter variational quantum circuit (VQC), or classical heads
-matched to it on parameter count or on function class.
+<p align="center">
+Anish Felix Mathias · Susham P S · Rajashree Shettar · Badarinath Kamasetty
+</p>
 
-**Status.** All experiments are complete and the results below are final. The
-manuscript was submitted to IEEE Access on 21 November 2026 and is under
-review. Its source is in [`paper/`](paper/), and the repository state at
-submission is the tag `submitted-2026-11-21`. This repository began as the
-code for an earlier draft written for a conference, which was never submitted
-or published. This study re-tested that draft's claims with stronger controls,
-and several did not survive
-([what changed from the earlier draft](#what-changed-from-the-earlier-draft)).
+<p align="center">
+<img alt="IEEE Access: under review" src="https://img.shields.io/badge/IEEE%20Access-under%20review-00629B">
+<a href="https://doi.org/10.5281/zenodo.24465986"><img alt="Data DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.24465986.svg"></a>
+<a href="LICENSE"><img alt="Code licence: MIT" src="https://img.shields.io/badge/code-MIT-green"></a>
+<img alt="Python 3.10" src="https://img.shields.io/badge/python-3.10-blue">
+</p>
 
-> **What this is not.** The circuits have 4–16 qubits and run on a state-vector
-> simulator. They are classically simulable by construction, and the trained
-> head computes an ordinary trigonometric function (proved and verified below).
-> Nothing here is evidence of quantum advantage. The question is narrower: when
-> a VQC head beats a matched classical head, where does that advantage come
-> from?
+<p align="center">
+<img src="paper/figures/fig1_overview.png" width="900" alt="Pipeline: image, frozen ResNet-18, learned projection to 4 numbers, tanh bound, then either a 24-parameter VQC head or a 24-parameter classical head, then a classifier">
+</p>
+
+Hybrid classifiers that put a small quantum circuit on top of a pretrained
+network are often proposed for medical imaging, where labelled images are
+scarce. When such a circuit beats a classical head, is the gain quantum?
+
+We tested this on four MedMNIST datasets with **5 to 100 labelled images per
+class**. A frozen ResNet-18 feeds a learned projection to four numbers, one per
+qubit. Only the head changes between arms: a **24-parameter variational quantum
+circuit (VQC)**, a classical head with **exactly the same 24 parameters**, and a
+classical **sine–cosine model** of the 81 functions the circuit can compute.
+
+**In short:** the VQC head does win, slightly, at 5 images per class. But the
+win needs the projection in front of it to be trained with it, the circuit never
+beats the classical model of its own function, and small classical heads show
+the same "small beats large" pattern. The gain looks like **regularisation by a
+small head, not quantum computation**. The results give no evidence of quantum
+advantage.
+
+> **What this is not.** The circuits have 4 to 16 qubits and run on a
+> classical simulator. The trained head computes an ordinary sine–cosine
+> function (shown exactly below). This is not a "quantum beats classical" paper.
+> It asks where an observed advantage comes from, and answers it with controls.
 
 ---
 
-## Findings
+## Main results
 
-Three evidential tiers, never mixed. **Confirmatory**: the 23 tests declared in
-[`docs/analysis_plan.md`](docs/analysis_plan.md), corrected once (BH-FDR,
-m = 23). **Pre-specified follow-up**: reruns whose design and prediction were
-written before they ran. **Exploratory**: everything else.
+Every result is labelled with how much weight it can carry:
+**confirmatory** (one of 23 tests written into the analysis plan before the
+experiment ran, corrected together for false discoveries), **prespecified
+follow-up** (design and prediction written before it ran), or **exploratory**
+(everything else).
+
+### 1. A small lead, only when data are scarcest, and only with a learned projection
+
+<img src="paper/figures/fig3_where_the_advantage_lives.png" width="430" align="right" alt="VQC minus matched head, AUC points, against images per class, for learned and frozen projections">
+
+At 5 images per class the VQC head beat the matched classical head by
+**+0.014 AUC** (95% CI +0.003 to +0.026). The lead shrank by 0.0046 per
+doubling of the data and was gone by 10 images per class. *(Confirmatory.)*
+
+When the projection was **frozen** (principal components or a random map) instead
+of trained with the head, the VQC head fell **behind at every size**.
+*(Prespecified follow-up.)*
+
+The lead came mainly from one dataset (BloodMNIST) and reversed with eight
+qubits. *(Exploratory.)*
+
+<br clear="right">
+
+### 2. The circuit is a classical sine–cosine model
+
+<p align="center">
+<img src="paper/figures/fig2_function_class_3d.png" width="900" alt="Trained circuit output, the 81-function fit, and their difference below 3e-15">
+</p>
+
+An angle-encoded circuit computes a short Fourier series of its inputs. For
+this circuit, every output is **exactly** a weighted sum of 81 = 3⁴ sine and
+cosine functions. Fitting those 81 functions to PennyLane's outputs leaves
+errors below 4×10⁻¹⁵, the level of rounding. A basis with the wrong frequencies
+leaves 0.91, so the check can fail. A second check in plain NumPy, with no
+PennyLane and no project code, agrees.
+
+### 3. The circuit never beat that model
+
+<img src="paper/figures/fig6_function_class_all_inputs.png" width="430" align="right" alt="VQC minus sine-cosine model, AUC points, against images per class">
+
+A linear model over the same 81 functions (324 parameters) **led from 10
+images per class**, and the circuit never significantly beat it.
+*(Confirmatory.)* The circuit did not significantly beat it on CPU either, nor
+with the input bound removed from both, each at its own tuned learning rate.
+*(Exploratory.)*
+
+So whatever the circuit adds, it is not access to functions a classical model
+cannot reach.
+
+<br clear="right">
+
+### 4. Small beats large when data are scarce, for classical heads too
+
+<p align="center">
+<img src="paper/figures/fig4_small_and_large_learners.png" width="900" alt="Smaller minus larger low-rank head, and re-uploading VQC minus a 2,500-parameter fit of its function class">
+</p>
+
+An 8-parameter classical head led a 72-parameter one at the smallest sizes.
+A 24-parameter re-uploading circuit led a 2,500-parameter fit of its own
+function class at 5 and 10 images per class, and fell behind at 100. Both leads
+shrank or reversed as data grew. This is the pattern expected of
+regularisation, and it is not specific to the circuit. *(Exploratory.)*
+
+### 5. Under noise, every small head fails the same way
+
+<p align="center">
+<img src="paper/figures/fig7_noise.png" width="900" alt="Relative F1 loss minus relative AUC loss under sensor noise, VQC and matched head">
+</p>
+
+With sensor noise added to the test images, all seven heads lost far more F1
+than AUC. The ranking of images held, but the decision threshold no longer fit.
+The VQC was no more robust than the others, and its calibration error was among
+the lowest. *(Confirmatory and exploratory.)*
+
+### Scorecard
+
+| | |
+|---|---|
+| Confirmatory tests | **23**: 14 supported, 7 not supported, 1 opposite to its prediction, 1 difference where no direction was predicted |
+| Exploratory checks with predictions written first | **19**: 8 held, **8 failed**, 3 held in part |
+| Reported training runs re-executed and reproduced bit for bit | **35,740** (20,220 on GPU, 15,520 on CPU) |
+
+Failed predictions are reported with the same weight as the ones that held.
+Every number, with its interval, is in [`docs/RESULTS.md`](docs/RESULTS.md).
+
+<details>
+<summary><b>All findings, one line each, with their tier</b></summary>
 
 | # | Finding | Tier |
 |---|---|---|
-| 1 | At 5 labelled images per class, the VQC head beats the parameter-matched classical head: ΔAUC **+0.0142** [+0.0025, +0.0256], p_adj = 0.026. | confirmatory |
+| 1 | At 5 images per class, VQC − matched head: ΔAUC **+0.0142** [+0.0025, +0.0256], p_adj = 0.026. | confirmatory |
 | 2 | The advantage shrinks with data: slope **−0.0046** per doubling of n [−0.0070, −0.0022], p_adj = 0.002. At n ≥ 50 the matched head is ahead (descriptive). | confirmatory |
 | 3 | BloodMNIST carries the advantage. Without it, Δ(5) = +0.0041 [−0.0071, +0.0155]. It reverses at d = 8, is null at d = 16 and is not detected with full training data. | exploratory |
-| 4 | It exists **only with a learned projection**. With the projection frozen (PCA or random), the VQC head is worse than the matched head at every n: −0.0301 and −0.0190 at n = 5. | pre-specified follow-up |
+| 4 | It exists **only with a learned projection**. With the projection frozen (PCA or random), the VQC head is worse than the matched head at every n: −0.0301 and −0.0190 at n = 5. | prespecified follow-up |
 | 5 | Function-class **restriction** as the cause: not supported in the confirmatory run or the follow-up. With the larger classical head at its own selected learning rate, the smaller head leads at n = 5 and 10 and falls behind at n = 50 (slope −0.0039 [−0.0057, −0.0020]); that pattern depends on the larger head's rate. Consistent with regularisation, not established. | confirmatory + follow-up + exploratory |
-| 6 | A direct fit over the VQC's own function class (the 81-term trigonometric basis) beats the VQC at n ≥ 10, by 0.016–0.021 AUC. On CPU and on raw z the VQC never significantly beats it either. | confirmatory; exploratory (CPU, raw z) |
+| 6 | A direct fit over the VQC's own function class (the 81-term sine–cosine basis) beats the VQC at n ≥ 10, by 0.016–0.021 AUC. On CPU and on unbounded input the VQC never significantly beats it either. | confirmatory; exploratory (CPU, unbounded) |
 | 7 | Data re-uploading (a wider frequency spectrum) helps at n ≥ 10. At n = 10 this is the **opposite** of the prediction written before the run. | confirmatory |
 | 8 | Reading out two-qubit correlators ⟨XᵢXⱼ⟩ as well as ⟨Xᵢ⟩ helps (+0.011). | confirmatory |
 | 9 | Under sensor noise, macro-F1 collapses while AUC holds for **every** small head, classical or quantum. The cause is the decision threshold, not miscalibration: the VQC's calibration error is among the lowest of seven heads. | confirmatory + descriptive |
-| 10 | With frozen features, compressing the 256 features to d = 4 costs AUC on BloodMNIST at every n (+0.018 to +0.055) and on PathMNIST at small n (+0.023 at n = 5), and nothing detectable on the two binary sets. Both pre-written predictions failed. | exploratory (Amendment 18, 10 seeds) |
+| 10 | With frozen features, compressing the 256 features to d = 4 costs AUC on BloodMNIST at every n (+0.018 to +0.055) and on PathMNIST at small n (+0.023 at n = 5), and nothing detectable on the two binary sets. Both predictions written in advance failed. | exploratory |
 | 11 | Under the VQC head, the projection leaves about one fewer of four latent coordinates unsaturated at n = 5, at the same learning rate. This does not track the advantage. | exploratory |
-| 12 | The tanh·π/2 squash applied to every head does **not** explain the advantage. It costs the VQC +0.013 to +0.020 AUC at every n, more than it costs the matched head; with both heads on raw z, each at its own tuned rate, the VQC's lead at n = 5 is **+0.0198** [+0.0104, +0.0307]. Removing it from the matched head alone gives +0.0002, which is why both sides were tested. | exploratory (Amendments 28, 31, 32) |
+| 12 | The tanh·π/2 input bound applied to every head does **not** explain the advantage. It costs the VQC +0.013 to +0.020 AUC at every n, more than it costs the matched head; with both heads on unbounded input, each at its own tuned rate, the VQC's lead at n = 5 is **+0.0198** [+0.0104, +0.0307]. Removing it from the matched head alone gives +0.0002, which is why both sides were tested. | exploratory |
 | 13 | The 24-parameter re-uploading circuit beats a 2,500-parameter fit of its own function class at n = 5 and 10 in all six versions run (GPU/CPU, with/without clipping, inherited/selected rate), and is behind at n = 100. | exploratory, not parameter-matched |
 
-Of the 23 confirmatory tests, 14 were supported, 1 came out opposite to its
-prediction, 1 showed a difference where none was predicted, and 7 were not
-supported. Every number, with its interval, is in
-[`docs/RESULTS.md`](docs/RESULTS.md).
-
-**Absolute performance at n = 5** (test AUC, mean over 40 seeds):
+**Test AUC at 5 images per class** (mean over 40 seeds):
 
 | Dataset | Classes | Test images | Matched head | VQC head |
 |---|---|---|---|---|
@@ -60,299 +155,211 @@ supported. Every number, with its interval, is in
 | BloodMNIST | 8 | 3,421 | 0.742 | 0.786 |
 | PathMNIST | 9 | 7,180 | 0.838 | 0.834 |
 
-**In one sentence.** A small, confirmatory, scarcity-dependent advantage of a
-VQC head over a parameter-matched classical head exists, but only when a learned
-projection adapts upstream of it; the head computes a classical function and
-never significantly beats a classical model of that function, and the pattern
-of small learners beating large ones at small n is consistent with
-regularisation (exploratory), not with quantum advantage.
+</details>
+
+<details>
+<summary><b>All 23 confirmatory tests in one figure</b></summary>
+<p align="center">
+<img src="paper/figures/figS1_all_confirmatory_tests.png" width="600" alt="Forest plot of the 23 confirmatory tests">
+</p>
+</details>
 
 ---
 
-## Pipeline
+## The heads
 
-```
-image 28×28  →  upsampled to 224×224
-             →  ResNet-18 to layer3, ImageNet weights, frozen   (0 trainable)
-             →  global pool → h ∈ ℝ²⁵⁶
-             →  projection Linear(256, d)                       learned | frozen PCA | frozen random
-             →  z̃ = tanh(z)·π/2                                 every arm
-             →  HEAD                                            the only thing that varies
-             →  Linear(outputs, C) classifier                   every arm
-```
-
-Trainable parameters at d = 4, binary task: projection 1,028 (97 %), head 24,
-classifier 10. The learned projection dominates the budget. This is why
-finding 4 matters: the head is a small part of a system that adapts around it.
-
-## Arms
-
-| Arm | Role | Head parameters (d = 4) |
+| Head | What it is | Parameters (d = 4) |
 |---|---|---|
-| `quantum_vqc` | treatment: RY angle embedding, two StronglyEntanglingLayers, ⟨Xᵢ⟩ readout | 24 |
-| `matched_param_fullrank` | primary capacity control | 24 |
-| `low_rank` | capacity control at any d (2dr + 2d) | 24 at r = 2; 48 and 96 at d = 8, 16 |
-| `fourier_rff` | function-class control: one frequency per ±ω pair of {−1,0,1}⁴, giving 81 = 3⁴ basis functions | 324 |
-| `quantum_reupload` | VQC with the input encoded twice; spectrum {−2..2}ᵈ | 24 |
-| `fourier_rff_r2` | function-class control for the re-uploading VQC | 2,500 |
-| `quantum_rich`, `quantum_rich_padded` | VQC with 2-local readout (10 outputs) | 24 |
-| `quantum_basic` | alternative ansatz (BasicEntanglerLayers) | 24 |
-| `linear`, `mlp` | floors and references | 0 |
+| `quantum_vqc` | the circuit under test: RY angle encoding, two strongly entangling layers, one ⟨X⟩ per qubit | 24 |
+| `matched_param_fullrank` | classical head with exactly the same parameter count | 24 |
+| `low_rank` | classical head whose size can be varied (2dk + 2d); matched at k = 2 for every d | 24 at k = 2 |
+| `fourier_rff` | the sine–cosine model: a linear model over the circuit's 81 functions | 324 |
+| `quantum_reupload` | the circuit with each input encoded twice (625 functions) | 24 |
+| `fourier_rff_r2` | the sine–cosine model for the re-uploading circuit | 2,500 |
+| `quantum_rich`, `quantum_rich_padded` | the circuit with two-qubit readout (10 outputs), and its padded control | 24 |
+| `quantum_basic` | an alternative circuit design | 24 |
+| `linear`, `mlp` | references | — |
 
-Two kinds of parity, deliberately. `matched_param_fullrank` and `low_rank` match
-**parameter count**: is the VQC more efficient per parameter? `fourier_rff`
-matches the **function class**: is any advantage specific to the circuit, or
-available to any learner over the same trigonometric basis? Exact parity holds
-at 24 = 24 = 24 (d = 4), and is checked by `tests/test_parity.py`.
-`models/registry.py` also defines diagnostic arms that the reported results
-do not use. Among them is `matched_param`, a rank-limited control that turned
-out not to be a fair match (see below).
+There are two kinds of match, on purpose. The **matched** and **low-rank**
+heads match the **parameter count**: is the circuit better per parameter? The
+**sine–cosine model** matches the **function class**: can any learner over the
+same functions do what the circuit does? The 24 = 24 = 24 parity is checked by
+`tests/test_parity.py`.
 
----
-
-## The head computes a classical function
-
-With `AngleEmbedding(rotation='Y')` and no re-uploading, the encoded state has
-real amplitudes. Every measured expectation is exactly
-
-```
-v_i(z̃) = Σ_{s ∈ {0,c,s}^d} c_s(Θ) ∏_j f_{s_j}(z̃_j),     f_0 = 1, f_c = cos, f_s = sin
-```
-
-This is a 3ᵈ-dimensional classical trigonometric span (81 functions at d = 4).
-It is the spectrum Schuld, Sweke & Meyer (2021) predict from the encoding
-generator. The 24 circuit parameters reach at most a 24-dimensional subset of
-that span. With re-uploading the span becomes 5ᵈ. Two-qubit correlators
-⟨XᵢXⱼ⟩ stay in the 3ᵈ span.
-
-Checked two independent ways:
-
-```bash
-python -m pytest tests/test_fourier_equivalence.py -v   # PennyLane; residuals 6e-16 to 2e-15, wrong basis fails
-python -m pytest tests/test_independent_theory.py -v    # plain numpy, no PennyLane or project code
-```
-
-The independent rebuild also verifies the depolarising-noise result: noise
-applied once after the circuit contracts every ⟨Xᵢ⟩ by (1 − 4p/3) and leaves
-binary AUC exactly unchanged. Noise after every layer does not; there, 7 of
-1,770 test pairs reorder for the test's readout vector (median 10 over 1,000
-random readouts). Derivations: [`docs/MATH_VERIFICATION.md`](docs/MATH_VERIFICATION.md).
-
----
+In a binary task, the learned projection holds 1,028 of the 1,062 trainable
+parameters (97%). The head is a small part of a system that adapts around it,
+which is why result 1 matters.
 
 ## Why the comparison is fair
 
-Each of these was found and fixed during the project, and the reported results
-use only the fixed versions. Each one, left in place, could have produced or
-hidden an effect.
+A matched parameter count is not enough on its own. Any other difference
+between the arms can create or hide an effect. Sixteen such differences were
+found during the study (the paper lists all of them). These are the main ones.
+Only results produced after each fix are reported.
 
-| Confound | Fix |
+| Hidden difference | Fix |
 |---|---|
-| The first "parameter-matched" control was rank-limited | `matched_param_fullrank`, plus `low_rank`, whose parity identity holds at every d |
-| Gradient clipping at 1.0 bound on classical arms and never on the VQC, acting as a per-arm learning-rate multiplier | clip at 20.0, with every step's pre-clip norm recorded. 20.0 still acted in about one run in ten, mostly in Fourier heads (and in 59 circuit runs). Every run in which it acted was re-run without clipping, and every result is reported both ways (Amendments 21, 27, 30–32) |
-| Checkpoints selected on macro-F1 while AUC was reported | selection on validation AUC (Amendment 2); F1-selected results reported as a sensitivity check |
-| One shared learning rate, while gradient scales differ about 5× across arms | per-arm rates tuned on validation, on seeds disjoint from the confirmatory seeds (`09`) |
-| Duplicated Fourier frequencies (both ω and −ω) | one representative per ±ω pair |
-| Weight decay applied to classical arms only | identical weight decay for every arm, quantum parameters included |
-| Sensor noise clamped in normalised coordinates, and added after upsampling | noise added at native resolution, in physical pixel space: inverse-normalise, add, clamp to [0, 1], re-normalise |
-| BH correction too lenient if more tests were computed than declared | m = max(declared, computed); m = 23 |
-| The tanh·π/2 squash was chosen for the circuit but applied to every head | the VQC, matched and Fourier heads were also trained on raw z, each at a rate tuned for raw z (Amendments 28, 31, 32) |
-| Arms added after tuning used an inherited learning rate | the tuning procedure was re-run for 11 such configurations; the comparisons where a rate was below the best were re-run at the selected rate (Amendments 29, 31) |
+| The first "parameter-matched" control was rank-limited | `matched_param_fullrank`, plus `low_rank`, whose parity holds at every d |
+| Gradient clipping at 1.0 would have acted on the classical heads far more often than on the VQC, like a different learning rate per arm | clip at 20.0, with every step's norm recorded. 20.0 still acted in about one run in ten, mostly in Fourier heads (and in 59 circuit runs). Every run in which it acted was re-run without clipping, and every result is reported both ways |
+| Checkpoints selected on F1 while AUC was reported | selection on validation AUC; F1 selection kept as a prespecified sensitivity analysis |
+| One shared learning rate, while gradient sizes differ about 5× across arms | a learning rate tuned for each arm on validation data, on seeds separate from the test seeds |
+| Duplicated Fourier frequencies (both ω and −ω) | one frequency per ±ω pair |
+| Weight decay applied to classical arms only | the same weight decay for every arm, circuit angles included |
+| Sensor noise added after upsampling, and clamped in the wrong units | noise added at the native 28×28 size, in pixel units |
+| Multiple-testing correction too lenient if more tests were run than declared | m = max(declared, computed) = 23 |
+| The tanh·π/2 input bound was chosen for the circuit but applied to every head | the VQC, matched and sine–cosine heads were also trained without it, each at a rate tuned for that case |
+| Arms added after tuning used a borrowed learning rate | the tuning re-run for all 11 such configurations, and the affected comparisons re-run at the selected rate |
 
 Other design choices:
-- **Scarcity is absolute** (n ∈ {5, 10, 20, 50, 100} per class), never a
-  percentage. 1 % of BreastMNIST and 1 % of PathMNIST are unrelated experiments.
-- **Sampling is stratified.**
-- **Validation is capped** at 2n per class, so model selection uses a bounded
-  number of extra labels. It is still more than the n used for training; the
-  paper lists this as a limitation.
-- **The backbone stays frozen.** Training changes 0 of its parameters and 0
-  BatchNorm buffers, while a deliberately broken negative control drifts
-  (`tests/test_freezing.py`, `src/11_flow_verification.py`).
-- **Every run saves per-sample test predictions,** and metrics recomputed from
-  them match the recorded ones exactly.
+- **Scarcity is a fixed count** (5, 10, 20, 50 or 100 images per class), never a
+  percentage. 1% of BreastMNIST and 1% of PathMNIST are very different
+  experiments.
+- **The backbone stays frozen.** Training changes none of its weights or
+  BatchNorm statistics, while a deliberately broken control does drift
+  (`tests/test_freezing.py`).
+- **Every run saves its per-sample test predictions,** and metrics recomputed
+  from them match the recorded ones exactly.
 
-## Statistics and pre-specification
+## How the results were checked
 
-- **Analysis plan in version control before the data.** The plan
+- **Plan before data.** The analysis plan
   ([`docs/analysis_plan.md`](docs/analysis_plan.md)) was committed on 17 August
-  2026 (`d6e37db`). The confirmatory sweep started on 31 August. Every later
-  experiment ran on a commit whose copy of the plan already contained its
-  amendment ([`docs/RESULTS.md`](docs/RESULTS.md) §6.6). This is a pre-specified
-  analysis plan, not a third-party registration. Amendments are dated, and those
-  written retrospectively say so. The primary crossover was first seen in
-  diagnostic data before the plan; the plan says this too.
-- **Statistic.** A nested paired bootstrap that resamples test images and
-  training seeds within each dataset × n cell (B = 2000, +1-corrected p-values).
-  Datasets are weighted equally and treated as fixed. Benjamini–Hochberg is
-  applied once across all 23 tests (`src/13_family_table.py`).
-- **Verdict.** p_adj ≤ 0.05 **and** the predicted sign. Negligible means
-  |ΔAUC| < 0.01.
-- **Seeds.** 40 confirmatory seeds, with learning rates selected on 5 disjoint
-  tuning seeds.
-- **Re-execution.** Every reported run (35,740: 20,220 on GPU, 15,520 on CPU)
-  was executed again with the code of the commit that recorded it, and
-  reproduced its stored results bit for bit on the device type that recorded it.
+  2026 (`d6e37db`); the confirmatory runs started on 31 August. Every later
+  experiment ran on a commit whose plan already contained its amendment. The
+  amendments are dated, and those written after the fact say so. The main
+  crossover was first seen in diagnostic runs before the plan; the plan says
+  this too. This is a plan kept in version control, not a third-party
+  registration.
+- **Statistics.** A nested paired bootstrap that resamples both test images and
+  training seeds (B = 2000), 40 seeds per arm, and one Benjamini–Hochberg
+  correction across all 23 tests. A test counts as supported only if
+  p_adj ≤ 0.05 and the sign matches the prediction.
+- **Re-execution.** Every one of the 35,740 reported runs was run again with
+  the code of the commit that recorded it, and reproduced its stored results bit
+  for bit on the same type of device.
 
 ---
 
+## Data
+
+Run records, per-sample predictions, step norms, trained weights, bootstrap
+caches and feature caches are on Zenodo:
+
+**[doi.org/10.5281/zenodo.24465986](https://doi.org/10.5281/zenodo.24465986)** (CC BY 4.0, 17.95 GB in 34 archives)
+
+1. Clone this repository (commit `e0aed52` or later; later commits change only documentation).
+2. Download the archives you need, and check them:
+   `sha256sum --ignore-missing -c SHA256SUMS.txt`
+3. Unzip each archive at the top of the clone. The run data lands in `artifacts/`,
+   where the scripts look for it.
+
+The deposit's own README says what each archive holds, and `NAMESPACES.csv`
+lists every experiment. MedMNIST images are not included; they download
+automatically on first use.
+
 ## Reproducing
 
-Four levels, from seconds to GPU-days.
+Four levels, from a minute on a laptop to GPU-days.
 
-**0 — theory and code checks** (CPU, about a minute)
+**0. Theory and code checks** (CPU, about a minute; nothing to download)
 
 ```bash
-python -m pytest tests/test_independent_theory.py -q    # numpy only
+python -m pytest tests/test_independent_theory.py -q    # NumPy only
 python -m pytest tests -q                               # full suite: torch + PennyLane
 ```
 
-**1 — every figure from the released results** (CPU, numpy + matplotlib)
+**1. Every figure** (CPU)
 
-The script first re-derives every confirmatory and exploratory row from the
-bootstrap caches. It checks them against the tables to 1e-9 and stops before
-drawing anything if any row disagrees.
+Figures 4, 6 and 7 of the paper need nothing from Zenodo:
+
+```bash
+python scripts/fig_amendments.py --art results/analysis --out paper/figures
+```
+
+The others need `support_analysis_outputs.zip`. The script first re-derives
+every row from the bootstrap caches and stops before drawing if any row differs
+from the tables by more than 1e-9.
 
 ```bash
 python src/eval/generate_paper_plots.py --check-only
-python src/eval/generate_paper_plots.py                 # writes paper/figures/
-python scripts/fig_amendments.py --art results/analysis --out paper/figures   # Figs. 4, 6, 7
+python src/eval/generate_paper_plots.py
 ```
 
-Which file is which figure of the paper: [`paper/README.md`](paper/README.md).
+Which file is which figure: [`paper/README.md`](paper/README.md).
 
-**2 — every statistic from the per-sample predictions** (CPU)
+**2. Every statistic from the per-sample predictions** (CPU; needs the `runs_*.zip` archives)
 
 ```bash
-python src/13_family_table.py --selftest                # statistics core on synthetic data
-python src/13_family_table.py --recompute               # the 23-test confirmatory table
+python src/13_family_table.py --selftest                # statistics on synthetic data
+python src/13_family_table.py --recompute               # the 23 confirmatory tests
 python src/14_exploratory_table.py
 python src/15_reporting_tables.py                       # absolute AUC, effect sizes, noise, provenance
 ```
 
-**3 — retraining** (GPU)
+**3. Retraining** (GPU)
 
 ```bash
-python src/09_lr_selection.py                           # per-arm learning rates → artifacts/lr_selection.json
+python src/09_lr_selection.py                           # per-arm learning rates
 python src/01_frozen_backbone_ablation.py --confirmatory --use-tuned-lr --experiment 01_frozen_tuned
-bash scripts/run_gap_closure.sh                         # H-S1, H-S2, H-S3, H-S4, E1
-bash scripts/run_followup.sh                            # E7 and the H-S6 follow-up
-bash scripts/run_capacity_followup.sh                   # the H-S5 follow-up
+bash scripts/run_gap_closure.sh
+bash scripts/run_followup.sh
+bash scripts/run_capacity_followup.sh
 ```
 
-Every run writes one resumable shard keyed on its configuration and records the
-git commit that produced it. Commit before launching anything long, and never
-`git pull` during a sweep. Measured on one A100 MIG 3g.20gb slice, PathMNIST
-included:
-- 800 VQC runs: 9 h 23 min.
-- 800 classical runs: 34 min.
-- The 160-run E8 reproduction: 1.1 h.
+Each run writes one resumable result file keyed on its configuration, with the
+git commit that produced it. On one A100 MIG 3g.20gb slice, 800 VQC runs took
+9 h 23 min and 800 classical runs 34 min (PathMNIST included). On the same
+hardware and software, retraining is bit-exact. Other GPUs may differ in the
+last digits.
 
-On the same hardware and software, retraining is bit-exact. `17` retrained 160
-confirmatory runs, and `16` retrained the function-class figure's run; every
-recorded test AUC matched, with a difference of 0.0. Other GPUs may differ in the last digits.
-
-**Released data.** Per-sample predictions, run records, step norms, trained
-weights, bootstrap caches, latents and reporting tables go to a Zenodo deposit,
-which is in preparation; its DOI will be added here. Extract it into
-`artifacts/` to run levels 1 and 2 without a GPU. The small analysis outputs of
-Amendments 26–32 are already in [`results/analysis/`](results/analysis/).
-
-### Shard namespaces
-
-| Namespace | Contents |
-|---|---|
-| `01_frozen_tuned` | primary comparison and the other arms at tuned rates, 40 seeds |
-| `10_capacity`, `27_capacity_tuned` | H-S5 and its follow-up |
-| `21_ansatz` | E1, ansatz check |
-| `25_encoder` | H-S4, frozen vs adaptive encoder |
-| `26_bottleneck_tuned` | H-S6 follow-up, frozen PCA and random projections |
-| `28_latent_saturation` | E8 |
-
----
-
-## Repository layout
+<details>
+<summary><b>Repository layout</b></summary>
 
 ```
 src/
   config.py                     every constant, in one place
-  shards.py                     resumable result I/O with provenance
-  data/                         MedMNIST loader (stratified, GPU-resident), sensor-noise model
+  shards.py                     resumable result files with provenance
+  data/                         MedMNIST loader (stratified), sensor-noise model
   models/                       backbone, heads, VQC, Fourier controls, registry
   train/                        shared training loop; metrics incl. calibration
-  01_frozen_backbone_ablation   head comparison on cached features (frozen or adaptive encoder)
-  03_robustness_evaluation      Gaussian sensor noise, σ ∈ [0, 0.20]
-  04_statistical_analysis       per-cell breakdowns (exploratory)
+  01_frozen_backbone_ablation   head comparison on cached features
+  03_robustness_evaluation      Gaussian sensor noise
   06_premise_check              does compression to d = 4 cost anything?
-  07_hardware_noise             shot noise and depolarising noise (quantum only, feasibility)
+  07_hardware_noise             shot and depolarising noise (feasibility)
   08_lipschitz                  head sensitivity
-  09_lr_selection               per-arm learning rates on disjoint seeds
-  10_capacity_sweep             low_rank across ranks (restriction)
+  09_lr_selection               per-arm learning rates on separate seeds
+  10_capacity_sweep             low_rank across ranks
   11_flow_verification          freezing and gradient-flow checks
   12_bottleneck_ablation        learned vs frozen PCA vs frozen random projection
-  13_family_table               THE confirmatory table: 23 tests, one correction
-  14_exploratory_table          exploratory analyses, corrected within each
-  15_reporting_tables           absolute AUC, effect sizes, noise metrics, provenance
-  16_reproduce_for_figure       retrains the function-class figure's run exactly
-  17_latent_saturation          E8
-  eval/generate_paper_plots.py  every figure, verified against the tables first
+  13_family_table               the 23 confirmatory tests, one correction
+  14_exploratory_table          exploratory analyses
+  15_reporting_tables           absolute AUC, effect sizes, noise, provenance
+  16_reproduce_for_figure       retrains the run of Fig. 2 exactly
+  17_latent_saturation          latent saturation
+  eval/generate_paper_plots.py  the figures, checked against the tables first
 tests/                          parity, freezing, data pipeline, Fourier equivalence,
-                                re-upload spectrum, independent numpy re-derivation
-scripts/                        sweep runners, re-execution, analyses of Amendments 20-32,
-                                Colab notebooks of the CPU runs, backup and maintenance
+                                re-upload spectrum, independent NumPy re-derivation
+scripts/                        sweep runners, re-execution, later analyses,
+                                Colab notebooks of the CPU runs
 docs/
   analysis_plan.md              the binding plan and its dated amendments
-  RESULTS.md                    every number, by evidential tier
-  CLAIMS_LEDGER.md              the status of every manuscript claim
-  MATH_VERIFICATION.md          derivations and theory alignment
-  MASTER_RESEARCH_DOCUMENT.md, STATE.md, AUDIT_REPORT.md
-  HYPOTHESES.md                 historical (August 2026), superseded by the plan
-paper/                          the manuscript as submitted, its figures and tables (paper/README.md)
-logs/                           console output of every run and analysis (logs/README.md)
-results/analysis/               analysis outputs of Amendments 26-32 (JSON)
-artifacts/                      git-ignored: data cache, features, shards, predictions, caches
+  RESULTS.md                    every number, by tier
+  CLAIMS_LEDGER.md              the status of every claim in the paper
+  MATH_VERIFICATION.md          derivations
+  MASTER_RESEARCH_DOCUMENT.md, STATE.md, AUDIT_REPORT.md, HYPOTHESES.md
+paper/                          the manuscript as submitted, figures, tables
+logs/                           console output of every run and analysis
+results/analysis/               small analysis outputs (JSON)
+artifacts/                      not in git: data, features, run records, predictions
 ```
 
----
+</details>
 
-## What changed from the earlier draft
+<details>
+<summary><b>Environment</b></summary>
 
-The earlier draft, *Expressivity and Robustness of Hybrid Quantum Neural
-Networks for Constrained Medical Image Classification*, was written for a
-conference but never submitted or published. This study re-ran its comparisons
-with the controls above. The controls refuted several of the draft's claims,
-and they are withdrawn. Similar claims appear elsewhere in the hybrid-QML
-literature, which is why the controls are worth reporting:
-
-| Claim in the earlier draft | What the controls show |
-|---|---|
-| The VQC maps the latent into a 16-dimensional complex Hilbert space and gains expressivity there; classical heads suffer a "Bottleneck Gap" | the head's output is a classical trigonometric function, so whatever it adds is not Hilbert-space expressivity. Compression to d = 4 does cost AUC with frozen features on two datasets (finding 10); no test here measures whether any head "recovers" it |
-| Classical heads suffer "topological collapse" at d = 4 | against a parameter-matched head, the VQC is ahead only at n = 5, by +0.014 |
-| "Latent Reshaping": quantum gradients reshape the encoder favourably | not supported (H-S4) |
-| "Precision Paradox": the hybrid's F1 collapses under noise while AUC holds | the same happens to the classical control; a decision-threshold effect common to every small head |
-| "Zombie State", exclusive to the hybrid and caused by tanh saturation | tanh·π/2 is applied to every arm here; the effect is not exclusive |
-| Data abundance regularises the VQC | no VQC advantage detected at full data |
-
-The protocol changed as well:
-- **Learning rates:** per-arm tuned rates replaced fixed ones.
-- **Checkpoint selection:** on validation AUC instead of training for a fixed
-  number of epochs.
-- **Seeds:** 40 instead of 3.
-- **Scarcity:** absolute n per class instead of fractions.
-- **Datasets:** four instead of two.
-- **Baselines:** parameter-matched and function-class controls instead of Linear
-  and MLP.
-
-The draft's figures and training logs were kept in `legacy/conference/` until
-21 November 2026. They remain in git history, for example at the tag
-`submitted-2026-11-21`. They are not results of this study.
-
----
-
-## Environment
-
-Python 3.10 · torch 2.4.1+cu118 · PennyLane 0.42.3 · NumPy 1.26.4 · medmnist 3.0.2.
-Simulator: `default.qubit`, `diff_method="backprop"` (agrees with adjoint to a relative 4e-7).
+Python 3.10 · PyTorch 2.4.1 · PennyLane 0.42.3 · NumPy 1.26.4 · medmnist 3.0.2.
+Simulator: `default.qubit` with backpropagation.
 
 ```bash
 conda create -n qml_v2 python=3.10 -y && conda activate qml_v2
@@ -362,30 +369,48 @@ pip install -r requirements.txt
 python -m pytest tests -q
 ```
 
-`requirements.lock.txt` and `environment.yml` record the full environment. The
-cu118 wheels were needed because the training host's driver supports CUDA ≤ 11.4.
-MedMNIST is downloaded automatically into `artifacts/` on first use.
+`requirements.lock.txt` and `environment.yml` pin the full environment. The
+cu118 wheels were needed for the training server's driver.
+
+</details>
 
 ## Limitations
 
-- **Simulation only:** shot and depolarising noise are simulated; no hardware runs.
-- **Scale:** 4–16 qubits.
-- **Data:** 28×28 MedMNIST images, upsampled; four datasets.
-- **Model:** one backbone.
-- **Mechanism:** the cause of the n = 5 advantage is not identified beyond its
-  need for a learned projection; the regularisation reading rests on exploratory
+- Simulation only: shot and depolarising noise are simulated; no quantum hardware.
+- 4 to 16 qubits; one backbone; four datasets of 28×28 images.
+- The cause of the lead at 5 images per class is not identified beyond its need
+  for a learned projection. The regularisation reading rests on exploratory
   checks.
-- **Squash and tuned-rate checks:** d = 4 only, on CPU; one learning rate per
-  arm, pooled over n.
+- The input-bound and re-tuned-rate checks were run at d = 4 only, with one
+  learning rate per arm for all training sizes.
 
-## References
+## Citation
 
-- Schuld, Sweke & Meyer (2021). Effect of data encoding on the expressive power of variational quantum machine learning models. *Phys. Rev. A* 103, 032430.
-- Pérez-Salinas et al. (2020). Data re-uploading for a universal quantum classifier. *Quantum* 4, 226.
-- Bowles, Ahmed & Schuld (2024). Better than classical? The subtle art of benchmarking quantum machine learning models. arXiv:2403.07059.
-- Yang et al. (2023). MedMNIST v2. *Scientific Data* 10, 41.
+The article is under review at IEEE Access. Until it is published, please cite:
 
-## Citation and licence
+```bibtex
+@article{mathias2026vqchead,
+  title   = {Where Does a Variational Quantum Head's Advantage Come From?
+             A Controlled Study of Medical Image Classification Under Data Scarcity},
+  author  = {Mathias, Anish Felix and {P S}, Susham and Shettar, Rajashree and Kamasetty, Badarinath},
+  journal = {IEEE Access},
+  note    = {Submitted, under review},
+  year    = {2026}
+}
 
-The article is under review at IEEE Access; until it is published, cite it as
-in [`CITATION.cff`](CITATION.cff). Licence: see [`LICENSE`](LICENSE).
+@dataset{mathias2026vqchead_data,
+  title     = {Run records and analysis data for "Where Does a Variational Quantum
+               Head's Advantage Come From? A Controlled Study of Medical Image
+               Classification Under Data Scarcity"},
+  author    = {Mathias, Anish Felix and {P S}, Susham and Shettar, Rajashree and Kamasetty, Badarinath},
+  publisher = {Zenodo},
+  year      = {2026},
+  doi       = {10.5281/zenodo.24465986}
+}
+```
+
+The data are derived from MedMNIST v2 (Yang *et al.*, *Scientific Data* 10, 41, 2023); please cite it too.
+
+## Licence
+
+Code: MIT ([`LICENSE`](LICENSE)). Data deposit: CC BY 4.0.

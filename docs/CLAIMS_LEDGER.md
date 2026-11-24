@@ -145,5 +145,5 @@ repository.
 | Every exploratory label, seed count and rate disclosure | VERIFIED against the plan and the records |
 | "trained normalised constants do not exist" | **REPLACE** with AMEND 22's measurement |
 | Related work: the 2026 papers found on 17 October (`analysis_plan.md`, Records of 17 October) | ADD to Related Work; none reports the paper's attribution result |
-| "every number can be recomputed"; predictions and records released | needs the Zenodo deposit, including the new weights and step norms |
+| "every number can be recomputed"; predictions and records released | deposit published 24 November 2026, 10.5281/zenodo.24465986 (weights and step norms included); DOI to be added in the revision |
 | AI-assistance statement | as agreed with the authors |

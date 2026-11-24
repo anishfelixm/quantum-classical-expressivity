@@ -2846,3 +2846,32 @@ recorded on the GPU server's CPU, 11–16 September 2026) is not in the run
 records. The manuscript states AMD EPYC 7B12. That model is confirmed for
 their Colab re-execution (`C_17_fulldata`, `lscpu` in the saved output of
 `cpu17_colab.ipynb`), which reproduced all 80 runs bit for bit.
+
+---
+
+## Record of 24 November 2026 — data deposit published; one correction (no runs; no analysis changed)
+
+**Deposit.** The run records and analysis data were published on Zenodo on
+24 November 2026:
+- DOI of this version: 10.5281/zenodo.24465986 (the one the manuscript cites);
+- DOI of all versions: 10.5281/zenodo.24465985.
+
+It was prepared against commit `e0aed52` (tag `zenodo-data-v1.0`) and holds
+38 files (17.95 GB): 34 archives, `NAMESPACES.csv`, `MANIFEST.csv`,
+`SHA256SUMS.txt` and its README. The manuscript as submitted reads
+`[Zenodo DOI]`; the DOI goes into the revision.
+
+**Correction to the Record of 21 November 2026.** That record says of the 524
+`U_` runs that the selection rule did not select: "No analysis reads them."
+This is wrong. The GPU views without clipping (`X_<source>`, built by
+`scripts/analyse_replay.py`) take the `U_` run wherever one exists, so they
+include these 524. Clipping never acted in them, and their weights and step norms are
+identical to those of their clipped runs. Including them therefore changes no
+reported number. Their origin: the job filter selected runs by arm, dataset,
+training size and seed, so sibling configurations that differ in one more
+setting were re-run too. This is also stated in the deposit's README.
+
+**Unchanged.** The processor model of the original full-data runs
+(`17_fulldata`, GPU server's CPU) is still not recorded anywhere. The revision
+will say so, and that their re-execution on AMD EPYC 7B12 reproduced all 80
+runs bit for bit.

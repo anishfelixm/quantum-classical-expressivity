@@ -23,8 +23,10 @@ To compile, either place any images named `photo_anish.jpg`, `photo_susham.jpg`,
 `photo_shettar.jpg` and `photo_kamasetty.jpg` in this folder, or delete the
 `[{\includegraphics...}]` option from the four `IEEEbiography` blocks.
 
-The Data and Code Availability section still reads `[Zenodo DOI]`. The DOI is
-added when the data deposit is published.
+The Data and Code Availability section reads `[Zenodo DOI]`, as submitted. The
+data deposit was published on 24 November 2026 as
+[10.5281/zenodo.24465986](https://doi.org/10.5281/zenodo.24465986). The DOI
+goes into the revised manuscript; the source here stays as submitted.
 
 ## Figures
 

@@ -2,8 +2,10 @@
 
 Console output of the study's runs and analyses, kept for provenance. Logs
 are evidence of what ran, when, and on which commit. The reported numbers come
-from the run records and per-sample predictions (Zenodo), recomputed by the
-analysis scripts, not from these logs.
+from the run records and per-sample predictions (Zenodo,
+[10.5281/zenodo.24465986](https://doi.org/10.5281/zenodo.24465986)), recomputed
+by the analysis scripts, not from these logs. Job logs of the GPU server that
+are not here are in the deposit's `support_logs.zip`.
 
 ## Layout
 
